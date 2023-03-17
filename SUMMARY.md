@@ -26,7 +26,7 @@
 * [Data Types](reference/types.md)
 * [Custom Data](reference/customData.md)
 * [Emails](reference/emails.md)
-* [Export] (reference/export.md)
+* [Export](reference/export.md)
 * [Exec server](reference/execserver.md)
 * [File versions](reference/fileversions.md)
 * [Janitor](reference/janitor.md)
