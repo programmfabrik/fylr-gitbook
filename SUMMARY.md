@@ -1,11 +1,13 @@
 # Table of contents
 
+* [Welcome](README.md)
+
 ## Webapp
 
-* [Base Configuration](README.md)
+* [Base Configuration](<README (1).md>)
   * [General](base-configuration/general.md)
   * [Access](base-configuration/access.md)
-  * [🔴 User Management](base-configuration/user-management.md)
+  * [User Management](base-configuration/user-management.md)
   * [Languages](base-configuration/languages.md)
   * [Email](base-configuration/email.md)
   * [Export & Deep Links](base-configuration/export-and-deep-links.md)
@@ -14,7 +16,7 @@
   * [File Worker](base-configuration/file-worker.md)
   * [Objectstore](base-configuration/objectstore.md)
   * [Services](base-configuration/services.md)
-  * [🟢 Development](base-configuration/development.md)
+  * [Development](base-configuration/development.md)
 
 ## System
 
@@ -32,5 +34,5 @@
 * [Janitor](reference/janitor.md)
 * [WebDAV](reference/webdav.md)
 * [Plugin](reference/plugin.md)
-* [Collection Pin Code](reference/collection_pin_code.md)
+* [Collection Pin Code](reference/collection\_pin\_code.md)
 * [easydb 5](reference/CHANGES-easydb5-fylr.md)

@@ -4,7 +4,7 @@ description: >-
   translate the frontend, for example.
 ---
 
-# 🟢 Development
+# Development
 
 ## Localization
 
