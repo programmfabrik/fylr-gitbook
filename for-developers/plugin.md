@@ -17,7 +17,7 @@ Plugins may be packed into a .zip file, if they are FYLR serves the data from wi
 
 Configured callbacks use replacements for specific URL to receive and send data.
 
-![img](camera.jpg)
+![img](../reference/camera.jpg)
 
 | Replacement     | Description                                                                                                                                                                                                                                                                                      |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |

@@ -3,5 +3,6 @@
 
 
 {% hint style="info" %}
-Please not that this documentation is still work in progress.
+Please note that this documentation is still work in progress.
 {% endhint %}
+

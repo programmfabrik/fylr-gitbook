@@ -1,38 +1,43 @@
 # Table of contents
 
 * [Welcome](README.md)
+* [Releases](releases/README.md)
+  * [2023](releases/2023.md)
 
-## Webapp
+## FOR USERS
 
-* [Base Configuration](<README (1).md>)
-  * [General](base-configuration/general.md)
-  * [Access](base-configuration/access.md)
-  * [User Management](base-configuration/user-management.md)
-  * [Languages](base-configuration/languages.md)
-  * [Email](base-configuration/email.md)
-  * [Export & Deep Links](base-configuration/export-and-deep-links.md)
-  * [Workflow Webhooks](base-configuration/workflow-webhooks.md)
-  * [Publications](base-configuration/publications.md)
-  * [File Worker](base-configuration/file-worker.md)
-  * [Objectstore](base-configuration/objectstore.md)
-  * [Services](base-configuration/services.md)
-  * [Development](base-configuration/development.md)
+* [Coming Soon](for-users/coming-soon.md)
 
-## System
+## FOR ADMINISTRATORS
 
-* [Page 1](system/page-1.md)
+* [Base Configuration](for-administrators/readme/README.md)
+  * [General](for-administrators/readme/general.md)
+  * [Access](for-administrators/readme/access.md)
+  * [User Management](for-administrators/readme/user-management.md)
+  * [Languages](for-administrators/readme/languages.md)
+  * [Email](for-administrators/readme/email.md)
+  * [Export & Deep Links](for-administrators/readme/export-and-deep-links.md)
+  * [Workflow Webhooks](for-administrators/readme/workflow-webhooks.md)
+  * [Publications](for-administrators/readme/publications.md)
+  * [File Worker](for-administrators/readme/file-worker.md)
+  * [Objectstore](for-administrators/readme/objectstore.md)
+  * [Services](for-administrators/readme/services.md)
+  * [Development](for-administrators/readme/development.md)
 
-## Reference
+## FOR SYSTEM ADMINISTRATORS
 
-* [Schema](reference/mask.md)
-* [Data Types](reference/types.md)
-* [Custom Data](reference/customData.md)
-* [Emails](reference/emails.md)
-* [Export](reference/export.md)
-* [Exec server](reference/execserver.md)
-* [File versions](reference/fileversions.md)
-* [Janitor](reference/janitor.md)
-* [WebDAV](reference/webdav.md)
-* [Plugin](reference/plugin.md)
-* [Collection Pin Code](reference/collection\_pin\_code.md)
-* [easydb 5](reference/CHANGES-easydb5-fylr.md)
+* [Coming Soon](for-system-administrators/coming-soon.md)
+
+## FOR DEVELOPERS
+
+* [Schema](for-developers/mask.md)
+* [Data Types](for-developers/types.md)
+* [Custom Data](for-developers/customdata.md)
+* [Emails](for-developers/emails.md)
+* [Export](for-developers/export.md)
+* [Exec server](for-developers/execserver.md)
+* [File versions](for-developers/fileversions.md)
+* [WebDAV](for-developers/webdav.md)
+* [Plugin](for-developers/plugin.md)
+* [Collection Pin Code](for-developers/collection\_pin\_code.md)
+* [easydb 5](for-developers/changes-easydb5-fylr.md)
