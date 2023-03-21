@@ -1,6 +1,6 @@
 ---
 description: >-
-  In this section you find settings regarding the appearance of the fylr
+  In this section you find settings regarding the general appearance of the fylr
   installation.
 ---
 
