@@ -1,8 +1,8 @@
 ---
 description: >-
   In this section you find settings that affect the access of the fylr
-  installation. Like opening the instance for anonymous users and password
-  policy.
+  installation. Like allowing anonymous users, self-registration and defining
+  password requirements.
 ---
 
 # Access
@@ -31,7 +31,7 @@ This message is displayed when a user sets a password and it does not meet the p
 
 ### Password Requirements
 
-Use regular expressions to define requirements for passwords.
+Use regular expressions to define requirements for passwords. To only allow passwords with a length of 8 to 32 characters use ^.{8,32}$ for example.
 
 
 
@@ -42,7 +42,7 @@ Use regular expressions to define requirements for passwords.
 Shows a "Sign Up" button when guests / anonymous users access fylr.
 
 {% hint style="info" %}
-Please note: this option requires that "Allow Guest Access" is enabled. The user group "Anonymous Users" also need the system right "Create Users".
+Please note: this option requires that "Allow Guest Access" is enabled. The user group "Anonymous Users" also needs the system right "Create Users". Also make sure to assign system rights and permissions to the group "Self-registered Users" so they remain access to the system after signing up.
 {% endhint %}
 
 ### Registration Info Text
