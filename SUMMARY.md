@@ -26,7 +26,8 @@
 
 ## FOR SYSTEM ADMINISTRATORS
 
-* [Coming Soon](for-system-administrators/coming-soon.md)
+* [Configuration](for-system-administrators/configuration/README.md
+  * [fylr.example.yml](for-system-administrators/configuration/fylr.example.yml.md
 
 ## FOR DEVELOPERS
 
