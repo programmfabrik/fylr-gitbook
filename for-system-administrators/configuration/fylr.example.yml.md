@@ -4,8 +4,8 @@ description: >-
 ---
 
 # fylr.yml
-
-```
+{% code title="fylr.yml" lineNumbers="true" %}
+```yaml
 ## - Some of the regexs to check for versions might require modifications
 ## - All relative paths described in the file are relative to cmd/fylr unless otherwise
 ##    stated
@@ -591,5 +591,4 @@ fylr:
                   - "-version"
                 regex: "Version v*"
 ```
-
-
+{% endcode %}
