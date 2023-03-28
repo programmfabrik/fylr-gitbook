@@ -23,6 +23,7 @@
   * [Objectstore](for-administrators/readme/objectstore.md)
   * [Services](for-administrators/readme/services.md)
   * [Development](for-administrators/readme/development.md)
+  * [Plugins](for-administrators/readme/plugins.md)
 
 ## FOR SYSTEM ADMINISTRATORS
 
