@@ -36,4 +36,13 @@ Select the date, time and number format you want to use in this language.
 
 ### Analyzer Sort
 
+
+
 ### ICU\_KEYWORD\_COLLACTION SETTINGS
+
+#### language
+
+#### country
+
+#### variant
+
