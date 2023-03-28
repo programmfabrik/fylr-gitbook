@@ -64,7 +64,7 @@ Specify after how many days unused files should be deleted from the storage. Unu
 Specify after how many days user accounts that have not logged in should be archived.
 
 {% hint style="info" %}
-Attention: archived users will not be able to log in.
+Attention: archived users will not be able to log in. Archived users can be re-activated but their collections will be deleted when archiving the user account.
 {% endhint %}
 
 #### Types of Users To Be Archived
