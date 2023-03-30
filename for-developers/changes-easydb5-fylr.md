@@ -2,7 +2,7 @@
 label: Changes 5 > 6
 ---
 
-# Changes easydb5 and FYLR
+# Changes easydb 5 and FYLR
 
 ## Architectural changes
 
