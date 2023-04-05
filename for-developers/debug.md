@@ -15,16 +15,6 @@ Changes and improvements all over the place. Our Zoomer got a lot faster now (ma
 ## Improved
 
 * **Much faster tile production for IIIF and Zoomer output**. The new code uses a BMP interim format and fast system memory mapping to achieve fast tile production, especially for big images. You need to add the `convert` command to the `iiif` service in your fylr.yml:
-```yaml
-fylr:
-  services:
-    execserver:
-      services:
-        iiif:
-          commands:
-            convert:
-              prog: convert
-```
 * Zoomer endpoint now also supports `.png` output.
 * Support encrypted data in export plugin transport options. If a property ends in `:secret` it's value will be stored safely in fylr's database and only decrypted when presented to the transport plugin.
 * Actually use password requirements as defined in the base config. Before we only stored the regexps, but never enforced them. Administrators can overwrite the policy and have the server ignore it.
