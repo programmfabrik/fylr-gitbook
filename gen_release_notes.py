@@ -62,3 +62,23 @@ for year, rels in rels_per_year.items():
         md.add_raw('* [{}]({}/{}.md)\n'.format(tup[1], year, tup[0]))
     md.write('releases/{}.md'.format(year))
 
+# patch summary page
+lines = []
+with open('SUMMARY.md', 'r') as f:
+    inlines = f.readlines()
+    i = 0
+    while i < len(inlines):
+        line = inlines[i]
+        lines.append(line)
+        if line.startswith('* [Releases]'):
+            while (i + 1) < len(inlines) and inlines[i + 1].startswith(' '):
+                i += 1
+            for year, rels in rels_per_year.items():
+                lines.append('  * [{}](releases/{}.md)\n'.format(year, year))
+                for tup in rels:
+                    lines.append('    * [{}](releases/{}/{}.md)\n'.format(tup[1], year, tup[0]))
+        i += 1
+
+with open('SUMMARY.md', 'w') as f:
+    for line in lines:
+        f.write(line)

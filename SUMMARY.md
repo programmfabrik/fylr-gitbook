@@ -3,7 +3,15 @@
 * [Welcome](README.md)
 * [Releases](releases/README.md)
   * [2023](releases/2023.md)
+    * [Release v6.3.0](releases/2023/v6.3.0.md)
+    * [Release v6.2.5](releases/2023/v6.2.5.md)
+    * [Release v6.2.4](releases/2023/v6.2.4.md)
+    * [Release v6.2.3](releases/2023/v6.2.3.md)
+    * [Release v6.2.2](releases/2023/v6.2.2.md)
+    * [Release v6.2.1](releases/2023/v6.2.1.md)
   * [2022](releases/2022.md)
+    * [ fylr first Production Ready Release 🎉](releases/2022/v6.2.0.md)
+    * [Release v6.1.0 Beta 10](releases/2022/v6.1.0.md)
 
 ## FOR USERS
 
@@ -44,4 +52,3 @@
 * [Plugin](for-developers/plugin.md)
 * [Collection Pin Code](for-developers/collection\_pin\_code.md)
 * [easydb 5](for-developers/changes-easydb5-fylr.md)
-* [DEBUG](for-developers/debug.md)
