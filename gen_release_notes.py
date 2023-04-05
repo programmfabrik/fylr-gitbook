@@ -51,6 +51,7 @@ for rel in gh.get_releases():
 
     md = MDPage()
     md.add_header(name)
+    md.add_raw('\nPublished {}\n\n'.format(rel['published_at'].replace('T', ' ')))
     md.add_raw(rel['body'])
     md.write(fn)
 
