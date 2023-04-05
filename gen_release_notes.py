@@ -24,7 +24,7 @@ class MDPage:
         self._text += '\n' + '#' * level + ' ' + header + '\n'
 
     def _fix_md(self, text):
-        return re.sub('^# ', '## ', text).replace('\r\n', '\n')\
+        return re.sub('^# ', '## ', text, flags = re.M).replace('\r\n', '\n')\
 
     def add_raw(self, text):
         self._text += self._fix_md(text)
