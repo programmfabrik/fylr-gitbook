@@ -1,6 +1,6 @@
 # Release v6.3.0
 
-## Highlights
+# Highlights
 
 Changes and improvements all over the place. Our Zoomer got a lot faster now (make sure to use our latest iiif service configuration, see below) and we added a re-sync button to produce new file versions easily.
 
