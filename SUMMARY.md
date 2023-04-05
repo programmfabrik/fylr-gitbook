@@ -3,6 +3,8 @@
 * [Welcome](README.md)
 * [Releases](releases/README.md)
   * [2023](releases/2023.md)
+  * [2022](releases/2022.md)
+  * [2021](releases/2021.md)
 
 ## FOR USERS
 
