@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, os, datetime, json, http.client
+import sys, os, datetime, json, re, http.client
 
 class Github:
     def __init__(self, token):
@@ -23,8 +23,11 @@ class MDPage:
     def add_header(self, header, level = 1):
         self._text += '\n' + '#' * level + ' ' + header + '\n'
 
+    def _fix_md(self, text):
+        return re.sub('^# ', '## ', text).replace('\r\n', '\n')\
+
     def add_raw(self, text):
-        self._text += text.replace('\r\n', '\n')
+        self._text += self._fix_md(text)
 
     def write(self, filename):
         os.makedirs(os.path.dirname(filename), exist_ok = True)
