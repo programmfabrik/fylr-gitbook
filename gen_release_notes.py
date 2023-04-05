@@ -59,6 +59,6 @@ for year, rels in rels_per_year.items():
     md = MDPage()
     md.add_header(str(year))
     for tup in rels:
-        md.add_raw('* [{}](releases/{}/{}.md)\n'.format(tup[1], year, tup[0]))
+        md.add_raw('* [{}]({}/{}.md)\n'.format(tup[1], year, tup[0]))
     md.write('releases/{}.md'.format(year))
 
