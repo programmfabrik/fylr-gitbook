@@ -5,11 +5,12 @@ Assuming you installed fylr via docker-compose.
 1. Connect a new folder via docker-compose.yml
 {% code title="fylr.yml" %}
 ```yaml
-fylr:
+  fylr:
     ...
     volumes:
       - "./plugins:/fylr/files/plugins/custom"
 ´´´
+{% endcode %}
 
 2. Set the fylr UID on the local "plugins" folder:
 ```
