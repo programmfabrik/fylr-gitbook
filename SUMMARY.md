@@ -3,15 +3,15 @@
 * [Welcome](README.md)
 * [Releases](releases/README.md)
   * [2023](releases/2023.md)
-    * [Release v6.3.0](releases/2023/v6.3.0.md)
-    * [Release v6.2.5](releases/2023/v6.2.5.md)
-    * [Release v6.2.4](releases/2023/v6.2.4.md)
-    * [Release v6.2.3](releases/2023/v6.2.3.md)
-    * [Release v6.2.2](releases/2023/v6.2.2.md)
-    * [Release v6.2.1](releases/2023/v6.2.1.md)
+    * [Release v6.3.0 (2023-04-05)](releases/2023/v6.3.0.md)
+    * [Release v6.2.5 (2023-03-16)](releases/2023/v6.2.5.md)
+    * [Release v6.2.4 (2023-02-01)](releases/2023/v6.2.4.md)
+    * [Release v6.2.3 (2023-01-12)](releases/2023/v6.2.3.md)
+    * [Release v6.2.2 (2023-01-12)](releases/2023/v6.2.2.md)
+    * [Release v6.2.1 (2023-01-05)](releases/2023/v6.2.1.md)
   * [2022](releases/2022.md)
-    * [ fylr first Production Ready Release 🎉](releases/2022/v6.2.0.md)
-    * [Release v6.1.0 Beta 10](releases/2022/v6.1.0.md)
+    * [ fylr first Production Ready Release 🎉 (2022-12-22)](releases/2022/v6.2.0.md)
+    * [Release v6.1.0 Beta 10 (2022-12-02)](releases/2022/v6.1.0.md)
 
 ## FOR USERS
 

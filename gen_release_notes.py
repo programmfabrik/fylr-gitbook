@@ -48,7 +48,7 @@ for rel in gh.get_releases():
 
     if year not in rels_per_year:
         rels_per_year[year] = []
-    rels_per_year[year].append((tag, name))
+    rels_per_year[year].append((tag, name, rel['published_at'][:10]))
 
     fn = 'releases/{}/{}.md'.format(year, tag)
 
@@ -63,7 +63,7 @@ for year, rels in rels_per_year.items():
     md = MDPage()
     md.add_header(str(year))
     for tup in rels:
-        md.add_raw('* [{}]({}/{})\n'.format(tup[1], year, tup[0]))
+        md.add_raw('* [{} ({})]({}/{}.md)\n'.format(tup[1], tup[2], year, tup[0]))
     md.write('releases/{}.md'.format(year))
 
 # patch summary page
@@ -80,7 +80,7 @@ with open('SUMMARY.md', 'r') as f:
             for year, rels in rels_per_year.items():
                 lines.append('  * [{}](releases/{}.md)\n'.format(year, year))
                 for tup in rels:
-                    lines.append('    * [{}](releases/{}/{}.md)\n'.format(tup[1], year, tup[0]))
+                    lines.append('    * [{} ({})](releases/{}/{}.md)\n'.format(tup[1], tup[2], year, tup[0]))
         i += 1
 
 with open('SUMMARY.md', 'w') as f:
