@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, os, datetime, json, re, http.client
+import sys, os, datetime, json, re, http.client, urllib.parse, tempfile, subprocess
 
 class Github:
     def __init__(self, token):
@@ -15,6 +15,18 @@ class Github:
         if res.status != 200:
             raise Exception('failed to get releases: HTTP {}: {}'.format(res.status, res.read()))
         return json.loads(res.read())
+
+    def get_file(self, url, tmpfile):
+        parsed = urllib.parse.urlparse(url)
+        con = http.client.HTTPSConnection(parsed.netloc)
+        con.request('GET', parsed.path, headers = {
+            'User-Agent': 'PF Release Notes Update/1.0',
+            'Authorization': 'Bearer ' + self.token })
+        res = con.getresponse()
+        if res.status != 200:
+            raise Exception('getting asset failed ({} - {})'.format(a_url, res.status))
+        tmpfile.write(res.read())
+        tmpfile.flush()
 
 class MDPage:
     def __init__(self):
@@ -34,8 +46,33 @@ class MDPage:
         with open(filename, 'w') as f:
             f.write(self._text)
 
+class Filestore:
+    def get_url(self, filename):
+        return 'https://s3.eu-central-1.wasabisys.com/fylr-releases/' + urllib.parse.quote(filename)
+
+    def has_file(self, filename):
+        con = http.client.HTTPSConnection('s3.eu-central-1.wasabisys.com')
+        con.request('HEAD', '/fylr-releases/' + urllib.parse.quote(filename))
+        res = con.getresponse()
+        return res.status == 200
+
+    def put_file(self, filename, tmpfile):
+        run = subprocess.run([
+            'aws', 's3api', 'put-object',
+            '--endpoint=https://s3.eu-central-1.wasabisys.com',
+            '--bucket=fylr-releases',
+            '--key={}'.format(filename),
+            '--body={}'.format(tmpfile),
+            ], capture_output=True)
+        if run.returncode != 0:
+            raise Exception('s3 upload failed:\n**stdout:\n{}\n**stderr:\n{}'.format(
+                run.stdout.decode('utf-8'), run.stderr.decode('utf-8')))
+
+
 gh = Github(sys.argv[1])
 rels_per_year = {}
+
+fs = Filestore()
 
 # per-release pages
 for rel in gh.get_releases():
@@ -55,6 +92,19 @@ for rel in gh.get_releases():
     md = MDPage()
     md.add_header(name)
     md.add_raw('\nPublished {}\n\n'.format(rel['published_at'].replace('T', ' ')))
+
+    for asset in rel["assets"]:
+        a_name = asset['name']
+        a_url = asset['url']
+
+        if not fs.has_file(a_name):
+            with tempfile.NamedTemporaryFile() as tmpfile:
+                gh.get_file(a_url, tmpfile)
+                fs.put_file(a_name, tmpfile.name)
+
+        md.add_raw('* [{}]({})\n'.format(a_name, fs.get_url(a_name)))
+    md.add_raw('\n')
+
     md.add_raw(rel['body'])
     md.write(fn)
 
