@@ -21,10 +21,26 @@ class Github:
         con = http.client.HTTPSConnection(parsed.netloc)
         con.request('GET', parsed.path, headers = {
             'User-Agent': 'PF Release Notes Update/1.0',
+            'Accept': 'application/octet-stream',
             'Authorization': 'Bearer ' + self.token })
         res = con.getresponse()
+
+        # expect redirect to actual location
+        if res.status != 302:
+            raise Exception('getting asset redirect failed ({} - {})'.format(a_url, res.status))
+
+        loc = res.getheader('location')
+        if loc is None:
+            raise Exception('getting asset location failed ({})'.format(a_url))
+
+        parsed = urllib.parse.urlparse(loc)
+        con = http.client.HTTPSConnection(parsed.netloc)
+        con.request('GET', parsed.path + '?' + parsed.query)
+        res = con.getresponse()
+
         if res.status != 200:
-            raise Exception('getting asset failed ({} - {})'.format(a_url, res.status))
+            raise Exception('getting asset failed ({} - {})'.format(loc, res.status))
+
         tmpfile.write(res.read())
         tmpfile.flush()
 
@@ -56,11 +72,13 @@ class Filestore:
         res = con.getresponse()
         return res.status == 200
 
-    def put_file(self, filename, tmpfile):
+    def put_file(self, filename, tmpfile, content_type):
         run = subprocess.run([
             'aws', 's3api', 'put-object',
             '--endpoint=https://s3.eu-central-1.wasabisys.com',
             '--bucket=fylr-releases',
+            '--acl=public-read',
+            '--content-type={}'.format(content_type),
             '--key={}'.format(filename),
             '--body={}'.format(tmpfile),
             ], capture_output=True)
@@ -94,15 +112,16 @@ for rel in gh.get_releases():
     md.add_raw('\nPublished {}\n\n'.format(rel['published_at'].replace('T', ' ')))
 
     for asset in rel["assets"]:
-        a_name = asset['name']
+        a_name = tag + "/" + asset['name']
         a_url = asset['url']
 
         if not fs.has_file(a_name):
             with tempfile.NamedTemporaryFile() as tmpfile:
+                print('* fetch file {}'.format(a_url))
                 gh.get_file(a_url, tmpfile)
-                fs.put_file(a_name, tmpfile.name)
+                fs.put_file(a_name, tmpfile.name, asset['content_type'])
 
-        md.add_raw('* [{}]({})\n'.format(a_name, fs.get_url(a_name)))
+        md.add_raw('* [{}]({})\n'.format(asset['name'], fs.get_url(a_name)))
     md.add_raw('\n')
 
     md.add_raw(rel['body'])
