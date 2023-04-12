@@ -15,3 +15,4 @@ The script expects a Github token in the `GITHUB_TOKEN` environment variable. Yo
 
 For access to Wasabi the script uses the AWS CLI tools (https://github.com/aws/aws-cli, Debian package `awscli`). Before using the script the tools must be configured (`aws configure`). Use the "AWS Access Key ID" and "AWS Secret Access Key" of an authorized user and use `eu-central-1` as the "Default region name".
 
+For storing the release assets, the bucket `fylr-releases` is used. Files are only added when they are not present yet, so in case a release is changed later, a manual cleanup of the mirrored files is required.
