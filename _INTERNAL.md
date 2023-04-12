@@ -1,4 +1,4 @@
-There is a script to generate the release notes from the Github releases. The files are copied to S3 (Wasabi). Run "make" to generate the release notes and commit the changes and new files:
+There is a script to generate the release notes from the Github releases. The files are copied to S3 (Wasabi). Run `make` to generate the release notes and commit the changes and new files:
 
 * `SUMMARY.md`
 * `releases/*.md`
