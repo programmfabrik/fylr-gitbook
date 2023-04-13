@@ -99,7 +99,7 @@ for rel in gh.get_releases():
 
     name = rel['name']
     tag = rel['tag_name']
-    year = datetime.datetime.fromisoformat(rel['published_at']).year
+    year = datetime.datetime.fromisoformat(rel['published_at'][:10]).year
 
     if year not in rels_per_year:
         rels_per_year[year] = []
