@@ -2,22 +2,21 @@
 
 Assuming you installed fylr via docker-compose.
 
-1. Connect a new folder via docker-compose.yml
-{% code title="fylr.yml" %}
+1. Have a plugin folder with fylr's unix user id:
+```bash
+mkdir plugins
+chown 1000 plugins
+```
+
+2. Connect the new folder via `docker-compose.yml`
 ```yaml
   fylr:
     ...
     volumes:
       - "./plugins:/fylr/files/plugins/custom"
-´´´
-{% endcode %}
-
-2. Set the fylr UID on the local "plugins" folder:
 ```
-chown 1000 plugins
-´´´
 
-3. Add a new plugin path to fylr.yml
+3. Add the new plugin path to `fylr.yml`
 
 ```yaml
 fylr:
@@ -30,5 +29,5 @@ fylr:
     paths:
       - "/fylr/files/plugins/custom"
       - [...other directory...]
-´´´
+```
 
