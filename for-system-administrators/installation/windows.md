@@ -9,7 +9,7 @@ It contains
 * `fylr.exe` fylr native for Windows amd64
 * `fylr.yml` a starting configuration already adjusted with Windows path syntax and for the following instructions.
 * `fylr.example.yml` most configuration parameters. Look here for reference.
-* `fylr.default.yml` compiled-in default values for reference.
+* `fylr.default.yml` compiled-in default values.
 * `LICENSE` legal information on who may use fylr.
 * `utils/` some tools for asset processing. (More need to be downloaded, see below)
 * `webfrontend/` The static webfrontend files.
@@ -32,7 +32,8 @@ What we tested:
 ```
 xpack.security.enabled: false
 ```
-    ... in elasticsearch-8.6.1\config\elasticsearch.yml
+
+ ... in elasticsearch-8.6.1\config\elasticsearch.yml
 
 * Got the analysis-icu plugin from [https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu.html](https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu.html) for offline installation (it was https://artifacts.elastic.co/downloads/elasticsearch-plugins/analysis-icu/analysis-icu-8.6.1.zip)
 * Unpacked into `elasticsearch-8.6.1\plugins\analysis-icu\` (no further subfolders).
@@ -55,7 +56,7 @@ You are now ready to start fylr, although most asset processing tools are still 
 .\fylr.exe server
 ```
 
-    ... in the folder where fylr.exe is.
+ ... in the folder where fylr.exe is.
 
 Output lines with `WRN` can usually be ignored.
 
