@@ -43,6 +43,8 @@
 * [Configuration](for-system-administrators/configuration/README.md)
   * [fylr.example.yml](for-system-administrators/configuration/fylr.example.yml.md)
   * [Load Custom Plugins](for-system-administrators/configuration/custom-plugin.md)
+* Integration
+  * [Authentication](for-system-administrators/integration/authentication.md)
 
 ## FOR DEVELOPERS
 
