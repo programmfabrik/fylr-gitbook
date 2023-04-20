@@ -2,6 +2,10 @@ Installation of fylr on a Linux Server via docker-compose
 
 # Requirements
 
+* A domain name (like `fylr.example.com` or ''example.com''), but not just a subpath (like **example.com/fylr**).
+* A port (typically 443) to do https.
+* Either an HTTPS certificate. Or Port 443 or Port 80 for registering and renewing a certificate with letsencrypt.
+
 ## Hardware
 * 16 GB of RAM to get going. Add memory if you need to answer more than a few simultaneous requests, or to generate more than a few preview images simultaneously.
 * Start with 4 CPU cores and then adjust to your use case.
@@ -13,13 +17,10 @@ Installation of fylr on a Linux Server via docker-compose
 ## Software
 * The below mentioned containers are linux containers, so you need a linux server or linux virtual machine.
 * fylr requires a running container engine. In this instructions, we use docker. So install docker according to its documentation: [how to install docker](https://docs.docker.com/engine/install/#server).
-* A domain name (like fylr.example.com or example.com), but not just a subpath (like example.com/fylr).
-* A port (typically 443) to do https.
-* Either an HTTPS certificate or Port 443 or Port 80 for registering (and renewing) a https certificate with letsencrypt.
 
-The following commands assume a Debian or Ubuntu server as an example and a bash shell.
+The following commands assume a Debian or Ubuntu server and a bash shell.
 
-* get docker-compose to use our provided example. Apparmor is required for docker in newer Debian and Ubuntu
+* Get docker-compose to use our provided example. Apparmor is required for docker in newer Debian and Ubuntu Versions:
 
 ```bash
 apt-get install docker-compose apparmor
