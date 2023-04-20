@@ -10,7 +10,7 @@ description: >-
 ## Linux
 * Instructions: [Linux](linux-docker-compose.md)
 * Uses docker-compose.
-* Contains 3rd party tools for preview thumbnails.
+* 3rd party tools for preview thumbnails are pre-packaged.
 * If unsure, use this method when installing yourself.
 * We offer maintenance contracts and hosting contracts for this variant.
 
@@ -19,4 +19,4 @@ description: >-
 
 ## Kubernetes
 * Uses helm chart and Linux containers.
-* Contains 3rd party tools for preview thumbnails.
+* 3rd party tools for preview thumbnails are pre-packaged.
