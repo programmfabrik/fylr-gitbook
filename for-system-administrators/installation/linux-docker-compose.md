@@ -3,12 +3,12 @@ Installation of fylr on a Linux Server via docker-compose
 # Requirements
 
 ## Hardware
-* 16 GB of RAM to get fylr going. If you need more parallel processes to answer requests than just a few simultaneously, or to generate more preview images than just a few simultaneously, then more RAM.
-* Similar for CPU cores: start with 4 and then adjust to your use case.
-* 40 GB for docker images
-* Double the storage space for you assets. So if you want to manage 1 TB of assets with fylr, have 2 TB for preview images. If you tend to have big assets, you might need less, as the previews then are much smaler in comparison.
-* 4% of assets as fast storage for database and indices. So for 1 TB of assets have 40 GB. Most installations need a lot less than 4%.
-* amd64 Architecture for this method.
+* 16 GB of RAM to get going. Add memory if you need to answer more than a few simultaneous requests, or to generate more than a few preview images simultaneously.
+* Start with 4 CPU cores and then adjust to your use case.
+* 40 GB for docker images.
+* Double the storage space of you assets. So if you want to manage 1 TB of assets with fylr, have another 1 TB for preview images. If you tend to have big assets, you might need much less, as the previews then are much smaller in comparison to your assets.
+* Add fast storage for database and indices: 4% of what your assets need. So for 1 TB of assets have 40 GB. Most installations need a lot less than 4%.
+* amd64 Architecture, for this method.
 
 ## Software
 * The below mentioned containers are linux containers, so you need a linux server or linux virtual machine.
