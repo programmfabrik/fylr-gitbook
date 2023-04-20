@@ -13,7 +13,7 @@ description: >-
 
 # Installation
 
-Linux Server via docker-compose
+[Linux Server via docker-compose](linux-docker-compose.md)
 * Contains 3rd party tools for preview thumbnails.
 * If unsure, use this method when installing yourself.
 * We offer maintenance contracts and hosting contracts for this variant.
