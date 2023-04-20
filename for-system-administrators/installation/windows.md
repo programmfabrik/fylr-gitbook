@@ -2,9 +2,9 @@ Running fylr.exe
 
 ## Dependencies
 
-Bare bone minimum: elasticsearch
+Bare bone minimum: Elasticsearch
 
-### elasticsearch
+### Elasticsearch
 
 What we tested:
 
@@ -17,7 +17,7 @@ What we tested:
 ```
 xpack.security.enabled: false
 ```
-  ... in elasticsearch-8.6.1\config\elasticsearch.yml
+    ... in elasticsearch-8.6.1\config\elasticsearch.yml
 
 * Got the analysis-icu plugin from [https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu.html](https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu.html) for offline installation (it was https://artifacts.elastic.co/downloads/elasticsearch-plugins/analysis-icu/analysis-icu-8.6.1.zip)
 * Unpacked into `elasticsearch-8.6.1\plugins\analysis-icu\` (no further subfolders).
@@ -32,7 +32,7 @@ Elasticsearch then used the default address `http://localhost:9200`, which is al
 
 With default settings, 11,7 GB free RAM *was* enough. Tweaking java settings, even only 2 or 3 GB for Java *should* be enough.
 
-### start with minimal dependencies
+### Start with minimal dependencies
 
 You are now ready to start fylr, although most asset processing tools are still missing: (no previews)
 
@@ -40,7 +40,7 @@ You are now ready to start fylr, although most asset processing tools are still 
 .\fylr.exe server
 ```
 
-  ... in the folder where fylr.exe is.
+    ... in the folder where fylr.exe is.
 
 Output lines with `WRN` can usually be ignored.
 
@@ -55,7 +55,7 @@ Default login credentials are:
 - **Username**: *root*
 - **Password**: *admin*
 
-### Completing your installation
+### More than bare bone minimum
 
 For a full installation it is recommended to install all of the following and un-comment them in `fylr.yml`.
 
