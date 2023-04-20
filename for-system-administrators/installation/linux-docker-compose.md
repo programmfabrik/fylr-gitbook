@@ -1,4 +1,4 @@
-# Installation of fylr on a Linux Server via docker-compose
+Installation of fylr on a Linux Server via docker-compose
 
 # Requirements
 

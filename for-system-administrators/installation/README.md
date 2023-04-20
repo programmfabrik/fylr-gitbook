@@ -8,7 +8,7 @@ description: >-
 # Installation
 
 ## Linux
-* Instructions: [Linux](linux-docker-compose.md)
+* Instructions: [Linux](./linux-docker-compose.md)
 * Uses docker-compose.
 * 3rd party tools for preview thumbnails are pre-packaged.
 * If unsure, use this method when installing yourself.
