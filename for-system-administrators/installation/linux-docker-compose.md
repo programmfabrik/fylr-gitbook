@@ -59,11 +59,11 @@ curl curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/doc
 
 Edit `config/fylr/fylr.yml` and replace strings with `EXAMPLE`.
 
-If unsure about wasting your quota with letsencrypt, start with `useStagingCA: true` until you see that a certificate could be retrieved. Astaging certificate will not work, though. Even some components of fylr will not trust each other. So do not use the frontend without a valid certificate.
+If unsure about wasting your quota with letsencrypt, start with `useStagingCA: true`. A staging certificate will not be enough, though. Even some components of fylr will not trust each other. So do not use the frontend without a valid certificate (`useStagingCA: false`).
 
 ## docker-compose
 
-Much of the setup is encapsulated in a docker-compose file. Download and use it like this:
+Much of the setup is encapsulated in a docker-compose yaml file. Download and use it like this:
 
 We still assume that you are in the `/srv/fylr` directory.
 
@@ -73,7 +73,7 @@ curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/d
 docker-compose up
 ```
 
-Ctrl and c stops the services again.
+`Ctrl` + `c` stops the services again.
 
 If you are satisfied you can let them run in the background with:
 
