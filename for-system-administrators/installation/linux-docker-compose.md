@@ -2,7 +2,7 @@ Installation of fylr on a Linux Server via docker-compose
 
 # Requirements
 
-* A domain name (like `fylr.example.com` or ''example.com''), but not just a subpath (like **example.com/fylr**).
+* A domain name (like **fylr.example.com**), but not just a subpath (like **example.com/fylr**).
 * A port (typically 443) to do https.
 * Either an HTTPS certificate. Or Port 443 or Port 80 for registering and renewing a certificate with letsencrypt.
 
@@ -54,7 +54,7 @@ chown  999 postgres sqlbackups
 We suggest that you use our example configuration as a starting point:
 
 ```bash
-curl https://docs.fylr.io/for-system-administrators/installation/assets/fylr.yml -o config/fylr/fylr.yml
+curl curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/config/fylr/fylr.yml -o config/fylr/fylr.yml
 ```
 
 Edit `config/fylr/fylr.yml` and replace strings with `EXAMPLE`.
