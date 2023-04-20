@@ -1,31 +1,28 @@
 Running fylr.exe
 
-## dependencies
+## Dependencies
+
+Bare bone minimum: elasticsearch
 
 ### elasticsearch
 
-Mandatory.
-
 What we tested:
 
-Download from https://www.elastic.co/guide/en/elasticsearch/reference/current/zip-windows.html
+* Download from [https://www.elastic.co/guide/en/elasticsearch/reference/current/zip-windows.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/zip-windows.html)
+* Unpack official windows release file elasticsearch-8.6.1-windows-x86_64.zip
 
-unpack official windows release file elasticsearch-8.6.1-windows-x86_64.zip
+  Other Versions should also be fine. This is true for all the below mentioned tools.
 
-Other Versions should also be fine. This is true for all the below mentioned tools.
-
-Disable security with ...
+* Disable security with ...
 ```
 xpack.security.enabled: false
 ```
-... in elasticsearch-8.6.1\config\elasticsearch.yml
+  ... in elasticsearch-8.6.1\config\elasticsearch.yml
 
-The analysis-icu plugin from https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu.html for offline installation:
+* Got the analysis-icu plugin from [https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu.html](https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu.html) for offline installation (it was https://artifacts.elastic.co/downloads/elasticsearch-plugins/analysis-icu/analysis-icu-8.6.1.zip)
+* Unpacked into `elasticsearch-8.6.1\plugins\analysis-icu\` (no further subfolders).
 
-https://artifacts.elastic.co/downloads/elasticsearch-plugins/analysis-icu/analysis-icu-8.6.1.zip
-... unpack into elasticsearch-8.6.1\plugins\analysis-icu\ (no further subfolders).
-
-Start it with, for example in a Windows powershell:
+* Start, for example in a Windows powershell:
 
 ```
 .\elasticsearch-8.6.1\bin\elasticsearch.bat
@@ -43,11 +40,12 @@ You are now ready to start fylr, although most asset processing tools are still 
 .\fylr.exe server
 ```
 
-... in the folder where fylr.exe is.
+  ... in the folder where fylr.exe is.
 
 Output lines with `WRN` can usually be ignored.
 
-Harmless Errors known to appear are e.g. `Error occurred in NewIntrospectionRequest` and `Accepting token failed`, when a browser tries to use old credentials.
+Harmless Errors known to appear are e.g.
+* `Error occurred in NewIntrospectionRequest` and `Accepting token failed`, when a browser tries to use old credentials.
 
 ### Access the web frontend
 
