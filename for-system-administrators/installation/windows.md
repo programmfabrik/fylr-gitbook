@@ -5,7 +5,7 @@ Running fylr.exe
 * Go to the newest release in [https://docs.fylr.io/releases](https://docs.fylr.io/releases)
 * Download `fylr_v6.`X.Y`_windows_amd64.zip` and unpack.
 
-It contains
+It contains:
 * `fylr.exe` fylr native for Windows amd64
 * `fylr.yml` a starting configuration already adjusted with Windows path syntax and for the following instructions.
 * `fylr.example.yml` most configuration parameters. Look here for reference.
@@ -79,25 +79,23 @@ For a full installation it is recommended to install all of the following and un
 
 ## Postgresql
 
-We installed 15.2 from https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
-
-We started pgadmin and created a role "fylr" (with LOGIN and INHERIT, the defaults), with password "fylr"; and a database "fylr" owned by role "flyr".
-
-We un-commented these lines in fylr.yml:
+* We installed 15.2 from [https://www.enterprisedb.com/downloads/postgres-postgresql-downloads](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
+* We started pgadmin and created a role "fylr" (with LOGIN and INHERIT, the defaults), with password "fylr"; and a database "fylr" owned by role "flyr".
+* We un-commented these lines in fylr.yml:
 
 ```
     driver: postgres
     dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
 ```
 
-And we disabled the lines configuring sqlite, by turning them into comments:
+* And we disabled the lines configuring sqlite, by turning them into comments:
 
 ```
     #driver: sqlite3
     #dsn: "data\\sqlite.db"
 ```
 
-For a consistent state we also did the next step: cleanup.
+* For a consistent state we also did the next step: cleanup.
 
 ### cleanup
 
@@ -110,9 +108,9 @@ If you want to go back to a fresh state between two test runs:
  
 ## Magick.exe and convert.exe and composite.exe
 
-We downloaded ImageMagick-7.1.0-61-portable-Q16-HDRI-x64.zip from https://imagemagick.org/script/download.php#windows
+* We downloaded `ImageMagick-7.1.0-61-portable-Q16-HDRI-x64.zip` from [https://imagemagick.org/script/download.php#windows](https://imagemagick.org/script/download.php#windows)
 
-We put the three mentioned tools from the download into the utils directory which is parallel to fylr.exe
+* We put the three mentioned tools from the download into the utils directory which is parallel to fylr.exe
 
 Hint from the [download page](https://imagemagick.org/script/download.php#windows):
 
@@ -120,7 +118,7 @@ Hint from the [download page](https://imagemagick.org/script/download.php#window
 
 ## Exiftool.exe
 
-We downloaded: Windows Executable: exiftool-12.56.zip on http://exiftool.sourceforge.net
+We downloaded: Windows Executable: exiftool-12.56.zip on [http://exiftool.sourceforge.net](http://exiftool.sourceforge.net)
 
 We have put exiftool(-k).exe from the download into the utils directory
 
@@ -128,7 +126,7 @@ We renamed it to exiftool.exe as recommended on exiftool.sourceforge.net.
 
 ## Ffmpeg.exe and ffprobe.exe
 
-We downloaded ffmpeg-n5.1.2-12-g7268323193-win64-gpl-5.1.zip from https://github.com/BtbN/FFmpeg-Builds/releases
+We downloaded ffmpeg-n5.1.2-12-g7268323193-win64-gpl-5.1.zip from [https://github.com/BtbN/FFmpeg-Builds/releases](https://github.com/BtbN/FFmpeg-Builds/releases)
 
 We suggest you avoid the LGPL version as testing showed it has less features (x264 and x265).
 
@@ -182,7 +180,7 @@ Lines are made comments by adding `# ` in front of the line, so remove the hash 
 
 ## Node
 
-We downloaded node-v16.17.0-win-x64.7z from https://nodejs.org/dist/v16.17.0/
+We downloaded node-v16.17.0-win-x64.7z from [https://nodejs.org/dist/v16.17.0/](https://nodejs.org/dist/v16.17.0/)
 
 We put just node.exe into the utils folder parallel to fylr.exe.
 
@@ -190,7 +188,7 @@ In fylr.yml we configured it by converting the comment block mentioning node.exe
 
 ## Python
 
-We donwloaded "Windows embeddable package (64-bit)" at https://www.python.org/downloads/windows/ (explained here: https://docs.python.org/3/using/windows.html#windows-embeddable)
+We donwloaded "Windows embeddable package (64-bit)" at [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/) (explained [here](https://docs.python.org/3/using/windows.html#windows-embeddable))
 
 We unpacked the whole package as the folder "python3" inside the utils folder.
 
@@ -203,8 +201,8 @@ For extracting text from pdfs in the fylr_example plugin and for the API test su
 ## Xsltproc
 
 We installed xsltproc.exe by 
-* installling the chocolatey package manager as in https://docs.chocolatey.org/en-us/choco/setup
-* installing xsltproc with chocolatey as in https://community.chocolatey.org/packages/xsltproc#install
+* installling the chocolatey package manager as in [https://docs.chocolatey.org/en-us/choco/setup](https://docs.chocolatey.org/en-us/choco/setup)
+* installing xsltproc with chocolatey as in [https://community.chocolatey.org/packages/xsltproc#install](https://community.chocolatey.org/packages/xsltproc#install)
 * test that xsltproc is running:
 
 ```
@@ -214,7 +212,7 @@ Using libxml 20903, libxslt 10128 and libexslt 817
 
 ## Ghostscript
 
-We downloaded `Ghostscript 10.0.0 for Windows (64 bit)` from https://ghostscript.com/releases/gsdnld.html
+We downloaded `Ghostscript 10.0.0 for Windows (64 bit)` from [https://ghostscript.com/releases/gsdnld.html](https://ghostscript.com/releases/gsdnld.html)
 
 We used its default installation (`C:\Program Files (x86)\gs\gs10.00.0` or `C:\Program Files\gs\gs10.00.0`)
 
@@ -230,7 +228,7 @@ We tested ghostscript integration by uploading a pdf file into fylr and checking
 
 ## Libreoffice
 
-We "installed" `LibreOfficePortable_7.4.5_MultilingualStandard.paf.exe` from https://www.libreoffice.org/download/portable-versions/ so that `LibreOfficePortable.exe` was in `C:\LibreOfficePortable`.
+We "installed" `LibreOfficePortable_7.4.5_MultilingualStandard.paf.exe` from [https://www.libreoffice.org/download/portable-versions/](https://www.libreoffice.org/download/portable-versions/) so that `LibreOfficePortable.exe` was in `C:\LibreOfficePortable`.
 
 Fair warning: If you make your installation path too long, libre office will not work.
 
@@ -240,7 +238,7 @@ Example for too long: `C:\Users\Klaus Thorn\Desktop\pf\fylr_v6.2.4_windows_amd64
 
 We installed Inkscape 1.2 via its default Installer.
 
-We added Inkscape's `bin` directory to the Windows System PATH as in https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows#answer_104285
+We added Inkscape's `bin` directory to the Windows System PATH as in [https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows#answer_104285](https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows#answer_104285)
 
 We closed and opened a new window for `fylr.exe server` so that the new PATH is knwon to the window.
 
