@@ -1,10 +1,25 @@
 Running fylr.exe
 
-## Dependencies
+# Download fylr.exe
+
+* Go to the newest release in [https://docs.fylr.io/releases](https://docs.fylr.io/releases)
+* Download `fylr_v6.`X.Y`_windows_amd64.zip` and unpack.
+
+It contains
+* `fylr.exe` fylr native for Windows amd64
+* `fylr.yml` a starting configuration already adjusted with Windows path syntax and for the following instructions.
+* `fylr.example.yml` most configuration parameters. Look here for reference.
+* `fylr.default.yml` compiled-in default values for reference.
+* `LICENSE` legal information on who may use fylr.
+* `utils/` some tools for asset processing. (More need to be downloaded, see below)
+* `webfrontend/` The static webfrontend files.
+* `resources/` more files for fylr, e.g. translations.
+
+# Get the dependencies
 
 Bare bone minimum: Elasticsearch
 
-### Elasticsearch
+## Elasticsearch
 
 What we tested:
 
@@ -32,7 +47,7 @@ Elasticsearch then used the default address `http://localhost:9200`, which is al
 
 With default settings, 11,7 GB free RAM *was* enough. Tweaking java settings, even only 2 or 3 GB for Java *should* be enough.
 
-### Start with minimal dependencies
+## Start with minimal dependencies
 
 You are now ready to start fylr, although most asset processing tools are still missing: (no previews)
 
@@ -55,13 +70,13 @@ Default login credentials are:
 - **Username**: *root*
 - **Password**: *admin*
 
-### More than bare bone minimum
+## More than bare bone minimum
 
 For a full installation it is recommended to install all of the following and un-comment them in `fylr.yml`.
 
 "Un-comment" = turning the comments into configuration.
 
-### postgresql
+## Postgresql
 
 We installed 15.2 from https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
 
@@ -92,7 +107,7 @@ If you want to go back to a fresh state between two test runs:
 * If you use postgres, remove and recreate the database.
 
  
-### magick.exe and convert.exe and composite.exe
+## Magick.exe and convert.exe and composite.exe
 
 We downloaded ImageMagick-7.1.0-61-portable-Q16-HDRI-x64.zip from https://imagemagick.org/script/download.php#windows
 
@@ -102,7 +117,7 @@ Hint from the [download page](https://imagemagick.org/script/download.php#window
 
 > If you have any problems, you likely need vcomp120.dll. To install it, download Visual C++ Redistributable Package(https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads).
 
-### exiftool.exe
+## Exiftool.exe
 
 We downloaded: Windows Executable: exiftool-12.56.zip on http://exiftool.sourceforge.net
 
@@ -110,7 +125,7 @@ We have put exiftool(-k).exe from the download into the utils directory
 
 We renamed it to exiftool.exe as recommended on exiftool.sourceforge.net.
 
-### ffmpeg.exe and ffprobe.exe
+## Ffmpeg.exe and ffprobe.exe
 
 We downloaded ffmpeg-n5.1.2-12-g7268323193-win64-gpl-5.1.zip from https://github.com/BtbN/FFmpeg-Builds/releases
 
@@ -120,7 +135,7 @@ We have put ffmpeg.exe and ffprobe.exe into the utils directory.
 
 In fylr.yml we configured it as now visible in the comments there.
 
-### un-commenting in fylr.yml and the fylr_ tools
+## Un-commenting in fylr.yml
 
 Now was a good time to go through fylr.yml and turn a whole range of comments into non-comments:
 * blocks mentioning all the above tools (magick.exe, ...)
@@ -164,7 +179,7 @@ Now was a good time to go through fylr.yml and turn a whole range of comments in
 
 Lines are made comments by adding `# ` in front of the line, so remove the hash AND one space to use commented lines as config. Check that each indentation level is two spaces. (No tab characters, just space characters)
 
-### node.exe
+## Node
 
 We downloaded node-v16.17.0-win-x64.7z from https://nodejs.org/dist/v16.17.0/
 
@@ -172,7 +187,7 @@ We put just node.exe into the utils folder parallel to fylr.exe.
 
 In fylr.yml we configured it by converting the comment block mentioning node.exe into non-comments.
 
-### python.exe
+## Python
 
 We donwloaded "Windows embeddable package (64-bit)" at https://www.python.org/downloads/windows/ (explained here: https://docs.python.org/3/using/windows.html#windows-embeddable)
 
@@ -180,11 +195,11 @@ We unpacked the whole package as the folder "python3" inside the utils folder.
 
 In fylr.yml we configured it by converting the comment block mentioning python.exe into non-comments.
 
-### java
+## Java
 
 For extracting text from pdfs in the fylr_example plugin and for the API test suite, the "metadata" service in fylr.yml needs a "java" command.
 
-### xsltproc
+## Xsltproc
 
 We installed xsltproc.exe by 
 * installling the chocolatey package manager as in https://docs.chocolatey.org/en-us/choco/setup
@@ -196,7 +211,7 @@ xsltproc.exe --version
 Using libxml 20903, libxslt 10128 and libexslt 817
 ```
 
-### ghostscript
+## Ghostscript
 
 We downloaded `Ghostscript 10.0.0 for Windows (64 bit)` from https://ghostscript.com/releases/gsdnld.html
 
@@ -212,7 +227,7 @@ We then copied `gswin32c.exe` to `gs.exe` so that `convert.exe` is able to find 
 
 We tested ghostscript integration by uploading a pdf file into fylr and checking whether a preview is generated (showing the first page of the pdf).
 
-### libreoffice
+## Libreoffice
 
 We "installed" `LibreOfficePortable_7.4.5_MultilingualStandard.paf.exe` from https://www.libreoffice.org/download/portable-versions/ so that `LibreOfficePortable.exe` was in `C:\LibreOfficePortable`.
 
@@ -220,7 +235,7 @@ Fair warning: If you make your installation path too long, libre office will not
 
 Example for too long: `C:\Users\Klaus Thorn\Desktop\pf\fylr_v6.2.4_windows_amd64\utils\LibreOfficePortable\`.
 
-### inkscape
+## Inkscape
 
 We installed Inkscape 1.2 via its default Installer.
 
@@ -232,44 +247,11 @@ We tested Inkscape integration by uploading a svg file into fylr and check wheth
 
 -------
 
-# start as a service
+# Start fylr as a service
 
 After testing, you may want to switch to
 
 ```
 fylr.exe server --service install
 ```
-
--------
-
-
-# Packaging
-
-You do not need the following paragraphs to start fylr. They document which components were used and from where.
-
-## fylr.exe
-
-https://github.com/programmfabrik/fylr as windows amd64
-
-go releaser parameters see https://github.com/programmfabrik/fylr/blob/main/.goreleaser.yml#L340
-
-## utils/fylr_*
-
-https://github.com/programmfabrik/fylr/tree/main/utils
-
-go releaser parameters see https://github.com/programmfabrik/fylr/blob/main/.goreleaser.yml#L354 and following lines
-
-## webfrontend
-
-included from https://github.com/programmfabrik/easydb-webfrontend
-* after `make all`
-* the folder `build` as `webfrontend` in the zip
-
-## resources
-
-included https://github.com/programmfabrik/fylr/tree/main/resources
-* which is not publicly available
-* after `make generate`
-* as folder `resources`
-* same commit as fylr
 
