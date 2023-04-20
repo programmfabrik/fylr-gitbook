@@ -40,6 +40,7 @@
 
 * [Installation](for-system-administrators/installation/README.md)
   * [Linux](for-system-administrators/installation/linux-docker-compose.md)
+  * [Windows](for-system-administrators/installation/windows.md)
 * [Configuration](for-system-administrators/configuration/README.md)
   * [fylr.example.yml](for-system-administrators/configuration/fylr.example.yml.md)
   * [Load Custom Plugins](for-system-administrators/configuration/custom-plugin.md)
