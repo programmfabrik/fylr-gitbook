@@ -38,6 +38,7 @@
 
 ## FOR SYSTEM ADMINISTRATORS
 
+* [Installation](for-system-administrators/installation/README.md)
 * [Configuration](for-system-administrators/configuration/README.md)
   * [fylr.example.yml](for-system-administrators/configuration/fylr.example.yml.md)
   * [Load Custom Plugins](for-system-administrators/configuration/custom-plugin.md)
