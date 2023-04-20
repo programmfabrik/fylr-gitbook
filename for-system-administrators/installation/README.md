@@ -1,6 +1,6 @@
 ---
 description: >-
-  As a Go program, fylr supports many platforms: Linux amd64, Linux arm v7, Windows amd64, Darwin amd64, Darwin arm64 v7.
+  As a Go program, fylr supports many platforms.
   For some installation scenarios, we prepared instructions and tools:
 
 ---
