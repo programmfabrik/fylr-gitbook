@@ -19,5 +19,7 @@ description: >-
 * We provide a list of 3rd party tools for preview thumbnails but not the tools themselves.
 
 ## Kubernetes
-* Uses helm chart and Linux containers.
+* Instructions: See our [helm chart](https://github.com/programmfabrik/fylr-helm).
+* Uses helm charts and Linux containers.
+* Needs helm and a kubernetes cluster.
 * 3rd party tools for preview thumbnails are pre-packaged.
