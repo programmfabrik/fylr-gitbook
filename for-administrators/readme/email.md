@@ -1,5 +1,6 @@
 ---
-description: In this section the email server can be configured. fylr can be made to send out ...(TODO: example) to its users.
+description: >-
+  In this section the email server can be configured. fylr can be made to send out ...(TODO: example) to its users.
 ---
 
 # Email
