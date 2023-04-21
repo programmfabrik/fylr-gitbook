@@ -1,12 +1,16 @@
 ---
 description: >-
   Files can also be imported via the CSV importer. If the files are already
-  accessible via the web, you can simply enter this URL into the CSV file.
+  accessible via the web, you can simply use this URL in the CSV file.
 ---
 
 # Files
 
-If the files are located locally on your computer, they must first be made available via a web server, since web browsers do not support direct access to files on your computer.&#x20;
+If the files are located locally on your computer, they must first be made available via a web server, since web browsers do not support direct access to files on your computer.
+
+{% hint style="info" %}
+Alternatively you can upload the files using upload collections. Either upload all files first and then update the records using the CSV importer or import the data using the CSV importer first and then add the files using an upload collection.
+{% endhint %}
 
 One way to get around this limitation is to use an extension for the Google Chrome browser. This makes it possible to set up a web server on your computer with just a few clicks and access your files via it.
 
