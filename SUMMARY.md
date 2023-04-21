@@ -34,6 +34,14 @@
   * [Development](for-administrators/readme/development.md)
   * [Plugins](for-administrators/readme/plugins.md)
 * [Tools](for-administrators/tools/README.md)
+  * [CSV Importer](for-administrators/tools/csv-importer/README.md)
+    * [General Information](for-administrators/tools/csv-importer/general-information.md)
+    * [Options](for-administrators/tools/csv-importer/options.md)
+    * [Examples](for-administrators/tools/csv-importer/examples/README.md)
+      * [All Data Types](for-administrators/tools/csv-importer/examples/all-data-types.md)
+      * [Lists](for-administrators/tools/csv-importer/examples/lists.md)
+      * [Hierarchies](for-administrators/tools/csv-importer/examples/hierarchies.md)
+      * [Files](for-administrators/tools/csv-importer/examples/files.md)
   * [Permissions Download & Upload](for-administrators/tools/permissions-download-and-upload.md)
 
 ## FOR SYSTEM ADMINISTRATORS
@@ -45,7 +53,7 @@
 * [Configuration](for-system-administrators/configuration/README.md)
   * [fylr.example.yml](for-system-administrators/configuration/fylr.example.yml.md)
   * [Load Custom Plugins](for-system-administrators/configuration/custom-plugin.md)
-* Integration
+* [Integration](for-system-administrators/integration/README.md)
   * [Authentication](for-system-administrators/integration/authentication.md)
 
 ## FOR DEVELOPERS
