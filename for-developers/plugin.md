@@ -156,11 +156,10 @@ This callback is run for each **POST /api/db** request or inside a configured tr
 
 * In group mode the payload consists of all individual objects loaded from the database.
 * Each object includes the object from the database in the top level key `_current`, if available.
-* Each object includes a `_callback_hash` on the top level. This hash must be returned in the response in order to update the object property.
-* Only returned objects are updated.
+* Each object includes a `_callback_context` on the top level. \_`callback_context.hash` must be returned in the response in order to update the object property. Only returned objects are updated.
 * Returned objects only update all user values, Comment, Pool, Tags and Rights. Other fields (especially any IDs) are not updated.
-* The callback receives reverse and bidirectional added objects on top level of the object list. The callback must deal with these objects, or not return them. In case of bidirectional objects, this might lead to imcomplete objects if only one side of the bidi object is changed.
-* The `_all_fields` mask is used to render the JSON for the plugin. The plugin must return the data using the `_all_fields` mask.
+* The callback receives reverse and bidirectional added objects on top level of the object list. The callback must deal with these objects, or not return them. In case of bidirectional objects, this might lead to incomplete objects if only one side of the bidi object is changed.
+* The `_all_fields` mask is used to render the JSON for the plugin. The plugin must return the data using the `_all_fields` mask. `_callback_context.original_mask` contains the mask used in the posted object.
 * For inserted objects, IDs are not yet set, so `_uuid`, `_global_object_id`, `_system_object_id`, `<object>._id` are unset. `<object>._id_parent` may be **0**, if it has a yet unknown parent ID (this can happen if the object was delivered in a reverse hierarchy context).
 * For transitions, the corresponding `transition.type` is `<plugin-name>:<transition-type>`.
 * `db_pre_save` uses a `steps` semantic to run multiple callbacks in order. A filter by objecttype can be applied to each individual step.
