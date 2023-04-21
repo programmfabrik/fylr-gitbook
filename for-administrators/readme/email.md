@@ -8,7 +8,7 @@ description: >-
 ## General
 
 ### From
-Please use an email address which the SMTP server accepts.
+Please use an email address which the SMTP server accepts as sender.
 
 ### Signature
 Optional.
