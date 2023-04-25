@@ -58,6 +58,8 @@
 
 ## FOR DEVELOPERS
 
+* [API](for-developers/api/README.md)
+  * [OAUTH2](for-developers/api/oauth2.md)
 * [Schema](for-developers/mask.md)
 * [Data Types](for-developers/types.md)
 * [Custom Data](for-developers/customdata.md)
