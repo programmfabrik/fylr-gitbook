@@ -27,7 +27,7 @@ For more information on the deep links, please click here.
 Allows direct access by object ID.
 
 {% hint style="info" %}
-Caution: Because these object IDs are continually assigned, it can be a security risk to unblock this option. A user who is made aware of a deep link can guess further deep links. For all deep links, however, the  system user "Deep Link" must have access to the objects for them to work.
+Caution: Because these object IDs are continually assigned, it can be a security risk to unblock this option. A user who is made aware of a deep link can guess further deep links. For all deep links, however, the system user "Deep Link" must have access to the objects for them to work.
 {% endhint %}
 
 ### Access by Column
@@ -45,21 +45,21 @@ Decide wether you want to embed linked records in the xml that can be accessed v
 | Records not included in the main search, unless reverse | Only data of the linked records of object types that are not shown in the main search, unless they are reverse records, will be included in the xml file that can be accessed via a deep link. |
 | No records                                              | The data of the linked records will never be embedded.                                                                                                                                         |
 
-
-
 ### Depth of Linked Records (1-9)
 
 Define how many levels of linked records should be embedded. Choose "1" if you for example want to embed all the fields from the object type "Photographer" that is linked to your images (like name, contact information, etc.). If the photographer record itself links to another object type (i.e. locations) and you want this data in the xml of the image record, choose a depth of "2".
 
-
-
 ### IIIF REQUIRED STATEMENT
+
+When IIIF is used, fylr supports the [Presentation API 3.0](https://iiif.io/api/presentation/3.0). The manifest is assembled automatically depending on the mask requested. See [https://iiif.io/api/presentation/3.0/#requiredstatement](https://iiif.io/api/presentation/3.0/#requiredstatement) for  details. You should use the required statement for copyright information and general information about your database.
 
 #### Label
 
+The label of the required statement.
+
 #### Value
 
-
+The text for the required statement, this is formatted as [Markdown](https://commonmark.org) with Table, Strikethrough, Linkify and TaskList enabled.
 
 ## XSL Transformations
 
@@ -143,7 +143,7 @@ As for the XML Export, linked objects are not loaded and embedded in the XML Doc
 
 ### Depth of Linked Records (1-9)
 
-When linked objects are loaded and merged, this depth defines how many levels of linked objects are loaded (`1` - `9`). See [above](#depth-of-linked-records-1-9).
+When linked objects are loaded and merged, this depth defines how many levels of linked objects are loaded (`1` - `9`). See [above](export-and-deep-links.md#depth-of-linked-records-1-9).
 
 ### TAG-SETS
 
