@@ -122,7 +122,7 @@ Assets are not processed, previews are not generated:
 
 * Look into the URL path /inspect/files, so e.g. https://your-fylr-domain/inspect/files and look for status: `failed` and `error`. Click on the IDs and e.g. `Show details` to search for error messages.
 
-* If the elasticsearch plugin `analysis-icu` is not installed you will get errors like:
+If the elasticsearch plugin `analysis-icu` is not installed you will get errors like:
 
 > Unable to create index "..." error="Unknown char_filter type [icu_normalizer]
 
