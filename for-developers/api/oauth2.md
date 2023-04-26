@@ -2,5 +2,268 @@
 description: fylr uses OAuth2 for authentication.
 ---
 
-# OAUTH2
+# OAuth2
 
+User authentication in a fylr instance is only possible by receiving an **Access Token** using one of the implemented OAuth2 flows.
+
+## Using the Access Token
+
+After a successful login of a user, the process will return a response that contains an `access_token`. This must be used to authenticate all following requests to the fylr API.
+
+### Header based authentication
+
+Include the following HTTP header in the request:
+
+```
+"authorization: Bearer <access_token>"
+```
+
+### URL based authentication
+
+Include the following parameter in the request URL:
+
+```
+?access_token=<access_token>
+```
+
+## Configuring Client ID and Secret
+
+The following descriptions of the different OAuth2 flows use `my-client` and `my-secret` as placeholders for configured Client IDs and Client Secrets. Replace these with the required OAuth2 client information of the fylr instance.
+
+These need to be configured in the fylr instance.
+
+Configure the pair(s) of Client ID and Secret in the [config file](/for-system-administrators/configuration/fylr.example.yml) `fylr.yml`:
+
+{% code title="fylr.yml" lineNumbers="true" %}
+```yaml
+fylr:
+  services:
+    api:
+      oauth2Server:
+        clients:
+          my-client:
+            secret: 'my-secret'
+            redirectURIs:
+              - http://my-callback-server/oauth2/callback
+```
+{% endcode %}
+
+Alternatively, add the Client ID and Secret pair(s) in the [Base Configuration](/for-administrators/readme/user-management#oauth-service).
+
+## OAuth2 Flows
+
+All of the following flows are implemented in fylr. They offer different levels of security. Each flow requires a different amount of complexity to implement it in your client application. Depending on your needs choose your preferred implementation. We recommend using the [Authorization Code Grant](#authorization-code-grant) or the [Password Grant](#password-grant) flow.
+
+### Authorization Code Grant
+
+{% hint style="info" %}
+External documentation: https://www.oauth.com/oauth2-servers/server-side-apps/authorization-code/
+{% endhint %}
+
+This flow requires a Client ID and Secret, as well as a Login and password for each user. This flow offers the high level of security.
+
+#### **Step 1**: client calls fylr
+
+Call `GET /api/oauth2/auth`
+
+URL parameters:
+
+| Parameter | Value | Description |
+|---|---|---|
+| `auth_method` | `"auto"` | fixed value |
+| `access_type` | `"offline"` | fixed value |
+| `scope` | `"offline"` | fixed value |
+| `response_type` | `"code"` | fixed value |
+| `state` | for example: `"Authorization_Code_Grant_Login"` | Client State String (min. 8 characters) |
+| `client_id` | `"my-client"` | **Client ID** of the fylr Instance |
+
+This redirects to the fylr login page. The user enters **login** and **password**.
+
+#### **Step 2**: callback from fylr to the local callback
+
+This flow requires to implement a local HTTP server that can handle the callback from fylr. The URL for the callback must also be included in the `fylr.yml` (`redirectURIs`) and must be tied to your Client configuration.
+
+fylr calls
+
+```
+http://my-callback-server/oauth2/callback
+```
+
+This callback must handle a `GET` request. fylr includes these URL parameters:
+
+| Parameter | Description |
+|---|---|
+| `state` | Client State, this is to identify the callback. Same as above |
+| `code` | **Authorization Code**. This needs to be stored and used in the following requests |
+
+#### **Step 3**: client validates Authorization Code
+
+Call `POST /api/oauth2/token`
+
+URL parameters:
+
+| Parameter | Value | Description |
+|---|---|---|
+| `grant_type` | `"authorization_code"` | fixed value |
+| `state` | | Client State, same as above |
+| `client_id` | `"my-client"` | **Client ID** of the fylr Instance |
+| `client_secret` | `"my-secret"` | **Client Secret** of the fylr Instance |
+| `code` | | **Authorization Code** from fylr callback |
+
+If the Client ID, Secret and the Authorization Code are correct, fylr will return a JSON object in the response with the following values:
+
+| Key | Description |
+|---|---|
+| `access_token` | **Access Token** |
+| `refresh_token` | **Refresh Token** |
+| `token_type` | `"bearer"` |
+| `scope` | `"offline"`, same as above |
+| `expires_in` | Time until the Access Token expires, in seconds |
+
+### Authorization Code Grant with PKCE Code Challenge
+
+{% hint style="info" %}
+External documentation: https://www.oauth.com/oauth2-servers/oauth-native-apps/pkce/
+{% endhint %}
+
+This is an extension of the Authorization Code Grant flow. To enhance the security a Proof Key for Code Exchange (PKCE) is included in the requests. All other parameters and keys are the same as in the Authorization Code Grant flow.
+
+The client needs to generate a **Code Verifier** and a **Code Challenge** according to the [RFC7636](https://datatracker.ietf.org/doc/html/rfc7636) standard.
+
+The **Code Verifier** is a random string consisting of the characters `A-Z`, `a-z`, `0-9`, `-`, `.`, `_`, `~` with a length between 43 and 128 characters.
+
+The **Code Challenge** is the `SHA256` hash of the Code Verifier encoded in Base64-URL format.
+
+In **Step 1**, these parameters are added to the URL:
+
+| Parameter | Value | Description |
+|---|---|---|
+| `code_challenge` | | Generated **Code Challenge** |
+| `code_challenge_method` | `"S256"` | fixed value |
+
+In **Step 3**, this parameter is added to the URL:
+
+| Parameter | Value | Description |
+|---|---|---|
+| `code_verifier` | | Generated **Code Verifier** |
+
+In this step, fylr (the authorization server) checks if the Code Verifer matches the Code Challenge from **Step 1**.
+
+### Password Grant
+
+{% hint style="info" %}
+External documentation: https://www.oauth.com/oauth2-servers/access-tokens/password-grant/
+{% endhint %}
+
+This flow can be used to directly log into fylr with the user **login** and **password**
+
+#### **Step 1**: log into fylr with user login and password
+
+Call `POST /api/oauth2/token`
+
+URL parameters:
+
+| Parameter | Value | Description |
+|---|---|---|
+| `grant_type` | `"password"` | fixed value |
+| `scope` | `"offline"` | fixed value |
+| `client_id` | `"my-client"` | **Client ID** of the fylr Instance |
+| `client_secret` | `"my-secret"` | **Client Secret** of the fylr Instance |
+| `username` | | fylr **Login** of the user |
+| `password` | | fylr **Password** of the user |
+
+If the Client ID, Secret and User login and password are correct, fylr will return a JSON object in the response with the following values:
+
+| Key | Description |
+|---|---|
+| `access_token` | **Access Token** |
+| `refresh_token` | **Refresh Token** |
+| `token_type` | `"bearer"` |
+| `scope` | `"offline"`, same as above |
+| `expires_in` | Time until the Access Token expires, in seconds |
+
+### Implicit Grant
+
+{% hint style="info" %}
+External documentation: https://www.oauth.com/oauth2-servers/single-page-apps/implicit-flow/
+{% endhint %}
+
+{% hint style="warn" %}
+This flow works without a **Client Secret**. It is not possible to refresh or revoke the **Access Token**.
+
+Using this flow is **not recommended**!
+{% endhint %}
+
+#### **Step 1**: request a token from fylr
+
+Call `GET /api/oauth2/auth`
+
+URL parameters:
+
+| Parameter | Value | Description |
+|---|---|---|
+| `response_type` | `"token"` | fixed value |
+| `state` | for example: `"Implicit_Grant_Login"` | Client State String (min. 8 characters) |
+| `auth_method` | `"auto"` | fixed value |
+| `access_type` | `"offline"` | fixed value |
+| `scope` | `"offline"` | fixed value |
+| `client_id` | `"my-client"` | **Client ID** of the fylr Instance |
+
+#### **Step 2**: callback from fylr to the local callback
+
+This flow requires to implement a local HTTP server that can handle the callback from fylr. The URL for the callback must also be included in the `fylr.yml` (`redirectURIs`) and must be tied to your Client configuration.
+
+fylr calls
+
+```
+http://my-callback-server/oauth2/callback
+```
+
+This callback must handle a `GET` request. fylr includes these URL parameters:
+
+| Parameter | Description |
+|---|---|
+| `loc_hash` | quoted URL parameters |
+
+The `loc_hash` parameter is itself a list of URL parameters that need to be unquoted and split into key value pairs:
+
+| Key | Description |
+|---|---|
+| `access_token` | **Access Token** |
+| `token_type` | `"bearer"` |
+| `scope` | `"offline"`, same as above |
+| `state` | `"Implicit_Grant_Login"`, same as above |
+| `expires_in` | Time until the Access Token expires, in seconds |
+
+### Client Credential Grant
+
+{% hint style="info" %}
+External documentation: https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/{% endhint %}
+
+{% hint style="warn" %}
+This flow works without a fylr user **login** and **password**. The **Access Token** can not be used to identify a specific user. All fylr api endpoints which require a authenticated user can not be used.
+
+Using this flow is **not recommended**!
+{% endhint %}
+
+#### **Step 1**: request a token from fylr
+
+Call `POST /api/oauth2/token`
+
+URL parameters:
+
+| Parameter | Value | Description |
+|---|---|---|
+| `grant_type` | `"client_credentials"` | fixed value |
+| `scope` | `"offline"` | fixed value |
+| `client_id` | `"my-client"` | **Client ID** of the fylr Instance |
+| `client_secret` | `"my-secret"` | **Client Secret** of the fylr Instance |
+
+If the Client ID and Secret are correct, fylr will return a JSON object in the response with the following values:
+
+| Key | Description |
+|---|---|
+| `access_token` | **Access Token** |
+| `token_type` | `"bearer"` |
+| `scope` | `"offline"`, same as above |
+| `expires_in` | Time until the Access Token expires, in seconds |
