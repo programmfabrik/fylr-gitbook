@@ -32,7 +32,7 @@ The following descriptions of the different OAuth2 flows use `my-client` and `my
 
 These need to be configured in the fylr instance.
 
-Configure the pair(s) of Client ID and Secret in the [config file](./for-system-administrators/configuration/fylr.example.yml) `fylr.yml`:
+Configure the pair(s) of Client ID and Secret in the [config file](for-system-administrators/configuration/fylr.example.yml) `fylr.yml`:
 
 {% code title="fylr.yml" lineNumbers="true" %}
 ```yaml
@@ -64,20 +64,69 @@ This flow requires a **Client ID** and **Secret**, as well as a fylr **login** a
 
 #### **Step 1**: client calls fylr
 
-Call `GET /api/oauth2/auth`
+{% api-method method="get" host="" path="api/oauth2/auth" %}
 
-URL parameters:
+    {% api-method-summary %}
+    Call the OAuth2 Authentication API of fylr
+    {% endapi-method-summary %}
 
-| Parameter | Value | Description |
-|---|---|---|
-| `auth_method` | `"auto"` | fixed value |
-| `access_type` | `"offline"` | fixed value |
-| `scope` | `"offline"` | fixed value |
-| `response_type` | `"code"` | fixed value |
-| `state` | for example: `"Authorization_Code_Grant_Login"` | Client State String (min. 8 characters) |
-| `client_id` | `"my-client"` | **Client ID** of the fylr Instance |
+    {% api-method-spec %}
 
-This redirects to the fylr login page. The user enters **login** and **password**.
+        {% api-method-request %}
+
+            {% api-method-query-parameters %}
+
+                {% api-method-parameter name="auth_method" type="string" required=true %}
+                fixed value: `"auto"`
+                {% endapi-method-parameter %}
+
+                {% api-method-parameter name="access_type" type="string" required=true %}
+                fixed value: `"offline"`
+                {% endapi-method-parameter %}
+
+                {% api-method-parameter name="scope" type="string" required=true %}
+                fixed value: `"offline"`
+                {% endapi-method-parameter %}
+
+                {% api-method-parameter name="response_type" type="string" required=true %}
+                fixed value: `"code"`
+                {% endapi-method-parameter %}
+
+                {% api-method-parameter name="state" type="string" required=true %}
+                Client State String (min. 8 characters), for example: `"Authorization_Code_Grant_Login"`
+                {% endapi-method-parameter %}
+
+                {% api-method-parameter name="client_id" type="string" required=true %}
+                **Client ID** of the fylr Instance: `"my-client"`
+                {% endapi-method-parameter %}
+
+            {% endapi-method-query-parameters %}
+
+        {% endapi-method-request %}
+
+        {% api-method-response %}
+
+            {% api-method-response-example httpCode=200 %}
+
+                {% api-method-response-example-description %}
+                This redirects to the fylr login page. The user enters **login** and **password**.
+                {% endapi-method-response-example-description %}
+
+            {% endapi-method-response-example %}
+
+            {% api-method-response-example httpCode=400 %}
+
+                {% api-method-response-example-description %}
+                Problems with the parameters, for example an invalid **Client ID**
+                {% endapi-method-response-example-description %}
+
+            {% endapi-method-response-example %}
+
+        {% endapi-method-response %}
+
+    {% endapi-method-spec %}
+
+{% endapi-method %}
 
 #### **Step 2**: callback from fylr to the local HTTP server
 
