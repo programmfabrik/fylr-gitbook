@@ -86,7 +86,7 @@ Now go to the fylr login page (e.g. by logging out or using a second browser or 
 
 #### Group Mapping
 
-Using a test user of samltest.id, during login it is shown that it has an attribute `role` with the value e.g. `janitor@samltest.id`. We use this to demonstrate a group mapping:
+Users of samltest.id have a `role` attribute with values like `janitor@samltest.id`. This is shown during login on samltest.id's page. We will use this attribute to demonstrate a group mapping:
 
 Mapping goal: Every role that ends in `samltest.id` shall be autmatically member of the fylr group `testidp`.
 
