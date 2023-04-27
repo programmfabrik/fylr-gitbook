@@ -18,21 +18,18 @@ If enabled, deep links can be used to access records in the system. The deep lin
 Please note: you have to assign permissions to the system user "Deep Link" so the links are working. Users also need the system right "Deep Links" to access the links in the detail view.
 {% endhint %}
 
-{% hint style="info" %}
-For more information on the deep links, please click here.
-{% endhint %}
-
 ### Access by ID
 
-Allows direct access by object ID.
+Allows direct access by the object ID. Example: https://\<your-fylr-url>/api/v1/objects/id/\<id>.
 
 {% hint style="info" %}
-Caution: Because these object IDs are continually assigned, it can be a security risk to unblock this option. A user who is made aware of a deep link can guess further deep links. For all deep links, however, the system user "Deep Link" must have access to the objects for them to work.
+Caution: Because these object IDs are continually assigned, it can be a security risk to enable this option. A user who is made aware of a deep link can guess further deep links. For all deep links, however, the system user "Deep Link" must have access to the records for them to work.
 {% endhint %}
 
 ### Access by Column
 
-Allows access by specific values in object columns.
+Allows access by specific values in object type columns (they have to be unique). Example: https://\<your-fylr-url>/api/v1/objects/column/\<object-type>/\<name-of-unique-column>/\<value>.\
+
 
 ### Embed Linked Records
 
@@ -51,7 +48,7 @@ Define how many levels of linked records should be embedded. Choose "1" if you f
 
 ### IIIF REQUIRED STATEMENT
 
-When IIIF is used, fylr supports the [Presentation API 3.0](https://iiif.io/api/presentation/3.0). The manifest is assembled automatically depending on the mask requested. See [https://iiif.io/api/presentation/3.0/#requiredstatement](https://iiif.io/api/presentation/3.0/#requiredstatement) for  details. You should use the required statement for copyright information and general information about your database.
+When IIIF is used, FYLR supports the [Presentation API 3.0](https://iiif.io/api/presentation/3.0). The manifest is assembled automatically depending on the mask requested. See [https://iiif.io/api/presentation/3.0/#requiredstatement](https://iiif.io/api/presentation/3.0/#requiredstatement) for  details. You should use the required statement for copyright information and general information about your database.
 
 #### Label
 
@@ -91,14 +88,14 @@ Description of the format (optional).
 
 ### Use for deep links with /api/v1/objects
 
-Allow this XSLT to be used in the Deep-Link interface.
+Allow this XSLT to be used in the Deep Link interface.
 
 ### Use for OAI/PMH
 
 Allow this XSLT to be used in the OAI/PMH interface.
 
 {% hint style="info" %}
-Please note: since the OAI/PMH standard requires XML, make sure that the XSLT produces valid XML. Otherwise a internal parsing error can occur in the OAI/PMH plugin.
+Please note: since the OAI/PMH standard requires XML, make sure that the XSLT produces valid XML. Otherwise an internal parsing error can occur in the OAI/PMH plugin.
 {% endhint %}
 
 ### Schema (only OAI/PMH)
@@ -115,11 +112,11 @@ The Open Archives Initiative Protocol for Metadata Harvesting (OAI-PMH) is a pro
 
 Enable OAI/PMH to let others harvest your data that's stored in FYLR.
 
-More information about the standard can be found here: http://www.openarchives.org/
+More information about the standard can be found here: [http://www.openarchives.org/](http://www.openarchives.org/).
 
 ### Repository Name
 
-Name of the OAI / PMH repository.
+Name of the OAI/PMH repository.
 
 This information will be provided by the `Identify` verb as `repositoryName`
 
@@ -127,7 +124,7 @@ This information will be provided by the `Identify` verb as `repositoryName`
 
 Freely definable OAI Identifier Namespace.
 
-Objects can be requested using `oai:<namespace>:<uuid>` in the URL.
+Records can be requested using `oai:<namespace>:<uuid>` in the URL.
 
 ### Maximum Number of Records for ListRecords
 
@@ -135,23 +132,23 @@ Limit the number of records per page for the verb `ListRecords`.
 
 ### Embed Linked Records
 
-As for the XML Export, linked objects are not loaded and embedded in the XML Document:
+As for the XML export, linked records are not loaded and embedded in the XML Document:
 
-* If the option "All" is selected, all linked objects are loaded and embedded during the export.
-* If "Not included in main search" option is selected, all linked objects that are not included in the main search are loaded.
-* If "None" is selected, no linked objects are loaded, but only the standard is exported.
+* If the option "All" is selected, all linked records are loaded and embedded during the export.
+* If "Not included in main search" option is selected, all linked records that are not included in the main search are loaded.
+* If "None" is selected, no linked records are loaded, but only the standard is exported.
 
 ### Depth of Linked Records (1-9)
 
-When linked objects are loaded and merged, this depth defines how many levels of linked objects are loaded (`1` - `9`). See [above](export-and-deep-links.md#depth-of-linked-records-1-9).
+When linked records are loaded and merged, this depth defines how many levels of linked records are loaded (`1` - `9`). See [above](export-and-deep-links.md#depth-of-linked-records-1-9).
 
 ### TAG-SETS
 
-Tagfilters can be used to specify more sets for OAI/PMH. Each tagfilter specifies a set. If a tagfilter set is requested, all records are returned where the tagfilter matches.
+Tag filters can be used to specify more sets for OAI/PMH. Each tag filter specifies a set. If a tag filter set is requested, all records are returned where the tag filter matches.
 
-Tagfilter sets have the prefix `tagfilter:`, for example `<setSpec>tagfilter:sample_tagfilter</setSpec>` for all records that match the tagfilter `sample_tagfilter`.
+Tag filter sets have the prefix `tagfilter:`, for example `<setSpec>tagfilter:sample_tagfilter</setSpec>` for all records that match the tag filter `sample_tagfilter`.
 
-To get a list of all available sets, use the verb `listSets`. (see http://www.openarchives.org/OAI/openarchivesprotocol.html#ListSets)
+To get a list of all available sets, use the verb `listSets` (see [http://www.openarchives.org/OAI/openarchivesprotocol.html#ListSets](http://www.openarchives.org/OAI/openarchivesprotocol.html#ListSets)).
 
 #### Set Name
 
