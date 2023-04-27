@@ -82,4 +82,18 @@ Upload the downloaded file **sdp-metadata.xml** to the testing service ([https:/
 
 #### Test Connection
 
-Now go to the fylr login page and click on **SAMLtestIdP**. This sends you to the login page of the Identify Provider. Login using any of the provided users. fylr will log the user in with no further rights (unless configured). Check the User Manager in fylr to see that the user record has been created.
+Now go to the fylr login page (e.g. by logging out or using a second browser or private tab) and click on **SAMLtestIdP** in the login dialog. This sends you to the login page of the Identify Provider. Login using any of the provided users (they are written on that test login page explicitly, with password). fylr will log the user in with no further rights (unless configured). Check the User Manager in fylr to see that the user record has been created.
+
+#### Group Mapping
+
+Using a test user of samltest.id, during login it is shown that it has an attribute `role` with the value e.g. `janitor@samltest.id`. We use this to demonstrate a group mapping:
+
+    every role that ends in `samltest.id` shall be autmatically member of the fylr group `testidp`.
+
+1. In fylr-URL/configmanager > User management > SAML add into the form field `Group Mapping`: `%(role)s`
+<figure><img src="_assets/fylr-saml-group-mapping-en.png" alt=""><figcaption>How to add an attribute for SAML group mapping in the fylr frontend</figcaption></figure>
+2. In fylr-URL/groupmanager add a group named `testidp`. Give that groupe some system rights that are testable / visible after logging in. (E.g. on a test system I use Root Rights to make it extra obvious. This is not a safe setting, though.)
+3. In this group's configuration > `Authentication Services` > below `Single-Sign-On` add an entry with `Regular Expression` and value `.*samltest.id`
+<figure><img src="../_assets/fylr-group-mapping-en.png" alt=""><figcaption>How to match a value for a group mapping in the fylr frontend</figcaption></figure>
+4. Save and test the login as a SAML user with a matching role. The user now has the rights given to the group `testidp`.
+
