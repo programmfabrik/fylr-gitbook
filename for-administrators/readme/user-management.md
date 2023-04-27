@@ -88,7 +88,7 @@ Now go to the fylr login page (e.g. by logging out or using a second browser or 
 
 Using a test user of samltest.id, during login it is shown that it has an attribute `role` with the value e.g. `janitor@samltest.id`. We use this to demonstrate a group mapping:
 
-    every role that ends in `samltest.id` shall be autmatically member of the fylr group `testidp`.
+Mapping goal: Every role that ends in `samltest.id` shall be autmatically member of the fylr group `testidp`.
 
 1. In fylr-URL/configmanager > User management > SAML add into the form field `Group Mapping`: `%(role)s`
 <figure><img src="_assets/fylr-saml-group-mapping-en.png" alt=""><figcaption>How to add an attribute for SAML group mapping in the fylr frontend</figcaption></figure>
