@@ -12,25 +12,11 @@ If the files are located locally on your computer, they must first be made avail
 Alternatively you can upload the files using upload collections. Either upload all files first and then update the records using the CSV importer or import the data using the CSV importer first and then add the files using an upload collection.
 {% endhint %}
 
-One way to get around this limitation is to use an extension for the Google Chrome browser. This makes it possible to set up a web server on your computer with just a few clicks and access your files via it.
-
-{% hint style="info" %}
-Please note, however, that the plugin is not a development of Programmfabrik GmbH. For importing larger amounts of data, we recommend setting up your own web server.
-{% endhint %}
-
 ## Preparation
 
-In order to import files that are located in the local file system using the CSV importer, it is necessary to make them available on a local server. The easiest and fastest way is to use the Google Chrome extension "[Web Server for Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb)".
+In order to import files that are located in the local file system using the CSV importer, it is necessary to make them available on a local server. For example, see this list of web servers: [https://slashdot.org/software/p/Tiny-Web-Server/alternatives](https://slashdot.org/software/p/Tiny-Web-Server/alternatives).
 
-1. Install the extension and open it.&#x20;
-2. Click on "Choose folder" and select the folder where the local files you want to import are located (e.g. "Pictures").&#x20;
-3. Open the advanced settings and enable the "Set CORS headers" option.&#x20;
-4. Restart the browser and open the extension again.&#x20;
-5. Enter http://127.0.0.1:8887. This is where all the images are located. (Default port is 8887. This can be changed).
-
-<figure><img src="../../../../.gitbook/assets/csv-importer-files-chrome-plugin-1.png" alt=""><figcaption></figcaption></figure>
-
-In your CSV file you then enter this URL, e.g. http://127.0.0.1:887/my-image.png.
+In your CSV file you then enter the URL, e.g. http://127.0.0.1:887/my-image.png.
 
 ## Example Files
 
