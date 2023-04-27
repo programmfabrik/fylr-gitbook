@@ -53,7 +53,7 @@ fylr acts as a Service Provider and as such needs an Identity Provider. For test
 
 ### Test SAML with samltest.id
 
-First you need to generate a certificate and private key. The certificate must be then given to the Identity Provider, so that requests coming from fylr are accepted.
+First you need to generate a certificate and private key. The certificate will be entered in the fylr frontend's form fields and then be given to the Identity Provider as part of the metadata, so that requests coming from fylr are accepted. It is in addition to fylr's https certificate and not to be confused with it.
 
 #### Generate Certificate
 
@@ -74,11 +74,9 @@ openssl req -new -x509 -key private.key -out publickey.cer -days 365
 
 #### Upload Metadata
 
-```bash
-curl -o sdp-metadata.xml http://localhost/api/saml/metadata
-```
+Get fylr's metadata from https://FYLR.EXAMPLE.COM/api/saml/metadata (replace domain name with your instance).
 
-Upload the downloaded file **sdp-metadata.xml** to the testing service ([https://samltest.id/upload.php](https://samltest.id/upload.php)). The test system replies with _We successfully parsed and saved your metadata file. We now trust you._
+Upload the downloaded metadata file to the testing service ([https://samltest.id/upload.php](https://samltest.id/upload.php)). The test system replies with _We successfully parsed and saved your metadata file. We now trust you._
 
 #### Test Connection
 
