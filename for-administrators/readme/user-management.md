@@ -90,10 +90,15 @@ Using a test user of samltest.id, during login it is shown that it has an attrib
 
 Mapping goal: Every role that ends in `samltest.id` shall be autmatically member of the fylr group `testidp`.
 
-1. In fylr-URL/configmanager > User management > SAML add into the form field `Group Mapping`: `%(role)s`
+1. In fylr-URL/configmanager > User management > SAML add into the form field `Group Mapping` the value `%(role)s` (see following screenshot).
+
 <figure><img src="_assets/fylr-saml-group-mapping-en.png" alt=""><figcaption>How to add an attribute for SAML group mapping in the fylr frontend</figcaption></figure>
-2. In fylr-URL/groupmanager add a group named `testidp`. Give that groupe some system rights that are testable / visible after logging in. (E.g. on a test system I use Root Rights to make it extra obvious. This is not a safe setting, though.)
-3. In this group's configuration > `Authentication Services` > below `Single-Sign-On` add an entry with `Regular Expression` and value `.*samltest.id`
+
+2. In fylr-URL/groupmanager add a group named `testidp`. Give that groupe some system rights that are testable / visible after logging in.
+
+3. In this group's configuration > `Authentication Services` > below `Single-Sign-On` add an entry with `Regular Expression` and value `.*samltest.id` (see following screenshot).
+
 <figure><img src="_assets/fylr-group-mapping-en.png" alt=""><figcaption>How to match a value for a group mapping in the fylr frontend</figcaption></figure>
+
 4. Save and test the login as a SAML user with a matching role. The user now has the rights given to the group `testidp`.
 
