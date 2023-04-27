@@ -1,19 +1,20 @@
 ---
 description: >-
-  A fylr instance can be connected to an objectstore. The data model is then uploaded to the objectstore, or downloaded from the objectstore.
-  Typically used to connect multiple fylr instances to the same objectstore UID: They then share the
-  same data model. The objectstore makes sure that the data model is only edited in one instance  at a time and syncs it.
+  Connect multiple FYLR instances to an objectstore to sync the data model
+  between these instances and to make sure it can only be edited in one instance
+  at a time.
 ---
 
 # Objectstore
 
 ### Server
-URL of the Objectstore server. From the documentation or administrator of the used Objectstore.
 
+URL of the objectstore server. From the documentation or administrator of the used objectstore.
 
 ### UID
-Identifier of the data model. It is chosen during objectstore configuration. So get this from the administrator of the used Objectstore.
 
+Identifier of the data model. It is chosen during objectstore configuration. So get this from the administrator of the used objectstore.
 
 ### Instance
-Identifier of this fylr instance. Each connected fylr instance should use a different identifier. Hard to guess identifiers are more secure. You also get this from the administrator of the objecstore, or can propose one to them.
+
+Identifier of this FYLR instance. Each connected FYLR instance should use a different identifier. Hard to guess identifiers are more secure. You also get this from the administrator of the objecstore, or can propose one to them.
