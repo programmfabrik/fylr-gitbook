@@ -1,0 +1,62 @@
+version: '3'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    container_name: elasticsearch
+    restart: always
+    environment:
+      - node.name=fylr-elastic
+      - cluster.name=fylr-elastic
+      - cluster.initial_master_nodes=fylr-elastic
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms2048m -Xmx2048m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    command: /bin/sh -c "./bin/elasticsearch-plugin list | grep -q analysis-icu || ./bin/elasticsearch-plugin install analysis-icu; /usr/local/bin/docker-entrypoint.sh"
+    volumes:
+      - "./elasticsearch:/usr/share/elasticsearch/data"
+    networks:
+      - fylr
+
+  postgresql:
+    image: postgres:15
+    container_name: postgresql
+    restart: always
+    shm_size: 1g
+    environment:
+      POSTGRES_DB: 'fylr'
+      POSTGRES_USER: 'fylr'
+      POSTGRES_PASSWORD: 'fylr'
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - "./postgres:/var/lib/postgresql/data"
+      - "./sqlbackups:/mnt"
+    command: >
+      -c work_mem=64MB
+      -c maintenance_work_mem=32MB
+      -c max_wal_size=512MB
+    networks:
+      - fylr
+
+  fylr:
+    image: docker.fylr.io/fylr/fylr:main
+    hostname: fylr.localhost
+    container_name: fylr
+    restart: always
+    ports:
+      - "443:443" # main https access to webfrontend
+      - "80:80" # needed to get a https certificate from letsencrypt
+    depends_on:
+      - elasticsearch
+      - postgresql
+    networks:
+      - fylr
+    volumes:
+      - "./backups:/fylr/files/backups"
+      - "./config/fylr:/fylr/config"
+      - "./assets:/srv"
+
+networks:
+  fylr:
