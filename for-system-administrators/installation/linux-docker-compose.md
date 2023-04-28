@@ -54,7 +54,7 @@ chown  999 postgres sqlbackups
 We suggest that you use our example configuration as a starting point:
 
 ```bash
-curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/config/fylr/fylr.yml -o config/fylr/fylr.yml
+curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/fylr.yml -o config/fylr/fylr.yml
 ```
 
 Edit `config/fylr/fylr.yml` and replace strings with `EXAMPLE`.
@@ -68,7 +68,7 @@ Much of the setup is encapsulated in a docker-compose yaml file. Download and us
 We still assume that you are in the `/srv/fylr` directory.
 
 ```bash
-curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/docker-compose.yml -o docker-compose.yml
+curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/docker-compose.yml -o docker-compose.yml
 
 docker-compose up
 ```
@@ -92,7 +92,7 @@ Default login is `root` with password `admin`. Please replace with a secure pass
 To have consistent and complete snapshots of your SQL data, we strongly recommend:
 
 ```bash
-curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/maintain -o maintain
+curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/maintain -o maintain
 chmod a+x maintain
 echo '23 43  *  *  *  root /srv/fylr/maintain backup' > /etc/cron.d/fylr-sql-backup
 ```
