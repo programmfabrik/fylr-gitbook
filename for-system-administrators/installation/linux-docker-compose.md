@@ -54,7 +54,7 @@ chown  999 postgres sqlbackups
 We suggest that you use our example configuration as a starting point:
 
 ```bash
-curl curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/config/fylr/fylr.yml -o config/fylr/fylr.yml
+curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/config/fylr/fylr.yml -o config/fylr/fylr.yml
 ```
 
 Edit `config/fylr/fylr.yml` and replace strings with `EXAMPLE`.
