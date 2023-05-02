@@ -16,7 +16,7 @@ services:
         hard: -1
     command: /bin/sh -c "./bin/elasticsearch-plugin list | grep -q analysis-icu || ./bin/elasticsearch-plugin install analysis-icu; /usr/local/bin/docker-entrypoint.sh"
     volumes:
-      - "./elasticsearch:/usr/share/elasticsearch/data"
+      - "/srv/fylr/elasticsearch:/usr/share/elasticsearch/data"
     networks:
       - fylr
 
@@ -31,8 +31,8 @@ services:
       POSTGRES_PASSWORD: 'fylr'
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - "./postgres:/var/lib/postgresql/data"
-      - "./sqlbackups:/mnt"
+      - "/srv/fylr/postgres:/var/lib/postgresql/data"
+      - "/srv/fylr/sqlbackups:/mnt"
     command: >
       -c work_mem=64MB
       -c maintenance_work_mem=32MB
@@ -54,9 +54,9 @@ services:
     networks:
       - fylr
     volumes:
-      - "./backups:/fylr/files/backups"
-      - "./config/fylr:/fylr/config"
-      - "./assets:/srv"
+      - "/srv/fylr/backups:/fylr/files/backups"
+      - "/srv/fylr/config/fylr:/fylr/config"
+      - "/srv/fylr/assets:/srv"
 
 networks:
   fylr:
