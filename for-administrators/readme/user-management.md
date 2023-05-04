@@ -49,7 +49,7 @@ Select which user information should be returned over the OpenID endpoint `oauth
 
 SAML 2.0 is an [XML](https://en.wikipedia.org/wiki/XML)-based [protocol](https://en.wikipedia.org/wiki/Communications\_protocol) that uses [security tokens](https://en.wikipedia.org/wiki/Software\_token) containing [assertions](https://en.wikipedia.org/wiki/Security\_Assertion\_Markup\_Language) to pass information about a principal (usually an end user) between a SAML authority, named an [Identity Provider](https://en.wikipedia.org/wiki/Identity\_Provider), and a SAML consumer, named a [Service Provider](https://en.wikipedia.org/wiki/Service\_Provider).
 
-fylr acts as a Service Provider and as such needs an Identity Provider. For testing purposes you can use [https://samltest.id/](https://samltest.id/). fylr's endpoint to get the required metadata XML is [http://localhost/api/saml/metadata](http://localhost/api/samlmetadata). Replace _localhost_ with the domain of your fylr server.
+fylr acts as a Service Provider and as such needs an Identity Provider. For testing purposes you can use [https://samltest.id/](https://samltest.id/). fylr's endpoint to get the required metadata XML is [http://localhost/api/saml/metadata](http://localhost/api/saml/metadata). Replace _localhost_ with the domain of your fylr server.
 
 ### Test SAML with samltest.id
 
