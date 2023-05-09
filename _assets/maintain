@@ -4,54 +4,84 @@
 #
 # - save consistent copy of sql ("dump")
 # - cleanup superfluous docker files
+# - update fylr and postgres (but not major version jump)
 
 # requires: docker, docker-compose
 
 usage(){
 cat<<EOF
-/srv/fylr/maintain recreate-fylr # remove only flyr container and recreate it,
-/srv/fylr/maintain fylr-recreate # dito.
-/srv/fylr/maintain fylr-reload   # dito.
-/srv/fylr/maintain fylr-reload-config # dito.
-/srv/fylr/maintain fylr-restart  # dito.
-/srv/fylr/maintain restart-fylr  # dito.
+Maintain fylr installation in $BASEDIR, with docker-compose.
 
-/srv/fylr/maintain update-fylr
-/srv/fylr/maintain fylr-update   # pull fylr container image. Then does fylr-recreate
+/srv/fylr/maintain fylr-recreate # remove flyr container and recreate it, to reload conf
+/srv/fylr/maintain recreate-fylr # dito
+/srv/fylr/maintain fylr-reload   # dito
+/srv/fylr/maintain fylr-reload-config # dito
+/srv/fylr/maintain fylr-restart  # dito
+/srv/fylr/maintain restart-fylr  # dito
 
-/srv/fylr/maintain backup      # dumps sql into ${BASEDIR}/sqlbackups
-                               # is also part of update and update-auto
-                               # DANGER: deletes some old backups
+/srv/fylr/maintain update-fylr   # pull fylr container image. Then does fylr-recreate
+/srv/fylr/maintain fylr-update   # dito
 
-/srv/fylr/maintain cleanup     # remove old files, e.g. container images
+/srv/fylr/maintain update        # check for updates, (re)create containers as needed
+/srv/fylr/maintain start         # dito
 
-/srv/fylr/maintain stop        # stops fylr via docker-compose
-                               # DANGER: stop will be in effect even after reboot.
-                               # Do not forget to start again.
+/srv/fylr/maintain stop          # stops fylr via docker-compose
+                                 # DANGER: stop will be in effect even after reboot.
+                                 # Do not forget to start again.
 
-/srv/fylr/maintain start       # starts fylr via docker-compose
+/srv/fylr/maintain restart       # stop and start
 
-/srv/fylr/maintain restart     # stop and start
+/srv/fylr/maintain backup        # dumps sql into ${BASEDIR}/sqlbackups
+                                 # is also part of update and update-auto
+                                 # DANGER: deletes old backups until $KEEPDBS are left
+
+/srv/fylr/maintain cleanup       # remove old files, e.g. container images
 EOF
 }
 
+### DEFAULTS
+
 # Data directory with the subdirectories "conf" etc.:
 BASEDIR=/srv/fylr
+BACKUPDIR="$BASEDIR"/sqlbackups
 # Space-separated list of names of dbs in postgresql in container to dump:
 DBS="fylr"
 # Of eas DB in $DBS keep this many newest dumps:
 KEEPDBS=7
 # Where to write log messages to while doing update-auto:
-UPDATELOG=/var/log/fylr-update.log
+MYLOG=/var/log/fylr-maintain.log
 
-# read local values:
+## read LOCAL CONFIG:
 [ -e /etc/default/fylr ] && . /etc/default/fylr
 
+log(){
+    echo "`date +%Y-%m-%d_%Hh%Mm%Ss` $@" >>"$MYLOG"
+}
+
+log_container_versions(){
+    log "$@"
+    docker ps     >>"$MYLOG"
+    docker images >>"$MYLOG"
+}
+
+errorexit(){ # exit with non-zero status AND send output to stderr and logfile in one call
+    echo "ERROR: $1, ABORTED" >&2
+    log  "ERROR: $1, ABORTED"
+    exit 1
+}
+
+requires(){
+    type -a "$1" &>/dev/null || errorexit "required program not installed or not in PATH: $1"
+}
+
+requires docker-compose
+requires docker
+
+### PARSE ARGUMENTS
+
+log "___called with $@"
+
 case "$1" in
-pull)
-    cd "$BASEDIR"
-    docker-compose pull
-    ;;
 update-fylr|fylr-update)
     cd "$BASEDIR"
     docker-compose pull fylr
@@ -61,10 +91,12 @@ recreate-fylr|fylr-recreate|fylr-reload|fylr-reload-config|fylr-restart|restart-
     cd "$BASEDIR"
     docker-compose up --force-recreate --no-deps -d fylr
     ;;
-start)
+start|update)
     set -e
     cd "$BASEDIR"
+    log_container_versions "before up"
     docker-compose up -d
+    log_container_versions "after up"
     ;;
 stop)
     set -e
@@ -77,28 +109,28 @@ restart)
 ;;
 backup)
     # do sql backup of all sql dbs $DBS
+    log "starting sql dumps"
     # WARNING: there are only $KEEPDBS kept - repeating this quickly removes all old backups (on this host) !
-    /usr/bin/docker ps|grep -q 'postgresql$' || exit 3
+    docker ps|grep -q 'postgresql$' || errorexit "no container named postgresql, cannot backup"
     for DB in $DBS; do
-            $0 sqldump $DB                   || exit 4
+            $0 sqldump $DB          || errorexit "sqldump db '$DB' failed"
     done
+    log "finished sql dumps"
     exit 0
     ;;
 sqldump)
     # do sql backup of one given sql db name (inside docker container "postgresql")
-    cd $BASEDIR/sqlbackups                   || exit 2
+    cd "$BACKUPDIR"                 || errorexit "could not change into directory '$BACKUPDIR'"
     DB="$2"
     TIME=`date +%Y-%m-%d_%Hh%Mm%Ss`
     FILE=$DB."$TIME".pgdump
-    /usr/bin/docker exec postgresql pg_dump -U fylr -v -Fc -f /mnt/${FILE}.unfinished $DB > $FILE.log 2>&1
+    docker exec postgresql pg_dump -U fylr -v -Fc -f /mnt/${FILE}.unfinished $DB > $FILE.log 2>&1
     EXCODE=$?
     if [ $EXCODE -gt 0 ] ; then
         # FAIL. cleanup and notify
         rm ${FILE}.unfinished &>/dev/null
         mv $FILE.log  $FILE.log.FAIL &>/dev/null
-        echo "pg_dump $DB exited with $EXCODE. Logfile is $BASEDIR/sqlbackups/$FILE.log.FAIL"
-        echo "pg_dump $DB exited with $EXCODE. Logfile is $BASEDIR/sqlbackups/$FILE.log.FAIL" >&2
-        exit 4
+        errorexit "pg_dump $DB exited with $EXCODE. Logfile is $BASEDIR/sqlbackups/$FILE.log.FAIL"
     else
         # SUCCEEDED.
         mv ${FILE}.unfinished $FILE
@@ -116,18 +148,18 @@ cleanup)
     #  Some error messages may be generated, however ("could not remove").
 
     echo "removing left over temporary files..."
-    LIST=$(/usr/bin/docker ps -qa --no-trunc --filter "status=exited")
+    LIST=$(docker ps -qa --no-trunc --filter "status=exited")
     if [ "$LIST" ] ; then
-        /usr/bin/docker rm -v $LIST #>/dev/null
+        docker rm -v $LIST #>/dev/null
         echo "... done."
     else
         echo "... none found."
     fi
 
     echo "removing unused images..."
-    LIST=$(/usr/bin/docker images --filter "dangling=true" -q --no-trunc)
+    LIST=$(docker images --filter "dangling=true" -q --no-trunc)
     if [ "$LIST" ] ; then
-        /usr/bin/docker rmi $LIST #>/dev/null
+        docker rmi $LIST #>/dev/null
         echo "... done."
     else
         echo "... none found."
@@ -137,9 +169,9 @@ cleanup)
     # docker images | grep '<none>' | awk '{print }' | xargs -r docker rmi -f
 
     echo "removing dangling volumes..."
-    LIST=$(/usr/bin/docker volume ls -qf dangling=true)
+    LIST=$(docker volume ls -qf dangling=true)
     if [ "$LIST" ] ; then
-        /usr/bin/docker volume rm $LIST #>/dev/null
+        docker volume rm $LIST #>/dev/null
         echo "... done."
     else
         echo "... none found."
@@ -150,8 +182,10 @@ help|h|-h|--help|-help)
     usage
     ;;
 *)
-    echo "ERROR: argument '$1' not implemented."
+    echo "ERROR: argument '$1' not implemented. Try help"
     echo
     usage
+    exit 2
     ;;
 esac
+
