@@ -37,7 +37,7 @@ Use the **right click** on a saved search to access the following **options**:
 
 ## Lists
 
-Lists, like keywords, persons or locations, can be added to the quick access by administrators ("Object Types" > "Show in Quick Access"). They will be shown as an **alphabetical list / hierarchy** with a count for each record (. **Clicking** on a keyword for example will **start a search** and show all records of the main search that are **linked** to this keyword. **Long** **lists** will automatically be **grouped** in chunks of **50 records**, showing the first and the last record of the chunk as a superordinate group.
+Lists, like keywords, persons or locations, can be added to the quick access by administrators ("Object Types" > "Show in Quick Access"). They will be shown as an **alphabetical list / hierarchy** with a count for each record. **Clicking** on a keyword for example will **start a search** and show all records of the main search that are **linked** to this keyword (subordinate records will be included). **Long** **lists** will automatically be **grouped** in chunks of **50 records**, showing the first and the last record of the chunk as a superordinate group.
 
 {% hint style="info" %}
 Lists will only be shown to users who have at least read permissions for the list.
