@@ -15,6 +15,11 @@ It contains:
 * `webfrontend/` The static webfrontend files.
 * `resources/` more files for fylr, e.g. translations.
 
+# Windows path length
+
+The shorter the path of your fylr installation directory, the less likely your installation will fail processing files due to exceeding the [length limit](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry).
+So prefer `C:\fylr` over `C:\user\adam doe\Desktop\software-project\fylr-v6.4.0\unpacked`. Fylr newer than v6.3.1 will try to use only short internal file names, but every little bit helps. Same for Libre Office installation (more about that below).
+
 # Get the dependencies
 
 Bare bone minimum: Elasticsearch
