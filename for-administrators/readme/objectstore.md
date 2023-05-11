@@ -9,12 +9,12 @@ description: >-
 
 ### Server
 
-URL of the objectstore server. From the documentation or administrator of the used objectstore.
+URL of the objectstore server. Usually provided by Programmfabrik GmbH.
 
 ### UID
 
-Identifier of the data model. It is chosen during objectstore configuration. So get this from the administrator of the used objectstore.
+Identifier of the data model. It is chosen during objectstore configuration. Usually provided by Programmfabrik GmbH.
 
 ### Instance
 
-Identifier of this FYLR instance. Each connected FYLR instance should use a different identifier. Hard to guess identifiers are more secure. You also get this from the administrator of the objecstore, or can propose one to them.
+Identifier of this FYLR instance. Each connected FYLR instance should use a different identifier. Hard to guess identifiers are more secure. Usually provided by Programmfabrik GmbH.
