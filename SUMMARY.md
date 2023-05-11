@@ -37,6 +37,7 @@
   * [Services](for-administrators/readme/services.md)
   * [Development](for-administrators/readme/development.md)
   * [Plugins](for-administrators/readme/plugins.md)
+* [Presets](for-administrators/presets.md)
 * [Tools](for-administrators/tools/README.md)
   * [CSV Importer](for-administrators/tools/csv-importer/README.md)
     * [General Information](for-administrators/tools/csv-importer/general-information.md)
