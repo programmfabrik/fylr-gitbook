@@ -52,6 +52,13 @@ Use the following **options** to set up tags and tag groups:
 
 ## Workflows
 
+A workflow is triggered when:
+
+* the operation matches,
+* the currently logged in user matches the defined user / group,
+* the state before and after saving matches,
+* and the user confirms the workflow (if configured)
+
 By **default**, the workflows that are defined here, will be **available** for **all object types** with enabled tag management and for **all users** in **all pools**. For object types and pools you can use the option "**Use individual workflows**" to define workflows that are only available in that context.
 
 To **add** a workflow, click on the **plus** on the lower left and on the **minus** to **delete** a selected workflow. To **copy** a workflow, click on it and then click the copy icon on the lower left.
