@@ -13,6 +13,7 @@
   * [2022](releases/2022.md)
     * [fylr first Production Ready Release 🎉 (2022-12-22)](releases/2022/v6.2.0.md)
     * [Release v6.1.0 Beta 10 (2022-12-02)](releases/2022/v6.1.0.md)
+* [fylr Licence](fylr-licence.md)
 
 ## FOR USERS
 
@@ -37,8 +38,10 @@
   * [Services](for-administrators/readme/services.md)
   * [Development](for-administrators/readme/development.md)
   * [Plugins](for-administrators/readme/plugins.md)
-* [Presets](for-administrators/presets.md)
-* [Tags & Workflows](for-administrators/tags-and-workflows.md)
+* [Permissions](for-administrators/permissions/README.md)
+  * [Pools](for-administrators/permissions/pools.md)
+  * [Tags & Workflows](for-administrators/permissions/tags-and-workflows.md)
+  * [Presets](for-administrators/permissions/presets.md)
 * [Tools](for-administrators/tools/README.md)
   * [CSV Importer](for-administrators/tools/csv-importer/README.md)
     * [General Information](for-administrators/tools/csv-importer/general-information.md)
