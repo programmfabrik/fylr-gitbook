@@ -9,7 +9,7 @@ description: >-
 
 ## Use Cases
 
-Pools can be used to structure your files and data. This can be based on content, permissions or workflows. Some examples include:
+Pools can be used to **structure** your **files** and **data**. This can be based on **content**, **permissions** or **workflows**. Some examples include:
 
 | USE CASE    | EXAMPLE POOLS                                                                                                                                        | DESCRIPTION                                                                                                                                                                                                                                                                                                                                    |
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -21,9 +21,9 @@ Pools can be used to structure your files and data. This can be based on content
 
 ## Working with Pools
 
-Each FYLR installation comes with the "Standard Pool". The pool can't be deleted but renamed to use it for the above mentioned purposes. Pools can be structured hierarchical, meaning you can have super- and subordinate pools. By default, permissions will be inherited by the subordinate pools (this can be disabled though, please see [below](pools.md#permissions)). You can use the system pool "All Pools" to assign permissions that should apply to all pools. This pool is only for administrative purposes though, user cannot link records to this system pool.
+Each FYLR installation comes with the "Standard Pool". The pool can't be deleted but **renamed** to use it for the above mentioned purposes. Pools can be structured **hierarchical**, meaning you can have super- and subordinate pools. By default, **permissions** will be **inherited** by the subordinate pools (this can be **disabled** though, please see [below](pools.md#permissions)). You can use the system pool "**All Pools**" to assign **permissions** that should **apply to all pools**. This pool is only for **administrative purposes** though, user cannot link records to this system pool.
 
-To create new pools, click on the plus button on the lower left. By default, the pool will be created below "All Pools". If you select a pool before clicking on the plus, you can create a new pool below the selected one. To delete a pool, select it and click the minus button. You can copy a pool by selecting it and click on "Copy" on the lower right of the pool settings. Use the filter to search for the name, description, reference and short name of pools.
+To **create** new pools, click on the **plus** button on the lower **left**. By **default**, the pool will be created **below "All Pools".** If you **select** a pool **before** clicking on the **plus**, you can create a new pool **below** the selected one. To **delete** a pool, select it and click the **minus** button. You can **copy** a pool by selecting it and click on "Copy" on the lower right of the pool settings. Use the **filter** to search for the **name**, **description**, **reference** and **short name** of pools.
 
 {% hint style="info" %}
 Please note, that right now it's not possible to change the hierarchical structure of the pools afterwards. In that case, please create a new pool in the desired level, move all records to the new pool and delete the old one.
@@ -59,7 +59,7 @@ Pool settings can be extended with custom plugins.&#x20;
 
 ### Watermark
 
-Watermark settings will be inherited by subordinate pools. Meaning, if you set up a watermark for a pool, all files in subordinate pools will get a watermark version, too. This cannot be prevented.
+**Watermark** settings will be **inherited** by subordinate pools. Meaning, if you set up a watermark for a pool, all files in subordinate pools will get a watermark version, too. This **cannot** be **prevented**.
 
 | OPTION         | DESCRIPTION                                                                                                                   |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -77,35 +77,35 @@ Please note, that watermarked preview images are only rendered, if they are spec
 
 ### Masks
 
-This tab is only interesting, if you work with multiple masks. If you only have one mask per object type, you can ignore the settings here.
+This tab is only interesting, if you work with **multiple masks**. If you only have one mask per object type, you can ignore the settings here.
 
-Each object type with pool management activated will appear here. By default, all records in this pool will be rendered in all masks you created for the object type(s) in the data model. If you, for example, only want the records to be rendered in one of the masks, disable "From Superordinate Pool" (or "From Object Type" if you're working on the pool "All Pools") and drag all masks that should not be rendered for records in this pool, under the gray line.
+Each **object type** with pool management activated will appear here. By **default**, all records in this pool will be **rendered** in **all masks** you created for the object type(s) in the data model. If you, for example, only want the records to be rendered in one of the masks, **disable** "From Superordinate Pool" (or "From Object Type" if you're working on the pool "All Pools") and **drag** all masks that should not be rendered for records in this pool, **below** the gray line.
 
-Imagine you have the object type "Files" and one mask for images and one mask for videos and let's say, one pool for a video project where you'll never have any images. It would be a waste of storage, if there would be two documents in the ElasticSearch index for the same record as they would only be used with one mask anyway. Whereas if you work with a full mask for your editors and a reduced mask for external guests, you would want all records to be rendered in both masks.
+Imagine you have the object type "**Files**" and one mask for **images** and one mask for **videos** and let's say, one pool for a video project where you'll never have any images. It would be a waste of storage, if there would be two documents in the **ElasticSearch** **index** for the same record as they would only be used with one mask anyway. Whereas if you work with a full mask for your editors and a reduced mask for external guests, you would want all records to be rendered in both masks.
 
 
 
 ### Tags
 
-By default, all [globally defined tags](tags-and-workflows.md) are available in all pools. If you want to disable certain tags in specific pools, you have to enable "Use Individual Tags" in the lower right. You then see all the tags above and can disable individual tags or make them a default.&#x20;
+By **default**, **all** [globally defined **tags**](tags-and-workflows.md) are **available** in all pools. If you want to **disable** certain tags in specific pools, you have to enable "**Use Individual Tags**" in the lower right. You then see all the tags above and can disable individual tags or make them a default.&#x20;
 
-Tags that are "Persistent" globally can't be disable here.
+Tags that are "**Persistent**" globally **can't be disable** here.
 
 &#x20;
 
 ### Workflows
 
-By default, all [globally defined workflows](tags-and-workflows.md) are available in all pools. If you want to disable certain tags in specific pools, you have to enable "Use Individual Workflows" in the lower right. You then can set up individual workflows. For more details, please refer to ["Tags & Workflows"](tags-and-workflows.md).&#x20;
+By **default**, **all** [globally defined **workflows**](tags-and-workflows.md) are **available** in all pools. If you want to **disable** certain workflows in specific pools, you have to enable "**Use Individual Workflows**" in the lower right. You then can set up individual workflows. For more details, please refer to ["Tags & Workflows"](tags-and-workflows.md).&#x20;
 
-Workflows that are "Persistent" globally can't be disable here.
+Workflows that are "**Persistent**" globally **can't be disable** here.
 
 
 
 ### Permissions
 
-Define which user / user groups can, for example, view, download, edit or delete the records in this pool.&#x20;
+Define which **user / user groups** can, for example, **view, download, edit or delete** the records in this pool.&#x20;
 
-By default, permissions are inherited from superordinate pools. If you want to disable this for  specific pools, you have to enable "Ignore Permissions from Superordinate Pools" in the lower right. You then can set up individual permissions that only apply for this pool. Permissions that are "Persistent" on superordinate pools will still be applied to subordinate pools.
+By **default**, permissions are **inherited** from superordinate pools. If you want to **disable** this for  specific pools, you have to enable "**Ignore Permissions from Superordinate Pools**" in the lower right. You then can set up **individual** permissions that only apply for this pool. Permissions that are "**Persistent**" on superordinate pools **will still be applied** to subordinate pools.
 
 Please refer to [Permissions](./) for more details.
 
