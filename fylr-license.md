@@ -15,7 +15,11 @@ The license determines
 * whether you licensed the edition workgroup, department or organization
 * which other fylr add-ons, plugins or extensions, can be used
 
-_**All fylr license editions grant you the permission to use the system with an unlimited number of user / user accounts (read and write accounts) and unlimited data**_. How ever this can be treated differently in the fylr cloud.
+{% hint style="info" %}
+All fylr license editions grant you the permission to use the system with an unlimited number of user / user accounts (read and write accounts) and unlimited data. How ever this can be treated differently in the fylr cloud.
+{% endhint %}
+
+
 
 ## License Overview
 
@@ -24,6 +28,8 @@ _**All fylr license editions grant you the permission to use the system with an 
 | Workgroup       | <p>1 production instance<br>0 test instance</p> | All main fylr features                                                                                        |
 | Department      | <p>1 production instance<br>0 test instance</p> |  + Authentication/ Single Sign-On                                                                             |
 | Organization    | <p>1 production instance<br>1 test instance</p> | <p> + Authentication/ Single Sign-On, Performance <br><br> + Kubernetes Installation (Horizontal Scaling)</p> |
+
+
 
 ## Add-Ons
 
@@ -35,6 +41,8 @@ These add-ons, which are either plugins or extensions, are available:
 * Plugin - CMS Typo3, WordPress or Drupal, each
 * Plugin - Connect to external tagging service
 * Plugin - The fylr server can be used the fylr mobile app, too
+
+
 
 ## The License file
 
@@ -49,6 +57,8 @@ Please note, that there is no connection to a central license server established
 
 If needed the license file can limit a fylr instance to read-only capabilities.
 
+
+
 ## fylr with an invalid or no license
 
 If you don't have a license key at all, or don't have a valid license key, you can start a fylr instance, nevertheless. fylr can be used without or with an expired license as follows:
@@ -62,6 +72,8 @@ AND
 If fylr runs with an expired or invalid license, other users than the main administrator (system:root) cannot log into the system.
 
 If you cancel a contract, which grants you the right to get fylr updates, which is linked to a license purchase ("buy"), you will not be able to use updates any longer. However you are allowed to continue using all fylr version, which were released before the cancelation / end date, since the license was bought.
+
+
 
 ## Next step: Download, install and test
 
