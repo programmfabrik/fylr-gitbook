@@ -19,7 +19,11 @@ _**All fylr license editions grant you the permission to use the system with an 
 
 ## License Overview
 
-<table><thead><tr><th>LICENSE EDITION</th><th data-type="number">PRODUCTION INSTANCES</th><th data-type="number">TEST INSTANCES</th><th>ADDITIONAL FEATURES</th></tr></thead><tbody><tr><td>Workgroup</td><td>1</td><td>0</td><td>All main fylr features</td></tr><tr><td>Department</td><td>1</td><td>0</td><td> + Authentication/ Single Sign-On</td></tr><tr><td>Organization</td><td>1</td><td>1</td><td> + Authentication/ Single Sign-On, Performance <br><br> + Kubernetes Installation (Horizontal Scaling)</td></tr></tbody></table>
+| LICENSE EDITION | INSTANCES                                       | ADDITIONAL FEATURES                                                                                           |
+| --------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Workgroup       | <p>1 production instance<br>0 test instance</p> | All main fylr features                                                                                        |
+| Department      | <p>1 production instance<br>0 test instance</p> |  + Authentication/ Single Sign-On                                                                             |
+| Organization    | <p>1 production instance<br>1 test instance</p> | <p> + Authentication/ Single Sign-On, Performance <br><br> + Kubernetes Installation (Horizontal Scaling)</p> |
 
 ## Add-Ons
 
