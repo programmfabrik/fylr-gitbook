@@ -13,11 +13,7 @@ Unlike the collections, saved searches save the **search request** instead of sp
 
 Users with the system right "**Fixed saved searches for editors**" can access 3 pre-defined saved searches.&#x20;
 
-| SAVED SEARCH             | DESCRIPTION                                                                              |
-| ------------------------ | ---------------------------------------------------------------------------------------- |
-| Created or updated today | Shows all records that were either created today or updated today by the logged in user. |
-| Created today            | Shows all records that were created today by the logged in user.                         |
-| Updated today            | Shows all records that were updated today by the logged in user.                         |
+<table><thead><tr><th width="255.5">SAVED SEARCH</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Created or updated today</td><td>Shows all records that were either created today or updated today by the logged in user.</td></tr><tr><td>Created today</td><td>Shows all records that were created today by the logged in user.</td></tr><tr><td>Updated today</td><td>Shows all records that were updated today by the logged in user.</td></tr></tbody></table>
 
 
 
@@ -27,11 +23,7 @@ By clicking on the **saved search** in the quick access, a **search** with the s
 
 Use the **right click** on a saved search to access the following **options**:
 
-| OPTION | DESCRIPTION                                                                                                                                      |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Share  | Share the saved search with other users. For the settings please see the [collection sharing options](collections-and-presentations.md#sharing). |
-| Rename | Rename the saved search.                                                                                                                         |
-| Delete | Delete the saved search.                                                                                                                         |
+<table><thead><tr><th width="154.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Share</td><td>Share the saved search with other users. For the settings please see the <a href="collections-and-presentations.md#sharing">collection sharing options</a>.</td></tr><tr><td>Rename</td><td>Rename the saved search.</td></tr><tr><td>Delete</td><td>Delete the saved search.</td></tr></tbody></table>
 
 
 
@@ -45,8 +37,4 @@ Lists will only be shown to users who have at least read permissions for the lis
 
 Use the **right click** on a record in the list to access the following **options**:
 
-| OPTION         | DESCRIPTION                                                                                                                                       |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Quick View     | Opens a popover with details of the record.                                                                                                       |
-| Use in Search  | Beams the record in the search bar and starts a search for all records that link to this one. Same as clicking on the record in the quick access. |
-| Show in Detail | Opens the details of the record in the detail view on the right.                                                                                  |
+<table><thead><tr><th width="199.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Quick View</td><td>Opens a popover with details of the record.</td></tr><tr><td>Use in Search</td><td>Beams the record in the search bar and starts a search for all records that link to this one. Same as clicking on the record in the quick access.</td></tr><tr><td>Show in Detail</td><td>Opens the details of the record in the detail view on the right.</td></tr></tbody></table>

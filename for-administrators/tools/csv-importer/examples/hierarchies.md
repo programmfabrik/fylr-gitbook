@@ -14,53 +14,17 @@ Please also check to the [general information](../general-information.md).
 
 ## Example Files "Locations"
 
-| ID | LEVEL 1        | LEVEL 2     | LEVEL 3    |
-| -- | -------------- | ----------- | ---------- |
-| 1  | Germany        |             |            |
-| 2  |                | Berlin      |            |
-| 3  |                | Brandenburg |            |
-| 4  |                |             | Potsdam    |
-| 5  | United Kingdom |             |            |
-| 6  |                | Scotland    |            |
-| 7  |                |             | Glasgow    |
-| 8  |                | England     |            |
-| 9  |                |             | London     |
-| 10 |                |             | Brighton   |
-| 11 |                |             | Manchester |
+<table><thead><tr><th width="75">ID</th><th>LEVEL 1</th><th>LEVEL 2</th><th>LEVEL 3</th></tr></thead><tbody><tr><td>1</td><td>Germany</td><td></td><td></td></tr><tr><td>2</td><td></td><td>Berlin</td><td></td></tr><tr><td>3</td><td></td><td>Brandenburg</td><td></td></tr><tr><td>4</td><td></td><td></td><td>Potsdam</td></tr><tr><td>5</td><td>United Kingdom</td><td></td><td></td></tr><tr><td>6</td><td></td><td>Scotland</td><td></td></tr><tr><td>7</td><td></td><td></td><td>Glasgow</td></tr><tr><td>8</td><td></td><td>England</td><td></td></tr><tr><td>9</td><td></td><td></td><td>London</td></tr><tr><td>10</td><td></td><td></td><td>Brighton</td></tr><tr><td>11</td><td></td><td></td><td>Manchester</td></tr></tbody></table>
 
 Alternatively, the data can also be structured as follows. However, it is important that each level appears in its own row in the CSV file (lines 1, 3, 5, 6, 8 must not be omitted):
 
-| ID | LEVEL 1        | LEVEL 2     | LEVEL 3    |
-| -- | -------------- | ----------- | ---------- |
-| 1  | Germany        |             |            |
-| 2  | Germany        | Berlin      |            |
-| 3  | Germany        | Brandenburg |            |
-| 4  | Germany        | Brandenburg | Potsdam    |
-| 5  | United Kingdom |             |            |
-| 6  | United Kingdom | Scotland    |            |
-| 7  | United Kingdom | Scotland    | Glasgow    |
-| 8  | United Kingdom | England     |            |
-| 9  | United Kingdom | England     | London     |
-| 10 | United Kingdom | England     | Brighton   |
-| 11 | United Kingdom | England     | Manchester |
+<table><thead><tr><th width="73">ID</th><th>LEVEL 1</th><th>LEVEL 2</th><th>LEVEL 3</th></tr></thead><tbody><tr><td>1</td><td>Germany</td><td></td><td></td></tr><tr><td>2</td><td>Germany</td><td>Berlin</td><td></td></tr><tr><td>3</td><td>Germany</td><td>Brandenburg</td><td></td></tr><tr><td>4</td><td>Germany</td><td>Brandenburg</td><td>Potsdam</td></tr><tr><td>5</td><td>United Kingdom</td><td></td><td></td></tr><tr><td>6</td><td>United Kingdom</td><td>Scotland</td><td></td></tr><tr><td>7</td><td>United Kingdom</td><td>Scotland</td><td>Glasgow</td></tr><tr><td>8</td><td>United Kingdom</td><td>England</td><td></td></tr><tr><td>9</td><td>United Kingdom</td><td>England</td><td>London</td></tr><tr><td>10</td><td>United Kingdom</td><td>England</td><td>Brighton</td></tr><tr><td>11</td><td>United Kingdom</td><td>England</td><td>Manchester</td></tr></tbody></table>
 
 In addition, it is possible to import the hierarchies as follows. However, it is important that each level appears in its own line in the CSV file (lines 1, 3, 5, 6, 8 must not be omitted):
 
 
 
-| ID | PARENT RECORD  | NAME           |
-| -- | -------------- | -------------- |
-| 1  |                | Germany        |
-| 2  | Germany        | Berlin         |
-| 3  | Germany        | Brandenburg    |
-| 4  | Brandenburg    | Potsdam        |
-| 5  |                | United Kingdom |
-| 6  | United Kingdom | Scotland       |
-| 7  | Scotland       | Glasgow        |
-| 8  | United Kingdom | England        |
-| 9  | England        | London         |
-| 10 | England        | Brighton       |
-| 11 | England        | Manchester     |
+<table><thead><tr><th width="83.66666666666669">ID</th><th>PARENT RECORD</th><th>NAME</th></tr></thead><tbody><tr><td>1</td><td></td><td>Germany</td></tr><tr><td>2</td><td>Germany</td><td>Berlin</td></tr><tr><td>3</td><td>Germany</td><td>Brandenburg</td></tr><tr><td>4</td><td>Brandenburg</td><td>Potsdam</td></tr><tr><td>5</td><td></td><td>United Kingdom</td></tr><tr><td>6</td><td>United Kingdom</td><td>Scotland</td></tr><tr><td>7</td><td>Scotland</td><td>Glasgow</td></tr><tr><td>8</td><td>United Kingdom</td><td>England</td></tr><tr><td>9</td><td>England</td><td>London</td></tr><tr><td>10</td><td>England</td><td>Brighton</td></tr><tr><td>11</td><td>England</td><td>Manchester</td></tr></tbody></table>
 
 In the import mapping, the field "id\_parent" must be selected for the column "PARENT RECORD" and the corresponding field for the column "NAME". If your file contains parent records that are not yet available in your database, you have to perform the import twice. In the first step all records are created and in the second import run the links between parent and new child records are created. In that case it is required that in the import settings the "Field for Updates" was selected over which the matching should take place (in our example e.g. "ID").
 
@@ -70,12 +34,7 @@ If you want to export a hierarchical list from FYLR and import it afterwards, yo
 
 ## Example File "Categories"
 
-| ID | LEVEL 1   | LEVEL 2     | COMMENT                                                                                                  |
-| -- | --------- | ----------- | -------------------------------------------------------------------------------------------------------- |
-| 1  | Persons   |             | This category includes, for example, employee photos or photos of events.                                |
-| 2  | Buildings |             |                                                                                                          |
-| 3  |           | Building #1 | This building was the former seat of the department XYZ. Currently, the department ABC is located there. |
-| 4  |           | Building #2 | The building was built in 1986.                                                                          |
+<table><thead><tr><th width="61">ID</th><th>LEVEL 1</th><th>LEVEL 2</th><th>COMMENT</th></tr></thead><tbody><tr><td>1</td><td>Persons</td><td></td><td>This category includes, for example, employee photos or photos of events.</td></tr><tr><td>2</td><td>Buildings</td><td></td><td></td></tr><tr><td>3</td><td></td><td>Building #1</td><td>This building was the former seat of the department XYZ. Currently, the department ABC is located there.</td></tr><tr><td>4</td><td></td><td>Building #2</td><td>The building was built in 1986.</td></tr></tbody></table>
 
 ## Import Procedure
 

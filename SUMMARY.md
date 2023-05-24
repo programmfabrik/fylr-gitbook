@@ -13,7 +13,7 @@
   * [2022](releases/2022.md)
     * [fylr first Production Ready Release 🎉 (2022-12-22)](releases/2022/v6.2.0.md)
     * [Release v6.1.0 Beta 10 (2022-12-02)](releases/2022/v6.1.0.md)
-* [fylr License](fylr-license.md)
+* [License Management](license-management.md)
 
 ## FOR USERS
 

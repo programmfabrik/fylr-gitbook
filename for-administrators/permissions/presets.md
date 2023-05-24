@@ -16,10 +16,7 @@ Please note, if a user doesn't have the system right "Allow to Set Individual Pe
 
 First, choose if you want to create a preset for records or for collections.&#x20;
 
-| CONTEXT     | DESCRIPTION                                                                                                                                                                          |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Records     | The preset will be available when adding permissions to individual records. Only available for object types that have "Individual permissions per record" enabled in the data model. |
-| Collections | The preset will be available when sharing collections.                                                                                                                               |
+<table><thead><tr><th width="169.5">CONTEXT</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Records</td><td>The preset will be available when adding permissions to individual records. Only available for object types that have "Individual permissions per record" enabled in the data model.</td></tr><tr><td>Collections</td><td>The preset will be available when sharing collections.</td></tr></tbody></table>
 
 
 
@@ -35,11 +32,7 @@ Presets can be seen by all users that can share records or collections. Presets 
 
 ### General
 
-| OPTION      | DESCRIPTION                                                                                                                                 |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| ID          | ID of the preset. Will be generated automatically.                                                                                          |
-| Name        | Set a name of the preset. This name will be shown when choosing presets for sharing.                                                        |
-| Description | Add a detailed description of the preset. This description will be shown when hovering over the name of the preset in the sharing pulldown. |
+<table><thead><tr><th width="199.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>ID</td><td>ID of the preset. Will be generated automatically.</td></tr><tr><td>Name</td><td>Set a name of the preset. This name will be shown when choosing presets for sharing.</td></tr><tr><td>Description</td><td>Add a detailed description of the preset. This description will be shown when hovering over the name of the preset in the sharing pulldown.</td></tr></tbody></table>
 
 
 

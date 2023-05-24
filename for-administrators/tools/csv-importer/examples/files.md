@@ -20,16 +20,11 @@ In your CSV file you then enter the URL, e.g. http://127.0.0.1:887/my-image.png.
 
 ## Example Files
 
-| ID | TITLE  | CREATE DATE | FILE                                                                                                                                                       |
-| -- | ------ | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1  | Rome   | 2020-01-01  | [https://upload.wikimedia.org/wikipedia/commons/c/c0/Rome\_Montage\_2017.png](https://upload.wikimedia.org/wikipedia/commons/c/c0/Rome\_Montage\_2017.png) |
-| 2  | Laptop | 2007-02-01  | http://127.0.0.1:887/my-image.png                                                                                                                          |
+<table><thead><tr><th width="71">ID</th><th>TITLE</th><th>CREATE DATE</th><th>FILE</th></tr></thead><tbody><tr><td>1</td><td>Rome</td><td>2020-01-01</td><td><a href="https://upload.wikimedia.org/wikipedia/commons/c/c0/Rome_Montage_2017.png">https://upload.wikimedia.org/wikipedia/commons/c/c0/Rome_Montage_2017.png</a></td></tr><tr><td>2</td><td>Laptop</td><td>2007-02-01</td><td>http://127.0.0.1:887/my-image.png</td></tr></tbody></table>
 
 If your data model allows multiple files to be uploaded per record, then enter all URLs into one cell separated by a break:
 
-| ID | TITLE          | CREATE DATE | FILES                                                                             |
-| -- | -------------- | ----------- | --------------------------------------------------------------------------------- |
-| 1  | Trevi Fountain | 2020-02-17  | <p>http://127.0.0.1:8887/Trevi-001.JPG<br>http://127.0.0.1:8887/Trevi-002.JPG</p> |
+<table><thead><tr><th width="72">ID</th><th>TITLE</th><th>CREATE DATE</th><th>FILES</th></tr></thead><tbody><tr><td>1</td><td>Trevi Fountain</td><td>2020-02-17</td><td>http://127.0.0.1:8887/Trevi-001.JPG<br>http://127.0.0.1:8887/Trevi-002.JPG</td></tr></tbody></table>
 
 If in your FYLR the object and image information are managed in separate object types (e.g. "collection objects" and "images"), please import both information separately. Create a CSV file with all information about the objects incl. unique identifier and import it. In the second CSV file, enter all information about the images including the URL to the file and the unique identifier for the associated object and import it.
 
