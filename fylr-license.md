@@ -10,70 +10,55 @@ The fylr server comes with a license management. Once you have acquired a fylr l
 
 The license determines
 
-* how many production instances can be used
-* how many test instances can be used
-* whether you licensed the edition workgroup, department or organization
-* which other fylr add-ons, plugins or extensions, can be used
+* How many production instances can be used
+* How many test instances can be used
+* Whether you licensed the edition workgroup, department or organization
+* Which other fylr add-ons, plugins or extensions, can be used
 
 {% hint style="info" %}
-All fylr license editions grant you the permission to use the system with an unlimited number of user / user accounts (read and write accounts) and unlimited data. How ever this can be treated differently in the fylr cloud.
+All fylr license editions grant you the permission to use the system with an unlimited number of users / user accounts (read and write accounts) and unlimited data. However this can be treated differently in the fylr cloud.
 {% endhint %}
 
+## License Editions
 
+<table><thead><tr><th width="194">LICENSE EDITION</th><th width="210">INSTANCES</th><th>ADDITIONAL FEATURES</th></tr></thead><tbody><tr><td>Workgroup</td><td>1 production instance<br>0 test instance</td><td>All main fylr features</td></tr><tr><td>Department</td><td>1 production instance<br>0 test instance</td><td> + Authentication/ Single Sign-On</td></tr><tr><td>Organization</td><td>1 production instance<br>1 test instance</td><td> + Authentication/ Single Sign-On, Performance <br><br> + Kubernetes Installation (Horizontal Scaling)</td></tr></tbody></table>
 
-## License Overview
+## Capabilities
 
-| LICENSE EDITION | INSTANCES                                       | ADDITIONAL FEATURES                                                                                           |
-| --------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Workgroup       | <p>1 production instance<br>0 test instance</p> | All main fylr features                                                                                        |
-| Department      | <p>1 production instance<br>0 test instance</p> |  + Authentication/ Single Sign-On                                                                             |
-| Organization    | <p>1 production instance<br>1 test instance</p> | <p> + Authentication/ Single Sign-On, Performance <br><br> + Kubernetes Installation (Horizontal Scaling)</p> |
+The capabilities extend the features of fylr enabled by the license:
 
-
-
-## Add-Ons
-
-These add-ons, which are either plugins or extensions, are available:
-
-* Extension - Add 1 test/staging instance
-* Extension - Add 1 production and 1 test/staging instance (License edition Department or Organization needed. Limit of a maximum of 5 production instances in License edition Department.)
-* Plugin - (CI-Hub)-Integration to Adobe and/or Office
-* Plugin - CMS Typo3, WordPress or Drupal, each
-* Plugin - Connect to external tagging service
-* Plugin - The fylr server can be used the fylr mobile app, too
-
-
+* Authentication service LDAP & SAML
+* CI-Hub-Integration for Adobe and Office products
+* Mobile App connectivity
+* Limit access to Read-Only
 
 ## The License file
 
-The license file also contains
+The cryptographically signed license file contains:
 
-* a list of allowed external URLs (fylr.externalURL), which can be used to access the fylr server / instance
-* the information, whether it's a "subscription" license, or a license purchase ("buy") a start and an end date, wherein the license is valid
+* A list of allowed domains(`fylr.externalURL`), which can be used to access the fylr server / instance
+* Edition of the license
+* License file key
+* The information, whether it's a _subscription_ license, or a license purchase (_buy_)
+* A start and an end date, wherein the license is valid
+* Enabled capabilities
 
-The licenses files are signed.
-
-Please note, that there is no connection to a central license server established, to check your license. In fact there is no such a service. The license file check works offline, the license management does not include any online component.
-
-If needed the license file can limit a fylr instance to read-only capabilities.
-
-
+{% hint style="info" %}
+The license file check works offline, the license management does not include any online component.
+{% endhint %}
 
 ## fylr with an invalid or no license
 
-If you don't have a license key at all, or don't have a valid license key, you can start a fylr instance, nevertheless. fylr can be used without or with an expired license as follows:
+If you don't have a license key at all, or don't have a valid license key, you can start a fylr instance, nevertheless.
 
-* if the list of allowed external URLs (fylr.externalURL) is set to "localhost" only or ends in ".localhost"
+fylr can be used without or with an expired license if one of the following applies:
 
-AND
+* The external URL `fylr.externalURL` is set to _localhost_ or ends in _.localhost_
+* The user is main administrator (**system:root**). In this case, other users cannot log onto the system.
 
-* if the user is the main administrator (system:root)
+In case of an expired license, no data ist lost.
 
-If fylr runs with an expired or invalid license, other users than the main administrator (system:root) cannot log into the system.
-
-If you cancel a contract, which grants you the right to get fylr updates, which is linked to a license purchase ("buy"), you will not be able to use updates any longer. However you are allowed to continue using all fylr version, which were released before the cancelation / end date, since the license was bought.
-
-
+If you cancel a contract, which grants you the right to get fylr updates, which is linked to a license purchase (**buy**), you will not be able to use further updates. However, you are allowed to continue using all fylr versions, which were released before the cancelation / end date, since the license was bought.
 
 ## Next step: Download, install and test
 
