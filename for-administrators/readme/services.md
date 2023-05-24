@@ -55,13 +55,13 @@ Enable/Disable the Janitor.
 
 ### Remove Unused Files After n Days
 
-Specify after how many days unused files should be deleted from the storage. Unused files are files that has been uploaded to FYLR but have never been linked to a record.
+Specify after how many days unused files should be deleted from the storage. Unused files are files that has been uploaded to FYLR but have never been linked to a record. Enter "0" to remove unused files with every janitor run (every hour).
 
 ### Settings For Users
 
 #### Archive Inactive Users After n Days
 
-Specify after how many days user accounts that have not logged in should be archived.
+Specify after how many days user accounts that have not logged in should be archived. Enter "0" to archive inactive users with every janitor run (every hour).
 
 {% hint style="info" %}
 Attention: archived users will not be able to log in. Archived users can be re-activated but their collections will be deleted when archiving the user account.
@@ -73,7 +73,7 @@ Specify the types of users that should be automatically archived after the above
 
 #### Delete Archived Users After n Days
 
-Specify after how many days archived user accounts should be deleted.
+Specify after how many days archived user accounts should be deleted. Enter "0" to delete archived users with every janitor run (every hour).
 
 {% hint style="info" %}
 Attention: deleted users will be removed from the system and can't be re-activated. See also "[User Management](user-management.md)".
@@ -83,11 +83,11 @@ Attention: deleted users will be removed from the system and can't be re-activat
 
 ### Settings For Events
 
-Specify after how many days the events should be deleted.
+Specify after how many days the events should be deleted. Enter "0" to delete the events with every janitor run (every hour).
 
 #### Delete IP Address From Events After n Days
 
-Specify after how many days the IP addresses of users should be deleted from the events.
+Specify after how many days the IP addresses of users should be deleted from the events. Enter "0" to delete the IP address with every janitor run (every hour).
 
 
 
