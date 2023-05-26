@@ -7,9 +7,9 @@ description: >-
 
 # Services
 
-## Workflow Notifications
+## E-Mail Notifications
 
-This service sends emails triggered by workflows (if configured under "Tags & Workflows"). If not enabled, no workflow emails will be send.
+This service sends emails such as welcome emails, collection share emails or emails triggered by workflows (if configured under "Tags & Workflows"). If not enabled, no emails will be send.
 
 {% hint style="info" %}
 Please make sure that you set up [emailing](email.md).
