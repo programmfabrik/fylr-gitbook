@@ -95,7 +95,7 @@ start|update)
     set -e
     cd "$BASEDIR"
     log_container_versions "before up"
-    docker-compose up -d
+    docker-compose up -d 2>&1|grep -v ' is up-to-date'
     log_container_versions "after up"
     ;;
 stop)
@@ -147,36 +147,36 @@ cleanup)
     #  and used images are not damaged even if they have no running container.
     #  Some error messages may be generated, however ("could not remove").
 
-    echo "removing left over temporary files..."
+    log "removing left over temporary files..."
     LIST=$(docker ps -qa --no-trunc --filter "status=exited")
     if [ "$LIST" ] ; then
         docker rm -v $LIST #>/dev/null
-        echo "... done."
+        log "... done."
     else
-        echo "... none found."
+        log "... none found."
     fi
 
-    echo "removing unused images..."
+    log "removing unused images..."
     LIST=$(docker images --filter "dangling=true" -q --no-trunc)
     if [ "$LIST" ] ; then
         docker rmi $LIST #>/dev/null
-        echo "... done."
+        log "... done."
     else
-        echo "... none found."
+        log "... none found."
     fi
 
     # next step:
     # docker images | grep '<none>' | awk '{print }' | xargs -r docker rmi -f
 
-    echo "removing dangling volumes..."
+    log "removing dangling volumes..."
     LIST=$(docker volume ls -qf dangling=true)
     if [ "$LIST" ] ; then
         docker volume rm $LIST #>/dev/null
-        echo "... done."
+        log "... done."
     else
-        echo "... none found."
+        log "... none found."
     fi
-    echo All done cleaning up.
+    log All done cleaning up.
     ;;
 help|h|-h|--help|-help)
     usage
