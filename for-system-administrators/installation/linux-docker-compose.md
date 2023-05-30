@@ -87,17 +87,34 @@ You can now surf to your fylr webfrontend.
 
 Default login is `root` with password `admin`. Please replace with a secure password: Click on `root` in the upper left corner.
 
-## automate SQL dumps
+## automate SQL dumps and updates of fylr ans postgresql
 
 To have consistent and complete snapshots of your SQL data, we strongly recommend:
 
 ```bash
 curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/maintain -o maintain
 chmod a+x maintain
-echo '23 43  *  *  *  root /srv/fylr/maintain backup' > /etc/cron.d/fylr-sql-backup
+```
+
+create a cron job like `/etc/cron.d/fylr-sql-backup-and-update`:
+```
+#MAILTO=you@example.com
+PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin
+
+#m h  dom m dow user command
+
+43 23  *  *  *  root /srv/fylr/maintain backup && /srv/fylr/maintain update
+
+35 12  *  *  7  root /srv/fylr/maintain cleanup
 ```
 
 With this setup you will find nightly sql dumps and pg_dump's log files in `/srv/fylr/sqlbackups`.
+
+Log files of the cron job will go to `/var/log/fylr-maintain.log`.
+
+You can change the maintain scipt's config in `/etc/default/fylr`, using bash syntax.
+
+Elasticsearch cannot be updated automatically due to missing support by the elasticsearch team (no tags like `latest`).
 
 ## Troubleshooting
 
