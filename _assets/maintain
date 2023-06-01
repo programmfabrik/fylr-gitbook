@@ -65,12 +65,12 @@ log_container_versions(){
 }
 
 error(){ # send output to stderr and logfile in one call
-    echo "ERROR: $@, ABORTED" >&2
-    log  "ERROR: $@, ABORTED"
+    echo "ERROR: $@" >&2
+    log  "ERROR: $@"
 }
 
 errorexit(){ # exit with non-zero status AND send output to stderr and logfile in one call
-    error "$@"
+    error "$@, ABORTED"
     exit 1
 }
 
