@@ -64,9 +64,13 @@ log_container_versions(){
     docker images >>"$MYLOG"
 }
 
+error(){ # send output to stderr and logfile in one call
+    echo "ERROR: $@, ABORTED" >&2
+    log  "ERROR: $@, ABORTED"
+}
+
 errorexit(){ # exit with non-zero status AND send output to stderr and logfile in one call
-    echo "ERROR: $1, ABORTED" >&2
-    log  "ERROR: $1, ABORTED"
+    error "$@"
     exit 1
 }
 
@@ -82,6 +86,10 @@ requires docker
 log "___called with $@"
 
 case "$1" in
+pull)
+    cd "$BASEDIR"
+    docker-compose pull
+    ;;
 update-fylr|fylr-update)
     cd "$BASEDIR"
     docker-compose pull fylr
@@ -95,7 +103,8 @@ start|update)
     set -e
     cd "$BASEDIR"
     log_container_versions "before up"
-    docker-compose up -d 2>&1|grep -v ' is up-to-date'
+    docker-compose pull -q          &>>"$MYLOG" || error "pull failed, see $MYLOG"
+    docker-compose up -d --no-color &>>"$MYLOG" || error "update failed, see $MYLOG"
     log_container_versions "after up"
     ;;
 stop)
