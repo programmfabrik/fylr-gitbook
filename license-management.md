@@ -55,12 +55,30 @@ The cryptographically signed license contains:
 * A list of allowed domains(`fylr.externalURL`), which can be used to access the fylr server / instance
 * Edition of the license
 * License key
-* The information, whether it's a _subscription_ license, or a license purchase (_buy_)
+* The information, whether it's a _subscription_ license, or a _buy_ license
 * A start and an end date, wherein the license is valid
 * Enabled capabilities
 
 {% hint style="info" %}
 The license check works offline, the license management does not include any online component.
+{% endhint %}
+
+## fylr version expiration
+
+A fylr version can expire for two reasons:
+
+* The license has an expiration date set
+* The binary of the fylr version is older than 1 year
+
+In case of expiration fylr runs with a limited functionality (see below). Please contact our team to help you, if you find yourself in that situation.
+
+This limitation does not apply if all of the following applies:
+
+* the license is of type _buy_
+* the fylr binary was released before the license expire date
+
+{% hint style="info" %}
+Administrators (configured in the base config email section) will receive an email warning 30, 5 and 1 day prior to the expiration.
 {% endhint %}
 
 ## fylr with an invalid or no license
@@ -84,3 +102,4 @@ To download, install and test fylr see these pages:
 
 * Find the latest [fylr release](releases/) to download it
 * [fylr Installation](for-system-administrators/installation/)
+
