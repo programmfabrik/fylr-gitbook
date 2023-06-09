@@ -126,7 +126,7 @@ fylr:
         backend: "http://fylr.localhost:8082"
       path: "/fylr/files/webfrontend"
       oauth2:
-        clientID: web-client
+        clientID: fylr-web-frontend
         clientSecret: EXAMPLE
       tls:
         letsEncrypt:
@@ -145,7 +145,7 @@ fylr:
         signingSecret: EXAMPLE8901234567890123456789023
         clients:
           # key in next line = value of fylr.services.webapp.oauth.clientID
-          web-client:
+          fylr-web-frontend:
             # Fill in the value of fylr.services.webapp.oauth2.clientSecret
             # in the next line instead of EXAMPLE and execute it
             #   htpasswd -nbBC 10 "" EXAMPLE | tr -d ':\n'; echo
@@ -156,12 +156,28 @@ fylr:
             redirectURIs:
               - https://EXAMPLE.COM/oauth2/callback
             scopes: ["read", "write", "offline"]
-          app-client:
-            clientID: app-client
+            public: true
+          fylr-mobile-app:
+            clientID: fylr-mobile-app
             secret: $2y$12$vHCyS42d0RpICdKoXKP0J.w1cschxjf.Ln43I9NYyl1u0W7vevjQS
             redirectURIs:
               - fylr.app.scheme:///
             scopes: ["read", "write", "offline"]
+            public: true
+          ci-hub:
+            redirectURIs:
+              - https://ci-hub.azurewebsites.net/api/v1/auth/login/fylr
+              - https://ci-hub-beta.azurewebsites.net/api/v1/auth/login/fylr
+              - https://ci-hub-test.azurewebsites.net/api/v1/auth/login/fylr
+              - http://localhost:8080/api/v1/auth/login/fylr
+            scopes: ["read", "write", "offline"]
+            public: true
+          santa-cruz:
+            redirectURIs:
+              - https://fylr.linkrui.com/oauth
+              - https://stage-fylr.linkrui.com/oauth
+            scopes: ["read", "write", "offline"]
+            public: true
 
     backend:
       addr: ":8082"

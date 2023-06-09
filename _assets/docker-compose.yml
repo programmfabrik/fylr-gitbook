@@ -14,11 +14,16 @@ services:
       memlock:
         soft: -1
         hard: -1
+      nofile:
+        soft: "65536"
+        hard: "65536"
     command: /bin/sh -c "./bin/elasticsearch-plugin list | grep -q analysis-icu || ./bin/elasticsearch-plugin install analysis-icu; /usr/local/bin/docker-entrypoint.sh"
     volumes:
       - "/srv/fylr/elasticsearch:/usr/share/elasticsearch/data"
     networks:
       - fylr
+    logging:
+      driver: "journald"
 
   postgresql:
     image: postgres:15
@@ -39,6 +44,8 @@ services:
       -c max_wal_size=512MB
     networks:
       - fylr
+    logging:
+      driver: "journald"
 
   fylr:
     image: docker.fylr.io/fylr/fylr:main
@@ -57,6 +64,8 @@ services:
       - "/srv/fylr/backups:/fylr/files/backups"
       - "/srv/fylr/config/fylr:/fylr/config"
       - "/srv/fylr/assets:/srv"
+    logging:
+      driver: "journald"
 
 networks:
   fylr:
