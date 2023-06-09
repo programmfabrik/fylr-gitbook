@@ -75,7 +75,7 @@ docker-compose up
 
 `Ctrl` + `c` stops the services again.
 
-If you are satisfied you can let them run in the background with:
+If you are satisfied, we recommend to set `restart: always` for fylr in `docker-compose.yml` and let it run in the background with:
 
 ```bash
 docker-compose up -d
