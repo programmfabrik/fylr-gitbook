@@ -165,7 +165,7 @@ cleanup)
     log "removing left over temporary files..."
     LIST=$(docker ps -qa --no-trunc --filter "status=exited")
     if [ "$LIST" ] ; then
-        docker rm -v $LIST #>/dev/null
+        docker rm -v $LIST >>"$MYLOG"
         log "... done."
     else
         log "... none found."
@@ -174,7 +174,7 @@ cleanup)
     log "removing unused images..."
     LIST=$(docker images --filter "dangling=true" -q --no-trunc)
     if [ "$LIST" ] ; then
-        docker rmi $LIST #>/dev/null
+        docker rmi $LIST >>"$MYLOG"
         log "... done."
     else
         log "... none found."
@@ -186,7 +186,7 @@ cleanup)
     log "removing dangling volumes..."
     LIST=$(docker volume ls -qf dangling=true)
     if [ "$LIST" ] ; then
-        docker volume rm $LIST #>/dev/null
+        docker volume rm $LIST >>"$MYLOG"
         log "... done."
     else
         log "... none found."
