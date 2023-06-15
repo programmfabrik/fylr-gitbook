@@ -63,7 +63,7 @@ Define which data of a user of this group should be kept, deleted or pseudonymiz
 
 If you're using a third party user management like LDAP or SSO, you can define a group mapping here and automatically map groups used in SSO or LDAP to groups in FYLR whenever a user signs in.
 
-<table><thead><tr><th width="267.5">METHOD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Group Name (eq)</td><td>Group name in LDAP needs to match this string exactly.</td></tr><tr><td>Regular Expression (regexp)</td><td>Group name in LDAP needs to match with the regular expression.</td></tr></tbody></table>
+<table><thead><tr><th width="267.5">METHOD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Group Name (eq)</td><td>Group name from LDAP/SSO needs to match this string exactly.</td></tr><tr><td>Regular Expression (regexp)</td><td>Group names from LDAP/SSO need to match with the regular expression. Example: <code>students.*</code> will match the LDAP/SSO group <code>students</code> and the group <code>students-alumni</code> but not a group named <code>student</code></td></tr></tbody></table>
 
 
 
