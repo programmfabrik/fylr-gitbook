@@ -142,7 +142,7 @@ fylr:
         # serving the same instance, the signingSecret needs to be configured.
         # If not configured, each container recreation results in new tokens.
         # The format is a string of exactly 32 byte length.
-        signingSecret: EXAMPLE8901234567890123456789023
+        signingSecret: "EXAMPLE8901234567890123456789023"
         clients:
           # key in next line = value of fylr.services.webapp.oauth.clientID
           fylr-web-frontend:
