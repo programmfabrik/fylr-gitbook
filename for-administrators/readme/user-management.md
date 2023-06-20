@@ -43,7 +43,25 @@ Select which user information should be returned over the OpenID endpoint `oauth
 
 ## LDAP
 
+To enable logging in woth LDAP accounts, scroll the User Management page to LDAP, above SAML:
+<figure><img src="_assets/fylr-ldap-find-menu.png" alt=""><figcaption>where to find LDAP in the menues</figcaption></figure>
 
+Here an example configuration with public test provider ldap.forumsys.com:
+<figure><img src="_assets/fylr-ldap-cropped.png" alt=""><figcaption>example ldap configuration</figcaption></figure>
+
+**URL**: Do not forget the protocol, in this case, `ldap://`.
+
+**Allow insecure connection**: Can be safe if security is done by other means, e.g. fylr and LDAP server are running internally.
+
+**Bind user**: One user inside LDAP that flyr uses to search for other users and groups. Does not need administrative privileges.
+
+**Bind password**: Password of the Bind User.
+
+**User base DN**: Organizatinal Unit or while organization, in which to search for users. All users must be in/below this. Bind User does not have to be in/below this.
+
+**User filter**: Which LDAP objects shall be compared to the login string that is entered during fylr login? E.G. if I am Albert Einstein and my login username ist `einstein`: Which LDAP attribute contains the string `einstein`? In the example above: the attribute `uid` is compared and should contain `einstein`. For that, the user filter `(uid=&(login)s)` is enough. To reduce search time and number of objects searched, the example in the screenshot additionally restricts the search to only LDAP objects of `objectClass` `person`.
+
+**Group settings**: We recommend to only configure group settings after the user settings are working for log in.
 
 ## SAML
 
