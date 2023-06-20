@@ -26,6 +26,12 @@ The following commands assume a Debian or Ubuntu server and a bash shell.
 apt-get install docker-compose apparmor
 ```
 
+* currently (2023-06), docker needs a restart before it is really up and running:
+
+```bash
+systemctl restart docker.service
+```
+
 * Memory setting needed for elasticsearch:
 
 ```bash
