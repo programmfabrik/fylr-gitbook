@@ -126,6 +126,7 @@ fylr:
         backend: "http://fylr.localhost:8082"
       path: "/fylr/files/webfrontend"
       oauth2:
+        internalURL: "http://localhost:8080"
         clientID: fylr-web-frontend
         clientSecret: EXAMPLE
       tls:
