@@ -53,15 +53,21 @@ Here an example configuration with public test provider ldap.forumsys.com:
 
 **Allow insecure connection**: Can be safe if security is done by other means, e.g. fylr and LDAP server are running internally.
 
-**Bind user**: One user inside LDAP that flyr uses to search for other users and groups. Does not need administrative privileges.
+**Bind User**: One user inside LDAP that flyr uses to search for other users and groups. Does not need administrative privileges.
 
-**Bind password**: Password of the Bind User.
+**Bind Password**: Password of the Bind User.
 
-**User base DN**: Organizatinal Unit or whole organization, in which to search for users. All users who shall be able to log in must be in/below this. Bind User does not have to be in/below this.
+**User Base DN**: Organizatinal Unit or whole organization, in which to search for users. All users who shall be able to log in must be in/below this. Bind User does not have to be in/below this.
 
-**User filter**: Which LDAP attribute shall be compared to the login string that is entered during fylr login? E.G. if I am Albert Einstein and my login username ist `einstein`: Which LDAP attribute contains the string `einstein`? In the example above: the attribute `uid` is compared and should contain `einstein`. For that, the user filter `(uid=&(login)s)` is enough. To reduce search time and number of objects searched, the example in the screenshot additionally restricts the search to only LDAP objects of `objectClass` `person`.
+**User filter**: Which LDAP attribute shall be compared to the login string(which is entered during fylr login)? For example if I am Albert Einstein and my login username ist `einstein`: Which **LDAP attribute** contains the string `einstein`? In the example above: the attribute `uid` is compared to the login given by the user. So if I enter `einstein` and my password, fylr then searches for LDAP objects which have the attribute `uid` and value `einstein` in that attribute. If one is found, the password of that LDAP object is also checked and if successful, this LDAP object is considered logged in. fylr creates a fylr user (if not already existing) that is consindered connected to this LDAP object. For this scenario, the user filter `(uid=&(login)s)` is enough. To reduce search time and number of objects searched, the example in the screenshot additionally restricts the search to only LDAP objects of `objectClass` = `person`.
 
-**Group settings**: We recommend to only configure group settings after the user settings are working for log in.
+**Group settings**: We recommend to only configure group settings after the above settings are working to log in. Groups settings are optional.
+
+**Group Base DN**: Organizatinal Unit or whole organization, in which to search for groups.
+
+**Group Filter**: not documented yet
+
+**Group Mapping**: not documented yet
 
 ## SAML
 
