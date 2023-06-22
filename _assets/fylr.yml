@@ -1,16 +1,9 @@
-fylr:
+fylr+:
   externalURL: "https://EXAMPLE.COM"
-  name: "fylr"
 
   encryptionKey: "EXAMPLE5cca29f8ddec415fd80bdbe25"
 
-  debug:
-    skipTerms: false
-
-  logger:
-    noColor: true
-    level: info
-    timeFormat: "2006-01-02T15:04:05Z07:00"
+  resources: "/fylr/files/resources"
 
   db:
     driver: "postgres"
@@ -35,7 +28,7 @@ fylr:
         system:
           config:
             purge:
-              allow_purge: true
+              allow_purge: false
               purge_storage: false
             location_defaults:
               originals: assets
@@ -78,26 +71,9 @@ fylr:
               # keep in mind: this is a path inside of the container
               dir: "/fylr/files/backups"
 
-  elastic:
-    addresses:
-    - "http://elasticsearch:9200"
-    parallel: 4
-    maxMem: 100mb
-    objectsPerJob: 1000
-
-  execserver:
-    parallel: 2
-    pluginJobTimeoutSec: 240
-    connectTimeoutSec: 120
-    addresses:
-      - http://fylr.localhost:8070/?pretty=true
-    callbackBackendInternalURL: "http://fylr.localhost:8082"
-    callbackApiInternalURL: "http://fylr.localhost:8081"
-
   plugin:
     paths:
     - "/fylr/files/plugins/easydb"
-    - "/fylr/files/plugins/fylr"
     #urls:
     #- https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/download/v0.1.2/fylr-plugin-formula-columns.zip
 
@@ -114,223 +90,30 @@ fylr:
         enabled: false
         update_policy: never
 
-  allowpurge: true
+  elastic+:
+    addresses:
+    - "http://elasticsearch:9200"
 
-  resources: "/fylr/files/resources"
-
-  services:
-    webapp:
+  services+:
+    webapp+:
       addr: ":443"
-      reverseProxy:
-        api: "http://fylr.localhost:8081"
-        backend: "http://fylr.localhost:8082"
       path: "/fylr/files/webfrontend"
-      oauth2:
-        # has to be the same port as fylr.services.api.addr
-        internalURL: "http://localhost:8081"
-        clientID: fylr-web-frontend
-        clientSecret: EXAMPLE
       tls:
         letsEncrypt:
           email: you@EXAMPLE.COM
           forwardHttpAddr: ":80"
           useStagingCA: false
 
-    api:
-      addr: ":8081"
-      oauth2Server:
+    api+:
+      oauth2Server+:
         # This secret is used to sign authorize codes, access and refresh
         # tokens. If unset, a random string is used. If multiple fylr server are
         # serving the same instance, the signingSecret needs to be configured.
         # If not configured, each container recreation results in new tokens.
         # The format is a string of exactly 32 byte length.
         signingSecret: "EXAMPLE8901234567890123456789023"
-        clients:
-          # key in next line = value of fylr.services.webapp.oauth.clientID
-          fylr-web-frontend:
-            # Fill in the value of fylr.services.webapp.oauth2.clientSecret
-            # in the next line instead of EXAMPLE and execute it
-            #   htpasswd -nbBC 10 "" EXAMPLE | tr -d ':\n'; echo
-            #   if you do not have htpasswd somewhere to execute once,
-            #   you can install it by (e.g. under ubuntu): apt install apache2-utils
-            # use the resulting string as secret in the following line:
-            secret: $2y$16$EXAMPLEEXAMPLEEXAMPLEuZP8DPshwAda7T99GhLLqff8KyGYvZ4K
+        clients+:
+          # key in next line = value of fylr.services.webapp.oauth.clientID (and a + to indicate using defaults)
+          fylr-web-frontend+:
             redirectURIs:
-              - https://EXAMPLE.COM/oauth2/callback
-            scopes: ["read", "write", "offline"]
-            public: true
-          fylr-mobile-app:
-            clientID: fylr-mobile-app
-            secret: $2y$12$vHCyS42d0RpICdKoXKP0J.w1cschxjf.Ln43I9NYyl1u0W7vevjQS
-            redirectURIs:
-              - fylr.app.scheme:///
-            scopes: ["read", "write", "offline"]
-            public: true
-          ci-hub:
-            redirectURIs:
-              - https://ci-hub.azurewebsites.net/api/v1/auth/login/fylr
-              - https://ci-hub-beta.azurewebsites.net/api/v1/auth/login/fylr
-              - https://ci-hub-test.azurewebsites.net/api/v1/auth/login/fylr
-              - http://localhost:8080/api/v1/auth/login/fylr
-            scopes: ["read", "write", "offline"]
-            public: true
-          santa-cruz:
-            redirectURIs:
-              - https://fylr.linkrui.com/oauth
-              - https://stage-fylr.linkrui.com/oauth
-            scopes: ["read", "write", "offline"]
-            public: true
-
-    backend:
-      addr: ":8082"
-      inspect:
-        backup:
-          path: /tmp/fylrctrl
-          fylrctl: fylrctl
-          psql: psql
-          sqlite3: sqlite3
-
-    execserver:
-      addr: ":8070"
-      tempDir: /tmp/fylr
-      waitgroups:
-        a:
-          processes: 6
-        b:
-          processes: 4
-        c:
-          processes: 6
-      services:
-        python3:
-          waitgroup: b
-          commands:
-            python3:
-              prog: "python3"
-        node:
-          waitgroup: b
-          commands:
-            node:
-              prog: "node"
-        convert:
-          waitgroup: a
-          commands:
-            convert:
-              prog: "convert"
-              env:
-                - "OMP_NUM_THREADS=2"
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
-            composite:
-              prog: "composite"
-              env:
-                - "OMP_NUM_THREADS=2"
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
-            fylr_metadata:
-              prog: "fylr_metadata"
-        ffmpeg:
-          waitgroup: a
-          commands:
-            ffmpeg:
-              prog: ffmpeg
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "ffmpeg version 5[\\.0-9]+ Copyright"
-            convert:
-              prog: "convert"
-              env:
-                - "OMP_NUM_THREADS=2"
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
-            composite:
-              prog: "composite"
-              env:
-                - "OMP_NUM_THREADS=2"
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
-            ffprobe:
-              prog: ffprobe
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "ffprobe version 5[\\.0-9]+ Copyright"
-            ffmpegthumbnailer:
-              prog: ffmpegthumbnailer
-              startupCheck:
-                args:
-                - "-v"
-                regex: "ffmpegthumbnailer version: 2\\..*"
-            fylr_metadata:
-              prog: "fylr_metadata"
-        soffice:
-          waitgroup: c
-          commands:
-            soffice:
-              prog: soffice
-              startupCheck:
-                args:
-                  - "--headless"
-                  - "--invisible"
-                  - "--version"
-                regex: "LibreOffice 7[.0-9]+"
-            convert:
-              prog: "convert"
-              env:
-                - "OMP_NUM_THREADS=2"
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
-            composite:
-              prog: "composite"
-              env:
-                - "OMP_NUM_THREADS=2"
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
-            fylr_metadata:
-              prog: "fylr_metadata"
-        pdf2pages:
-          waitgroup: a
-          commands:
-            fylr_pdf2pages:
-              prog: "fylr_pdf2pages"
-            fylr_metadata:
-              prog: "fylr_metadata"
-        xslt:
-          waitgroup: a
-          commands:
-            xsltproc:
-              prog: "xsltproc"
-        iiif:
-          waitgroup: a
-          commands:
-            convert:
-              prog: "convert"
-            fylr_iiif:
-              prog: "fylr_iiif"
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "Version v*"
-        metadata:
-          waitgroup: a
-          commands:
-            fylr_metadata:
-              prog: "fylr_metadata"
-            ffprobe:
-              prog: ffprobe
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "ffprobe version 5[\\.0-9]+ Copyright"
+            - https://EXAMPLE.COM/oauth2/callback

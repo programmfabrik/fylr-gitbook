@@ -48,7 +48,7 @@ services:
       driver: "journald"
 
   fylr:
-    image: docker.fylr.io/fylr/fylr:latest
+    image: docker.fylr.io/fylr/fylr:main
     hostname: fylr.localhost
     container_name: fylr
     #restart: always
