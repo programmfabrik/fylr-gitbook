@@ -37,6 +37,7 @@
   * [File Worker](for-administrators/readme/file-worker.md)
   * [Objectstore](for-administrators/readme/objectstore.md)
   * [Services](for-administrators/readme/services.md)
+  * [License Management](for-administrators/readme/license-management.md)
   * [Development](for-administrators/readme/development.md)
   * [Plugins](for-administrators/readme/plugins.md)
 * [Permissions](for-administrators/permissions/README.md)
