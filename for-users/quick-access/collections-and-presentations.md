@@ -88,7 +88,57 @@ Use "**Activate**" to save the changes and prevent the dialogue from closing. Us
 
 ### Upload & File System Connect
 
-Collections can be used for **uploads**, so that all uploaded files will be linked to the collection. You can define if new **records** should be **created** for each uploaded file, or if already existing records should be **updated** with the uploaded file. Use the following **settings** to define the **behavior** of the upload.
+Collections can be used for **uploads** via the webdav protocol, so for example via a webdav client program like [Cyberduck](https://cyberduck.io/webdav/). All uploaded files will then be linked to the collection.
+
+#### Upload
+
+1. Make sure Uploading is enabled at all: Enable in Base Configuration - Services, see screenshot:
+
+<figure><img src="_assets/fylr-hotfolder-but-not-file_system_connect.png" alt=""><figcaption>where to enable upload as a feature</figcaption></figure>
+
+Make sure that Uploading is enabled for the individual collection:
+
+2. Right click on collection, choose Settings, see screenshot:
+
+<figure><img src="_assets/fylr-open-collection-settings.png" alt=""><figcaption>How to open collection Settings</figcaption></figure>
+
+3. In the tab "UPLOAD & FILE SYSTEM CONNECT" check the checkbox Enable Upload, see Screenshot:
+
+<figure><img src="_assets/fylr-hotfolder-settings-simple.png" alt=""><figcaption>Collection settings for upload</figcaption></figure>
+
+4. Make sure to choose an Object Type which has a field of type `File`.
+
+5. Copy the https-URL for later use in your webdav client program.
+
+6. Click Activate or Save
+
+7. With your webdav client program, open the above copied https-URL.
+
+#### File System Connect
+
+1. Make sure it is enabled at all: Enable in Base Configuration - Services, see screenshot:
+
+<figure><img src="_assets/fylr-file_system_connect-but-not-hotfolder.png" alt=""><figcaption>where to enable File Sysetm Connect as a feature</figcaption></figure>
+
+2. Right click on collection, choose Settings, see screenshot:
+
+<figure><img src="_assets/fylr-open-collection-settings.png" alt=""><figcaption>How to open collection Settings</figcaption></figure>
+
+3. In the tab "UPLOAD & FILE SYSTEM CONNECT" check the checkbox Enable Upload, see Screenshot:
+
+<figure><img src="_assets/fylr-file_system_connect-settings-simple.png" alt=""><figcaption>Collection settings for File Sytem Connect</figcaption></figure>
+
+4. Make sure to choose an Object Type which has a field of type `File`.
+
+5. Copy the https-URL for later use in your webdav client program.
+
+6. Click Activate or Save
+
+7. With your webdav client program, open the above copied https-URL.
+
+#### Settings
+
+You can define if new **records** should be **created** for each uploaded file, or if already existing records should be **updated** with the uploaded file. Use the following **settings** to define the **behavior** of the upload.
 
 {% hint style="info" %}
 To set up an upload collection, the user needs the **permissions** to create records and "read" permission for at least one pool.
