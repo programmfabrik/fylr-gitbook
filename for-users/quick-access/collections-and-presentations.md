@@ -114,6 +114,10 @@ Make sure that Uploading is enabled for the individual collection:
 
 7. With your webdav client program, open the above copied https-URL.
 
+8. Upload one or more files using your webdav client.
+
+About 30 seconds after uploading, files will be imported into fylr and removed from the webdav "hotfolder". But they will then be in the collection.
+
 #### File System Connect
 
 1. Make sure it is enabled at all: Enable in Base Configuration - Services, see screenshot:
@@ -128,13 +132,15 @@ Make sure that Uploading is enabled for the individual collection:
 
 <figure><img src="_assets/fylr-file_system_connect-settings-simple.png" alt=""><figcaption>Collection settings for File Sytem Connect</figcaption></figure>
 
-4. Make sure to choose an Object Type which has a field of type `File`.
+4. Make sure to choose an Object Type which has a field of type `File`. You will only see objects of that type via webdav. Objects of other types will not be visible.
 
 5. Copy the https-URL for later use in your webdav client program.
 
 6. Click Activate or Save
 
 7. With your webdav client program, open the above copied https-URL.
+
+If you use your webdav client to upload files, they will stay visible after being imported.
 
 #### Settings
 
