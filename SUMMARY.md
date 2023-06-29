@@ -14,7 +14,7 @@
     * [Release v6.2.2 (2023-01-12)](releases/2023/v6.2.2.md)
     * [Release v6.2.1 (2023-01-05)](releases/2023/v6.2.1.md)
   * [2022](releases/2022.md)
-    * [ fylr first Production Ready Release 🎉 (2022-12-22)](releases/2022/v6.2.0.md)
+    * [fylr first Production Ready Release 🎉 (2022-12-22)](releases/2022/v6.2.0.md)
     * [Release v6.1.0 Beta 10 (2022-12-02)](releases/2022/v6.1.0.md)
 * [License Management](license-management.md)
 
@@ -69,6 +69,10 @@
   * [Load Custom Plugins](for-system-administrators/configuration/custom-plugin.md)
 * [Integration](for-system-administrators/integration/README.md)
   * [Authentication](for-system-administrators/integration/authentication.md)
+
+## Tutorials
+
+* [How To Set Up the Hotfolder & File System Connect](tutorials/how-to-set-up-the-hotfolder-and-file-system-connect.md)
 
 ## FOR DEVELOPERS
 
