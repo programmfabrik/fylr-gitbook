@@ -34,7 +34,7 @@ These need to be configured in the fylr instance.
 
 Configure the pair(s) of Client ID and Secret in the [config file](for-system-administrators/configuration/fylr.example.yml) `fylr.yml`:
 
-{% code title="fylr.yml" lineNumbers="true" %}
+{% code title="" %}
 ```yaml
 fylr:
   services:
@@ -48,11 +48,11 @@ fylr:
 ```
 {% endcode %}
 
-Alternatively, add the Client ID and Secret pair(s) in the [Base Configuration](./for-administrators/readme/user-management#oauth-service).
+Alternatively, add the Client ID and Secret pair(s) in the [Base Configuration](for-administrators/readme/user-management/#oauth-service).
 
 ## OAuth2 Flows
 
-All of the following flows are implemented in fylr. They offer different levels of security. Each flow requires a different amount of complexity to implement it in your client application. Depending on your needs choose your preferred implementation. We recommend using the [Authorization Code Grant](#authorization-code-grant) or the [Password Grant](#password-grant) flow.
+All of the following flows are implemented in fylr. They offer different levels of security. Each flow requires a different amount of complexity to implement it in your client application. Depending on your needs choose your preferred implementation. We recommend using the [Authorization Code Grant](oauth2.md#authorization-code-grant) or the [Password Grant](oauth2.md#password-grant) flow.
 
 ### Authorization Code Grant
 
@@ -64,40 +64,67 @@ This flow requires a **Client ID** and **Secret**, as well as a fylr **login** a
 
 #### **Step 1**: client calls fylr
 
-{% api-method method="get" host="" path="api/oauth2/auth" %}
+{% swagger path="api/oauth2/auth" method="get" summary="Call the OAuth2 Authentication API of fylr" expanded="true" %}
+{% swagger-description %}
 
-{% api-method-summary %}Call the OAuth2 Authentication API of fylr{% endapi-method-summary %}
+{% endswagger-description %}
 
-{% api-method-spec %}
+{% swagger-parameter name="auth_method" type="string" required="true" in="query" %}
+fixed value:
 
-{% api-method-request %}
+`"auto"`
+{% endswagger-parameter %}
 
-{% api-method-query-parameters %}
-{% api-method-parameter name="auth_method" type="string" required=true %}fixed value: "auto"{% endapi-method-parameter %}
-{% api-method-parameter name="access_type" type="string" required=true %}fixed value: "offline"{% endapi-method-parameter %}
-{% api-method-parameter name="scope" type="string" required=true %}fixed value: "offline"{% endapi-method-parameter %}
-{% api-method-parameter name="response_type" type="string" required=true %}fixed value: "code"{% endapi-method-parameter %}
-{% api-method-parameter name="state" type="string" required=true %}Client State String (min. 8 characters), for example: "Authorization_Code_Grant_Login"{% endapi-method-parameter %}
-{% api-method-parameter name="client_id" type="string" required=true %}**Client ID** of the fylr Instance: "my-client"{% endapi-method-parameter %}
-{% endapi-method-query-parameters %}
+{% swagger-parameter name="access_type" type="string" required="true" in="query" %}
+fixed value:
 
-{% endapi-method-request %}
+`"offline"`
+{% endswagger-parameter %}
 
-{% api-method-response %}
+{% swagger-parameter name="scope" type="string" required="true" in="query" %}
+fixed value:
 
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}This redirects to the fylr login page. The user enters **login** and **password** directly into fylr.{% endapi-method-response-example-description %}
-{% endapi-method-response-example %}
+`"offline"`
+{% endswagger-parameter %}
 
-{% api-method-response-example httpCode=400 %}
-{% api-method-response-example-description %}Problems with the parameters, for example an invalid **Client ID**{% endapi-method-response-example-description %}
-{% endapi-method-response-example %}
+{% swagger-parameter name="response_type" type="string" required="true" in="query" %}
+fixed value:
 
-{% endapi-method-response %}
+`"code"`
+{% endswagger-parameter %}
 
-{% endapi-method-spec %}
+{% swagger-parameter name="state" type="string" required="true" in="query" %}
+Client State String (min. 8 characters), for example:
 
-{% endapi-method %}
+`"Authorization_Code_Grant_Login"`
+{% endswagger-parameter %}
+
+{% swagger-parameter name="client_id" type="string" required="true" in="query" %}
+**Client ID**
+
+ of the fylr Instance:
+
+`"my-client"`
+{% endswagger-parameter %}
+
+{% swagger-response status="200" description="OK" %}
+This redirects to the fylr login page. The user enters
+
+**login**
+
+ and
+
+**password**
+
+ directly into fylr.
+{% endswagger-response %}
+
+{% swagger-response status="400" description="Error" %}
+Problems with the parameters, for example an invalid
+
+**Client ID**
+{% endswagger-response %}
+{% endswagger %}
 
 #### **Step 2**: callback from fylr to the local HTTP server
 
@@ -111,10 +138,10 @@ http://my-callback-server/oauth2/callback
 
 This callback must handle a `GET` request. fylr includes these URL parameters:
 
-| Parameter | Description |
-|---|---|
-| `state` | Client State, this is to identify the callback. Same as above |
-| `code` | **Authorization Code**. This needs to be stored and used in the following requests |
+| Parameter | Description                                                                        |
+| --------- | ---------------------------------------------------------------------------------- |
+| `state`   | Client State, this is to identify the callback. Same as above                      |
+| `code`    | **Authorization Code**. This needs to be stored and used in the following requests |
 
 #### **Step 3**: client validates Authorization Code
 
@@ -122,23 +149,23 @@ Call `POST /api/oauth2/token`
 
 URL parameters:
 
-| Parameter | Value | Description |
-|---|---|---|
-| `grant_type` | `"authorization_code"` | fixed value |
-| `state` | | Client State, same as above |
-| `client_id` | `"my-client"` | **Client ID** of the fylr Instance |
-| `client_secret` | `"my-secret"` | **Client Secret** of the fylr Instance |
-| `code` | | **Authorization Code** from fylr callback |
+| Parameter       | Value                  | Description                               |
+| --------------- | ---------------------- | ----------------------------------------- |
+| `grant_type`    | `"authorization_code"` | fixed value                               |
+| `state`         |                        | Client State, same as above               |
+| `client_id`     | `"my-client"`          | **Client ID** of the fylr Instance        |
+| `client_secret` | `"my-secret"`          | **Client Secret** of the fylr Instance    |
+| `code`          |                        | **Authorization Code** from fylr callback |
 
 If the **Client ID**, **Secret** and the **Authorization Code** are correct, fylr will return a JSON object in the response with the following values:
 
-| Key | Description |
-|---|---|
-| `access_token` | **Access Token** |
-| `refresh_token` | **Refresh Token** |
-| `token_type` | `"bearer"` |
-| `scope` | `"offline"`, same as above |
-| `expires_in` | Time until the **Access Token** expires, in seconds |
+| Key             | Description                                         |
+| --------------- | --------------------------------------------------- |
+| `access_token`  | **Access Token**                                    |
+| `refresh_token` | **Refresh Token**                                   |
+| `token_type`    | `"bearer"`                                          |
+| `scope`         | `"offline"`, same as above                          |
+| `expires_in`    | Time until the **Access Token** expires, in seconds |
 
 ### Authorization Code Grant with PKCE Code Challenge
 
@@ -146,7 +173,7 @@ If the **Client ID**, **Secret** and the **Authorization Code** are correct, fyl
 External documentation: [https://www.oauth.com/oauth2-servers/oauth-native-apps/pkce/](https://www.oauth.com/oauth2-servers/oauth-native-apps/pkce/)
 {% endhint %}
 
-This is an extension of the [Authorization Code Grant](#authorization-code-grant) flow. To enhance the security a Proof Key for Code Exchange (PKCE) is included in the requests. All other parameters and keys are the same as in the [Authorization Code Grant](#authorization-code-grant) flow.
+This is an extension of the [Authorization Code Grant](oauth2.md#authorization-code-grant) flow. To enhance the security a Proof Key for Code Exchange (PKCE) is included in the requests. All other parameters and keys are the same as in the [Authorization Code Grant](oauth2.md#authorization-code-grant) flow.
 
 The client needs to generate a **Code Verifier** and a **Code Challenge** according to the [RFC7636](https://datatracker.ietf.org/doc/html/rfc7636) standard.
 
@@ -156,16 +183,16 @@ The **Code Challenge** is the `SHA256` hash of the Code Verifier encoded in Base
 
 For **Step 1**, these parameters are added to the URL:
 
-| Parameter | Value | Description |
-|---|---|---|
-| `code_challenge` | | Generated **Code Challenge** |
-| `code_challenge_method` | `"S256"` | fixed value |
+| Parameter               | Value    | Description                  |
+| ----------------------- | -------- | ---------------------------- |
+| `code_challenge`        |          | Generated **Code Challenge** |
+| `code_challenge_method` | `"S256"` | fixed value                  |
 
 For **Step 3**, this parameter is added to the URL:
 
-| Parameter | Value | Description |
-|---|---|---|
-| `code_verifier` | | Generated **Code Verifier** |
+| Parameter       | Value | Description                 |
+| --------------- | ----- | --------------------------- |
+| `code_verifier` |       | Generated **Code Verifier** |
 
 In this step, fylr (the authorization server) checks if the **Code Verifer** matches the **Code Challenge** from Step 1.
 
@@ -183,24 +210,24 @@ Call `POST /api/oauth2/token`
 
 URL parameters:
 
-| Parameter | Value | Description |
-|---|---|---|
-| `grant_type` | `"password"` | fixed value |
-| `scope` | `"offline"` | fixed value |
-| `client_id` | `"my-client"` | **Client ID** of the fylr Instance |
+| Parameter       | Value         | Description                            |
+| --------------- | ------------- | -------------------------------------- |
+| `grant_type`    | `"password"`  | fixed value                            |
+| `scope`         | `"offline"`   | fixed value                            |
+| `client_id`     | `"my-client"` | **Client ID** of the fylr Instance     |
 | `client_secret` | `"my-secret"` | **Client Secret** of the fylr Instance |
-| `username` | | fylr **Login** of the user |
-| `password` | | fylr **Password** of the user |
+| `username`      |               | fylr **Login** of the user             |
+| `password`      |               | fylr **Password** of the user          |
 
 If the **Client ID**, **Secret** and user **login** and **password** are correct, fylr will return a JSON object in the response with the following values:
 
-| Key | Description |
-|---|---|
-| `access_token` | **Access Token** |
-| `refresh_token` | **Refresh Token** |
-| `token_type` | `"bearer"` |
-| `scope` | `"offline"`, same as above |
-| `expires_in` | Time until the **Access Token** expires, in seconds |
+| Key             | Description                                         |
+| --------------- | --------------------------------------------------- |
+| `access_token`  | **Access Token**                                    |
+| `refresh_token` | **Refresh Token**                                   |
+| `token_type`    | `"bearer"`                                          |
+| `scope`         | `"offline"`, same as above                          |
+| `expires_in`    | Time until the **Access Token** expires, in seconds |
 
 ### Implicit Grant
 
@@ -220,14 +247,14 @@ Call `GET /api/oauth2/auth`
 
 URL parameters:
 
-| Parameter | Value | Description |
-|---|---|---|
-| `response_type` | `"token"` | fixed value |
-| `state` | for example: `"Implicit_Grant_Login"` | Client State String (min. 8 characters) |
-| `auth_method` | `"auto"` | fixed value |
-| `access_type` | `"offline"` | fixed value |
-| `scope` | `"offline"` | fixed value |
-| `client_id` | `"my-client"` | **Client ID** of the fylr Instance |
+| Parameter       | Value                                 | Description                             |
+| --------------- | ------------------------------------- | --------------------------------------- |
+| `response_type` | `"token"`                             | fixed value                             |
+| `state`         | for example: `"Implicit_Grant_Login"` | Client State String (min. 8 characters) |
+| `auth_method`   | `"auto"`                              | fixed value                             |
+| `access_type`   | `"offline"`                           | fixed value                             |
+| `scope`         | `"offline"`                           | fixed value                             |
+| `client_id`     | `"my-client"`                         | **Client ID** of the fylr Instance      |
 
 #### **Step 2**: callback from fylr to the local callback
 
@@ -241,19 +268,19 @@ http://my-callback-server/oauth2/callback
 
 This callback must handle a `GET` request. fylr includes these URL parameters:
 
-| Parameter | Description |
-|---|---|
+| Parameter  | Description           |
+| ---------- | --------------------- |
 | `loc_hash` | quoted URL parameters |
 
 The `loc_hash` parameter is itself a list of URL parameters that need to be unquoted and split into key value pairs:
 
-| Key | Description |
-|---|---|
-| `access_token` | **Access Token** |
-| `token_type` | `"bearer"` |
-| `scope` | `"offline"`, same as above |
-| `state` | `"Implicit_Grant_Login"`, same as above |
-| `expires_in` | Time until the **Access Token** expires, in seconds |
+| Key            | Description                                         |
+| -------------- | --------------------------------------------------- |
+| `access_token` | **Access Token**                                    |
+| `token_type`   | `"bearer"`                                          |
+| `scope`        | `"offline"`, same as above                          |
+| `state`        | `"Implicit_Grant_Login"`, same as above             |
+| `expires_in`   | Time until the **Access Token** expires, in seconds |
 
 ### Client Credential Grant
 
@@ -273,18 +300,18 @@ Call `POST /api/oauth2/token`
 
 URL parameters:
 
-| Parameter | Value | Description |
-|---|---|---|
-| `grant_type` | `"client_credentials"` | fixed value |
-| `scope` | `"offline"` | fixed value |
-| `client_id` | `"my-client"` | **Client ID** of the fylr Instance |
-| `client_secret` | `"my-secret"` | **Client Secret** of the fylr Instance |
+| Parameter       | Value                  | Description                            |
+| --------------- | ---------------------- | -------------------------------------- |
+| `grant_type`    | `"client_credentials"` | fixed value                            |
+| `scope`         | `"offline"`            | fixed value                            |
+| `client_id`     | `"my-client"`          | **Client ID** of the fylr Instance     |
+| `client_secret` | `"my-secret"`          | **Client Secret** of the fylr Instance |
 
 If the **Client ID** and **Secret** are correct, fylr will return a JSON object in the response with the following values:
 
-| Key | Description |
-|---|---|
-| `access_token` | **Access Token** |
-| `token_type` | `"bearer"` |
-| `scope` | `"offline"`, same as above |
-| `expires_in` | Time until the **Access Token** expires, in seconds |
+| Key            | Description                                         |
+| -------------- | --------------------------------------------------- |
+| `access_token` | **Access Token**                                    |
+| `token_type`   | `"bearer"`                                          |
+| `scope`        | `"offline"`, same as above                          |
+| `expires_in`   | Time until the **Access Token** expires, in seconds |
