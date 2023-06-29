@@ -43,17 +43,41 @@ Select which user information should be returned over the OpenID endpoint `oauth
 
 ## LDAP
 
+To enable logging in with LDAP accounts, scroll the User Management page to LDAP, above SAML:
+<figure><img src="_assets/fylr-ldap-find-menu.png" alt=""><figcaption>where to find LDAP in the menues</figcaption></figure>
 
+Here an example configuration with public test provider ldap.forumsys.com:
+<figure><img src="_assets/fylr-ldap-cropped.png" alt=""><figcaption>example ldap configuration</figcaption></figure>
+
+**URL**: Do not forget the protocol, in this case, `ldap://`.
+
+**Allow insecure connection**: Can be safe if security is done by other means, e.g. fylr and LDAP server are running internally.
+
+**Bind User**: One user inside LDAP that flyr uses to search for other users and groups. Does not need administrative privileges.
+
+**Bind Password**: Password of the Bind User.
+
+**User Base DN**: Organizatinal Unit or whole organization, in which to search for users. All users who shall be able to log in must be in/below this. Bind User does not have to be in/below this.
+
+**User filter**: Which LDAP attribute shall be compared to the login string(which is entered during fylr login)? For example if I am Albert Einstein and my login username ist `einstein`: Which **LDAP attribute** contains the string `einstein`? In the example above: the attribute `uid` is compared to the login given by the user. So if I enter `einstein` and my password, fylr then searches for LDAP objects which have the attribute `uid` and value `einstein` in that attribute. If one is found, the password of that LDAP object is also checked and if successful, this LDAP object is considered logged in. fylr creates a fylr user (if not already existing) that is consindered connected to this LDAP object. For this scenario, the user filter `(uid=&(login)s)` is enough. To reduce search time and number of objects searched, the example in the screenshot additionally restricts the search to only LDAP objects of `objectClass` = `person`.
+
+**Group settings**: We recommend to only configure group settings after the above settings are working to log in. Groups settings are optional.
+
+**Group Base DN**: Organizatinal Unit or whole organization, in which to search for groups.
+
+**Group Filter**: not documented yet
+
+**Group Mapping**: not documented yet
 
 ## SAML
 
 SAML 2.0 is an [XML](https://en.wikipedia.org/wiki/XML)-based [protocol](https://en.wikipedia.org/wiki/Communications\_protocol) that uses [security tokens](https://en.wikipedia.org/wiki/Software\_token) containing [assertions](https://en.wikipedia.org/wiki/Security\_Assertion\_Markup\_Language) to pass information about a principal (usually an end user) between a SAML authority, named an [Identity Provider](https://en.wikipedia.org/wiki/Identity\_Provider), and a SAML consumer, named a [Service Provider](https://en.wikipedia.org/wiki/Service\_Provider).
 
-fylr acts as a Service Provider and as such needs an Identity Provider. For testing purposes you can use [https://samltest.id/](https://samltest.id/). fylr's endpoint to get the required metadata XML is [http://localhost/api/saml/metadata](http://localhost/api/samlmetadata). Replace _localhost_ with the domain of your fylr server.
+fylr acts as a Service Provider and as such needs an Identity Provider. For testing purposes you can use [https://samltest.id/](https://samltest.id/). fylr's endpoint to get the required metadata XML is [http://localhost/api/saml/metadata](http://localhost/api/saml/metadata). Replace _localhost_ with the domain of your fylr server.
 
 ### Test SAML with samltest.id
 
-First you need to generate a certificate and private key. The certificate must be then given to the Identity Provider, so that requests coming from fylr are accepted.
+First you need to generate a certificate and private key. The certificate will be entered in the fylr frontend's form fields and then be given to the Identity Provider as part of the metadata, so that requests coming from fylr are accepted. It is in addition to fylr's https certificate and not to be confused with it.
 
 #### Generate Certificate
 
@@ -74,12 +98,29 @@ openssl req -new -x509 -key private.key -out publickey.cer -days 365
 
 #### Upload Metadata
 
-```bash
-curl -o sdp-metadata.xml http://localhost/api/saml/metadata
-```
+Get fylr's metadata from https://FYLR.EXAMPLE.COM/api/saml/metadata (replace domain name with your instance).
 
-Upload the downloaded file **sdp-metadata.xml** to the testing service ([https://samltest.id/upload.php](https://samltest.id/upload.php)). The test system replies with _We successfully parsed and saved your metadata file. We now trust you._
+Upload the downloaded metadata file to the testing service ([https://samltest.id/upload.php](https://samltest.id/upload.php)). The test system replies with _We successfully parsed and saved your metadata file. We now trust you._
 
 #### Test Connection
 
-Now go to the fylr login page and click on **SAMLtestIdP**. This sends you to the login page of the Identify Provider. Login using any of the provided users. fylr will log the user in with no further rights (unless configured). Check the User Manager in fylr to see that the user record has been created.
+Now go to the fylr login page (e.g. by logging out or using a second browser or private tab) and click on **SAMLtestIdP** in the login dialog. This sends you to the login page of the Identify Provider. Login using any of the provided users (they are written on that test login page explicitly, with password). fylr will log the user in with no further rights (unless configured). Check the User Manager in fylr to see that the user record has been created.
+
+#### Group Mapping
+
+Users of samltest.id have a `role` attribute with values like `janitor@samltest.id`. This is shown during login on samltest.id's page. We will use this attribute to demonstrate a group mapping:
+
+Mapping goal: Every role that ends in `samltest.id` shall be autmatically member of the fylr group `testidp`.
+
+1. In fylr-URL/configmanager > User management > SAML add into the form field `Group Mapping` the value `%(role)s` (see following screenshot).
+
+<figure><img src="_assets/fylr-saml-group-mapping-en.png" alt=""><figcaption>How to add an attribute for SAML group mapping in the fylr frontend</figcaption></figure>
+
+2. In fylr-URL/groupmanager add a group named `testidp`. Give that group some system rights that are visible after logging in.
+
+3. In this group's configuration > `AUTHENTICATION SERVICES` > below `Single-Sign-On` add an entry with Method `Regular Expression` and Input `.*samltest.id` (see following screenshot).
+
+<figure><img src="_assets/fylr-group-mapping-en.png" alt=""><figcaption>How to match a value for a group mapping in the fylr frontend</figcaption></figure>
+
+4. Save. Test the login as a SAML user with a matching role. The user now has the rights given to the group `testidp`.
+

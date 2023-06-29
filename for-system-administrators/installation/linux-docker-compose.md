@@ -26,6 +26,12 @@ The following commands assume a Debian or Ubuntu server and a bash shell.
 apt-get install docker-compose apparmor
 ```
 
+* currently (2023-06), docker needs a restart before it is really up and running:
+
+```bash
+systemctl restart docker.service
+```
+
 * Memory setting needed for elasticsearch:
 
 ```bash
@@ -54,7 +60,7 @@ chown  999 postgres sqlbackups
 We suggest that you use our example configuration as a starting point:
 
 ```bash
-curl curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/config/fylr/fylr.yml -o config/fylr/fylr.yml
+curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/fylr.yml -o config/fylr/fylr.yml
 ```
 
 Edit `config/fylr/fylr.yml` and replace strings with `EXAMPLE`.
@@ -68,14 +74,14 @@ Much of the setup is encapsulated in a docker-compose yaml file. Download and us
 We still assume that you are in the `/srv/fylr` directory.
 
 ```bash
-curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/docker-compose.yml -o docker-compose.yml
+curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/docker-compose.yml -o docker-compose.yml
 
 docker-compose up
 ```
 
 `Ctrl` + `c` stops the services again.
 
-If you are satisfied you can let them run in the background with:
+If you are satisfied, we recommend to set `restart: always` for fylr in `docker-compose.yml` and let it run in the background with:
 
 ```bash
 docker-compose up -d
@@ -87,17 +93,34 @@ You can now surf to your fylr webfrontend.
 
 Default login is `root` with password `admin`. Please replace with a secure password: Click on `root` in the upper left corner.
 
-## automate SQL dumps
+## automate SQL dumps and updates of fylr and postgresql
 
 To have consistent and complete snapshots of your SQL data, we strongly recommend:
 
 ```bash
-curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/maintain -o maintain
+curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/maintain -o maintain
 chmod a+x maintain
-echo '23 43  *  *  *  root /srv/fylr/maintain backup' > /etc/cron.d/fylr-sql-backup
+```
+
+create a cron job like `/etc/cron.d/fylr-sql-backup-and-update`:
+```
+#MAILTO=you@example.com
+PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin
+
+#m h  dom m dow user command
+
+43 23  *  *  *  root /srv/fylr/maintain backup && /srv/fylr/maintain update
+
+35 12  *  *  7  root /srv/fylr/maintain cleanup
 ```
 
 With this setup you will find nightly sql dumps and pg_dump's log files in `/srv/fylr/sqlbackups`.
+
+Log files of the cron job will go to `/var/log/fylr-maintain.log`.
+
+You can change the maintain script's config in `/etc/default/fylr`, using bash syntax.
+
+Elasticsearch cannot be updated automatically due to missing support by the elasticsearch team (no tags like `latest`).
 
 ## Troubleshooting
 

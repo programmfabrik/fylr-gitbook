@@ -51,7 +51,10 @@ fylr:
   # underscores, ending in letter or number. Must be between 3 and 32 bytes.
   name: "myfylr"
 
-  # public external url of the server. This url needs to be fully qualified
+  # Public external url of the server. This url needs to be fully qualified. If
+  # you change this url for an existing database, a re-index is needed to update
+  # all object caches (which store the URL). This re-index can be started from
+  # /inspect/system.
   externalURL: "http://localhost"
 
   # encryptionKey is used to AES-encrypt sensitive information before writing it
@@ -258,8 +261,11 @@ fylr:
   # Client configuration of execserver is used
   # for syncing of files, metadata generation and plugin execution
   execserver:
-    # number of parallel file workers, default to 1, set to 0 to disable
-    parallel: 1
+    # number of parallel file workers, default to 2, set to 0 to disable.
+    parallel: 2
+    # number of parallel file workers only taking high priority tasks. Currently
+    # producing of all standard versions is a high priority task.
+    parallelHigh: 2
     # addresses of the execserver. they are tried in round robin.
     # if a server reports to be busy, the next server is tried.
     # if the server URL contains a /job/{service} path it is only used for the given service
@@ -438,11 +444,24 @@ fylr:
         c:
           processes: 4
       services:
+        # this service allows to execute arbitrary binaries
+        exec:
+          waitgroup: a
+          commands:
+            exec:
+              env:
+                # overwrite to use a different binary, defaults to "chromium" for the PDF plugin
+                - SERVER_PDF_CHROME=chromium
         node:
           waitgroup: b
           commands:
             node:
               prog: "node"
+        python3:
+          waitgroup: b
+          commands:
+            python3:
+              prog: "python3"
         convert:
           waitgroup: a
           commands:
@@ -582,6 +601,8 @@ fylr:
         iiif:
           waitgroup: a
           commands:
+            convert:
+              prog: convert
             fylr_iiif:
               # fylr_iiif needs
               #   - magick
@@ -592,3 +613,4 @@ fylr:
                 regex: "Version v*"
 ```
 {% endcode %}
+

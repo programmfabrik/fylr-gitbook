@@ -22,6 +22,10 @@ Add/Remove all languages for multi-language fields (they must be defined in the 
 
 Add the language code according to BCP 47, e.g. "en-US".&#x20;
 
+#### Display Name
+
+Add how the language should be displayed in the frontend. Supports multiple languages.
+
 #### Date, Time & Number Format
 
 Select the date, time and number format you want to use in this language.

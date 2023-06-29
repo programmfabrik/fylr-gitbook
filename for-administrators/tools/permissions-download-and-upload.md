@@ -49,11 +49,19 @@ Click on "Workflows" to replace or add all workflows.&#x20;
 
 ## Object Types
 
-Click on "Object Types" to replace or add all object type permissions. Open "Object Types" if you want to transfer only single object types from the source.
+Click on "Object Types" to replace or add all object type permissions. Open "Object Types" if you want to transfer only permissions of single object types from the source.
+
+{% hint style="info" %}
+Please note: all other object type settings can't be transferred at the moment and have to be set manually.
+{% endhint %}
 
 ## Pools
 
 Open "Pools" and select a pool from the source and one for the target to replace or add permissions of a pool. Source and target pool don't have to be the same, meaning you can transfer the permissions from one pool to a different pool.&#x20;
+
+{% hint style="info" %}
+Please note: pools itself can't be transferred and have to be created manually before transferring the settings & permissions.
+{% endhint %}
 
 ## Presets
 

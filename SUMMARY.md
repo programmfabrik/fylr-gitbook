@@ -3,6 +3,10 @@
 * [Welcome](README.md)
 * [Releases](releases/README.md)
   * [2023](releases/2023.md)
+    * [Release v6.5.1 (2023-06-23)](releases/2023/v6.5.1.md)
+    * [Release v6.5.0 (2023-06-22)](releases/2023/v6.5.0.md)
+    * [Release v6.4.0 (2023-05-31)](releases/2023/v6.4.0.md)
+    * [Release v6.3.1 (2023-04-28)](releases/2023/v6.3.1.md)
     * [Release v6.3.0 (2023-04-05)](releases/2023/v6.3.0.md)
     * [Release v6.2.5 (2023-03-16)](releases/2023/v6.2.5.md)
     * [Release v6.2.4 (2023-02-01)](releases/2023/v6.2.4.md)
@@ -12,10 +16,14 @@
   * [2022](releases/2022.md)
     * [fylr first Production Ready Release 🎉 (2022-12-22)](releases/2022/v6.2.0.md)
     * [Release v6.1.0 Beta 10 (2022-12-02)](releases/2022/v6.1.0.md)
+* [License Management](license-management.md)
 
 ## FOR USERS
 
 * [Coming Soon](for-users/coming-soon.md)
+* [Quick Access](for-users/quick-access/README.md)
+  * [Collections (& Presentations)](for-users/quick-access/collections-and-presentations.md)
+  * [Saved Searches (& Lists)](for-users/quick-access/saved-searches-and-lists.md)
 
 ## FOR ADMINISTRATORS
 
@@ -31,8 +39,14 @@
   * [File Worker](for-administrators/readme/file-worker.md)
   * [Objectstore](for-administrators/readme/objectstore.md)
   * [Services](for-administrators/readme/services.md)
+  * [License Management](for-administrators/readme/license-management.md)
   * [Development](for-administrators/readme/development.md)
   * [Plugins](for-administrators/readme/plugins.md)
+* [Permissions](for-administrators/permissions/README.md)
+  * [Groups](for-administrators/permissions/groups.md)
+  * [Pools](for-administrators/permissions/pools.md)
+  * [Tags & Workflows](for-administrators/permissions/tags-and-workflows.md)
+  * [Presets](for-administrators/permissions/presets.md)
 * [Tools](for-administrators/tools/README.md)
   * [CSV Importer](for-administrators/tools/csv-importer/README.md)
     * [General Information](for-administrators/tools/csv-importer/general-information.md)
@@ -55,6 +69,10 @@
   * [Load Custom Plugins](for-system-administrators/configuration/custom-plugin.md)
 * [Integration](for-system-administrators/integration/README.md)
   * [Authentication](for-system-administrators/integration/authentication.md)
+
+## Tutorials
+
+* [How To Set Up the Hotfolder & File System Connect](tutorials/how-to-set-up-the-hotfolder-and-file-system-connect.md)
 
 ## FOR DEVELOPERS
 
