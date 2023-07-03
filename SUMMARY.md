@@ -43,6 +43,7 @@
   * [Development](for-administrators/readme/development.md)
   * [Plugins](for-administrators/readme/plugins.md)
 * [Permissions](for-administrators/permissions/README.md)
+  * [User](for-administrators/permissions/user.md)
   * [Groups](for-administrators/permissions/groups.md)
   * [Pools](for-administrators/permissions/pools.md)
   * [Tags & Workflows](for-administrators/permissions/tags-and-workflows.md)
