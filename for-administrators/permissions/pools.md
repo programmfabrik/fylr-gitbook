@@ -63,7 +63,7 @@ Imagine you have the object type "**Files**" and one mask for **images** and one
 
 ### Tags
 
-By **default**, **all** [globally defined **tags**](tags-and-workflows.md) are **available** in all pools. If you want to **disable** certain tags in specific pools, you have to enable "**Use Individual Tags**" in the lower right. You then see all the tags above and can disable individual tags or make them a default.&#x20;
+By **default**, **all** [globally defined **tags**](tags-and-workflows.md) are **available** in all pools. If you want to **disable** certain tags in specific pools, you have to enable "**Use Individual Tags**" in the lower right. You then see all the tags above and can disable individual tags or make them a default. For more details, please refer to ["Tags & Workflows"](tags-and-workflows.md).&#x20;
 
 Tags that are "**Persistent**" globally **can't be disable** here.
 

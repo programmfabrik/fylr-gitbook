@@ -45,6 +45,7 @@
 * [Permissions](for-administrators/permissions/README.md)
   * [User](for-administrators/permissions/user.md)
   * [Groups](for-administrators/permissions/groups.md)
+  * [Object Types](for-administrators/permissions/object-types.md)
   * [Pools](for-administrators/permissions/pools.md)
   * [Tags & Workflows](for-administrators/permissions/tags-and-workflows.md)
   * [Presets](for-administrators/permissions/presets.md)

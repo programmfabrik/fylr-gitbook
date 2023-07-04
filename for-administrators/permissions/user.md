@@ -32,7 +32,7 @@ User types can be extended with custom plugins.&#x20;
 
 Each FYLR installation comes with the following **predefined system user**:
 
-<table><thead><tr><th width="189.5">USER</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>root</td><td>Has always full access to the whole system. Should be used carefully.</td></tr><tr><td>deep_link</td><td>User that's used to check the permissions for <a href="../readme/export-and-deep-links.md#deep-link-settings">deep links</a>. Assign permissions to this user to enable deep links for all or specific records.</td></tr><tr><td>deleted_user</td><td></td></tr><tr><td>oai_pmh</td><td>User that's used for <a href="../readme/export-and-deep-links.md#oai-pmh">OAI/PMH</a>. Assign permissions to this user to make records available for OAI/PMH.</td></tr></tbody></table>
+<table><thead><tr><th width="189.5">USER</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>root</td><td>Has always full access to the whole system. Should be used carefully.</td></tr><tr><td>deep_link</td><td>User that's used to check the permissions for <a href="../readme/export-and-deep-links.md#deep-link-settings">deep links</a>. Assign permissions to this user to enable deep links for all or specific records.</td></tr><tr><td>deleted_user</td><td>Whenever a user is deleted or archived that is the owner of a record or one that created / updated a record, the deleted user is replaced by deleted_user.</td></tr><tr><td>oai_pmh</td><td>User that's used for <a href="../readme/export-and-deep-links.md#oai-pmh">OAI/PMH</a>. Assign permissions to this user to make records available for OAI/PMH.</td></tr></tbody></table>
 
 
 
