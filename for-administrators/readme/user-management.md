@@ -28,12 +28,11 @@ Define which data of the user should be copied to the events. This is independen
 
 ## OAuth-Service
 
-Add pairs of Client IDs and Secrets for the [OAuth2 Authentication](./for-developers/api/oauth2#configuring-client-id-and-secret).
+Add pairs of Client IDs and Secrets for the [OAuth2 Authentication](for-developers/api/oauth2/#configuring-client-id-and-secret).
 
 * **Name**: Name of the Client (used as Client ID)
 * **Secret**: Client Secret, must be entered as a [Bcrypt Hash](https://bcrypt-generator.com/)
 * **Redirect URIs**: List of callback URLs to the local client, needed for some OAuth2 Authentication flows
-
 * **Expiration Time: Access Token**: Time after which the Access Token expires and needs to be refreshed, default: 24 hours
 * **Expiration Time: Refresh Token**: Time after which the Refresh Token expires, default: 720 hours
 
@@ -44,10 +43,12 @@ Select which user information should be returned over the OpenID endpoint `oauth
 ## LDAP
 
 To enable logging in with LDAP accounts, scroll the User Management page to LDAP, above SAML:
-<figure><img src="_assets/fylr-ldap-find-menu.png" alt=""><figcaption>where to find LDAP in the menues</figcaption></figure>
+
+<figure><img src="_assets/fylr-ldap-find-menu.png" alt=""><figcaption><p>where to find LDAP in the menues</p></figcaption></figure>
 
 Here an example configuration with public test provider ldap.forumsys.com:
-<figure><img src="_assets/fylr-ldap-cropped.png" alt=""><figcaption>example ldap configuration</figcaption></figure>
+
+<figure><img src="_assets/fylr-ldap-cropped.png" alt=""><figcaption><p>example ldap configuration</p></figcaption></figure>
 
 **URL**: Do not forget the protocol, in this case, `ldap://`.
 
@@ -65,9 +66,9 @@ Here an example configuration with public test provider ldap.forumsys.com:
 
 **Group Base DN**: Organizatinal Unit or whole organization, in which to search for groups.
 
-**Group Filter**: not documented yet
+**Group Filter**: Which LDAP objects to look at when deciding group membership. For example `(objectClass=myGroupType)`.
 
-**Group Mapping**: not documented yet
+**Group Mapping**: Which attribute to look at when deciding group membership. For example: `%(member)s`.
 
 ## SAML
 
@@ -114,13 +115,11 @@ Mapping goal: Every role that ends in `samltest.id` shall be autmatically member
 
 1. In fylr-URL/configmanager > User management > SAML add into the form field `Group Mapping` the value `%(role)s` (see following screenshot).
 
-<figure><img src="_assets/fylr-saml-group-mapping-en.png" alt=""><figcaption>How to add an attribute for SAML group mapping in the fylr frontend</figcaption></figure>
+<figure><img src="_assets/fylr-saml-group-mapping-en.png" alt=""><figcaption><p>How to add an attribute for SAML group mapping in the fylr frontend</p></figcaption></figure>
 
 2. In fylr-URL/groupmanager add a group named `testidp`. Give that group some system rights that are visible after logging in.
-
 3. In this group's configuration > `AUTHENTICATION SERVICES` > below `Single-Sign-On` add an entry with Method `Regular Expression` and Input `.*samltest.id` (see following screenshot).
 
-<figure><img src="_assets/fylr-group-mapping-en.png" alt=""><figcaption>How to match a value for a group mapping in the fylr frontend</figcaption></figure>
+<figure><img src="_assets/fylr-group-mapping-en.png" alt=""><figcaption><p>How to match a value for a group mapping in the fylr frontend</p></figcaption></figure>
 
 4. Save. Test the login as a SAML user with a matching role. The user now has the rights given to the group `testidp`.
-
