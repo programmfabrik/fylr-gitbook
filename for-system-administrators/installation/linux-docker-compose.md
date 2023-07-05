@@ -154,6 +154,16 @@ If the elasticsearch plugin `analysis-icu` is not installed you will get errors 
 
 > Unable to create index "..." error="Unknown char\_filter type \[icu\_normalizer]
 
+### More messages for debugging
+
+```
+fylr+:
+  logger:
+    # trace, debug, info, warn, error, fatal, panic
+    # defaults to "info"
+    level: "debug"
+```
+
 ### Further reading
 
 (NOT DONE YET)
