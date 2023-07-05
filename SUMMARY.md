@@ -42,6 +42,7 @@
   * [License Management](for-administrators/readme/license-management.md)
   * [Development](for-administrators/readme/development.md)
   * [Plugins](for-administrators/readme/plugins.md)
+* [Plugin Manager](for-administrators/plugin-manager.md)
 * [Permissions](for-administrators/permissions/README.md)
   * [User](for-administrators/permissions/user.md)
   * [Groups](for-administrators/permissions/groups.md)
@@ -74,7 +75,7 @@
 
 ## Tutorials
 
-* [Hotfolder & File System Connect](tutorials/how-to-set-up-the-hotfolder-and-file-system-connect.md)
+* [Hotfolder & File System Connect](tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/README.md)
   * [How To Set Up As Administrator](tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/how-to-set-up-as-administrator.md)
   * [How To Use As A Windows User](tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/how-to-use-as-a-windows-user.md)
   * [How To Use As A Mac User](tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/how-to-use-as-a-mac-user.md)
