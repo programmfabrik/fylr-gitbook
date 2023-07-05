@@ -1,3 +1,7 @@
+---
+description: Hotfolder & File System Connect
+---
+
 # How To Use As A Windows User
 
 Collections can be used for **uploads** via the webdav protocol, so for example via a webdav client program like [Cyberduck](https://cyberduck.io/webdav/) or Windows Explorer. All uploaded files will then be linked to the collection.
@@ -9,11 +13,11 @@ With **File System Connect** on the other hand, while uploading is also possible
 ## Requirements for using this
 
 1. An administrator has to enable these features. As a Tutorial: [How To Set Up As Administrator](how-to-set-up-as-administrator.md)
-2. You have to get the URL from the settings of the collection:
+2. You have to copy the URL from collection settings:
 
-![](<../../.gitbook/assets/image (5).png>) right click on a collection label and choose Settings
+![](../../.gitbook/assets/image.png) right click on a collection label and choose Settings
 
-![](<../../.gitbook/assets/image (4).png>) example of the Settings menu with the URLs
+![](<../../.gitbook/assets/image (5).png>) example of the Settings menu with the URLs
 
 Make sure to copy the URL you need:
 
@@ -28,7 +32,7 @@ Make sure to copy the URL you need:
 2. Right-click on This PC or Network. In the menu choose Map network drive.![](<../../.gitbook/assets/image (3).png>)Screenshot, German.
 3. Paste the https-URL of Upload/File Sysetm Connect you copied earlier
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>Example Dialog to map network drive, in German Windows 11.</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption><p>Example Dialog to map network drive, in German Windows 11.</p></figcaption></figure>
 
 ## Use with Cyberduck
 
@@ -37,7 +41,7 @@ Make sure to copy the URL you need:
 1. Open Cyberduck
 2. Click into the Quick Access field and paste the https-URL you copied earlier (see above, Requirements)
 
-<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption><p>Cyberduck User Interface with green border to hint at where Quick Access is. German</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption><p>Cyberduck User Interface with green border to hint at where Quick Access is. German</p></figcaption></figure>
 
 3. E.g. drag and drop files into the white space below `Dateiname` / `Filename` . Or, if you used a **File System Connect** URL, you may also download files that are in the collection. Only files _of the object type chosen_ in the collection settings will be visible.
 
