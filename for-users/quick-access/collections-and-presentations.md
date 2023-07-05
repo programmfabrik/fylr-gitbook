@@ -74,56 +74,17 @@ Use "**Activate**" to save the changes and prevent the dialogue from closing. Us
 
 ### Upload & File System Connect
 
-Collections can be used for **uploads** via the webdav protocol, so for example via a webdav client program like [Cyberduck](https://cyberduck.io/webdav/). All uploaded files will then be linked to the collection.
+Collections can be used for **uploads** via the webdav protocol, so for example via a webdav client program like [Cyberduck](https://cyberduck.io/webdav/) or Windows Explorer. All uploaded files will then be linked to the collection.
 
 With Upload, files will be consumed by fylr and disappear from webdav view as soon as imported. As an upside, uploading via this "Upload" feature is a lot faster than File System Connect.
 
-With File System Connect, uploading is also possible, but it is slower. As an upside, files will stay in the webdav view after being imported. Also, files that are already in the collection will become visible (only if they are of the one chosen Object Type). All visible files can be downloaded.
+With File System Connect, uploading is also possible, but it is slower. As an upside, files will stay in the webdav view after being imported. Also, files that are already in the collection will become visible (only if they are of the one chosen Object Type). All visible files can be downloaded.\
+\
+We prepared the following tutorials:
 
-#### Upload
-
-1. Make sure Uploading is enabled at all: Enable in Base Configuration - Services, see screenshot:
-
-<figure><img src="../../.gitbook/assets/fylr-hotfolder-but-not-file_system_connect.png" alt=""><figcaption><p>where to enable upload as a feature</p></figcaption></figure>
-
-Make sure that Uploading is enabled for the individual collection:
-
-2. Right click on collection, choose Settings, see screenshot:
-
-<figure><img src="../../.gitbook/assets/fylr-open-collection-settings.png" alt=""><figcaption><p>How to open collection Settings</p></figcaption></figure>
-
-3. In the tab "UPLOAD & FILE SYSTEM CONNECT" check the checkbox Enable Upload, see Screenshot:
-
-<figure><img src="../../.gitbook/assets/fylr-hotfolder-settings-simple.png" alt=""><figcaption><p>Collection settings for upload</p></figcaption></figure>
-
-4. Make sure to choose an Object Type which has a field of type `File`.
-5. Copy the https-URL for later use in your webdav client program.
-6. Click Activate or Save
-7. With your webdav client program, open the above copied https-URL.
-8. Upload one or more files using your webdav client.
-
-About 30 seconds after uploading, files will be imported into fylr and removed from the webdav "hotfolder". But they will then be in the collection.
-
-#### File System Connect
-
-1. Make sure it is enabled at all: Enable in Base Configuration - Services, see screenshot:
-
-<figure><img src="../../.gitbook/assets/fylr-file_system_connect-but-not-hotfolder.png" alt=""><figcaption><p>where to enable File Sysetm Connect as a feature</p></figcaption></figure>
-
-2. Right click on collection, choose Settings, see screenshot:
-
-<figure><img src="../../.gitbook/assets/fylr-open-collection-settings.png" alt=""><figcaption><p>How to open collection Settings</p></figcaption></figure>
-
-3. In the tab "UPLOAD & FILE SYSTEM CONNECT" check the checkbox Enable Upload, see Screenshot:
-
-<figure><img src="../../.gitbook/assets/fylr-file_system_connect-settings-simple.png" alt=""><figcaption><p>Collection settings for File Sytem Connect</p></figcaption></figure>
-
-4. Make sure to choose an Object Type which has a field of type `File`. You will only see objects of that type via webdav. Objects of other types will not be visible.
-5. Copy the https-URL for later use in your webdav client program.
-6. Click Activate or Save
-7. With your webdav client program, open the above copied https-URL.
-
-If you use your webdav client to upload files, they will stay visible after being imported.
+* [How To Set Up As Administrator](../../tutorials/how-to-set-up-the-hotfolder-and-file-system-connect.md)
+* [How To Use As A Windows User](../../tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/how-to-use-as-a-windows-user.md)
+* [How To Use As A Mac User](../../tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/how-to-use-as-a-mac-user.md)
 
 #### Settings
 

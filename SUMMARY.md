@@ -74,7 +74,7 @@
 
 ## Tutorials
 
-* [Hotfolder & File System Connect](tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/README.md)
+* [Hotfolder & File System Connect](tutorials/how-to-set-up-the-hotfolder-and-file-system-connect.md)
   * [How To Set Up As Administrator](tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/how-to-set-up-as-administrator.md)
   * [How To Use As A Windows User](tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/how-to-use-as-a-windows-user.md)
   * [How To Use As A Mac User](tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/how-to-use-as-a-mac-user.md)

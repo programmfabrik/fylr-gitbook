@@ -4,5 +4,5 @@ description: >-
   Connect. Administrator permissions are required.
 ---
 
-# How To Set Up the Hotfolder & File System Connect
+# Hotfolder & File System Connect
 
