@@ -127,7 +127,7 @@ You can change the maintain script's config in `/etc/default/fylr`, using bash s
 
 Elasticsearch cannot be updated automatically due to missing support by the elasticsearch team (no tags like `latest`).
 
-### Troubleshooting
+## Troubleshooting
 
 * `docker-compose` needs to be executed in the directory with the `docker-compose.yml`.
 * When docker cannot start containers with errors refering to `shim, OCI, apparmor`: `apt-get install apparmor apparmor-utils; systemctl restart docker`
@@ -154,7 +154,7 @@ If the elasticsearch plugin `analysis-icu` is not installed you will get errors 
 
 > Unable to create index "..." error="Unknown char\_filter type \[icu\_normalizer]
 
-#### More messages for debugging
+### More messages for debugging
 
 ```
 fylr+:
@@ -164,7 +164,7 @@ fylr+:
     level: "debug"
 ```
 
-### Further reading
+## Further reading
 
 (NOT DONE YET)
 
