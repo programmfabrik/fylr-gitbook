@@ -70,35 +70,59 @@ This flow requires a **Client ID** and **Secret**, as well as a fylr **login** a
 {% endswagger-description %}
 
 {% swagger-parameter name="auth_method" type="string" required="true" in="query" %}
-fixed value: `"auto"`
+fixed value: 
+
+`"auto"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="access_type" type="string" required="true" in="query" %}
-fixed value: `"offline"`
+fixed value: 
+
+`"offline"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="scope" type="string" required="true" in="query" %}
-fixed value: `"offline"`
+fixed value: 
+
+`"offline"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="response_type" type="string" required="true" in="query" %}
-fixed value: `"code"`
+fixed value: 
+
+`"code"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="state" type="string" required="true" in="query" %}
-Client State String (min. 8 characters), for example: `"Authorization_Code_Grant_Login"`
+Client State String (min. 8 characters), for example: 
+
+`"Authorization_Code_Grant_Login"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="client_id" type="string" required="true" in="query" %}
-**Client ID** of the fylr Instance: `"my-client"`
+**Client ID**
+
+ of the fylr Instance: 
+
+`"my-client"`
 {% endswagger-parameter %}
 
 {% swagger-response status="200" description="OK" %}
-This redirects to the fylr login page. The user enters **login** and **password** directly into fylr.
+This redirects to the fylr login page. The user enters 
+
+**login**
+
+ and 
+
+**password**
+
+ directly into fylr.
 {% endswagger-response %}
 
 {% swagger-response status="400" description="Error" %}
-Problems with the parameters, for example an invalid **Client ID**
+Problems with the parameters, for example an invalid 
+
+**Client ID**
 {% endswagger-response %}
 {% endswagger %}
 
@@ -124,9 +148,10 @@ Client State, this is to identify the callback. Same as above
 {% endswagger-parameter %}
 
 {% swagger-parameter name="code" type="string" required="true" in="query" %}
-**Authorization Code**. This needs to be stored and used in the following requests
-{% endswagger-parameter %}
+**Authorization Code**
 
+. This needs to be stored and used in the following requests
+{% endswagger-parameter %}
 {% endswagger %}
 
 #### **Step 3**: client validates Authorization Code
@@ -137,7 +162,9 @@ Client State, this is to identify the callback. Same as above
 {% endswagger-description %}
 
 {% swagger-parameter name="grant_type" type="string" required="true" in="query" %}
-fixed value: `"authorization_code"`
+fixed value: 
+
+`"authorization_code"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="state" type="string" required="true" in="query" %}
@@ -145,21 +172,33 @@ Client State, same as above
 {% endswagger-parameter %}
 
 {% swagger-parameter name="client_id" type="string" required="true" in="query" %}
-**Client ID** of the fylr Instance: `"my-client"`
+**Client ID**
+
+ of the fylr Instance: 
+
+`"my-client"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="client_secret" type="string" required="true" in="query" %}
-**Client Secret** of the fylr Instance: `"my-secret"`
+**Client Secret**
+
+ of the fylr Instance: 
+
+`"my-secret"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="code" type="string" required="true" in="query" %}
-**Authorization Code** from fylr callback
+**Authorization Code**
+
+ from fylr callback
 {% endswagger-parameter %}
 
 {% swagger-response status="200" description="OK" %}
+
 {% endswagger-response %}
 
 {% swagger-response status="400" description="Error" %}
+
 {% endswagger-response %}
 {% endswagger %}
 
@@ -218,34 +257,57 @@ This flow can be used to directly log into fylr with the user **login** and **pa
 {% endswagger-description %}
 
 {% swagger-parameter name="grant_type" type="string" required="true" in="query" %}
-fixed value: `"password"`
+fixed value: 
+
+`"password"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="scope" type="string" required="true" in="query" %}
-fixed value: `"offline"`
+fixed value: 
+
+`"offline"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="client_id" type="string" required="true" in="query" %}
-**Client ID** of the fylr Instance: `"my-client"`
+**Client ID**
+
+ of the fylr Instance: 
+
+`"my-client"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="client_secret" type="string" required="true" in="query" %}
-**Client Secret** of the fylr Instance: `"my-secret"`
+**Client Secret**
+
+ of the fylr Instance: 
+
+`"my-secret"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="username" type="string" required="true" in="query" %}
-fylr **Login** of the user
+fylr 
+
+**Login**
+
+ of the user
 {% endswagger-parameter %}
 
 {% swagger-parameter name="password" type="string" required="true" in="query" %}
-fylr **Password** of the user
+fylr 
+
+**Password**
+
+ of the user
 {% endswagger-parameter %}
 
 {% swagger-response status="200" description="OK" %}
+
 {% endswagger-response %}
 
 {% swagger-response status="400" description="Error" %}
-Problems with the parameters, for example an invalid **Client ID**
+Problems with the parameters, for example an invalid 
+
+**Client ID**
 {% endswagger-response %}
 {% endswagger %}
 
@@ -279,34 +341,51 @@ Using this flow is **not recommended**!
 {% endswagger-description %}
 
 {% swagger-parameter name="response_type" type="string" required="true" in="query" %}
-fixed value: `"token"`
+fixed value: 
+
+`"token"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="auth_method" type="string" required="true" in="query" %}
-fixed value: `"auto"`
+fixed value: 
+
+`"auto"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="scope" type="string" required="true" in="query" %}
-fixed value: `"offline"`
+fixed value: 
+
+`"offline"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="access_type" type="string" required="true" in="query" %}
-fixed value: `"offline"`
+fixed value: 
+
+`"offline"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="state" type="string" required="true" in="query" %}
-Client State String (min. 8 characters), for example: `"Implicit_Grant_Login"`
+Client State String (min. 8 characters), for example: 
+
+`"Implicit_Grant_Login"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="client_id" type="string" required="true" in="query" %}
-**Client ID** of the fylr Instance: `"my-client"`
+**Client ID**
+
+ of the fylr Instance: 
+
+`"my-client"`
 {% endswagger-parameter %}
 
 {% swagger-response status="200" description="OK" %}
+
 {% endswagger-response %}
 
 {% swagger-response status="400" description="Error" %}
-Problems with the parameters, for example an invalid **Client ID**
+Problems with the parameters, for example an invalid 
+
+**Client ID**
 {% endswagger-response %}
 {% endswagger %}
 
@@ -330,7 +409,6 @@ This callback must handle a `GET` request. fylr includes these URL parameters:
 {% swagger-parameter name="loc_hash" type="string" required="true" in="query" %}
 quoted URL parameters
 {% endswagger-parameter %}
-
 {% endswagger %}
 
 The `loc_hash` parameter is itself a list of URL parameters that need to be unquoted and split into key value pairs:
@@ -363,26 +441,41 @@ Using this flow is **not recommended**!
 {% endswagger-description %}
 
 {% swagger-parameter name="grant_type" type="string" required="true" in="query" %}
-fixed value: `"client_credentials"`
+fixed value: 
+
+`"client_credentials"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="state" type="string" required="true" in="query" %}
-Client State String (min. 8 characters), for example: `"Implicit_Grant_Login"`
+Client State String (min. 8 characters), for example: 
+
+`"Implicit_Grant_Login"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="client_id" type="string" required="true" in="query" %}
-**Client ID** of the fylr Instance: `"my-client"`
+**Client ID**
+
+ of the fylr Instance: 
+
+`"my-client"`
 {% endswagger-parameter %}
 
 {% swagger-parameter name="client_secret" type="string" required="true" in="query" %}
-**Client Secret** of the fylr Instance: `"my-secret"`
+**Client Secret**
+
+ of the fylr Instance: 
+
+`"my-secret"`
 {% endswagger-parameter %}
 
 {% swagger-response status="200" description="OK" %}
+
 {% endswagger-response %}
 
 {% swagger-response status="400" description="Error" %}
-Problems with the parameters, for example an invalid **Client ID**
+Problems with the parameters, for example an invalid 
+
+**Client ID**
 {% endswagger-response %}
 {% endswagger %}
 
