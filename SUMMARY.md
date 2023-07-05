@@ -72,6 +72,7 @@
   * [Load Custom Plugins](for-system-administrators/configuration/custom-plugin.md)
 * [Integration](for-system-administrators/integration/README.md)
   * [Authentication](for-system-administrators/integration/authentication.md)
+  * [Hotfolder](for-system-administrators/integration/hotfolder.md)
 
 ## Tutorials
 
