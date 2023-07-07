@@ -3,7 +3,7 @@ description: >-
   This section discribes how to integrate the hotfolder.
 ---
 
-Assuming your hotfolder will be located at `/srv/fylr/_hotfolder`:
+Assuming you use a docker-compose.yml file and your hotfolder will be located at `/srv/fylr/_hotfolder`:
 
 
 1. Create on your fylr instance the directory and change its permissions. The user permissions must be the same as the one your fylr runs.
@@ -33,4 +33,4 @@ fylr:
 
 4. Visit the fylr frontend and activate the Hotfolder:
    
-`Administration -> Base Config -> Services -> WebDAV: Hotfolder aktivieren`
+`Administration -> Base Config -> Services -> WebDAV: Activate hotfolder`
