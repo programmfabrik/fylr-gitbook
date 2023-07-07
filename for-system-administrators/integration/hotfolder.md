@@ -6,7 +6,7 @@ description: >-
 Assuming your hotfolder will be located at `/srv/fylr/_hotfolder`:
 
 
-1. Create on your fylr instance the directory and change its permissions:
+1. Create on your fylr instance the directory and change its permissions. The user permissions must be the same as the one your fylr runs.
 ```bash
 mkdir /srv/fylr/_hotfolder
 chown 1000 /srv/fylr/_hotfolder
