@@ -33,4 +33,7 @@ fylr:
 
 4. Visit the fylr frontend and activate the Hotfolder:
    
-`Administration -> Base Config -> Services -> WebDAV: Activate hotfolder`
+<details><summary>Frontend Image</summary>
+
+![Image](../../.gitbook/assets/fylr-integration_activate-hotfolder.png)
+</details>
