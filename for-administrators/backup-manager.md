@@ -1,6 +1,6 @@
 # Backup Manager
 
-## Working with the Backups
+## Working with the Backup Manager
 
 Backups are **sorted** chronologically with the **latest** backup at the **top**. To **create** a new backup, click on the **plus** button in the lower **left** and choose between the following **formats** in the next screen:
 
