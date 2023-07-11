@@ -30,7 +30,7 @@ Copy the GID of the sheet that should be loaded. You can find the GID in the sha
 
 ### Allow /api/settings/purge
 
-Define if the "purge" button should be enabled/disabled in /inspect/system to reset the whole system.
+Define if the "purge" button should be enabled/disabled in /inspect/system to reset the whole system. Note that you may need to enable this in your [fylr.yml](https://github.com/programmfabrik/fylr/blob/8c9d2a92ae410ecacb85191af116c1dfdb6a1ad5/fylr.example.yml#L233C19-L233C19) before.
 
 ### Delete files from storage locations
 
