@@ -44,6 +44,7 @@
   * [Plugins](for-administrators/readme/plugins.md)
 * [Plugin Manager](for-administrators/plugin-manager.md)
 * [Backup Manager](for-administrators/backup-manager.md)
+* [Location Manager](for-administrators/location-manager.md)
 * [Permissions](for-administrators/permissions/README.md)
   * [User](for-administrators/permissions/user.md)
   * [Groups](for-administrators/permissions/groups.md)
