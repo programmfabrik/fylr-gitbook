@@ -11,7 +11,7 @@ description: >-
 Some **plugins** will be shipped with **every** release by **default** (type "disk") and can't be removed (only disabled). Others can be **uploaded** as a **ZIP** or via an **URL**. Some plugins are **available** for **all** customers, others were only **developed** for specific **customers**.
 
 {% hint style="info" %}
-Please refer to the official [Programmfabrik GmbH GitHub](https://github.com/orgs/programmfabrik/repositories) account for all Open Source plugins that were either developed by us or our partners. Download links and documentation for each plugin can be found there.
+Please refer to the official [Programmfabrik GmbH GitHub](https://github.com/orgs/programmfabrik/repositories?q=plugin) account for all Open Source plugins that were either developed by us or our partners. Download links and documentation for each plugin can be found there.
 {% endhint %}
 
 {% hint style="info" %}
