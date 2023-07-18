@@ -7,7 +7,7 @@ description: >-
 # Installation
 
 {% hint style="info" %}
-Please note: We do all of our automated and manual software testing based on Linux fylr servers. There is no dedicated testing on Windows or Kubernetes server based installations.
+Please note: We do all of our automated and manual software testing based on Linux servers. There is no dedicated testing on Windows and almost no testing on Kubernetes.
 {% endhint %}
 
 ## Linux
