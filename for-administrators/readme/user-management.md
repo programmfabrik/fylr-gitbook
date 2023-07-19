@@ -62,13 +62,15 @@ Here an example configuration with public test provider ldap.forumsys.com:
 
 **User filter**: Which LDAP attribute shall be compared to the login string(which is entered during fylr login)? For example if I am Albert Einstein and my login username ist `einstein`: Which **LDAP attribute** contains the string `einstein`? In the example above: the attribute `uid` is compared to the login given by the user. So if I enter `einstein` and my password, fylr then searches for LDAP objects which have the attribute `uid` and value `einstein` in that attribute. If one is found, the password of that LDAP object is also checked and if successful, this LDAP object is considered logged in. fylr creates a fylr user (if not already existing) that is consindered connected to this LDAP object. For this scenario, the user filter `(uid=&(login)s)` is enough. To reduce search time and number of objects searched, the example in the screenshot additionally restricts the search to only LDAP objects of `objectClass` = `person`.
 
+
+
 ![](<../../.gitbook/assets/image (4).png>)
 
-**USER MAPPING**:&#x20;
+#### **USER MAPPING**&#x20;
 
 **Target:** Choose one, at least `Login`.
 
-**Value:** Enter one or more LDAP attributes, between `&(` and`)s`.
+**Value:** Enter one or more LDAP attributes, each between `&(` and`)s`.
 
 **+**: Add another mapped Attribute. We suggest `Display Name` and `EMail`.
 
