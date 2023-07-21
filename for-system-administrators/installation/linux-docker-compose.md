@@ -145,6 +145,7 @@ Trouble with reachability, network, redirects:
 
 * If you set your firewall rules to Allow, does the problem (e.g. `400 Bad Request`) go away?
 * Does your network use a private IP range that overlaps with docker networks?
+* Ubuntu may use `ufw` as Firewall, but there are problems in combination with docker. Consider to use `shorewall` > 5.0.6 instead (https://shorewall.org/Docker.html).
 
 Assets are not processed, previews are not generated:
 
