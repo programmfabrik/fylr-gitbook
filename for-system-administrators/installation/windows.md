@@ -14,9 +14,8 @@ It contains:
 * `fylr.example.yml` most configuration parameters. Look here for reference.
 * `fylr.default.yml` compiled-in default values.
 * `LICENSE` legal information on who may use fylr.
-* `utils/` some tools for asset processing. (More need to be downloaded, see below)
+* `utils/` for asset processing tools (need to be downloaded, see below)
 * `webfrontend/` The static webfrontend files.
-* `resources/` more files for fylr, e.g. translations.
 
 ## Windows path length
 
@@ -146,41 +145,32 @@ In fylr.yml we configured it as now visible in the comments there.
 Now was a good time to go through fylr.yml and turn a whole range of comments into non-comments:
 
 * blocks mentioning all the above tools (magick.exe, ...)
-* blocks mentioning fylr\_metadata.exe, fylr\_pdf2pages.exe, fylr\_iiif.exe. They are included in the zip file you unpacked earlier, but had to be comments until now because they depended on 3rd party tools not included in fylr...zip.
-* An example of such a block: Original state:
+* An example of such a block, this time with python3: Original state:
 
 ```
-#         pdf2pages:
-#           waitgroup: a
+#         python3:
+#           waitgroup: b
 #           commands:
-#             fylr_pdf2pages:
-#               env:
-#                 - FYLR_CMD_FYLR_METADATA=.\\fylr_metadata.exe
-#                 - FYLR_CMD_MAGICK=.\\magick.exe
-#                 - FYLR_CMD_EXIFTOOL=.\\exiftool.exe
-#               prog: "utils\\fylr_pdf2pages.exe"
-#             fylr_metadata:
-#               env:
-#                 - FYLR_CMD_EXIFTOOL=.\\exiftool.exe
-#               prog: "utils\\fylr_metadata.exe"
+#             python3:
+#               prog: "utils\\python3\\python.exe
+#               startupCheck:
+#                 args:
+#                   - "--version"
+#                 regex: "Python 3.*"
 ```
 
-* advised state to integrate the mentioned 3rd party tool:
+* advised state to integrate the downloaded 3rd party tool python3:
 
 ```
-        pdf2pages:
-          waitgroup: a
+        python3:
+          waitgroup: b
           commands:
-            fylr_pdf2pages:
-              env:
-                - FYLR_CMD_FYLR_METADATA=.\\fylr_metadata.exe
-                - FYLR_CMD_MAGICK=.\\magick.exe
-                - FYLR_CMD_EXIFTOOL=.\\exiftool.exe
-              prog: "utils\\fylr_pdf2pages.exe"
-            fylr_metadata:
-              env:
-                - FYLR_CMD_EXIFTOOL=.\\exiftool.exe
-              prog: "utils\\fylr_metadata.exe"
+            python3:
+              prog: "utils\\python3\\python.exe"
+              startupCheck:
+                args:
+                  - "--version"
+                regex: "Python 3.*"
 ```
 
 Lines are made comments by adding `#` in front of the line, so remove the hash AND one space to use commented lines as config. Check that each indentation level is two spaces. (No tab characters, just space characters)
@@ -251,7 +241,7 @@ We closed and opened a new window for `fylr.exe server` so that the new PATH is 
 
 We tested Inkscape integration by uploading a svg file into fylr and check whether a preview is generated.
 
-
+***
 
 ## Start fylr as a service
 
