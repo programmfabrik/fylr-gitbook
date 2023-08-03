@@ -64,7 +64,9 @@ Here an example configuration with public test provider ldap.forumsys.com:
 
 #### **USER MAPPING**&#x20;
 
-![](<../../.gitbook/assets/image (4).png>)
+
+
+![](<../../.gitbook/assets/image (6).png>)
 
 **Target:** Choose one, at least `Login`.
 
