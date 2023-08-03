@@ -70,7 +70,7 @@ Here an example configuration with public test provider ldap.forumsys.com:
 
 **Target:** Choose one, at least `Login`.
 
-**Value:** Enter one or more LDAP attributes, each between `&(` and`)s`.
+**Value:** Enter one or more LDAP attributes, each between `&(` and`)s`. <mark style="color:red;">Upper case / lower case</mark> <mark style="color:red;"></mark>_<mark style="color:red;">is</mark>_ <mark style="color:red;"></mark><mark style="color:red;">important here, even if it is not important inside your LDAP Directory!</mark>
 
 **+**: Add another mapped Attribute. We suggest `Display Name` and `EMail`.
 
