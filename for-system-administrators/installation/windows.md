@@ -16,7 +16,7 @@ It contains:
 * `LICENSE` legal information on who may use fylr.
 * `webfrontend` folder. The static webfrontend files.
 * plugin folders.
-* `resources` folder: obsolete as of v6.6.0, will soon be removed.
+* `resources` folder: these recources are now also inside the flyr.exe executable file and are used by default. But we still include them separately so you can work with them.
 
 ## Windows path length
 
