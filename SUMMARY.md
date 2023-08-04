@@ -72,6 +72,7 @@
   * [Kubernetes](for-system-administrators/installation/helm.md)
 * [Configuration](for-system-administrators/configuration/README.md)
   * [fylr.example.yml](for-system-administrators/configuration/fylr.example.yml.md)
+  * [fylr.default.yml](for-system-administrators/configuration/fylr.default.yml.md)
   * [Load Custom Plugins](for-system-administrators/configuration/custom-plugin.md)
 * [Integration](for-system-administrators/integration/README.md)
   * [Authentication](for-system-administrators/integration/authentication.md)
