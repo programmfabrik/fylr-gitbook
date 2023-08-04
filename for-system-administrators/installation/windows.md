@@ -9,13 +9,14 @@ Running fylr.exe
 
 It contains:
 
-* `fylr.exe` fylr native for Windows amd64
+* `fylr.exe` fylr native for Windows amd64.
 * `fylr.yml` a starting configuration already adjusted with Windows path syntax and for the following instructions.
 * `fylr.example.yml` most configuration parameters. Look here for reference.
 * `fylr.default.yml` compiled-in default values.
 * `LICENSE` legal information on who may use fylr.
-* `utils/` for asset processing tools (need to be downloaded, see below)
-* `webfrontend/` The static webfrontend files.
+* `webfrontend` folder. The static webfrontend files.
+* plugin folders.
+* `resources` folder: obsolete as of v6.6.0, will soon be removed.
 
 ## Windows path length
 
@@ -113,10 +114,15 @@ If you want to go back to a fresh state between two test runs:
 * Start elasticsearch as shown at the beginnig.
 * If you use postgres, remove and recreate the database.
 
-### Magick.exe and convert.exe and composite.exe
+### pdftotext.exe
+
+* We downloaded [https://dl.xpdfreader.com/xpdf-tools-win-4.04.zip](https://dl.xpdfreader.com/xpdf-tools-win-4.04.zip) from  [https://www.xpdfreader.com/download.html](https://www.xpdfreader.com/download.html)
+* We only put the pdftotext.exe file from the package to `C:\fylr\utils`.
+
+### magick.exe and convert.exe and composite.exe
 
 * We downloaded `ImageMagick-7.1.0-61-portable-Q16-HDRI-x64.zip` from [https://imagemagick.org/script/download.php#windows](https://imagemagick.org/script/download.php#windows)
-* We put the three mentioned tools from the download into the utils directory which is parallel to fylr.exe
+* We put the three mentioned tools from the download into `C:\fylr\utils`.
 
 Hint from the [download page](https://imagemagick.org/script/download.php#windows):
 
@@ -126,7 +132,7 @@ Hint from the [download page](https://imagemagick.org/script/download.php#window
 
 We downloaded: Windows Executable: exiftool-12.56.zip on [http://exiftool.sourceforge.net](http://exiftool.sourceforge.net)
 
-We have put exiftool(-k).exe from the download into the utils directory
+We have put exiftool(-k).exe from the download into `C:\fylr\utils`.
 
 We renamed it to exiftool.exe as recommended on exiftool.sourceforge.net.
 
@@ -136,60 +142,19 @@ We downloaded ffmpeg-n5.1.2-12-g7268323193-win64-gpl-5.1.zip from [https://githu
 
 We suggest you avoid the LGPL version as testing showed it has less features (x264 and x265).
 
-We have put ffmpeg.exe and ffprobe.exe into the utils directory.
-
-In fylr.yml we configured it as now visible in the comments there.
-
-### Un-commenting in fylr.yml
-
-Now was a good time to go through fylr.yml and turn a whole range of comments into non-comments:
-
-* blocks mentioning all the above tools (magick.exe, ...)
-* An example of such a block, this time with python3: Original state:
-
-```
-#         python3:
-#           waitgroup: b
-#           commands:
-#             python3:
-#               prog: "utils\\python3\\python.exe
-#               startupCheck:
-#                 args:
-#                   - "--version"
-#                 regex: "Python 3.*"
-```
-
-* advised state to integrate the downloaded 3rd party tool python3:
-
-```
-        python3:
-          waitgroup: b
-          commands:
-            python3:
-              prog: "utils\\python3\\python.exe"
-              startupCheck:
-                args:
-                  - "--version"
-                regex: "Python 3.*"
-```
-
-Lines are made comments by adding `#` in front of the line, so remove the hash AND one space to use commented lines as config. Check that each indentation level is two spaces. (No tab characters, just space characters)
+We have put ffmpeg.exe and ffprobe.exe into `C:\fylr\utils`.
 
 ### Node
 
 We downloaded node-v16.17.0-win-x64.7z from [https://nodejs.org/dist/v16.17.0/](https://nodejs.org/dist/v16.17.0/)
 
-We put just node.exe into the utils folder parallel to fylr.exe.
-
-In fylr.yml we configured it by converting the comment block mentioning node.exe into non-comments.
+We put just node.exe into `C:\fylr\utils`.
 
 ### Python
 
 We donwloaded "Windows embeddable package (64-bit)" at [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/) (explained [here](https://docs.python.org/3/using/windows.html#windows-embeddable))
 
-We unpacked the whole package as the folder "python3" inside the utils folder.
-
-In fylr.yml we configured it by converting the comment block mentioning python.exe into non-comments.
+We unpacked the whole package as the folder "python3" inside `C:\fylr\utils`.
 
 ### Java
 
@@ -237,9 +202,92 @@ We installed Inkscape 1.2 via its default Installer.
 
 We added Inkscape's `bin` directory to the Windows System PATH as in [https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows#answer\_104285](https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows#answer\_104285)
 
-We closed and opened a new window for `fylr.exe server` so that the new PATH is knwon to the window.
+We closed and opened a new window for `fylr.exe server` so that the new PATH is known to the window.
 
 We tested Inkscape integration by uploading a svg file into fylr and check whether a preview is generated.
+
+## Tools in fylr.yml
+
+Now was a good time to go to the last part in fylr.yml and replace minimal 3rd party tools config into explicit tools config:
+
+* before:
+
+<pre><code>fylr+:
+  [...]
+  services+:
+  [...]
+    execserver+:
+<strong>
+</strong>      commands:
+       fylr:
+         prog: fylr.exe
+      services:
+
+      # commands+:
+        # fylr:
+          # prog: fylr.exe
+        # ffmpegthumbnailer:
+          # # ffmpegthumbnailer: not under Windows. ffmpeg is used instead as a fallback
+        # soffice:
+          # prog: "C:\\LibreOfficePortable\\LibreOfficePortable.exe"
+        # magick:
+          # prog: "C:\\fylr\\utils\\magick.exe"
+        # exiftool:
+          # prog: "C:\\fylr\\utils\\exiftool.exe"
+        # ffmpeg:
+          # prog: "C:\\fylr\\utils\\ffmpeg.exe"
+        # ffprobe:
+          # prog: "C:\\fylr\\utils\\ffprobe.exe"
+        # node:
+          # prog: "C:\\fylr\\utils\\node.exe"
+        # python3:
+          # # prog: "C:\\fylr\\utils\\python3\\python.exe"
+          # # is searched in PATH variable:
+          # prog: "python.exe"
+        # pdftotext:
+          # prog: "C:\\fylr\\utils\\pdftotext.exe"
+</code></pre>
+
+* after:
+
+<pre><code><strong>fylr+:
+</strong><strong>  [...]
+</strong><strong>  services+:
+</strong><strong>  [...]
+</strong>    execserver+:
+    
+      # commands:
+       # fylr:
+         # prog: fylr.exe
+      # services:
+
+      commands+:
+        fylr:
+          prog: fylr.exe
+        ffmpegthumbnailer:
+          # ffmpegthumbnailer: not under Windows. ffmpeg is used instead as a fallback
+        soffice:
+          prog: "C:\\LibreOfficePortable\\LibreOfficePortable.exe"
+        magick:
+          prog: "C:\\fylr\\utils\\magick.exe"
+        exiftool:
+          prog: "C:\\fylr\\utils\\exiftool.exe"
+        ffmpeg:
+          prog: "C:\\fylr\\utils\\ffmpeg.exe"
+        ffprobe:
+          prog: "C:\\fylr\\utils\\ffprobe.exe"
+        node:
+          prog: "C:\\fylr\\utils\\node.exe"
+        python3:
+          #prog: "C:\\fylr\\utils\\python3\\python.exe"
+          # is searched in PATH variable:
+          prog: "python.exe"
+        pdftotext:
+          prog: "C:\\fylr\\utils\\pdftotext.exe"
+
+</code></pre>
+
+Lines are made comments by adding `#` in front of the line, so remove the hash AND one space to use commented lines as config. Check that each indentation level is two spaces. (No tab characters, just space characters).
 
 ***
 
