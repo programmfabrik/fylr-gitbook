@@ -304,7 +304,7 @@ Now was a good time to go to the last part in fylr.yml and replace minimal 3rd p
 
 </code></pre>
 
-Lines are made comments by adding `#` in front of the line, so remove the hash AND one space to use commented lines as config. Check that each indentation level is two spaces. (No tab characters, just space characters).
+Check that each indentation level is two spaces. (No tab characters, just space characters).
 
 ***
 
