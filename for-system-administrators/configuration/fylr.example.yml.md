@@ -45,9 +45,9 @@ description: >-
 # All config is below "fylr"
 fylr:
 
-  # name of the instance (mandatory). Its used as prefix for the bucket
-  # names and elastic indexes. The name must match regexp [a-z][a-z0-9\-_]*[a-z0-9].
-  # So, all small letters, start with a letter, followed by small letter, a number, dash or
+  # Name of the instance (mandatory). It is used as prefix for the bucket
+  # names and elastic indexes. The name must match regexp [a-z][a-z0-9\-_]*[a-z0-9]:
+  # All small letters, start with a letter, followed by small letter, a number, dash or
   # underscores, ending in letter or number. Must be between 3 and 32 bytes.
   name: "myfylr"
 
@@ -55,11 +55,28 @@ fylr:
   # you change this url for an existing database, a re-index is needed to update
   # all object caches (which store the URL). This re-index can be started from
   # /inspect/system.
+  #
+  # fylr will redirect all incoming requests to this externalURL, unless there is
+  # a reverse proxy source matching in fylr.services.webapp.reverseProxy.custom.
   externalURL: "http://localhost"
+
+  # licenseFile (default: none). Path to license file. This is used as default
+  # if nothing is set in the baseconfig. This setting is mutually exclusive with
+  # fylr.license.
+  licenseFile: "license.json"
+
+  # licsense: Inline JSON of license.  This is used as default if nothing is set
+  # in the baseconfig. This setting is mutually exclusive with fylr.licenseFile.
+  license: "<JSON>"
 
   # encryptionKey is used to AES-encrypt sensitive information before writing it
   # to the database. It must be 32 bytes long. Default is empty.
   encryptionKey: ""
+
+  # stdErrFile redirects all output to stderr to the given file when fylr is run
+  # as a server. If the file cannot be created for writing, fylr will not start.
+  # The file path is relative to fylr's working directory.
+  stdErrFile: ""
 
   # for development only
   debug:
@@ -220,16 +237,17 @@ fylr:
         # update_policy: automatic, always, never, defaults to automatic
         update: "never"
 
-  # set to true to allow /api/settings/purge. dont use on production systems!
+  # Set to true to allow /api/settings/purge. dont use on production systems!
   allowpurge: true
 
-  # path to resources, that are all files needed by FLYR during runtime (inspect, pages, etc..)
-  # the default path is relative to the FLYR binary, not the current working directory
+  # Optional path to resources, that are all files needed by FLYR during runtime
+  # (inspect, pages, etc..) If unset, fylr uses binary embedded resources (so no
+  # resource folder needed in that case). Defaults to embedded.
   resources: ""
 
-  # elastic is the indexer for FYLR
+  # Elastic is the indexer for FYLR
   elastic:
-    # logger used for the elastic client
+    # Logger used for the elastic client
     # "Text": TextLogger prints the log message in plain text.
     # "Color": ColorLogger prints the log message in a terminal-optimized plain text.
     # "Curl": CurlLogger prints the log message as a runnable curl command.
@@ -300,6 +318,10 @@ fylr:
         certFile: ""
         keyFile: ""
 
+      # hotfolder path, if set this folder will be created by fylr (if not
+      # exists).
+      webDAVHotfolderPath: "_hotfolder"
+
       # oauth2 server settings
       oauth2Server:
         # This secret is used to sign authorize codes, access and refresh
@@ -361,18 +383,26 @@ fylr:
         # property. With this setting, fylr automatically retrieves and renews
         # an certificate for the domain of fylr.externalURL.
         letsEncrypt:
-          # email is used to register the certifcate with Let's Encrypt
-          email: emailer@fylr.io
+          # email is used to register the certificate with Let's Encrypt
+          email: you@example.com
+
           # forwardHttpAddr defines an address a http listener is started
           # to forward requests to fylr.services.webapp.addr (the port of the)
           # webserver. Typically you use ":80" for the forward http and ":443"
-          # for the main listener.
-          forwardHttpAddr: ":80"
+          # for webapp.addr.
+          #forwardHttpAddr: "" # use port 443 for letsencrypt challenge_type=tls-alpn-01
+          forwardHttpAddr: ":80" # use port 80 for letsencrpyt challenge_type=http-01
+
           # useStagingCA sets the staging server of Let's Encrypt which has a higher
           # quota than the production server. However, these certificates are for
           # testing purposes only. They are not signed for official use, so browser
           # will recognise them as being insecure.
           useStagingCA: false
+
+          # additionalDomains can be given to get additional certificates for the given
+          # domains.
+          # additionalDomains:
+          # - "www.database.de"
 
       # javascript files for the webapp
       path: ../easydb-webfrontend/build
@@ -383,11 +413,26 @@ fylr:
         clientID: web-client
         # clientSecret must be provided in clear
         clientSecret: foo
+        # Optional setting of the URL used to build the token url which is used
+        # for server to server communication to exchange the auth code for a
+        # token defaults to fylr.externalURL
+        # Needs to be set to the port of fylr.services.api.addr
+        internalURL: "http://localhost:8080/"
+
       # optional reverse proxy. redirect endpoint
       # /api and /inspect to target
       reverseProxy:
         api: "http://localhost:8080"
         backend: "http://localhost:8081"
+        # custom map for reverse proxy endpoints, use pathPrefix as the key and
+        # the targetURL as the value. Internally fylr uses
+        # https://pkg.go.dev/net/http/httputil#NewSingleHostReverseProxy. It is
+        # possible to give a full URL here and set the source host
+        # (domain:port). A match of such a source URL will precede the redirect
+        # which would normally go to fylr.externalURL
+        custom:
+          "/system2": "http://localhost:7890"
+          "//other-domain/": http://localhost:9999/
       # http basic auth for all access to the webfrontend
       basicAuth:
         root: admin
@@ -443,15 +488,23 @@ fylr:
           processes: 2
         c:
           processes: 4
+      # env can be set for all programs started by the execserver
+      # this is overwritten by the env set for the specific command and by the
+      # os environment
+      env:
+        - FYLR_METADATA_BLURHASH=1g
+        # overwrite to use a different binary, defaults to "chromium" for the PDF plugin
+        - SERVER_PDF_CHROME=chromium
+
+      # common command defintion for all services. Also used to set FYLR_CMD_<PROG> environment
+      # for helper programs which are started by "fylr SUBCOMMAND". Like "exiftool" or "magick"
+      commands:
+        exiftool:
+          prog: exiftool
+        magick:
+          prog: magick
+
       services:
-        # this service allows to execute arbitrary binaries
-        exec:
-          waitgroup: a
-          commands:
-            exec:
-              env:
-                # overwrite to use a different binary, defaults to "chromium" for the PDF plugin
-                - SERVER_PDF_CHROME=chromium
         node:
           waitgroup: b
           commands:
@@ -465,6 +518,10 @@ fylr:
         convert:
           waitgroup: a
           commands:
+            fylr_convert:
+              prog: "fylr"
+              args:
+                - "convert"
             convert:
               prog: "convert"
               env:
@@ -494,7 +551,9 @@ fylr:
               # is unlimited.
               env:
                 - FYLR_METADATA_BLURHASH=1g
-              prog: "utils/fylr_metadata/fylr_metadata"
+              prog: "fylr"
+              args:
+                - "metadata"
         ffmpeg:
           waitgroup: a
           commands:
@@ -527,7 +586,11 @@ fylr:
                   - "-version"
                 regex: "Version: ImageMagick 7..*?https://imagemagick.org"
             fylr_metadata:
-              prog: "utils/fylr_metadata/fylr_metadata"
+              env:
+                - FYLR_METADATA_BLURHASH=1g
+              prog: "fylr"
+              args:
+                - "metadata"
             ffmpegthumbnailer:
               prog: ffmpegthumbnailer
               startupCheck:
@@ -562,12 +625,22 @@ fylr:
                   - "-version"
                 regex: "Version: ImageMagick 7..*?https://imagemagick.org"
             fylr_metadata:
-              prog: "utils/fylr_metadata/fylr_metadata"
+              env:
+                - FYLR_METADATA_BLURHASH=1g
+              prog: "fylr"
+              args:
+                - "metadata"
+
         metadata:
           waitgroup: a
           commands:
             fylr_metadata:
-              prog: "utils/fylr_metadata/fylr_metadata"
+              env:
+                - FYLR_METADATA_BLURHASH=1g
+              prog: "fylr"
+              args:
+                - "metadata"
+
             ffprobe:
               prog: ffprobe
               startupCheck:
@@ -584,15 +657,19 @@ fylr:
               # The <prog> is the program name (upper case)
               #
               # pdf2pages needs
-              #   - fylr_metadata
-              #   - magick
-              env:
-                - FYLR_CMD_FYLR_METADATA=../../utils/fylr_metadata/fylr_metadata
-              prog: "utils/fylr_pdf2pages/fylr_pdf2pages"
-            fylr_metadata:
-              # fylr_metadata needs
               #   - exiftool
-              prog: "utils/fylr_metadata/fylr_metadata"
+              #   - magick
+              prog: "fylr"
+              args:
+                - "pdf2pages"
+
+            fylr_metadata:
+              env:
+                - FYLR_METADATA_BLURHASH=1g
+              prog: "fylr"
+              args:
+                - "metadata"
+
         xslt:
           waitgroup: a
           commands:
@@ -604,13 +681,10 @@ fylr:
             convert:
               prog: convert
             fylr_iiif:
-              # fylr_iiif needs
-              #   - magick
-              prog: "utils/fylr_iiif/fylr_iiif"
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "Version v*"
+              prog: "fylr"
+              args:
+                - "iiif"
+
 ```
 {% endcode %}
 
