@@ -56,6 +56,23 @@ With default settings, 11,7 GB free RAM _was_ enough. Tweaking java settings, ev
 
 ### Start with minimal dependencies
 
+Edit fylr.yml to not use any 3rd part tools for the moment if you want to test/start with minimal effort:
+
+
+
+```
+ fylr+:
+  [...]
+  services+:
+  [...]
+    execserver+:
+
+      commands:
+        fylr:
+          prog: fylr.exe
+      services:
+```
+
 You are now ready to start fylr, although most asset processing tools are still missing: (no previews)
 
 ```
