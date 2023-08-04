@@ -15,8 +15,8 @@ services:
         soft: -1
         hard: -1
       nofile:
-        soft: "65536"
-        hard: "65536"
+        soft: 65536
+        hard: 65536
     command: /bin/sh -c "./bin/elasticsearch-plugin list | grep -q analysis-icu || ./bin/elasticsearch-plugin install analysis-icu; /usr/local/bin/docker-entrypoint.sh"
     volumes:
       - "/srv/fylr/elasticsearch:/usr/share/elasticsearch/data"
