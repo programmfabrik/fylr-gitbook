@@ -1,9 +1,11 @@
 ---
 description: >-
-  In this section you find most settings possible in fylr.yml and explanations as comments
+  In this section you find most settings possible in fylr.yml and explanations
+  as comments
 ---
 
-# fylr.yml
+# fylr.example.yml
+
 {% code title="fylr.yml" lineNumbers="true" %}
 ```yaml
 ## - Some of the regexs to check for versions might require modifications
@@ -23,7 +25,7 @@ description: >-
 ## To set the externalURL and the sqlite database name in a minimum fylr.yml one could do:
 ##
 ## ---fylr.yml---
-##   fylr+
+##   fylr+:
 ##     externalURL: "http://localhost"
 ##     db+:
 ##       dsn: mysqlite.db
@@ -687,4 +689,3 @@ fylr:
 
 ```
 {% endcode %}
-
