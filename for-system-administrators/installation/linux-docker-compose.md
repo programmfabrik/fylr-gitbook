@@ -133,7 +133,9 @@ Elasticsearch cannot be updated automatically due to missing support by the elas
 * When docker cannot start containers with errors refering to `shim, OCI, apparmor`: `apt-get install apparmor apparmor-utils; systemctl restart docker`
 * When elasticsearch does not work, make sure you used `sysctl` as shown above.
 
-Such messages can be safely ignored:
+Many messages can be safely ignored, see
+
+
 
 > could not obtain lock on row in relation
 

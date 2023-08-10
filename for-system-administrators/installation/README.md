@@ -31,3 +31,9 @@ Please note: We do all of our automated and manual software testing based on Lin
 * Needs helm and a kubernetes cluster.
 * 3rd party tools for thumbnails are pre-packaged.
 * We offer no support for this variant, just bugfixes for your reports to support@programmfabrik.de.
+
+Topics for all variants:
+
+Troubleshooting
+
+fylr log messages than can be ignored
