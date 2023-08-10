@@ -99,7 +99,7 @@ Please note, that these filter cannot be disabled in the frontend. Only root use
 
 ## PDF Creator
 
-Create **custom** **PDF templates**. More details coming soon.
+Create **custom** **PDF templates**. See our [Tutorial](../../tutorials/pdf-creator.md).
 
 {% hint style="info" %}
 The "PDF Creator" plugin is licensed as a separate module. Please check your license agreement in case of doubt.
