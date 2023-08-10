@@ -165,6 +165,6 @@ fylr+:
 
 (NOT DONE YET)
 
-* [migrate a whole fylr into another](../migration/fylr-to-fylr.md)
+* [migrate a whole fylr into another](https://github.com/programmfabrik/fylr-install/blob/main/docker/further-reading/migrate-fylr-2-fylr.md)
 * [Import an easydb into fylr](../migration/easydb5-to-fylr.md)
 * [Use a customized Web-Frontend](../configuration/custom-webfrontend.md)
