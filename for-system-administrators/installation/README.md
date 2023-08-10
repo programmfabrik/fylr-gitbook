@@ -36,4 +36,4 @@ Please note: We do all of our automated and manual software testing based on Lin
 
 ### Troubleshooting
 
-[fylr log messages than can be ignored](log-messages-that-can-be-ignored.md)
+[fylr log messages that can be ignored](log-messages-that-can-be-ignored.md)
