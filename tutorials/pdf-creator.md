@@ -1,5 +1,5 @@
 ---
-description: How to set up pdf creation in fylr
+description: How to set up pdf creation in fylr, including plugin installation.
 ---
 
 # PDF Creator
