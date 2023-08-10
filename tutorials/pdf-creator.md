@@ -29,11 +29,11 @@ The "PDF Creator" plugin is licensed as a separate module. Please check your lic
 
 ### Create a PDF
 
-7. Go to **Lists** - **Object Types** - choose one type - Select one Object - right click - **Print**
+8. Go to **Lists** - **Object Types** - choose one type - Select one Object - right click - **Print**
 
 ![](<../.gitbook/assets/image (3).png>)
 
-8. In **Custom Layouts** - open the dropdown - choose one (pdf template 1 in below example) - click **Print**
+9. In **Custom Layouts** - open the dropdown - choose one (pdf template 1 in below example) - click **Print**
 
 ![](<../.gitbook/assets/image (4).png>)
 
