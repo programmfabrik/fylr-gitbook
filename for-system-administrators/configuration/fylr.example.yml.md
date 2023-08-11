@@ -383,6 +383,7 @@ fylr:
       addr: ":80"
       # For tls support ("addr" only), provide a cert and key file
       tls:
+        # certFile contains the certificate in pem Format and optionally intermediate chain certificates below in the same file.
         certFile: ""
         keyFile: ""
         # Automatic certificate management can be enabled using the "letsencrypt"
