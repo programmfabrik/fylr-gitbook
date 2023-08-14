@@ -41,5 +41,5 @@ The "PDF Creator" plugin is licensed as a separate module. Please check your lic
 
 Then a PDF is created and downloaded.
 
-If the PDF is too empty, you can edit the tempalte and add content.
+If the PDF is too empty, you can edit the template and add content: **Rights Management** (the 3 people icon) - **Object Types** - choose the object type - go to the tab named **PDF Creator**.
 
