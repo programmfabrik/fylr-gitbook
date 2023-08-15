@@ -105,6 +105,8 @@ fylr+:
           useStagingCA: false
 
     api+:
+      # the following path is inside the container and typically is mapped to the outside by docker-compose.yml
+      webDAVHotfolderPath: "/srv/hotfolder"
       oauth2Server+:
         # This secret is used to sign authorize codes, access and refresh
         # tokens. If unset, a random string is used. If multiple fylr server are
