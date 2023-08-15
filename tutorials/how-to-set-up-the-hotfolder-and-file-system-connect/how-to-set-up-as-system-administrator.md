@@ -6,13 +6,13 @@ description: Fulfill requirements for Hotfolder
 
 ## File System Connect
 
-In contrast to `Hotfolder`, the method `File System Connect` does not need preparation by the system administrator. It uses no real files system directory but relies only on https and webdav.&#x20;
+In contrast to `Hotfolder`, the method `File System Connect` does not need preparation by the system administrator. It uses no real files system directory but relies only on webdav.&#x20;
 
 ## Hotfolder
 
-In a typical installation of fylr, this is already done. But in some instances this still has to be done.&#x20;
+In a typical installation of fylr, this is already done. But in some instances this still has to be done. There is no harm in trying to use Hotfolder without this step first and if fylr refuses to give you the hotfolder URL and points out this requirement instead, you know that this needs to be done.&#x20;
 
-You need access to the configuration of fylr, typically a file called fylr.yml and you need to restart fylr to re-read its configuration.
+You need access to the configuration of fylr, typically a file called `fylr.yml` and you need to restart fylr to make it re-read its configuration.
 
 Entry in the configuration that needs to be set, with some hierarchy above the entry for orientation:
 
