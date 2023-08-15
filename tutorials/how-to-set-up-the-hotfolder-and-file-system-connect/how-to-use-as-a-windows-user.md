@@ -45,6 +45,10 @@ Make sure to copy the URL you need:
 
 3. E.g. drag and drop files into the white space below `Dateiname` / `Filename` . Or, if you used a **File System Connect** URL, you may also download files that are in the collection. Only files _of the object type chosen_ in the collection settings will be visible.
 
+
+
+## With all methods
+
 If you used an **Upload** URL (has the world `hotfolder` in it when seen in the collection settings), the dropped files start to disappear after ca. 30 seconds. You may need to reload to see the change.
 
 If you used a **File System Connect** URL (has the word `webdav` in it when seen in the collection settings), uploaded files stay after uploading.
