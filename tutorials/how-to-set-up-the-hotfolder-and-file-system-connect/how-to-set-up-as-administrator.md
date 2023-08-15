@@ -6,13 +6,18 @@ description: Upload & File System Connect
 
 ## Settings
 
-You can define if new **records** should be **created** for each uploaded file, or if already existing records should be **updated** with the uploaded file. Use the following **settings** to define the **behavior** of the upload.
+You can define if new **records** should be **created** for each uploaded file, or if already existing records should be **updated** with the uploaded file. For this and many more settings, see [Quick Access - Collections](../../for-users/quick-access/collections-and-presentations.md). In the remainder of this tutorial however, we will get the basic connection working.
 
 {% hint style="info" %}
 To set up an upload collection, the user needs the **permissions** to create records and "read" permission for at least one pool.
 {% endhint %}
 
-For a table with all settings, see [Quick Access - Collections](../../for-users/quick-access/collections-and-presentations.md)
+There are two modes:&#x20;
+
+* Upload only (also known as `Hotfolder`) and&#x20;
+* Read+Write Access (also known as `File System Connect`).&#x20;
+
+Upload is considerably faster. Read+Write allows you to access the files for opening and download (and not just upload). Decide for one method and then jump to its section below:
 
 ## Set up Upload
 
