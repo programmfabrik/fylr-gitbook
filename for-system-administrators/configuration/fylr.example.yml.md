@@ -10,7 +10,9 @@ This is NOT a coherent fylr.yml, do not use for an installation; use [this](http
 
 If you start your hierarchy in fylr.yml with `fylr+:` instead of `fylr:`, then defaults are used where not explicilty overwritten. Defaults see [fylr.default.yml](fylr.default.yml.md)
 
-{% code title="fylr.yml" lineNumbers="true" %}
+For this file with versioning, diffs and line numbers use https://github.com/programmfabrik/fylr-gitbook/blob/2023-08-21/for-system-administrators/configuration/fylr.example.yml.md?plain=1
+
+{% code title="fylr.yml" %}
 ```yaml
 ## - Some of the regexs to check for versions might require modifications
 ## - All relative paths described in the file are relative to cmd/fylr unless otherwise
