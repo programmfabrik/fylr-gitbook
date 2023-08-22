@@ -113,11 +113,17 @@ fylr:
     # Set zerolog log level: trace, debug, info, warn, error, fatal, panic
     # default to "info".
     level: "info"
+    level: "info"
     # timeFormat is the Go representation to format the time in the log output.
     # zerolog's time keeping resolution is always set to milliseconds by FYLR.
-    # Use "", "UNIXMS" or "UNIXMICRO" to output a unix timestamp (json format only).
+    # example values and their effect:
+    #  "2006-01-02 15:04:05" a template (recommended. 1 to 6 mark the fields)
+    #   see https://pkg.go.dev/time#example-Time.Format for details
+    #  "" results in time only (console format) or seconds since 1970 (json format)
+    #  "UNIXMS" milliseconds since 1970 (json format only)
+    #  "UNIXMICRO" microseconds since 1970 (json format only)
     # Defaults to ""
-    timeFormat: ""
+    timeFormat: "2006-01-02 15:04:05"
     # turn off color for zerolog's underlying ConsoleWriter
     # format: "console" only.
     noColor: false
