@@ -5,6 +5,9 @@ fylr+:
 
   resources: "/fylr/files/resources"
 
+  logger+:
+    timeFormat: "2006-01-02 15:04:05"
+    
   db:
     driver: "postgres"
     dsn: "postgres://fylr:fylr@postgresql:5432/fylr?sslmode=disable"
