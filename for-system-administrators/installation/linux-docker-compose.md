@@ -155,7 +155,7 @@ If the elasticsearch plugin `analysis-icu` is not installed you will get errors 
 
 ```
 fylr+:
-  logger:
+  logger+:
     # trace, debug, info, warn, error, fatal, panic
     # defaults to "info"
     level: "debug"
