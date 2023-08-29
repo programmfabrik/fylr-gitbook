@@ -133,8 +133,8 @@ If you want to go back to a fresh state between two test runs:
 
 ### pdftotext.exe
 
-* We downloaded [https://dl.xpdfreader.com/xpdf-tools-win-4.04.zip](https://dl.xpdfreader.com/xpdf-tools-win-4.04.zip) from  [https://www.xpdfreader.com/download.html](https://www.xpdfreader.com/download.html)
-* We only put the pdftotext.exe file from the package to `C:\fylr\utils`.
+* We downloaded [Release-23.08.0-0.zip](https://github.com/oschwartz10612/poppler-windows/releases/download/v23.08.0-0/Release-23.08.0-0.zip) from [https://github.com/oschwartz10612/poppler-windows](https://github.com/oschwartz10612/poppler-windows/releases/tag/v23.08.0-0) (_not_ xpdf-tools from https://www.xpdfreader.com)
+* We unpacked its contents and configured the path to pdftotext.exe in fylr.yml.
 
 ### magick.exe and convert.exe and composite.exe
 
@@ -207,9 +207,11 @@ We tested ghostscript integration by uploading a pdf file into fylr and checking
 
 ### Libreoffice
 
-We "installed" `LibreOfficePortable_7.4.5_MultilingualStandard.paf.exe` from [https://www.libreoffice.org/download/portable-versions/](https://www.libreoffice.org/download/portable-versions/) so that `LibreOfficePortable.exe` was in `C:\LibreOfficePortable`.
+We "installed" `LibreOfficePortable_7.4.5_MultilingualStandard.paf.exe` from [https://www.libreoffice.org/download/portable-versions/](https://www.libreoffice.org/download/portable-versions/) to `C:\LibreOfficePortable`.
 
-Fair warning: If you make your installation path too long, libre office will not work.
+Fair warning: If you make your installation path too long, libre office will not work.\
+\
+We then configured the path to `soffice.exe` in `fylr.yml`.
 
 Example for too long: `C:\Users\Klaus Thorn\Desktop\pf\fylr_v6.2.4_windows_amd64\utils\LibreOfficePortable\`.
 
