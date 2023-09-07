@@ -24,19 +24,21 @@ Copy the key of the Google Spreadsheet that should be loaded. You can find the k
 
 Copy the GID of the sheet that should be loaded. You can find the GID in the sharing url.
 
-
-
 ## Purge
 
 ### Allow /api/settings/purge
 
-Define if the "purge" button should be enabled/disabled in /inspect/system to reset the whole system. Note that you may need to enable this in your [fylr.yml](https://github.com/programmfabrik/fylr/blob/8c9d2a92ae410ecacb85191af116c1dfdb6a1ad5/fylr.example.yml#L233C19-L233C19) before.
+Define if the "purge" button should be enabled in /inspect/system to reset the whole fylr. Note that you may need to enable this in your `fylr.yml`:
+
+```
+fylr:
+  # set to true to allow /api/settings/purge. dont use on production systems!
+  allowpurge: true
+```
 
 ### Delete files from storage locations
 
 Define if the files should be deleted from the storage after the purge.
-
-
 
 ## Logging
 
