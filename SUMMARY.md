@@ -76,6 +76,7 @@
   * [fylr.example.yml](for-system-administrators/configuration/fylr.example.yml.md)
   * [fylr.default.yml](for-system-administrators/configuration/fylr.default.yml.md)
   * [Load Custom Plugins](for-system-administrators/configuration/custom-plugin.md)
+* [Backup](for-system-administrators/backup.md)
 * [Integration](for-system-administrators/integration/README.md)
   * [Authentication](for-system-administrators/integration/authentication.md)
   * [Hotfolder](for-system-administrators/integration/hotfolder.md)
