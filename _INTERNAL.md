@@ -17,7 +17,7 @@ currently it is a manual process:
 * Files will be updated:  `SUMMARY.md`, `releases/*.md`, `releases/*/*.md`
 
 * If a release artifact is removed later, it is not removed from s3 but from the releases/...md files.
-* If an artifact is changed later, a manual cleanup of the S3 files is required.
+* If an artifact is changed later (e.g. release re-done on github), manually delete its file(s) in S3 bucket fylr-releases and `make`.
 * if you change the relase notes later then it is being recognized by the next run with `make`.
 * Drafts and PreReleases are ignored.
 
