@@ -31,6 +31,7 @@ Bare bone minimum: Elasticsearch
 What we tested:
 
 * Download from [https://www.elastic.co/guide/en/elasticsearch/reference/current/zip-windows.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/zip-windows.html)
+* Since writing the next lines, we found a <mark style="background-color:red;">problem</mark> with Versions `8.5` and newer, about indexing letters _Q_ and _W_, of all things. So we recommend Elasticsearch `7.17`. The remainder of the text still mentions `8.6.1`, to stay true to what we actually did under Windows.
 *   Unpack official windows release file elasticsearch-8.6.1-windows-x86\_64.zip
 
     Other Versions should also be fine. This is true for all the below mentioned tools.
