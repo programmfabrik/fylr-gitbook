@@ -54,8 +54,8 @@ mkdir /srv/fylr ; cd /srv/fylr
 Create the following directories for the persistent data:
 
 ```bash
-mkdir -p config/fylr postgres assets backups sqlbackups elasticsearch
-chown 1000 assets backups elasticsearch
+mkdir -p config/fylr postgres assets backups sqlbackups elasticsearch migration
+chown 1000 assets backups elasticsearch migration
 chown  999 postgres sqlbackups
 ```
 

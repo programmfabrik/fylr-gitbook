@@ -51,19 +51,20 @@ services:
     image: docker.fylr.io/fylr/fylr:latest
     hostname: fylr.localhost
     container_name: fylr
-    #restart: always
+    #restart: always # always: recommended after letsencrypt is tested
     ports:
       - "443:443" # main https access to webfrontend
-      - "80:80" # needed to get a https certificate from letsencrypt
+      - "80:80" # one channel to get a certificate from letsencrypt
     depends_on:
       - elasticsearch
       - postgresql
     networks:
       - fylr
     volumes:
-      - "/srv/fylr/backups:/fylr/files/backups"
       - "/srv/fylr/config/fylr:/fylr/config"
       - "/srv/fylr/assets:/srv"
+      - "/srv/fylr/backups:/fylr/files/backups"     # /inspect/system/backups/
+      - "/srv/fylr/migration:/fylr/files/migration" # /inspect/backup/
     logging:
       driver: "journald"
 
