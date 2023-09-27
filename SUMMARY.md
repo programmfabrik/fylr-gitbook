@@ -21,6 +21,7 @@
     * [Release v6.1.0 Beta 10 (2022-12-02)](releases/2022/v6.1.0.md)
 * [License Management](license-management.md)
 * [Plugins](plugins.md)
+  * [Plugin Overview](plugins/overview.md)
 
 ## FOR USERS
 
