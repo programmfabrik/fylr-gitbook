@@ -32,6 +32,7 @@
 
 ## FOR ADMINISTRATORS
 
+* [Events](for-administrators/events.md)
 * [Permissions](for-administrators/permissions/README.md)
   * [User](for-administrators/permissions/user.md)
   * [Groups](for-administrators/permissions/groups.md)
