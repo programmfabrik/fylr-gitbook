@@ -32,7 +32,6 @@
 
 ## FOR ADMINISTRATORS
 
-* [Events](for-administrators/events.md)
 * [Permissions](for-administrators/permissions/README.md)
   * [User](for-administrators/permissions/user.md)
   * [Groups](for-administrators/permissions/groups.md)
@@ -65,8 +64,9 @@
   * [License Management](for-administrators/readme/license-management.md)
   * [Development](for-administrators/readme/development.md)
   * [Plugins](for-administrators/readme/plugins.md)
-* [Location Manager](for-administrators/location-manager.md)
 * [Plugin Manager](for-administrators/plugin-manager.md)
+* [Location Manager](for-administrators/location-manager.md)
+* [Events](for-administrators/events.md)
 * [Backup Manager](for-administrators/backup-manager.md)
 
 ## FOR SYSTEM ADMINISTRATORS
