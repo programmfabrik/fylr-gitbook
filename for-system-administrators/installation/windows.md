@@ -77,7 +77,7 @@ Edit fylr.yml to not use any 3rd part tools for the moment if you want to test/s
 You are now ready to start fylr, although most asset processing tools are still missing: (no previews)
 
 ```
-.\fylr.exe server
+.\fylr.exe server -c fylr.yml
 ```
 
 ... in the folder where fylr.exe is.
@@ -316,5 +316,5 @@ Check that each indentation level is two spaces. (No tab characters, just space 
 After testing, you may want to switch to
 
 ```
-fylr.exe server --service install
+fylr.exe server -c fylr.yml --service install
 ```
