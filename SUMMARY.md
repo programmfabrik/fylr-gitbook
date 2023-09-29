@@ -3,6 +3,7 @@
 * [Welcome](README.md)
 * [Releases](releases/README.md)
   * [2023](releases/2023.md)
+    * [Release v6.6.4 (2023-09-29)](releases/2023/v6.6.4.md)
     * [Release v6.6.3 (2023-09-28)](releases/2023/v6.6.3.md)
     * [Release 6.6.2 (2023-09-14)](releases/2023/v6.6.2.md)
     * [Release v6.6.1 (2023-08-10)](releases/2023/v6.6.1.md)
