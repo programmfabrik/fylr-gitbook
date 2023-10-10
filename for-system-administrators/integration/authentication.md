@@ -31,9 +31,10 @@ Kerberos is not supported by fylr. But if it is used in an Active Directory, LDA
 
 ### OpenID
 
-We don’t support authentication against Oauth or OpenID IDPs yet.
+We don’t support authentication against OpenID IDPs yet.
 
 ### OAuth
 
 fylr is usually configured to accept multiple OAuth2 clients and you can add more (fylr in the server role).\
-We don’t support authentication against Oauth IDPs yet (fylr in the client role).
+\
+We don’t support authentication against OAuth IDPs yet (fylr in the client role).
