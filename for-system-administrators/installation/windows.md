@@ -132,10 +132,10 @@ If you want to go back to a fresh state between two test runs:
 * Start elasticsearch as shown at the beginnig.
 * If you use postgres, remove and recreate the database.
 
-### pdftotext.exe
+### pdftotext.exe and pdftoppm.exe
 
 * We downloaded [Release-23.08.0-0.zip](https://github.com/oschwartz10612/poppler-windows/releases/download/v23.08.0-0/Release-23.08.0-0.zip) from [https://github.com/oschwartz10612/poppler-windows](https://github.com/oschwartz10612/poppler-windows/releases/tag/v23.08.0-0) (_not_ xpdf-tools from https://www.xpdfreader.com)
-* We unpacked its contents and configured the path to pdftotext.exe in fylr.yml.
+* We unpacked its contents and configured the path to pdftotext.exe and pdftoppm.exe in fylr.yml. Alternatively, we tested successfully to add the containing directory of those tools to the PATH.
 
 ### magick.exe and convert.exe and composite.exe
 
