@@ -40,4 +40,412 @@ On the **right**, all **details** of a **selected** **event** are **displayed**.
 
 The following **event types** exist:
 
-<table><thead><tr><th width="335">INTERNAL NAME</th><th width="253">DISPLAY NAME</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>BACKUP_DONE</td><td>Backup Done</td><td></td></tr><tr><td>BACKUP_FAILED</td><td>Backup Failed</td><td></td></tr><tr><td>BASE_CONFIG_UPDATE</td><td>Base Configuration Updated</td><td>The event is created each time the <a href="readme/">base configuration</a> was updated.</td></tr><tr><td>BASE_CONFIG_ERROR</td><td>Base Configuration Update Failed</td><td>The event is created each time there was an error when updating the <a href="readme/">base configuration</a>.</td></tr><tr><td>COLLECTION_DELETE</td><td>Collection Deleted</td><td>The event is created each time a user deleted a <a href="../for-users/quick-access/collections-and-presentations.md">collection</a>.</td></tr><tr><td>COLLECTION_INSERT</td><td>Collection Created</td><td>The event is created each time a user created a <a href="../for-users/quick-access/collections-and-presentations.md">collection</a>.</td></tr><tr><td>COLLECTION_UPDATE</td><td>Collection Updated</td><td>The event is created each time a user updated a <a href="../for-users/quick-access/collections-and-presentations.md">collection</a>.</td></tr><tr><td>CUSTOM_DATA_TYPE_UPDATER_DEBUG</td><td>Custom Data Type Updater Debug</td><td></td></tr><tr><td>CUSTOM_DATA_TYPE_UPDATER_ERROR</td><td>Custom Data Type Updater Error</td><td></td></tr><tr><td>DETAIL_VIEW</td><td>Detail View Opened</td><td>The event is created each time a user opened the detail view of a record.</td></tr><tr><td>EMAIL_SENT</td><td>Email Sent</td><td>The event is created each time an email was sent successfully.</td></tr><tr><td>EMAIL_SENT_FAILED</td><td>Sending Email Failed</td><td>The event is created each time sending an email failed.</td></tr><tr><td>EXPORT_FAILED</td><td>Export Failed</td><td>The event is created each time an export failed.</td></tr><tr><td>EXPORT_FINISH</td><td>Export Finished</td><td>The event is created each time an export finished successfully.</td></tr><tr><td>EXPORT_START</td><td>Export Started</td><td>The event is created each time an export was started.</td></tr><tr><td>EXPORT_FINISH_EMPTY</td><td><p></p><p></p><p></p></td><td></td></tr><tr><td>EXPORT_TRANSPORT</td><td></td><td></td></tr><tr><td>EXPORT_TRANSPORT_FAILED</td><td>Transport of Export Failed</td><td>The event is created each time the transport of an export failed.</td></tr><tr><td>EXPORT_TRANSPORT_FINISH</td><td>Transport of Export Finished</td><td>The event is created each time the transport of an export finished successfully.</td></tr><tr><td>FILE_DELETE</td><td>File Deleted</td><td>The event is created each time a file was removed from a record.</td></tr><tr><td>FILE_DELETE_ERROR</td><td>File Deletion Failed</td><td></td></tr><tr><td>FILE_DOWNLOAD</td><td>File Downloaded</td><td>The event is created each time a file was downloaded successfully.</td></tr><tr><td>FILE_DOWNLOAD_ERROR</td><td>File Download Failed</td><td>The event is created each time there was an error when downloading a file.</td></tr><tr><td>FILE_METADATA</td><td></td><td></td></tr><tr><td>FILE_METADATA_ERROR</td><td></td><td></td></tr><tr><td>FILE_MOVE</td><td></td><td></td></tr><tr><td>FILE_MOVE_ERROR</td><td></td><td></td></tr><tr><td>FILE_PRODUCE</td><td></td><td></td></tr><tr><td>FILE_PRODUCE_ERROR</td><td></td><td></td></tr><tr><td>FILE_UPLOAD</td><td>File Uploaded</td><td>The event is created each time a file was uploaded successfully.</td></tr><tr><td>FILE_UPLOAD_ERROR</td><td>File Upload Error</td><td>The event is created each time there was an error when uploading a file.</td></tr><tr><td>FILE_UPLOAD_REMOTE</td><td></td><td></td></tr><tr><td>FRONTEND_ERROR</td><td>Frontend Error</td><td>The event is created each time there was a frontend error.</td></tr><tr><td>GROUP_DELETE</td><td>Group Deleted</td><td>The event is created each time a user <a href="permissions/groups.md">group</a> was deleted.</td></tr><tr><td>GROUP_INSERT</td><td>Group Created</td><td>The event is created each time a new user <a href="permissions/groups.md">group</a> was created.</td></tr><tr><td>GROUP_UPDATE</td><td>Group Updated</td><td>The event is created each time a user <a href="permissions/groups.md">group</a> was updated.</td></tr><tr><td>INDEX_SWITCH</td><td></td><td></td></tr><tr><td>JANITOR</td><td></td><td></td></tr><tr><td>JANITOR_ERROR</td><td></td><td></td></tr><tr><td>LDAP_DEBUG</td><td></td><td></td></tr><tr><td>LDAP_ERROR</td><td></td><td></td></tr><tr><td>LICENSE_VALIDATION_FAILED</td><td></td><td></td></tr><tr><td>LICENSE_EXPIRATION_EMAIL</td><td></td><td></td></tr><tr><td>MAPPING_DELETE</td><td>Metadata Mapping Deleted</td><td>The event is created each time a metadata mapping was deleted.</td></tr><tr><td>MAPPING_INSERT</td><td>Metadata Mapping Created</td><td>The event is created each time a new metadata mapping was created.</td></tr><tr><td>MAPPING_UPDATE</td><td>Metadata Mapping Updated</td><td>The event is created each time a metadata mapping was updated.</td></tr><tr><td>MESSAGE_DELETE</td><td>Message Deleted</td><td>The event is created each time a metadata mapping was deleted.</td></tr><tr><td>MESSAGE_INSERT</td><td>Message Created</td><td>The event is created each time a new message was created.</td></tr><tr><td>MESSAGE_UPDATE</td><td>Message Updated</td><td>The event is created each time a message was updated.</td></tr><tr><td>NOTIFICATION_SCHEDULER_FAILED</td><td></td><td></td></tr><tr><td>OBJECT_DOWNLOAD</td><td></td><td></td></tr><tr><td>OBJECTTYPE_UPDATE</td><td>Object Type Updated</td><td>The event is created each time an object type was updated.</td></tr><tr><td>POOL_DELETE</td><td>Pool Deleted</td><td>The event is created each time a <a href="permissions/pools.md">pool</a> was deleted.</td></tr><tr><td>POOL_INSERT</td><td>Pool Created</td><td>The event is created each time a new <a href="permissions/pools.md">pool</a> was created.</td></tr><tr><td>POOL_UPDATE</td><td>Pool Updated</td><td>The event is created each time a <a href="permissions/pools.md">pool</a> was updated.</td></tr><tr><td>OBJECT_DELETE</td><td>Record Deleted</td><td>The event is created each time a record was deleted.</td></tr><tr><td>OBJECT_INDEX</td><td>Record Indexed</td><td>The event is created each time a record was indexed.</td></tr><tr><td>OBJECT_INDEX_ERROR</td><td></td><td></td></tr><tr><td>OBJECT_INDEX_REQUEUE</td><td></td><td></td></tr><tr><td>OBJECT_INSERT</td><td>Record Created</td><td>The event is created each time a new record was created.</td></tr><tr><td>OBJECT_UPDATE</td><td>Record Updated</td><td>The event is created each time a record was updated.</td></tr><tr><td>REINDEX_DONE</td><td></td><td></td></tr><tr><td>REINDEX_ERROR</td><td></td><td></td></tr><tr><td>REINDEX_INDEX_PURGED</td><td></td><td></td></tr><tr><td>REINDEX_QUEUED</td><td></td><td></td></tr><tr><td>REINDEX_START</td><td></td><td></td></tr><tr><td>SAML_DEBUG</td><td></td><td></td></tr><tr><td>SAML_ERROR</td><td></td><td></td></tr><tr><td>SEARCH</td><td>Search</td><td>The event is created each time a search was made.</td></tr><tr><td>TAG_DELETE</td><td>Tag Deleted</td><td>The event is created each time a <a href="permissions/tags-and-workflows.md#tags">tag</a> was deleted.</td></tr><tr><td>TAG_INSERT</td><td>Tag Created</td><td>The event is created each time a new <a href="permissions/tags-and-workflows.md#tags">tag</a> was created.</td></tr><tr><td>TAG_UPDATE</td><td>Tag Updated</td><td>The event is created each time a <a href="permissions/tags-and-workflows.md#tags">tag</a> was updated.</td></tr><tr><td>TRANSITION_DELETE</td><td>Workflow Deleted</td><td>The event is created each time a <a href="permissions/tags-and-workflows.md#workflows">workflow</a> was deleted.</td></tr><tr><td>TRANSITION_INSERT</td><td>Workflow Created</td><td>The event is created each time a new <a href="permissions/tags-and-workflows.md#workflows">workflow</a> was created.</td></tr><tr><td>TRANSITION_UPDATE</td><td>Workflow Updated</td><td>The event is created each time a <a href="permissions/tags-and-workflows.md#workflows">workflow</a> was updated.</td></tr><tr><td>USER_LOGIN</td><td>User Logged In</td><td>The event is created each time a <a href="permissions/user.md">user</a> logged in.</td></tr><tr><td>USER_LOGOUT</td><td>User Logged Out</td><td>The event is created each time a <a href="permissions/user.md">user</a> logged out.</td></tr><tr><td>USER_DELETE</td><td>User Deleted</td><td>The event is created each time a <a href="permissions/user.md">user</a> was deleted.</td></tr><tr><td>USER_INSERT</td><td>User Created</td><td>The event is created each time a new <a href="permissions/user.md">user</a>  was created.</td></tr><tr><td>USER_UPDATE</td><td>User Updated</td><td>The event is created each time a <a href="permissions/user.md">user</a> was updated.</td></tr></tbody></table>
+<table>
+    <thead>
+        <tr>
+            <th width="335">INTERNAL NAME</th>
+            <th width="253">DISPLAY NAME</th>
+            <th>DESCRIPTION</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>BACKUP_DONE</td>
+            <td>Backup Done</td>
+            <td>The event is created each time a database backup (using the <a href="../for-administrators/backup-manager.md">Backup Manager)</a> was finished.</td>
+        </tr>
+        <tr>
+            <td>BACKUP_FAILED</td>
+            <td>Backup Failed</td>
+            <td>The event is created each time a database backup Backup Manager has failed.</td>
+        </tr>
+        <tr>
+            <td>BASE_CONFIG_UPDATE</td>
+            <td>Base Configuration Updated</td>
+            <td>The event is created each time the <a href="readme/">base configuration</a> was updated.</td>
+        </tr>
+        <tr>
+            <td>BASE_CONFIG_ERROR</td>
+            <td>Base Configuration Update Failed</td>
+            <td>The event is created each time there was an error when updating the <a href="readme/">base configuration</a>.</td>
+        </tr>
+        <tr>
+            <td>COLLECTION_DELETE</td>
+            <td>Collection Deleted</td>
+            <td>The event is created each time a user deleted a <a href="../for-users/quick-access/collections-and-presentations.md">collection</a>.</td>
+        </tr>
+        <tr>
+            <td>COLLECTION_INSERT</td>
+            <td>Collection Created</td>
+            <td>The event is created each time a user created a <a href="../for-users/quick-access/collections-and-presentations.md">collection</a>.</td>
+        </tr>
+        <tr>
+            <td>COLLECTION_UPDATE</td>
+            <td>Collection Updated</td>
+            <td>The event is created each time a user updated a <a href="../for-users/quick-access/collections-and-presentations.md">collection</a>.</td>
+        </tr>
+        <tr>
+            <td>CUSTOM_DATA_TYPE_UPDATER_DEBUG</td>
+            <td>Custom Data Type Updater Debug</td>
+            <td>The event is created each time a <a href="../for-developers/customdata.md">Custom Datatype Updater</a> process was finished.</td>
+        </tr>
+        <tr>
+            <td>CUSTOM_DATA_TYPE_UPDATER_ERROR</td>
+            <td>Custom Data Type Updater Error</td>
+            <td>The event is created each time a <a href="../for-developers/customdata.md">Custom Datatype Updater</a> process has failed.</td>
+        </tr>
+        <tr>
+            <td>DETAIL_VIEW</td>
+            <td>Detail View Opened</td>
+            <td>The event is created each time a user opened the detail view of a record.</td>
+        </tr>
+        <tr>
+            <td>EMAIL_SENT</td>
+            <td>Email Sent</td>
+            <td>The event is created each time an email was sent successfully.</td>
+        </tr>
+        <tr>
+            <td>EMAIL_SENT_FAILED</td>
+            <td>Sending Email Failed</td>
+            <td>The event is created each time sending an email failed.</td>
+        </tr>
+        <tr>
+            <td>EXPORT_START</td>
+            <td>Export Started</td>
+            <td>The event is created each time an export was started.</td>
+        </tr>
+        <tr>
+            <td>EXPORT_FINISH</td>
+            <td>Export Finished</td>
+            <td>The event is created each time an export finished successfully.</td>
+        </tr>
+        <tr>
+            <td>EXPORT_FINISH_EMPTY</td>
+            <td>Export Finished Without Records</td>
+            <td>The event is created each time an export finished successfully, but there were no exported records and files.</td>
+        </tr>
+        <tr>
+            <td>EXPORT_FAILED</td>
+            <td>Export Failed</td>
+            <td>The event is created each time an export failed.</td>
+        </tr>
+        <tr>
+            <td>EXPORT_TRANSPORT_FINISH</td>
+            <td>Transport of Export Finished</td>
+            <td>The event is created each time the transport of an export finished successfully.</td>
+        </tr>
+        <tr>
+            <td>EXPORT_TRANSPORT_FAILED</td>
+            <td>Transport of Export Failed</td>
+            <td>The event is created each time the transport of an export failed.</td>
+        </tr>
+        <tr>
+            <td>FILE_DELETE</td>
+            <td>File Deleted</td>
+            <td>The event is created each time a file was removed from a record.</td>
+        </tr>
+        <tr>
+            <td>FILE_DELETE_ERROR</td>
+            <td>File Deletion Failed</td>
+            <td>The event is created each time a file could not be removed from a record.</td>
+        </tr>
+        <tr>
+            <td>FILE_DOWNLOAD</td>
+            <td>File Downloaded</td>
+            <td>The event is created each time a file was downloaded successfully.</td>
+        </tr>
+        <tr>
+            <td>FILE_DOWNLOAD_ERROR</td>
+            <td>File Download Failed</td>
+            <td>The event is created each time there was an error when downloading a file.</td>
+        </tr>
+        <tr>
+            <td>FILE_METADATA</td>
+            <td>Metadata Read</td>
+            <td>The event is created each time the metadata was read from a file.</td>
+        </tr>
+        <tr>
+            <td>FILE_METADATA_ERROR</td>
+            <td>Metadata Error</td>
+            <td>The event is created each time there was an error when trying to read metadata from a file.</td>
+        </tr>
+        <tr>
+            <td>FILE_MOVE</td>
+            <td><!-- todo --></td>
+            <td><!-- todo --></td>
+        </tr>
+        <tr>
+            <td>FILE_MOVE_ERROR</td>
+            <td><!-- todo --></td>
+            <td><!-- todo --></td>
+        </tr>
+        <tr>
+            <td>FILE_PRODUCE</td>
+            <td>File Produce</td>
+            <td>The event is created each time a version was created from a file.</td>
+        </tr>
+        <tr>
+            <td>FILE_PRODUCE_ERROR</td>
+            <td>File Produce Error</td>
+            <td>The event is created each time there was an error when trying to create a version from a file.</td>
+        </tr>
+        <tr>
+            <td>FILE_UPLOAD</td>
+            <td>File Uploaded</td>
+            <td>The event is created each time a file was uploaded using the `put` method successfully.</td>
+        </tr>
+        <tr>
+            <td>FILE_UPLOAD_REMOTE</td>
+            <td>File Uploaded</td>
+            <td>The event is created each time a file was uploaded using the `rput` method successfully.</td>
+        </tr>
+        <tr>
+            <td>FILE_UPLOAD_ERROR</td>
+            <td>File Upload Error</td>
+            <td>The event is created each time there was an error when uploading a file.</td>
+        </tr>
+        <tr>
+            <td>FRONTEND_ERROR</td>
+            <td>Frontend Error</td>
+            <td>The event is created each time there was a frontend error.</td>
+        </tr>
+        <tr>
+            <td>GROUP_DELETE</td>
+            <td>Group Deleted</td>
+            <td>The event is created each time a user <a href="permissions/groups.md">group</a> was deleted.</td>
+        </tr>
+        <tr>
+            <td>GROUP_INSERT</td>
+            <td>Group Created</td>
+            <td>The event is created each time a new user <a href="permissions/groups.md">group</a> was created.</td>
+        </tr>
+        <tr>
+            <td>GROUP_UPDATE</td>
+            <td>Group Updated</td>
+            <td>The event is created each time a user <a href="permissions/groups.md">group</a> was updated.</td>
+        </tr>
+        <tr>
+            <td>INDEX_SWITCH</td>
+            <td>Index Switch</td>
+            <td>The event is created each time a new search index has been completed in the background and the current index was switched to the new index.</td>
+        </tr>
+        <tr>
+            <td>JANITOR</td>
+            <td>Janitor</td>
+            <td>The event is created each time a run of the <a href="../for-administrators/readme/services.md">Janitor</a> was successful. Different Janitor runs have different tasks.</td>
+        </tr>
+        <tr>
+            <td>JANITOR_ERROR</td>
+            <td>Janitor Error</td>
+            <td>The event is created each time there was an error during a run of the Janitor.</td>
+        </tr>
+        <tr>
+            <td>LDAP_DEBUG</td>
+            <td>Login with LDAP</td>
+            <td>The event is created each time there was a login using <a href="../for-administrators/readme/user-management.md#ldap">LDAP</a>.</td>
+        </tr>
+        <tr>
+            <td>LDAP_ERROR</td>
+            <td>Error during Login with LDAP</td>
+            <td>The event is created each time there was an error during a login attempt using LDAP.</td>
+        </tr>
+        <tr>
+            <td>LICENSE_VALIDATION_FAILED</td>
+            <td>License validation failed</td>
+            <td>The event is created each time the license which was supplied could not be validated.</td>
+        </tr>
+        <tr>
+            <td>LICENSE_EXPIRATION_EMAIL</td>
+            <td>License expiration email sent</td>
+            <td>The event is created each time an email about an expired license was sent.</td>
+        </tr>
+        <tr>
+            <td>MAPPING_DELETE</td>
+            <td>Metadata Mapping Deleted</td>
+            <td>The event is created each time a metadata mapping was deleted.</td>
+        </tr>
+        <tr>
+            <td>MAPPING_INSERT</td>
+            <td>Metadata Mapping Created</td>
+            <td>The event is created each time a new metadata mapping was created.</td>
+        </tr>
+        <tr>
+            <td>MAPPING_UPDATE</td>
+            <td>Metadata Mapping Updated</td>
+            <td>The event is created each time a metadata mapping was updated.</td>
+        </tr>
+        <tr>
+            <td>MESSAGE_DELETE</td>
+            <td>Message Deleted</td>
+            <td>The event is created each time a metadata mapping was deleted.</td>
+        </tr>
+        <tr>
+            <td>MESSAGE_INSERT</td>
+            <td>Message Created</td>
+            <td>The event is created each time a new message was created.</td>
+        </tr>
+        <tr>
+            <td>MESSAGE_UPDATE</td>
+            <td>Message Updated</td>
+            <td>The event is created each time a message was updated.</td>
+        </tr>
+        <tr>
+            <td>NOTIFICATION_SCHEDULER_FAILED</td>
+            <td>Notification scheduler failed</td>
+            <td><!-- todo --></td>
+        </tr>
+        <tr>
+            <td>OBJECT_DOWNLOAD</td>
+            <td>Record Download</td>
+            <td>The event is created each time a record was downloaded by a user.</td>
+        </tr>
+        <tr>
+            <td>OBJECTTYPE_UPDATE</td>
+            <td>Object Type Updated</td>
+            <td>The event is created each time an object type was updated.</td>
+        </tr>
+        <tr>
+            <td>OBJECT_DELETE</td>
+            <td>Record Deleted</td>
+            <td>The event is created each time a record was deleted.</td>
+        </tr>
+        <tr>
+            <td>OBJECT_INDEX</td>
+            <td>Record Indexed</td>
+            <td>The event is created each time a record was indexed.</td>
+        </tr>
+        <tr>
+            <td>OBJECT_INDEX_ERROR</td>
+            <td>Record Index failed</td>
+            <td>The event is created each time there was an error when a record is indexed.</td>
+        </tr>
+        <tr>
+            <td>OBJECT_INDEX_REQUEUE</td>
+            <td>Record Index requeued</td>
+            <td>The event is created each time there was an error when a record is indexed, and the index attempt is requeued to be tried again.</td>
+        </tr>
+        <tr>
+            <td>OBJECT_INSERT</td>
+            <td>Record Created</td>
+            <td>The event is created each time a new record was created.</td>
+        </tr>
+        <tr>
+            <td>OBJECT_UPDATE</td>
+            <td>Record Updated</td>
+            <td>The event is created each time a record was updated.</td>
+        </tr>
+        <tr>
+            <td>POOL_INSERT</td>
+            <td>Pool Created</td>
+            <td>The event is created each time a new <a href="permissions/pools.md">pool</a> was created.</td>
+        </tr>
+        <tr>
+            <td>POOL_UPDATE</td>
+            <td>Pool Updated</td>
+            <td>The event is created each time a <a href="permissions/pools.md">pool</a> was updated.</td>
+        </tr>
+        <tr>
+            <td>POOL_DELETE</td>
+            <td>Pool Deleted</td>
+            <td>The event is created each time a <a href="permissions/pools.md">pool</a> was deleted.</td>
+        </tr>
+        <tr>
+            <td>REINDEX_START</td>
+            <td>Reindex Start</td>
+            <td>The event is created each time a complete reindex of all base objects and records was started.</td>
+        </tr>
+        <tr>
+            <td>REINDEX_QUEUED</td>
+            <td>Reindex Queued</td>
+            <td>The event is created each time a complete reindex was queued to be started up later.</td>
+        </tr>
+        <tr>
+            <td>REINDEX_DONE</td>
+            <td>Reindex Done</td>
+            <td>The event is created each time a complete reindex was finished.</td>
+        </tr>
+        <tr>
+            <td>REINDEX_ERROR</td>
+            <td>Reindex Error</td>
+            <td>The event is created each time a complete reindex has failed.</td>
+        </tr>
+        <tr>
+            <td>REINDEX_INDEX_PURGED</td>
+            <td>Reindex: Index purged</td>
+            <td>The event is created each time a complete reindex was finished, and after the indices were switched, the old index was deleted.</td>
+        </tr>
+        <tr>
+            <td>SAML_DEBUG</td>
+            <td>Login with SAML</td>
+            <td>The event is created each time there was a login using <a href="../for-administrators/readme/user-management.md#saml">SAML</a>.</td>
+        </tr>
+        <tr>
+            <td>SAML_ERROR</td>
+            <td>Error during Login with SAML</td>
+            <td>The event is created each time there was an error during a login attempt using SAML.</td>
+        </tr>
+        <tr>
+            <td>SEARCH</td>
+            <td>Search</td>
+            <td>The event is created each time a search was made.</td>
+        </tr>
+        <tr>
+            <td>TAG_DELETE</td>
+            <td>Tag Deleted</td>
+            <td>The event is created each time a <a href="permissions/tags-and-workflows.md#tags">tag</a> was deleted.
+            </td>
+        </tr>
+        <tr>
+            <td>TAG_INSERT</td>
+            <td>Tag Created</td>
+            <td>The event is created each time a new <a href="permissions/tags-and-workflows.md#tags">tag</a> was
+                created.</td>
+        </tr>
+        <tr>
+            <td>TAG_UPDATE</td>
+            <td>Tag Updated</td>
+            <td>The event is created each time a <a href="permissions/tags-and-workflows.md#tags">tag</a> was updated.
+            </td>
+        </tr>
+        <tr>
+            <td>TRANSITION_DELETE</td>
+            <td>Workflow Deleted</td>
+            <td>The event is created each time a <a href="permissions/tags-and-workflows.md#workflows">workflow</a> was deleted.</td>
+        </tr>
+        <tr>
+            <td>TRANSITION_INSERT</td>
+            <td>Workflow Created</td>
+            <td>The event is created each time a new <a href="permissions/tags-and-workflows.md#workflows">workflow</a> was created.</td>
+        </tr>
+        <tr>
+            <td>TRANSITION_UPDATE</td>
+            <td>Workflow Updated</td>
+            <td>The event is created each time a <a href="permissions/tags-and-workflows.md#workflows">workflow</a> was updated.</td>
+        </tr>
+        <tr>
+            <td>USER_LOGIN</td>
+            <td>User Logged In</td>
+            <td>The event is created each time a <a href="permissions/user.md">user</a> logged in.</td>
+        </tr>
+        <tr>
+            <td>USER_LOGOUT</td>
+            <td>User Logged Out</td>
+            <td>The event is created each time a <a href="permissions/user.md">user</a> logged out.</td>
+        </tr>
+        <tr>
+            <td>USER_DELETE</td>
+            <td>User Deleted</td>
+            <td>The event is created each time a <a href="permissions/user.md">user</a> was deleted.</td>
+        </tr>
+        <tr>
+            <td>USER_INSERT</td>
+            <td>User Created</td>
+            <td>The event is created each time a new <a href="permissions/user.md">user</a> was created.</td>
+        </tr>
+        <tr>
+            <td>USER_UPDATE</td>
+            <td>User Updated</td>
+            <td>The event is created each time a <a href="permissions/user.md">user</a> was updated.</td>
+        </tr>
+    </tbody>
+</table>
