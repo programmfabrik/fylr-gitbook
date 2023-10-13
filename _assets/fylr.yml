@@ -3,8 +3,6 @@ fylr+:
 
   encryptionKey: "EXAMPLE5cca29f8ddec415fd80bdbe25"
 
-  resources: "/fylr/files/resources"
-
   logger+:
     timeFormat: "2006-01-02 15:04:05"
     
@@ -100,7 +98,6 @@ fylr+:
   services+:
     webapp+:
       addr: ":443"
-      path: "/fylr/files/webfrontend"
       tls:
         letsEncrypt:
           email: you@EXAMPLE.COM
