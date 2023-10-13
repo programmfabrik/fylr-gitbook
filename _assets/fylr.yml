@@ -120,7 +120,7 @@ fylr+:
             redirectURIs:
             - https://EXAMPLE.COM/oauth2/callback
 
-    # for using /inspect/backup/ of this instance
+    # for using /inspect/migration/ of this instance
     backend+:
       inspect+:
         backup+:
