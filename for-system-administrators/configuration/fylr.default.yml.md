@@ -11,6 +11,10 @@ description: >-
 fylr:
   name: "fylr"
   externalURL: "http://localhost"
+  logger:
+    format: "console"
+    level: "info"
+    timeFormat: "2006-01-02 15:04:05"
   db:
     driver: sqlite3
     dsn: "fylr.db"
@@ -95,7 +99,7 @@ fylr:
       addr: :8081
     webapp:
       addr: ":80"
-      path: easydb-webfrontend/build
+      # path: easydb-webfrontend/build
       oauth2:
         clientID: fylr-web-frontend
         internalURL: http://localhost:8080
@@ -129,6 +133,8 @@ fylr:
           prog: soffice
         pdftotext:
           prog: pdftotext
+        pdftoppm:
+          prog: pdftoppm
         magick:
           prog: magick
         ffprobe:

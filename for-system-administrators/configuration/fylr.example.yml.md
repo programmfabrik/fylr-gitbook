@@ -99,6 +99,11 @@ fylr:
     # some security left, the link is checked against a valid hash
     # of the file which needs to be provided.
     easDownloadSkipCheckRights: false
+    # allow management of indices in Elasticsearch cluster, such as
+    # viewing and deleting an index.
+    # The indices visible there are not limited to those associated
+    # to the fylr instance.
+    inspectEnableElasticIndices: false
 
 
   # tempDir is used by api/system/backup and the export to during a TAR
@@ -112,7 +117,6 @@ fylr:
     format: "console"
     # Set zerolog log level: trace, debug, info, warn, error, fatal, panic
     # default to "info".
-    level: "info"
     level: "info"
     # timeFormat is the Go representation to format the time in the log output.
     # zerolog's time keeping resolution is always set to milliseconds by FYLR.
@@ -365,27 +369,27 @@ fylr:
             # public, set to true if this client is publicly known
             public: false
 
-    # service backend is used by the execserver as callback to
-    # get installed plugins and to update progress during execution
+    # service backend is used for /inspect and by the execserver as callback
+    # to get installed plugins and to update progress during execution
     backend:
       # address of the server listener
       # if omitted, this server is not started
       addr: :8081
       # for tls support ("addr" only), provide a cert and key file
       tls:
-        certfile: ""
-        keyfile: ""
-      # configure inspect to provide the /inspect endpoint
-      # this endpoint doesnt have authentication, so handle
-      # with care.
-      inspect:
-        # backup: if configured /inspect can be used to backup / restore
-        # instances. The backup storage is on disk.
-        backup:
-          # disk path to backup. each backup gets its own subdirectory
-          path: /tmp/backups
-    # oauth2 client + web client
+        certFile: ""
+        keyFile: ""
+      # provide the /inspect URL endpoint
+      inspect+:
+        # backup: if configured, /inspect/migration can be used to migrate
+        # instances.
+        backup+:
+          # path is needed if you want to use /inspect/migration of this instance.
+          # Disk path to backup. Is created if not present.
+          # Each backup gets its own subdirectory
+          path: /tmp/migration
 
+    # oauth2 client + web client
     webapp:
       # listener for the webapp
       addr: ":80"
@@ -699,7 +703,6 @@ fylr:
               prog: "fylr"
               args:
                 - "iiif"
-
 ```
 {% endcode %}
 
