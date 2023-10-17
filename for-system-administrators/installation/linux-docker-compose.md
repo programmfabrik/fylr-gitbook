@@ -36,11 +36,11 @@ apt-get install docker-compose apparmor
 systemctl restart docker.service
 ```
 
-* Memory setting needed for elasticsearch:
+* Memory setting needed for the indexer: (opensearch or elasticsearch)
 
 ```bash
-echo "vm.max_map_count=262144" >> /etc/sysctl.d/99-memory_for_elasticearch.conf
-sysctl -p /etc/sysctl.d/99-memory_for_elasticearch.conf
+echo "vm.max_map_count=262144" >> /etc/sysctl.d/99-memory_for_indexer.conf
+sysctl -p /etc/sysctl.d/99-memory_for_indexer.conf
 ```
 
 ## Installation
@@ -54,8 +54,8 @@ mkdir /srv/fylr ; cd /srv/fylr
 Create the following directories for the persistent data:
 
 ```bash
-mkdir -p config/fylr postgres assets backups sqlbackups elasticsearch migration
-chown 1000 assets backups elasticsearch migration
+mkdir -p config/fylr postgres assets backups sqlbackups indexer migration
+chown 1000 assets backups indexer migration
 chown  999 postgres sqlbackups
 ```
 
@@ -125,17 +125,13 @@ Log files of the cron job will go to `/var/log/fylr-maintain.log`.
 
 You can change the maintain script's config in `/etc/default/fylr`, using bash syntax.
 
-Elasticsearch cannot be updated automatically due to missing support by the elasticsearch team (no tags like `latest`).
-
 ## Troubleshooting
 
 * `docker-compose` needs to be executed in the directory with the `docker-compose.yml`.
 * When docker cannot start containers with errors refering to `shim, OCI, apparmor`: `apt-get install apparmor apparmor-utils; systemctl restart docker`
-* When elasticsearch does not work, make sure you used `sysctl` as shown above.
+* When the indexer does not work, make sure you used `sysctl` as shown above.
 
 Many messages can be safely ignored, see [here](log-messages-that-can-be-ignored.md).
-
-
 
 Trouble with reachability, network, redirects:
 
@@ -147,7 +143,7 @@ Assets are not processed, previews are not generated:
 
 * Look into the URL path /inspect/files, so e.g. https://your-fylr-domain/inspect/files and look for status: `failed` and `error`. Click on the IDs and e.g. `Show details` to search for error messages.
 
-If the elasticsearch plugin `analysis-icu` is not installed you will get errors like:
+If the indexer plugin `analysis-icu` is not installed you will get errors like:
 
 > Unable to create index "..." error="Unknown char\_filter type \[icu\_normalizer]
 
