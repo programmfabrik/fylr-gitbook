@@ -100,13 +100,9 @@ Please note, that user passwords will not be exported.
 
 ## User Import
 
-**Import**, **update** or **delete** users by clicking on the **settings** icon in the lower left of the user search. After **uploading** the previously exported **CSV** file, all settings for updating or deleting users are already configured. You just have to click "**Prepare**" and then decide wether you want to **update** existing users or want to **delete** the users that are in the CSV file. If you want to **import** new users, you have to change the "**Update Field**" on the "Import Settings" tab to "**- Add new -**".
+**Import**, **update** or **delete** users by clicking on the **settings** icon in the lower left of the user search. After **uploading** the previously exported **CSV** file, all settings for updating or deleting users are already configured. You just have to click "**Prepare**" and then decide wether you want to **update** existing users or want to **delete** the users that are in the CSV file. If you want to **import** new users, you have to change the "**Update Field**" on the "Import Settings" tab to "**- Add new -**". **Passwords** can be added to the CSV file in **plain text** (column name should be **\_password**) and will be saved as a **hash** in the database after the import.
 
 {% hint style="info" %}
 Please refer to the [csv importer options](../tools/csv-importer/options.md) for a general description.
-{% endhint %}
-
-{% hint style="info" %}
-Please note, that user passwords cannot be imported.
 {% endhint %}
 
