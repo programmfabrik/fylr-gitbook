@@ -93,7 +93,7 @@ fylr+:
 
   elastic+:
     addresses:
-    - "http://elasticsearch:9200"
+    - "http://opensearch:9200"
 
   services+:
     webapp+:
