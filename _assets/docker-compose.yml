@@ -9,10 +9,14 @@ services:
       - bootstrap.memory_lock=true
       - network.publish_host=127.0.0.1
       - plugins.security.disabled=true
+    volumes:
+      - "/srv/fylr/indexer:/usr/share/opensearch/data"
     command: >
       /bin/sh -c "./bin/opensearch-plugin install analysis-icu; /usr/share/opensearch/opensearch-docker-entrypoint.sh"
     networks:
       - fylr
+    logging:
+      driver: "journald"
 
   postgresql:
     image: postgres:15
