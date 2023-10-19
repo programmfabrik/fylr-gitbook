@@ -80,15 +80,21 @@ We still assume that you are in the `/srv/fylr` directory.
 ```bash
 curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/docker-compose.yml -o docker-compose.yml
 
-docker-compose up
+docker-compose up -d postgresql opensearch ; docker-compose logs -f opensearch
 ```
 
-`Ctrl` + `c` stops the services again.
+`Ctrl` + `c` stops the display of new messages. We suggest you stop checking new messages when opensearch is done with its startup. Either when it quiets down or when you catch the message `Cluster health status changed` \[...] `reason: [shards started`.
 
-If you are satisfied, we recommend to set `restart: always` for fylr in `docker-compose.yml` and let it run in the background with:
+So now that postgres and opensearch are running, start fylr:
+
+`docker-compose up -d fylr; docker-compose logs -f fylr`
+
+fylr outputs `INF 🤓 FYLR started`\[...] when it managed to start and the Web-Frontend is online. Again, `Ctrl` + `c` stops the display of new messages.
+
+We recommend to set `restart: always` for fylr in `docker-compose.yml` and restart fylr with:
 
 ```bash
-docker-compose up -d
+docker-compose up --force-recreate --no-deps -d fylr
 ```
 
 ### Result
@@ -97,7 +103,7 @@ You can now surf to your fylr webfrontend.
 
 Default login is `root` with password `admin`. Please replace with a secure password: Click on `root` in the upper left corner.
 
-### automate SQL dumps and updates of fylr and postgresql
+### automate SQL dumps and update installation
 
 To have consistent and complete snapshots of your SQL data, we strongly recommend:
 
