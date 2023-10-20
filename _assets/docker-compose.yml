@@ -4,7 +4,7 @@ services:
     image: opensearchproject/opensearch:2
     container_name: opensearch
     environment:
-      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      - "OPENSEARCH_JAVA_OPTS=-Xms2g -Xmx2g"
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - network.publish_host=127.0.0.1
