@@ -24,7 +24,7 @@ The shorter the path of your fylr installation directory, the less likely your i
 
 ## Get the dependencies
 
-Bare bone minimum: Elasticsearch
+Bare bone minimum: Elasticsearch (or OpenSearch)
 
 ### Elasticsearch
 
