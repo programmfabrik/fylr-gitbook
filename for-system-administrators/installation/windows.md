@@ -16,7 +16,7 @@ It contains:
 * `LICENSE` legal information on who may use fylr.
 * `webfrontend` folder. The static webfrontend files.
 * plugin folders.
-* `resources` folder: these recources are now also inside the flyr.exe executable file and are used by default. But we still include them separately so you can work with them.
+* `resources` folder: these recources are now also inside the fylr.exe executable file and are used by default. But we still include them separately so you can work with them.
 
 ## Windows path length
 
@@ -106,7 +106,7 @@ For a full installation it is recommended to install all of the following and un
 ### Postgresql
 
 * We installed 15.2 from [https://www.enterprisedb.com/downloads/postgres-postgresql-downloads](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
-* We started pgadmin and created a role "fylr" (with LOGIN and INHERIT, the defaults), with password "fylr"; and a database "fylr" owned by role "flyr".
+* We started pgadmin and created a role "fylr" (with LOGIN and INHERIT, the defaults), with password "fylr"; and a database "fylr" owned by role "fylr".
 * We un-commented these lines in fylr.yml:
 
 ```
