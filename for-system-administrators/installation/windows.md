@@ -24,7 +24,27 @@ The shorter the path of your fylr installation directory, the less likely your i
 
 ## Get the dependencies
 
-Bare bone minimum: Elasticsearch (or OpenSearch)
+Bare bone minimum: Elasticsearch or OpenSearch
+
+### OpenSearch
+
+We have more experience with Elasticsearch but will be using OpenSearch more and more, it will probably become the new default.
+
+We installed OpenSearch as described in [https://opensearch.org/docs/latest/install-and-configure/install-opensearch/windows/](https://opensearch.org/docs/latest/install-and-configure/install-opensearch/windows/)
+
+* Version 2.11.0
+* We disabled security and let it explicitly listen only on localhost:
+
+```
+network.host: 127.0.0.1
+plugins.security.disabled: true
+```
+
+* We installed one plugin:
+
+```
+opensearch-2.11.0> .\bin\opensearch-plugin install analysis-icu
+```
 
 ### Elasticsearch
 
@@ -53,7 +73,7 @@ xpack.security.enabled: false
 
 Elasticsearch then used the default address `http://localhost:9200`, which is also configured in `fylr.yml`.
 
-With default settings, 11,7 GB free RAM _was_ enough. Tweaking java settings, even only 2 or 3 GB for Java _should_ be enough.
+
 
 ### Start with minimal dependencies
 
