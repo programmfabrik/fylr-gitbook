@@ -22,18 +22,18 @@ After uploading a file in the "CSV File" field, the following settings are avail
 
 Below the import settings, an import overview is displayed after preparing. The checkboxes are used to filter the entries in the table view.
 
-| NAME       | DESCRIPTION                                                          |
-| ---------- | -------------------------------------------------------------------- |
-| Rows       | Number of rows in the CSV file                                       |
-| Ready      | Number of rows ready to import                                       |
-| Invalid    | Number of rows that are invalid                                      |
-| Processing | Number of rows that are currently being processed                    |
-| Done       | Number of rows that have been finished                               |
-| Errors     | Number of rows with errors                                           |
-| Warnings   | Number of rows that can be imported but for which there is a warning |
-| Inserts    | Number of rows / records that would be inserted                      |
-| Updates    | Number of rows / records that would be updated                       |
-| Deletes    | Number of rows / records that would be deleted                       |
+| NAME       | DESCRIPTION                                                                                                                      |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Rows       | Number of rows in the CSV file.                                                                                                  |
+| Ready      | Number of rows ready to import.                                                                                                  |
+| Invalid    | Number of rows that are invalid.                                                                                                 |
+| Processing | Number of rows that are currently being processed.                                                                               |
+| Done       | Number of rows that have been finished.                                                                                          |
+| Errors     | Number of rows with errors.                                                                                                      |
+| Warnings   | Number of rows that can be imported but for which there is a warning.                                                            |
+| Inserts    | Number of rows / records that would be inserted.                                                                                 |
+| Updates    | Number of rows / records that would be updated.                                                                                  |
+| Deletes    | Number of rows / records that would be deleted. Only supported for the [import of users](../../permissions/user.md#user-import). |
 
 ## &#x20;<a href="#import-mapping" id="import-mapping"></a>
 
