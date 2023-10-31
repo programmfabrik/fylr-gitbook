@@ -7,7 +7,7 @@ description: >-
 # Backup Manager
 
 {% hint style="danger" %}
-Please note, that the backups here only include the database. The files are not included. For a full backup, that can be restored in case of emergency, please follow this routine.
+Please note, that the backups here only include the database. The files are not included. For a full backup, that can be restored in case of emergency, please [follow this routine](../for-system-administrators/backup.md).
 {% endhint %}
 
 ## Working with the Backup Manager
