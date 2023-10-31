@@ -2,7 +2,7 @@
 description: Backup a fylr instance, to later restore it into an empty fylr instance.
 ---
 
-# Backup
+# Backups & Restore
 
 You need access to the command line.
 
@@ -67,7 +67,7 @@ Now you have all data for a restore on the new server.
 docker-compose up -d postgresql
 ```
 
-Make sure that the postgresql DB and elasticsearch indices are empty from previous attempts on the new server so that there is no collision of data.
+Make sure that the postgresql DB and elasticsearch indices are empty from previous attempts on the new server so that there is no collision of data. (for example delete all in `/srv/fylr/indexer/`)
 
 2. import the sql-dump on the new server:&#x20;
 
