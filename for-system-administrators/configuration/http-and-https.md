@@ -89,7 +89,7 @@ We did not test this exact example, please use it as a starting point.
 
 ## You provide the service that does HTTPS
 
-We do not recommend this. Using additional proxies and services in front of flyr often leads to hard to debug problems where we can not help.
+We do not recommend this. Using additional proxies and services in front of fylr often leads to hard to debug problems where we cannot help.
 
 In `fylr.yml`:
 
