@@ -1,5 +1,5 @@
 ---
-description: This section is about settings in the configuration file fylr.yaml.
+description: This section is about settings in the configuration file fylr.yml.
 ---
 
 # Configuration
