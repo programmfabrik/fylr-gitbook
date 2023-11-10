@@ -1,9 +1,9 @@
 ---
-description: >-
-  In the fylr.yml configuration you find settings that are not present in the
-  frontend.
+description: This section is about settings in the configuration file fylr.yaml.
 ---
 
 # Configuration
 
-And some settings in `fylr.yml` can be set in the frontend once fylr is installed. For those, `fylr.yml` only can give an initial value, but not override frontend settings.
+In the fylr.yml configuration you find settings that are not present in the frontend.&#x20;
+
+And some settings in `fylr.yml` can be set in the frontend once fylr is installed. For _those_, `fylr.yml` only can give an initial value, but not override frontend settings.
