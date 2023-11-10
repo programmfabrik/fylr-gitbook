@@ -5,7 +5,7 @@ description: Variants to use fylr with and without TLS certificate
 # HTTP and HTTPS
 
 {% hint style="info" %}
-We did not test these exact examples, please use it as a starting point.
+We did not test these exact examples, please use them as a starting point.
 {% endhint %}
 
 ## Automated HTTPS Certificate
