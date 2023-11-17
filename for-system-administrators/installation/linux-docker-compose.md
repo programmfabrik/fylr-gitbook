@@ -43,6 +43,8 @@ echo "vm.max_map_count=262144" >> /etc/sysctl.d/99-memory_for_indexer.conf
 sysctl -p /etc/sysctl.d/99-memory_for_indexer.conf
 ```
 
+* Indexer developers strongly recommend to disable swap. If you do not want to disable it on the whole system, at least make sure that the index does not use swap. We recommend to disable swap globally.
+
 ## Installation
 
 Let us assume that you will install fylr in `/srv/fylr`:
