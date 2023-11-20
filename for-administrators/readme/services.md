@@ -57,6 +57,10 @@ Enable/Disable the Janitor.
 
 Specify after how many days unused files should be deleted from the storage. Unused files are files that has been uploaded to FYLR but have never been linked to a record. Enter "0" to remove unused files with every janitor run (every 10 minutes).
 
+{% hint style="danger" %}
+Please note, this also applies to files which where uploaded but not yet been saved. We recommend to use at least an interval of 1 day.
+{% endhint %}
+
 ### Settings For Users
 
 #### Archive Inactive Users After n Days
