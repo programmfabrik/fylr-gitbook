@@ -58,13 +58,11 @@ Here an example configuration with public test provider ldap.forumsys.com:
 
 **Bind Password**: Password of the Bind User.
 
-**User Base DN**: Organizatinal Unit or whole organization, in which to search for users. All users who shall be able to log in must be in/below this. Bind User does not have to be in/below this.
+**User Base DN**: Organizatinal Unit or whole organization, in which to search for users. All users who shall be able to log in must be in/below this. Bind User does not have to be in/below this. Example: `OU=Users,DC=example,DC=com` .
 
 **User filter**: Which LDAP attribute shall be compared to the login string(which is entered during fylr login)? For example if I am Albert Einstein and my login username ist `einstein`: Which **LDAP attribute** contains the string `einstein`? In the example above: the attribute `uid` is compared to the login given by the user. So if I enter `einstein` and my password, fylr then searches for LDAP objects which have the attribute `uid` and value `einstein` in that attribute. If one is found, the password of that LDAP object is also checked and if successful, this LDAP object is considered logged in. fylr creates a fylr user (if not already existing) that is consindered connected to this LDAP object. For this scenario, the user filter `(uid=&(login)s)` is enough. To reduce search time and number of objects searched, the example in the screenshot additionally restricts the search to only LDAP objects of `objectClass` = `person`.
 
 #### **USER MAPPING**&#x20;
-
-
 
 ![](<../../.gitbook/assets/image (6).png>)
 
@@ -78,11 +76,28 @@ Here an example configuration with public test provider ldap.forumsys.com:
 
 We recommend to only configure group settings after the above settings are working to log in. Groups settings are optional.
 
-**Group Base DN**: Organizatinal Unit or whole organization, in which to search for groups.
+**Group Base DN**: Organizational Unit or whole organization, in which to search for groups. Example: `OU=Groups,DC=example,DC=com` .
 
-**Group Filter**: Which LDAP objects to look at when deciding group membership. For example `(objectClass=myGroupType)`.
+**Group Filter**: Search expression to find the LDAP objects to look at when deciding group membership. You can use attributes of the user here, e.g. `cn`, in the syntax `%(cn)s` - but you have to use it in an evaluation. In other words, compare it to another attribute with `=`.
 
-**Group Mapping**: Which attribute to look at when deciding group membership. For example: `%(member)s`.
+To compare all attributes named `member`, use as Group Filter: `(member=%(cn)s)`. This will result in all objects that have the user's `cn` in an attribute called `member`.
+
+For the context of ldap.forumsys.com, the distinguished name (usable as `DN`) is in the group attribute `uniqueMember`.
+
+So `(uniqueMember=%(DN)s)` could work. But to not evaluate _all_ objects, only groups, we add the object class: `(&(objectClass=groupOfUniqueNames)(uniqueMember=%(DN)s))`. This was successfully tested with ldap.formusys.com.
+
+Another example, from a different LDAP installation: `(&(member=%(distinguishedName)s)(objectClass=group))` .
+
+So now you have a few objects, likely groups. Now which attribute of these objects shall be compared during matching of fylr groups to LDAP groups? That is determined in Group Mapping:
+
+**Group Mapping**: Which attribute to look at when matching groups. For example, to use the group's common name, use `%(cn)s`. This works with our example of ldap.forumsys.com.
+
+Final step: **Matching LDAP groups to fylr groups**:
+
+*   In a fylr group's setting, enter a string that finds one LDAP group. In the example of ldap.forumsys.com, we created the fylr group `scientists` and since we chose `cn` above, we now have to use the string `Scientists`, as this is the value in that group's common name:
+
+    <figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>fylr frontend > Rights Management > Groups > Choose group > Authentication Services > LDAP section > Add row</p></figcaption></figure>
+* So now, when e.g. the ldap.forumsys.com's user `einstein` logs into this fylr, he will be automatically in the fylr group `scientists` and enjoy all their privileges in fylr.&#x20;
 
 ## SAML
 
