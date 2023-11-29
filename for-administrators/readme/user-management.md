@@ -90,14 +90,14 @@ Another example, from a different LDAP installation: `(&(member=%(distinguishedN
 
 So now you have a few objects, likely groups. Now which attribute of these objects shall be compared during matching of fylr groups to LDAP groups? That is determined in Group Mapping:
 
-**Group Mapping**: Which attribute to look at when matching groups. For example, to use the group's common name, use `%(cn)s`. This works with our example of ldap.forumsys.com.
+**Group Mapping**: Which attribute to look at when matching groups. Look at the (final) next step for an example. To use e.g. the group's common name, use `%(cn)s` here, which works with  ldap.forumsys.com.
 
-Final step: **Matching LDAP groups to fylr groups**:
+Final step: **Matching an LDAP group to a fylr group**:
 
-*   In a fylr group's settings, enter a string that finds one LDAP group. For the example of ldap.forumsys.com, we created the fylr group `scientists` and since we chose `cn` above, we now have to use the string `Scientists`, as this is the value in that group's common name. In the fylr frontend this is done here:
+*   In a fylr group's settings, enter a string that matches one LDAP group. For the example of ldap.forumsys.com, we created the fylr group `scientists` and since we chose `cn` above in **Group Mapping**, we now have to use the string `Scientists`, as this is the value in that group's common name (`cn`). In the fylr frontend this is done here:
 
     <figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>fylr frontend > Rights Management > Groups > Choose group > Authentication Services > LDAP section > Add row</p></figcaption></figure>
-* So now, when the ldap.forumsys.com's user `einstein` or `newton` logs into this fylr, they will be automatically in the fylr group `scientists` and enjoy all their privileges in fylr.&#x20;
+* So now, when the ldap.forumsys.com's user `einstein` or `newton` logs into this fylr, they will be automatically in the fylr group `scientists` and enjoy all the group's system rights and permissions in fylr.&#x20;
 
 ## SAML
 
