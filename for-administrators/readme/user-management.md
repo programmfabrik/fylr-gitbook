@@ -94,10 +94,10 @@ So now you have a few objects, likely groups. Now which attribute of these objec
 
 Final step: **Matching LDAP groups to fylr groups**:
 
-*   In a fylr group's setting, enter a string that finds one LDAP group. In the example of ldap.forumsys.com, we created the fylr group `scientists` and since we chose `cn` above, we now have to use the string `Scientists`, as this is the value in that group's common name:
+*   In a fylr group's settings, enter a string that finds one LDAP group. For the example of ldap.forumsys.com, we created the fylr group `scientists` and since we chose `cn` above, we now have to use the string `Scientists`, as this is the value in that group's common name. In the fylr frontend this is done here:
 
     <figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>fylr frontend > Rights Management > Groups > Choose group > Authentication Services > LDAP section > Add row</p></figcaption></figure>
-* So now, when e.g. the ldap.forumsys.com's user `einstein` logs into this fylr, he will be automatically in the fylr group `scientists` and enjoy all their privileges in fylr.&#x20;
+* So now, when the ldap.forumsys.com's user `einstein` or `newton` logs into this fylr, they will be automatically in the fylr group `scientists` and enjoy all their privileges in fylr.&#x20;
 
 ## SAML
 
