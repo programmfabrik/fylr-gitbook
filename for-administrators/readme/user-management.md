@@ -60,17 +60,32 @@ Here an example configuration with public test provider ldap.forumsys.com:
 
 **User Base DN**: Organizatinal Unit or whole organization, in which to search for users. All users who shall be able to log in must be in/below this. Bind User does not have to be in/below this. Example: `OU=Users,DC=example,DC=com` .
 
-**User filter**: Which LDAP attribute shall be compared to the login string(which is entered during fylr login)? For example if I am Albert Einstein and my login username ist `einstein`: Which **LDAP attribute** contains the string `einstein`? In the example above: the attribute `uid` is compared to the login given by the user. So if I enter `einstein` and my password, fylr then searches for LDAP objects which have the attribute `uid` and value `einstein` in that attribute. If one is found, the password of that LDAP object is also checked and if successful, this LDAP object is considered logged in. fylr creates a fylr user (if not already existing) that is consindered connected to this LDAP object. For this scenario, the user filter `(uid=&(login)s)` is enough. To reduce search time and number of objects searched, the example in the screenshot additionally restricts the search to only LDAP objects of `objectClass` = `person`.
+**User filter**: Which LDAP attribute shall be compared to the login string (which is entered during fylr login)? For example if I am Albert Einstein and my login username ist `einstein`: Which **LDAP attribute** contains the string `einstein`? In the example above: the attribute `uid` is compared to the login given by the user. So if I enter `einstein` and my password, fylr then searches for LDAP objects which have the attribute `uid` and value `einstein` in that attribute. If one is found, the password of that LDAP object is also checked and if successful, this LDAP object is considered logged in. fylr creates a fylr user (if not already existing) that is consindered connected to this LDAP object. For this scenario, the user filter `(uid=%(login)s)` is enough. To reduce search time and number of objects searched, the example in the screenshot additionally restricts the search to only LDAP objects of `objectClass` = `person`.
 
 #### **USER MAPPING**&#x20;
 
 ![](<../../.gitbook/assets/image (6).png>)
 
+**+**: Add another mapped Attribute. We suggest `Display Name` and `EMail`.
+
 **Target:** Choose one, at least `Login`.
 
-**Value:** Enter one or more LDAP attributes, each between `&(` and`)s`. <mark style="color:red;">Upper case / lower case</mark> <mark style="color:red;"></mark>_<mark style="color:red;">is</mark>_ <mark style="color:red;"></mark><mark style="color:red;">important here, even if it is not important inside your LDAP Directory!</mark>
+**Value:** Enter one or more LDAP attributes, each between `%(` and`)s`. <mark style="color:red;">Upper case / lower case</mark> <mark style="color:red;"></mark>_<mark style="color:red;">is</mark>_ <mark style="color:red;"></mark><mark style="color:red;">important here, even if it is not important inside your LDAP Directory!</mark>
 
-**+**: Add another mapped Attribute. We suggest `Display Name` and `EMail`.
+If in doubt, which LDAP attributes can be used between `%(` and `)` during **User Mapping**, set the log level of fylr to at least `debug` and pick attributes from the log output after a LDAP search. It looks like:
+
+<pre><code><strong>2029-12-31 23:59:59 DBG search with base DN "dc=example,dc=com" and filter "(uid=einstein)" login=lda
+</strong><strong>2029-12-31 23:59:59 DBG search found 1 entries [...] login=ldap
+</strong>2029-12-31 23:59:59 DBG DN: uid=einstein,dc=example,dc=com
+  objectClass: [inetOrgPerson organizationalPerson person top]
+  cn: [Albert Einstein]
+  sn: [Einstein]
+  uid: [einstein]
+  mail: [einstein@ldap.forumsys.com]
+  telephoneNumber: [314-159-2653]
+</code></pre>
+
+So, usable attributes in this example are `DN`, `objectClass`, `cn`, `sn`, `uid`, `mail` and `telephoneNumber`.
 
 ### Group settings
 
@@ -88,9 +103,22 @@ So `(uniqueMember=%(DN)s)` could work. But to not evaluate _all_ objects, only g
 
 Another example, from a different LDAP installation: `(&(member=%(distinguishedName)s)(objectClass=group))` .
 
-So now you have a few objects, likely groups. Now which attribute of these objects shall be compared during matching of fylr groups to LDAP groups? That is determined in Group Mapping:
+Now you have a few objects, likely groups. Now which attribute of these objects shall be compared during matching of fylr groups to LDAP groups? That is determined in Group Mapping:
 
-**Group Mapping**: Which attribute to look at when matching groups. Look at the (final) next step for an example. To use e.g. the group's common name, use `%(cn)s` here, which works with  ldap.forumsys.com.
+**Group Mapping**: Which attribute to look at when matching groups. Look at the (final) next step for an example. To use e.g. the group's common name, use `%(cn)s` here, which works with  ldap.forumsys.com. \
+If in doubt, which LDAP attributes can be used between `%(` and `)`, set the log level of fylr to at least `debug` and pick attributes from the log output after a LDAP search. It looks like:
+
+```
+2029-12-31 23:59:59 DBG search with base DN "dc=example,dc=com" and filter "(uniquemember=uid=einstein,dc=example,dc=com)"  login=ldap
+2029-12-31 23:59:59 DBG search found 1 entries
+2029-12-31 23:59:59 DBG DN: ou=scientists,dc=example,dc=com
+  uniqueMember: [uid=einstein,dc=example,dc=com uid=galieleo,dc=example,dc=com uid=tesla,dc=example,dc=com uid=newton,dc=example,dc=com]
+  ou: [scientists]
+  cn: [Scientists]
+  objectClass: [groupOfUniqueNames top]
+```
+
+So, usable attributes in this example are `DN`, `uniqueMember`, `cn`, `ou` and `objectClass`.
 
 Final step: **Matching an LDAP group to a fylr group**:
 
