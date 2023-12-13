@@ -1,6 +1,6 @@
 ---
 description: >-
-  The fylr frontend can be used in multiple languages. Therefor in the code are
+  The fylr frontend can be used in multiple languages. Therefor, in the code are
   only keys used and the translations are stored in different Google Sheets.
 ---
 
@@ -26,13 +26,13 @@ This Google Sheet contains all translations for the fylr server part.
 
 ## Important / Hints
 
-* Headers must not be deleted
-* Columns that are not related to a language should not be added
-* Do not translate anything inside "**%(...)"**
-* Do not leave empty spaces between rows
-* You can use markdown syntax in some places, i.e. to make text bold
-* If you remove a translation from the Google Sheet or leave it empty, the key will be shown in the frontend instead
-* If you don’t want the text / key to be shown in the frontend just enter "-" instead of leaving the cell empty
+* headers must not be deleted
+* columns that are not related to a language should not be added
+* do not translate anything inside "%(...)**"**
+* do not leave empty spaces between rows
+* you can use markdown syntax in some places, i.e. to make text bold
+* if you remove a translation from the Google Sheet or leave it empty, the key will be shown in the frontend instead
+* if you don’t want the text / key to be shown in the frontend just enter "-" instead of leaving the cell empty
 
 ## New keys and modified translations
 
@@ -50,5 +50,5 @@ If you can’t find the text you want to change in the Google Sheet, open a fylr
 
 New translations will be included in the general fylr release. Some translations are already visible after a frontend reload or an automatic plugin update:
 
-* Add the Google Sheet ID & GID to the [base configuration](../for-administrators/readme/development.md#localization) to see your changes after re-loading the frontend (applies only to [web-frontend-localization](https://docs.google.com/spreadsheets/d/1glXObMmIUd0uXxdFdiPWRZPLCx6qEUaxDfNnmttave4/edit#gid=1441851860) and [Server](https://docs.google.com/spreadsheets/d/1L0TusEEmerNqAW8k6w3893kcYjjpDi3OSoeKsOaPB4U/edit#gid=0))
-* Translations for plugins are updated according to the update settings for each plugin in the [plugin manager](../for-administrators/plugin-manager.md). After a plugin update, a reload of the frontend is required.
+* add the Google Sheet ID & GID to the [base configuration](../for-administrators/readme/development.md#localization) to see your changes after re-loading the frontend (applies only to [web-frontend-localization](https://docs.google.com/spreadsheets/d/1glXObMmIUd0uXxdFdiPWRZPLCx6qEUaxDfNnmttave4/edit#gid=1441851860) and [Server](https://docs.google.com/spreadsheets/d/1L0TusEEmerNqAW8k6w3893kcYjjpDi3OSoeKsOaPB4U/edit#gid=0))
+* translations for plugins are updated according to the update settings for each plugin in the [plugin manager](../for-administrators/plugin-manager.md) (after a plugin update, a reload of the frontend is required)
