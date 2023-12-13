@@ -117,3 +117,4 @@
 * [Plugin](for-developers/plugin.md)
 * [Collection Pin Code](for-developers/collection\_pin\_code.md)
 * [easydb 5](for-developers/changes-easydb5-fylr.md)
+* [Localization](for-developers/localization.md)
