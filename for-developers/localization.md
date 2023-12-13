@@ -28,6 +28,7 @@ This Google Sheet contains all translations for the fylr server part.
 
 * headers should not be deleted
 * columns that are not related to a language should not be added
+* do not translate anything inside "**%()"**
 * do not leave empty spaces between rows
 * you can use markdown syntax in some places, i.e. to make text bold
 * if you remove a translation from the Google Sheet or leave it empty, the key will be shown in the frontend instead
