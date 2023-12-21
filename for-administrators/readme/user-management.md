@@ -18,6 +18,10 @@ Define what should happen, when someone deletes a user in the user management.
 | Archive | When someone clicks on the minus to delete a user, the user will be archived. Archived users can't access the system but can be un-archived by administrators. |
 | Delete  | When someone clicks on the minus to delete a user, the user will be deleted. Deleted users can't access the system.                                            |
 
+{% hint style="warning" %}
+Please note, that in both cases "Archive" and "Delete", the collections of the users will be deleted and cannot be restored.
+{% endhint %}
+
 ### Store User in Events
 
 Enable all event types that should store the user. Otherwise the event will not be connected to a user.

@@ -8,7 +8,7 @@ description: >-
 
 ## Working with User
 
-Each FYLR installation comes with some predefined [**system user**](user.md#system-user) that cannot be deleted but can be used to assign system rights and permissions to. You can add your **own** users by clicking on the **plus** button on the lower **left**. To **delete** a user, select it and click the **minus** button. Depending on your [configuration](../readme/user-management.md#handling-when-deleting-users), the user will then be **archived** or **deleted**. You can **copy** a user by selecting it and click on "Copy" on the lower right of the user settings.&#x20;
+Each FYLR installation comes with some predefined [**system user**](user.md#system-user) that cannot be deleted but can be used to assign system rights and permissions to. You can add your **own** users by clicking on the **plus** button on the lower **left**. To **delete** a user, select it and click the **minus** button. Depending on your [configuration](../readme/user-management.md#handling-when-deleting-users), the user will then be **archived** or **deleted**. In both cases the collections of this user will be deleted and cannot be restored. You can **copy** a user by selecting it and click on "Copy" on the lower right of the user settings.&#x20;
 
 You can also use the **filter** to search for users**:**
 

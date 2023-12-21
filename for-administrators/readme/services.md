@@ -80,7 +80,7 @@ Specify the types of users that should be automatically archived after the above
 Specify after how many days archived user accounts should be deleted. Enter "0" to delete archived users with every janitor run (every 10 minutes).
 
 {% hint style="info" %}
-Attention: deleted users will be removed from the system and can't be re-activated. See also "[User Management](user-management.md)".
+Attention: deleted users will be removed from the system and can't be re-activated. This also includes the users collections. See also "[User Management](user-management.md)".
 {% endhint %}
 
 
