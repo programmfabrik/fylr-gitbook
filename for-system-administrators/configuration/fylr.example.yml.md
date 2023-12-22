@@ -133,6 +133,8 @@ fylr:
     noColor: false
     # add hostname to log output
     addHostname: false
+    # wrong password log level, set the level for wrong password output
+    wrongPasswordLogLevel: debug
 
   # data is stored in a database, FYLR supports sqlite & postgres
   db:
@@ -512,6 +514,8 @@ fylr:
       # os environment
       env:
         - FYLR_METADATA_BLURHASH=1g
+        # set env to set threads used by ffmpeg for mp4
+        - FYLR_CONVERT_VIDEO_MP4_THREADS=2
         # overwrite to use a different binary, defaults to "chromium" for the PDF plugin
         - SERVER_PDF_CHROME=chromium
 
