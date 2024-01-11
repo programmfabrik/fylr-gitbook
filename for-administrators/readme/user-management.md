@@ -133,27 +133,40 @@ Final step: **Matching an LDAP group to a fylr group**:
 
 ## SAML
 
-SAML 2.0 is an [XML](https://en.wikipedia.org/wiki/XML)-based [protocol](https://en.wikipedia.org/wiki/Communications\_protocol) that uses [security tokens](https://en.wikipedia.org/wiki/Software\_token) containing [assertions](https://en.wikipedia.org/wiki/Security\_Assertion\_Markup\_Language) to pass information about a principal (usually an end user) between a SAML authority, named an [Identity Provider](https://en.wikipedia.org/wiki/Identity\_Provider), and a SAML consumer, named a [Service Provider](https://en.wikipedia.org/wiki/Service\_Provider).
+This can be used to log into fylr with users from e.g. Shibboleth and Azure ActiveDirectory.
 
-fylr acts as a Service Provider and as such needs an Identity Provider. For testing purposes you can use [https://samltest.id/](https://samltest.id/). fylr's endpoint to get the required metadata XML is [http://localhost/api/saml/metadata](http://localhost/api/saml/metadata). Replace _localhost_ with the domain of your fylr server.
+Background: SAML 2.0 is an [XML](https://en.wikipedia.org/wiki/XML)-based [protocol](https://en.wikipedia.org/wiki/Communications\_protocol) that uses [security tokens](https://en.wikipedia.org/wiki/Software\_token) containing [assertions](https://en.wikipedia.org/wiki/Security\_Assertion\_Markup\_Language) to pass information about a principal (usually an end user) between a SAML authority, named an [Identity Provider](https://en.wikipedia.org/wiki/Identity\_Provider), and a SAML consumer, named a [Service Provider](https://en.wikipedia.org/wiki/Service\_Provider).
 
-### Test SAML with samltest.id
+fylr acts as a Service Provider and as such needs to connect to an Identity Provider. For testing and to understand the configuration workflow, you can use [https://samltest.id/](https://samltest.id/).&#x20;
 
-First you need to generate a certificate and private key. The certificate will be entered in the fylr frontend's form fields and then be given to the Identity Provider as part of the metadata, so that requests coming from fylr are accepted. It is in addition to fylr's https certificate and not to be confused with it.
+At some point you will need: fylr's endpoint to get the required metadata XML is [http://localhost/api/saml/metadata](http://localhost/api/saml/metadata) (replace _localhost_ with the domain of your fylr server).
+
+### SAML with samltest.id
+
+Follow this example to get into the workflow of configuring SAMl with fylr.
+
+First you need to generate a certificate and private key.&#x20;
+
+Background: The certificate will be entered in the fylr frontend's form fields and then be given to the Identity Provider as part of the metadata, so that requests coming from fylr are accepted. It is in addition to fylr's https certificate and not to be confused with it.
 
 #### Generate Certificate
+
+This can be done whereever openssl is installed as a command line utility.&#x20;
 
 ```bash
 openssl genrsa -out private.key 1024
 openssl req -new -x509 -key private.key -out publickey.cer -days 365
 ```
 
+Now you can view the contents of the files `private.key` and `publickey.cer` and put that into fylr's frontend: (**Certificate** and **Key** fields)
+
+<figure><img src="../../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
+
 #### Base Config
 
-* Copy & Paste the certificate & key into fylr's Base config > User management > SAML.
-* As the Identity Provider URL add [https://samltest.id/saml/idp](https://samltest.id/saml/idp).
+* As **URL** add [https://samltest.id/saml/idp](https://samltest.id/saml/idp) (this is the Identity Provider).
 * We recommend to check **Log Steps**. This will write log events to debug SAML connections. In case of an error, the connection attempt is always logged.
-* In **User Mapping** define how the SAML user is created in fylr. Upon each login the SAML users are mapped to fylr users. If a user already exists, an update is performed.
+* In **User Mapping** define how the SAML user is created in fylr. Upon each login the SAML users are mapped to fylr users. If an user already exists, an update is performed. Working with samltest.id:
   * Target: Reference: `%(urn:oasis:names:tc:SAML:attribute:subject-id)s`
   * Target: Display Name: `%(displayName)s`
   * Target: Email: `%(mail)s`
