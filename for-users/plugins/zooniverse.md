@@ -24,7 +24,7 @@ Depending on the data you want to copy from Zooniverse, you have to create the c
 
 After adding and enabling the plugin, go to the [base configuration](../../for-administrators/readme/). There you'll find the "Zooniverse Import" (under "Plugins").
 
-
+<figure><img src="../../.gitbook/assets/zooniverse_fylr_en_baseconfig.png" alt=""><figcaption></figcaption></figure>
 
 The synchronization is carried out using the file name of the file in the Zooniverse export, which is read from the CSV file without the file extension. A text field for matching must be selected in the Base Configuration. The plugin searches the system for corresponding data records for which the matching field corresponds to the file name.
 
@@ -41,6 +41,8 @@ After you set up the [configuration](zooniverse.md#configuration), go to "Tools"
 {% hint style="info" %}
 Please refer to the [Zooniverse documentation](https://help.zooniverse.org/next-steps/data-exports/) for exporting the CSV file.
 {% endhint %}
+
+<figure><img src="../../.gitbook/assets/zooniverse_fylr_en_import.png" alt=""><figcaption></figcaption></figure>
 
 Click on "Open CSV file" button and choose the desired CSV file and then click on "Parse CSV data in server" so the data is sent to the backend. The data is processed there and compared with the existing data in the system.
 
