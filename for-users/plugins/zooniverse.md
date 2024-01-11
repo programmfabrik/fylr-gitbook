@@ -1,4 +1,12 @@
+---
+description: Integrate data from Zooniverse and use it in fylr.
+---
+
 # Zooniverse
+
+{% hint style="info" %}
+Please note: this plugin is licensed as a separate module. If in doubt, please check your license agreement.
+{% endhint %}
 
 ## About
 
@@ -6,15 +14,15 @@
 
 ## Adding the Plugin
 
-First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](../../for-administrators/plugin-manager.md). If not, add the plugin.&#x20;
+First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](../../for-administrators/plugin-manager.md). If not, add the plugin. To license and get the plugin, please get in touch with Programmfabrik GmbH.
 
 ## Data Model
 
-
+Depending on the data you want to copy from Zooniverse, you have to create the corresponding fields in your data model.
 
 ## Configuration
 
-After adding and enabling the plugin, go to the [Base Configuration](../../for-administrators/readme/). There you'll find the "Zooniverse Import" (under "Plugins").
+After adding and enabling the plugin, go to the [base configuration](../../for-administrators/readme/). There you'll find the "Zooniverse Import" (under "Plugins").
 
 
 
@@ -28,7 +36,11 @@ Values for linked data records are also searched for in the system. If necessary
 
 ## Import
 
-After you set up the Base Configuration, go to "Tools" > "Zooniverse Import" to import the CSV file.&#x20;
+After you set up the [configuration](zooniverse.md#configuration), go to "Tools" > "Zooniverse Import" to import the CSV file.&#x20;
+
+{% hint style="info" %}
+Please refer to the [Zooniverse documentation](https://help.zooniverse.org/next-steps/data-exports/) for exporting the CSV file.
+{% endhint %}
 
 Click on "Open CSV file" button and choose the desired CSV file and then click on "Parse CSV data in server" so the data is sent to the backend. The data is processed there and compared with the existing data in the system.
 
