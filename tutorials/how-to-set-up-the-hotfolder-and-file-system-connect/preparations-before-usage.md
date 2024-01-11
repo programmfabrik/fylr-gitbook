@@ -13,7 +13,7 @@ In a **typical** installation of FYLR, this is already **done**. But in some ins
 
 You need **access** to the **configuration** of FYLR, typically a file called `fylr.yml` and you need to **restart** FYLR to make it re-read its **configuration**.
 
-Entry in the **configuration** that **needs** to be **set**, with some hierarchy above the entry for orientation:
+Here is the entry, that **needs** to be set in the **configuration**: (with some hierarchy above the entry for orientation)
 
 ```
 fylr+:
@@ -22,9 +22,9 @@ fylr+:
       webDAVHotfolderPath: "/srv/hotfolder"
 ```
 
-The **path** given needs to make sense in the container filesystem hierarchy.&#x20;
+The **path** given needs to make sense inside the _**container**_** filesystem** hierarchy.&#x20;
 
-Typically, the path is mapped to the outside of the container to the server file system, for either space requirements or persistence. The [docker-compose.yml](../../\_assets/docker-compose.yml) given in our [installation instructions](../../for-system-administrators/installation/linux-docker-compose.md) does this implicitly by mapping an outside directory to `/srv` inside the container.
+Typically, the path is mapped to the outside of the container to the server file system, for space requirements or persistence. The [docker-compose.yml](../../\_assets/docker-compose.yml) given in our [installation instructions](../../for-system-administrators/installation/linux-docker-compose.md) does this implicitly by mapping an outside directory to `/srv` inside the container.
 
 
 
@@ -36,7 +36,7 @@ In contrast to `Hotfolder`, the method `File System Connect` **does not need pre
 
 ## Activate Services
 
-**Additionally** the the **upload** needs to be **enabled** on service level. Go to **Base Configuration** > **Services** and enable "**Activate Hotfolder**" and / or "**Activate File System Connect**".
+**Additionally** the **upload** needs to be **enabled**: Go to **Base Configuration** > **Services** and enable "**Activate Hotfolder**" and / or "**Activate File System Connect**".
 
 <div data-full-width="false">
 
