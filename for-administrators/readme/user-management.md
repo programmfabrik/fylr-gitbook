@@ -50,11 +50,13 @@ Select which user information should be returned over the OpenID endpoint `oauth
 
 ## LDAP
 
-To enable logging in with LDAP accounts, scroll the User Management page to LDAP, _above_ SAML:
+LDAP is an authentication service that you might already have to hold your users' accounts centrally. It is part of **Microsoft Active Directory** (predecessor to Azure Active Directory).
+
+To enable fylr users to **log in** with LDAP accounts, scroll the **User Management** page to LDAP, _above_ SAML:
 
 <figure><img src="_assets/fylr-ldap-find-menu.png" alt=""><figcaption><p>where to find LDAP in the menues</p></figcaption></figure>
 
-Here is an example configuration with the public test provider ldap.forumsys.com:
+Here is an **example** configuration with the public test provider ldap.forumsys.com:
 
 <figure><img src="_assets/fylr-ldap-cropped.png" alt=""><figcaption><p>example ldap configuration</p></figcaption></figure>
 
@@ -147,7 +149,7 @@ This can be used to log into fylr with users from e.g. Shibboleth and Azure Acti
 
 Background: SAML 2.0 is an [XML](https://en.wikipedia.org/wiki/XML)-based [protocol](https://en.wikipedia.org/wiki/Communications\_protocol) that uses [security tokens](https://en.wikipedia.org/wiki/Software\_token) containing [assertions](https://en.wikipedia.org/wiki/Security\_Assertion\_Markup\_Language) to pass information about a principal (usually an end user) between a SAML authority, named an [Identity Provider](https://en.wikipedia.org/wiki/Identity\_Provider), and a SAML consumer, named a [Service Provider](https://en.wikipedia.org/wiki/Service\_Provider).
 
-fylr acts as a Service Provider and as such needs to connect to an Identity Provider. For testing and to understand the configuration workflow, you can use [https://samltest.id/](https://samltest.id/).&#x20;
+fylr acts as a Service Provider and as such needs to connect to an Identity Provider. For testing and to understand the configuration workflow, you can use the public Identity Provider [https://samltest.id/](https://samltest.id/).&#x20;
 
 At some point you will need: fylr's endpoint to get the required metadata XML is [http://localhost/api/saml/metadata](http://localhost/api/saml/metadata) (replace _localhost_ with the domain of your fylr server).
 
