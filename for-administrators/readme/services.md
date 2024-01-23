@@ -53,6 +53,15 @@ This service regularly cleans up data.
 
 Enable/Disable the Janitor.
 
+Deletes all tokens (Access, Refresh, ...) for which:
+
+* No `expired_at`  is set (e.g. authorization codes)&#x20;
+* `expired_at` is in the past&#x20;
+
+`expired_at` is saved when the token is saved for the first time and is calculated based on the lifetime of the tokens; this is defined in the base configuration under "User Management" -> "OAuth Service" -> "Expiration Times" for the various token types.
+
+And enables all the following:
+
 ### Remove Unused Files After n Days
 
 Specify after how many days unused files should be deleted from the storage. Unused files are files that has been uploaded to FYLR but have never been linked to a record. Enter "0" to remove unused files with every janitor run (every 10 minutes).
