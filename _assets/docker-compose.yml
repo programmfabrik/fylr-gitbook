@@ -3,6 +3,7 @@ services:
   opensearch:
     image: opensearchproject/opensearch:2
     container_name: opensearch
+    restart: always
     environment:
       - "OPENSEARCH_JAVA_OPTS=-Xms2g -Xmx2g"
       - discovery.type=single-node
