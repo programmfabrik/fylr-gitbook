@@ -29,7 +29,7 @@
     * [Release v6.2.2 (2023-01-12)](releases/2023/v6.2.2.md)
     * [Release v6.2.1 (2023-01-05)](releases/2023/v6.2.1.md)
   * [2022](releases/2022.md)
-    * [ fylr first Production Ready Release 🎉 (2022-12-22)](releases/2022/v6.2.0.md)
+    * [fylr first Production Ready Release 🎉 (2022-12-22)](releases/2022/v6.2.0.md)
 * [License Management](license-management.md)
 * [Plugins](plugins.md)
   * [Plugin Overview](plugins/overview.md)
@@ -99,6 +99,8 @@
 * [Integration](for-system-administrators/integration/README.md)
   * [Authentication](for-system-administrators/integration/authentication.md)
   * [Hotfolder](for-system-administrators/integration/hotfolder.md)
+* [Symptom & Solution](for-system-administrators/symptom-and-solution/README.md)
+  * [too many clients are connected](for-system-administrators/symptom-and-solution/too-many-clients-are-connected.md)
 
 ## Tutorials
 
