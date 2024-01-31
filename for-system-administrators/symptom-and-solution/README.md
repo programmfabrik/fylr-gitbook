@@ -1,5 +1,5 @@
 ---
-description: Known situations on our comments and recommendations
+description: Known situations and our comments and recommendations
 ---
 
 # Symptom & Solution
