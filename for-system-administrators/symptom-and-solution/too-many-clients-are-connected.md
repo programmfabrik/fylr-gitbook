@@ -4,7 +4,7 @@
 
 ## Symptoms
 
-* Log messages around the central topic of `too many clients are connected`&#x20;
+* Log messages around the central topic of `too many clients are connected`
 * Even panic and tracebacks may appear in the logs / output of fylr, like: (shortened here)
 
 ```
@@ -17,19 +17,19 @@ runtime/debug.PrintStack()
 
 ## Cause
 
-There are already more connections from fylr to the postgreSQL database service than the configured limit in postgreSQL.
+There are already more connections from fylr to the PostgreSQL database service than the configured limit in PostgreSQL.
 
 ## Solutions
 
 ### Change limit in fylr
 
-In fylr yaml configuration: fylr.db.maxIdleConns
+In fylr yaml configuration: `fylr.db.maxIdleConns`
 
-* if you use this, fylr will try to stay below the new limit and the errors may go away if you match the limit of your postgreSQL Installation.
+* If you use this, fylr will try to stay below the new limit and the errors may go away if you match the limit of your PostgreSQL installation.
 * We do not recommend this, as it may slow fylr down.
 
-### Change limit in postgreSQL
+### Change limit in PostgreSQL
 
-* if you increase this limit, the error might go away or appear less frequent. But postgreSQL may consume more memory.
+* If you increase this limit, the error might go away or appear less frequent. But PostgreSQL may consume more memory.
 * We recommend this method unless your server cannot provide enough memory. Hopefully, the limit is just too low for your server, so just try to increase it and monitor whether problems arrive.
-* in [docker-compose.yml](../../\_assets/docker-compose.yml#L35) add a line like `-c max_connections=200`  . 200 is just an example. The line shall be below the [line](../../\_assets/docker-compose.yml#L35) with  `command`  for the postgresql service. The default seems to be 100.
+* In [docker-compose.yml](../../\_assets/docker-compose.yml#L35) add a line like `-c max_connections=200`  . 200 is just an example. The line shall be below the [line](../../\_assets/docker-compose.yml#L35) with  `command`  for the postgresql service. The default seems to be 100.
