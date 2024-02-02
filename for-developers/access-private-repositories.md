@@ -22,7 +22,9 @@ The last command then outputs the line that you need to send to us. Encrypted co
 
 ## 2. Use the key to clone and update the repository
 
-After we confirmed to have granted access to your key, you may then clone the repository like this: (example: webfronted repository. Name contains easydb for historical reasons)
+After we confirmed to have granted access to your key, you may then clone some of our private repositories like this:&#x20;
+
+(Example: webfrontend repository. Name contains easydb for historical reasons)
 
 ```
 GIT_SSH_COMMAND='ssh -i ~/.ssh/mykey' git clone git@github.com:programmfabrik/easydb-webfrontend.git
