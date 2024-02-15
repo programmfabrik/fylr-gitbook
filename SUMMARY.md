@@ -91,7 +91,6 @@
   * [Linux](for-system-administrators/installation/linux-docker-compose.md)
   * [Windows](for-system-administrators/installation/windows.md)
   * [Kubernetes](for-system-administrators/installation/helm.md)
-  * [Log messages that can be ignored](for-system-administrators/installation/log-messages-that-can-be-ignored.md)
 * [Configuration](for-system-administrators/configuration/README.md)
   * [fylr.example.yml](for-system-administrators/configuration/fylr.example.yml.md)
   * [fylr.default.yml](for-system-administrators/configuration/fylr.default.yml.md)
@@ -102,6 +101,7 @@
   * [Authentication](for-system-administrators/integration/authentication.md)
   * [Hotfolder](for-system-administrators/integration/hotfolder.md)
 * [Symptom & Solution](for-system-administrators/symptom-and-solution/README.md)
+  * [Log messages that can be ignored](for-system-administrators/symptom-and-solution/log-messages-that-can-be-ignored.md)
   * [too many clients are connected](for-system-administrators/symptom-and-solution/too-many-clients-are-connected.md)
 
 ## Tutorials

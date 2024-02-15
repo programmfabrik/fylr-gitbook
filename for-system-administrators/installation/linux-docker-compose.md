@@ -139,7 +139,7 @@ You can change the maintain script's config in `/etc/default/fylr`, using bash s
 * When docker cannot start containers with errors refering to `shim, OCI, apparmor`: `apt-get install apparmor apparmor-utils; systemctl restart docker`
 * When the indexer does not work, make sure you used `sysctl` as shown above.
 
-Many messages can be safely ignored, see [here](log-messages-that-can-be-ignored.md).
+Many messages can be safely ignored, see [here](../symptom-and-solution/log-messages-that-can-be-ignored.md).
 
 Trouble with reachability, network, redirects:
 
