@@ -33,15 +33,19 @@ For more configuration of each plugin, please see "Plugins".
 
 
 
-## Documentation
+## WebDAV
 
-### Activate /docs
+### Activate Hotfolder
 
+Enable the checkbox to activate the [Hotfolder](../../tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/) in collections.
 
+### Waiting time in seconds before a new file is imported
 
-### GitHub Token
+To avoid importing files that have not yet been completely copied, the system checks after the specified waiting time whether the size of the file has changed. If not, the file is imported. The default is 15 seconds.
 
+### Activate File System Connect
 
+Enable the checkbox to activate the [File System Connect](../../tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/) in collections.
 
 
 
