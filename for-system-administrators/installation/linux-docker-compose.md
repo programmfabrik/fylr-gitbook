@@ -61,6 +61,8 @@ chown 1000 assets backups indexer migration
 chown  999 postgres sqlbackups
 ```
 
+The download is done below, with `docker-compose`
+
 ## Configuration
 
 We suggest that you use our example configuration as a starting point:
@@ -73,11 +75,13 @@ Edit `config/fylr/fylr.yml` and replace strings with `EXAMPLE`.
 
 If unsure about wasting your quota with letsencrypt, start with `useStagingCA: true`. A staging certificate will not be enough, though. Even some components of fylr will not trust each other. So do not use the frontend without a valid certificate (`useStagingCA: false`).
 
+## Download
+
 ### docker-compose
 
-Much of the setup is encapsulated in a docker-compose yaml file. Download and use it like this:
+Much of the setup is encapsulated in a yaml file for docker-compose. Get it and use it like this:
 
-We still assume that you are in the `/srv/fylr` directory.
+(We still assume that you are in the `/srv/fylr` directory.)
 
 ```bash
 curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/docker-compose.yml -o docker-compose.yml
@@ -87,7 +91,9 @@ docker-compose up -d postgresql opensearch ; docker-compose logs -f opensearch
 
 `Ctrl` + `c` stops the display of new messages. We suggest you stop checking new messages when opensearch is done with its startup. Either when it quiets down or when you catch the message `Cluster health status changed` \[...] `reason: [shards started`.
 
-So now that postgres and opensearch are running, start fylr:
+So now postgres and opensearch are running.
+
+Download and start fylr:
 
 `docker-compose up -d fylr; docker-compose logs -f fylr`
 
