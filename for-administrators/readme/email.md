@@ -18,7 +18,7 @@ Include a signature in all emails. Optional.
 
 ### Administrator Email
 
-TODO: is it just for showing this to the users? Or is fylr sending alerts to these addresses?
+One or more addresses. A warning about a soon expiring license is sent there.
 
 ## Configuration
 
