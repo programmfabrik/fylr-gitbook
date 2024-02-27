@@ -130,3 +130,7 @@
 * [easydb 5](for-developers/changes-easydb5-fylr.md)
 * [Localization](for-developers/localization.md)
 * [Access private Repositories](for-developers/access-private-repositories.md)
+
+## FOR PARTNERS
+
+* [Data Model Sync](for-partners/data-model-sync/objectstore.md)
