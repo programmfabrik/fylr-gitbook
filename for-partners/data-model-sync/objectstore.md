@@ -1,15 +1,15 @@
 ---
 description: >-
-  As partner you can use our objectstore infrastructure to transfer fylr (and easydb 5) data models between fylr instances.
+  As a partner of Programmfabrik GmbH, you can use our objectstore infrastructure to transfer fylr (and easydb 5) data models between fylr instances.
 ---
 
 # Data Model Sync
 
 This can be used, for example, to develop a data model on a fylr staging instance of fylr and then transfer it to the fylr production instance.
 
-If you want to use this service,
+## To use this service
 
-1. please create a support ticket.:
+1. Please create a support ticket:
 * Tell us the name of the instance.
 * Ask for a unique identifier, which will be used as the objectstore-ID.
 * Tell us about the usage type of each instance using the same data model. Examples: production, staging, test. But you are free to choose any term.
@@ -18,9 +18,9 @@ If you want to use this service,
 
 3. They must be entered into the fylr base configuration (frontend):
 
-* Server: https://schema.easydb.de/objectstore
-* `UID`: `<objectstore-ID>`
-* `Instance`: `<instance-usage-string>`
+* `Server`: `https://schema.easydb.de/objectstore`
+* `UID`: objectstore-ID
+* `Instance`: instance-usage-string
 
 Yes, "easydb" in the objectstore's store URL is correct. This will be changed at a later time to reflect the current product fylr.
 
@@ -29,10 +29,12 @@ If you setup a new fylr instance, the objectstore's configuration can be entered
 ```yaml
 default_client:
   datamodel:
-    uid: <objectstore-ID>
+    uid: objectstore-ID
     server: https://schema.easydb.de/objectstore
-    instance: <instance-usage>
+    instance: instance-usage-string
 ```
+
+## Other aspects
 
 We decided to offer this service without a fee for now. We will reevaluate this based on the usage in the end of 2024.
 
