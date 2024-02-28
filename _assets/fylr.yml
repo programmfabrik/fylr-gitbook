@@ -99,9 +99,10 @@ fylr+:
     webapp+:
       addr: ":443"
       tls:
+        forwardHttpAddr: ":80" # fylr v6.9.0 onwards
         letsEncrypt:
           email: you@EXAMPLE.COM
-          forwardHttpAddr: ":80"
+          forwardHttpAddr: ":80" # fylr before v6.9.0
           useStagingCA: false
 
     api+:
