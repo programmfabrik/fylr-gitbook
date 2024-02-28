@@ -1,8 +1,8 @@
 version: '3'
 services:
   opensearch:
-    image: opensearchproject/opensearch:2.11.1 # safe with fylr before v6.9.0
-    #image: opensearchproject/opensearch:2.12.0 # needs at least fylr v6.9.0
+    #image: opensearchproject/opensearch:2.11.1 # safe with fylr before v6.9.0
+    image: opensearchproject/opensearch:2.12.0 # needs at least fylr v6.9.0
     container_name: opensearch
     restart: always
     environment:
@@ -11,6 +11,7 @@ services:
       - bootstrap.memory_lock=true
       - network.publish_host=127.0.0.1
       - plugins.security.disabled=true
+      - "OPENSEARCH_INITIAL_ADMIN_PASSWORD=EXAMPLE945873205"
     volumes:
       - "/srv/fylr/indexer:/usr/share/opensearch/data"
     command: >

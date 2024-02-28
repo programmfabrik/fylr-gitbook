@@ -21,15 +21,15 @@ fylr+:
     webapp+:
       addr: ":443"
       tls:
+        # forwardHttpAddr defines an address a http listener is started
+        # to forward requests to fylr.services.webapp.addr, the (port of the)
+        # webserver.
+        #forwardHttpAddr: "" # if letsencrypt: use port 443 for letsencrypt challenge_type=tls-alpn-01
+        forwardHttpAddr: ":80" # use port 80 (and if letsencrypt: for letsencrpyt challenge_type=http-01)
+
         letsEncrypt:
           # use your email address, example.com will we rejected by Letsencrypt
           email: you@example.com
-
-          # forwardHttpAddr defines an address a http listener is started
-          # to forward requests to fylr.services.webapp.addr, the (port of the)
-          # webserver.
-          #forwardHttpAddr: "" # use port 443 for letsencrypt challenge_type=tls-alpn-01
-          forwardHttpAddr: ":80" # use port 80 for letsencrpyt challenge_type=http-01
 
           # Highly recommended: use useStagingCA: true until you successfully got a
           # certificate. (Which means: no connection problems) Then set it to false
