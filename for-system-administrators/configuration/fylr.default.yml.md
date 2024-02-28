@@ -49,8 +49,8 @@ fylr:
   execserver:
     addresses:
       - http://localhost:8083/?pretty=true
-    parallel: 4
-    parallelHigh: 2
+    parallel: 18
+    parallelHigh: 10
     pluginJobTimeoutSec: 2400
     connectTimeoutSec: 120
     callbackBackendInternalURL: "http://localhost:8081"
@@ -111,9 +111,14 @@ fylr:
       jobRemovalPolicy: "done"
       janitorFileAge: "24h"
       waitgroups:
-        a:
-          processes: 4
-        b:
+        # video / office conversion
+        slow:
+          processes: 2
+        # convert / image
+        medium:
+          processes: 6
+        # plugins / metadata etc.
+        fast:
           processes: 10
 
       # common environment to be used for all program exec
@@ -154,29 +159,29 @@ fylr:
       services:
         # this service allows to execute arbitrary binaries
         exec:
-          waitgroup: a
+          waitgroup: fast
         # plugin support
         node:
-          waitgroup: a
+          waitgroup: fast
         python3:
-          waitgroup: b
+          waitgroup: fast
         xslt:
-          waitgroup: a
+          waitgroup: fast
         # file conversion support
         convert:
-          waitgroup: a
+          waitgroup: medium
         ffmpeg:
-          waitgroup: a
+          waitgroup: slow
         inkscape:
-          waitgroup: a
+          waitgroup: slow
         soffice:
-          waitgroup: a
+          waitgroup: slow
         pdf2pages:
-          waitgroup: a
+          waitgroup: slow
         iiif:
-          waitgroup: b
+          waitgroup: fast
         metadata:
-          waitgroup: a
+          waitgroup: fast
 ```
 {% endcode %}
 

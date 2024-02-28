@@ -14,9 +14,7 @@ It contains:
 * `fylr.example.yml` most configuration parameters. Look here for reference.
 * `fylr.default.yml` compiled-in default values.
 * `LICENSE` legal information on who may use fylr.
-* `webfrontend` folder. The static webfrontend files.
-* plugin folders.
-* `resources` folder: these recources are now also inside the fylr.exe executable file and are used by default. But we still include them separately so you can work with them.
+* A folder with plugins.
 
 ## Windows path length
 
@@ -28,11 +26,11 @@ Bare bone minimum: Elasticsearch or OpenSearch
 
 ### OpenSearch
 
-We have more experience with Elasticsearch but will be using OpenSearch more and more, it will probably become the new default.
+OpenSearch is our default and recommendation. Elasticsearch has been the default until 2023.
 
 We installed OpenSearch as described in [https://opensearch.org/docs/latest/install-and-configure/install-opensearch/windows/](https://opensearch.org/docs/latest/install-and-configure/install-opensearch/windows/)
 
-* Version 2.11.0
+* Version 2.11 (Version 2.12.0 works from fylr v6.9.0 onwards, make sure you set a strong initial password for admin, the OpenSearch user)
 * We disabled security and let it explicitly listen only on localhost:
 
 ```
@@ -51,7 +49,9 @@ opensearch-2.11.0> .\bin\opensearch-plugin install analysis-icu
 What we tested:
 
 * Download from [https://www.elastic.co/guide/en/elasticsearch/reference/current/zip-windows.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/zip-windows.html)
-* Since writing the next lines, we found a <mark style="background-color:red;">problem</mark> with Versions `8.5` and newer, about indexing letters _Q_ and _W_, of all things. So we recommend Elasticsearch `7.17`. The remainder of the text still mentions `8.6.1`, to stay true to what we actually did under Windows.
+* We recommend Elasticsearch `7.17`.
+* If you start a new instance or have problems with ElasticSearch, we recommend OpenSearch, see above.
+* Since writing the next lines, we found a <mark style="background-color:red;">problem</mark> with Versions `8.5` and newer, about indexing letters _Q_ and _W_, of all things. Thus our recommendation for Elasticsearch `7.17`. The remainder of the text still mentions `8.6.1`, to stay true to what we actually did under Windows.
 *   Unpack official windows release file elasticsearch-8.6.1-windows-x86\_64.zip
 
     Other Versions should also be fine. This is true for all the below mentioned tools.

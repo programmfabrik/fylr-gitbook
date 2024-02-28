@@ -140,17 +140,22 @@ fylr:
   db:
     # driver: sqlite3
     # dsn: "../../_data/sqlite/fylr.db"
+
     driver: postgres
     # specify a PostgreSQL user owning the given db (with LOGIN and INHERIT, which are defaults for CREATE USER anyway).
     dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
-    # https://golang.org/pkg/database/sql/#DB.SetMaxOpenConns, default: 0
-    # This has to be at 4 + execserver.parallel + elastic.parallel. Two of these
-    # connections will be dedicated to a separate connection pool managing
-    # the sequences (Postgres only)
-    maxOpenConns: 10
+
+    # https://golang.org/pkg/database/sql/#DB.SetMaxOpenConns
+    # default: 0 which is unlimited
+    # recommended: same as postgreSQL max_connections (which defaults to 100)
+    # At least: 4 + execserver.parallel + execserver.parallelHigh + elastic.parallel.
+    # Two of these connections will be dedicated to a separate connection pool
+    # managing the sequences. (Postgres only)
+    maxOpenConns: 100
     # https://golang.org/pkg/database/sql/#DB.SetMaxIdleConns, default: 0
     # This has to be not more than maxOpenConns
-    maxIdleConns: 0
+    maxIdleConns: 10
+
     # The init block is used to pre-fill the database when its created or purged.
     init:
       # Path to base config file. If set, on a fresh install or after a purge this
@@ -398,21 +403,24 @@ fylr:
       # For tls support ("addr" only), provide a cert and key file
       tls:
         # certFile contains the certificate in pem Format and optionally intermediate chain certificates below in the same file.
-        certFile: ""
-        keyFile: ""
+        certFile: "server.crt"
+        keyFile: "server.key"
+
+        # forwardHttpAddr defines an address a http listener is started to
+        # forward requests to fylr.services.webapp.addr (the port of the) webserver.
+        # Typically you use ":80" for the forward http and ":443" for webapp.addr.
+        # Default is "" (off)
+        # With letsEncrypt configured below, this is used for:
+        #forwardHttpAddr: ""    # use port 443, letsencrypt challenge_type=tls-alpn-01
+        #forwardHttpAddr: ":80" # use port  80, letsencrpyt challenge_type=http-01
+        forwardHttpAddr: ":80"
+
         # Automatic certificate management can be enabled using the "letsencrypt"
         # property. With this setting, fylr automatically retrieves and renews
         # an certificate for the domain of fylr.externalURL.
         letsEncrypt:
           # email is used to register the certificate with Let's Encrypt
           email: you@example.com
-
-          # forwardHttpAddr defines an address a http listener is started
-          # to forward requests to fylr.services.webapp.addr (the port of the)
-          # webserver. Typically you use ":80" for the forward http and ":443"
-          # for webapp.addr.
-          #forwardHttpAddr: "" # use port 443 for letsencrypt challenge_type=tls-alpn-01
-          forwardHttpAddr: ":80" # use port 80 for letsencrpyt challenge_type=http-01
 
           # useStagingCA sets the staging server of Let's Encrypt which has a higher
           # quota than the production server. However, these certificates are for
