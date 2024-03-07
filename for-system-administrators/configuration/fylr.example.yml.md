@@ -313,12 +313,10 @@ fylr:
     # example to only match service "node": http://localhost:8083/job/node?pretty=true
     addresses:
       - http://localhost:8083/?pretty=true
-    # pluginJobTimeoutSec sets the maximum seconds a callback
-    # is allowed to run. Defaults to 30 seconds.
-    pluginJobTimeoutSec: 30
-    # connectTimeout sets the maximum seconds the server will wait
-    # until a worker gets a job. Defaults to 60 seconds.
-    connectTimeoutSec: 60
+    # the maximum a callback is allowed to run
+    pluginJobTimeoutSec: 2400
+    # the maximum the server will wait until a worker gets a job
+    connectTimeoutSec: 120
     # callbackBackendInternalURL will be included in execserver jobs, this is
     # used for plugin installation (loaded from the backend into the execserver)
     # and progress updates.
