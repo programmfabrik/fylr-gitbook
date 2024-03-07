@@ -10,7 +10,7 @@ This is NOT a coherent fylr.yml, do not use for an installation; use [this](http
 
 If you start your hierarchy in fylr.yml with `fylr+:` instead of `fylr:`, then defaults are used where not explicilty overwritten. Defaults see [fylr.default.yml](fylr.default.yml.md)
 
-For this file with versions, diffs and line numbers use [its github representation](https://github.com/programmfabrik/fylr-gitbook/blob/main/for-system-administrators/configuration/fylr.example.yml.md).
+For this file with versions, diffs and line numbers use [its github representation](fylr.example.yml.md).
 
 {% code title="fylr.yml" %}
 ```yaml
@@ -358,7 +358,9 @@ fylr:
         # secure. If set to true, this setting http urls are allowed to be used
         # for redirects. Default: false.
         allowHttpRedirects: false
-        # map with pre-configured client, use for the webapp
+        # the default clients are built into the web app and other apps.
+        # They are public and thus do nwither need or have a secret.
+        # see https://docs.fylr.io/for-system-administrators/configuration/fylr.default.yml
         clients:
           web-client:
             # secret must be given as bcrypt hash
@@ -717,4 +719,3 @@ fylr:
                 - "iiif"
 ```
 {% endcode %}
-
