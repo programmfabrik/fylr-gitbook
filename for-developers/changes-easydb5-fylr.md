@@ -107,7 +107,7 @@ Non spec "limit" url parameter.
 
 New endpoint **/oai**
 
-#### /api/db
+#### /api/v1/db
 
 Format **full**:
 
@@ -123,12 +123,12 @@ Additional support:
 * \_create\_user: system.root can set the creating user (used for migrations), \_create\_user is also in the output
 * skipConstraints: allows to skip unique checks & no pool storage (for migrations)
 
-#### /api/db\_info
+#### /api/v1/db\_info
 
 * /update: "\_available\_tags" are not including "is\_default" any more. This is not very useful with multiple pools as the pools can define their own defaults for the tags.
 * output of \_generated\_rights includes more rights than in easydb 5
 
-#### /api/eas
+#### /api/v1/eas
 
 * class\_version\_extensions is no longer being indexed
 * metadata groups have a new "value" next to "print"
@@ -138,31 +138,31 @@ Additional support:
 * GET /eas?mapping always requires objecttype
 * rput has a "delete\_url" now to pass in an url which is called upon delete of the file
 
-#### /api/export
+#### /api/v1/export
 
 * new url parameter `format` can be used to filter output for `_log`
 * `_log` is now sorted `ASC`
 
-#### /api/group
+#### /api/v1/group
 
 * `_ipv4_subnet_filter` renamed to `_ip_subnet_filter`, added support for ipv6
 
-#### /api/mask
+#### /api/v1/mask
 
 The format=**xml** is no longer supported.
 
 * System fields `_acl`, `_tags`, `_collection`, `_owner`, `_published` are hidden from API if configured not to be shown.
 * `_all_fields` mask sets standard for 1st file field and all text fields.
 
-#### /api/right/preset
+#### /api/v1/right/preset
 
 * Getting a single preset via ID is new
 
-#### /api/pool
+#### /api/v1/pool
 
 * `_compiled_tags` got a new attribute `_origin` which shows the origin of the tag.
 
-#### /api/search
+#### /api/v1/search
 
 * fields.with\_path is new, fields collecting for path items has changed. One entry is presented as individual array containing one element per path element, whereas easydb 5 would return individual path elements in one big array.
 * sort.with\_path defaults to **false**
@@ -186,17 +186,17 @@ The format=**xml** is no longer supported.
 * removed `format` from `date_range` aggregation
 * new sort by "\_standard\_parent", "\_standard\_parents"
 
-#### /api/schema
+#### /api/v1/schema
 
 The format=**xml** is no longer supported.
 
 * exclude/include always implies format "long" (TBD)
 
-#### /api/settings
+#### /api/v1/settings
 
 This endpoint loses all subpaths, as they have been moved to **/api/system**.
 
-#### /api/system
+#### /api/v1/system
 
 New endpoint which offers:
 
@@ -206,31 +206,31 @@ New endpoint which offers:
 * /errortest: store a test error
 * /status: status info about the server
 
-#### /api/objects
+#### /api/v1/objects
 
 The **column** can also target nested fields, but not reverse.
 
-#### /api/eas
+#### /api/v1/eas
 
 Renamed **skip\_extension\_check** to **produce\_versions=false**.
 
 Format for "short" changed. Use "standard" for compability.
 
-#### /api/objecttype
+#### /api/v1/objecttype
 
 Added `_filename_replacements` as new top level attribute. This lists the available replacements for files.
 
 Added `_compiled_tags` as new top level attribute.
 
-#### api/eas/produce
+#### api/v1/eas/produce
 
 The **transform** body parameter is no longer an array but a single transform entry
 
-#### /api/session
+#### /api/v1/session
 
 * This endpoint was removed. Use OAUTH2 and /api/user/session instead
 
-#### /api/event
+#### /api/v1/event
 
 * url parameter **base\_type** has been renamed to **basetype**
 * POST /api/event is now symetric. It receives the event as an object inside the top level object's `event` property.
@@ -238,7 +238,7 @@ The **transform** body parameter is no longer an array but a single transform en
 * DELETE /api/event/_id_ is new
 * url parameter "background=1" can be used to background event writing (use from within plugins to not dead lock sqlite installations)
 
-#### /api/user
+#### /api/v1/user
 
 * default delete policy in base config is "ask" (not "delete")
 * new endpoint /api/user/change\_password (moved from /api/user/session)
@@ -248,12 +248,12 @@ The **transform** body parameter is no longer an array but a single transform en
 * user.last\_updated\_timestamp -> `_updated_at`
 * new: `_last_seen_at`
 
-#### /api/collection
+#### /api/v1/collection
 
 * Deep-Link changed for type collection and email users: login and password swapped for collection and for email the user logs in with email & uuid instead of email & acl uuid
 * New API create\_object.linked\_object\_pools
 
-#### /api/config
+#### /api/v1/config
 
 * Separate `system` and `plugin` config. New object layer `config`.
 * Can be filtered accessed via path
@@ -262,11 +262,10 @@ The **transform** body parameter is no longer an array but a single transform en
 ## Misc. (German)
 
 * fylr ist in Go programmiert, nicht mehr in C++ wie die easydb 5. Dadurch läuft das theoretisch auf allen Betriebssystemen nativ
-* Das fylr Binary beinhaltet alle Services
-* Neues Frontend-Design, ansonsten dasselbe wie in der easydb 5 mit kleineren neuen Modulen
+* Neues Frontend-Design, ansonsten dasselbe Frontend wie in der easydb 5
 * Einige Plugins sind in den Core gewandert: OAI/PMH, Webdav Support
 * Webdav kann jetzte auch jetzt Read / Write, nicht nur Write und wird direkt von fylr unterstützt
-* Es braucht keinen Apache + Easydb Asset Server (EAS) mehr
+* Es braucht keinen Apache + Easydb Asset Server (EAS) mehr. Execserver ist Teil vom fylr Binary
 * Asset-Links sind nicht mehr Apache -> Platte sondern auch über fylr , d.h. sind auch rechtegemanagt
 * fylr verbraucht weniger CPU/RAM als easydb 5 und ist horizontal skalierbar
 * Alles was externe Programme betrifft ist in den fylr-Execserver ausgelagert, ein skalierbarer Mikroservice zum Ausführen von “Jobs”, zB Bilder kleinrechnen, Metadaten ziehen
