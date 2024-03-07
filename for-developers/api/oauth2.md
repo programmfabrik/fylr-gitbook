@@ -32,7 +32,7 @@ The following descriptions of the different OAuth2 flows use `my-client` and `my
 
 These need to be configured in the fylr instance.
 
-Configure the pair(s) of Client ID and Secret in the [config file](for-system-administrators/configuration/fylr.example.yml) `fylr.yml`:
+Configure the pair(s) of Client ID and Secret in the [config file](../../for-system-administrators/configuration/fylr.example.yml.md) `fylr.yml`:
 
 {% code title="" %}
 ```yaml
@@ -48,7 +48,13 @@ fylr:
 ```
 {% endcode %}
 
+The default clients in fylr are public and thus do neither need nor have a secret.
+
+
+
 Alternatively, add the Client ID and Secret pair(s) in the [Base Configuration](for-administrators/readme/user-management/#oauth-service).
+
+
 
 ## OAuth2 Flows
 
