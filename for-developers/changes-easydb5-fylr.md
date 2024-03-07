@@ -259,30 +259,27 @@ The **transform** body parameter is no longer an array but a single transform en
 * Can be filtered accessed via path
 * Supports partial updates now
 
-## Unsorted (German)
+## Misc. (German)
 
 * fylr ist in Go programmiert, nicht mehr in C++ wie die easydb 5. Dadurch läuft das theoretisch auf allen Betriebssystemen nativ
-* fylr Binary ist 58MB und beinhaltet alle Services
+* Das fylr Binary beinhaltet alle Services
 * Neues Frontend-Design, ansonsten dasselbe wie in der easydb 5 mit kleineren neuen Modulen
 * Einige Plugins sind in den Core gewandert: OAI/PMH, Webdav Support
-* Webdav ist jetzt Read / Write, nicht nur Write und wird direkt von fylr unterstützt
-* Es gibt keinen Apache + Easydb Asset Server (EAS) mehr
+* Webdav kann jetzte auch jetzt Read / Write, nicht nur Write und wird direkt von fylr unterstützt
+* Es braucht keinen Apache + Easydb Asset Server (EAS) mehr
 * Asset-Links sind nicht mehr Apache -> Platte sondern auch über fylr , d.h. sind auch rechtegemanagt
 * fylr verbraucht weniger CPU/RAM als easydb 5 und ist horizontal skalierbar
 * Alles was externe Programme betrifft ist in den fylr-Execserver ausgelagert, ein skalierbarer Mikroservice zum Ausführen von “Jobs”, zB Bilder kleinrechnen, Metadaten ziehen
 * Sämtliche Plugin-Callbacks laufen auch über den Execserver. Plugins können dadurch in beliebigen Programmiersprachen entwickelt werden
 * Exporter läuft auch über den Execserver so dass zb XSLT 3.0 benutzt werden kann
-* FYLR läuft unter Docker / Kubernetes, docker-compose / Helm files verfügbar
-* Filestorage läuft jetzt ausschliesslich über das S3 Protokoll. Soll weiterhin auf Platte direkt geschrieben werden braucht es einen Service wie Minio.
-* Elastic haben wir immer noch, liefern es aber nicht mehr selber aus
-* Alles was mit Dateien passiert und passieren kann (also Formatsumwandlungen, Metadata-Extraction, egal was), ist über .yml Recipes vom Administrator des System scriptbar. D.h. wir haben da nichts mehr hard-gecoded. Sogar die Metadata Extraction läuft über den Execserver (allerdings in unserem eigenen Binary welches wiederum exiftool aufruft, das kann man aber wrappen und erweitern)
+* fylr läuft unter Docker / Kubernetes, docker-compose / Helm files verfügbar
+* Filestorage kann jetzt auch das S3 Protokoll.
+* Alles was mit Dateien passiert und passieren kann (also Formatsumwandlungen, Metadata-Extraction, egal was), ist über .yml Recipes scriptbar. Sogar die Metadata Extraction läuft über den Execserver (allerdings in unserem eigenen Binary welches wiederum exiftool aufruft, das kann man aber wrappen und erweitern)
 * Metadataextraktion kann vom Typ abhängig gemacht werden
 * Replacement von Original während Inject möglich
-* CLI tool: fylrctl, wir noch ausgebaut. Soll eine Scriptzugriff auf die API bereitstellen
-* fylrctl hat ein eingebautes “backup” + “restore” für API und DB basierte Migrationen
 * der neue /inspect view ist ein Bare Metal DB View auf die Strukturen und Daten in fylr
 * Aktuelle DBs sind Postgres + Sqlite. Wir wollen auch noch CockroachDB supporten (das gestaltet sich allerdings nicht so einfach, da die mit einem anderen TRANSACTION mode als Postgres unterwegs sind)
-* Schema Updates in FYLR werden NICHT mehr in der SQL DB reflektiert, dort ist alles in einem Key-Value Verfahren gespeichert. D.h. die Anzahl der DB Tabellen in fylr ist fix und ändert sich nicht mit dem User Schema
+* Schema Updates in fylr werden NICHT mehr in der SQL DB reflektiert, dort ist alles in einem Key-Value Verfahren gespeichert. D.h. die Anzahl der DB Tabellen in fylr ist fix und ändert sich nicht mit dem User Schema
 * Plugins können über die Base Config aktiviert / deaktiviert werden. Auch können Plugins direkt im Frontend nachinstalliert werden
 * Integrierter IIIF Support (Presentation API 3.0, Image API 2.0), Tiler konfigurierbar über den Execserver (d.h. ihr könnt zB alles auf JP2 umstellen, oder layered TIFFs)
 * Integrieter Bilder-Zoom wird auf den IIIF Endpoint gemappt
@@ -299,5 +296,3 @@ The **transform** body parameter is no longer an array but a single transform en
 * Schnelleres Rechtemanagement, Abfragen mit "generate\_rights: true" sind genauso schnell wir ohne
 * Authentifizierung ist komplett neu und auf OAUTH2 umgestellt. Erweiterung auf OpenID ist vorgesehen, aber noch nicht umgesetzt. OpenID Client Unterstützung ist möglich, aber nicht umgesetzt.
 * Geplant: Feldvererbungen in Hierarchien: Unbelegte Felder erben auf Wunsch automtisch die Einträge vom Vater bzw Großvater
-* Geplant: Neue Limits für Gruppeneditor
-* Idee: Asynchrone /api/db calls
