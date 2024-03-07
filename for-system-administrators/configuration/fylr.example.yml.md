@@ -10,8 +10,6 @@ This is NOT a coherent fylr.yml, do not use for an installation; use [this](http
 
 If you start your hierarchy in fylr.yml with `fylr+:` instead of `fylr:`, then defaults are used where not explicilty overwritten. Defaults see [fylr.default.yml](fylr.default.yml.md)
 
-For this file with versions, diffs and line numbers use [its github representation](fylr.example.yml.md).
-
 {% code title="fylr.yml" %}
 ```yaml
 ## - Some of the regexs to check for versions might require modifications
