@@ -358,8 +358,8 @@ fylr:
         # secure. If set to true, this setting http urls are allowed to be used
         # for redirects. Default: false.
         allowHttpRedirects: false
-        # the default clients are built into the web app and other apps.
-        # They are public and thus do nwither need or have a secret.
+        # The default clients are built into the web app and other apps.
+        # They are public and thus do neither need nor have a secret.
         # see https://docs.fylr.io/for-system-administrators/configuration/fylr.default.yml
         clients:
           web-client:
