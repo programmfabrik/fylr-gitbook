@@ -1,5 +1,7 @@
 ---
-description: Backup a fylr instance, to later restore it into an empty fylr instance.
+description: >-
+  Backup a fylr instance into a SQL dump, to later restore it into an empty fylr
+  instance.
 ---
 
 # Backups & Restore
