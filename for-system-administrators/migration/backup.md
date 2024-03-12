@@ -60,12 +60,62 @@ Flags:
 ```
 
 
+<!-- vvvvv --- this part was auto generated: 2024-03-13 08:48:46 (UTC) --- vvvvv -->
+
+
+
 ### `--dir`
 
 Target folder for the backup files. If it does not exist, it will be created. If it exists, and `--purge` is used, an existing folder is deleted and created new.
 
 * this parameter is **mandatory**!
 * type: `string`
+
+
+### `--server`
+
+API Url of the source instance. The Url must include the API base endpoint, for fylr this is `<source url>/api/v1`.
+
+* this parameter is **mandatory**!
+* type: `string`
+
+
+### `--login`
+
+Username of the user in the source instance. It should be a user with root rights or sufficient read rights.
+
+* this parameter is **mandatory**!
+* type: `string`
+
+
+### `--password`
+
+Password of the user in the source instance.
+
+* this parameter is **mandatory**!
+* type: `string`
+
+
+### `--purge`
+
+Defines the mode of the backup (purge or continue)
+If this is `true`, the complete backup starts from the beginning, and an existing backup folder with the same name is purged.
+The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
+
+* this parameter is **mandatory**!
+* type: `bool`
+* default: `false`
+
+
+### `--continue`
+
+Defines the mode of the backup (purge or continue)
+If this is `true`, the backup continues from the last point in the `manifest.json` file, if a previous backup run was interrupted.
+The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
+
+* this parameter is **mandatory**!
+* type: `bool`
+* default: `false`
 
 
 ### `--size`
@@ -155,30 +205,6 @@ Defines the waiting time in seconds between repeated failed requests.
 * default: `30`
 
 
-### `--server`
-
-API Url of the source instance. The Url must include the API base endpoint, for fylr this is `<source url>/api/v1`.
-
-* this parameter is **mandatory**!
-* type: `string`
-
-
-### `--login`
-
-Username of the user in the source instance. It should be a user with root rights or sufficient read rights.
-
-* this parameter is **mandatory**!
-* type: `string`
-
-
-### `--password`
-
-Password of the user in the source instance.
-
-* this parameter is **mandatory**!
-* type: `string`
-
-
 ### `--client-id`
 
 If the source instance uses OAuth2 for user authentication, this is the configured Client ID.
@@ -223,26 +249,5 @@ If this is a valid file path, the log output is written to this file. If this is
 * type: `string`
 
 
-### `--purge`
-
-Defines the mode of the backup (purge or continue)
-If this is `true`, the complete backup starts from the beginning, and an existing backup folder with the same name is purged.
-The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
-
-* this parameter is **mandatory**!
-* type: `bool`
-* default: `false`
-
-
-### `--continue`
-
-Defines the mode of the backup (purge or continue)
-If this is `true`, the backup continues from the last point in the `manifest.json` file, if a previous backup run was interrupted.
-The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
-
-* this parameter is **mandatory**!
-* type: `bool`
-* default: `false`
-
-
+<!-- ^^^^^ --- this part was auto generated --- ^^^^^ -->
 

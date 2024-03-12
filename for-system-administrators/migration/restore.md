@@ -29,7 +29,7 @@ fylr restore \
 * for the `--server` parameter, include the HTTP Basic Auth: `http://<login>:<password>@<fylr url>/api/v1`
 * `--chunk` defines the batch size of objects in POST requests to `api/v1/db`
   * if the objects are too big or complex, the requests might take too long and cause a timeout
-  * in this case, lower this value and continue restoring with --continue
+  * in this case, lower this value and continue restoring with `--continue`
 
 
 ## Parameters
@@ -79,12 +79,62 @@ Flags:
 ```
 
 
+<!-- vvvvv --- this part was auto generated: 2024-03-13 08:48:46 (UTC) --- vvvvv -->
+
+
+
 ### `--manifest`
 
 Manifest file that has been created by the `backup` command.
 
 * this parameter is **mandatory**!
 * type: `string`
+
+
+### `--server`
+
+API Url of the target instance. The Url must include the API base endpoint, for fylr this is `<target url>/api/v1`.
+
+* this parameter is **mandatory**!
+* type: `string`
+
+
+### `--login`
+
+Username of the user in the target instance. It should be a user with root rights or sufficient read rights.
+
+* this parameter is **mandatory**!
+* type: `string`
+
+
+### `--password`
+
+Password of the user in the target instance.
+
+* this parameter is **mandatory**!
+* type: `string`
+
+
+### `--purge`
+
+Defines the mode of the restoring (purge or continue)
+If this is `true`, the complete restore starts from the beginning, and the target instance is purged.
+The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
+
+* this parameter is **mandatory**!
+* type: `bool`
+* default: `false`
+
+
+### `--continue`
+
+Defines the mode of the restoring (purge or continue)
+If this is `true`, the restore continues from the last point in the `progress.json` file, if a previous restore run was interrupted.
+The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
+
+* this parameter is **mandatory**!
+* type: `bool`
+* default: `false`
 
 
 ### `--base-config`
@@ -106,7 +156,7 @@ Skip constraints during restore.
 
 Include user password hashes. If this option is `true`, the restore tool checks if there is at least one user where a password hash is present. This is done by checking the `has_passwords` flag in the `manifest.json`. If this value is `false`, the restore will stop with an error.
 
-Make sure that the source instance is configured to output the user passwords, and repeat the backup. See https://docs.easydb.de/en/sysadmin/configuration/easydb-server.yml/available-variables/ under `include_passwords` for the settings in an easydb5 source instance.
+Make sure that the source instance is configured to output the user passwords, and repeat the backup. See [https://docs.easydb.de/en/sysadmin/configuration/easydb-server.yml/available-variables/](https://docs.easydb.de/en/sysadmin/configuration/easydb-server.yml/available-variables/) under `include_passwords` for the settings in an easydb5 source instance.
 
 * type: `bool`
 * default: `false`
@@ -191,30 +241,6 @@ Set to `true` to ignore file upload errors and strip objects from them.
 * default: `false`
 
 
-### `--server`
-
-API Url of the target instance. The Url must include the API base endpoint, for fylr this is `<target url>/api/v1`.
-
-* this parameter is **mandatory**!
-* type: `string`
-
-
-### `--login`
-
-Username of the user in the target instance. It should be a user with root rights or sufficient read rights.
-
-* this parameter is **mandatory**!
-* type: `string`
-
-
-### `--password`
-
-Password of the user in the target instance.
-
-* this parameter is **mandatory**!
-* type: `string`
-
-
 ### `--client-id`
 
 If the target instance uses OAuth2 for user authentication, this is the configured Client ID.
@@ -259,23 +285,5 @@ If this is a valid file path, the log output is written to this file. If this is
 * type: `string`
 
 
-### `--purge`
+<!-- ^^^^^ --- this part was auto generated --- ^^^^^ -->
 
-Defines the mode of the restoring (purge or continue)
-If this is `true`, the complete restore starts from the beginning, and the target instance is purged.
-The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
-
-* this parameter is **mandatory**!
-* type: `bool`
-* default: `false`
-
-
-### `--continue`
-
-Defines the mode of the restoring (purge or continue)
-If this is `true`, the restore continues from the last point in the `progress.json` file, if a previous restore run was interrupted.
-The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
-
-* this parameter is **mandatory**!
-* type: `bool`
-* default: `false`
