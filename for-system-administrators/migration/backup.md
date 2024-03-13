@@ -21,7 +21,7 @@ fylr backup \
 
 `--server`, `--login` and `--password` refer to the source server.
 
-`--purge` deletes a backup in `--dir` in case there is already one. All existing files in this directory are deleted!
+`--purge` deletes a backup in `--dir` in case there is already one. **All existing files in this directory are deleted**
 
 ## Parameters
 
