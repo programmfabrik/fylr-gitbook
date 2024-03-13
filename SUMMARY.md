@@ -103,6 +103,7 @@
 * [Migration](for-system-administrators/migration/README.md)
   * [Backup](for-system-administrators/migration/backup.md)
   * [Restore](for-system-administrators/migration/restore.md)
+  * [Using the fylr inspect page](for-system-administrators/migration/inspect.md)
 * [Integration](for-system-administrators/integration/README.md)
   * [Authentication](for-system-administrators/integration/authentication.md)
   * [Hotfolder](for-system-administrators/integration/hotfolder.md)
