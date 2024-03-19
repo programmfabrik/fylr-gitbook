@@ -131,8 +131,10 @@ fylr:
     noColor: false
     # add hostname to log output
     addHostname: false
+    # add remote addr to log output
+    addRemoteAddr: false
     # wrong password log level, set the level for wrong password output
-    wrongPasswordLogLevel: debug
+    wrongPasswordLevel: debug
 
   # data is stored in a database, FYLR supports sqlite & postgres
   db:
