@@ -1,10 +1,16 @@
 ---
 description: >-
   Backup a fylr instance into a SQL dump, to later restore it into an empty fylr
-  instance.
+  instance
 ---
 
 # Backups & Restore
+
+{% hint style="info" %}
+Using SQL dumps as a backup should only be used for debugging purposes.
+
+To perform a complete migration between productive instances, the [fylr Migration Tool](migration/README.md) should be used instead.
+{% endhint %}
 
 You need access to the command line.
 
@@ -12,7 +18,7 @@ In this example we call the instances "old" and "new" and the linux servers runn
 
 ### prepare old server
 
-Check that you have access to the SQL backups: In the case of an installation via docker-compose, the access is a mounted volume (e.g. in the [docker-compose.yml](../\_assets/docker-compose.yml) of our installation [instructions](https://docs.fylr.io/for-system-administrators/installation/linux-docker-compose)):
+Check that you have access to the SQL backups: In the case of an installation via docker-compose, the access is a mounted volume (e.g. in the [docker-compose.yml](../\_assets/docker-compose.yml) of our installation [instructions](installation/linux-docker-compose)):
 
 ```
 services:
@@ -63,7 +69,7 @@ Now you have all data for a restore on the new server.
 
 ## restore
 
-1. install fylr on the new server, as described in our [installation instructions](https://docs.fylr.io/for-system-administrators/installation/linux-docker-compose), _<mark style="background-color:yellow;">**but only start postgresql:**</mark>_
+1. install fylr on the new server, as described in our [installation instructions](installation/linux-docker-compose), _<mark style="background-color:yellow;">**but only start postgresql:**</mark>_
 
 ```
 docker-compose up -d postgresql

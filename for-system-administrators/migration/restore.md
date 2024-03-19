@@ -1,9 +1,9 @@
 ---
 description: >-
-  This page descibes the process of restoring a local backup (JSON payloads) to a target instance using the API.
+  This page describes the process of inserting a local backup of JSON payloads to a target fylr instance
 ---
 
-# Restore
+# Insert payloads (`fylr restore`)
 
 The `fylr restore` command performs `POST` requests to the API of the target fylr instance. It iterates over the list of payloads from the `manifest.json` file.
 
@@ -79,7 +79,7 @@ Flags:
 ```
 
 
-<!-- vvvvv --- this part was auto generated: 2024-03-13 08:48:46 (UTC) --- vvvvv -->
+<!-- vvvvv --- this part was auto generated: 2024-03-19 16:10:46 (UTC) --- vvvvv -->
 
 
 
@@ -177,6 +177,7 @@ The upload batch size for objects to the target instance. Can be used to control
 Set this to a number bigger than `0` to limit the number of objects of each objecttype. This can be used to test or debug to only restore a small sample of the source instance.
 
 * type: `int`
+* minimum: `0`
 * default: `0`
 
 
@@ -229,6 +230,7 @@ If the `<new version>` part is omitted, the version is removed.
 Maximum number of parallel uploads of original files and their versions. Defaults to `4` (`0` for bulk). The maximum is `10` (unlimited for bulk).
 
 * type: `int`
+* minimum: `0`
 * maximum: `10`
 * default: `4`
 

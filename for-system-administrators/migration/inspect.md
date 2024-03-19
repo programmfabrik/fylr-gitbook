@@ -1,6 +1,6 @@
 ---
 description: >-
-  This page descibes the process of migrating data into fylr instances using the /inspect/migration page in fylr
+  This page describes the process of migrating data into fylr instances using the /inspect/migration page in fylr
 ---
 
 # Using the fylr inspect page for migrations

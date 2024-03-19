@@ -1,9 +1,9 @@
 ---
 description: >-
-  This page descibes the process of creating a local backup (JSON payloads) from a source instance using the API.
+  This page describes the process of creating a local backup of JSON payloads from a source instance
 ---
 
-# Backup
+# Create payloads (`fylr backup`)
 
 The `fylr backup` command performs `GET` requests to the API of the source instance, until all relevant base types and records are retrieved and stored in local files.
 
@@ -21,7 +21,14 @@ fylr backup \
 
 `--server`, `--login` and `--password` refer to the source server.
 
-`--purge` deletes a backup in `--dir` in case there is already one. **All existing files in this directory are deleted**
+{% hint style="warning" %}
+`--purge` deletes a backup in `--dir` in case there is already one. All existing files in this directory are deleted!
+{% endhint %}
+
+{% hint style="warning" %}
+The backup over the API only stores the data in local files. The files are only referenced by URLs. Only during restoring, the files are loaded from the source instance. Until the restore is finished, the source instance still needs to be reachable.
+{% endhint %}
+
 
 ## Parameters
 
@@ -60,7 +67,7 @@ Flags:
 ```
 
 
-<!-- vvvvv --- this part was auto generated: 2024-03-13 08:48:46 (UTC) --- vvvvv -->
+<!-- vvvvv --- this part was auto generated: 2024-03-19 16:10:46 (UTC) --- vvvvv -->
 
 
 
@@ -143,6 +150,7 @@ The requested size for objects from the source instance. Can be used to control 
 Set this to a number bigger than `0` to limit the number of objects of each objecttype. This can be used to test or debug, and can be combined with `--include` to only backup a small sample of the source instance.
 
 * type: `int`
+* minimum: `0`
 * default: `0`
 
 
@@ -154,6 +162,7 @@ If `0` is selected, there is no compression and the payloads are stored as `.jso
 If a value bigger than `0` is selected, the payloads are stored as compressed `.json.gz` files.
 
 * type: `int`
+* minimum: `0`
 * maximum: `9`
 * default: `0`
 
