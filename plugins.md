@@ -12,7 +12,7 @@ With plugins, the default feature set of FYLR can be extended. Some plugins are 
 
 ## Available Plugins
 
-Please see here for a list of available plugins.
+Please see here for a list of available plugins: [Plugin Overview](plugins/overview.md)
 
 
 
