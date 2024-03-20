@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2024-02-16 09:29:19 (UTC)
+    * timestamp: 2024-03-20 11:31:27 (UTC)
 -->
 
 # Plugin Overview
@@ -143,6 +143,20 @@ description: >-
 * Repository: [https://github.com/programmfabrik/fylr-plugin-default-values-from-pool](https://github.com/programmfabrik/fylr-plugin-default-values-from-pool)
 
 
+## `easydb-connector-plugin`
+
+* Repository: [https://github.com/programmfabrik/easydb-connector-plugin](https://github.com/programmfabrik/easydb-connector-plugin)
+* This plugin was developed by Programmfabrik GmbH
+
+
+## `easydb-drupal-plugin`
+
+Add your Drupal page to fylr and send selected files to Drupal.
+
+* Repository: [https://github.com/programmfabrik/easydb-drupal-plugin](https://github.com/programmfabrik/easydb-drupal-plugin)
+* This plugin was developed by Programmfabrik GmbH
+
+
 ## `easydb-plugin-zooniverse-import`
 
 * Repository: [https://github.com/programmfabrik/easydb-plugin-zooniverse-import](https://github.com/programmfabrik/easydb-plugin-zooniverse-import)
@@ -156,7 +170,17 @@ description: >-
 * This plugin was developed by Programmfabrik GmbH
 
 
+## `easydb-typo3-plugin`
+
+Integrate fylr in your TYPO3 to access files stored in fylr from within your TYPO3. The plugin consists of two parts and needs to be installed in fylr and in TYPO3.
+
+* Repository: [https://github.com/programmfabrik/easydb-typo3-plugin](https://github.com/programmfabrik/easydb-typo3-plugin)
+* This plugin was developed by Programmfabrik GmbH
+
+
 ## `easydb-wordpress-plugin`
+
+Add your Wordpress page to fylr and send selected files to Wordpress.
 
 * Repository: [https://github.com/programmfabrik/easydb-wordpress-plugin](https://github.com/programmfabrik/easydb-wordpress-plugin)
 * This plugin was developed by Programmfabrik GmbH
@@ -184,12 +208,6 @@ description: >-
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-ejc](https://github.com/programmfabrik/fylr-plugin-ejc)
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-ejc-plugin.zip](https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-ejc-plugin.zip)
-* This plugin was developed by Programmfabrik GmbH
-
-
-## `fylr-plugin-connector`
-
-* Repository: [https://github.com/programmfabrik/fylr-plugin-connector](https://github.com/programmfabrik/fylr-plugin-connector)
 * This plugin was developed by Programmfabrik GmbH
 
 
