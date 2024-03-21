@@ -114,6 +114,7 @@
   * [Log messages that can be ignored](for-system-administrators/symptom-and-solution/log-messages-that-can-be-ignored.md)
   * [too many clients are connected](for-system-administrators/symptom-and-solution/too-many-clients-are-connected.md)
   * [too many nested clauses](for-system-administrators/symptom-and-solution/too-many-nested-clauses.md)
+  * [context canceled](for-system-administrators/symptom-and-solution/context-canceled.md)
 
 ## Tutorials
 
