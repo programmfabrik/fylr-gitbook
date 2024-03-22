@@ -26,10 +26,10 @@ Productive migrations include the complete data, as well as all files. The files
   * [Backup of a subset of records](#backup-of-a-subset-of-records)
   * [Restoring of a subset of records](#restoring-of-a-subset-of-records)
 
-<!--
 * For *productive* migrations:
   * [Backup and restoring including user passwords](#backup-and-restoring-including-user-passwords)
   * [Restoring with files (all files are copied)](#restoring-with-files-all-files-are-copied)
+<!--
   * [Full migration](#full-migration)
 -->
 
@@ -86,7 +86,7 @@ fylr restore \
 
 ## Restoring with preview images
 
-If files should actually be stored in the target instance, this is done by setting the [`--file-api` parameter](restore.md#file-api) to `put` or `rput`.
+If files should actually be stored in the target instance, this is done by setting the [`--file-api`](restore.md#file-api) parameter to `put` or `rput`.
 
 If **`put`** is used the files are loaded by the `fylr restore` tool and then uploaded to the target instance.
 
@@ -114,9 +114,9 @@ fylr restore \
 
 For productive migrations, the full set of records from a source instance is stored in the backup files. The amount of records that are loaded from the source can be limited to a specific limit per objecttype. Also the requested records can be filtered by the name of the objecttype.
 
-The [`--limit` parameter](backup.md#limit) can be used to set the upper limit of records that are requested per objecttype. Set a number bigger than `0` to limit the records. By default the limit is `0` which means all records are requested. The limit is applied to all objecttypes.
+The [`--limit`](backup.md#limit) parameter can be used to set the upper limit of records that are requested per objecttype. Set a number bigger than `0` to limit the records. By default the limit is `0` which means all records are requested. The limit is applied to all objecttypes.
 
-To only backup a set of objecttypes with the [`--include` parameter](backup.md#include) a regular expression can be passed. Only records where the name of the objecttype matches the regex are requested, other objecttypes are ignored. By default this parameter is an empty string, which means it is ignored.
+To only backup a set of objecttypes with the [`--include`](backup.md#include) parameter a regular expression can be passed. Only records where the name of the objecttype matches the regex are requested, other objecttypes are ignored. By default this parameter is an empty string, which means it is ignored.
 
 
 <!--
@@ -146,7 +146,7 @@ Any non-empty string is used as a regular expression. There is no validation bef
 
 ## Restoring of a subset of records
 
-To only restore a part of existing payloads, the number of records which are uploaded to the target can also get an upper limit. Use the [`--limit` parameter](restore.md#limit) to set number bigger than `0`. By default this value is `0` which means all records are restored.
+To only restore a part of existing payloads, the number of records which are uploaded to the target can also get an upper limit. Use the [`--limit`](restore.md#limit) parameter to set number bigger than `0`. By default this value is `0` which means all records are restored.
 
 To only restore a maximum of 100 records of each objecttype, use a command like this:
 
@@ -163,14 +163,83 @@ fylr restore \
   --purge
 ```
 
-<!-- ## Backup and restoring including user passwords -->
+## Backup and restoring including user passwords
 
-<!-- todo -->
+If you want to perform a migration including the user password (saved as hash values in the payloads), this needs specific parameters to enable this feature, as well as some preparation in the source instance.
+
+If the source instance is an easydb5, the API will not include any user passwords, if this is not explicitly enabled. On how to configure this, see the [easydb5 documentation](https://docs.easydb.de/en/technical/api/user/#returning-password-hashes). During the backup, if for any user there is a password hash, the backup tool will store the flag `"has_passwords": true` in the `manifest.json` file. This value is later checked by the restore tool. If you plan to restore with passwords, make sure that the easydb5 actually returns password hashes in user payloads.
+
+The restore tool will **not** upload password hashes by default. To enable this feature, set the [`--include-password`](restore.md#include-password) parameter to `true`.
+
+{% hint style="warning" %}
+If you set `--include-password true`, and in the manifest file the flag `"has_passwords"` is `false`, the restore tool will fail with an error message, which includes information about the missing password hashes.
+{% endhint %}
+
+The check in the restore tool is a helper to avoid problems with missing passwords after a productive migration. The check makes sure that the user payloads have not been loaded without passwords undetected.
+
+```
+fylr restore \
+  --server '<fylr url>/api/v1' \
+  --login 'root'
+  --password '<cleartext>' \
+  --client-id '<client id>' \
+  --client-secret '<client secret>' \
+  --client-token-url '<fylr url>/api/oauth2/token' \
+  --manifest '<instance folder>/manifest.json' \
+  --include-password \
+  --purge
+```
+
+## Restoring with files (all files and versions are copied)
+
+Uploading the original file version and converting it to the different configured file versions after the migration, which can take a lot of time, it is possible to copy the file versions as well. File versions that already have been produced by the source instance can be uploaded to the target system and be used directly. This is applied to all versions with the same name in the source and target instance.
+
+This is enabled by setting the [`--upload-versions`](restore.md#upload-versions) parameter to `true`. The file versions are uploaded by name and are stored in the target instance. They are uploaded in the same way as the original files. The upload method that has been defined with `--file-api` is used for all files and versions.
+
+{% hint style="warning" %}
+File versions are identified by the name. Since the file versions are depending on the configuration of each instance, only versions with the same name are copied.
+{% endhint %}
+
+{% hint style="warning" %}
+Before a migration, also check that versions with the same name are actually configured in the same way in both instances. There is no validation, the restore tool will upload versions by name to the target instance, and the target fylr will store the files without checking if they actually match the configuration.
+{% endhint %}
 
 
-<!-- ## Restoring with files (all files are copied) -->
+```
+fylr restore \
+  --server '<fylr url>/api/v1' \
+  --login 'root'
+  --password '<cleartext>' \
+  --client-id '<client id>' \
+  --client-secret '<client secret>' \
+  --client-token-url '<fylr url>/api/oauth2/token' \
+  --manifest '<instance folder>/manifest.json' \
+  --file-api rput \
+  --file-version original \
+  --upload-versions \
+  --rename-versions 'video.full_hd:1920p,image.small_obsolete:' \
+  --purge
+```
 
-<!-- todo -->
+### Renaming file versions
+
+As described above, versions are identified and shared between instances only by their name. Since the name is an arbitry identifier, it is possible that the configuration between two instances is different. Two versions might have the same configuration and would produce the same file, but have a different name. If you still want to use these file versions from the source instance, the restore can replace the version name before uploading the file. The target fylr instance will store the file under the new version name.
+
+The [`--rename-versions`](restore.md#rename-versions) parameter can be used to define one or more renamings of versions, also the upload of specific versions can be skipped. The parameter is a string with a specific format.
+
+The structure of the parameter is the following:
+
+One or more terms in the form of `<cls>.<version>:<new version>`. The file version of the file class `<cls>`, which is named `<version>` in the source instance, is renamed to `<new version>` in the target instance
+
+For example: in the source, there is the `video` class version `full_hd`, which should be used in the target fylr as well. But in the target instance, the same file version is configured under the name `1920p`. So the term for this is `video.full_hd:1920p`.
+
+Also there is the term to ignore a file version in the from `<cls>.<version>:`. Since `<new version>` is empty, the restore tool knows to skip this version completly. To ignore an `image` class version with the name `small_obsolete`, write a term `image.small_obsolete:`.
+
+These terms are comma separated. The complete parameter for this example would be:
+
+```
+--rename-versions 'video.full_hd:1920p,image.small_obsolete:'
+```
 
 
 <!-- ## Full migration -->
