@@ -70,43 +70,30 @@ This flow requires a **Client ID** and **Secret**, as well as a fylr **login** a
 
 #### **Step 1**: client calls fylr
 
-{% swagger path="http://fylr-instance/api/oauth2/auth" method="get" summary="Call the OAuth2 Authentication API of fylr" expanded="true" %}
-{% swagger-description %}
+## Call the OAuth2 Authentication API of fylr
 
-{% endswagger-description %}
+<mark style="color:blue;">`GET`</mark> `fylr-instance/api/oauth2/auth`
 
-{% swagger-parameter name="auth_method" type="string" required="true" in="query" %}
-fixed value: `"auto"`
-{% endswagger-parameter %}
+#### Query Parameters
 
-{% swagger-parameter name="access_type" type="string" required="true" in="query" %}
-fixed value: `"offline"`
-{% endswagger-parameter %}
+| Name                                             | Type   | Description                                                                              |
+| ------------------------------------------------ | ------ | ---------------------------------------------------------------------------------------- |
+| auth\_method<mark style="color:red;">\*</mark>   | string | fixed value: `"auto"`                                                                    |
+| access\_type<mark style="color:red;">\*</mark>   | string | fixed value: `"offline"`                                                                 |
+| scope<mark style="color:red;">\*</mark>          | string | fixed value: `"offline"`                                                                 |
+| response\_type<mark style="color:red;">\*</mark> | string | fixed value: `"code"`                                                                    |
+| state<mark style="color:red;">\*</mark>          | string | Client State String (min. 8 characters), for example: `"Authorization_Code_Grant_Login"` |
+| client\_id<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`                                        |
 
-{% swagger-parameter name="scope" type="string" required="true" in="query" %}
-fixed value: `"offline"`
-{% endswagger-parameter %}
-
-{% swagger-parameter name="response_type" type="string" required="true" in="query" %}
-fixed value: `"code"`
-{% endswagger-parameter %}
-
-{% swagger-parameter name="state" type="string" required="true" in="query" %}
-Client State String (min. 8 characters), for example: `"Authorization_Code_Grant_Login"`
-{% endswagger-parameter %}
-
-{% swagger-parameter name="client_id" type="string" required="true" in="query" %}
-**Client ID** of the fylr Instance: `"my-client"`
-{% endswagger-parameter %}
-
-{% swagger-response status="200" description="OK" %}
+{% tabs %}
+{% tab title="200 OK" %}
 This redirects to the fylr login page. The user enters **login** and **password** directly into fylr.
-{% endswagger-response %}
+{% endtab %}
 
-{% swagger-response status="400" description="Error" %}
+{% tab title="400 Error" %}
 Problems with the parameters, for example an invalid **Client ID**
-{% endswagger-response %}
-{% endswagger %}
+{% endtab %}
+{% endtabs %}
 
 #### **Step 2**: callback from fylr to the local HTTP server
 
@@ -115,60 +102,47 @@ This flow requires to implement a local HTTP server that can handle the callback
 fylr calls
 
 ```
-http://my-callback-server/oauth2/callback
+my-callback-server/oauth2/callback
 ```
 
 This callback must handle a `GET` request. fylr includes these URL parameters:
 
-{% swagger path="http://my-callback-server/oauth2/callback" method="get" summary="Call the OAuth2 Authentication API of fylr" expanded="true" %}
-{% swagger-description %}
+## Call the OAuth2 Authentication API of fylr
 
-{% endswagger-description %}
+<mark style="color:blue;">`GET`</mark> `my-callback-server/oauth2/callback`
 
-{% swagger-parameter name="state" type="string" required="true" in="query" %}
-Client State, this is to identify the callback. Same as above
-{% endswagger-parameter %}
+#### Query Parameters
 
-{% swagger-parameter name="code" type="string" required="true" in="query" %}
-**Authorization Code**. This needs to be stored and used in the following requests
-{% endswagger-parameter %}
-{% endswagger %}
+| Name                                    | Type   | Description                                                                        |
+| --------------------------------------- | ------ | ---------------------------------------------------------------------------------- |
+| state<mark style="color:red;">\*</mark> | string | Client State, this is to identify the callback. Same as above                      |
+| code<mark style="color:red;">\*</mark>  | string | **Authorization Code**. This needs to be stored and used in the following requests |
 
 #### **Step 3**: client validates Authorization Code
 
-{% swagger path="http://fylr-instance/api/oauth2/token" method="post" summary="Call the OAuth2 Token API of fylr" expanded="true" %}
-{% swagger-description %}
+## Call the OAuth2 Token API of fylr
 
-{% endswagger-description %}
+<mark style="color:green;">`POST`</mark> `fylr-instance/api/oauth2/token`
 
-{% swagger-parameter name="grant_type" type="string" required="true" in="query" %}
-fixed value: `"authorization_code"`
-{% endswagger-parameter %}
+#### Query Parameters
 
-{% swagger-parameter name="state" type="string" required="true" in="query" %}
-Client State, same as above
-{% endswagger-parameter %}
+| Name                                             | Type   | Description                                           |
+| ------------------------------------------------ | ------ | ----------------------------------------------------- |
+| grant\_type<mark style="color:red;">\*</mark>    | string | fixed value: `"authorization_code"`                   |
+| state<mark style="color:red;">\*</mark>          | string | Client State, same as above                           |
+| client\_id<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`     |
+| client\_secret<mark style="color:red;">\*</mark> | string | **Client Secret** of the fylr Instance: `"my-secret"` |
+| code<mark style="color:red;">\*</mark>           | string | **Authorization Code** from fylr callback             |
 
-{% swagger-parameter name="client_id" type="string" required="true" in="query" %}
-**Client ID** of the fylr Instance: `"my-client"`
-{% endswagger-parameter %}
+{% tabs %}
+{% tab title="200 OK" %}
 
-{% swagger-parameter name="client_secret" type="string" required="true" in="query" %}
-**Client Secret** of the fylr Instance: `"my-secret"`
-{% endswagger-parameter %}
+{% endtab %}
 
-{% swagger-parameter name="code" type="string" required="true" in="query" %}
-**Authorization Code** from fylr callback
-{% endswagger-parameter %}
+{% tab title="400 Error" %}
 
-{% swagger-response status="200" description="OK" %}
-
-{% endswagger-response %}
-
-{% swagger-response status="400" description="Error" %}
-
-{% endswagger-response %}
-{% endswagger %}
+{% endtab %}
+{% endtabs %}
 
 If the **Client ID**, **Secret** and the **Authorization Code** are correct, fylr will return a JSON object in the response with the following values:
 
@@ -219,43 +193,30 @@ This flow can be used to directly log into fylr with the user **login** and **pa
 
 #### **Step 1**: log into fylr with user login and password
 
-{% swagger path="http://fylr-instance/api/oauth2/token" method="post" summary="Call the OAuth2 Token API of fylr" expanded="true" %}
-{% swagger-description %}
+## Call the OAuth2 Token API of fylr
 
-{% endswagger-description %}
+<mark style="color:green;">`POST`</mark> `fylr-instance/api/oauth2/token`
 
-{% swagger-parameter name="grant_type" type="string" required="true" in="query" %}
-fixed value: `"password"`
-{% endswagger-parameter %}
+#### Query Parameters
 
-{% swagger-parameter name="scope" type="string" required="true" in="query" %}
-fixed value: `"offline"`
-{% endswagger-parameter %}
+| Name                                             | Type   | Description                                           |
+| ------------------------------------------------ | ------ | ----------------------------------------------------- |
+| grant\_type<mark style="color:red;">\*</mark>    | string | fixed value: `"password"`                             |
+| scope<mark style="color:red;">\*</mark>          | string | fixed value: `"offline"`                              |
+| client\_id<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`     |
+| client\_secret<mark style="color:red;">\*</mark> | string | **Client Secret** of the fylr Instance: `"my-secret"` |
+| username<mark style="color:red;">\*</mark>       | string | fylr **Login** of the user                            |
+| password<mark style="color:red;">\*</mark>       | string | fylr **Password** of the user                         |
 
-{% swagger-parameter name="client_id" type="string" required="true" in="query" %}
-**Client ID** of the fylr Instance: `"my-client"`
-{% endswagger-parameter %}
+{% tabs %}
+{% tab title="200 OK" %}
 
-{% swagger-parameter name="client_secret" type="string" required="true" in="query" %}
-**Client Secret** of the fylr Instance: `"my-secret"`
-{% endswagger-parameter %}
+{% endtab %}
 
-{% swagger-parameter name="username" type="string" required="true" in="query" %}
-fylr **Login** of the user
-{% endswagger-parameter %}
-
-{% swagger-parameter name="password" type="string" required="true" in="query" %}
-fylr **Password** of the user
-{% endswagger-parameter %}
-
-{% swagger-response status="200" description="OK" %}
-
-{% endswagger-response %}
-
-{% swagger-response status="400" description="Error" %}
+{% tab title="400 Error" %}
 Problems with the parameters, for example an invalid **Client ID**
-{% endswagger-response %}
-{% endswagger %}
+{% endtab %}
+{% endtabs %}
 
 If the **Client ID**, **Secret** and user **login** and **password** are correct, fylr will return a JSON object in the response with the following values:
 
@@ -281,43 +242,30 @@ Using this flow is **not recommended**!
 
 #### **Step 1**: request a token from fylr
 
-{% swagger path="http://fylr-instance/api/oauth2/auth" method="get" summary="Call the OAuth2 Authentication API of fylr" expanded="true" %}
-{% swagger-description %}
+## Call the OAuth2 Authentication API of fylr
 
-{% endswagger-description %}
+<mark style="color:blue;">`GET`</mark> `fylr-instance/api/oauth2/auth`
 
-{% swagger-parameter name="response_type" type="string" required="true" in="query" %}
-fixed value: `"token"`
-{% endswagger-parameter %}
+#### Query Parameters
 
-{% swagger-parameter name="auth_method" type="string" required="true" in="query" %}
-fixed value: `"auto"`
-{% endswagger-parameter %}
+| Name                                             | Type   | Description                                                                    |
+| ------------------------------------------------ | ------ | ------------------------------------------------------------------------------ |
+| response\_type<mark style="color:red;">\*</mark> | string | fixed value: `"token"`                                                         |
+| auth\_method<mark style="color:red;">\*</mark>   | string | fixed value: `"auto"`                                                          |
+| scope<mark style="color:red;">\*</mark>          | string | fixed value: `"offline"`                                                       |
+| access\_type<mark style="color:red;">\*</mark>   | string | fixed value: `"offline"`                                                       |
+| state<mark style="color:red;">\*</mark>          | string | Client State String (min. 8 characters), for example: `"Implicit_Grant_Login"` |
+| client\_id<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`                              |
 
-{% swagger-parameter name="scope" type="string" required="true" in="query" %}
-fixed value: `"offline"`
-{% endswagger-parameter %}
+{% tabs %}
+{% tab title="200 OK" %}
 
-{% swagger-parameter name="access_type" type="string" required="true" in="query" %}
-fixed value: `"offline"`
-{% endswagger-parameter %}
+{% endtab %}
 
-{% swagger-parameter name="state" type="string" required="true" in="query" %}
-Client State String (min. 8 characters), for example: `"Implicit_Grant_Login"`
-{% endswagger-parameter %}
-
-{% swagger-parameter name="client_id" type="string" required="true" in="query" %}
-**Client ID** of the fylr Instance: `"my-client"`
-{% endswagger-parameter %}
-
-{% swagger-response status="200" description="OK" %}
-
-{% endswagger-response %}
-
-{% swagger-response status="400" description="Error" %}
+{% tab title="400 Error" %}
 Problems with the parameters, for example an invalid **Client ID**
-{% endswagger-response %}
-{% endswagger %}
+{% endtab %}
+{% endtabs %}
 
 #### **Step 2**: callback from fylr to the local callback
 
@@ -326,20 +274,20 @@ This flow requires to implement a local HTTP server that can handle the callback
 fylr calls
 
 ```
-http://my-callback-server/oauth2/callback
+my-callback-server/oauth2/callback
 ```
 
 This callback must handle a `GET` request. fylr includes these URL parameters:
 
-{% swagger path="http://my-callback-server/oauth2/callback" method="get" summary="Call the OAuth2 Authentication API of fylr" expanded="true" %}
-{% swagger-description %}
+## Call the OAuth2 Authentication API of fylr
 
-{% endswagger-description %}
+<mark style="color:blue;">`GET`</mark> `my-callback-server/oauth2/callback`
 
-{% swagger-parameter name="loc_hash" type="string" required="true" in="query" %}
-quoted URL parameters
-{% endswagger-parameter %}
-{% endswagger %}
+#### Query Parameters
+
+| Name                                        | Type   | Description           |
+| ------------------------------------------- | ------ | --------------------- |
+| loc\_hash<mark style="color:red;">\*</mark> | string | quoted URL parameters |
 
 The `loc_hash` parameter is itself a list of URL parameters that need to be unquoted and split into key value pairs:
 
@@ -365,35 +313,28 @@ Using this flow is **not recommended**!
 
 #### **Step 1**: request a token from fylr
 
-{% swagger path="http://fylr-instance/api/oauth2/token" method="get" summary="Call the OAuth2 Token API of fylr" expanded="true" %}
-{% swagger-description %}
+## Call the OAuth2 Token API of fylr
 
-{% endswagger-description %}
+<mark style="color:blue;">`GET`</mark> `fylr-instance/api/oauth2/token`
 
-{% swagger-parameter name="grant_type" type="string" required="true" in="query" %}
-fixed value: `"client_credentials"`
-{% endswagger-parameter %}
+#### Query Parameters
 
-{% swagger-parameter name="state" type="string" required="true" in="query" %}
-Client State String (min. 8 characters), for example: `"Implicit_Grant_Login"`
-{% endswagger-parameter %}
+| Name                                             | Type   | Description                                                                    |
+| ------------------------------------------------ | ------ | ------------------------------------------------------------------------------ |
+| grant\_type<mark style="color:red;">\*</mark>    | string | fixed value: `"client_credentials"`                                            |
+| state<mark style="color:red;">\*</mark>          | string | Client State String (min. 8 characters), for example: `"Implicit_Grant_Login"` |
+| client\_id<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`                              |
+| client\_secret<mark style="color:red;">\*</mark> | string | **Client Secret** of the fylr Instance: `"my-secret"`                          |
 
-{% swagger-parameter name="client_id" type="string" required="true" in="query" %}
-**Client ID** of the fylr Instance: `"my-client"`
-{% endswagger-parameter %}
+{% tabs %}
+{% tab title="200 OK" %}
 
-{% swagger-parameter name="client_secret" type="string" required="true" in="query" %}
-**Client Secret** of the fylr Instance: `"my-secret"`
-{% endswagger-parameter %}
+{% endtab %}
 
-{% swagger-response status="200" description="OK" %}
-
-{% endswagger-response %}
-
-{% swagger-response status="400" description="Error" %}
+{% tab title="400 Error" %}
 Problems with the parameters, for example an invalid **Client ID**
-{% endswagger-response %}
-{% endswagger %}
+{% endtab %}
+{% endtabs %}
 
 If the **Client ID** and **Secret** are correct, fylr will return a JSON object in the response with the following values:
 
