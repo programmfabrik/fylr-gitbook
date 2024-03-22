@@ -70,20 +70,20 @@ This flow requires a **Client ID** and **Secret**, as well as a fylr **login** a
 
 #### **Step 1**: client calls fylr
 
-## Call the OAuth2 Authentication API of fylr
+**Call the OAuth2 Authentication API of fylr**
 
 <mark style="color:blue;">`GET`</mark> `fylr-instance/api/oauth2/auth`
 
-#### Query Parameters
+**Query Parameters**
 
-| Name                                             | Type   | Description                                                                              |
-| ------------------------------------------------ | ------ | ---------------------------------------------------------------------------------------- |
-| auth\_method<mark style="color:red;">\*</mark>   | string | fixed value: `"auto"`                                                                    |
-| access\_type<mark style="color:red;">\*</mark>   | string | fixed value: `"offline"`                                                                 |
-| scope<mark style="color:red;">\*</mark>          | string | fixed value: `"offline"`                                                                 |
-| response\_type<mark style="color:red;">\*</mark> | string | fixed value: `"code"`                                                                    |
-| state<mark style="color:red;">\*</mark>          | string | Client State String (min. 8 characters), for example: `"Authorization_Code_Grant_Login"` |
-| client\_id<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`                                        |
+| Name                                              | Type   | Description                                                                              |
+| ------------------------------------------------- | ------ | ---------------------------------------------------------------------------------------- |
+| `auth_method`<mark style="color:red;">\*</mark>   | string | fixed value: `"auto"`                                                                    |
+| `access_type`<mark style="color:red;">\*</mark>   | string | fixed value: `"offline"`                                                                 |
+| `scope`<mark style="color:red;">\*</mark>         | string | fixed value: `"offline"`                                                                 |
+| `response_type`<mark style="color:red;">\*</mark> | string | fixed value: `"code"`                                                                    |
+| `state`<mark style="color:red;">\*</mark>         | string | Client State String (min. 8 characters), for example: `"Authorization_Code_Grant_Login"` |
+| `client_id`<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`                                        |
 
 {% tabs %}
 {% tab title="200 OK" %}
@@ -107,32 +107,32 @@ my-callback-server/oauth2/callback
 
 This callback must handle a `GET` request. fylr includes these URL parameters:
 
-## Call the OAuth2 Authentication API of fylr
+**Call the OAuth2 Authentication API of fylr**
 
 <mark style="color:blue;">`GET`</mark> `my-callback-server/oauth2/callback`
 
-#### Query Parameters
+**Query Parameters**
 
-| Name                                    | Type   | Description                                                                        |
-| --------------------------------------- | ------ | ---------------------------------------------------------------------------------- |
-| state<mark style="color:red;">\*</mark> | string | Client State, this is to identify the callback. Same as above                      |
-| code<mark style="color:red;">\*</mark>  | string | **Authorization Code**. This needs to be stored and used in the following requests |
+| Name                                      | Type   | Description                                                                        |
+| ----------------------------------------- | ------ | ---------------------------------------------------------------------------------- |
+| `state`<mark style="color:red;">\*</mark> | string | Client State, this is to identify the callback. Same as above                      |
+| `code`<mark style="color:red;">\*</mark>  | string | **Authorization Code**. This needs to be stored and used in the following requests |
 
 #### **Step 3**: client validates Authorization Code
 
-## Call the OAuth2 Token API of fylr
+**Call the OAuth2 Token API of fylr**
 
 <mark style="color:green;">`POST`</mark> `fylr-instance/api/oauth2/token`
 
-#### Query Parameters
+**Query Parameters**
 
-| Name                                             | Type   | Description                                           |
-| ------------------------------------------------ | ------ | ----------------------------------------------------- |
-| grant\_type<mark style="color:red;">\*</mark>    | string | fixed value: `"authorization_code"`                   |
-| state<mark style="color:red;">\*</mark>          | string | Client State, same as above                           |
-| client\_id<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`     |
-| client\_secret<mark style="color:red;">\*</mark> | string | **Client Secret** of the fylr Instance: `"my-secret"` |
-| code<mark style="color:red;">\*</mark>           | string | **Authorization Code** from fylr callback             |
+| Name                                              | Type   | Description                                           |
+| ------------------------------------------------- | ------ | ----------------------------------------------------- |
+| `grant_type`<mark style="color:red;">\*</mark>    | string | fixed value: `"authorization_code"`                   |
+| `state`<mark style="color:red;">\*</mark>         | string | Client State, same as above                           |
+| `client_id`<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`     |
+| `client_secret`<mark style="color:red;">\*</mark> | string | **Client Secret** of the fylr Instance: `"my-secret"` |
+| `code`<mark style="color:red;">\*</mark>          | string | **Authorization Code** from fylr callback             |
 
 {% tabs %}
 {% tab title="200 OK" %}
@@ -193,20 +193,20 @@ This flow can be used to directly log into fylr with the user **login** and **pa
 
 #### **Step 1**: log into fylr with user login and password
 
-## Call the OAuth2 Token API of fylr
+**Call the OAuth2 Token API of fylr**
 
 <mark style="color:green;">`POST`</mark> `fylr-instance/api/oauth2/token`
 
-#### Query Parameters
+**Query Parameters**
 
-| Name                                             | Type   | Description                                           |
-| ------------------------------------------------ | ------ | ----------------------------------------------------- |
-| grant\_type<mark style="color:red;">\*</mark>    | string | fixed value: `"password"`                             |
-| scope<mark style="color:red;">\*</mark>          | string | fixed value: `"offline"`                              |
-| client\_id<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`     |
-| client\_secret<mark style="color:red;">\*</mark> | string | **Client Secret** of the fylr Instance: `"my-secret"` |
-| username<mark style="color:red;">\*</mark>       | string | fylr **Login** of the user                            |
-| password<mark style="color:red;">\*</mark>       | string | fylr **Password** of the user                         |
+| Name                                              | Type   | Description                                           |
+| ------------------------------------------------- | ------ | ----------------------------------------------------- |
+| `grant_type`<mark style="color:red;">\*</mark>    | string | fixed value: `"password"`                             |
+| `scope`<mark style="color:red;">\*</mark>         | string | fixed value: `"offline"`                              |
+| `client_id`<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`     |
+| `client_secret`<mark style="color:red;">\*</mark> | string | **Client Secret** of the fylr Instance: `"my-secret"` |
+| `username`<mark style="color:red;">\*</mark>      | string | fylr **Login** of the user                            |
+| `password`<mark style="color:red;">\*</mark>      | string | fylr **Password** of the user                         |
 
 {% tabs %}
 {% tab title="200 OK" %}
@@ -242,20 +242,20 @@ Using this flow is **not recommended**!
 
 #### **Step 1**: request a token from fylr
 
-## Call the OAuth2 Authentication API of fylr
+**Call the OAuth2 Authentication API of fylr**
 
 <mark style="color:blue;">`GET`</mark> `fylr-instance/api/oauth2/auth`
 
-#### Query Parameters
+**Query Parameters**
 
-| Name                                             | Type   | Description                                                                    |
-| ------------------------------------------------ | ------ | ------------------------------------------------------------------------------ |
-| response\_type<mark style="color:red;">\*</mark> | string | fixed value: `"token"`                                                         |
-| auth\_method<mark style="color:red;">\*</mark>   | string | fixed value: `"auto"`                                                          |
-| scope<mark style="color:red;">\*</mark>          | string | fixed value: `"offline"`                                                       |
-| access\_type<mark style="color:red;">\*</mark>   | string | fixed value: `"offline"`                                                       |
-| state<mark style="color:red;">\*</mark>          | string | Client State String (min. 8 characters), for example: `"Implicit_Grant_Login"` |
-| client\_id<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`                              |
+| Name                                              | Type   | Description                                                                    |
+| ------------------------------------------------- | ------ | ------------------------------------------------------------------------------ |
+| `response_type`<mark style="color:red;">\*</mark> | string | fixed value: `"token"`                                                         |
+| `auth_method`<mark style="color:red;">\*</mark>   | string | fixed value: `"auto"`                                                          |
+| `scope`<mark style="color:red;">\*</mark>         | string | fixed value: `"offline"`                                                       |
+| `access_type`<mark style="color:red;">\*</mark>   | string | fixed value: `"offline"`                                                       |
+| `state`<mark style="color:red;">\*</mark>         | string | Client State String (min. 8 characters), for example: `"Implicit_Grant_Login"` |
+| `client_id`<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`                              |
 
 {% tabs %}
 {% tab title="200 OK" %}
@@ -279,15 +279,15 @@ my-callback-server/oauth2/callback
 
 This callback must handle a `GET` request. fylr includes these URL parameters:
 
-## Call the OAuth2 Authentication API of fylr
+**Call the OAuth2 Authentication API of fylr**
 
 <mark style="color:blue;">`GET`</mark> `my-callback-server/oauth2/callback`
 
-#### Query Parameters
+**Query Parameters**
 
-| Name                                        | Type   | Description           |
-| ------------------------------------------- | ------ | --------------------- |
-| loc\_hash<mark style="color:red;">\*</mark> | string | quoted URL parameters |
+| Name                                         | Type   | Description           |
+| -------------------------------------------- | ------ | --------------------- |
+| `loc_hash`<mark style="color:red;">\*</mark> | string | quoted URL parameters |
 
 The `loc_hash` parameter is itself a list of URL parameters that need to be unquoted and split into key value pairs:
 
@@ -313,18 +313,18 @@ Using this flow is **not recommended**!
 
 #### **Step 1**: request a token from fylr
 
-## Call the OAuth2 Token API of fylr
+**Call the OAuth2 Token API of fylr**
 
 <mark style="color:blue;">`GET`</mark> `fylr-instance/api/oauth2/token`
 
-#### Query Parameters
+**Query Parameters**
 
-| Name                                             | Type   | Description                                                                    |
-| ------------------------------------------------ | ------ | ------------------------------------------------------------------------------ |
-| grant\_type<mark style="color:red;">\*</mark>    | string | fixed value: `"client_credentials"`                                            |
-| state<mark style="color:red;">\*</mark>          | string | Client State String (min. 8 characters), for example: `"Implicit_Grant_Login"` |
-| client\_id<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`                              |
-| client\_secret<mark style="color:red;">\*</mark> | string | **Client Secret** of the fylr Instance: `"my-secret"`                          |
+| Name                                              | Type   | Description                                                                    |
+| ------------------------------------------------- | ------ | ------------------------------------------------------------------------------ |
+| `grant_type`<mark style="color:red;">\*</mark>    | string | fixed value: `"client_credentials"`                                            |
+| `state`<mark style="color:red;">\*</mark>         | string | Client State String (min. 8 characters), for example: `"Implicit_Grant_Login"` |
+| `client_id`<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`                              |
+| `client_secret`<mark style="color:red;">\*</mark> | string | **Client Secret** of the fylr Instance: `"my-secret"`                          |
 
 {% tabs %}
 {% tab title="200 OK" %}
