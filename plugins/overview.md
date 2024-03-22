@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2024-03-20 11:31:27 (UTC)
+    * timestamp: 2024-03-22 12:23:15 (UTC)
 -->
 
 # Plugin Overview
@@ -145,7 +145,10 @@ description: >-
 
 ## `easydb-connector-plugin`
 
+Adds the Connection feature which enables you to include other flyr installations in your search.
+
 * Repository: [https://github.com/programmfabrik/easydb-connector-plugin](https://github.com/programmfabrik/easydb-connector-plugin)
+* See also: [https://docs.fylr.io/for-users/plugins/connector](https://docs.fylr.io/for-users/plugins/connector)
 * This plugin was developed by Programmfabrik GmbH
 
 
@@ -159,12 +162,16 @@ Add your Drupal page to fylr and send selected files to Drupal.
 
 ## `easydb-plugin-zooniverse-import`
 
+Plugin to parse CSV exports from Zooniverse and update records in fylr.
+
 * Repository: [https://github.com/programmfabrik/easydb-plugin-zooniverse-import](https://github.com/programmfabrik/easydb-plugin-zooniverse-import)
 * See also: [https://docs.fylr.io/for-users/plugins/zooniverse](https://docs.fylr.io/for-users/plugins/zooniverse)
 * This plugin was developed by Programmfabrik GmbH
 
 
 ## `easydb-presentation-pptx-plugin`
+
+Enables you to turn collections into presentations that can be exported as PPTX.
 
 * Repository: [https://github.com/programmfabrik/easydb-presentation-pptx-plugin](https://github.com/programmfabrik/easydb-presentation-pptx-plugin)
 * This plugin was developed by Programmfabrik GmbH

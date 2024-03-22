@@ -22,21 +22,21 @@ Depending on the data you want to copy from Zooniverse, you have to create the c
 
 ## Configuration
 
-After adding and enabling the plugin, go to the [base configuration](../../for-administrators/readme/). There you'll find the "Zooniverse Import" (under "Plugins").
+After adding and enabling the plugin, go to the [base configuration](../../for-administrators/readme/). There you'll find the "easydb-plugin-zooniverse-import" (under "Plugins").
 
 <figure><img src="../../.gitbook/assets/zooniverse_fylr_en_baseconfig.png" alt=""><figcaption></figcaption></figure>
 
 The synchronization is carried out using the file name of the file in the Zooniverse export, which is read from the CSV file without the file extension. A text field for matching must be selected in the Base Configuration. The plugin searches the system for corresponding data records for which the matching field corresponds to the file name.
 
-The assigned fields for the various Zooniverse values (T0, T1, T2, T3, T4) are inserted in the data records found. Simple fields or links are overwritten if they exist. Fields in multiple fields are added if they do not already exist. You can also select that the values from the CSV file are to be separated by , or ; and split over several lines.
+The assigned fields for the various Zooniverse values (`T0`, `T1`, `T2`, `T3`, `T4`) are inserted in the data records found. Simple fields or links are overwritten if they exist. Fields in multiple fields are added if they do not already exist. You can also select that the values from the CSV file are to be separated by `,` or `;` and split over several lines.
 
-If the target fields for created\_at and user\_name are in the same multiple field, they are grouped together.
+If the target fields for `created_at` and `user_name` are in the same multiple field, they are grouped together.
 
 Values for linked data records are also searched for in the system. If necessary, new data records are created for values for which no data record exists yet.
 
 ## Import
 
-After you set up the [configuration](zooniverse.md#configuration), go to "Tools" > "Zooniverse Import" to import the CSV file.&#x20;
+After you set up the [configuration](zooniverse.md#configuration), go to "Tools" > "Zooniverse Import" to import the CSV file.
 
 {% hint style="info" %}
 Please refer to the [Zooniverse documentation](https://help.zooniverse.org/next-steps/data-exports/) for exporting the CSV file.
