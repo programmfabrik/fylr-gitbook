@@ -6,6 +6,12 @@ description: >-
 
 # User Management
 
+<div align="left">
+
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+</div>
+
 ## User Management
 
 ### Handling When Deleting Users
@@ -136,7 +142,7 @@ Final step: **Matching an LDAP group to a fylr group**:
 
 *   In a fylr group's settings, enter a string that matches one LDAP group. For the example of ldap.forumsys.com, we created the fylr group `scientists` and since we chose `cn` above in **Group Mapping**, we now have to use the string `Scientists`, as this is the value in that group's common name (`cn`). In the fylr frontend this is done here:
 
-    <figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>fylr frontend > Rights Management > Groups > Choose group > Authentication Services > LDAP section > Add row</p></figcaption></figure>
+    <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption><p>fylr frontend > Rights Management > Groups > Choose group > Authentication Services > LDAP section > Add row</p></figcaption></figure>
 * So now, when the ldap.forumsys.com's user `einstein` or `newton` logs into this fylr, they will be automatically in the fylr group `scientists` and enjoy all the group's system rights and permissions in fylr.&#x20;
 
 
