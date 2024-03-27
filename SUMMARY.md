@@ -127,6 +127,7 @@
 * [PDF Creator](tutorials/pdf-creator.md)
 * [Authentication](tutorials/auth.md)
   * [LDAP](tutorials/ldap.md)
+  * [SAML](tutorials/saml.md)
 
 ## FOR DEVELOPERS
 
