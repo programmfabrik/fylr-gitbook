@@ -8,7 +8,7 @@ description: >-
 
 <div align="left">
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 </div>
 
@@ -38,7 +38,7 @@ Define which data of the user should be copied to the events. This is independen
 
 ## OAuth-Service
 
-Add pairs of Client IDs and Secrets for the [OAuth2 Authentication](/for-developers/api/oauth2.md#configuring-client-id-and-secret).
+Add pairs of Client IDs and Secrets for the [OAuth2 Authentication](../../for-developers/api/oauth2.md#configuring-client-id-and-secret).
 
 * **Name**: Name of the Client (used as Client ID)
 * **Secret**: Client Secret, must be entered as a [Bcrypt Hash](https://bcrypt-generator.com/)
@@ -50,17 +50,12 @@ Add pairs of Client IDs and Secrets for the [OAuth2 Authentication](/for-develop
 
 Select which user information should be returned over the OpenID endpoint `oauth2/userinfo`.
 
-
-
 ***
 
 ## LDAP
 
-This big topic has [its own page](/tutorials/ldap.md) in our Tutorials.
-
+This big topic has [its own page](../../tutorials/ldap.md) in our Tutorials.
 
 ## SAML
 
-This big topic has [its own page](/tutorials/saml.md) in our Tutorials.
-
-
+This big topic has [its own page](../../tutorials/saml.md) in our Tutorials.

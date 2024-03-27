@@ -1,6 +1,5 @@
 ---
-description: >-
-  How to log into fylr with accounts of your LDAP service.
+description: How to log into fylr with accounts of your LDAP service.
 ---
 
 # LDAP
@@ -9,11 +8,11 @@ LDAP is an authentication service that you might already have, to hold your user
 
 To enable fylr users to **log in** with LDAP accounts, scroll the **User Management** page to LDAP, _above_ SAML:
 
-<figure><img src="/_assets/images/fylr-ldap-find-menu.png" alt=""><figcaption><p>where to find LDAP in the menues</p></figcaption></figure>
+<figure><img src="../_assets/images/fylr-ldap-find-menu (1).png" alt=""><figcaption><p>where to find LDAP in the menues</p></figcaption></figure>
 
 Here is an **example** configuration with the public test provider ldap.forumsys.com:
 
-<figure><img src="../_assets/images/fylr-ldap-cropped.png" alt=""><figcaption><p>example ldap configuration</p></figcaption></figure>
+<figure><img src="../_assets/images/fylr-ldap-cropped (1).png" alt=""><figcaption><p>example ldap configuration</p></figcaption></figure>
 
 **URL**: Do not forget the protocol, in this case, `ldap://`. This could also be `ldaps://`.
 
@@ -35,7 +34,7 @@ Here is an **example** configuration with the public test provider ldap.forumsys
 
 **Target:** Choose one, at least `Login`.
 
-**Value:** Enter one or more LDAP attributes, each given between `%(` and`)s`. <mark style="color:red;">Upper case / lower case</mark> <mark style="color:red;"></mark>_<mark style="color:red;">is</mark>_ <mark style="color:red;"></mark><mark style="color:red;">important here, even if it is not important inside your LDAP Directory!</mark>
+**Value:** Enter one or more LDAP attributes, each given between `%(` and`)s`. <mark style="color:red;">Upper case / lower case</mark> _<mark style="color:red;">is</mark>_ <mark style="color:red;">important here, even if it is not important inside your LDAP Directory!</mark>
 
 If in doubt, which LDAP attributes can be used between `%(` and `)` during **User Mapping**, set fylr's log level to at least `debug` and pick attributes from the log output after a LDAP search. It looks like:
 
@@ -66,13 +65,13 @@ For the context of ldap.forumsys.com, the distinguished name (usable as `DN`) is
 
 So `(uniqueMember=%(DN)s)` could work. But to not evaluate _all_ objects, or in other words, to evaluate only groups, we add the object class: `(&(objectClass=groupOfUniqueNames)(uniqueMember=%(DN)s))`. This was successfully tested with ldap.formusys.com.
 
-Another example, from a different LDAP installation:&#x20;
+Another example, from a different LDAP installation:
 
 `(&(member=%(distinguishedName)s)(objectClass=group))` .
 
 Now you have narrowed the comparison to a few objects, likely groups. Next step: Which attribute of these objects shall be compared during matching of fylr groups to LDAP groups? This is determined in Group Mapping:
 
-**Group Mapping**: Which attribute to look at when matching groups. Look at the (final) next step for an example. To use e.g. the group's common name, use `%(cn)s` here, which works with  ldap.forumsys.com. \
+**Group Mapping**: Which attribute to look at when matching groups. Look at the (final) next step for an example. To use e.g. the group's common name, use `%(cn)s` here, which works with ldap.forumsys.com.\
 If in doubt, which LDAP attributes can be used between `%(` and `)`, set the log level of fylr to at least `debug` and pick attributes from the log output after a LDAP search. It looks like:
 
 ```
@@ -92,14 +91,13 @@ Final step: **Matching an LDAP group to a fylr group**:
 *   In a fylr group's settings, enter a string that matches one LDAP group. For the example of ldap.forumsys.com, we created the fylr group `scientists` and since we chose `cn` above in **Group Mapping**, we now have to use the string `Scientists`, as this is the value in that group's common name (`cn`). In the fylr frontend this is done here:
 
     <figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption><p>fylr frontend > Rights Management > Groups > Choose group > Authentication Services > LDAP section > Add row</p></figcaption></figure>
-* So now, when the ldap.forumsys.com's user `einstein` or `newton` logs into this fylr, they will be automatically in the fylr group `scientists` and enjoy all the group's system rights and permissions in fylr.&#x20;
+* So now, when the ldap.forumsys.com's user `einstein` or `newton` logs into this fylr, they will be automatically in the fylr group `scientists` and enjoy all the group's system rights and permissions in fylr.
 
 ### Walk the chain of ancestry
 
 In case your group filter does not give the results you expect, you can try to use `LDAP_MATCHING_RULE_IN_CHAIN` in the group search filter.
 
 Example:
-
 
 ```
 (&(member:1.2.840.113556.1.4.1941:=%(distinguishedName)s)(objectClass=group))
