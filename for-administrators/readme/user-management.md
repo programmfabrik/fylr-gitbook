@@ -38,7 +38,7 @@ Define which data of the user should be copied to the events. This is independen
 
 ## OAuth-Service
 
-Add pairs of Client IDs and Secrets for the [OAuth2 Authentication](for-developers/api/oauth2/#configuring-client-id-and-secret).
+Add pairs of Client IDs and Secrets for the [OAuth2 Authentication](/for-developers/api/oauth2/#configuring-client-id-and-secret).
 
 * **Name**: Name of the Client (used as Client ID)
 * **Secret**: Client Secret, must be entered as a [Bcrypt Hash](https://bcrypt-generator.com/)
