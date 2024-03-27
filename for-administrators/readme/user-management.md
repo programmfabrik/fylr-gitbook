@@ -56,7 +56,9 @@ Select which user information should be returned over the OpenID endpoint `oauth
 
 ## LDAP
 
-LDAP is an authentication service that you might already have to hold your users' accounts centrally. It is part of **Microsoft Active Directory** (predecessor to Azure Active Directory).
+This big topic has its own page at [Tutorials](tutorials/ldap.md).
+
+LDAP is an authentication service that you might already have, to hold your users' accounts centrally. It is part of **Microsoft Active Directory** (predecessor to Azure Active Directory).
 
 To enable fylr users to **log in** with LDAP accounts, scroll the **User Management** page to LDAP, _above_ SAML:
 
@@ -73,6 +75,7 @@ Here is an **example** configuration with the public test provider ldap.forumsys
 **Bind User**: An LDAP user, which fylr uses to search for other users and groups. Does not need administrative privileges.
 
 **Bind Password**: Password of the Bind User.
+
 
 **User Base DN**: Organizatinal Unit or whole organization, in which to search for users. All users who shall be able to log in must be inside this unit. Bind User does not have to be inside this unit. Example: `OU=Users,DC=example,DC=com` .
 
@@ -175,7 +178,6 @@ This can be done whereever openssl is installed as a command line utility.&#x20;
 openssl genrsa -out private.key 1024
 openssl req -new -x509 -key private.key -out publickey.cer -days 365
 ```
-
 Now you can view the contents of the files `private.key` and `publickey.cer` and put that into fylr's frontend: (**Certificate** and **Key** fields)
 
 <figure><img src="../../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
