@@ -56,7 +56,7 @@ Select which user information should be returned over the OpenID endpoint `oauth
 
 ## LDAP
 
-This big topic has its own page at [Tutorials](tutorials/ldap.md).
+This big topic has its own page at [Tutorials](/tutorials/ldap.md).
 
 LDAP is an authentication service that you might already have, to hold your users' accounts centrally. It is part of **Microsoft Active Directory** (predecessor to Azure Active Directory).
 
