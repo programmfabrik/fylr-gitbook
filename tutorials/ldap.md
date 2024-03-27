@@ -96,7 +96,7 @@ Final step: **Matching an LDAP group to a fylr group**:
 
 ### Walk the chain of ancestry
 
-In case your group filter does not give the results you expect, you can try to use `LDAP_MATCHING_RULE_IN_CHAIN´ in the group search filter.
+In case your group filter does not give the results you expect, you can try to use `LDAP_MATCHING_RULE_IN_CHAIN` in the group search filter.
 
 Example:
 
@@ -105,6 +105,6 @@ Example:
 (&(member:1.2.840.113556.1.4.1941:=%(distinguishedName)s)(objectClass=group))
 ```
 
-The string 1.2.840.113556.1.4.1941 specifies ´LDAP_MATCHING_RULE_IN_CHAIN´. This applies only to ´DN´ attributes. This is an extended match operator that walks the chain of ancestry in objects all the way to the root until it finds a match. This reveals group nesting. It is available only on domain controllers with Windows Server 2003 SP2 or Windows Server 2008 (or above).
+The string 1.2.840.113556.1.4.1941 specifies `LDAP_MATCHING_RULE_IN_CHAIN`. This applies only to `DN` attributes. This is an extended match operator that walks the chain of ancestry in objects all the way to the root until it finds a match. This reveals group nesting. It is available only on domain controllers with Windows Server 2003 SP2 or Windows Server 2008 (or above).
 
-
+Usually, this is not needed, but it was needed for customers that are used to how Cumulus does LDAP group search.
