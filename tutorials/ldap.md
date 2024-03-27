@@ -9,11 +9,11 @@ LDAP is an authentication service that you might already have, to hold your user
 
 To enable fylr users to **log in** with LDAP accounts, scroll the **User Management** page to LDAP, _above_ SAML:
 
-<figure><img src="/_assets/fylr-ldap-find-menu.png" alt=""><figcaption><p>where to find LDAP in the menues</p></figcaption></figure>
+<figure><img src="/_assets/images/fylr-ldap-find-menu.png" alt=""><figcaption><p>where to find LDAP in the menues</p></figcaption></figure>
 
 Here is an **example** configuration with the public test provider ldap.forumsys.com:
 
-<figure><img src="../_assets/fylr-ldap-cropped.png" alt=""><figcaption><p>example ldap configuration</p></figcaption></figure>
+<figure><img src="../_assets/images/fylr-ldap-cropped.png" alt=""><figcaption><p>example ldap configuration</p></figcaption></figure>
 
 **URL**: Do not forget the protocol, in this case, `ldap://`. This could also be `ldaps://`.
 
