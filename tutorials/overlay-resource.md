@@ -17,16 +17,16 @@ This is done in the compiled-in file `baseconfig/fas/cookbooks/video.yml`.
 For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md), the command would be:
 
 ```
-docker exec fylr /fylr/bin/fylr resources --fs=fylr.resources --copy=video.yml baseconfig/fas/cookbooks/video.yml
+docker exec fylr /fylr/bin/fylr resources --fs=fylr.resources --copy=- baseconfig/fas/cookbooks/video.yml>video.yml
 ```
 
-Please be aware that, as the command does not specify the configuration file with `-c /fylr/config/fylr.yml`, fylr will start with defaults and thus not see any `resources:` setting in `fylr.yml`. So this command will extract the default file even if there is already an overlay
+Please be aware that, as the command does not specify a configuration file (would be done with `-c /fylr/config/fylr.yml`), fylr will start with defaults and thus not see any `resources:` setting in your `fylr.yml`. So this command will extract the compiled-in file even if there is already an overlay via `fylr.yml`.
 
 ### Prepare replacement
 
-Find `3600` in the file `video.yml` and and change it to `7200`.
+Find `3600` in the extracted file `video.yml` and and change it to `7200`.
 
-Create the directory structure: (in `/srv/fylr`, as in the [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md))
+Create the directory structure: (in `/srv/fylr`, taken from the [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md))
 
 ```
 mkdir -p /srv/fylr/config/fylr/resources/baseconfig/fas/cookbooks
@@ -40,7 +40,7 @@ mv video.yml /srv/fylr/config/fylr/resources/baseconfig/fas/cookbooks/
 
 ### Overlay
 
-1. Configure fylr to overlay, in fylr.yml:
+1. Configure fylr to overlay, in `fylr.yml`:
 
 ```
 fylr+:
@@ -69,7 +69,7 @@ In the `SOURCE` column, `overlay` is now shown, instead of `embed`.
 
 
 
-Please not that in this case, the configuration file has to be specified with `-c /fylr/config/fylr.yml`, because this is the path in the fylr container. Otherwise fylr will start with defaults and thus ignore your `resources:` setting in `fylr.yml`. And it has to be specified after the `resources` command.
+Please not that in this case, the configuration file _has_ to be specified with `-c /fylr/config/fylr.yml`, because this is the path in the fylr container. Otherwise fylr will start with defaults and thus ignore your `resources:` setting in `fylr.yml`. And `-c` has to be specified _after_ the `resources` command.
 
 
 
@@ -79,20 +79,20 @@ Please not that in this case, the configuration file has to be specified with `-
 docker exec fylr /fylr/bin/fylr resources -c /fylr/config/fylr.yml --fs=fylr.resources --copy=- baseconfig/fas/cookbooks/video.yml
 ```
 
-&#x20;(... with this example command, the file contents is shown as output, and not saved anywhere, due to `--copy=-`)&#x20;
+&#x20;(... with this example command, the file contents is shown as output, due to `--copy=-`, and not saved anywhere)&#x20;
 
 
 
 ## Example 2: web filesystem
 
-Let us assume that the file robots.txt needs to be changed:
+Let us assume that the file `robots.txt` needs to be changed:
 
 ### Extract original file
 
 For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md), the command to show this, would be:
 
 ```
-docker-compose exec fylr /fylr/bin/fylr resources --fs=fylr.services.webapp.path --copy=robots.txt robots.txt
+docker-compose exec fylr /fylr/bin/fylr resources --fs=fylr.services.webapp.path --copy=- robots.txt>robots.txt
 ```
 
 ### Prepare the replacement
@@ -113,7 +113,7 @@ mv robots.txt /srv/fylr/config/fylr/web/
 
 ### Overlay
 
-1. Configure fylr to overlay, in fylr.yml:
+1. Configure fylr to overlay, in `fylr.yml`:
 
 ```
 fylr+:
@@ -123,6 +123,12 @@ fylr+:
 ```
 
 2. Restart fylr to run it with the new configuration.
+
+### Test by showing the overlayed file
+
+```
+docker exec fylr /fylr/bin/fylr resources -c /fylr/config/fylr.yml --fs=fylr.services.webapp.path --copy=- robots.txt
+```
 
 ##
 
