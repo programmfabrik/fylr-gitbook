@@ -7,9 +7,7 @@ description: >-
 # Backups & Restore
 
 {% hint style="info" %}
-Using SQL dumps as a backup should only be used for debugging purposes.
-
-To perform a complete migration between productive instances, the [fylr Migration Tool](migration/README.md) should be used instead.
+To migrate between two fylr instances we also develop the [fylr Migration Tool](migration/README.md). For easydb5 to fylr migration, that is already the best tool. For fylr to fylr, this page is currently (2024-03) still recommended.
 {% endhint %}
 
 You need access to the command line.
