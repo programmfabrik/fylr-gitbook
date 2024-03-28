@@ -7,7 +7,7 @@ description: This section describes the migration process between two instances 
 {% hint style="info" %}
 This page describes the complete migration between productive instances.
 
-For using SQL dumps as backups, please see [Backups & Restore](../backup.md) instead.
+For using SQL dumps as backups, please see [Backups & Restore](../backup.md) instead. The migration tools should **not** be used for any data backups! Especially files are not part of the backup, but only referenced by URL.
 {% endhint %}
 
 This page describes of the **fylr migration tool**, which is an internal part of the **fylr** binary and can be used by calling sub commands from the command line.
