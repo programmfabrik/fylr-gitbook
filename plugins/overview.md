@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2024-03-27 12:37:12 (UTC)
+    * timestamp: 2024-04-02 09:24:09 (UTC)
 -->
 
 # Plugin Overview
@@ -258,6 +258,8 @@ This custom mask splitter allows you to hide input fields depending on another f
 
 ## `find-duplicate-field-values`
 
+Mask splitter that is configured for a text field. It shows in the editor whether the field has had the same value in the user's visibility range before.
+
 * Repository: [https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values](https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values)
 * This plugin was developed by Programmfabrik GmbH
 
@@ -271,6 +273,8 @@ This plugin contains a lot of examples for developers. It has no productive use.
 
 
 ## `fylr-ejc-plugin`
+
+Plugin to store settings of the Attention developed fylr Java classes.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-ejc](https://github.com/programmfabrik/fylr-plugin-ejc)
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-ejc-plugin.zip](https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-ejc-plugin.zip)
@@ -297,11 +301,15 @@ This plugin allows you to automatically generate a string based on sequential nu
 
 ## `geo-json`
 
+Adds support for the `geo-json` custom data type with an editor that allows for easy and intuitive manipulation of this format in fylr. Additionally, it includes the map search view and geolocation search functions.
+
 * Repository: [https://github.com/programmfabrik/fylr-plugin-geo-json](https://github.com/programmfabrik/fylr-plugin-geo-json)
 * This plugin was developed by Programmfabrik GmbH
 
 
 ## `monitoring-endpoint`
+
+Custom monitoring-endpoint for fylr-API. The plugin provides a new API endpoint under `GET /api/v1/plugin/base/monitoring/monitoring`.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-monitoring](https://github.com/programmfabrik/fylr-plugin-monitoring)
 * This plugin was developed by Programmfabrik GmbH
