@@ -9,16 +9,17 @@ description: >-
 
 ## Working With Messages
 
-Messages are a great way to add individual text to the application. Typical use cases are:
+Messages are a great way to add **individual** text to the application. Typical **use cases** are:
 
-* add terms & conditions to the login process
-* add a help to the header and/or the main navigation
-* add individual text to the login and/or registration page
-* show a copyright text when users are downloading files
-* show a welcome/overview text after login instead of the records
-* ...
+* add **terms & conditions** to the login process
+* add a **help** to the header and/or the main **navigation**
+* add **individual** text to the **login** and/or **registration** page
+* show a **copyright** text when users are **downloading** files
+* show a **welcome/overview** text after login instead of the records
 
-Messages are always assigned to groups which enables you to define different messages for different groups.
+
+
+Messages are **always** assigned to **groups** which enables you to define **different** **messages** for **different** **groups**.
 
 
 
@@ -38,7 +39,7 @@ Mandatory fields are marked with an asterisk "\*".
 
 ### Confirmation
 
-This tab is only available for type "Message After Logging In" and "Message Before Download".
+This tab is only available for type "**Message After Logging In**" and "**Message Before Download**".
 
 #### Confirmation Options
 
@@ -50,7 +51,7 @@ This tab is only available for type "Message After Logging In" and "Message Befo
 
 #### Choices
 
-These choices are only available for the message type "Message Before Download". For example they can be used to force the user to state the intended use of the files before downloading.
+These **choices** are only **available** for the message type "**Message Before Download**". For example they can be used to **force** the user to **state** the i**ntended use** of the **files** before **downloading**.
 
 | FIELD                | DESCRIPTION                                                                                           |
 | -------------------- | ----------------------------------------------------------------------------------------------------- |
@@ -68,16 +69,14 @@ These choices are only available for the message type "Message Before Download".
 | Log Event        | If enabled, an event is created for this confirmation. |
 | Event Idenfifier |                                                        |
 
-
-
 ### Groups
 
-It's necessary to select at least one group for the messages to work. Multiple groups can be selected. All local groups and system groups are available.
+It's **necessary** to **select** at least one **group** for the messages to work. **Multiple** groups **can** be **selected**. All **local** groups and **system** groups are **available**.
 
 
 
 ## Types
 
-The message types define where/how the messages are shown:
+The message **types** define **where/how** the messages are **shown**:
 
 <table><thead><tr><th width="315">TYPE</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Message After Logging In</td><td>This message is shown after a user logs in. Also available for anonymous users (message is shown directly when opening the application). Depending on the settings in the "Confirmation" tab, the message can simply be closed or have to be accepted to continue to the search. If not accepted, the user will be directed back to the login page.</td></tr><tr><td>Welcome Message in Search</td><td>This message will be shown in the search after a user logged in (or an anonymous user opened the application).</td></tr><tr><td>Permanent Message in Main Menu</td><td>This message creates a link under "Info" in the main menu which opens the message in a popover when clicked.</td></tr><tr><td>Permanent Message in Header</td><td>This message creates a button in the header (next to the user settings and export manager) which opens the message in a popover when clicked.</td></tr><tr><td>Permanent Message on the Login Page</td><td>This message creates a link on the login page which opens the message in a popover when clicked.</td></tr><tr><td>Permanent Message on Self-Registration Page</td><td>This message creates a link on the self-registration page which opens the message in a popover when clicked.</td></tr><tr><td>Message Before Download</td><td>This message is shown when a user downloads a file. Depending on the settings in the "Confirmation" tab, the message can simply be closed or have to be accepted to continue the download. If not accepted, the file will not be downloaded.</td></tr><tr><td>Maintenance Warning</td><td>This message is shown after a user logs in and it also appears as a permanent message in the header. It's supposed to inform the user that a maintenance will be happening soon where they are not able to use the application.</td></tr><tr><td>Maintenance Message</td><td>This message is shown after a user logs in informing them that they're not able to access the system as there is a maintenance currently happening. Only the root user will be able to access the system while this message is active. We recommend to set a date so this message will be activated and deactivated automatically.</td></tr></tbody></table>
