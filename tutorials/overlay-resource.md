@@ -20,11 +20,11 @@ For a [recommended Linux installation](../for-system-administrators/installation
 docker exec fylr /fylr/bin/fylr resources --fs=fylr.resources --copy=- baseconfig/fas/cookbooks/video.yml>video.yml
 ```
 
-Please be aware that, as the command does not specify a configuration file (would be done with `-c /fylr/config/fylr.yml`), fylr will start with defaults and thus not see any `resources:` setting in your `fylr.yml`. So this command will extract the compiled-in file even if there is already an overlay via `fylr.yml`.
+This command will extract the compiled-in file `video.yml` even if that is already overlayed via `fylr.yml`. Because the command does not even specify the configuration file (would be done with `-c /fylr/config/fylr.yml`), it will not be read and thus a `resources:` setting there will not be seen.&#x20;
 
 ### Prepare replacement
 
-Find `3600` in the extracted file `video.yml` and and change it to `7200`.
+Find `timeoutSec: 3600` in the extracted file `video.yml` and and change it to `7200`.
 
 Create the directory structure: (in `/srv/fylr`, taken from the [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md))
 
