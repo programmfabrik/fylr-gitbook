@@ -87,6 +87,7 @@
   * [Plugins](for-administrators/readme/plugins.md)
 * [Plugin Manager](for-administrators/plugin-manager.md)
 * [Location Manager](for-administrators/location-manager.md)
+* [Messages](for-administrators/messages.md)
 * [Events](for-administrators/events.md)
 * [Backup Manager](for-administrators/backup-manager.md)
 * [Data Model Sync](for-administrators/objectstore.md)
