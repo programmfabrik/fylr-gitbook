@@ -67,7 +67,7 @@ These **choices** are only **available** for the message type "**Message Before 
 | FIELD            | DESCRIPTION                                            |
 | ---------------- | ------------------------------------------------------ |
 | Log Event        | If enabled, an event is created for this confirmation. |
-| Event Idenfifier |                                                        |
+| Event Identifier |                                                        |
 
 ### Groups
 
