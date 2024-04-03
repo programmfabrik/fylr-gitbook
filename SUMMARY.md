@@ -90,7 +90,6 @@
 * [Messages](for-administrators/messages.md)
 * [Events](for-administrators/events.md)
 * [Backup Manager](for-administrators/backup-manager.md)
-* [Data Model Sync](for-administrators/objectstore.md)
 
 ## FOR SYSTEM ADMINISTRATORS
 
@@ -130,6 +129,7 @@
 * [Authentication](tutorials/auth.md)
   * [LDAP](tutorials/ldap.md)
   * [SAML](tutorials/saml.md)
+* [Data Model Sync](tutorials/objectstore.md)
 
 ## FOR DEVELOPERS
 
