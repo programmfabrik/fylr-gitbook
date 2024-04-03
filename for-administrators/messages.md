@@ -17,8 +17,6 @@ Messages are a great way to add **individual** text to the application. Typical 
 * show a **copyright** text when users are **downloading** files
 * show a **welcome/overview** text after login instead of the records
 
-
-
 Messages are **always** assigned to **groups** which enables you to define **different** **messages** for **different** **groups**.
 
 
@@ -53,21 +51,21 @@ This tab is only available for type "**Message After Logging In**" and "**Messag
 
 These **choices** are only **available** for the message type "**Message Before Download**". For example they can be used to **force** the user to **state** the i**ntended use** of the **files** before **downloading**.
 
-| FIELD                | DESCRIPTION                                                                                           |
-| -------------------- | ----------------------------------------------------------------------------------------------------- |
-| Choice Group Header  | This text is shown before the actual options. It supports Markdown.                                   |
-| Type                 | Choose between "Checkboxes" (multiple answers allowed) and "Radio Buttons" (only one answer allowed). |
-| Min. Enabled Options | Specify the minimum number of options the user can activate in order to proceed with the download.    |
-| Max. Enabled Options | Specify the maximum number of options the user can activate in order to proceed with the download.    |
-| Choices              |                                                                                                       |
-| Choice Group Footer  | This text is shown after the actual options. It supports Markdown.                                    |
+| FIELD                | DESCRIPTION                                                                                                                                                                                           |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Choice Group Header  | This text is shown before the actual options. It supports Markdown.                                                                                                                                   |
+| Type                 | Choose between "Checkboxes" (multiple answers allowed) and "Radio Buttons" (only one answer allowed).                                                                                                 |
+| Min. Enabled Options | Specify the minimum number of options the user can activate in order to proceed with the download.                                                                                                    |
+| Max. Enabled Options | Specify the maximum number of options the user can activate in order to proceed with the download.                                                                                                    |
+| Choices              | For each option add a choice and enter a text that is shown with the checkbox or radio button. You can give then a reference or disable a choice if it should not be available in this constellation. |
+| Choice Group Footer  | This text is shown after the actual options. It supports Markdown.                                                                                                                                    |
 
 #### Event
 
-| FIELD            | DESCRIPTION                                            |
-| ---------------- | ------------------------------------------------------ |
-| Log Event        | If enabled, an event is created for this confirmation. |
-| Event Identifier |                                                        |
+| FIELD            | DESCRIPTION                                                                                                                                                                                                          |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Log Event        | If enabled, an event of type "Asset download - Message confirmation \[ASSET\_DOWNLOAD\_CONFIRMATION\_MESSAGE]" is created for this confirmation. It includes the choice, the reference, the user and the identifier. |
+| Event Identifier | Add an identifier that is stored with the event.                                                                                                                                                                     |
 
 ### Groups
 
