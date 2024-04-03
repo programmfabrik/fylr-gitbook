@@ -56,7 +56,8 @@ Flags:
       --file-api=STRING                        API used to upload files. Leave empty to not upload files. "put": restore tool uploads files synchronous. "rput": target server loads files
                                                from remote URLs. "rput_leave": target server stores remote URLs, no data is copied to storage. "rput" and "rput_leave" are faster, "put" might
                                                take long.
-      --file-api-append-to-url-query=STRING    Append to eas urls (use this to pass an access token to fylr backends). ? or & is prefixed to this as needed.
+      --file-api-access-token=STRING           Use this to pass an access token to fylr backends. This is needed to load files from fylr source instances. It appends the "access_token" query
+                                               parameter to the remote url of files, and removes the "x-fylr-signature" query parameter.
       --file-version=STRING                    Set to version to use for upload. "original" might take long for "put". Use "preview" for test runs.
       --upload-versions                        Set to true, to not produce local preview versions, but instead upload the source versions. The upload method is used for versions the same way
                                                as for the original.
@@ -79,7 +80,7 @@ Flags:
 ```
 
 
-<!-- vvvvv --- this part was auto generated: 2024-03-19 16:10:46 (UTC) --- vvvvv -->
+<!-- vvvvv --- this part was auto generated: 2024-04-03 11:22:45 (UTC) --- vvvvv -->
 
 
 
@@ -195,7 +196,22 @@ Method used to upload files. Leave empty to not upload files.
 
 ### `--file-api-append-to-url-query`
 
+{% hint style="warning" %}
+Deprecated! This parameter is removed in fylr in version **v6.10.0**.
+{% endhint %}
+
 Append parameters to eas urls (for example, use this to pass an access token to fylr backends). `?` or `&` is prefixed to this as needed.
+
+* type: `string`
+
+
+### `--file-api-access-token`
+
+{% hint style="info" %}
+This parameter is available in fylr from version **v6.10.0**.
+{% endhint %}
+
+Use this to pass an access token to fylr backends. This is needed to load files from fylr source instances. It appends the `access_token` query parameter to the remote url of files, and removes the `x-fylr-signature` query parameter.
 
 * type: `string`
 
