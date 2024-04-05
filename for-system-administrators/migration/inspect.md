@@ -61,13 +61,13 @@ See also: [Backup Parameters](backup.md#parameters)
 * Select only of the source instance uses OAuth2
 * **easydb5** does not use OAuth2
 * this enables the following options:
-* *OAuth2 Client Id*
-  * Client Id of the source instance
-  * this sets `--client-id fylr-web-frontend`
-* *OAuth2 Client Secret*
-  * Client Secret of the source instance
-  * Leave empty if the source instance is public
-  * this sets `--client-secret foo`
+  * *OAuth2 Client Id*
+    * Client Id of the source instance
+    * this sets `--client-id fylr-web-frontend`
+  * *OAuth2 Client Secret*
+    * Client Secret of the source instance
+    * Leave empty if the source instance is public
+    * this sets `--client-secret foo`
 
 ### Fixed parameters
 
@@ -144,6 +144,20 @@ See also: [Restore Parameters](restore.md#parameters)
 * If you are using `rput_leave`, the source version is linked as URL
 * this sets `--upload-versions`
 
+#### Access Token for file URLs
+
+{% hint style="info" %}
+This is available in fylr from version **v6.10.0**.
+{% endhint %}
+
+This is only needed if the source instance of the backup is a **fylr** and there are files that should be uploaded to the target instance. **fylr** requires all requests to be authenticated. So during the restore process the file URLs need to be accessed in the source fylr, but this will fail if there is no authentication.
+
+During the backup, **fylr** adds a signature parameter to the file URLs (`x-fylr-signature`) which can be used to authenticate the request. But this signature is temporary and expires after a fixed time which is configured in the source instance. If you try to restore after a certain time the signatures can be expired and the source instance will not allow access to the files anymore.
+
+To override the signature, you can get an OAuth2 Access Token from the source instance which has read rights on these files. If this token is passed, the restore tool will parse the file URLs and remove the signature parameter, and set the `access_token` parameter instead.
+
+This sets `--file-api-access-token <token>`
+
 #### Chunk size
 
 * Select the batch size for POST requests
@@ -168,6 +182,18 @@ See also: [Restore Parameters](restore.md#parameters)
   * Client Secret of the target instance
   * Leave empty if the target instance is public
   * this sets `--client-secret foo`
+
+#### Continue Restore Process
+
+{% hint style="info" %}
+This is available in fylr from version **v6.10.0**.
+{% endhint %}
+
+Continue the previous restore process of this backup, if one has been started before and did not finish. The restore process will continue based on the progress file that has been written during the previous restore.
+
+If this checkbox is disabled, the target instance will be purged and a complete new restore process is started.
+
+This checkbox either sets the parameters `--purge` (if disabled) or `--continue` (if enabled).
 
 ### Fixed parameters
 
