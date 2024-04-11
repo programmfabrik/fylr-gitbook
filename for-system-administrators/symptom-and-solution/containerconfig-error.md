@@ -44,3 +44,12 @@ Make sure the docker plugin for compose is installed. E.g. in the Debian package
 Create all desired containers, but with `docker compose` instead of `docker-compose` (Note the difference: `-`) \
 
 
+In our recommended installation page, we now recommend docker compose.
+
+Our provided example maintain script now also uses docker compose, you can get the updated version like:
+
+```
+curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/maintain -o maintain
+chmod a+x maintain
+```
+
