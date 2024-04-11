@@ -1,6 +1,6 @@
 # Linux
 
-How to install fylr on a Linux Server via docker-compose
+How to install fylr on a Linux Server via docker compose
 
 ## Requirements
 
@@ -24,10 +24,10 @@ How to install fylr on a Linux Server via docker-compose
 
 The following commands assume a Debian or Ubuntu server and a bash shell.
 
-* Get docker-compose to use our provided example. Apparmor is required for docker in newer Debian and Ubuntu Versions:
+* Get docker compose to use our provided example. Apparmor is required for docker in newer Debian and Ubuntu Versions:
 
 ```bash
-apt-get install docker-compose apparmor
+apt-get install docker-compose-plugin apparmor
 ```
 
 * currently (2023-06), docker needs a restart before it is really up and running:
@@ -61,7 +61,7 @@ chown 1000 assets backups indexer migration
 chown  999 postgres sqlbackups
 ```
 
-The download is done below, with `docker-compose`
+The download is done below, with `docker compose`
 
 ## Configuration
 
@@ -77,16 +77,16 @@ If unsure about wasting your quota with letsencrypt, start with `useStagingCA: t
 
 ## Download
 
-### docker-compose
+### docker compose
 
-Much of the setup is encapsulated in a yaml file for docker-compose. Get it and use it like this:
+Much of the setup is encapsulated in a yaml file for docker compose. Get it and use it like this:
 
 (We still assume that you are in the `/srv/fylr` directory.)
 
 ```bash
 curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/docker-compose.yml -o docker-compose.yml
 
-docker-compose up -d postgresql opensearch ; docker-compose logs -f opensearch
+docker compose up -d postgresql opensearch ; docker compose logs -f opensearch
 ```
 
 `Ctrl` + `c` stops the display of new messages. We suggest you stop checking new messages when opensearch is done with its startup. Either when it quiets down or when you catch the message `Cluster health status changed` \[...] `reason: [shards started`.
@@ -95,14 +95,14 @@ So now postgres and opensearch are running.
 
 Download and start fylr:
 
-`docker-compose up -d fylr; docker-compose logs -f fylr`
+`docker compose up -d fylr; docker compose logs -f fylr`
 
 fylr outputs `INF 🤓 FYLR started`\[...] when it managed to start and the Web-Frontend is online. Again, `Ctrl` + `c` stops the display of new messages.
 
 We recommend to set `restart: always` for fylr in `docker-compose.yml` and restart fylr with:
 
 ```bash
-docker-compose up --force-recreate --no-deps -d fylr
+docker compose up --force-recreate --no-deps -d fylr
 ```
 
 ### Result
@@ -141,7 +141,7 @@ You can change the maintain script's config in `/etc/default/fylr`, using bash s
 
 ## Troubleshooting
 
-* `docker-compose` needs to be executed in the directory with the `docker-compose.yml`.
+* `docker compose` needs to be executed in the directory with the `docker-compose.yml`.
 * When docker cannot start containers with errors refering to `shim, OCI, apparmor`: `apt-get install apparmor apparmor-utils; systemctl restart docker`
 * When the indexer does not work, make sure you used `sysctl` as shown above.
 

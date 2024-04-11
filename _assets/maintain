@@ -6,11 +6,11 @@
 # - cleanup superfluous docker files
 # - update fylr and postgres (but not major version jump)
 
-# requires: docker, docker-compose
+# requires: docker, docker compose plugin
 
 usage(){
 cat<<EOF
-Maintain fylr installation in $BASEDIR, with docker-compose.
+Maintain fylr installation in $BASEDIR, with docker compose.
 
 /srv/fylr/maintain fylr-recreate # remove flyr container and recreate it, to reload conf
 /srv/fylr/maintain recreate-fylr # dito
@@ -26,7 +26,7 @@ Maintain fylr installation in $BASEDIR, with docker-compose.
 /srv/fylr/maintain update        # check for updates, (re)create containers as needed
 /srv/fylr/maintain start         # dito
 
-/srv/fylr/maintain stop          # stops fylr via docker-compose
+/srv/fylr/maintain stop          # stops fylr via docker compose
                                  # DANGER: stop will be in effect even after reboot.
                                  # Do not forget to start again.
 
@@ -79,7 +79,6 @@ requires(){
     type -a "$1" &>/dev/null || errorexit "required program not installed or not in PATH: $1"
 }
 
-requires docker-compose
 requires docker
 
 ### PARSE ARGUMENTS
@@ -89,34 +88,34 @@ log "___called with $@"
 case "$1" in
 pull)
     cd "$BASEDIR"
-    docker-compose pull
+    docker compose pull
     ;;
 update-fylr|fylr-update)
     cd "$BASEDIR"
-    docker-compose pull fylr
-    docker-compose up --force-recreate --no-deps -d fylr
+    docker compose pull fylr
+    docker compose up --force-recreate --no-deps -d fylr
     ;;
 recreate-fylr|fylr-recreate|fylr-reload|fylr-reload-config|fylr-restart|restart-fylr)
     cd "$BASEDIR"
-    docker-compose up --force-recreate --no-deps -d fylr
+    docker compose up --force-recreate --no-deps -d fylr
     ;;
 witness)
     cd "$BASEDIR"
-    docker-compose up --force-recreate --no-deps -d fylr
-    docker-compose logs --tail all -f fylr
+    docker compose up --force-recreate --no-deps -d fylr
+    docker compose logs --tail all -f fylr
     ;;
 start|update)
     set -e
     cd "$BASEDIR"
     log_container_versions "before up"
-    docker-compose pull -q          &>>"$MYLOG" || error "pull failed, see $MYLOG"
-    docker-compose up -d --no-color &>>"$MYLOG" || error "update failed, see $MYLOG"
+    docker compose pull -q          &>>"$MYLOG" || error "pull failed, see $MYLOG"
+    docker compose up -d --no-color &>>"$MYLOG" || error "update failed, see $MYLOG"
     log_container_versions "after up"
     ;;
 stop)
     set -e
     cd "$BASEDIR"
-    docker-compose down
+    docker compose down
 ;;
 restart)
     $0 stop 2>&1 | sed '/Network .* not found/d'
