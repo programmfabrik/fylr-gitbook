@@ -47,8 +47,6 @@ Flags:
       --compression=0              0: no compression, 1: speed, 9: best. Only valid for default backupformat.
       --continue                   Set to true, to continue. Only valid for default backupformat.
       --all-versions               Set to true, to request all versions of an object.
-      --base                       Set to true, to copy base types.
-      --user                       Set to true, to copy user types.
       --include=STRING             Filter regexp to include objecttypes.
       --retry-max-count=10         Number of retries for failed requests with network problems.
       --retry-sleep-between=30     Wait time in seconds between retries for failed requests.
@@ -67,7 +65,7 @@ Flags:
 ```
 
 
-<!-- vvvvv --- this part was auto generated: 2024-03-19 16:10:46 (UTC) --- vvvvv -->
+<!-- vvvvv --- this part was auto generated: 2024-04-10 15:04:41 (UTC) --- vvvvv -->
 
 
 
@@ -177,6 +175,10 @@ Set to true so that all history versions of the records are requested. Not to be
 
 ### `--base`
 
+{% hint style="warning" %}
+Deprecated! This parameter is removed in fylr in version **v6.10.0**.
+{% endhint %}
+
 Set to `false` to ignore the following base types in the backup: tags, messages, transitions, right presets for collections and objects, publishings and collections. Users, groups and pools are always included in the backup.
 
 * type: `bool`
@@ -184,6 +186,10 @@ Set to `false` to ignore the following base types in the backup: tags, messages,
 
 
 ### `--user`
+
+{% hint style="warning" %}
+Deprecated! This parameter is removed in fylr in version **v6.10.0**.
+{% endhint %}
 
 Set to `false` to ignore all user created objects in the backup (user objects means objects based on the datamodel which have been created by users). This means, that only base types are backupped.
 
