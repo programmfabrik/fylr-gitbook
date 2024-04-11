@@ -75,6 +75,45 @@ errorexit(){ # exit with non-zero status AND send output to stderr and logfile i
     exit 1
 }
 
+cleanup_docker(){
+    #  free disk space
+    #
+    #  In our experience, used containers are not damaged by these commands
+    #  and used images are not damaged even if they have no running container.
+    #  Some error messages may be generated, however ("could not remove").
+
+    log "removing left over temporary files..."
+    LIST=$(docker ps -qa --no-trunc --filter "status=exited")
+    if [ "$LIST" ] ; then
+        docker rm -v $LIST >>"$MYLOG"
+        log "... done."
+    else
+        log "... none found."
+    fi
+
+    log "removing unused images..."
+    LIST=$(docker images --filter "dangling=true" -q --no-trunc)
+    if [ "$LIST" ] ; then
+        docker rmi $LIST >>"$MYLOG"
+        log "... done."
+    else
+        log "... none found."
+    fi
+
+    # next step:
+    # docker images | grep '<none>' | awk '{print }' | xargs -r docker rmi -f
+
+    log "removing dangling volumes..."
+    LIST=$(docker volume ls -qf dangling=true)
+    if [ "$LIST" ] ; then
+        docker volume rm $LIST >>"$MYLOG"
+        log "... done."
+    else
+        log "... none found."
+    fi
+    log All done cleaning up.
+}
+
 requires(){
     type -a "$1" &>/dev/null || errorexit "required program not installed or not in PATH: $1"
 }
@@ -155,42 +194,7 @@ sqldump)
     exit 0
     ;;
 cleanup)
-    #  free disk space
-    #
-    #  In our experience, used containers are not damaged by these commands
-    #  and used images are not damaged even if they have no running container.
-    #  Some error messages may be generated, however ("could not remove").
-
-    log "removing left over temporary files..."
-    LIST=$(docker ps -qa --no-trunc --filter "status=exited")
-    if [ "$LIST" ] ; then
-        docker rm -v $LIST >>"$MYLOG"
-        log "... done."
-    else
-        log "... none found."
-    fi
-
-    log "removing unused images..."
-    LIST=$(docker images --filter "dangling=true" -q --no-trunc)
-    if [ "$LIST" ] ; then
-        docker rmi $LIST >>"$MYLOG"
-        log "... done."
-    else
-        log "... none found."
-    fi
-
-    # next step:
-    # docker images | grep '<none>' | awk '{print }' | xargs -r docker rmi -f
-
-    log "removing dangling volumes..."
-    LIST=$(docker volume ls -qf dangling=true)
-    if [ "$LIST" ] ; then
-        docker volume rm $LIST >>"$MYLOG"
-        log "... done."
-    else
-        log "... none found."
-    fi
-    log All done cleaning up.
+    cleanup_docker 2>&1|grep -v 'image is being used'
     ;;
 help|h|-h|--help|-help)
     usage
