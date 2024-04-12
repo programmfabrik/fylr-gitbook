@@ -20,9 +20,7 @@ How to install fylr on a Linux Server via docker compose
     Add fast storage for database and indices: 4% of what your assets need. So for 1 TB of assets have 40 GB. Most installations need a lot less than 4%.
 *   #### Network Storage <a href="#network-storage" id="network-storage"></a>
 
-    If you use network storage then we recommend the NFS protocol. CIFS can also work, but we have seen performance problems on some Windows servers without remedy and even data corruption - thus we do not support CIFS/SMB. Also NFS on a Windows server has been observed to have poor performance compared to Linux servers.
-
-    At most, put assets, previews and database dumps on network storage.
+    At most, put assets, previews and database dumps on network storage. If you use network storage then we recommend the NFS protocol. CIFS can also work, but we have seen performance problems on some Windows servers without remedy and even data corruption - thus we do not support CIFS/SMB. Also NFS on a Windows server has been observed to have poor performance compared to Linux servers.
 
 ### Software
 
