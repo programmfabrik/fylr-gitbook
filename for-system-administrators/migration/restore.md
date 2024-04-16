@@ -80,7 +80,13 @@ Flags:
 ```
 
 
-<!-- vvvvv --- this part was auto generated: 2024-04-03 11:22:45 (UTC) --- vvvvv -->
+<!--
+
+part below was auto generated
+source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=1408589219
+timestamp: 2024-04-16 11:11:50 (UTC)
+
+-->
 
 
 
@@ -120,7 +126,10 @@ Password of the user in the target instance.
 
 Defines the mode of the restoring (purge or continue)
 If this is `true`, the complete restore starts from the beginning, and the target instance is purged.
+
+{% hint style="warning" %}
 The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
+{% endhint %}
 
 * this parameter is **mandatory**!
 * type: `bool`
@@ -131,7 +140,10 @@ The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of
 
 Defines the mode of the restoring (purge or continue)
 If this is `true`, the restore continues from the last point in the `progress.json` file, if a previous restore run was interrupted.
+
+{% hint style="warning" %}
 The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
+{% endhint %}
 
 * this parameter is **mandatory**!
 * type: `bool`
@@ -143,6 +155,7 @@ The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of
 Path to a specific base config file. Defaults to `<instance folder>/base_config.json` from the backup.
 
 * type: `string`
+* default: `base_config.json`
 
 
 ### `--skip-constraints`
@@ -157,7 +170,9 @@ Skip constraints during restore.
 
 Include user password hashes. If this option is `true`, the restore tool checks if there is at least one user where a password hash is present. This is done by checking the `has_passwords` flag in the `manifest.json`. If this value is `false`, the restore will stop with an error.
 
+{% hint style="warning" %}
 Make sure that the source instance is configured to output the user passwords, and repeat the backup. See [https://docs.easydb.de/en/sysadmin/configuration/easydb-server.yml/available-variables/](https://docs.easydb.de/en/sysadmin/configuration/easydb-server.yml/available-variables/) under `include_passwords` for the settings in an easydb5 source instance.
+{% endhint %}
 
 * type: `bool`
 * default: `false`
@@ -189,7 +204,9 @@ Method used to upload files. Leave empty to not upload files.
 * `rput`: target server loads files from remote URLs.
 * `rput_leave`: target server stores remote URLs, no data is copied to storage.
 
+{% hint style="info" %}
 `rput` and `rput_leave` are faster, `put` might take long.
+{% endhint %}
 
 * type: `string`
 
@@ -197,7 +214,7 @@ Method used to upload files. Leave empty to not upload files.
 ### `--file-api-append-to-url-query`
 
 {% hint style="warning" %}
-Deprecated! This parameter is removed in fylr in version **v6.10.0**.
+**Deprecated!** This parameter is removed in fylr in version **v6.10.0**.
 {% endhint %}
 
 Append parameters to eas urls (for example, use this to pass an access token to fylr backends). `?` or `&` is prefixed to this as needed.
@@ -218,7 +235,11 @@ Use this to pass an access token to fylr backends. This is needed to load files 
 
 ### `--file-version`
 
-Specify which version of the source asset is used. Default is `"original"` which might take long for `--file-api=put`. Use `"preview"` for test runs with smaller assets.
+Specify which version of the source asset is used. Default is `"original"` which might take long for `--file-api=put`.
+
+{% hint style="info" %}
+Use `"preview"` for test runs with smaller assets.
+{% endhint %}
 
 * type: `string`
 * default: `"original"`
@@ -226,7 +247,14 @@ Specify which version of the source asset is used. Default is `"original"` which
 
 ### `--upload-versions`
 
-Set to `true`, to not produce local preview versions, but instead upload the source versions. The upload method `--file-api` is used for versions the same way as for the original.
+Set to `true`, to not produce local preview versions, but instead upload/link the source versions.
+
+The upload method `--file-api` is used for versions the same way as for the original file.
+
+{% hint style="info" %}
+* If `put` or `rput` is used, the versions are copied from the source instance, but no versions are produced
+* If `rput_leave` is used, the versions are linked by URL, and no files are copied to the target instance and no versions are produced
+{% endhint %}
 
 * type: `bool`
 * default: `false`
@@ -235,8 +263,12 @@ Set to `true`, to not produce local preview versions, but instead upload the sou
 ### `--rename-versions`
 
 Rename versions before uploading. This affects uploaded rights as well as file versions.
+
+{% hint style="info" %}
 The versions need to be given in the notation `"<cls>.<version>:<new version>"`, e.g. `"image.preview:640px"` would replace the `"preview"` version of class `image` to `640px`.
+
 If the `<new version>` part is omitted, the version is removed.
+{% endhint %}
 
 * type: `string`
 
@@ -275,7 +307,9 @@ If the target instance uses OAuth2 for user authentication, this is the configur
 
 ### `--client-token-url`
 
-If the target instance uses OAuth2 for user authentication, this is the OAuth2 callback endpoint of the instance. For fylr this is `<source url>/api/oauth2/token`.
+If the target instance uses OAuth2 for user authentication, this is the OAuth2 callback endpoint of the instance.
+
+For fylr this is `<source url>/api/oauth2/token`.
 
 * type: `string`
 
@@ -303,5 +337,9 @@ If this is a valid file path, the log output is written to this file. If this is
 * type: `string`
 
 
-<!-- ^^^^^ --- this part was auto generated --- ^^^^^ -->
+<!--
+
+part above was auto generated
+
+-->
 

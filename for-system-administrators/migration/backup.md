@@ -65,7 +65,13 @@ Flags:
 ```
 
 
-<!-- vvvvv --- this part was auto generated: 2024-04-10 15:04:41 (UTC) --- vvvvv -->
+<!--
+
+part below was auto generated
+source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=0
+timestamp: 2024-04-16 11:11:50 (UTC)
+
+-->
 
 
 
@@ -104,8 +110,12 @@ Password of the user in the source instance.
 ### `--purge`
 
 Defines the mode of the backup (purge or continue)
+
 If this is `true`, the complete backup starts from the beginning, and an existing backup folder with the same name is purged.
+
+{% hint style="warning" %}
 The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
+{% endhint %}
 
 * this parameter is **mandatory**!
 * type: `bool`
@@ -115,8 +125,12 @@ The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of
 ### `--continue`
 
 Defines the mode of the backup (purge or continue)
+
 If this is `true`, the backup continues from the last point in the `manifest.json` file, if a previous backup run was interrupted.
+
+{% hint style="warning" %}
 The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
+{% endhint %}
 
 * this parameter is **mandatory**!
 * type: `bool`
@@ -167,7 +181,11 @@ If a value bigger than `0` is selected, the payloads are stored as compressed `.
 
 ### `--all-versions`
 
-Set to true so that all history versions of the records are requested. Not to be confused with asset versions (see parameters for `fylr restore`)!
+Set to true so that all history versions of the records are requested.
+
+{% hint style="warning" %}
+Not to be confused with asset versions (see parameters for `fylr restore`)!
+{% endhint %}
 
 * type: `bool`
 * default: `false`
@@ -176,7 +194,7 @@ Set to true so that all history versions of the records are requested. Not to be
 ### `--base`
 
 {% hint style="warning" %}
-Deprecated! This parameter is removed in fylr in version **v6.10.0**.
+**Deprecated!** This parameter is removed in fylr in version **v6.10.0**.
 {% endhint %}
 
 Set to `false` to ignore the following base types in the backup: tags, messages, transitions, right presets for collections and objects, publishings and collections. Users, groups and pools are always included in the backup.
@@ -188,7 +206,7 @@ Set to `false` to ignore the following base types in the backup: tags, messages,
 ### `--user`
 
 {% hint style="warning" %}
-Deprecated! This parameter is removed in fylr in version **v6.10.0**.
+**Deprecated!** This parameter is removed in fylr in version **v6.10.0**.
 {% endhint %}
 
 Set to `false` to ignore all user created objects in the backup (user objects means objects based on the datamodel which have been created by users). This means, that only base types are backupped.
@@ -264,5 +282,9 @@ If this is a valid file path, the log output is written to this file. If this is
 * type: `string`
 
 
-<!-- ^^^^^ --- this part was auto generated --- ^^^^^ -->
+<!--
+
+part above was auto generated
+
+-->
 
