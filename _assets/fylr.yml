@@ -74,22 +74,41 @@ fylr+:
 
   plugin:
     paths:
-    - "/fylr/files/plugins/easydb"
-    #urls:
-    #- https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/download/v0.1.2/fylr-plugin-formula-columns.zip
-
-    # the following is used initially only (during first start and after purge)
-    # This is configured as map with the plugin name as key.
-    defaults:
-      # default for fylr_example plugin
-      fylr_example:
-        # enable, set to false to disable the plugin, defaults to true
-        enabled: false
-        # update_policy: automatic, always, never, defaults to automatic
-        update_policy: never
-      example-plugin:
-        enabled: false
-        update_policy: never
+      - "/fylr/files/plugins/easydb/easydb-barcode-display-pdf-plugin"
+      - "/fylr/files/plugins/easydb/easydb-barcode-display-plugin"
+      - "/fylr/files/plugins/easydb/easydb-basemigration-plugin"
+      - "/fylr/files/plugins/easydb/easydb-coin-viewer-plugin"
+      - "/fylr/files/plugins/easydb/easydb-connector-plugin"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-cerlthesaurus"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-gazetteer"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-geonames"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-georef"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-gn250"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-gnd"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-goobi"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-html-editor"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-iconclass"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-iucn"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-link"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-location"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-nomisma"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-tnadiscovery"
+      - "/fylr/files/plugins/easydb/easydb-custom-mask-splitter-detail-linked-plugin"
+      - "/fylr/files/plugins/easydb/easydb-detail-map-plugin"
+      - "/fylr/files/plugins/easydb/easydb-display-field-values-plugin"
+      - "/fylr/files/plugins/easydb/easydb-drupal-plugin"
+      - "/fylr/files/plugins/easydb/easydb-easydb4migration-plugin"
+      - "/fylr/files/plugins/easydb/easydb-editor-tagfilter-defaults-plugin"
+      - "/fylr/files/plugins/easydb/easydb-eventmanager-plugin"
+      - "/fylr/files/plugins/easydb/easydb-export-transport-ftp-plugin"
+      - "/fylr/files/plugins/easydb/easydb-falconio-plugin"
+      - "/fylr/files/plugins/easydb/easydb-hijri-gregorian-converter-plugin"
+      - "/fylr/files/plugins/easydb/easydb-orcid-plugin"
+      - "/fylr/files/plugins/easydb/easydb-pdf-creator-plugin"
+      - "/fylr/files/plugins/easydb/easydb-presentation-pptx-plugin"
+      - "/fylr/files/plugins/easydb/easydb-remote-plugin"
+      - "/fylr/files/plugins/easydb/easydb-typo3-plugin"
+      - "/fylr/files/plugins/easydb/easydb-wordpress-plugin"
 
   elastic+:
     addresses:
