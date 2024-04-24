@@ -7,7 +7,7 @@ description: >-
 
 # Purge a fylr instance
 
-As purging is a destructive intervention, many safety barriers have to be turned off before the purge can be done. These barriers protect data and assets in a productive fylr to be deleted.
+As purging is a destructive intervention, many safety barriers have to be turned off before the purge can be done. These barriers protect data and assets in a productive fylr from being deleted.
 
 ## What a purge does
 
@@ -15,10 +15,14 @@ As purging is a destructive intervention, many safety barriers have to be turned
 * reset configuration that was done in the web frontend ("[Base Configuration](../for-administrators/readme/)" etc.) to defaults or to the settings done in fylr.yml
 * optionally, throw away all assets (and of course preview versions generated from them), if `Allow Purge` is chosen in the location manager for the location used for assets
 * optionally, throw away content other locations, if `Allow Purge` is chosen in the location manager for that location
+* fylr after the purge uses other sub-directories inside your storage locations. Example:
+  * before purge: `/srv/fylr-7efd8b2b-afda-499a-b1e1-b90f6a5f426a`
+  * after purge: `/srv/fylr-e66a5fe2-05f4-4c99-a5c9-3f93e57405f5`
 
 What a purge does not:
 
 * change the configuration that is done in the configuration file **fylr.yml**
+* if you do not allow purging of storage, your assets and preview version will remain on disk but are not used any more by fylr
 
 ## Allow purge
 
