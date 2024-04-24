@@ -6,7 +6,7 @@ description: How to connect fylr to a SAML authentication service.
 
 This can be used to log into fylr with users from e.g. Shibboleth and Azure ActiveDirectory.
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>Where to find the settings in the frontend.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption><p>Where to find the settings in the frontend.</p></figcaption></figure>
 
 Background: SAML 2.0 is an [XML](https://en.wikipedia.org/wiki/XML)-based [protocol](https://en.wikipedia.org/wiki/Communications\_protocol) that uses [security tokens](https://en.wikipedia.org/wiki/Software\_token) containing [assertions](https://en.wikipedia.org/wiki/Security\_Assertion\_Markup\_Language) to pass information about a principal (usually an end user) between a SAML authority, named an [Identity Provider](https://en.wikipedia.org/wiki/Identity\_Provider), and a SAML consumer, named a [Service Provider](https://en.wikipedia.org/wiki/Service\_Provider).
 

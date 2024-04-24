@@ -131,6 +131,7 @@
   * [LDAP](tutorials/ldap.md)
   * [SAML](tutorials/saml.md)
 * [Data Model Sync](tutorials/objectstore.md)
+* [Purge a fylr instance](tutorials/purge-a-fylr-instance.md)
 
 ## FOR DEVELOPERS
 
