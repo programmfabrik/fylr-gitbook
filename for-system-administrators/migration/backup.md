@@ -69,7 +69,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=0
-timestamp: 2024-04-16 11:11:50 (UTC)
+timestamp: 2024-04-26 11:14:40 (UTC)
 
 -->
 
@@ -114,10 +114,11 @@ Defines the mode of the backup (purge or continue)
 If this is `true`, the complete backup starts from the beginning, and an existing backup folder with the same name is purged.
 
 {% hint style="warning" %}
-The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
+The parameters `--purge` and `--continue` are mutually exclusive. Not both can be `true`. Either exactly one is `true`, or both must be `false`.
+
+If the target folder already exists, this parameter (or `--continue`) must be set, otherwise the backup will fail.
 {% endhint %}
 
-* this parameter is **mandatory**!
 * type: `bool`
 * default: `false`
 
@@ -129,10 +130,11 @@ Defines the mode of the backup (purge or continue)
 If this is `true`, the backup continues from the last point in the `manifest.json` file, if a previous backup run was interrupted.
 
 {% hint style="warning" %}
-The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
+The parameters `--purge` and `--continue` are mutually exclusive. Not both can be `true`. Either exactly one is `true`, or both must be `false`.
+
+If the target folder already exists, this parameter (or `--purge`) must be set, otherwise the backup will fail.
 {% endhint %}
 
-* this parameter is **mandatory**!
 * type: `bool`
 * default: `false`
 

@@ -84,7 +84,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=1408589219
-timestamp: 2024-04-16 11:11:50 (UTC)
+timestamp: 2024-04-26 11:14:40 (UTC)
 
 -->
 
@@ -128,10 +128,9 @@ Defines the mode of the restoring (purge or continue)
 If this is `true`, the complete restore starts from the beginning, and the target instance is purged.
 
 {% hint style="warning" %}
-The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
+The parameters `--purge` and `--continue` are mutually exclusive. Not both can be `true`. Either exactly one is `true`, or both must be `false`.
 {% endhint %}
 
-* this parameter is **mandatory**!
 * type: `bool`
 * default: `false`
 
@@ -142,10 +141,9 @@ Defines the mode of the restoring (purge or continue)
 If this is `true`, the restore continues from the last point in the `progress.json` file, if a previous restore run was interrupted.
 
 {% hint style="warning" %}
-The parameters `--purge` and `--continue` are mutually exclusive. Exactly one of the two must be `true`.
+The parameters `--purge` and `--continue` are mutually exclusive. Not both can be `true`. Either exactly one is `true`, or both must be `false`.
 {% endhint %}
 
-* this parameter is **mandatory**!
 * type: `bool`
 * default: `false`
 
