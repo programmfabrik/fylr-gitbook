@@ -2,7 +2,7 @@
 description: >-
   For a migration or during testing, you might want to overwrite one fylr
   instance with data from another fylr or easydb, or just wipe a fylr
-  installation to a clean state
+  installation to a clean state.
 ---
 
 # Purge a fylr instance
@@ -49,6 +49,6 @@ fylr+:
 
 So if your fylr is available at [https://fylr.example.com](https://fylr.example.com) then surf to [https://fylr.example.com/inspect/](https://fylr.example.com/inspect/).
 
-2. Selecthe button **System** and there click the `Purge...` button: (at the bottom)
+2. Selec the button **System** and there click the `Purge...` button: (at the bottom)
 
 <figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption><p>The inspect web frontend at /inspect/system/</p></figcaption></figure>
