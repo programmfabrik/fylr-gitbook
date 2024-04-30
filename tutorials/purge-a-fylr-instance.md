@@ -13,11 +13,10 @@ As purging is a destructive intervention, many safety barriers have to be turned
 
 * replace the SQL database with a fresh one, erasing the data model, data, rights management
 * reset configuration that was done in the web frontend ("[Base Configuration](../for-administrators/readme/)" etc.) to defaults or to the settings done in fylr.yml
-* optionally, throw away all assets (and of course preview versions generated from them), if `Allow Purge` is chosen in the location manager for the location used for assets
-* optionally, throw away content other locations, if `Allow Purge` is chosen in the location manager for that location
-* fylr after the purge uses other sub-directories inside your storage locations. Example:
-  * before purge: `/srv/fylr-7efd8b2b-afda-499a-b1e1-b90f6a5f426a`
-  * after purge: `/srv/fylr-e66a5fe2-05f4-4c99-a5c9-3f93e57405f5`
+* optionally, throw away all assets (and of course preview versions generated from them), if `Allow Purge` is chosen in the location manager. In the location manager `Allow Purge` is per location.
+* after the purge, fylr uses other sub-directories inside your storage locations. Example:
+* before purge: `/srv/fylr-7efd8b2b-afda-499a-b1e1-b90f6a5f426a`
+* after purge: `/srv/fylr-e66a5fe2-05f4-4c99-a5c9-3f93e57405f5`
 
 What a purge does not:
 
@@ -49,6 +48,6 @@ fylr+:
 
 So if your fylr is available at [https://fylr.example.com](https://fylr.example.com) then surf to [https://fylr.example.com/inspect/](https://fylr.example.com/inspect/).
 
-2. Selec the button **System** and there click the `Purge...` button: (at the bottom)
+2. Click **System** and there click the `Purge...` button: (at the bottom)
 
 <figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption><p>The inspect web frontend at /inspect/system/</p></figcaption></figure>
