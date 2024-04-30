@@ -86,23 +86,25 @@ fylr:
 
   # for development only
   debug:
-    # skip term creation
+    # Skip term creation
     skipTerms: false
-    # don't announce plugins bundle on /api/plugin
+    # Don't announce plugins bundle on /api/plugin
     noPluginsBundle: false
-    # simulate local status
+    # Simulate local status
     localStatus: "" # purge, reindex, startup, ready
-    # this setting skips the sometime expensive permission check
+    # This setting skips the sometime expensive permission check
     # on the /api/eas/download endpoint. However, there is still
     # some security left, the link is checked against a valid hash
     # of the file which needs to be provided.
     easDownloadSkipCheckRights: false
-    # allow management of indices in Elasticsearch cluster, such as
+    # Allow management of indices in Elasticsearch cluster, such as
     # viewing and deleting an index.
     # The indices visible there are not limited to those associated
     # to the fylr instance.
     inspectEnableElasticIndices: false
-
+    # Outputs object loader timing and load depth information. This setting can also
+    # be set in the base config.
+    logTimings: true
 
   # tempDir is used by api/system/backup and the export to during a TAR
   # production. With no tempDir given the system defaults temp dir is used. This
@@ -140,11 +142,9 @@ fylr:
   db:
     # driver: sqlite3
     # dsn: "../../_data/sqlite/fylr.db"
-
     driver: postgres
     # specify a PostgreSQL user owning the given db (with LOGIN and INHERIT, which are defaults for CREATE USER anyway).
     dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
-
     # https://golang.org/pkg/database/sql/#DB.SetMaxOpenConns
     # default: 0 which is unlimited
     # recommended: same as postgreSQL max_connections (which defaults to 100)
@@ -155,7 +155,6 @@ fylr:
     # https://golang.org/pkg/database/sql/#DB.SetMaxIdleConns, default: 0
     # This has to be not more than maxOpenConns
     maxIdleConns: 10
-
     # The init block is used to pre-fill the database when its created or purged.
     init:
       # Path to base config file. If set, on a fresh install or after a purge this
@@ -182,9 +181,9 @@ fylr:
       #         allow_purge: true
       #         purge_storage: true
       #       location_defaults:
-      #         originals: locfile
-      #         versions: locs3
-      #         backups: locfile
+      #         originals: file
+      #         versions: s3
+      #         backups: file
 
       # preconfigure locations for empty databases
       locations:
@@ -199,8 +198,8 @@ fylr:
         # The driver "file" will create directories inside the configured
         # top level directory but never remove them. So, if you use purge
         # a lot, FYLR will leave empty directories on disk.
-        locfile:
-          # The kind is either "file" or "s3" (see below)
+        file:
+          # The kind is either "file" or "s3" or "azure" (see below)
           kind: file
           # Each location can configure a prefix which will
           # be attached before the file to be created
@@ -216,7 +215,7 @@ fylr:
           config:
             file:
               dir: "_files"
-        locs3:
+        s3:
           kind: s3
           prefix: "apitest/"
           allow_purge: true
@@ -228,6 +227,19 @@ fylr:
               secretkey: "minioadmin"
               region: "us-east-1"
               ssl: false
+        azure:
+          kind: azure
+          allow_purge: true
+          config:
+            azure:
+              # The name of the container is required. It is created if it doesn't exist.
+              container: fylr
+              # You can provide a connection string OR the single settings account_name, account_key and endpoint_suffix
+              connection_string: "DefaultEndpointsProtocol=https;AccountName=azure;AccountKey=l/fnF4kp...==;EndpointSuffix=core.windows.net"
+              account_name: "azure"
+              account_key: "l/fnF4kp..."
+              # optional endpoint suffix (default to core.windows.net)
+              endpoint_suffix: "core.windows.net"
 
   # DEPRECATED, will be removed in next version
   # files are stored in S3. Buckets are created by FYLR automatically
@@ -358,7 +370,7 @@ fylr:
         allowHttpRedirects: false
         # The default clients are built into the web app and other apps.
         # They are public and thus do neither need nor have a secret.
-        # see https://docs.fylr.io/for-system-administrators/configuration/fylr.default.yml
+        # see https://docs.fylr.io/for-system-administrators/configuration/fylr.default
         clients:
           web-client:
             # secret must be given as bcrypt hash
@@ -391,9 +403,9 @@ fylr:
         # backup: if configured, /inspect/migration can be used to migrate
         # instances.
         backup+:
-          # path is needed if you want to use /inspect/migration of this instance.
-          # Disk path to backup. Is created if not present.
-          # Each backup gets its own subdirectory
+          # Path is needed if you want to use /inspect/migration of this
+          # instance. Disk path to backup. Is created if not present. Each
+          # backup gets its own subdirectory.
           path: /tmp/migration
 
     # oauth2 client + web client
@@ -406,7 +418,6 @@ fylr:
         certFile: "server.crt"
         keyFile: "server.key"
 
-        # forwardHttpAddr defines an address a http listener is started to
         # forward requests to fylr.services.webapp.addr (the port of the) webserver.
         # Typically you use ":80" for the forward http and ":443" for webapp.addr.
         # Default is "" (off)
@@ -715,5 +726,6 @@ fylr:
               prog: "fylr"
               args:
                 - "iiif"
+
 ```
 {% endcode %}
