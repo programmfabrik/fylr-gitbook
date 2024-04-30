@@ -12,19 +12,19 @@ Background: SAML 2.0 is an [XML](https://en.wikipedia.org/wiki/XML)-based [proto
 
 fylr acts as a Service Provider and as such needs to connect to an Identity Provider. For testing and to understand the configuration workflow, you can use the public Identity Provider [https://samltest.id/](https://samltest.id/).
 
-At some point you will need: fylr's endpoint to get the required metadata XML is [http://localhost/api/saml/metadata](http://localhost/api/saml/metadata) (replace _localhost_ with the domain of your fylr server).
+At some point you will need: fylr's endpoint to get the required metadata XML. It is [http://localhost/api/saml/metadata](http://localhost/api/saml/metadata) (replace _localhost_ with the domain of your fylr server, and probably http with http**s**).
 
 ## SAML with samltest.id
 
-Follow this example to get into the workflow of configuring SAMl with fylr.
+Follow this example to get into the workflow of configuring SAML with fylr.
 
 First you need to generate a certificate and private key.
 
-Background: The certificate will be entered in the fylr frontend's form fields and then be given to the Identity Provider as part of the metadata, so that requests coming from fylr are accepted. It is in addition to fylr's https certificate and not to be confused with it.
+Background: The certificate will be entered in the fylr frontend's form fields and then be given to the Identity Provider as part of the metadata, so that requests coming from fylr are accepted. It is in addition to fylr's https certificate and not to be confused with that.
 
 ### Generate Certificate
 
-This can be done whereever openssl is installed as a command line utility.
+This can be done where ever openssl is installed as a command line utility.
 
 ```bash
 openssl genrsa -out private.key 1024
@@ -38,11 +38,15 @@ Now you can view the contents of the files `private.key` and `publickey.cer` and
 ### Base Config
 
 * As **URL** add [https://samltest.id/saml/idp](https://samltest.id/saml/idp) (this is the Identity Provider).
-* We recommend to check **Log Steps**. This will write log events to debug SAML connections. In case of an error, the connection attempt is always logged.
+* We recommend to set the checkmark at **Log Steps**. This will write log events to debug SAML connections. In case of an error, the connection attempt is always logged.
 * In **User Mapping** define how the SAML user is created in fylr. Upon each login the SAML users are mapped to fylr users. If an user already exists, an update is performed. Working with samltest.id:
-  * Target: Reference: `%(urn:oasis:names:tc:SAML:attribute:subject-id)s`
-  * Target: Display Name: `%(displayName)s`
-  * Target: Email: `%(mail)s`
+  * Target: **Reference**: `%(urn:oasis:names:tc:SAML:attribute:subject-id)s`
+    * By default, **Reference** is used to determine whether a user already exists in fylr or whether to create a new one; when a SAML user logs in. You may think of it as the unique ID. This default can be changed in the field **Benutzer-Update** (User Update), to e.g. use Email as the unique ID instead.
+  * Target: **Display Name**: `%(displayName)s`
+  * Target: **Email**: `%(mail)s`
+    * <mark style="color:orange;">Note that email addresses in fylr have to be unique. The same email address cannot be used by two fylr users in any circumstances. fylr will not allow the email address to be saved a second time, preventing the login via SAML, if the email address is already present in fylr.</mark>
+  * Target: **Login**: This can be used to determine the username during login, as in: The pair of username and Password used to log in. (Not used in the example with samltest.id)
+* **Benutzer-Update** (User Update): Set the attribute which is used to determine whether the SAML user (logging in) already has a matching user in fylr. If it has a matching user, that user is logged in (and attributes may get overwritten with the current values in SAML). If it has no matching user in fylr yet, a new user is being created. By default, the used attribute is (whatever you configured to appear in...) **Reference**. But you can choose the attributes **Email** or **Login**, instead.&#x20;
 
 ### Upload Metadata
 
