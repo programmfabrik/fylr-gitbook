@@ -148,6 +148,8 @@ fylr:
           prog: ffmpegthumbnailer
         node:
           prog: node
+        dot:
+          prog: dot
         python3:
           prog: python3
         xsltproc:
@@ -179,6 +181,8 @@ fylr:
         pdf2pages:
           waitgroup: slow
         iiif:
+          waitgroup: fast
+        dot:
           waitgroup: fast
         metadata:
           waitgroup: fast
