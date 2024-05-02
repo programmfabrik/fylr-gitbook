@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2024-04-02 09:24:09 (UTC)
+    * timestamp: 2024-05-02 13:04:15 (UTC)
 -->
 
 # Plugin Overview
@@ -139,7 +139,7 @@ This custom data type allows you to reference entities of the IUCN (Internationa
 
 * Repository: [https://github.com/programmfabrik/easydb-custom-data-type-iucn](https://github.com/programmfabrik/easydb-custom-data-type-iucn)
 * This is a custom data type.
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `custom-data-type-link`
@@ -148,7 +148,7 @@ This custom data type allows you to store web links in the database which can ha
 
 * Repository: [https://github.com/programmfabrik/easydb-custom-data-type-link](https://github.com/programmfabrik/easydb-custom-data-type-link)
 * This is a custom data type.
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `custom-data-type-location`
@@ -157,7 +157,7 @@ This custom data type allows you to store gps coordinates in the database and sh
 
 * Repository: [https://github.com/programmfabrik/easydb-custom-data-type-location](https://github.com/programmfabrik/easydb-custom-data-type-location)
 * This is a custom data type.
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `custom-data-type-nomisma`
@@ -174,6 +174,23 @@ This custom data type allows you to reference entities of the [Nationalarchives 
 
 * Repository: [https://github.com/programmfabrik/easydb-custom-data-type-tnadiscovery](https://github.com/programmfabrik/easydb-custom-data-type-tnadiscovery)
 * This is a custom data type.
+
+
+## `custom-data-type-ubhdgnd`
+
+This custom data type allows you to reference entities of the [Integrated Authority File (GND)](https://d-nb.info/standards/elementset/gnd).
+
+* Repository: [https://gitlab.ub.uni-heidelberg.de/fdm/easydb-custom-data-type-ubhdgnd](https://gitlab.ub.uni-heidelberg.de/fdm/easydb-custom-data-type-ubhdgnd)
+* This is a custom data type.
+
+
+## `custom-data-type-zotero`
+
+This custom data type allows you to integrate externally managed [Zotero](https://zotero.org) bibliographies.
+
+* Repository: [https://github.com/ssciwr/easydb-custom-data-type-zotero](https://github.com/ssciwr/easydb-custom-data-type-zotero)
+* This is a custom data type.
+* This plugin was developed by Scientific Software Center, Heidelberg University.
 
 
 ## `custom-vzg-validationhub`
@@ -196,7 +213,7 @@ Adds the Connection feature which enables you to include other flyr installation
 
 * Repository: [https://github.com/programmfabrik/easydb-connector-plugin](https://github.com/programmfabrik/easydb-connector-plugin)
 * See also: [https://docs.fylr.io/for-users/plugins/connector](https://docs.fylr.io/for-users/plugins/connector)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `easydb-drupal-plugin`
@@ -204,7 +221,7 @@ Adds the Connection feature which enables you to include other flyr installation
 Add your [Drupal](https://www.drupal.org/) page to fylr and send selected files to Drupal.
 
 * Repository: [https://github.com/programmfabrik/easydb-drupal-plugin](https://github.com/programmfabrik/easydb-drupal-plugin)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `easydb-easydb4migration-plugin`
@@ -212,7 +229,7 @@ Add your [Drupal](https://www.drupal.org/) page to fylr and send selected files 
 Adds a tool to migrate from easydb4 to easydb5 or fylr to the main menu.
 
 * Repository: [https://github.com/programmfabrik/easydb-easydb4migration-plugin](https://github.com/programmfabrik/easydb-easydb4migration-plugin)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `easydb-plugin-zooniverse-import`
@@ -221,7 +238,7 @@ Plugin to parse CSV exports from [Zooniverse](https://www.zooniverse.org/) and u
 
 * Repository: [https://github.com/programmfabrik/easydb-plugin-zooniverse-import](https://github.com/programmfabrik/easydb-plugin-zooniverse-import)
 * See also: [https://docs.fylr.io/for-users/plugins/zooniverse](https://docs.fylr.io/for-users/plugins/zooniverse)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `easydb-presentation-pptx-plugin`
@@ -229,7 +246,7 @@ Plugin to parse CSV exports from [Zooniverse](https://www.zooniverse.org/) and u
 Enables you to turn collections into presentations that can be exported as PPTX.
 
 * Repository: [https://github.com/programmfabrik/easydb-presentation-pptx-plugin](https://github.com/programmfabrik/easydb-presentation-pptx-plugin)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `easydb-typo3-plugin`
@@ -237,7 +254,7 @@ Enables you to turn collections into presentations that can be exported as PPTX.
 Integrate fylr in your [TYPO3](https://typo3.org/) to access files stored in fylr from within your TYPO3. The plugin consists of two parts and needs to be installed in fylr and in TYPO3.
 
 * Repository: [https://github.com/programmfabrik/easydb-typo3-plugin](https://github.com/programmfabrik/easydb-typo3-plugin)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `easydb-wordpress-plugin`
@@ -245,7 +262,7 @@ Integrate fylr in your [TYPO3](https://typo3.org/) to access files stored in fyl
 Add your [Wordpress](https://wordpress.com/) page to fylr and send selected files to Wordpress.
 
 * Repository: [https://github.com/programmfabrik/easydb-wordpress-plugin](https://github.com/programmfabrik/easydb-wordpress-plugin)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `editor-field-visibility`
@@ -253,7 +270,7 @@ Add your [Wordpress](https://wordpress.com/) page to fylr and send selected file
 This custom mask splitter allows you to hide input fields depending on another fields value.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-editor-field-visibility](https://github.com/programmfabrik/fylr-plugin-editor-field-visibility)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `find-duplicate-field-values`
@@ -261,15 +278,7 @@ This custom mask splitter allows you to hide input fields depending on another f
 Mask splitter that is configured for a text field. It shows in the editor whether the field has had the same value in the user's visibility range before.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values](https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values)
-* This plugin was developed by Programmfabrik GmbH
-
-
-## `fylr_example`
-
-This plugin contains a lot of examples for developers. It has no productive use.
-
-* Repository: [https://github.com/programmfabrik/fylr-plugin-example](https://github.com/programmfabrik/fylr-plugin-example)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `fylr-ejc-plugin`
@@ -278,7 +287,15 @@ Plugin to store settings of the Attention developed fylr Java classes.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-ejc](https://github.com/programmfabrik/fylr-plugin-ejc)
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-ejc-plugin.zip](https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-ejc-plugin.zip)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
+
+
+## `fylr-plugin-example`
+
+This plugin contains a lot of examples for developers. It has no productive use.
+
+* Repository: [https://github.com/programmfabrik/fylr-plugin-example](https://github.com/programmfabrik/fylr-plugin-example)
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `fylr-plugin-formula-columns`
@@ -287,7 +304,7 @@ This plugin allows you to set or change the values in fields using small Javascr
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-formula-columns](https://github.com/programmfabrik/fylr-plugin-formula-columns)
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/latest/download/fylr-plugin-formula-columns.zip](https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/latest/download/fylr-plugin-formula-columns.zip)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `fylr-plugin-sequence`
@@ -296,7 +313,7 @@ This plugin allows you to automatically generate a string based on sequential nu
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-sequence](https://github.com/programmfabrik/fylr-plugin-sequence)
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-sequence/releases/latest/download/fylr-plugin-sequence.zip](https://github.com/programmfabrik/fylr-plugin-sequence/releases/latest/download/fylr-plugin-sequence.zip)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `geo-json`
@@ -304,7 +321,7 @@ This plugin allows you to automatically generate a string based on sequential nu
 Adds support for the `geo-json` custom data type with an editor that allows for easy and intuitive manipulation of this format in fylr. Additionally, it includes the map search view and geolocation search functions.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-geo-json](https://github.com/programmfabrik/fylr-plugin-geo-json)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `monitoring-endpoint`
@@ -312,7 +329,7 @@ Adds support for the `geo-json` custom data type with an editor that allows for 
 Custom monitoring-endpoint for fylr-API. The plugin provides a new API endpoint under `GET /api/v1/plugin/base/monitoring/monitoring`.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-monitoring](https://github.com/programmfabrik/fylr-plugin-monitoring)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `server-pdf`
@@ -321,4 +338,4 @@ This plugin allows the conversion of HTML to PDF, using an internal Chromium bin
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-server-pdf](https://github.com/programmfabrik/fylr-plugin-server-pdf)
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/server-pdf.zip)
-* This plugin was developed by Programmfabrik GmbH
+* This plugin was developed by Programmfabrik GmbH.
