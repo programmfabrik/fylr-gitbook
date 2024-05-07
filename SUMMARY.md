@@ -45,6 +45,7 @@
 ## FOR USERS
 
 * [Coming Soon](for-users/coming-soon.md)
+* [Getting Started](for-users/getting-started.md)
 * [Quick Access](for-users/quick-access/README.md)
   * [Collections (& Presentations)](for-users/quick-access/collections-and-presentations.md)
   * [Saved Searches (& Lists)](for-users/quick-access/saved-searches-and-lists.md)
