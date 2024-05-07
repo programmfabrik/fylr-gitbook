@@ -42,13 +42,19 @@ Then use the fulltext search to search for words, numbers or phrases. Enter one 
 
 Use the expert search to search for terms in specific fields or for technical data, such as filetype or file size. And as long as there are records in the search result, you can use the filter to narrow down the search.
 
-Change layout & Sorting
-
-Selecting
 
 
+## Search Result
 
-### View & Download
+fylr offers different search result views like "Standard" (focusses on the preview images), "Text" (focusses on the metadata) and "Table" (displays the results as a table). Each view has multiple options, like the preview size, the layout or how many results per page should be displayed.
+
+By default, the newest records are shown on top. Each user can change the sorting and display the results in their preferred order. fylr supports up to 3 sorting criteria and also the sorting of technical information, like file size or file type.
+
+If you want to perform something on multiple records, like downloading them or editing them, you can select records using the lasso (left click + hold + move the mouse) or by left clicking on the records while holding CMD (Mac) or CTRL (Windows).
+
+
+
+## View & Download
 
 After finding the records you were looking for, click on one to reveal its details in the right panel.&#x20;
 
@@ -60,7 +66,7 @@ If you have the necessary permissions, you can easily download the file by click
 
 
 
-### Export
+## Export
 
 Depending on your permissions, records can be exported as CSV, XML and JSON. Simply right click on a record or use the menu in the detail view and click on "Export". You can also select multiple records in the search and export them altogether. Exports can be scheduled and are then executed automatically (and send via email or to a FTP server).
 
@@ -68,15 +74,17 @@ You can access, modify and download all your exports in the user menu located at
 
 
 
-### Edit
+## Edit
 
 When viewing the detail of a record, switch to the edit view if you wish to make changes or click on "Edit Record" in the context menu of the search. Here, you can update the metadata or change the file(s) if you have the necessary permissions. Each saving will create a new version of the record which can be accessed in the change history.
 
 
 
-### Upload
-
 To add new files to fylr or create new records, click on the big plus button on the top of the main menu (if you have the necessary permissions). Drag & drop or choose the files you want to upload on the left. On the right, choose the correct object type for your records and the pool you want to create them in. If you want to extract IPTC/XMP/EXIF metadata from your files, choose the appropriate metadata mapping profile (if configured). Depending on the data model, fylr can also detect versions (same filename but different filetypes) and series (same filename with an index number) and can create a single record with all files instead of a record for each file.&#x20;
+
+
+
+## Upload
 
 Once the files have been uploaded you can navigate to the next screen and enter the metadata. Everything you enter on the template record will be written into each record that is shown below. To change/modify data for specific records, simply click on the record in the list on the left. You can also open a preview of the file on the right to zoom in. Fill out at least all mandatory fields.
 
@@ -84,7 +92,7 @@ When you're done, click "Save" in the lower right to create the records. These r
 
 
 
-### Sharing
+## Sharing
 
 fylr allows users to share records with others, provided that they have been granted the necessary permissions. To share a file, select the record, and use the share option in the detail view, or create a [collection](quick-access/collections-and-presentations.md#sharing) with multiple records you want to share.
 
