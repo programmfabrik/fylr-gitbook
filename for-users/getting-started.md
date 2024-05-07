@@ -56,7 +56,7 @@ Use the mouse wheel or the "+" and "-" buttons in the preview to zoom images or 
 
 Depending on the setup you can open a map with the located image (the prerequisite is, that the image has the gps coordinates in their metadata).
 
-If you have the appropriate permissions, you can easily download the file by clicking on the "Download" button at the top of the detail view. Choose between the original file or automatically generated previews.&#x20;
+If you have the necessary permissions, you can easily download the file by clicking on the "Download" button at the top of the detail view. Choose between the original file or automatically generated previews.&#x20;
 
 
 
@@ -70,13 +70,13 @@ You can access, modify and download all your exports in the user menu located at
 
 ### Edit
 
-When viewing the detail of a record, switch to the edit view if you wish to make changes or click on "Edit Record" in the context menu of the search. Here, you can update the metadata or change the file(s) if you have the appropriate permissions. Each saving will create a new version of the record which can be accessed in the change history.
+When viewing the detail of a record, switch to the edit view if you wish to make changes or click on "Edit Record" in the context menu of the search. Here, you can update the metadata or change the file(s) if you have the necessary permissions. Each saving will create a new version of the record which can be accessed in the change history.
 
 
 
 ### Upload
 
-To add new files to fylr or create new records, click on the big plus button on the top of the main menu (if you have the appropriate permissions). Drag & drop or choose the files you want to upload on the left. On the right, choose the correct object type for your records and the pool you want to create them in. If you want to extract IPTC/XMP/EXIF metadata from your files, choose the appropriate metadata mapping profile (if configured). Depending on the data model, fylr can also detect versions (same filename but different filetypes) and series (same filename with an index number) and can create a single record with all files instead of a record for each file.&#x20;
+To add new files to fylr or create new records, click on the big plus button on the top of the main menu (if you have the necessary permissions). Drag & drop or choose the files you want to upload on the left. On the right, choose the correct object type for your records and the pool you want to create them in. If you want to extract IPTC/XMP/EXIF metadata from your files, choose the appropriate metadata mapping profile (if configured). Depending on the data model, fylr can also detect versions (same filename but different filetypes) and series (same filename with an index number) and can create a single record with all files instead of a record for each file.&#x20;
 
 Once the files have been uploaded you can navigate to the next screen and enter the metadata. Everything you enter on the template record will be written into each record that is shown below. To change/modify data for specific records, simply click on the record in the list on the left. You can also open a preview of the file on the right to zoom in. Fill out at least all mandatory fields.
 
@@ -86,7 +86,7 @@ When you're done, click "Save" in the lower right to create the records. These r
 
 ### Sharing
 
-fylr allows users to share records with others, provided that they have been granted the necessary permissions. To share a file, select the record, and use the share option within the detail/edit view, which may present you with a link to send to other users or the option to send an invitation directly through fylr.
+fylr allows users to share records with others, provided that they have been granted the necessary permissions. To share a file, select the record, and use the share option in the detail view, or create a [collection](quick-access/collections-and-presentations.md#sharing) with multiple records you want to share.
 
 
 
