@@ -29,6 +29,10 @@ Productive migrations include the complete data, as well as all files. The files
 * For *productive* migrations:
   * [Backup and restoring including user passwords](#backup-and-restoring-including-user-passwords)
   * [Restoring with files (all files are copied)](#restoring-with-files-all-files-are-copied)
+  * [Restoring with and without purge](#restoring-with-and-without-purge)
+    * [Purge, upload datamodel and base configuration](#purge-upload-datamodel-and-base-configuration)
+    * [Purge, upload datamodel but skip upload of base configuration](#purge-upload-datamodel-but-skip-upload-of-base-configuration)
+    * [No purge and skip upload of base configuration](#no-purge-and-skip-upload-of-base-configuration)
 <!--
   * [Full migration](#full-migration)
 -->
@@ -61,14 +65,7 @@ If you want to see files in the target instance during testing, but don't want t
 
 This is done by setting the `--file-api` parameter to `rput_leave`. This means that the files will be "left" in the source instance (instead of copying actual data), and are only referenced by their URL.
 
-<!--
-todo
-
-* werden bei rput_leave versionen berechnet?
-* hat upload-versions irgendeinen einfluss?
-
--->
-
+In combination with the parameter [`--upload-versions`](restore.md#--upload-versions), also all file versions are referenced from the source instance. This means that no files are copied and no versions are produced. No disk space on the target instance will be used to store files.
 
 ```
 fylr restore \
@@ -80,6 +77,7 @@ fylr restore \
   --client-token-url '<fylr url>/api/oauth2/token' \
   --manifest '<instance folder>/manifest.json' \
   --file-api rput_leave \
+  --upload-versions \
   --purge
 ```
 
@@ -117,15 +115,6 @@ For productive migrations, the full set of records from a source instance is sto
 The [`--limit`](backup.md#limit) parameter can be used to set the upper limit of records that are requested per objecttype. Set a number bigger than `0` to limit the records. By default the limit is `0` which means all records are requested. The limit is applied to all objecttypes.
 
 To only backup a set of objecttypes with the [`--include`](backup.md#include) parameter a regular expression can be passed. Only records where the name of the objecttype matches the regex are requested, other objecttypes are ignored. By default this parameter is an empty string, which means it is ignored.
-
-
-<!--
-todo clarify:
-
-* does --include only apply to objecttypes that are in search?
-
--->
-
 
 `--limit` and `--include` can be combined to control the content and amount of a test backup. For example, if only a maximum of 100 records of objecttypes `asset` and `document` should be included in the backup, the command would look like this:
 
@@ -240,6 +229,30 @@ These terms are comma separated. The complete parameter for this example would b
 ```
 --rename-versions 'video.full_hd:1920p,image.small_obsolete:'
 ```
+
+## Restoring with and without purge
+
+There are multiple scenarios where you either want to purge the target instance at the beginning of the restore process, or you want to purge and setup the target instance manually before restoring. Which of the scenarios is best depends mostly on whether you want to use the base configuration which is part of the backup, or a specific base configuration file, or if you want to setup the instance before and only want to import records. Especially if you have storage locations configured in the base configuration, you should not let the restore tool purge the instance or upload it's own base configuration.
+
+Please note that the datamodel is always uploaded during the restore process, except if `--continue` is used. Since the datamodel and the records are so closely tied together, there is no possibility to use another datamodel instead of the one which was stored during the backup.
+
+### Purge, upload datamodel and base configuration
+
+This is the default behavior if only `--purge` is set. In this case, the target instance is purged and the datamodel, which is referenced in the manifest, is uploaded.
+
+If no other base configuration file is specified by the parameter [`--base-config`](restore.md#--base-config), the base configuration file from the backup (default: `base_config.json`) is used. You can use this parameter to specify a path to another base configuration file.
+
+### Purge, upload datamodel but skip upload of base configuration
+
+If you don't want to upload a base configuration at all and use the default base configuration of fylr, set `--base-config=-`.
+
+With this specific value, the upload of the base configuration is skipped.
+
+### No purge and skip upload of base configuration
+
+If neither `--purge` or `--continue` are set, the target instance is not purged. The restore starts with the first payload from the manifest. Still, the datamodel is uploaded and committed, and the base configuration is uploaded.
+
+If the target has been purged manually before, and the base configuration has been changed on the instance, use `--base-config=-` to not upload any base configuration.
 
 
 <!-- ## Full migration -->
