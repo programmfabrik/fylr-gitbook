@@ -65,7 +65,7 @@ If you want to see files in the target instance during testing, but don't want t
 
 This is done by setting the `--file-api` parameter to `rput_leave`. This means that the files will be "left" in the source instance (instead of copying actual data), and are only referenced by their URL.
 
-In combination with the parameter [`--upload-versions`](restore.md#--upload-versions), also all file versions are referenced from the source instance. This means that no files are copied and no versions are produced. No disk space on the target instance will be used to store files.
+In combination with the parameter [`--upload-versions`](restore.md#upload-versions), also all file versions are referenced from the source instance. This means that no files are copied and no versions are produced. No disk space on the target instance will be used to store files.
 
 ```
 fylr restore \
@@ -240,7 +240,7 @@ Please note that the datamodel is always uploaded during the restore process, ex
 
 This is the default behavior if only `--purge` is set. In this case, the target instance is purged and the datamodel, which is referenced in the manifest, is uploaded.
 
-If no other base configuration file is specified by the parameter [`--base-config`](restore.md#--base-config), the base configuration file from the backup (default: `base_config.json`) is used. You can use this parameter to specify a path to another base configuration file.
+If no other base configuration file is specified by the parameter [`--base-config`](restore.md#base-config), the base configuration file from the backup (default: `base_config.json`) is used. You can use this parameter to specify a path to another base configuration file.
 
 ### Purge, upload datamodel but skip upload of base configuration
 
