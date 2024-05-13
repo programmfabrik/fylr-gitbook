@@ -46,6 +46,7 @@ Flags:
       --size=100                   Size of .json files.
       --compression=0              0: no compression, 1: speed, 9: best. Only valid for default backupformat.
       --continue                   Set to true, to continue. Only valid for default backupformat.
+      --purge                      Set to true, to delete the target directory and all files before the backup.
       --all-versions               Set to true, to request all versions of an object.
       --include=STRING             Filter regexp to include objecttypes.
       --retry-max-count=10         Number of retries for failed requests with network problems.
@@ -59,7 +60,6 @@ Flags:
   -v, --verbose                    Set to true, to show additional info.
   -n, --log-network                Set to true, to log all network traffic.
       --log=STRING                 Set output to logfile
-      --purge                      Set to true, to purge the target and copy the datamodel. The current password of the user used for the login will be set for the system root user.
       --limit=INT                  Limit records. Set to 0 for unlimited.
       --chunk=100                  chunk size for fetching/pushing data.
 ```
@@ -69,7 +69,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=0
-timestamp: 2024-04-26 11:14:40 (UTC)
+timestamp: 2024-05-13 09:02:21 (UTC)
 
 -->
 
@@ -114,7 +114,7 @@ Defines the mode of the backup (purge or continue)
 If this is `true`, the complete backup starts from the beginning, and an existing backup folder with the same name is purged.
 
 {% hint style="warning" %}
-The parameters `--purge` and `--continue` are mutually exclusive. Not both can be `true`. Either exactly one is `true`, or both must be `false`.
+The parameters `--purge` and `--continue` are mutually exclusive. Not both can be `true`.
 
 If the target folder already exists, this parameter (or `--continue`) must be set, otherwise the backup will fail.
 {% endhint %}
@@ -130,7 +130,7 @@ Defines the mode of the backup (purge or continue)
 If this is `true`, the backup continues from the last point in the `manifest.json` file, if a previous backup run was interrupted.
 
 {% hint style="warning" %}
-The parameters `--purge` and `--continue` are mutually exclusive. Not both can be `true`. Either exactly one is `true`, or both must be `false`.
+The parameters `--purge` and `--continue` are mutually exclusive. Not both can be `true`.
 
 If the target folder already exists, this parameter (or `--purge`) must be set, otherwise the backup will fail.
 {% endhint %}

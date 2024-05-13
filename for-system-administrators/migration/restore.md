@@ -45,30 +45,28 @@ Flags:
   -h, --help                                   Show context-sensitive help.
 
       --manifest=STRING                        Path to manifest.json.
-      --base-config=STRING                     Base config to upload to the target. Only supported with --purge. By default the base config from the backup is uploaded. Use "-" to not upload
-                                               a base config.
+      --base-config=STRING                     Base config to upload to the target. By default the base config from the backup is uploaded. Use "-" to not upload a base config.
       --continue                               Set to true, to continue restoring payloads from progress.json.
+      --purge                                  Set to true, to purge the target instance. The datamodel and the base configuration are uploaded. The current password of the user used for the login will
+                                               be set for the system root user.
       --upload-ignore-files-with-errors        Set to true, to ignore file upload errors and strip objects from them.
       --max-parallel-upload-files=4            Max number of parallel original file + its versions uploads. Defaults to 4 (0 for bulk), max is 10 (unlimited for bulk).
       --timeout-min=10                         Timeout for connections to target (minutes).
       --include-password                       Include password in user restore.
       --skip-constraints                       Skip constraints during restore.
-      --file-api=STRING                        API used to upload files. Leave empty to not upload files. "put": restore tool uploads files synchronous. "rput": target server loads files
-                                               from remote URLs. "rput_leave": target server stores remote URLs, no data is copied to storage. "rput" and "rput_leave" are faster, "put" might
-                                               take long.
-      --file-api-access-token=STRING           Use this to pass an access token to fylr backends. This is needed to load files from fylr source instances. It appends the "access_token" query
-                                               parameter to the remote url of files, and removes the "x-fylr-signature" query parameter.
+      --file-api=STRING                        API used to upload files. Leave empty to not upload files. "put": restore tool uploads files synchronous. "rput": target server loads files from remote
+                                               URLs. "rput_leave": target server stores remote URLs, no data is copied to storage. "rput" and "rput_leave" are faster, "put" might take long.
+      --file-api-access-token=STRING           Use this to pass an access token to fylr backends. This is needed to load files from fylr source instances. It appends the "access_token" query parameter
+                                               to the remote url of files, and removes the "x-fylr-signature" query parameter.
       --file-version=STRING                    Set to version to use for upload. "original" might take long for "put". Use "preview" for test runs.
-      --upload-versions                        Set to true, to not produce local preview versions, but instead upload the source versions. The upload method is used for versions the same way
-                                               as for the original.
+      --upload-versions                        Set to true, to not produce local preview versions, but instead upload the source versions. The upload method is used for versions the same way as for the
+                                               original.
       --rename-versions=RENAME-VERSIONS,...    Rename versions before uploading. This affects uploaded rights as well as file versions. The versions need to be given in the notation
-                                               "<cls>.<version>:<new version>", e.g. "image.preview:640px" would replace the "preview" version of image to "640px". If the "<new version>" is
-                                               omitted, the version is removed.
+                                               "<cls>.<version>:<new version>", e.g. "image.preview:640px" would replace the "preview" version of image to "640px". If the "<new version>" is omitted,
+                                               the version is removed.
   -v, --verbose                                Set to true, to show additional info.
   -n, --log-network                            Set to true, to log all network traffic.
       --log=STRING                             Set output to logfile
-      --purge                                  Set to true, to purge the target and copy the datamodel. The current password of the user used for the login will be set for the system root
-                                               user.
       --limit=INT                              Limit records. Set to 0 for unlimited.
       --chunk=100                              chunk size for fetching/pushing data.
       --server=STRING                          Source url (overwrites URL of source instance from config)
@@ -84,7 +82,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=1408589219
-timestamp: 2024-04-26 11:14:40 (UTC)
+timestamp: 2024-05-13 09:02:21 (UTC)
 
 -->
 
@@ -125,10 +123,17 @@ Password of the user in the target instance.
 ### `--purge`
 
 Defines the mode of the restoring (purge or continue)
+
 If this is `true`, the complete restore starts from the beginning, and the target instance is purged.
 
+{% hint style="info" %}
+After the target was purged, the datamodel and the base configuration is uploaded.
+
+If neither `--purge` or `--continue` are set, the target is not purged, but the datamodel and base configuration is uploaded.
+{% endhint %}
+
 {% hint style="warning" %}
-The parameters `--purge` and `--continue` are mutually exclusive. Not both can be `true`. Either exactly one is `true`, or both must be `false`.
+The parameters `--purge` and `--continue` are mutually exclusive. Not both can be `true`.
 {% endhint %}
 
 * type: `bool`
@@ -138,10 +143,11 @@ The parameters `--purge` and `--continue` are mutually exclusive. Not both can b
 ### `--continue`
 
 Defines the mode of the restoring (purge or continue)
+
 If this is `true`, the restore continues from the last point in the `progress.json` file, if a previous restore run was interrupted.
 
 {% hint style="warning" %}
-The parameters `--purge` and `--continue` are mutually exclusive. Not both can be `true`. Either exactly one is `true`, or both must be `false`.
+The parameters `--purge` and `--continue` are mutually exclusive.
 {% endhint %}
 
 * type: `bool`
@@ -151,6 +157,10 @@ The parameters `--purge` and `--continue` are mutually exclusive. Not both can b
 ### `--base-config`
 
 Path to a specific base config file. Defaults to `<instance folder>/base_config.json` from the backup.
+
+{% hint style="info" %}
+To not upload a base configuration to the target instance, specify `--base-config=-`
+{% endhint %}
 
 * type: `string`
 * default: `base_config.json`
