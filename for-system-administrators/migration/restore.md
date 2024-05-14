@@ -82,7 +82,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=1408589219
-timestamp: 2024-05-13 09:02:21 (UTC)
+timestamp: 2024-05-14 08:20:30 (UTC)
 
 -->
 
@@ -179,7 +179,9 @@ Skip constraints during restore.
 Include user password hashes. If this option is `true`, the restore tool checks if there is at least one user where a password hash is present. This is done by checking the `has_passwords` flag in the `manifest.json`. If this value is `false`, the restore will stop with an error.
 
 {% hint style="warning" %}
-Make sure that the source instance is configured to output the user passwords, and repeat the backup. See [https://docs.easydb.de/en/sysadmin/configuration/easydb-server.yml/available-variables/](https://docs.easydb.de/en/sysadmin/configuration/easydb-server.yml/available-variables/) under `include_passwords` for the settings in an easydb5 source instance.
+If the source is an **easydb5**: make sure that the source instance is configured to output the user passwords, and repeat the backup. See [https://docs.easydb.de/en/sysadmin/configuration/easydb-server.yml/available-variables/](https://docs.easydb.de/en/sysadmin/configuration/easydb-server.yml/available-variables/) under `include_passwords` for the necessary settings in the source instance.
+
+For a **fylr** source instance this is not necessary, since the password hashes are always returned over the API.
 {% endhint %}
 
 * type: `bool`
