@@ -26,35 +26,36 @@ See also: [Backup Parameters](backup.md#parameters)
 #### Name of backup
 
 * choose a name to identify the backup
-* this sets `--dir example/`
+* This sets `--dir example/`
 
 #### URL of server
 
 * URL of the source server **without** API base endpoint
-* this sets `--server 'http://example.fylr.xyz/api/v1/'`
+* This sets `--server 'http://example.fylr.xyz/api/v1/'`
 
 #### Login
 
 * Username in the source instance
-* this sets `--login root`
+* This sets `--login root`
 
 #### Password
 
 * Password in the source instance
-* this sets `--password '12345'`
+* This sets `--password '12345'`
 
 #### Backup chunk size
 
 * Select the batch size for GET requests
 * Choose between: `100`, `500`, `100`, `1000`, `5000`, `10000`
   * For **easydb5** source instances, choose a **maximum of `1000`!**
-* this sets `--chunk 500`
+* This sets `--chunk 500`
 
 #### Include object history
 
 * If set, the backup will include all versions of an object
 * With this option, the full changelog of an object will be available after restore
-* this sets `--all-versions`
+* This option is enabled by default
+* This sets `--all-versions true`
 
 #### OAuth2
 
@@ -63,11 +64,11 @@ See also: [Backup Parameters](backup.md#parameters)
 * this enables the following options:
   * *OAuth2 Client Id*
     * Client Id of the source instance
-    * this sets `--client-id fylr-web-frontend`
+    * This sets `--client-id fylr-web-frontend`
   * *OAuth2 Client Secret*
     * Client Secret of the source instance
     * Leave empty if the source instance is public
-    * this sets `--client-secret foo`
+    * This sets `--client-secret foo`
 
 ### Fixed parameters
 
@@ -102,22 +103,22 @@ See also: [Restore Parameters](restore.md#parameters)
 #### Backup
 
 * Select one of the backups
-* this sets `--manifest 'example/manifest.json'`
+* This sets `--manifest 'example/manifest.json'`
 
 #### URL
 
 * URL of the target server **without** API base endpoint
-* this sets `--server 'http://target.fylr.xyz/api/v1/'`
+* This sets `--server 'http://target.fylr.xyz/api/v1/'`
 
 #### Login
 
 * Username in the target instance
-* this sets `--login root`
+* This sets `--login root`
 
 #### Password
 
 * Password in the target instance
-* this sets `--password '12345'`
+* This sets `--password '12345'`
 
 #### File Mode
 
@@ -127,7 +128,7 @@ See also: [Restore Parameters](restore.md#parameters)
   * *Use files from source - `rput_leave`*
     * The target server stores remote URLs, no data is copied to storage
     * Use `rput_leave` to not copy files to the restored instance if you want to only test a migration quickly
-* this sets `--file-api rput`
+* This sets `--file-api rput`
 
 #### File Version
 
@@ -136,13 +137,13 @@ See also: [Restore Parameters](restore.md#parameters)
   * *preview*
   * and other version names (depend on configurations)
 * If you are not using `rput_leave` use a small version like `preview` to save disk space and process more quickly
-* this sets `--file-version original`
+* This sets `--file-version original`
 
 #### Copy file preview versions
 
 * Enable this checkbox to not produce local preview versions, but instead copy the source versions (via `put` or `rput`)
 * If you are using `rput_leave`, the source version is linked as URL
-* this sets `--upload-versions`
+* This sets `--upload-versions`
 
 #### Access Token for file URLs
 
@@ -162,13 +163,13 @@ This sets `--file-api-access-token <token>`
 
 * Select the batch size for POST requests
 * Choose between: `100`, `500`, `100`, `1000`, `5000`, `10000`
-* this sets `--chunk 500`
+* This sets `--chunk 500`
 
 #### Include Password
 
 * Enable this checkbox to include user password hashes
 * If this option is `true`, the restore tool checks if there is at least one user where a password hash is present
-* this sets `--include-password`
+* This sets `--include-password`
 
 #### OAuth2
 
@@ -177,11 +178,11 @@ This sets `--file-api-access-token <token>`
 * this enables the following options:
 * *OAuth2 Client Id*
   * Client Id of the target instance
-  * this sets `--client-id web-client`
+  * This sets `--client-id web-client`
 * *OAuth2 Client Secret*
   * Client Secret of the target instance
   * Leave empty if the target instance is public
-  * this sets `--client-secret foo`
+  * This sets `--client-secret foo`
 
 #### Continue Restore Process
 
