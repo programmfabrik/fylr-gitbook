@@ -184,17 +184,25 @@ This sets `--file-api-access-token <token>`
   * Leave empty if the target instance is public
   * This sets `--client-secret foo`
 
-#### Continue Restore Process
+#### Purge or Continue
 
 {% hint style="info" %}
-This is available in fylr from version **v6.10.0**.
+This is available in fylr from version **v6.10.2**.
 {% endhint %}
 
-Continue the previous restore process of this backup, if one has been started before and did not finish. The restore process will continue based on the progress file that has been written during the previous restore.
+* **Purge**
+  * The target instance is purged and a new restore process is started
+  * This uploads the base config and the data model
+  * This sets `--purge`
+* **Continue**
+  * A previous restore process of this backup is continued
+  * This sets `--continue`
+* **No Purge**
+  * Does not purge the target instance but uploads the data model
+  * Use this after manually purging the target and manually uploading or adjust the base config settings
+  * This sets neither `--purge` nor `--continue`, but `--base-config=-`
 
-If this checkbox is disabled, the target instance will be purged and a complete new restore process is started.
-
-This checkbox either sets the parameters `--purge` (if disabled) or `--continue` (if enabled).
+See also: [Best Practice > Restoring with and without purge](best-practice.md#restoring-with-and-without-purge)
 
 ### Fixed parameters
 
