@@ -25,10 +25,10 @@ Since the frontend loads the JSON files as a client, it is possible that the bro
 
 **Mixed Content Blocking** is implemented in many browsers and is a security feature:
 
-* Google Chrome: https://blog.chromium.org/2019/10/no-more-mixed-messages-about-https.html
-* Mozilla Firefox: https://support.mozilla.org/en-US/kb/mixed-content-blocking-firefox
-* Microsoft Edge: https://docs.microsoft.com/en-us/deployedge/edge-learnmore-mixed-content-downloads
-* might also be implemented in other browsers in some way
+* Google Chrome: ["No More Mixed Messages About HTTPS"](https://blog.chromium.org/2019/10/no-more-mixed-messages-about-https.html)
+* Mozilla Firefox: ["Mixed content blocking in Firefox"](https://support.mozilla.org/en-US/kb/mixed-content-blocking-firefox)
+* Microsoft Edge: ["Learn how Microsoft Edge handles mixed content downloads"](https://docs.microsoft.com/en-us/deployedge/edge-learnmore-mixed-content-downloads)
+* this might also be implemented in other browsers in some way
 
 If the manifest and the payload files can not be loaded, check the developer tab of your browser and look for an error message that looks like any of these (there my be variations):
 
@@ -54,8 +54,8 @@ If this is the case, your browser blocks the request. Depending on the browser, 
 
 For different browsers, there are plugins available which allow to disable Mixed Content Blocking, for example:
 
-* Google Chrome: https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en
-* Mozilla Firefox: https://addons.mozilla.org/en-US/firefox/addon/cors-everywhere/
+* Google Chrome: ["Allow CORS: Access-Control-Allow-Origin"](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en)
+* Mozilla Firefox: ["CORS Everywhere"](https://addons.mozilla.org/en-US/firefox/addon/cors-everywhere/)
 
 With many of the available plugins it is possible to toggle Mixed Content Blocking. Please check the availability of plugins for your browser.
 
