@@ -73,6 +73,8 @@
       * [Lists](for-administrators/tools/csv-importer/examples/lists.md)
       * [Hierarchies](for-administrators/tools/csv-importer/examples/hierarchies.md)
       * [Files](for-administrators/tools/csv-importer/examples/files.md)
+  * [JSON Importer](for-administrators/tools/json-importer/README.md)
+    * [Step-by-Step Tutorial](for-administrators/tools/json-importer/examples/README.md)
   * [Permissions Download & Upload](for-administrators/tools/permissions-download-and-upload.md)
 * [Base Configuration](for-administrators/readme/README.md)
   * [General](for-administrators/readme/general.md)
