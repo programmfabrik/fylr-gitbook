@@ -1190,10 +1190,10 @@ After all payloads have been created and the filenames have been added to the pa
 
 ### Import process
 
-In the frontend, open the [JSON Importer](../../README.md#json-importer). Enter the URL of the manifest, and click "Load". The Importer will list all Payloads, and preselect some settings that were saved in the manifest.
+In the frontend, open the [JSON Importer](../..#json-importer). Enter the URL of the manifest, and click "Load". The Importer will list all Payloads, and preselect some settings that were saved in the manifest.
 
 {% hint style="info" %}
-If the manifest can not be loaded, check if the browser might be blocking the request. For more information, see: [Handling problems with Mixed Content](../../README.md#handling-problems-with-mixed-content)
+If the manifest can not be loaded, check if the browser might be blocking the request. For more information, see: [Handling problems with Mixed Content](../..#handling-problems-with-mixed-content)
 {% endhint %}
 
 #### Asset Upload

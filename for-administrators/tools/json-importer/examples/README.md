@@ -5,11 +5,11 @@ description: Step by step tutorial on how to generate JSON Payloads
 
 # Using the JSON Importer
 
-This is a step by step tutorial on how to generate JSON Payloads, that can be imported into the easydb using the [JSON importer](../README.md) in the frontend.
+This is a step by step tutorial on how to generate JSON Payloads, that can be imported into **fylr** using the [JSON importer](../README.md) in the frontend.
 
-The importer reads a [manifest](steps/README.md#1-import-manifest) that defines the import and loads a list of payloads. Each payload is stored in a file. Each payload contains tge definition of the API endpoint, and a list if JSON objects that define basetypes or user objects. Mixed types in payloads are not allowed. All payloads are then posted to the API in the order of the payload list.
+The importer reads a [manifest](steps#1-import-manifest) that defines the import and loads a list of payloads. Each payload is stored in a file. Each payload contains tge definition of the API endpoint, and a list if JSON objects that define basetypes or user objects. Mixed types in payloads are not allowed. All payloads are then posted to the API in the order of the payload list.
 
-This tutorial uses an [example datamodel](datamodel/README.md#datamodel-to-download) that covers most (but not necessarily all) aspects of importing payloads.
+This tutorial uses an [example datamodel](datamodel#datamodel-to-download) that covers most (but not necessarily all) aspects of importing payloads.
 
 Here, we will focus on the structure of the payloads. However, the payload files can be generated using any sources and tools that allow the output of valid JSON files. Each source material needs specialized tools to convert the data into payloads.
 
@@ -17,32 +17,42 @@ All steps of the tutorial can be found [here](steps/README.md).
 
 ### Names used in this tutorial
 
-* Basetypes: Basetype objects like tags, users, groups or pools
-* Objects / User objects:
+* *Basetypes*:
+    * Basetype objects like tags, users, groups or pools
+    * These always have the same structure and are not defined in the datamodel
+* *Objects*, *User objects*, *Record*:
     * Objects defined in the datamodel (by the user), that contain the actual data
     * Here, objects means *user objects*, in contrast to *basetype objects*
 
-### The general steps are:
+### The general steps
 
-1. Write the [Import Manifest](steps/README.md#1-import-manifest)
-    * The import manifest is read by the importer and contains information about the payload URI and batch size, and most important, a list of all payload files
-    * The filenames of all payloads that are generated have to be added to the payload list in the order in which they have to be imported
+#### 1. Write the [Import Manifest](steps#1-import-manifest)
 
-2. Create payloads for [basetypes](steps/README.md#2-payloads-for-basetypes)
-    1. [Tags](steps/README.md#tags)
-    2. [Groups](steps/README.md#groups)
-    3. [Users](steps/README.md#users)
-    4. [Pools](steps/README.md#pools)
+* The import manifest is read by the importer and contains information about the payload URI and batch size, and most important, a list of all payload files
+* The filenames of all payloads that are generated have to be added to the payload list in the order in which they have to be imported
 
-3. Create payloads for [user objects](steps/README.md#3-payloads-for-user-objects) (actual easydb objects that contain data)
-    1. [Simple objects](steps/README.md#simple-linked-objects) that are linked in main objects
-    2. [Main objects](steps/README.md#main-objects) that link to simple objects
+#### 2. Create payloads for [basetypes](steps#2-payloads-for-basetypes)
 
-4. [Collections](steps/README.md#collections) and collection objects
+* [Tags](steps#tags)
+* [Groups](steps#groups)
+* [Users](steps#users)
+* [Pools](steps#pools)
 
-5. If necessary, [update imported objects](steps/README.md#5-updating-of-imported-objects) to link to objects that could not be referenced in the first import round.
+#### 3. Create payloads for [user objects](steps#3-payloads-for-user-objects)
 
-6. Load the manifest in the JSON Importer and [start the migration](steps/README.md#6-starting-the-migration)
+These are actual **fylr** objects that contain data
+
+* [Simple objects](steps#simple-linked-objects) that are linked in main objects
+* [Main objects](steps#main-objects) that link to simple objects
+* [Collections](steps#collections) and collection objects
+
+#### 4. Update imported objects (optional)
+
+If necessary, [update imported objects](steps#5-updating-of-imported-objects) to link to objects that could not be referenced in the first import round.
+
+#### 5. Start import process
+
+Load the manifest in the JSON Importer and [start the migration](steps#6-starting-the-migration)
 
 ### Important things to consider
 
@@ -56,7 +66,11 @@ All steps of the tutorial can be found [here](steps/README.md).
 * Masks should not be used for importing, since values might be ignored if they are not enabled in the mask
     * Always use `"_mask": "_all_fields"` so that all fields are imported without any limitations
 
-*Tip*: The easiest way to see how a payload is formatted, is to capture the POST/PUT request that is sent by the frontend when a basetype or object is saved. In a browser, open the developer console and find the network tab to see the requests. Save an object and find the request that is performed. In the body of the post request contains an object JSON represantation, which has exactly the same structure as the objects in the payloads that are used here.
+{% hint style="info" %}
+The easiest way to see how a payload is formatted, is to capture the POST/PUT request that is sent by the frontend when a basetype or object is saved. In a browser, open the developer console and find the network tab to see the requests.
+
+Save an object in the editor in the frontend, and find the request that is performed. The body of the post request contains an object JSON represantation, which has exactly the same structure as the objects in the payloads that are used here.
+{% endhint %}
 
 ### Using lookups instead of IDs
 
