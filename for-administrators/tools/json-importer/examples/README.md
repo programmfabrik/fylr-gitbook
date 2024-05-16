@@ -3,13 +3,17 @@ description: Step by step tutorial on how to generate JSON Payloads
 ---
 
 
-# Using the JSON Importer
+# Step-by-Step Tutorial: Using the JSON Importer
 
 This is a step by step tutorial on how to generate JSON Payloads, that can be imported into **fylr** using the [JSON importer](../README.md) in the frontend.
 
 The importer reads a [manifest](import-manifest.md) that defines the import and loads a list of payloads. Each payload is stored in a file. Each payload contains tge definition of the API endpoint, and a list if JSON objects that define basetypes or user objects. Mixed types in payloads are not allowed. All payloads are then posted to the API in the order of the payload list.
 
-This tutorial uses an [example datamodel](datamodel.md#datamodel-to-download) that covers most (but not necessarily all) aspects of importing payloads.
+This tutorial uses an [example datamodel](datamodel.md) that covers most (but not necessarily all) aspects of importing payloads.
+
+{% hint style="info" %}
+The payload is not part of the import process but needs to be uploaded and comitted before importing any objects.
+{% endhint %}
 
 Here, we will focus on the structure of the payloads. However, the payload files can be generated using any sources and tools that allow the output of valid JSON files. Each source material needs specialized tools to convert the data into payloads.
 

@@ -16,6 +16,7 @@ After all payloads have been created and the filenames have been added to the pa
   "payload_base_uri": "",
   "eas_type": "url",
   "eas_skip_errors": true,
+  "skip_head_request": true,
   "eas_replace_url": "",
   "mapping": null,
   "payloads": [
@@ -67,16 +68,15 @@ and the actual URL `https://images.unsplash.com` would be set in the JSON Import
 
 ## Run import
 
-After all settings are done, click "Prepare" and "Start" to run the migration.
+After all settings are done, click "Prepare". The payloads are loaded into the JSON Importer and are parsed and validated. This might take some time, depending on the size and number of payloads.
+
+After this, click "Start" to run the migration.
 
 ## Result of the migration
 
 If the import of the migration was successful, we expect the following objects in the main search in the frontend:
 
-|                                                                 |                                 |
-| --------------------------------------------------------------- | ------------------------------- |
-| Object `bilder`, with updated link to `objekte` `"987654321"`   | ![](../screenshot_search_4.png) |
-| Object `objekte` with reverse edit link to `bilder` `"bild_01"` | ![](../screenshot_search_3.png) |
-| Object `objekte` with reverse edit link to `bilder` `"bild_02"` | ![](../screenshot_search_2.png) |
-| Object `bilder`, with link to `objekte` `"112233"`              | ![](../screenshot_search.png)   |
-<!-- todo screenshots -->
+* Object `bilder`, with link to `objekte` `"112233"`
+* Object `bilder`, with updated link to `objekte` `"987654321"`
+* Object `objekte` with reverse edit link to `bilder` `"bild_01"`
+* Object `objekte` with reverse edit link to `bilder` `"bild_02"`
