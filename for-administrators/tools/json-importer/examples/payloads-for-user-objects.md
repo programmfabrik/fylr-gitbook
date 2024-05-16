@@ -2,263 +2,15 @@
 
 ---
 
-# Tutorial steps
-
-The following steps show some basic import payloads.
-
-## 1. Import Manifest
-
-Create a file named `manifest.json` with the following content:
-
-```json
-{
-  "source": "Example Migration",
-  "batch_size": 100,
-  "payload_base_uri": "",
-  "eas_type": "url",
-  "eas_skip_errors": true,
-  "eas_replace_url": "",
-  "mapping": null,
-  "payloads": []
-}
-```
-
-This manifest is used to preload the migration data in the JSON Importer. All information in the manifest can also be changed in the frontend, so a manifest file is not needed, but very helpful.
-
-* `source`: A name to identify the migration, can be freely chosen
-* `batch_size`: Maximum number of objects from a payload that are posted in a single request
-  * If the payloads contain more objects, the payloads are uploaded in parts
-  * This value is necessary to control the request size
-  * For complex objects which take a long time to be saved, it is possible that the request might time out. In this case, the batch size needs to be decreased
-  * The internal limit of the server is `1000`
-* `payload_base_uri`:
-  * If the payloads are not stored in the same folder as the manifest (or on another server), this is needed to build absolute paths from the payload file names
-  * This value needs to be the relative path to the payload folder
-* `eas_type`: Preselect the asset upload type in the import dialog:
-  * `direct`: The assets are uploaded using the browser (`put`)
-  * `url`: Remote put: assets are loaded by the EAS using the URL (`rput`)
-  * `ignore`: No assets are imported
-* `skip_head_request`: Skip HEAD request in `rput` in **fylr**
-* `eas_skip_errors`: Ignore file errors
-  * If there are any errors during file upload, the error will not stop the import process
-  * the error will only be logged
-* `eas_replace_url`: optional server url for each file
-  * If you use `http://localhost` in the urls in the payloads, this will be replaced by this server url
-* `mapping`: optional mapping id
-  * If this is an import mapping, during the import this mapping is applied for any matching objecttypes that have file fields
-* `payloads`: List of the filenames of all payloads, in the order they are posted
-
-----
-
-## 2. Payloads for basetypes
-
-Basetype payloads should always be imported first since they are referenced in most user objects. There is no strict order of the basetypes, but you have to consider that they can reference each other. Since circular references between basetypes are possible, importing of second versions of the basetypes might be needed (update migration).
-
-Possible, but not exclusive, references between basetypes:
-
-* Tags:
-    * do not reference other basetypes
-    * can be referenced by all other basetypes by tagfilter based rights management
-    * tags, users, groups as part of the rightsmanagement
-
-* Groups:
-    * tags, users, groups as part of the rightsmanagement
-
-* Users:
-    * can reference groups (as being inside a group)
-    * tags, users, groups as part of the rightsmanagement
-
-* Pools:
-    * hierachical, so pools reference other pools as a parent
-    * tags, users, groups as part of the rightsmanagement
-
-----
-
-### Tags
-
-Tags belong to tag groups. We add a tag "Public Access" to a new tag group "Tag Group 1". To reference this tag later, it will get the reference `"public"`.
-
-The tag group and the tag(s) inside the group are stored in one JSON object. The object is added to the array of the payload:
-
-```json
-{
-  "import_type": "tags",
-  "tags": [
-    {
-      "taggroup": {
-        "displayname": {
-          "en-US": "Tag Group 1"
-        },
-        "reference": "taggroup1",
-        "type": "checkbox"
-      },
-      "_tags": [
-        {
-          "tag": {
-            "displayname": {
-              "en-US": "Public Access"
-            },
-            "displaytype": "facet",
-            "enabled": true,
-            "frontend_prefs": {
-              "webfrontend": {
-                "color": "green",
-                "icon": "fa-eye"
-              }
-            },
-            "is_default": false,
-            "reference": "public",
-            "sticky": false,
-            "type": "individual"
-          }
-        }
-      ]
-    }
-  ]
-}
-```
-
-Save this file as `basetype-tags.json` and add this filename to the payload list in the manifest.
-
-
-----
-
-### Groups
-
-We create a group, to which migrated users will be assigned. Any user who is in this group, will have the right to use the search function in the frontend, and manage collections.
-
-The group will be named "Migrated Users", and it will get the reference `"migrated_users"`.
-
-The group payload is:
-
-```json
-{
-  "import_type": "group",
-  "groups": [
-    {
-      "_basetype": "group",
-      "group": {
-        "_version": 1,
-        "displayname": {
-          "en-US": "Migrated Users"
-        },
-        "reference": "migrated_users"
-      },
-      "_system_rights": {
-        "system.search": {
-          "has_own_collections": true,
-          "show_fixed_searches": false
-        }
-      }
-    }
-  ]
-}
-```
-
-Save this file as `basetype-groups.json` and add this filename to the payload list in the manifest.
-
-
-----
-
-### Users
-
-Add a test user and assign it to the group "Migrated Users".
-
-We name the user "Max Mustermann", with the easydb login `"mustermann"` and the password `"password123"`. The reference of the user will be `"mustermann"`.
-
-To add the new user to the group "Migrated Users", use the lookup `"lookup:_id"` for the group reference `migrated_users`.
-
-The user payload is:
-
-```json
-{
-  "import_type": "user",
-  "users": [
-    {
-      "_basetype": "user",
-      "user": {
-        "type": "easydb",
-        "login": "mustermann",
-        "first_name": "Max",
-        "last_name": "Mustermann",
-        "reference": "mustermann",
-        "_version": 1
-      },
-      "_password": "password123",
-      "_groups": [
-        {
-          "_basetype": "group",
-          "group": {
-            "lookup:_id": {
-              "reference": "migrated_users"
-            }
-          }
-        }
-      ]
-    }
-  ]
-}
-```
-
-Save this file as `basetype-users.json` and add this filename to the payload list in the manifest.
-
-
-----
-
-### Pools
-
-Any empty easydb always contains two system pools:
-
-* "All pools" (reference: `"system:root"`)
-    * "Default pool" (reference: `"system:standard"`) (child of `system:root`)
-
-All pools have to be inserted into this hierarchy. Any new pool needs to have a parent.
-
-For this tutorial, we create a new pool "Migrated Objects" and use "All pools" as the parent pool. To reference it later, set the reference to `"migrated_objects"`.
-
-Instead of setting the parent pool using `"_id_parent": 1`, we have to use the lookup to let the server find the ID of "All pools". The lookup is done by replacing `"_id_parent": 1` with
-
-```json
-"lookup:_id_parent": { "reference": "system:root" }`
-```
-
-Add the pool JSON object to a pool payload. This payload is defined as:
-
-```json
-{
-  "import_type": "pool",
-  "pools": [
-    {
-      "_basetype": "pool",
-      "pool": {
-        "lookup:_id_parent": {
-          "reference": "system:root"
-        },
-        "_version": 1,
-        "reference": "migrated_objects",
-        "name": {
-          "en-US": "Migrated Objects"
-        }
-      }
-    }
-  ]
-}
-```
-
-Save this file as `basetype-pools.json` and add this filename to the payload list in the manifest.
-
-
-----
-
-## 3. Payloads for user objects
+# Payloads for user objects
 
 Here we will create payloads for objects of different objecttypes, as well as linking these objects together using lookups.
 
-### Simple linked objects
+## Simple linked objects
 
 These objects are simple and are not linking other objects.
 
-#### Orte (`orte`)
+### Orte (`orte`)
 
 This objecttype is hierarchic. Each field contains a link (`_id_parent`) to reference its parent. Instead of `_id_parent`, we will use `lookup:_id_parent` instead. The unique field that is used for reference is `name`. Apart from this, there are no other fields in this objecttype.
 
@@ -404,7 +156,7 @@ Save this payload as `userobject-orte-level-2.json` and add the filename to the 
 
 ----
 
-#### Personen (`personen`)
+### Personen (`personen`)
 
 This objecttype is not hierarchical, so all objects can be saved in the same payload:
 
@@ -440,7 +192,7 @@ Save this payload as `userobject-personen.json` and add the filename to the mani
 
 ----
 
-#### Schlagwörter (`schlagwoerter`)
+### Schlagwörter (`schlagwoerter`)
 
 This objecttype is not hierarchical, so all objects can be saved in the same payload:
 
@@ -473,11 +225,11 @@ Save this payload as `userobject-schlagwoerter.json` and add the filename to the
 
 ----
 
-### Main objects
+## Main objects
 
 Here we create the payloads for the more complex main objects (objects that can be found in the main search). These objects can have assets, tags, pools, links to the other simple objects we created before, and have links to eachother.
 
-#### Bilder (`bilder`)
+### Bilder (`bilder`)
 
 This objecttype is used to save images as well as additional information about the time and place the picture was taken, and who was the photographer.
 
@@ -665,7 +417,7 @@ Combined, the entry for the linked objects in the nested table, looks like this:
 ]
 ```
 
-##### Complete Payload
+#### Complete Payload
 
 The complete payload for the bilder object(s) looks like this:
 
@@ -758,7 +510,7 @@ Save this payload as `userobject-bilder-0.json` and add the filename to the mani
 
 ----
 
-#### Objekte (`objekte`)
+### Objekte (`objekte`)
 
 This is the other main object. It has pool management, and can have tags.
 
@@ -797,7 +549,7 @@ This is a date range field, so under the key, there is an object with the start 
 }
 ```
 
-##### Complete Payload
+#### Complete Payload
 
 The complete payload for the bilder object(s) looks like this:
 
@@ -840,7 +592,7 @@ Save this payload as `userobject-objekte-0.json` and add the filename to the man
 
 ----
 
-#### Reverse linking of `bilder` in `objekte`
+### Reverse linking of `bilder` in `objekte`
 
 The objecttype `objekte` contains a reverse editable link to the objecttype `bilder`. This means, in the JSON there is nested table where multiple `bilder` objects can be linked. These linked objects can be edited directly in the `objekte` object which contains them. Escpecially, this means they can be created inline. By adding a `bilder` object inside the reverse linked table in the payload for a new `objekte` object, you can create multiple objects at the same time.
 
@@ -852,7 +604,7 @@ Add the `bilder` object, including the `eas:url` and other fields, directly in t
 
 The `bilder` and `objekte` objects both need a lookup to the pool, and the top level object has a lookup for the tag.
 
-##### Complete Payload
+#### Complete Payload
 
 The complete payload for the bilder object(s) looks like this:
 
@@ -932,301 +684,3 @@ The complete payload for the bilder object(s) looks like this:
 
 Save this payload as `userobject-objekte-1.json` and add the filename to the manifest.
 
-----
-
-## 4. Collections
-
-Objects can be assgigned to new collections after the objects have been migrated. As an example, we create a collection for the Root user, where images of landscapes are stored.
-
-The new collection will get the base user collection for Root with the reference "user:ref:system:root" as its parent:
-
-```json
-"lookup:_id_parent": {
-    "reference": "user:ref:system:root"
-}
-```
-
-It is important to allow adding objects to this collection by setting `"objects_allowed": true`.
-
-The objects inside the collection are referenced in the array `_objects` next to each `collection` object. Each object is referenced by using a lookup for the `_global_object_id`, which requires the objecttype and a field-value-pair.
-
-The objecttype of the collection object is `objekte`, and we want to reference the object where the field `inventarnummer` has the value `112233`:
-
-```json
-{
-  "lookup:_global_object_id": {
-    "_objecttype": "objekte",
-    "inventarnummer": "112233"
-  }
-}
-```
-
-The payload for the collection looks like this:
-
-```json
-{
-  "import_type": "collection",
-  "collections": [
-    {
-      "_basetype": "collection",
-      "collection": {
-        "lookup:_id_parent": {
-          "reference": "user:ref:system:root"
-        },
-        "_version": 1,
-        "reference": "landscapes",
-        "children_allowed": true,
-        "objects_allowed": true,
-        "displayname": {
-          "de-DE": "Landschaften",
-          "en-US": "Landscapes"
-        },
-        "type": "workfolder"
-      },
-      "_objects": [
-        {
-          "lookup:_global_object_id": {
-            "_objecttype": "objekte",
-            "inventarnummer": "112233"
-          }
-        }
-      ]
-    }
-  ]
-}
-```
-
-Save this payload as `basetype-collection-0.json` and add the filename to the manifest.
-
-----
-
-## 5. Updating of imported objects
-
-In some cases, it might be necessary to update objects during the migration process, for example if there are links to objects that did not exist yet at the time of the first import. In this case, it is possible to update existing objects by using lookups for the object ID, and incrementing the object version.
-
-In this example, we want to link the first `bilder` object we created (with the reference "bild_01") to the first `objekte` object with the `inventarnummer` "987654321". For referencing the objects, we can use lookups for the IDs with fields that we know are unique and not empty in the existing objects. The direct link between these objects is from the `bilder` object to the `objekte` object, in contrast to the [reverse nested link](#reverse-linking-of-bilder-in-objekte) in the examples above.
-
-
-{% hint style="info" %}
-Make sure to include all values in the update of the object, that you want to save in the object. Since the server would delete all values that are not set, they need to be inlcuded.
-
-The latest version of any imported object will define all values in the object.
-{% endhint %}
-
-#### Lookup for object ID
-
-To reference the object for the update, instead of specifying the `_id` (which was not inlcuded in the first version), use a lookup for the reference "bild_01", which was set in the first object version:
-
-```json
-"lookup:_id": { "reference": "bild_01" }
-```
-
-#### Incremented version
-
-The version can be specified directly, so you can set `"_version": 2`, if you know that this is the first update. For every update, the version must be exactly one more than the current version. Otherwise, this will cause an error.
-
-If you do not want to keep track of object versions, you can use the JSON Importer feature which will care for setting the correct version: replace `"_version": 2` with
-
-```json
-`"_version:auto_increment": true`.
-```
-
-#### Link to the `objekte` object
-
-From the perspective of the `objekte` object, the reverse nested link has the structure of a nested table, since one `objekte` object can be referenced by multiple `bilder` objects.
-
-On the other hand, any `bilder` object can only have one link to one `objekte` object. So from the perspective of `bilder`, it is a normal link to an `objekte` object. We know that the unique field in the `objekte` object is `inventarnummer`, and the value we specified is "987654321". So the lookup in the link is the following:
-
-```json
-"objekte": {
-  "_objecttype": "objekte",
-  "_mask": "_all_fields",
-  "objekte": {
-    "lookup:_id": {
-      "inventarnummer": "987654321"
-    }
-  }
-}
-```
-
-#### Complete Payload
-
-The complete payload for the bilder object(s) looks like this:
-
-```json
-{
-  "import_type": "db",
-  "objecttype": "bilder",
-  "objects": [
-    {
-      "_mask": "_all_fields",
-      "_objecttype": "bilder",
-      "bilder": {
-        "_pool": {
-          "pool": {
-            "lookup:_id": {
-              "reference": "migrated_objects"
-            }
-          }
-        },
-        "lookup:_id": {
-          "reference": "bild_01"
-        },
-        "reference": "bild_01",
-        "_version:auto_increment": true,
-        "titel": {
-          "de-DE": "Berliner Fernsehturm",
-          "en-US": "Berlin TV Tower"
-        },
-        "aufnahmedatum": {
-          "value": "2020-04-04"
-        },
-        "datei": [
-          {
-            "eas:url": "https://images.unsplash.com/photo-1560930950-5cc20e80e392?w=800&q=80",
-            "eas:filename": "berlin-tv-tower.jpg",
-            "preferred": true
-          }
-        ],
-        "aufnahmeort": {
-          "_mask": "_all_fields",
-          "_objecttype": "orte",
-          "orte": {
-            "lookup:_id": {
-              "name": "Berlin"
-            }
-          }
-        },
-        "_nested:bilder__personen": [
-          {
-            "bemerkung": "Fotograf",
-            "person": {
-              "_mask": "_all_fields",
-              "_objecttype": "personen",
-              "personen": {
-                "lookup:_id": {
-                  "name": "Max Mustermann"
-                }
-              }
-            }
-          }
-        ],
-        "_nested:bilder__schlagwoerter": [
-          {
-            "schlagwort": {
-              "_mask": "_all_fields",
-              "_objecttype": "schlagwoerter",
-              "schlagwoerter": {
-                "lookup:_id": {
-                  "name": "Stadt"
-                }
-              }
-            }
-          },
-          {
-            "schlagwort": {
-              "_mask": "_all_fields",
-              "_objecttype": "schlagwoerter",
-              "schlagwoerter": {
-                "lookup:_id": {
-                  "name": "Panorama"
-                }
-              }
-            }
-          }
-        ],
-        "objekte": {
-          "_objecttype": "objekte",
-          "_mask": "_all_fields",
-          "objekte": {
-            "lookup:_id": {
-              "inventarnummer": "987654321"
-            }
-          }
-        }
-      }
-    }
-  ]
-}
-```
-
-Save this payload as `userobject-bilder-0-version-2.json` and add the filename to the manifest.
-
-----
-
-## 6. Starting the migration
-
-### Complete Manifest
-
-After all payloads have been created and the filenames have been added to the payload list, this is the manifest we use to migrate all basetypes and objects:
-
-```json
-{
-  "source": "Example Migration",
-  "batch_size": 100,
-  "payload_base_uri": "",
-  "eas_type": "url",
-  "eas_skip_errors": true,
-  "eas_replace_url": "",
-  "mapping": null,
-  "payloads": [
-    "basetype-tags.json",
-    "basetype-groups.json",
-    "basetype-users.json",
-    "basetype-pools.json",
-    "userobject-orte-level-0.json",
-    "userobject-orte-level-1.json",
-    "userobject-orte-level-2.json",
-    "userobject-personen.json",
-    "userobject-schlagwoerter.json",
-    "userobject-bilder-0.json",
-    "userobject-objekte-0.json",
-    "userobject-objekte-1.json",
-    "basetype-collection-0.json",
-    "userobject-bilder-0-version-2.json"
-  ]
-}
-```
-
-### Import process
-
-In the frontend, open the [JSON Importer](../..#json-importer). Enter the URL of the manifest, and click "Load". The Importer will list all Payloads, and preselect some settings that were saved in the manifest.
-
-{% hint style="info" %}
-If the manifest can not be loaded, check if the browser might be blocking the request. For more information, see: [Handling problems with Mixed Content](../..#handling-problems-with-mixed-content)
-{% endhint %}
-
-#### Asset Upload
-
-For uploading assets, select the upload type in the dropdwon menu "File upload type":
-
-* *Direct*: The assets are uploaded using the browser. This may have an impact on the performance and the migration duration
-* *URL (remote put)*: The assets are loaded by the EAS using the URL. This might be the faster type of upload
-* *Ignore files*: No assets are imported. Use this option if you want to run a faster test migration
-
-This can be preselected by defining [`eas_type`](#1-import-manifest) in the manifest file.
-
-If the assets are stored on a different server, and you want to specify this server only for the migration process, you can use `http://localhost` as the server url for all assets in the `eas:url` entries in the payloads. The actual server path is set in the field "File replace url". If this field is not empty, `http://localhost` will be replaced by this URL.
-
-In the examples above, the URLs could also have been specified in the form
-
-```json
-"eas:url": "http://localhost/photo-1560930950-5cc20e80e392?w=800&q=80"
-```
-
-and the actual URL `https://images.unsplash.com` would be set in the JSON Importer.
-
-#### Run import
-
-After all settings are done, click "Prepare" and "Start" to run the migration.
-
-## Result of the migration
-
-If the import of the migration was successful, we expect the following objects in the main search in the frontend:
-
-| | |
-|---|---|
-| Object `bilder`, with updated link to `objekte` `"987654321"` | ![](../screenshot_search_4.png) |
-| Object `objekte` with reverse edit link to `bilder` `"bild_01"` | ![](../screenshot_search_3.png) |
-| Object `objekte` with reverse edit link to `bilder` `"bild_02"` | ![](../screenshot_search_2.png) |
-| Object `bilder`, with link to `objekte` `"112233"` | ![](../screenshot_search.png) |
