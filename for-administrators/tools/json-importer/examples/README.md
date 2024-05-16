@@ -7,13 +7,13 @@ description: Step by step tutorial on how to generate JSON Payloads
 
 This is a step by step tutorial on how to generate JSON Payloads, that can be imported into **fylr** using the [JSON importer](../README.md) in the frontend.
 
-The importer reads a [manifest](steps#1-import-manifest) that defines the import and loads a list of payloads. Each payload is stored in a file. Each payload contains tge definition of the API endpoint, and a list if JSON objects that define basetypes or user objects. Mixed types in payloads are not allowed. All payloads are then posted to the API in the order of the payload list.
+The importer reads a [manifest](steps.md#1-import-manifest) that defines the import and loads a list of payloads. Each payload is stored in a file. Each payload contains tge definition of the API endpoint, and a list if JSON objects that define basetypes or user objects. Mixed types in payloads are not allowed. All payloads are then posted to the API in the order of the payload list.
 
-This tutorial uses an [example datamodel](datamodel#datamodel-to-download) that covers most (but not necessarily all) aspects of importing payloads.
+This tutorial uses an [example datamodel](datamodel.md#datamodel-to-download) that covers most (but not necessarily all) aspects of importing payloads.
 
 Here, we will focus on the structure of the payloads. However, the payload files can be generated using any sources and tools that allow the output of valid JSON files. Each source material needs specialized tools to convert the data into payloads.
 
-All steps of the tutorial can be found [here](steps/README.md).
+All steps of the tutorial can be found [here](steps.md).
 
 ### Names used in this tutorial
 
@@ -26,33 +26,36 @@ All steps of the tutorial can be found [here](steps/README.md).
 
 ### The general steps
 
-#### 1. Write the [Import Manifest](steps#1-import-manifest)
+#### 1. Write the [Import Manifest](steps.md#1-import-manifest)
 
 * The import manifest is read by the importer and contains information about the payload URI and batch size, and most important, a list of all payload files
 * The filenames of all payloads that are generated have to be added to the payload list in the order in which they have to be imported
 
-#### 2. Create payloads for [basetypes](steps#2-payloads-for-basetypes)
+#### 2. Create payloads for [basetypes](steps.md#2-payloads-for-basetypes)
 
-* [Tags](steps#tags)
-* [Groups](steps#groups)
-* [Users](steps#users)
-* [Pools](steps#pools)
+* [Tags](steps.md#tags)
+* [Groups](steps.md#groups)
+* [Users](steps.md#users)
+* [Pools](steps.md#pools)
 
-#### 3. Create payloads for [user objects](steps#3-payloads-for-user-objects)
+#### 3. Create payloads for [user objects](steps.md#3-payloads-for-user-objects)
 
 These are actual **fylr** objects that contain data
 
-* [Simple objects](steps#simple-linked-objects) that are linked in main objects
-* [Main objects](steps#main-objects) that link to simple objects
-* [Collections](steps#collections) and collection objects
+* [Simple objects](steps.md#simple-linked-objects) that are linked in main objects
+* [Main objects](steps.md#main-objects) that link to simple objects
 
-#### 4. Update imported objects (optional)
+#### 4. Collections
 
-If necessary, [update imported objects](steps#5-updating-of-imported-objects) to link to objects that could not be referenced in the first import round.
+Import [collections](steps.md#4-collections) and collection objects
 
-#### 5. Start import process
+#### 5. Update imported objects (optional)
 
-Load the manifest in the JSON Importer and [start the migration](steps#6-starting-the-migration)
+If necessary, [update imported objects](steps.md#5-updating-of-imported-objects) to link to objects that could not be referenced in the first import round.
+
+#### 6. Start import process
+
+Load the manifest in the JSON Importer and [start the migration](steps.md#6-starting-the-migration)
 
 ### Important things to consider
 

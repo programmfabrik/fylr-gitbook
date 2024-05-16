@@ -38,7 +38,7 @@ This manifest is used to preload the migration data in the JSON Importer. All in
   * `direct`: The assets are uploaded using the browser (`put`)
   * `url`: Remote put: assets are loaded by the EAS using the URL (`rput`)
   * `ignore`: No assets are imported
-<!-- * todo -->
+* `skip_head_request`: Skip HEAD request in `rput` in **fylr**
 * `eas_skip_errors`: Ignore file errors
   * If there are any errors during file upload, the error will not stop the import process
   * the error will only be logged
