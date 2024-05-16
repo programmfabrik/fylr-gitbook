@@ -2,7 +2,7 @@
 description: Connect to remote easydb and fylr instance
 ---
 
-# Connector Plugin
+# Connector
 
 {% hint style="info" %}
 Please note: this plugin is licensed as a separate module. If in doubt, please check your license agreement.
@@ -28,17 +28,7 @@ Under "easydb instances for Connector", add one or more connections to remote ea
 
 For each remote instance, set the following configuration:
 
-| Configuration                                    | Description           | Notes        |
-| ------------------------------------------------ | --------------------- | ------------ |
-| **Enable**                                       | Enable/disable this connection | |
-| **Name**                                         | Name of this connection, is shown in the Connector Overview | |
-| **URL**                                          | The Server URL of the remote instance | The URL is mandatory. |
-| **Login**                                        | Connector user login | The login is mandatory. The user should have sufficient rights ([see below](#setting-up-fylr-for-connector-partners)) |
-| **Password**                                     | Connector user password | The password is mandatory. |
-| **OAuth2 Client ID**                             | Client ID of a remote fylr | This is mandatory, if the remote instance is a fylr. Can be ignored for remote easydb5 instances. |
-| **OAuth2 Client Secret**                         | Client Secret (in clear text) of a remote fylr | This is mandatory, if the remote instance is a fylr and the remote instance is configured with a secret. If the fylr instance is public, or the remote instance is an easydb5, this can be igored. |
-| **Allow HTTPS without certificate verification** | Enable this to skip certificate verification, if the remote instance uses HTTPS |  |
-| **Timeout in seconds**                           | If there are connection problems to the remote instance, and the authentication takes too long, timeout after this duration. | `0`: no timeout, default: `10` |
+<table><thead><tr><th width="213">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Enable</strong></td><td>Enable/disable this connection</td></tr><tr><td><strong>Name</strong></td><td>Name of this connection, is shown in the Connector Overview</td></tr><tr><td><strong>URL</strong></td><td>The Server URL of the remote instance. Mandatory.</td></tr><tr><td><strong>Login</strong></td><td>Connector user login name. Mandatory. The user should have sufficient rights (<a href="connector.md#setting-up-fylr-for-connector-partners">see below</a>).</td></tr><tr><td><strong>Password</strong></td><td>Connector user password. Mandatory.</td></tr><tr><td><strong>OAuth2 Client ID</strong></td><td>Client ID of a remote fylr (can be set in the <a href="../../for-administrators/readme/user-management.md#oauth-service">base configuration</a>). Mandatory, if the remote instance is a fylr. Can be ignored for easydb5 instances. </td></tr><tr><td><strong>OAuth2 Client Secret</strong></td><td>Client Secret (in clear text) of a remote fylr (can be set in the <a href="../../for-administrators/readme/user-management.md#oauth-service">base configuration</a>). Mandatory, if the remote instance is a fylr and the remote instance is configured with a secret. If the fylr instance is public, or the remote instance is an easydb5, this can be ignored.</td></tr><tr><td><strong>Allow HTTPS without certificate verification</strong></td><td>Enable this to skip certificate verification, if the remote instance uses HTTPS</td></tr><tr><td><strong>Timeout in seconds</strong></td><td>If there are connection problems to the remote instance, and the authentication takes too long, timeout after this duration. <code>0</code>: no timeout, default: <code>10</code></td></tr></tbody></table>
 
 ## Setting up fylr for connector partners
 
@@ -73,4 +63,3 @@ The rights of the connector user should only include **search** rights and **rea
 In the Base Configuration, the login, password and a potential Client secret must be stored in plain text for each connector partner. Therefore, make sure to restrict access to the Base Configuration as much as possible, so that only the administrator has access to the stored user data.
 
 Logging in to the connector partners is done via the server part of the plugin. The token used in the frontend for the search is requested once by the plugin. If the current user has rights to use the connector, a login is carried out for each connector using the login data from the Base Configuration and a check is also made to see whether the user has access rights to the connector.
-
