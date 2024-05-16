@@ -14,6 +14,7 @@ Create a file named `manifest.json` with the following content:
   "eas_type": "url",
   "eas_skip_errors": true,
   "eas_replace_url": "",
+  "skip_head_request": true,
   "mapping": null,
   "payloads": []
 }

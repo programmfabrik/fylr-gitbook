@@ -16,8 +16,8 @@ After all payloads have been created and the filenames have been added to the pa
   "payload_base_uri": "",
   "eas_type": "url",
   "eas_skip_errors": true,
-  "skip_head_request": true,
   "eas_replace_url": "",
+  "skip_head_request": true,
   "mapping": null,
   "payloads": [
     "basetype-tags.json",
