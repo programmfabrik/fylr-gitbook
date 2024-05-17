@@ -6,6 +6,7 @@ description: How to log into fylr with accounts of your LDAP service.
 
 LDAP is an authentication service that you might already have, to hold your users' accounts centrally. It is part of **Microsoft Active Directory** (predecessor to Azure Active Directory) and available as a separate service (OpenLDAP).
 
+You need a fylr licence including Authentification to use LDAP.
 To enable fylr users to **log in** with LDAP accounts, scroll the **User Management** page to LDAP, _above_ SAML:
 
 <figure><img src="../_assets/images/fylr-ldap-find-menu (1).png" alt=""><figcaption><p>where to find LDAP in the menues</p></figcaption></figure>
