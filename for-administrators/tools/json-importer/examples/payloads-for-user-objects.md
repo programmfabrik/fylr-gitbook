@@ -1,8 +1,4 @@
----
-
----
-
-# Payloads for user objects
+# Create Object Payloads
 
 Here we will create payloads for objects of different objecttypes, as well as linking these objects together using lookups.
 
@@ -19,9 +15,9 @@ All user objects consist of meta-fields, and an object with the actual data unde
 We will create the following hierarchical structure of places:
 
 * Europa
-    * Deutschland
-        * Berlin
-        * Brandenburg
+  * Deutschland
+    * Berlin
+    * Brandenburg
 
 There are four levels, so we need to upload the objects in four different payloads in the following order: `["Europa"]`, `["Deutschland"]` and `["Berlin", "Brandenburg"]`. So we make sure that the parent has always been imported already before it is referenced.
 
@@ -154,7 +150,7 @@ The complete second payload looks like this:
 
 Save this payload as `userobject-orte-level-2.json` and add the filename to the manifest.
 
-----
+***
 
 ### Personen (`personen`)
 
@@ -186,11 +182,11 @@ This objecttype is not hierarchical, so all objects can be saved in the same pay
 }
 ```
 
-Note that you can use the newline character `\n` in multiline text fields (`adresse` in first object). Also you can leave any field empty, as long as it has no `NOT NULL` constraint or any other check constraints that do not allow empty fields (missing key `adresse` in second object).
+Note that you can use the newline character  in multiline text fields (`adresse` in first object). Also you can leave any field empty, as long as it has no `NOT NULL` constraint or any other check constraints that do not allow empty fields (missing key `adresse` in second object).
 
 Save this payload as `userobject-personen.json` and add the filename to the manifest.
 
-----
+***
 
 ### Schlagwörter (`schlagwoerter`)
 
@@ -223,7 +219,7 @@ This objecttype is not hierarchical, so all objects can be saved in the same pay
 
 Save this payload as `userobject-schlagwoerter.json` and add the filename to the manifest.
 
-----
+***
 
 ## Main objects
 
@@ -233,15 +229,15 @@ Here we create the payloads for the more complex main objects (objects that can 
 
 This objecttype is used to save images as well as additional information about the time and place the picture was taken, and who was the photographer.
 
-We create an object that saves this image from [unsplash.com](https://unsplash.com/photos/pN684G33h_M):
+We create an object that saves this image from [unsplash.com](https://unsplash.com/photos/pN684G33h\_M):
 
-![](https://images.unsplash.com/photo-1560930950-5cc20e80e392?w=640&q=80)
+![](https://images.unsplash.com/photo-1560930950-5cc20e80e392?w=640\&q=80)
 
 Fields that are set in the object:
 
 **`pool`**
 
-The pool must be specified for all objects with pool management. We want to add the new objects to the pool ["Migrated Objects"](#pools) by referencing the pool `reference` instead of the `_id`:
+The pool must be specified for all objects with pool management. We want to add the new objects to the pool ["Migrated Objects"](payloads-for-user-objects.md#pools) by referencing the pool `reference` instead of the `_id`:
 
 ```json
 "_pool": {
@@ -255,7 +251,7 @@ The pool must be specified for all objects with pool management. We want to add 
 
 **`reference`**
 
-To be later able to reference this object, use the field `reference` to set a unique value. Other than for basetypes, this field is part of the schema and must be included in the datamodel. Set the reference to "bild_01", so later you can use a lookup to [link to this object](#reverse-linking-of-bilder-in-objekte) in a `objekte` object:
+To be later able to reference this object, use the field `reference` to set a unique value. Other than for basetypes, this field is part of the schema and must be included in the datamodel. Set the reference to "bild\_01", so later you can use a lookup to [link to this object](payloads-for-user-objects.md#reverse-linking-of-bilder-in-objekte) in a `objekte` object:
 
 ```json
 {
@@ -306,7 +302,7 @@ This is a date field, so under the key, there is an object with the `value` and 
 }
 ```
 
-**`aufnahmeort` (link to objecttype [`orte`](#orte-orte))**
+**`aufnahmeort` (link to objecttype** [**`orte`**](payloads-for-user-objects.md#orte-orte)**)**
 
 This is a link to another object. Instead of linking it using the `_id`, the object is referenced in a lookup by the unique field `name` (the same as in the hierarchical lookup for the parent ID):
 
@@ -325,7 +321,7 @@ This is a link to another object. Instead of linking it using the `_id`, the obj
 
 This creates a link to the `orte` object with the `name` "Berlin".
 
-**`personen.person` (links in nested table to objecttype [`personen`](#personen-personen))**
+**`personen.person` (links in nested table to objecttype** [**`personen`**](payloads-for-user-objects.md#personen-personen)**)**
 
 There are multiple links to objects of type `personen` inside a nested table. The nested table `personen` has the fields `bemerkung` and `person`. The field for the nested table in the datamodel consists of the prefix `nested:`, the objecttype name and the name of the nested table: `"_nested:bilder__personen"`.
 
@@ -367,7 +363,7 @@ Combined, the entry for the linked object in the nested table, looks like this:
 ]
 ```
 
-**`schlagwoerter.schlagwort` (links in nested table to objecttype [`schlagwoerter`](#schlagwörter-schlagwoerter))**
+**`schlagwoerter.schlagwort` (links in nested table to objecttype** [**`schlagwoerter`**](payloads-for-user-objects.md#schlagwörter-schlagwoerter)**)**
 
 There are multiple links to objects of type `schlagwoerter` inside a nested table. `schlagwort` is the link to the `schlagwoerter` object.
 
@@ -508,7 +504,7 @@ The complete payload for the bilder object(s) looks like this:
 
 Save this payload as `userobject-bilder-0.json` and add the filename to the manifest.
 
-----
+***
 
 ### Objekte (`objekte`)
 
@@ -518,11 +514,11 @@ Fields that are set in the object:
 
 **`pool`**
 
-Add the new object to the pool ["Migrated Objects"](#pools) by referencing the pool `reference` instead of the `_id`.
+Add the new object to the pool ["Migrated Objects"](payloads-for-user-objects.md#pools) by referencing the pool `reference` instead of the `_id`.
 
 **`tags`**
 
-Tags are set in an array next the object, at the top level key `_tags`. Each object in the array is one tag. Instead of using the tag ID, reference the tag ["Public Access"](#tags) by using the lookup for the reference "public":
+Tags are set in an array next the object, at the top level key `_tags`. Each object in the array is one tag. Instead of using the tag ID, reference the tag ["Public Access"](payloads-for-user-objects.md#tags) by using the lookup for the reference "public":
 
 ```
 "_tags": [
@@ -590,7 +586,7 @@ The complete payload for the bilder object(s) looks like this:
 
 Save this payload as `userobject-objekte-0.json` and add the filename to the manifest.
 
-----
+***
 
 ### Reverse linking of `bilder` in `objekte`
 
@@ -598,7 +594,7 @@ The objecttype `objekte` contains a reverse editable link to the objecttype `bil
 
 We create an object that saves this image from [unsplash.com](https://unsplash.com/photos/425Czbxtyug) inside its internal `bilder` object.
 
-![](https://images.unsplash.com/photo-1583268426351-53cd67fefed9?w=600&q=80)
+![](https://images.unsplash.com/photo-1583268426351-53cd67fefed9?w=600\&q=80)
 
 Add the `bilder` object, including the `eas:url` and other fields, directly in the reverse nested table `_reverse_nested:bilder:objekte`. This nested table can include multiple `bilder` objects, that link back to this object, and can be directly edited inside this object.
 
@@ -683,4 +679,3 @@ The complete payload for the bilder object(s) looks like this:
 ```
 
 Save this payload as `userobject-objekte-1.json` and add the filename to the manifest.
-

@@ -52,9 +52,6 @@
   * [Collections (& Presentations)](for-users/quick-access/collections-and-presentations.md)
   * [Saved Searches (& Lists)](for-users/quick-access/saved-searches-and-lists.md)
 * [Lists](for-users/lists.md)
-* [Plugins](for-users/plugins/README.md)
-  * [Connector](for-users/plugins/connector.md)
-  * [Zooniverse](for-users/plugins/zooniverse.md)
 
 ## FOR ADMINISTRATORS
 
@@ -103,6 +100,9 @@
 * [Messages](for-administrators/messages.md)
 * [Events](for-administrators/events.md)
 * [Backup Manager](for-administrators/backup-manager.md)
+* [Additional Features (Plugins)](for-administrators/plugins/README.md)
+  * [Connector](for-administrators/plugins/connector.md)
+  * [Zooniverse](for-administrators/plugins/zooniverse.md)
 
 ## FOR SYSTEM ADMINISTRATORS
 
