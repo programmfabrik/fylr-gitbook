@@ -1,7 +1,8 @@
 ---
 description: >-
   Under "Lists" all object types can be found and depending on your permissions,
-  vocabularies/thesauri can be managed there.
+  vocabularies/thesauri can be managed here. The system right "Access Lists" is
+  needed to access the lists.
 ---
 
 # Lists
