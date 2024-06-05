@@ -26,7 +26,7 @@ Bare bone minimum: Elasticsearch or OpenSearch
 
 ### OpenSearch
 
-OpenSearch is our default and recommendation. Elasticsearch has been the default until 2023.
+OpenSearch is our default and recommendation.
 
 We installed OpenSearch as described in [https://opensearch.org/docs/latest/install-and-configure/install-opensearch/windows/](https://opensearch.org/docs/latest/install-and-configure/install-opensearch/windows/)
 
@@ -45,6 +45,8 @@ opensearch-2.11.0> .\bin\opensearch-plugin install analysis-icu
 ```
 
 ### Elasticsearch
+
+Elasticsearch has been the default until 2023. Now we recommend OpenSearch instead.
 
 What we tested:
 
