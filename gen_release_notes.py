@@ -8,7 +8,7 @@ class Github:
 
     def get_releases(self):
         con = http.client.HTTPSConnection('api.github.com')
-        con.request('GET', '/repos/programmfabrik/fylr/releases', headers = {
+        con.request('GET', '/repos/programmfabrik/fylr/releases?per_page=100', headers = {
             'User-Agent': 'PF Release Notes Update/1.0',
             'Authorization': 'Bearer ' + self.token })
         res = con.getresponse()
@@ -95,7 +95,10 @@ fs = Filestore()
 # per-release pages
 for rel in gh.get_releases():
     if rel.get('prerelease') or rel.get('draft'):
-           continue
+        #print("skip %s: prerelease=%s, draft=%s" % (rel['name'], rel.get('prerelease'), rel.get('draft')))
+        continue
+
+    #print("release %s..." % (rel['name']))
 
     name = rel['name']
     tag = rel['tag_name']
