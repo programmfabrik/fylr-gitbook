@@ -100,7 +100,7 @@ for rel in gh.get_releases():
 
     #print("release %s..." % (rel['name']))
 
-    name = rel['name']
+    name = rel['name'].strip()
     tag = rel['tag_name']
     year = datetime.datetime.fromisoformat(rel['published_at'][:10]).year
 
