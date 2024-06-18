@@ -25,4 +25,4 @@ Identifier of this FYLR instance. Each connected FYLR instance should use a diff
 
 ### Tutorial
 
-See our tutorial [here](https://docs.fylr.io/tutorials/objectstore#to-use-this-service) for more information.
+See our tutorial [here](https://docs.fylr.io/tutorials/objectstore) for more information.
