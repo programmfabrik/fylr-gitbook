@@ -18,3 +18,11 @@ Identifier of the data model. It is chosen during objectstore configuration. Usu
 ### Instance
 
 Identifier of this FYLR instance. Each connected FYLR instance should use a different identifier. Hard to guess identifiers are more secure. Usually provided by Programmfabrik GmbH.
+
+
+
+
+
+### Tutorial
+
+See our tutorial [here](https://docs.fylr.io/tutorials/objectstore#to-use-this-service) for more information.
