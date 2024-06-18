@@ -82,7 +82,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=1408589219
-timestamp: 2024-05-14 13:08:02 (UTC)
+timestamp: 2024-06-18 07:14:39 (UTC)
 
 -->
 
@@ -182,28 +182,6 @@ Include user password hashes. If this option is `true`, the restore tool checks 
 If the source is an **easydb5**: make sure that the source instance is configured to output the user passwords, and repeat the backup. See [https://docs.easydb.de/en/sysadmin/configuration/easydb-server.yml/available-variables/](https://docs.easydb.de/en/sysadmin/configuration/easydb-server.yml/available-variables/) under `include_passwords` for the necessary settings in the source instance.
 
 For a **fylr** source instance this is not necessary, since the password hashes are always returned over the API.
-{% endhint %}
-
-* type: `bool`
-* default: `false`
-
-
-### `--check-progress`
-
-{% hint style="info" %}
-This parameter is available in fylr from version **v6.11.0**.
-{% endhint %}
-
-Set to `true` to check if records, which are identified by the System Object ID or Object ID, exist in the target instance.
-
-This may be useful if a previous restore process could not finish because of network or other problems, and the progress file might not have been written correctly. If this happened, this parameter helps avoiding problems with duplicate records.
-
-{% hint style="info" %}
-This only works in combination with `--continue`
-{% endhint %}
-
-{% hint style="warning" %}
-This can cause a longer restore times, since for each record that is restored, a request to the target system is performed.
 {% endhint %}
 
 * type: `bool`
@@ -313,6 +291,19 @@ Maximum number of parallel uploads of original files and their versions. Default
 * minimum: `0`
 * maximum: `10`
 * default: `4`
+
+
+### `--timeout-min`
+
+Timeout for connections to target in minutes.
+
+{% hint style="info" %}
+Increase this value if you notice timeouts or related network problems when uploading payloads or files to the target system.
+{% endhint %}
+
+* type: `int`
+* minimum: `1`
+* default: `10`
 
 
 ### `--upload-ignore-files-with-errors`
