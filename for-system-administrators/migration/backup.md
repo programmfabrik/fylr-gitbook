@@ -69,7 +69,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=0
-timestamp: 2024-05-13 09:02:21 (UTC)
+timestamp: 2024-06-19 13:57:33 (UTC)
 
 -->
 
@@ -109,7 +109,7 @@ Password of the user in the source instance.
 
 ### `--purge`
 
-Defines the mode of the backup (purge or continue)
+Defines the mode of the backup (purge or continue).
 
 If this is `true`, the complete backup starts from the beginning, and an existing backup folder with the same name is purged.
 
@@ -125,7 +125,7 @@ If the target folder already exists, this parameter (or `--continue`) must be se
 
 ### `--continue`
 
-Defines the mode of the backup (purge or continue)
+Defines the mode of the backup (purge or continue).
 
 If this is `true`, the backup continues from the last point in the `manifest.json` file, if a previous backup run was interrupted.
 

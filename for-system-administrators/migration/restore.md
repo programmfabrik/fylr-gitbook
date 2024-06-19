@@ -45,25 +45,31 @@ Flags:
   -h, --help                                   Show context-sensitive help.
 
       --manifest=STRING                        Path to manifest.json.
-      --base-config=STRING                     Base config to upload to the target. By default the base config from the backup is uploaded. Use "-" to not upload a base config.
+      --base-config=STRING                     Base config to upload to the target. Not supported with --continue.
+                                               By default the base config from the backup is uploaded. Use "-" to not upload a base config.
+      --datamodel=STRING                       Datamodel to upload to the target. Not supported with --continue.
+                                               By default the datamodel from the backup is uploaded. Use "-" to not upload a datamodel.
       --continue                               Set to true, to continue restoring payloads from progress.json.
-      --purge                                  Set to true, to purge the target instance. The datamodel and the base configuration are uploaded. The current password of the user used for the login will
-                                               be set for the system root user.
+      --purge                                  For backup: set to true, to purge the target directory.
+                                               For restore: set to true, to purge the target and copy the datamodel. The current password of the user used for the login will be set for the system root user.
       --upload-ignore-files-with-errors        Set to true, to ignore file upload errors and strip objects from them.
       --max-parallel-upload-files=4            Max number of parallel original file + its versions uploads. Defaults to 4 (0 for bulk), max is 10 (unlimited for bulk).
       --timeout-min=10                         Timeout for connections to target (minutes).
       --include-password                       Include password in user restore.
       --skip-constraints                       Skip constraints during restore.
-      --file-api=STRING                        API used to upload files. Leave empty to not upload files. "put": restore tool uploads files synchronous. "rput": target server loads files from remote
-                                               URLs. "rput_leave": target server stores remote URLs, no data is copied to storage. "rput" and "rput_leave" are faster, "put" might take long.
-      --file-api-access-token=STRING           Use this to pass an access token to fylr backends. This is needed to load files from fylr source instances. It appends the "access_token" query parameter
-                                               to the remote url of files, and removes the "x-fylr-signature" query parameter.
+      --file-api=STRING                        API used to upload files. Leave empty to not upload files.
+                                               "put": restore tool uploads files synchronous.
+                                               "rput": target server loads files from remote URLs.
+                                               "rput_leave": target server stores remote URLs, no data is copied to storage.
+                                               "rput" and "rput_leave" are faster, "put" might take long.
+      --file-api-access-token=STRING           Use this to pass an access token to fylr backends. This is needed to load files from fylr source instances.
+                                               It appends the "access_token" query parameter to the remote url of files, and removes the "x-fylr-signature" query parameter.
       --file-version=STRING                    Set to version to use for upload. "original" might take long for "put". Use "preview" for test runs.
-      --upload-versions                        Set to true, to not produce local preview versions, but instead upload the source versions. The upload method is used for versions the same way as for the
-                                               original.
-      --rename-versions=RENAME-VERSIONS,...    Rename versions before uploading. This affects uploaded rights as well as file versions. The versions need to be given in the notation
-                                               "<cls>.<version>:<new version>", e.g. "image.preview:640px" would replace the "preview" version of image to "640px". If the "<new version>" is omitted,
-                                               the version is removed.
+      --upload-versions                        Set to true, to not produce local preview versions, but instead upload the source versions.
+                                               The upload method is used for versions the same way as for the original.
+      --rename-versions=RENAME-VERSIONS,...    Rename versions before uploading. This affects uploaded rights as well as file versions.
+                                               The versions need to be given in the notation "<cls>.<version>:<new version>", e.g. "image.preview:640px" would replace the "preview" version of image to "640px".
+                                               If the "<new version>" is omitted, the version is removed.
   -v, --verbose                                Set to true, to show additional info.
   -n, --log-network                            Set to true, to log all network traffic.
       --log=STRING                             Set output to logfile
@@ -82,7 +88,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=1408589219
-timestamp: 2024-06-18 07:14:39 (UTC)
+timestamp: 2024-06-19 13:57:33 (UTC)
 
 -->
 
@@ -122,15 +128,9 @@ Password of the user in the target instance.
 
 ### `--purge`
 
-Defines the mode of the restoring (purge or continue)
+Defines the mode of the restoring (purge or continue).
 
 If this is `true`, the complete restore starts from the beginning, and the target instance is purged.
-
-{% hint style="info" %}
-After the target was purged, the datamodel and the base configuration is uploaded.
-
-If neither `--purge` or `--continue` are set, the target is not purged, but the datamodel and base configuration is uploaded.
-{% endhint %}
 
 {% hint style="warning" %}
 The parameters `--purge` and `--continue` are mutually exclusive. Not both can be `true`.
@@ -142,7 +142,7 @@ The parameters `--purge` and `--continue` are mutually exclusive. Not both can b
 
 ### `--continue`
 
-Defines the mode of the restoring (purge or continue)
+Defines the mode of the restoring (purge or continue).
 
 If this is `true`, the restore continues from the last point in the `progress.json` file, if a previous restore run was interrupted.
 
@@ -162,8 +162,36 @@ Path to a specific base config file. Defaults to `<instance folder>/base_config.
 To not upload a base configuration to the target instance, specify `--base-config=-`
 {% endhint %}
 
+{% hint style="warning" %}
+This parameter is not allowed in combination with `--continue`.
+{% endhint %}
+
 * type: `string`
 * default: `base_config.json`
+
+
+### `--datamodel`
+
+{% hint style="info" %}
+This parameter is available in fylr from version **v6.12.0**.
+{% endhint %}
+
+Path to a specific datamodel file. Defaults to `<instance folder>/datamodel.json` from the backup.
+
+{% hint style="info" %}
+To not upload a datamodel to the target instance, specify `--datamodel=-`
+{% endhint %}
+
+{% hint style="warning" %}
+This parameter is not allowed in combination with `--continue`.
+
+Trying to upload a datamodel without `--purge` will not work, if there is already a datamodel on the target instance!
+
+Only use `--datamodel=-` if the target instance already has a matching datamodel!
+{% endhint %}
+
+* type: `string`
+* default: `datamodel.json`
 
 
 ### `--skip-constraints`
