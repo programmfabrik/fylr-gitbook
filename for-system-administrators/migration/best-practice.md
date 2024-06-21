@@ -32,8 +32,9 @@ Productive migrations include the complete data, as well as all files. The files
   * [Restoring with and without purge](#restoring-with-and-without-purge)
     * [Purge, upload datamodel and base configuration](#purge-upload-datamodel-and-base-configuration)
     * [Purge, upload datamodel but skip upload of base configuration](#purge-upload-datamodel-but-skip-upload-of-base-configuration)
-    * [No purge and skip upload of base configuration](#no-purge-and-skip-upload-of-base-configuration)
+    * [No purge and skip upload of datamodel and base configuration](#no-purge-and-skip-upload-of-datamodel-and-base-configuration)
 <!--
+  todo
   * [Full migration](#full-migration)
 -->
 
@@ -248,11 +249,13 @@ If you don't want to upload a base configuration at all and use the default base
 
 With this specific value, the upload of the base configuration is skipped.
 
-### No purge and skip upload of base configuration
+### No purge and skip upload of datamodel and base configuration
 
 If neither `--purge` or `--continue` are set, the target instance is not purged. The restore starts with the first payload from the manifest. Still, the datamodel is uploaded and committed, and the base configuration is uploaded.
 
-If the target has been purged manually before, and the base configuration has been changed on the instance, use `--base-config=-` to not upload any base configuration.
+If the target instance has been purged and set up manually before, you don't want to override it with the datamodel and base config from the backup.
+
+Use `--datamodel=-` to not upload the datamodel, and use `--base-config=-` to not upload the base configuration.
 
 
 <!-- ## Full migration -->
@@ -260,6 +263,27 @@ If the target has been purged manually before, and the base configuration has be
 <!-- todo -->
 
 
-<!-- # Known problems and solutions -->
+# Known problems and solutions
 
-<!-- todo -->
+This section is a collection of known issues and possible solutions. Also the meaning of some warnings and errors in the logs are explained.
+
+This part is not complete! Over time, it will be extended.
+
+## Gateway errors and timeouts
+
+* These problems can happen during the backup and restore process
+* They will cause the process to fail
+* The backup/restore process can be continued with `--continue`
+* If these problems keep happening, it means that the size/complexity of the requests are too big and the other instance can not handle the requests in time
+* Lower the batch size with the `--chunk` parameter and retry
+
+## Log: warnings and errors
+
+### `EasDuplicateReferenceError`
+
+* This is an expected API error during the restore process
+* It happens when files are uploaded
+* If records are restored which have multiple history versions, the same file is not stored multiple times, but the same file is reused
+* Each file has a reference which is derived from the EAS ID of the source instance, and this reference is stored in the database
+* If a file with the same reference is uploaded again, this special API error returns the file ID in the target instance
+* If you see this message in the log, **it can be ignored**

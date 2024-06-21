@@ -147,10 +147,6 @@ See also: [Restore Parameters](restore.md#parameters)
 
 #### Access Token for file URLs
 
-{% hint style="info" %}
-This is available in fylr from version **v6.10.0**.
-{% endhint %}
-
 This is only needed if the source instance of the backup is a **fylr** and there are files that should be uploaded to the target instance. **fylr** requires all requests to be authenticated. So during the restore process the file URLs need to be accessed in the source fylr, but this will fail if there is no authentication.
 
 During the backup, **fylr** adds a signature parameter to the file URLs (`x-fylr-signature`) which can be used to authenticate the request. But this signature is temporary and expires after a fixed time which is configured in the source instance. If you try to restore after a certain time the signatures can be expired and the source instance will not allow access to the files anymore.
@@ -187,7 +183,7 @@ This sets `--file-api-access-token <token>`
 #### Purge or Continue
 
 {% hint style="info" %}
-This is available in fylr from version **v6.10.2**.
+This parameter is available in fylr from version **v6.12.0**.
 {% endhint %}
 
 * **Purge**
@@ -198,9 +194,11 @@ This is available in fylr from version **v6.10.2**.
   * A previous restore process of this backup is continued
   * This sets `--continue`
 * **No Purge**
-  * Does not purge the target instance but uploads the data model
-  * Use this after manually purging the target and manually uploading or adjust the base config settings
-  * This sets neither `--purge` nor `--continue`, but `--base-config=-`
+  * Does not purge the target instance
+  * Data model and base config are not uploaded
+  * This mode only uploads base types and user records
+  * Use this after manually purging the target and manually uploading the data model and base config
+  * This sets neither `--purge` nor `--continue`, but `--base-config=-` and `--datamodel=-`
 
 See also: [Best Practice > Restoring with and without purge](best-practice.md#restoring-with-and-without-purge)
 
