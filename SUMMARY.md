@@ -141,6 +141,7 @@
   * [Setting Up An Upload Collection](tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/setting-up-an-upload-collection.md)
   * [Importing Files](tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/importing-files.md)
 * [PDF Creator](tutorials/pdf-creator.md)
+* [Extracting Metadata Later On](tutorials/extracting-metadata-later-on.md)
 * [Overlay Resource](tutorials/overlay-resource.md)
 * [Authentication](tutorials/auth.md)
   * [LDAP](tutorials/ldap.md)
