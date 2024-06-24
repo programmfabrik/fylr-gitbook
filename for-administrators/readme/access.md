@@ -17,6 +17,10 @@ Allows anonymous access. When activated, the fylr instance can be accessed witho
 Please note: when activated, the user group "Anonymous Users" need the system right "Access to Search" and permissions to the data. Using pools and tags, you can either give them access to all the data or just parts of it.
 {% endhint %}
 
+### Login Label
+
+This text will be shown as the label for the login input on the login page. Default is "Login or email".
+
 ### Login Info Text
 
 This text will be shown on the login page above the login fields.
