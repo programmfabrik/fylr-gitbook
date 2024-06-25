@@ -51,6 +51,10 @@
 
 * [Coming Soon](for-users/coming-soon.md)
 * [Getting Started](for-users/getting-started.md)
+* [Asset / Records Management](for-users/asset-records-management/README.md)
+  * [Creating Records](for-users/asset-records-management/creating-records.md)
+  * [Editing Records](for-users/asset-records-management/editing-records.md)
+  * [Deleting Records](for-users/asset-records-management/deleting-records.md)
 * [Quick Access](for-users/quick-access/README.md)
   * [Collections (& Presentations)](for-users/quick-access/collections-and-presentations.md)
   * [Saved Searches (& Lists)](for-users/quick-access/saved-searches-and-lists.md)
