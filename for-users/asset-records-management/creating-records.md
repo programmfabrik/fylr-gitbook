@@ -1,6 +1,6 @@
 ---
 description: >-
-  This article describes the process when creating new records and uploading new
+  This article describes the process of creating new records and uploading new
   files.
 ---
 
@@ -27,6 +27,8 @@ After configuring the settings and uploading the necessary files, proceed by cli
 ## **Editor Screen**
 
 The editor screen is divided into three main sections: Navigation Pane, Input Area, and Preview.
+
+SCREENSHOT
 
 ### **Navigation Pane**
 
