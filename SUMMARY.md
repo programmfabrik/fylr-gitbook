@@ -55,7 +55,6 @@
   * [Creating Records](for-users/asset-records-management/creating-records.md)
   * [Editing Records](for-users/asset-records-management/editing-records/README.md)
     * [Input Fields](for-users/asset-records-management/editing-records/input-fields.md)
-    * [Features](for-users/asset-records-management/editing-records/features.md)
     * [Group Editor](for-users/asset-records-management/editing-records/group-editor.md)
   * [Deleting Records](for-users/asset-records-management/deleting-records.md)
 * [Quick Access](for-users/quick-access/README.md)
