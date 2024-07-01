@@ -50,5 +50,13 @@ When a specific record with a file is selected, a preview of the file is shown o
 
 Once all files have been uploaded and all data has been entered, create the records by clicking "Save." Note that the editor will close, and you will be directed to the search. From there, you can edit the records individually or in group mode.
 
+## Copying Records
 
+New records can also be created by copying existing records. You find the copy button in the 3-dot-menu of the detail view and the editor. Choose between the following options:
+
+<table><thead><tr><th width="241">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Copy With Reverse</td><td>Copies the record with all its reverse linked records.</td></tr><tr><td>Copy Without Reverse</td><td>Copies the record without its reverse linked records.</td></tr><tr><td>Copy As Adhoc Template</td><td>Copies the record as the adhoc template so its data can be applied to new or existing records. Please note, the adhoc template will be lost after logging out.</td></tr></tbody></table>
+
+## Importing Records
+
+You can also create new records by using the [CSV Importer](../../for-administrators/tools/csv-importer/), the [JSON Importer](../../for-administrators/tools/json-importer/) or the [Hotfolder](../../tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/).
 
