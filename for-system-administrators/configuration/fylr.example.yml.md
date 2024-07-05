@@ -106,6 +106,10 @@ fylr:
     # be set in the base config.
     logTimings: true
 
+  # optional, set environment. This can be used to set FYLR_CMD_* inside the fylr.yml
+  env:
+    # FYLR_CMD_PG_DUMP=./services/bin/pg_dump
+
   # tempDir is used by api/system/backup and the export to during a TAR
   # production. With no tempDir given the system defaults temp dir is used. This
   # tempDir gets not cleaned up automatically by FYLR.
