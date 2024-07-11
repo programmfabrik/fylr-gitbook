@@ -44,9 +44,8 @@ Flags:
 
   -d, --dir=STRING                 Target directory.
       --size=100                   Size of .json files.
-      --compression=0              0: no compression, 1: speed, 9: best. Only valid for default backupformat.
-      --continue                   Set to true, to continue. Only valid for default backupformat.
-      --purge                      Set to true, to delete the target directory and all files before the backup.
+      --compression=0              0: no compression, 1: speed, 9: best.
+      --continue                   Set to true, to continue.
       --all-versions               Set to true, to request all versions of an object.
       --include=STRING             Filter regexp to include objecttypes.
       --retry-max-count=10         Number of retries for failed requests with network problems.
@@ -60,8 +59,11 @@ Flags:
   -v, --verbose                    Set to true, to show additional info.
   -n, --log-network                Set to true, to log all network traffic.
       --log=STRING                 Set output to logfile
+      --purge                      For backup: set to true, to purge the target directory. For restore: set to true, to purge the target and copy the datamodel.
+                                   The current password of the user used for the login will be set for the system root user.
       --limit=INT                  Limit records. Set to 0 for unlimited.
       --chunk=100                  chunk size for fetching/pushing data.
+      --include-events=STRING      Comma separated list of event types. Use "-" to skip backup/restoring of events.
 ```
 
 
@@ -69,7 +71,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=0
-timestamp: 2024-06-19 13:57:33 (UTC)
+timestamp: 2024-07-11 08:25:21 (UTC)
 
 -->
 
@@ -193,35 +195,29 @@ Not to be confused with asset versions (see parameters for `fylr restore`)!
 * default: `false`
 
 
-### `--base`
-
-{% hint style="warning" %}
-**Deprecated!** This parameter is removed in fylr in version **v6.10.0**.
-{% endhint %}
-
-Set to `false` to ignore the following base types in the backup: tags, messages, transitions, right presets for collections and objects, publishings and collections. Users, groups and pools are always included in the backup.
-
-* type: `bool`
-* default: `true`
-
-
-### `--user`
-
-{% hint style="warning" %}
-**Deprecated!** This parameter is removed in fylr in version **v6.10.0**.
-{% endhint %}
-
-Set to `false` to ignore all user created objects in the backup (user objects means objects based on the datamodel which have been created by users). This means, that only base types are backupped.
-
-* type: `bool`
-* default: `true`
-
-
 ### `--include`
 
 If this is a valid non empty regex string, only objecttypes are backupped where the internal objecttype name matches the regex.
 
 * type: `string`
+
+
+### `--include-events`
+
+{% hint style="info" %}
+This parameter is available in fylr from version **v6.12.0**.
+{% endhint %}
+
+Comma separated list of event types.
+
+{% hint style="info" %}
+Use `--include-events=-` to skip backup of events.
+
+If this parameter is unset, all events are backupped
+{% endhint %}
+
+* type: `string`
+* default: `""`
 
 
 ### `--retry-max-count`

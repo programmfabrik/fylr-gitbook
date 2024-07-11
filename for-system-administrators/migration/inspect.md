@@ -57,6 +57,16 @@ See also: [Backup Parameters](backup.md#parameters)
 * This option is enabled by default
 * This sets `--all-versions true`
 
+#### Include events
+
+{% hint style="info" %}
+This parameter is available in fylr from version **v6.12.0**.
+{% endhint %}
+
+* If set, all events from the source are included in the backup
+* If not set, the backup of events is skipped
+* This sets `--include-events`
+
 #### OAuth2
 
 * Select only of the source instance uses OAuth2
@@ -166,6 +176,17 @@ This sets `--file-api-access-token <token>`
 * Enable this checkbox to include user password hashes
 * If this option is `true`, the restore tool checks if there is at least one user where a password hash is present
 * This sets `--include-password`
+
+#### Include events
+
+{% hint style="info" %}
+This parameter is available in fylr from version **v6.12.0**.
+{% endhint %}
+
+* If set, all events which have an event type that is known by fylr are restored
+* This means if there are unknown events in the backup (from easydb5), these will not be imported
+* If not set, no events will be imported
+* This sets `--include-events`
 
 #### OAuth2
 
