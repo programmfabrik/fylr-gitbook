@@ -33,9 +33,9 @@ openssl req -new -x509 -key private.key -out publickey.cer -days 365
 
 When asked for `Common Name (e.g. server FQDN or YOUR name)` answer with `fylr.example.eu` if your fylr is at [https://fylr.exemple.eu](https://fylr.exemple.eu) .
 
-Now you can view the contents of the files `private.key` and `publickey.cer` and put that into fylr's frontend: (**Certificate** and **Key** fields) as in thi screenshot:
+Now you can view the contents of the files `private.key` and `publickey.cer` and put that into fylr's frontend: (**Certificate** and **Key** fields) as in this screenshot:
 
-<figure><img src="../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (8).png" alt=""><figcaption><p>screenshot of the form fields for certificate and key</p></figcaption></figure>
 
 ### Base Config
 
