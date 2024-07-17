@@ -15,12 +15,15 @@ How to install fylr on a Linux Server via docker compose
 * amd64 Architecture, for this method.
 *   #### Storage <a href="#network-storage" id="network-storage"></a>
 
-    40 GB for docker images.\
-    Double the storage space of you assets. So if you want to manage 1 TB of assets with fylr, have another 1 TB for preview images. If you tend to have big assets, you might need much less, as the previews then are much smaller in comparison to your assets.\
+    40 GB for container images. (default `/var/lib/docker`)\
+    Ca. 100 GB for temporary file systems of containers. (default `/var/lib/docker`)\
+    Ca. two times the storage space of you assets. So if you want to manage 1 TB of assets with fylr, have another 1 TB for preview images. If you tend to have big assets, you might need much less, as the previews then are much smaller in comparison to your assets.\
     Add fast storage for database and indices: 4% of what your assets need. So for 1 TB of assets have 40 GB. Most installations need a lot less than 4%.
 *   #### Network Storage <a href="#network-storage" id="network-storage"></a>
 
-    At most, put assets, previews and database dumps on network storage. If you use network storage then we recommend the NFS protocol. CIFS can also work, but we have seen performance problems on some Windows servers without remedy and even data corruption - thus we do not support CIFS/SMB. Also NFS on a Windows server has been observed to have poor performance compared to Linux servers.
+    At most, put assets, previews and database dumps on network storage. Do not put other data on network storage as features may collide (e.g. overlay file system by docker).\
+    If you use network storage then we recommend the NFS protocol. \
+    CIFS can also work, but we have seen performance problems on some Windows servers without remedy and even data corruption - thus we do not support CIFS/SMB. Also NFS on a Windows server has been observed to have poor performance compared to Linux servers.
 
 ### Software
 
