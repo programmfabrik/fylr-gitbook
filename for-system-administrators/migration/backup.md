@@ -71,7 +71,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=0
-timestamp: 2024-07-11 08:25:21 (UTC)
+timestamp: 2024-07-18 07:49:20 (UTC)
 
 -->
 
@@ -214,6 +214,12 @@ Comma separated list of event types.
 Use `--include-events=-` to skip backup of events.
 
 If this parameter is unset, all events are backupped
+{% endhint %}
+
+{% hint style="warning" %}
+Specific event types, which are irrelevant for the migration, are never in the backup, even if they are specifically requested.
+
+For now, this includes `OBJECT_INDEX`, but this might be extended in the future.
 {% endhint %}
 
 * type: `string`
