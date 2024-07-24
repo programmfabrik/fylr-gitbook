@@ -64,6 +64,8 @@
   * [Collections (& Presentations)](for-users/quick-access/collections-and-presentations.md)
   * [Saved Searches (& Lists)](for-users/quick-access/saved-searches-and-lists.md)
 * [Lists](for-users/lists.md)
+* Protocols
+  * [OAI/PMH](for-users/protocols/oai/README.md)
 
 ## FOR ADMINISTRATORS
 
