@@ -74,6 +74,8 @@ Checkbox:  ☑︎ **Sign requests** (default off)
 
 Some environments have the requirement that the SPs (in this case fylr) must sign the authentication requests.
 
+Needs at least fylr v6.12.0.
+
 ### Group Mapping
 
 Users of production Identity providers often have an attribute that groups user accounts together and can be used to give permissions in fylr to a whole group. We will assume an attribute called `role` to demonstrate a group mapping:
