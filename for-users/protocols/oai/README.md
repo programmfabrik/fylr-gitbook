@@ -1,6 +1,6 @@
 ---
 description: >-
-The OAI/PMH endpoint allows accessing records in the OAI/PMH (XML) format
+  The OAI/PMH endpoint allows accessing records in the OAI/PMH (XML) format
 ---
 
 # OAI/PMH
