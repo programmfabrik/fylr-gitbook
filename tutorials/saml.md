@@ -66,7 +66,13 @@ More topics that you might need with other identity providers:
 
 ### fylr SAML Metadata
 
-fylr's metadata URL is https://FYLR.EXAMPLE.COM/api/saml/metadata (replace domain name with the one from your instance). You might need to give this URL to your Identity provider or you might have to call this URL yourself and then give the downloaded XML to your Identity provider.
+fylr's metadata URL is [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr.example.com/api/saml/metadata) (replace domain name with the one from your instance). You might need to give this URL to your Identity provider or you might have to call this URL yourself and then give the downloaded XML to your Identity provider.
+
+### Signed AuthnRequest
+
+Checkbox:  ☑︎ **Sign requests** (default off)
+
+Some environments have the requirement that the SPs (in this case fylr) must sign the authentication requests.
 
 ### Group Mapping
 
