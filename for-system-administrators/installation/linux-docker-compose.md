@@ -147,6 +147,49 @@ Log files of the cron job will go to `/var/log/fylr-maintain.log`.
 
 You can change the maintain script's config in `/etc/default/fylr`, using bash syntax.
 
+## Keep log messages
+
+The most important step to not throw away log messages with each container re-creation is already done in the above downloaded `docker-compose.yml`: it uses `logging:` `driver: journald`.
+
+You additionally can configure [journald](https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html) to your use case.
+
+As an example, we do:
+
+```
+mkdir /etc/systemd/journald.conf.d
+vi /etc/systemd/journald.conf.d/local_limits.conf
+```
+
+and in `local_limits.conf`:
+
+```
+# do not fill the entire disk
+SystemKeepFree=10G
+# keep for ...
+MaxRetentionSec=2month
+# rotate files after ...
+MaxFilesSec=1day
+
+# no other limits, but hardcoded maximum file size is 4G
+SystemMaxUse=0
+SystemMaxFileSize=0
+SystemMaxFiles=0
+# no rate limits
+RateLimitIntervalSec=0
+RateLimitBurst=0
+```
+
+Load the changes:
+
+```
+systemctl restart systemd-journald.service
+```
+
+Aspects to consider if  your logs need to be 100% reliable (usually overkill)
+
+* hardcoded maximum file size is capped to 4G in compact mode (which is enabled by default), source: [https://www.freedesktop.org/software/systemd/man/journald.conf.html](https://www.freedesktop.org/software/systemd/man/journald.conf.html)
+* this is using the default “blocking” mode
+
 ## Troubleshooting
 
 * `docker compose` needs to be executed in the directory with the `docker-compose.yml`.
