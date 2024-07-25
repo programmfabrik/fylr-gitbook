@@ -19,7 +19,7 @@ fylr:
     driver: sqlite3
     dsn: "fylr.db"
     maxIdleConns: 10
-    maxOpenConns: 100
+    maxOpenConns: 90
     init:
       config:
         system:

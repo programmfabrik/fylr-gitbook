@@ -108,7 +108,7 @@ fylr:
 
   # optional, set environment. This can be used to set FYLR_CMD_* inside the fylr.yml
   env:
-    # FYLR_CMD_PG_DUMP=./services/bin/pg_dump
+    # FYLR_CMD_PG_DUMP: ./services/bin/pg_dump
 
   # tempDir is used by api/system/backup and the export to during a TAR
   # production. With no tempDir given the system defaults temp dir is used. This
@@ -270,6 +270,10 @@ fylr:
       - ../../../fylr-plugins/fylr_example
     urls:
       - https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/download/v0.1.2/fylr-plugin-formula-columns.zip
+    # default defines the generic default for new plugins. Plugins are new when they are inserted into the database.
+    default:
+      enabled: false
+      update_policy: "automatic"
     # defaults is a map setting defaults for the plugin registration.
     # This is configured as map with the plugin name as key.
     defaults:
