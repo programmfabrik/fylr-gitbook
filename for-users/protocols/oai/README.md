@@ -37,7 +37,10 @@ The easydb provides the information configured in the base configuration tab "OA
 
 The repository consists of all user objects that can be seen by the system user "OAI/PMH". That means, that the rights management settings allow to control which objects are offered via OAI/PMH.
 
-The objects are identified by their UUID like this: `oai:<uuid>`
+The objects are identified by their UUID. The identifier format depends on the settings in the base configuration:
+
+* If an optional namespace is specified, the identifier format is: `oai:<namespace>:<uuid>`
+* If no namespace is specified, the identifier format is: `oai:<uuid>`
 
 ## Metadata Formats
 
