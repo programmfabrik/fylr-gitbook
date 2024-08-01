@@ -15,8 +15,29 @@ More information about the standard can be found here: [http://www.openarchives.
 OAI/PMH is configured in the base configuration tab ["Export and OAI/PMH"](/for-administrators/readme/export-and-deep-links#oai-pmh). In order to use it, first enable it using the checkbox and then fill in the fields:
 
 - Repository-Name: information provided by [`Identify`](#identify) (`repositoryName`)
-- Administrator-E-Mail: information provided by `Identify` (`adminEmail`)
-- Namespace: namespace of the records in XML
+
+### Identify
+
+```
+?verb=Identify
+```
+
+This returns information about the OAI/PMH endpoint.
+
+Example:
+
+```xml
+<Identify>
+    <repositoryName>fylr</repositoryName>
+    <baseURL>[...]/api/v1</baseURL>
+    <protocolVersion>2.0</protocolVersion>
+    <earliestDatestamp>2024-08-01T08:38:07Z</earliestDatestamp>
+    <deletedRecords>persistent</deletedRecords>
+    <granularity>YYYY-MM-DDThh:mm:ssZ</granularity>
+</Identify>
+```
+
+fylr provides the information configured in the base configuration tab "OAI/PMH" to identify the repository. The granularity offered is `"YYYY-MM-DDThh:mm:ssZ"` and the `deletedRecord` policy is set to `"persistent"`.
 
 
 ## API
@@ -28,16 +49,7 @@ The OAI/PMH can be accessed under:
 The parameters are defined under [Protocol Requests and Responses](https://www.openarchives.org/OAI/openarchivesprotocol.html#ProtocolMessages).
 
 
-## Identify
-
-- `repositoryName`: Repository-Name, as configured in the Base Configuration
-- `baseURL`: `<external_url>/api/plugin/base/oai/oai` with `external_url` as the external Server URL, as configured in the Server YML: `server/external_url`
-- `adminEmail`: Administrator-E-Mail, as configured in the Base Configuration
-
-
 ## Repository
-
-The easydb provides the information configured in the base configuration tab "OAI/PMH" to identify the repository. The granularity offered is `"YYYY-MM-DDThh:mm:ssZ"` and the `deletedRecord` policy is set to `"no"`.
 
 The repository consists of all user objects that can be seen by the system user "OAI/PMH". That means, that the rights management settings allow to control which objects are offered via OAI/PMH.
 
@@ -46,10 +58,26 @@ The objects are identified by their UUID. The identifier format depends on the s
 * If an optional namespace is specified, the identifier format is: `oai:<namespace>:<uuid>`
 * If no namespace is specified, the identifier format is: `oai:<uuid>`
 
+To get a single or multiple records, use
+
+```
+?verb=GetRecord&identifier=oai:...
+```
+
+or
+
+```
+?verb=ListRecords
+```
+
 
 ## Metadata Formats
 
-The easydb always disseminates all available formats to all objects. To get all available metadata formats, use the verb `ListMetadataFormats`.
+The easydb always disseminates all available formats to all objects. To get all available metadata formats, use
+
+```
+?verb=ListMetadataFormats
+```
 
 ### Default XML Format
 
@@ -98,7 +126,11 @@ To avoid this, define the output format of the XSLT as
 
 fylr supports the following types of sets.
 
-To get a list of all available sets, use the verb `listSets`.
+To get a list of all available sets, use
+
+```
+?verb=ListSets
+```
 
 
 ### Objecttypes
