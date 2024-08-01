@@ -6,6 +6,10 @@ description: >-
 
 # Events
 
+{% hint style="info" %}
+This menu is only available if the plugin "eventmanager" is enabled.
+{% endhint %}
+
 ## Search
 
 Use the **search** to **filter** all **events** (see below for a [list of all possible events](events.md#event-types)). The **options** mentioned below can be **combined** (except event ID). Simply select the search criteria and then hit "**Search**" and you will see the **results** in the middle pane. To **reset** your **filters**, click on "**Reset**".
