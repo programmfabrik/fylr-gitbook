@@ -129,6 +129,7 @@
 * [Configuration](for-system-administrators/configuration/README.md)
   * [fylr.example.yml](for-system-administrators/configuration/fylr.example.yml.md)
   * [fylr.default.yml](for-system-administrators/configuration/fylr.default.yml.md)
+  * [pre-load frontend config](for-system-administrators/configuration/pre-load-frontend-config.md)
   * [Load Custom Plugins](for-system-administrators/configuration/custom-plugin.md)
   * [HTTP and HTTPS](for-system-administrators/configuration/http-and-https.md)
 * [Backups & Restore](for-system-administrators/backup.md)
