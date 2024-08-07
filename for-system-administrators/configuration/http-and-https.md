@@ -56,12 +56,10 @@ fylr+:
 We did not test this exact example, please use it as a starting point.
 {% endhint %}
 
-
-
 ## You provide the HTTPS certificate
 
 1. Put your certificate and private key in the same directory as `fylr.yml`, in this example the file names are `crt.pem` and `key.pem`.
-2. If you need intermediate certificates, put them into `crt.pem` as well.
+2. If you need additional certificates of a certificate chain, like intermediate certificates, put them into `crt.pem`, as well. In our test worked to put the most specific certificate first (like for fylr.example.com) and then follow with the certificate that was used to sign the first one (and then the certificate that was used to sign the second one).
 3. In `fylr.yml`:
 
 ```
@@ -112,8 +110,6 @@ fylr+:
 We did not test this exact example, please use it as a starting point.
 {% endhint %}
 
-
-
 ## No HTTPS
 
 Recommended only for internal use.
@@ -144,6 +140,3 @@ We did not test this exact example, please use it as a starting point.
 ## No HTTPS and domain is localhost
 
 This is the default.
-
-
-
