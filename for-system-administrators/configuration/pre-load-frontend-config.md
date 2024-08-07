@@ -68,7 +68,7 @@ When you want to for example change the produce configuration for preview versio
 
 3. Optionally change the JSON configuration file to your requirements.
 4. Put the downloaded JSON file as (in this example) `config.json` into the same directory as the `fylr.yml` file.
-5.  Configure your to-be-initialized fylr instance to use the `config.json` file in `fylr.yml`:
+5.  Configure your to-be-initialized fylr instance to use the `config.json` file, in `fylr.yml`:
 
     ```
     fylr+:
@@ -82,5 +82,9 @@ When you want to for example change the produce configuration for preview versio
               kind: file
     [... etc. ...]
     ```
-6. Make sure you have no configuration-"leaves" to `config:`-"branch" as shown in the example above.
-7. Only then start the new fylr instance. `config.json` will only be used if the SQL Database was never used before by fylr.
+6. Make sure you have no configuration-"leaves" in the `config:`-"branch" as shown in the example above.
+7. Only then start the new fylr instance.
+
+{% hint style="info" %}
+`config.json` will only be used if this SQL Database was never used before by fylr.
+{% endhint %}
