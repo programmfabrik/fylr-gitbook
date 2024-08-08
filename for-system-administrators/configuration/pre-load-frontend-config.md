@@ -82,7 +82,7 @@ When you want to for example change the produce configuration for preview versio
               kind: file
     [... etc. ...]
     ```
-6. Make sure you have no configuration-"leaves" in the `config:`-"branch" as shown in the example above.
+6. Make sure you have no configuration-"leaves" in the `config:`-"branch" as shown in the example above. In other words: `config` has to be empty or else it will replace `configFile`.
 7. Only then start the new fylr instance.
 
 {% hint style="info" %}
