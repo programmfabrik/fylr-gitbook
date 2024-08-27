@@ -123,7 +123,7 @@
 ## FOR SYSTEM ADMINISTRATORS
 
 * [Installation](for-system-administrators/installation/README.md)
-  * [Linux](for-system-administrators/installation/linux-docker-compose/README.md)
+  * [Linux](for-system-administrators/installation/linux-docker-compose.md)
     * [multiple fylrs in one Linux](for-system-administrators/installation/linux-docker-compose/multiple-fylrs-in-one-linux.md)
   * [Windows](for-system-administrators/installation/windows.md)
   * [Kubernetes](for-system-administrators/installation/helm.md)

@@ -12,7 +12,7 @@ Please note: We do all of our automated and manual software testing based on Lin
 
 ## Linux
 
-* Instructions and Requirements: [Linux](linux-docker-compose/)
+* Instructions and Requirements: [Linux](linux-docker-compose.md)
 * Uses docker-compose.
 * 3rd party tools for thumbnails are pre-packaged.
 * If unsure, use this method when installing yourself.

@@ -129,4 +129,4 @@ docker compose up -d $SERVICE
 
 ## Remarks
 
-A maintain script and cron job, as in the [default recommended installation](./), are not provided by us, as we do not have sufficient experience with this multi-fylr-setup. This should also tell you to be cautious and use the recommended installation instead, when possible.
+A maintain script and cron job, as in the [default recommended installation](../linux-docker-compose.md), are not provided by us, as we do not have sufficient experience with this multi-fylr-setup. This should also tell you to be cautious and use the recommended installation instead, when possible.
