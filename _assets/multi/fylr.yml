@@ -1,0 +1,142 @@
+fylr+:
+  externalURL: "https://EXAMPLE.COM"
+
+  encryptionKey: "EXAMPLEkjfsdgf8ddec415fd80bdbe25"
+
+  logger+:
+    timeFormat: "2006-01-02 15:04:05"
+    
+  db:
+    driver: "postgres"
+    dsn: "postgres://EXAMPLE:EXAMPLE@postgresql:5432/EXAMPLE?sslmode=disable"
+
+    maxOpenConns: 100
+    maxIdleConns: 10
+    # The init block is used to pre-fill the database when its created or purged.
+    init:
+      # Path to base config file. If set, on a fresh install or after a purge this
+      # file is used and preloaded into the base config. The format of the file is
+      # JSON in API format. Defaults to "", which starts with an empty base
+      # config. The empty base config uses defaults which are defined in
+      # resources/baseconfig/baseconfig.yml. Unset keys (from a partial base
+      # config file), are set to their defaults.
+      configFile: ""
+
+      # Inline base config. Works like configFile but used the inlined
+      # baseconfig setting in this .yml file. Runs after configFile, so everything
+      # in config overwrites settings from configFile. Default is empty.
+      config:
+        system:
+          config:
+            purge:
+              allow_purge: false
+              purge_storage: false
+            location_defaults:
+              originals: assets
+              versions: assets
+              backups: backups
+
+      # preconfigure locations for empty databases
+      locations:
+        # the location's name can be any string which you choose
+        #
+        # Inside the storage location fylr will create a structure like this:
+        #
+        # [prefix/]fylr-UUID/originals
+        # [prefix/]fylr-UUID/versions
+        # [prefix/]fylr-UUID/backups
+        assets:
+          # The kind is either "file" or "s3" (see below)
+          kind: file
+          # Each location can configure a prefix which will
+          # be attached before the file to be created
+          prefix: ""
+          # Set to true if files in this location can be
+          # purged by FYLR (if the purge api call is used)
+          allow_purge: false
+          config:
+            file:
+              # keep in mind: this is a path inside of the container
+              dir: "/srv"
+        backups:
+          # The kind is either "file" or "s3" (see below)
+          kind: file
+          # Each location can configure a prefix which will
+          # be attached before the file to be created
+          prefix: ""
+          # Set to true if files in this location can be
+          # purged by FYLR (if the purge api call is used)
+          allow_purge: false
+          config:
+            file:
+              # keep in mind: this is a path inside of the container
+              dir: "/fylr/files/backups"
+
+  plugin:
+    paths:
+      - "/fylr/files/plugins/easydb/easydb-barcode-display-pdf-plugin"
+      - "/fylr/files/plugins/easydb/easydb-barcode-display-plugin"
+      - "/fylr/files/plugins/easydb/easydb-basemigration-plugin"
+      - "/fylr/files/plugins/easydb/easydb-coin-viewer-plugin"
+      - "/fylr/files/plugins/easydb/easydb-connector-plugin"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-cerlthesaurus"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-gazetteer"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-geonames"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-georef"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-gn250"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-gnd"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-goobi"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-html-editor"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-iconclass"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-iucn"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-link"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-location"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-nomisma"
+      - "/fylr/files/plugins/easydb/easydb-custom-data-type-tnadiscovery"
+      - "/fylr/files/plugins/easydb/easydb-custom-mask-splitter-detail-linked-plugin"
+      - "/fylr/files/plugins/easydb/easydb-detail-map-plugin"
+      - "/fylr/files/plugins/easydb/easydb-display-field-values-plugin"
+      - "/fylr/files/plugins/easydb/easydb-drupal-plugin"
+      - "/fylr/files/plugins/easydb/easydb-easydb4migration-plugin"
+      - "/fylr/files/plugins/easydb/easydb-editor-tagfilter-defaults-plugin"
+      - "/fylr/files/plugins/easydb/easydb-eventmanager-plugin"
+      - "/fylr/files/plugins/easydb/easydb-export-transport-ftp-plugin"
+      - "/fylr/files/plugins/easydb/easydb-falconio-plugin"
+      - "/fylr/files/plugins/easydb/easydb-hijri-gregorian-converter-plugin"
+      - "/fylr/files/plugins/easydb/easydb-orcid-plugin"
+      - "/fylr/files/plugins/easydb/easydb-pdf-creator-plugin"
+      - "/fylr/files/plugins/easydb/easydb-presentation-pptx-plugin"
+      - "/fylr/files/plugins/easydb/easydb-remote-plugin"
+      - "/fylr/files/plugins/easydb/easydb-typo3-plugin"
+      - "/fylr/files/plugins/easydb/easydb-wordpress-plugin"
+
+  elastic+:
+    addresses:
+    - "http://opensearch:9200"
+
+  services+:
+    webapp+:
+      addr: ":80"
+      tls:
+
+    api+:
+      # the following path is inside the container and typically is mapped to the outside by docker-compose.yml
+      webDAVHotfolderPath: "/srv/hotfolder"
+      oauth2Server+:
+        # This secret is used to sign authorize codes, access and refresh
+        # tokens. If unset, a random string is used. If multiple fylr server are
+        # serving the same instance, the signingSecret needs to be configured.
+        # If not configured, each container recreation results in new tokens.
+        # The format is a string of exactly 32 byte length.
+        signingSecret: "EXAMPLE9642734462945293456789023"
+        clients+:
+          # key in next line = value of fylr.services.webapp.oauth.clientID (and a + to indicate using defaults)
+          fylr-web-frontend+:
+            redirectURIs:
+            - https://EXAMPLE.COM/oauth2/callback
+
+    # for using /inspect/migration/ of this instance
+    backend+:
+      inspect+:
+        backup+:
+          path: /fylr/files/migration
