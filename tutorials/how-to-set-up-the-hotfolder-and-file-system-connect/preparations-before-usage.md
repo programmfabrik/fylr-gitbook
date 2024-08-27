@@ -24,7 +24,7 @@ fylr+:
 
 The **path** given needs to make sense inside the _**container**_** filesystem** hierarchy.&#x20;
 
-Typically, the path is mapped to the outside of the container to the server file system, for space requirements or persistence. The [docker-compose.yml](../../\_assets/docker-compose.yml) given in our [installation instructions](../../for-system-administrators/installation/linux-docker-compose.md) does this implicitly by mapping an outside directory to `/srv` inside the container.
+Typically, the path is mapped to the outside of the container to the server file system, for space requirements or persistence. The [docker-compose.yml](../../\_assets/docker-compose.yml) given in our [installation instructions](../../for-system-administrators/installation/linux-docker-compose/) does this implicitly by mapping an outside directory to `/srv` inside the container.
 
 
 

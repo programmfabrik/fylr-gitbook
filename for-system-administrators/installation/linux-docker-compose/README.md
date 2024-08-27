@@ -196,7 +196,7 @@ Aspects to consider if  your logs need to be 100% reliable (usually overkill)
 * When docker cannot start containers with errors refering to `shim, OCI, apparmor`: `apt-get install apparmor apparmor-utils; systemctl restart docker`
 * When the indexer does not work, make sure you used `sysctl` as shown above.
 
-Many messages can be safely ignored, see [here](../symptom-and-solution/log-messages-that-can-be-ignored.md).
+Many messages can be safely ignored, see [here](../../symptom-and-solution/log-messages-that-can-be-ignored.md).
 
 Trouble with reachability, network, redirects:
 
