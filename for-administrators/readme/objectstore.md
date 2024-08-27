@@ -19,7 +19,9 @@ Identifier of the data model. It is chosen during objectstore configuration. Usu
 
 Identifier of this FYLR instance. Each connected FYLR instance should use a different identifier. Hard to guess identifiers are more secure. Usually provided by Programmfabrik GmbH.
 
-
+{% hint style="info" %}
+It is possible to configure read-only instances which can only pull the data model from the objectstore server but cannot push the data model to the objectstore server. These instances must be given the suffix “-pull-only”.
+{% endhint %}
 
 
 
