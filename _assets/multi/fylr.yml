@@ -4,7 +4,7 @@ fylr+:
   encryptionKey: "EXAMPLEkjfsdgf8ddec415fd80bdbe25"
 
   logger+:
-    timeFormat: "2006-01-02 15:04:05"
+    timeFormat: "2006-01-02 15:04:05Z07"
     
   db:
     driver: "postgres"
