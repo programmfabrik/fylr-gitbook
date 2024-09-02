@@ -1,5 +1,5 @@
 ---
-description: This article describes the different input fields to enter data.
+description: This article describes the different input fields to enter or modify data.
 ---
 
 # Input Fields
@@ -12,19 +12,21 @@ Please note that further restrictions may have been configured for these fields 
 
 ## Single-Line & Multi-Line Text Field
 
-A **Single-Line Text Field** allows you to input a brief line of text, while a **Multi-Line Text Field** accommodates larger blocks of text (including line breaks), such as descriptions.
+A **Single-Line Text Field** allows you to input a brief line of text, while a **Multi-Line Text Field** accommodates larger blocks of text (including line breaks), such as descriptions.&#x20;
 
 
 
 ## Multilingual Single-Line & Multi-Line Text Field
 
-**Multilingual Fields** allow you to enter and manage texts in multiple languages within a single-line or multi-line text field. For each language an input field with the language code will be displayed.
+**Multilingual Fields** allow you to enter and manage texts in multiple languages within a single-line or multi-line text field. For each language an input field with the language code will be displayed. Click on the language code to change your language settings and hide/show more available languages.&#x20;
 
 The available languages are defined by administrators in the [base configuration](../../../for-administrators/readme/languages.md). You can narrow these down in the language settings at the top right.
 
 
 
 ## String Field
+
+The string field allows users to enter a single line of text. In opposite to the single-line text field, the content of the string field is only indexed as a whole, meaning it's only searchable as a whole string. This field is typically used for inventory numbers.&#x20;
 
 
 
@@ -40,7 +42,7 @@ The date range field allows the input of a start and end date. Each field can ac
 
 When entering a start date, the end date is automatically set to the same date. The end date can then be modified if needed. If one of the fields is left empty, it means it is an open range.&#x20;
 
-Depending on the data model the date range field supports the textual input of dates. You can switch between the textual input and the field input by clicking on the text "" and "".
+Depending on the data model the date range field supports the textual input of dates. You can switch between the textual input and the field input by clicking on the text "Date Input" and "Text Input".
 
 
 
@@ -70,7 +72,9 @@ The double field is used to handle floating-point numbers with double precision.
 
 ## File Upload Field
 
-The file upload field allows you to upload one or more files from your local device. This field supports various file types, depending on the [configuration](../../../for-administrators/readme/file-worker.md) and [permissions](../../../for-administrators/permissions/). Each file is processed and stored according to the application's requirements. Users can drag and drop files into the field or use the "Browse" button to select files manually.
+The file upload field allows you to upload one or more files from your local device. This field supports various file types, depending on the [configuration](../../../for-administrators/readme/file-worker.md) and [permissions](../../../for-administrators/permissions/). Each file is processed and stored according to the application's requirements. You can drag and drop files into the field or use the 3-dot-menu button to select files manually.
+
+Once a field has been uploaded, additional options become available in the 3-dot-menu.&#x20;
 
 
 
@@ -82,19 +86,46 @@ The checkbox field allows you to select or deselect an option. This field is typ
 
 ## Simple Link Field
 
+A simple link field allows you to choose records from a list (such as persons, locations and keywords) to link to the record. You can either enter the text directly and wait for the suggestions to choose from, or you can open the whole list by clicking on the 3-dot-menu on the right of the field to access the search. There you can use the fulltext and expert search and all other search options to navigate the list and choose the record(s) you want to add by selecting it and clicking "Select".
+
+Once a record was selected, you can change or remove this record by clicking on the 3-dot-menu again and either click on "Search" to link another record or click on "Remove" to remove the record from the field (the record will not be deleted from the list).
+
+Depending on your permissions, you can add, modify or delete records from the list.
+
+
+
+## Pulldowns
+
+Pulldowns, also known as dropdown menus, provide a list of predefined options from which you can select.&#x20;
+
 
 
 ## Repeatable Fields
+
+Repeatable fields, also called "nested fields", allow you to add multiple instances of a particular form field. This is useful for scenarios where you need to enter the same type of information multiple times, for example, adding multiple keywords, categories or persons.
+
+If a repeatable field consists of just one field, an empty field is always shown automatically. For repeatable fields that consist of multiple fields (such as a person and a role), you can add a new row by clicking on the plus button. The trash bin icon allows you to remove a row from the record. Depending on the configuration, the entries are either sorted alphabetically or you can set your own order by using the 3-line drag handle icon in the front.
 
 
 
 ## Tags
 
+Tags help in categorizing and organizing content efficiently.  You can assign multiple tags to records, making it easier to filter and search for relevant information or to give certain users access to specific records. They are structured in groups, which define if you can assign multiple tags  (checkboxes) or just one tag (radio button) from a group to the record.
+
+Tags are configured by administrators, so please refer to your administrator for their specific uses.
+
 
 
 ## Permissions
+
+Permissions help in controlling who can view, edit, or delete records and usually this is defined globally by administrators. In some cases permissions can also be set directly for individual records for a fine-tuned control. For each permission you can define the user or user group and define which access they should get (by either choosing a preset or by defining the detailed permissions yourself).&#x20;
+
+{% hint style="info" %}
+Please refer to [Permissions](../../../for-administrators/permissions/) for a detailed description of the permissions.
+{% endhint %}
 
 
 
 ## Plugins
 
+Additionally to the above mentioned standard input fields, plugins can offer a different way of entering data. Please refer to the plugin documentation for each description of how to use the field.
