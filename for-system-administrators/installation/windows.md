@@ -75,13 +75,9 @@ xpack.security.enabled: false
 
 Elasticsearch then used the default address `http://localhost:9200`, which is also configured in `fylr.yml`.
 
-
-
 ### Start with minimal dependencies
 
 Edit fylr.yml to not use any 3rd part tools for the moment if you want to test/start with minimal effort:
-
-
 
 ```
  fylr+:
@@ -254,13 +250,14 @@ Now was a good time to go to the last part in fylr.yml and replace minimal 3rd p
 
 * before:
 
-<pre><code>fylr+:
+```
+fylr+:
   [...]
   services+:
   [...]
     execserver+:
-<strong>
-</strong>      commands:
+
+      commands:
        fylr:
          prog: fylr.exe
       services:
@@ -287,8 +284,10 @@ Now was a good time to go to the last part in fylr.yml and replace minimal 3rd p
           # # is searched in PATH variable:
           # prog: "python.exe"
         # pdftotext:
-          # prog: "C:\\fylr\\utils\\pdftotext.exe"
-</code></pre>
+          # prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdftotext.exe"
+        # pdftoppm:
+          # prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdftoppm.exe"
+```
 
 * after:
 
@@ -325,7 +324,9 @@ Now was a good time to go to the last part in fylr.yml and replace minimal 3rd p
           # is searched in PATH variable:
           prog: "python.exe"
         pdftotext:
-          prog: "C:\\fylr\\utils\\pdftotext.exe"
+          prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdftotext.exe"
+        pdftoppm:
+          prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdftoppm.exe"
 
 </code></pre>
 
