@@ -47,7 +47,7 @@ swapoff -a; free -h
 
 ## Download all and configure common services
 
-Use this example `docker-compose.yml` as a starting point:
+Use the following `docker-compose.yml` as a starting point:
 
 ```
 curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/multi/docker-compose.yml -o docker-compose.yml
@@ -63,6 +63,8 @@ docker compose up -d postgresql opensearch
 ```
 
 ## For each fylr instance
+
+Do all the rest of the instructions for the first fylr instance. Then repeat all of it for the second.
 
 Choose unique names and ports and put them into bash variables. Use the same as you used in `docker-compose.yml`.
 
@@ -127,6 +129,8 @@ $PSQL -c 'ALTER DATABASE '$DB' OWNER TO '$DBUSER';'
 docker compose up -d $SERVICE
 ```
 
+Repeat for each additional fylr instance the whole part from "For each fylr instance" to here.
+
 ## Remarks
 
-A maintain script and cron job, as in the [default recommended installation](../linux-docker-compose.md), are not provided by us, as we do not have sufficient experience with this multi-fylr-setup. This should also tell you to be cautious and use the recommended installation instead, when possible.
+A maintain script and cron job, as in the [default recommended installation](../linux-docker-compose.md), are not provided by us, as we do not have sufficient experience with this multi-fylr-setup. Use the recommended installation instead, when possible.
