@@ -150,10 +150,10 @@ If you want to go back to a fresh state between two test runs:
 * Start elasticsearch as shown at the beginnig.
 * If you use postgres, remove and recreate the database.
 
-### pdftotext.exe and pdftoppm.exe
+### pdf tools
 
 * We downloaded [Release-23.08.0-0.zip](https://github.com/oschwartz10612/poppler-windows/releases/download/v23.08.0-0/Release-23.08.0-0.zip) from [https://github.com/oschwartz10612/poppler-windows](https://github.com/oschwartz10612/poppler-windows/releases/tag/v23.08.0-0) (_not_ xpdf-tools from https://www.xpdfreader.com)
-* We unpacked its contents and configured the path to pdftotext.exe and pdftoppm.exe in fylr.yml. Alternatively, we tested successfully to add the containing directory of those tools to the PATH.
+* We unpacked its contents and configured the path to pdftotext.exe, pdftoppm.exe and pdfinfo.exe in fylr.yml. Alternatively, we tested successfully to add the containing directory of those tools to the PATH.
 
 ### magick.exe and convert.exe and composite.exe
 
@@ -287,6 +287,8 @@ fylr+:
           # prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdftotext.exe"
         # pdftoppm:
           # prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdftoppm.exe"
+        # pdfinfo:
+          # prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdfinfo.exe"
 ```
 
 * after:
@@ -327,7 +329,8 @@ fylr+:
           prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdftotext.exe"
         pdftoppm:
           prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdftoppm.exe"
-
+<strong>        pdfinfo:
+</strong>          prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdfinfo.exe"
 </code></pre>
 
 Check that each indentation level is two spaces. (No tab characters, just space characters).
