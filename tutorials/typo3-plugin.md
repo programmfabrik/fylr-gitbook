@@ -1,5 +1,5 @@
 ---
-description: How to use fylr-images in a typo3.
+description: How to use images from fylr in a typo3.
 ---
 
 # typo3 plugin
@@ -26,6 +26,11 @@ The typo3-plugin for fylr is shipped with fylr, but it is disabled by default.
    ![](<../.gitbook/assets/image (13).png>)\
    \
    You can then close this window and the files appear in Typo3 `Filelist`.
+
+## Good to know
+
+* Changed or deleted data records in fylr are not synchronized with TYPO3. Changes to the data record must be transferred to TYPO3 manually.
+* The name of the plugin may change it's name from easydb to fylr.
 
 
 
