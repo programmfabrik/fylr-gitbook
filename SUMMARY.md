@@ -165,6 +165,7 @@
   * [SAML](tutorials/saml.md)
 * [Data Model Sync](tutorials/objectstore.md)
 * [Purge a fylr instance](tutorials/purge-a-fylr-instance.md)
+* [typo3 plugin](tutorials/typo3-plugin.md)
 
 ## FOR DEVELOPERS
 
