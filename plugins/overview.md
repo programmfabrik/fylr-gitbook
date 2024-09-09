@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2024-05-02 13:04:15 (UTC)
+    * timestamp: 2024-09-09 14:14:10 (UTC)
 -->
 
 # Plugin Overview
@@ -209,7 +209,7 @@ Configure standard fields in the base configuration, which can be defined per po
 
 ## `easydb-connector-plugin`
 
-Adds the Connection feature which enables you to include other flyr installations in your search.
+Adds the Connection feature which enables you to include other fylr installations in your search.
 
 * Repository: [https://github.com/programmfabrik/easydb-connector-plugin](https://github.com/programmfabrik/easydb-connector-plugin)
 * See also: [https://docs.fylr.io/for-users/plugins/connector](https://docs.fylr.io/for-users/plugins/connector)
