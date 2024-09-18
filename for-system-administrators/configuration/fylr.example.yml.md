@@ -131,7 +131,7 @@ fylr:
     #  "UNIXMS" milliseconds since 1970 (json format only)
     #  "UNIXMICRO" microseconds since 1970 (json format only)
     # Defaults to ""
-    timeFormat: "2006-01-02 15:04:05"
+    timeFormat: "2006-01-02 15:04:05Z07"
     # turn off color for zerolog's underlying ConsoleWriter
     # format: "console" only.
     noColor: false
@@ -172,8 +172,9 @@ fylr:
       configFile: ""
 
       # Inline base config. Works like configFile but used the inlined
-      # baseconfig setting in this .yml file. Runs after configFile, so everything
-      # in config overwrites settings from configFile. Default is empty.
+      # baseconfig setting in this .yml file. Runs after configFile, so
+      # everything in config overwrites settings from configFile. Default is
+      # empty.
       config: null
 
       # To setup a purgeable system with default storage locations
