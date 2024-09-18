@@ -51,11 +51,18 @@
 * [License Management](license-management.md)
 * [Plugins](plugins.md)
   * [Plugin Overview](plugins/overview.md)
-* [Glossary](glossary.md)
+
+## Help
+
+* [FAQs](help/faqs.md)
+* [Tutorials](help/tutorials/README.md)
+  * [For Users](help/tutorials/for-users.md)
+  * [For Administrators](help/tutorials/for-administrators.md)
+  * [For System Administrators](help/tutorials/for-system-administrators.md)
+* [Glossary](help/glossary.md)
 
 ## FOR USERS
 
-* [Coming Soon](for-users/coming-soon.md)
 * [Getting Started](for-users/getting-started.md)
 * [Asset / Records Management](for-users/asset-records-management/README.md)
   * [Creating Records](for-users/asset-records-management/creating-records.md)
