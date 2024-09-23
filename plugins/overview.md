@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2024-09-09 14:14:10 (UTC)
+    * timestamp: 2024-09-23 15:07:20 (UTC)
 -->
 
 # Plugin Overview
@@ -232,6 +232,15 @@ Adds a tool to migrate from easydb4 to easydb5 or fylr to the main menu.
 * This plugin was developed by Programmfabrik GmbH.
 
 
+## `easydb-editor-tagfilter-defaults-plugin`
+
+Adds a tool to the base configuration to set default values for simple text fields depending on tags.
+
+* Repository: [https://github.com/programmfabrik/easydb-editor-tagfilter-defaults-plugin](https://github.com/programmfabrik/easydb-editor-tagfilter-defaults-plugin)
+* Release URL: [https://github.com/programmfabrik/easydb-editor-tagfilter-defaults-plugin/releases/latest/download/easydb-editor-tagfilter-defaults-plugin.zip](https://github.com/programmfabrik/easydb-editor-tagfilter-defaults-plugin/releases/latest/download/easydb-editor-tagfilter-defaults-plugin.zip)
+* This plugin was developed by Programmfabrik GmbH.
+
+
 ## `easydb-plugin-zooniverse-import`
 
 Plugin to parse CSV exports from [Zooniverse](https://www.zooniverse.org/) and update records in fylr.
@@ -278,7 +287,6 @@ This custom mask splitter allows you to hide input fields depending on another f
 Mask splitter that is configured for a text field. It shows in the editor whether the field has had the same value in the user's visibility range before.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values](https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values)
-* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `fylr-ejc-plugin`
@@ -329,7 +337,6 @@ Adds support for the `geo-json` custom data type with an editor that allows for 
 Custom monitoring-endpoint for fylr-API. The plugin provides a new API endpoint under `GET /api/v1/plugin/base/monitoring/monitoring`.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-monitoring](https://github.com/programmfabrik/fylr-plugin-monitoring)
-* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `server-pdf`
