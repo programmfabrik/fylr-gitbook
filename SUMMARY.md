@@ -3,6 +3,7 @@
 * [Welcome](README.md)
 * [Releases](releases/README.md)
   * [2024](releases/2024.md)
+    * [Release v6.12.2 (2024-09-18)](releases/2024/v6.12.2.md)
     * [Release v6.12.1 (2024-08-01)](releases/2024/v6.12.1.md)
     * [Release v6.12.0 (2024-07-25)](releases/2024/v6.12.0.md)
     * [Release v6.11.5 (2024-07-09)](releases/2024/v6.11.5.md)
@@ -50,11 +51,18 @@
 * [License Management](license-management.md)
 * [Plugins](plugins.md)
   * [Plugin Overview](plugins/overview.md)
-* [Glossary](glossary.md)
+
+## Help
+
+* [FAQs](help/faqs.md)
+* [Tutorials](help/tutorials/README.md)
+  * [For Users](help/tutorials/for-users.md)
+  * [For Administrators](help/tutorials/for-administrators.md)
+  * [For System Administrators](help/tutorials/for-system-administrators.md)
+* [Glossary](help/glossary.md)
 
 ## FOR USERS
 
-* [Coming Soon](for-users/coming-soon.md)
 * [Getting Started](for-users/getting-started.md)
 * [Asset / Records Management](for-users/asset-records-management/README.md)
   * [Creating Records](for-users/asset-records-management/creating-records.md)

@@ -37,7 +37,7 @@ The typo3-plugin for fylr is shipped with fylr, but it is disabled by default.
 ## Good to know
 
 * Changed or deleted data records in fylr are not synchronized with TYPO3. Changes to the data record must be transferred to TYPO3 manually.
-* The name of the plugin may change it's name from easydb to fylr.
+* The name of the plugin may change its name from easydb to fylr.
 
 
 

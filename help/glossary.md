@@ -10,7 +10,7 @@ Variant of a file. Files can be cropped or rotated and the result is a file vari
 
 ### File Version
 
-Version of a file. Each time a file has been uploaded, different (preview) versions are created automatically. Specify in the [file worker](for-administrators/readme/file-worker.md), which versions should be created.
+Version of a file. Each time a file has been uploaded, different (preview) versions are created automatically. Specify in the [file worker](../for-administrators/readme/file-worker.md), which versions should be created.
 
 ### Record Version
 

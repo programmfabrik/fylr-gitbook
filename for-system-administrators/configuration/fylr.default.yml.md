@@ -14,7 +14,7 @@ fylr:
   logger:
     format: "console"
     level: "info"
-    timeFormat: "2006-01-02 15:04:05"
+    timeFormat: "2006-01-02 15:04:05Z07"
   db:
     driver: sqlite3
     dsn: "fylr.db"
