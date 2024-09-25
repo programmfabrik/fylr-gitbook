@@ -147,8 +147,10 @@ fylr:
     # driver: sqlite3
     # dsn: "../../_data/sqlite/fylr.db"
     driver: postgres
+
     # specify a PostgreSQL user owning the given db (with LOGIN and INHERIT, which are defaults for CREATE USER anyway).
     dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
+
     # https://golang.org/pkg/database/sql/#DB.SetMaxOpenConns default: 100 At
     # least: 4 + execserver.parallel + execserver.parallelHigh +
     # elastic.parallel. Two of these connections will be dedicated to a separate
@@ -158,9 +160,11 @@ fylr:
     # request to the API will query the database at least once, this setting
     # doubles as a rate throttler. (Postgres only)
     maxOpenConns: 100
+
     # https://golang.org/pkg/database/sql/#DB.SetMaxIdleConns, default: 0
     # This has to be not more than maxOpenConns
     maxIdleConns: 10
+
     # The init block is used to pre-fill the database when its created or purged.
     init:
       # Path to base config file. If set, on a fresh install or after a purge this
