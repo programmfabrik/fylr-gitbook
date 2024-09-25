@@ -10,8 +10,8 @@ In `/etc/systemd/system/docker.service.d/proxy.conf`
 
 ```
 [Service]
-Environment="http_proxy=http://proxy.lda.stk.lsa-net.de:80/"
-Environment="https_proxy=http://proxy.lda.stk.lsa-net.de:80/"
+Environment="http_proxy=http://your.proxy:80/"
+Environment="https_proxy=http://your.proxy:80/"
 ```
 
 ```
