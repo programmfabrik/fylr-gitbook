@@ -19,8 +19,6 @@ This uses `fylr backup` to create a backup on the **fylr** instance. Not all par
 
 See also: [Backup Parameters](backup.md#parameters)
 
-<figure><img src="../../.gitbook/assets/fylr-inspect-migration-backup.png" alt="fylr inspect/migration page: create backup"><figcaption></figcaption></figure>
-
 ### Parameter settings
 
 #### Name of backup
@@ -46,9 +44,8 @@ See also: [Backup Parameters](backup.md#parameters)
 #### Backup chunk size
 
 * Select the batch size for GET requests
-* Choose between: `100`, `500`, `100`, `1000`, `5000`, `10000`
-  * For **easydb5** source instances, choose a **maximum of `1000`!**
-* This sets `--chunk 500`
+* Choose between: `10`, `25`, `50`, `100`, `500`, `1000`
+* This sets `--chunk`
 
 #### Include object history
 
@@ -59,17 +56,13 @@ See also: [Backup Parameters](backup.md#parameters)
 
 #### Include events
 
-{% hint style="info" %}
-This parameter is available in fylr from version **v6.12.0**.
-{% endhint %}
-
 * If set, all events from the source are included in the backup
 * If not set, the backup of events is skipped
 * This sets `--include-events`
 
 #### OAuth2
 
-* Select only of the source instance uses OAuth2
+* Select only if the source instance uses OAuth2
 * **easydb5** does not use OAuth2
 * this enables the following options:
   * *OAuth2 Client Id*
@@ -79,6 +72,15 @@ This parameter is available in fylr from version **v6.12.0**.
     * Client Secret of the source instance
     * Leave empty if the source instance is public
     * This sets `--client-secret foo`
+
+#### Purge or Continue
+
+* **Purge**
+  * The existing backup folder is purged and a new backup process is started
+  * This sets `--purge`
+* **Continue**
+  * A previous backup process is continued
+  * This sets `--continue`
 
 ### Fixed parameters
 
@@ -105,8 +107,6 @@ After a backup was finished, it can be restored to a target **fylr** instance.
 This uses `fylr restore` to upload the payloads to the **fylr** instance. Not all parameters can be set here. Some parameters are automatically set with a useful default.
 
 See also: [Restore Parameters](restore.md#parameters)
-
-<figure><img src="../../.gitbook/assets/fylr-inspect-migration-restore.png" alt="fylr inspect/migration page: restore a backup"><figcaption></figcaption></figure>
 
 ### Parameter settings
 
@@ -168,8 +168,8 @@ This sets `--file-api-access-token <token>`
 #### Chunk size
 
 * Select the batch size for POST requests
-* Choose between: `100`, `500`, `100`, `1000`, `5000`, `10000`
-* This sets `--chunk 500`
+* Choose between: `10`, `25`, `50`, `100`, `500`, `1000`
+* This sets `--chunk`
 
 #### Include Password
 
@@ -179,10 +179,6 @@ This sets `--file-api-access-token <token>`
 
 #### Include events
 
-{% hint style="info" %}
-This parameter is available in fylr from version **v6.12.0**.
-{% endhint %}
-
 * If set, all events which have an event type that is known by fylr are restored
 * This means if there are unknown events in the backup (from easydb5), these will not be imported
 * If not set, no events will be imported
@@ -190,7 +186,7 @@ This parameter is available in fylr from version **v6.12.0**.
 
 #### OAuth2
 
-* Select only of the target instance uses OAuth2
+* Select only if the target instance uses OAuth2
 * **easydb5** does not use OAuth2
 * this enables the following options:
 * *OAuth2 Client Id*
@@ -202,10 +198,6 @@ This parameter is available in fylr from version **v6.12.0**.
   * This sets `--client-secret foo`
 
 #### Purge or Continue
-
-{% hint style="info" %}
-This parameter is available in fylr from version **v6.12.0**.
-{% endhint %}
 
 * **Purge**
   * The target instance is purged and a new restore process is started

@@ -35,35 +35,34 @@ The backup over the API only stores the data in local files. The files are only 
 This is a complete overview of the command line parameters (run `fylr backup -h`):
 
 ```
-Usage: fylr backup
+Usage: fylr backup [flags]
 
 Backup ez5 or FYLR via API
 
 Flags:
-  -h, --help                       Show context-sensitive help.
 
-  -d, --dir=STRING                 Target directory.
-      --size=100                   Size of .json files.
-      --compression=0              0: no compression, 1: speed, 9: best.
-      --continue                   Set to true, to continue.
-      --all-versions               Set to true, to request all versions of an object.
-      --include=STRING             Filter regexp to include objecttypes.
-      --retry-max-count=10         Number of retries for failed requests with network problems.
-      --retry-sleep-between=30     Wait time in seconds between retries for failed requests.
-      --server=STRING              Source url (overwrites URL of source instance from config)
-  -l, --login=STRING               If --server is set, use as login. Make sure to use the system root user to connect if used together with --purge.
-  -p, --password=STRING            If --server is set, use as password
-      --client-id=STRING           If --server is set, use as OAUTH2 client ID
-      --client-secret=STRING       If --server is set, use as OAUTH2 client secret
-      --client-token-url=STRING    If --server is set, use as OAUTH2 token url
-  -v, --verbose                    Set to true, to show additional info.
-  -n, --log-network                Set to true, to log all network traffic.
-      --log=STRING                 Set output to logfile
-      --purge                      For backup: set to true, to purge the target directory. For restore: set to true, to purge the target and copy the datamodel.
-                                   The current password of the user used for the login will be set for the system root user.
-      --limit=INT                  Limit records. Set to 0 for unlimited.
-      --chunk=100                  chunk size for fetching/pushing data.
-      --include-events=STRING      Comma separated list of event types. Use "-" to skip backup/restoring of events.
+-h, --help                       Show context-sensitive help.
+-v, --verbose                    Set to true, to show additional info.
+-n, --log-network                Set to true, to log all network traffic.
+    --server=STRING              Source url (overwrites URL of source instance from config)
+-l, --login=STRING               If --server is set, use as login. Make sure to use the system root user to connect if used together with --purge.
+-p, --password=STRING            If --server is set, use as password
+    --client-id=STRING           If --server is set, use as OAUTH2 client ID
+    --client-secret=STRING       If --server is set, use as OAUTH2 client secret
+    --client-token-url=STRING    If --server is set, use as OAUTH2 token url
+    --log=STRING                 Set output to logfile
+    --purge                      For backup: set to true, to purge the target directory. For restore: set to true, to purge the target and copy the datamodel. The current password of the user used for the login will be set for the system root user.
+    --continue                   Set to true, to continue.
+    --limit=INT                  Limit records. Set to 0 for unlimited.
+    --chunk=100                  chunk size for fetching/pushing data.
+    --include-events=STRING      Comma separated list of event types. Use "-" to skip backup/restoring of events.
+-d, --dir=STRING                 Target directory.
+    --size=100                   Size of .json files.
+    --compression=0              0: no compression, 1: speed, 9: best.
+    --all-versions               Set to true, to request all versions of an object.
+    --include=STRING             Filter regexp to include objecttypes.
+    --retry-max-count=10         Number of retries for failed requests with network problems.
+    --retry-sleep-between=30     Wait time in seconds between retries for failed requests.
 ```
 
 
@@ -71,7 +70,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=0
-timestamp: 2024-07-18 07:49:20 (UTC)
+timestamp: 2024-10-01 09:53:51 (UTC)
 
 -->
 
@@ -203,10 +202,6 @@ If this is a valid non empty regex string, only objecttypes are backupped where 
 
 
 ### `--include-events`
-
-{% hint style="info" %}
-This parameter is available in fylr from version **v6.12.0**.
-{% endhint %}
 
 Comma separated list of event types.
 
