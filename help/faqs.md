@@ -10,6 +10,8 @@ Currently work in progress
 
 
 
+## Upload
+
 <details>
 
 <summary> I have multiple files that belong together. How do I upload them?</summary>
