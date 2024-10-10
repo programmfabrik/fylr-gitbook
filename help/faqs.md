@@ -36,3 +36,25 @@ When "[Detect Versions](../for-users/asset-records-management/creating-records.m
 
 </details>
 
+<details>
+
+<summary>How to ensure a user can only upload a file in a given field, not other potential file fields?</summary>
+
+Disallow the group to “Upload Files” into given fields **or** create a mask that excludes the other fields where we don’t want users to upload files to.
+
+</details>
+
+## Collections
+
+<details>
+
+<summary>How do I let users create collections themselves?</summary>
+
+Make sure to assign the right "**Create Collections**" under "**Access Search**" in the **System Rights** tab of the **user** / the **group** you want to be able to create collections themselves
+
+</details>
+
+#### &#x20; <a href="#comment-2" id="comment-2"></a>
+
+
+
