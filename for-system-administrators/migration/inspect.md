@@ -73,6 +73,18 @@ See also: [Backup Parameters](backup.md#parameters)
     * Leave empty if the source instance is public
     * This sets `--client-secret foo`
 
+#### Allow Insecure Connection
+
+{% hint style="info" %}
+This parameter is available in fylr from version **v6.14.0**.
+{% endhint %}
+
+* If set, the certificate check for the connection to the source instance is skipped
+
+{% hint style="warning" %}
+Only use this option if you can trust the remote server!
+{% endhint %}
+
 #### Purge or Continue
 
 * **Purge**
@@ -196,6 +208,18 @@ This sets `--file-api-access-token <token>`
   * Client Secret of the target instance
   * Leave empty if the target instance is public
   * This sets `--client-secret foo`
+
+#### Allow Insecure Connection
+
+{% hint style="info" %}
+This parameter is available in fylr from version **v6.14.0**.
+{% endhint %}
+
+* If set, the certificate check for the connection to the target instance is skipped
+
+{% hint style="warning" %}
+Only use this option if you can trust the remote server!
+{% endhint %}
 
 #### Purge or Continue
 

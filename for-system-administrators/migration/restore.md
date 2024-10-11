@@ -52,6 +52,7 @@ Flags:
     --client-id=STRING           If --server is set, use as OAUTH2 client ID
     --client-secret=STRING       If --server is set, use as OAUTH2 client secret
     --client-token-url=STRING    If --server is set, use as OAUTH2 token url
+    --insecure                   Set to true, to not verify the server's certificate chain and host name
     --log=STRING                 Set output to logfile
     --purge                      For backup: set to true, to purge the target directory. For restore: set to true, to purge the target and copy the datamodel. The current password of the user used for the login will be set for the system root user.
     --continue                   Set to true, to continue.
@@ -82,7 +83,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=1408589219
-timestamp: 2024-10-01 09:53:51 (UTC)
+timestamp: 2024-10-11 12:24:34 (UTC)
 
 -->
 
@@ -352,6 +353,22 @@ If the target instance uses OAuth2 for user authentication, this is the OAuth2 c
 For fylr this is `<source url>/api/oauth2/token`.
 
 * type: `string`
+
+
+### `--insecure`
+
+{% hint style="info" %}
+This parameter is available in fylr from version **v6.14.0**.
+{% endhint %}
+
+Set to `true` to skip the certificate check for the connection to the target instance.
+
+{% hint style="warning" %}
+Only use this option if you can trust the remote server!
+{% endhint %}
+
+* type: `bool`
+* default: `false`
 
 
 ### `--verbose`
