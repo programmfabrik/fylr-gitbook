@@ -14,6 +14,12 @@ Tags & workflows can be used for several different use cases. Some common use ca
 
 
 
+Additionally to the tags that can be defined here, fylr brings 4 **system tags** that cannot be modified:&#x20;
+
+<table><thead><tr><th width="330">TAG</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>UNIQUE_KEY_VIOLATION</td><td>This tag is set when a UNIQUE index was added in the data model and there are records that violate this UNIQUE key. </td></tr><tr><td>NESTED_UNIQUE_KEY_VIOLATION</td><td>This tag is set when a UNIQUE index was added to a nested/repeatable field in the data model and there are records that violate this UNIQUE key. </td></tr><tr><td>CHECK_VIOLATION</td><td>This tag is set when a NOT NULL index or a range was added in the data model and there are records that have no values set or values outside of the specified range. </td></tr><tr><td>TAGS_CHOICE_VIOLATION</td><td>This tag is set when a record has multiple tags from the same tag group with type "choice".</td></tr></tbody></table>
+
+
+
 ## Tags
 
 **Tags** are always structured in so called **tag groups**. It's essential to create a tag group first by clicking on the **plus** button on the lower left. To add a tag, a tag group has to be selected, only then you can click on the plus button and choose "Tag". To **remove** tags or tag groups, select them and click on the **minus** button in the lower left.&#x20;
