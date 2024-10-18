@@ -54,7 +54,13 @@ Make sure to assign the right "**Create Collections**" under "**Access Search**"
 
 </details>
 
-#### &#x20; <a href="#comment-2" id="comment-2"></a>
+<details>
+
+<summary>I want to share a collection with a specific user, but I don't see their name in the list of available users. </summary>
+
+The group of the users (Group A) we want to share the collection with is not visible to the currently logged in user (Group B). Add the current user or group (Group B) to Group As Permissions and assign the rights "View Users" and/ or "View Group".
+
+</details>
 
 
 
