@@ -79,6 +79,9 @@ fylr:
           ci-hub:
             public: true
             redirectURIs:
+              - "https://live.ci-hub.com/api/v1/auth/login/fylr"
+              - "https://dev.ci-hub.com/api/v1/auth/login/fylr"
+              - "https://stage.ci-hub.com/api/v1/auth/login/fylr"
               - "https://ci-hub.azurewebsites.net/api/v1/auth/login/fylr"
               - "https://ci-hub-beta.azurewebsites.net/api/v1/auth/login/fylr"
               - "https://ci-hub-test.azurewebsites.net/api/v1/auth/login/fylr"
@@ -99,13 +102,13 @@ fylr:
     backend:
       addr: :8081
     webapp:
-      addr: ":80"
+      addr: :80
       # path: easydb-webfrontend/build
       oauth2:
         clientID: fylr-web-frontend
         internalURL: http://localhost:8080
       reverseProxy:
-        api: "http://localhost:8080"
+        api: "bind"
         backend: "http://localhost:8081"
     execserver:
       addr: :8083
@@ -189,4 +192,3 @@ fylr:
           waitgroup: fast
 ```
 {% endcode %}
-
