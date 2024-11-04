@@ -64,3 +64,13 @@ If the users you want to share the collection with are not visible in the user p
 
 
 
+## Search
+
+<details>
+
+<summary>How do I find records with empty / missing values for a given field?</summary>
+
+First make sure your object type is enabled in the resources. Then open the expert search and find the field you want to search for. Next to the label, click the icon to search for records where this field has no data. Start the search and if needed, add more search terms or use the filters.
+
+</details>
+
