@@ -14,7 +14,8 @@ The "PDF Creator" plugin is licensed as a separate module. Please check your lic
 
 ![](<../.gitbook/assets/image (1) (1) (1) (1).png>) (click to enlarge)
 
-2. Choose type **url** and enter the URL of the latest release zip file, e.g.: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/download/v1.0.0/fylr-plugin-server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/download/v1.0.0/fylr-plugin-server-pdf.zip) (you may check for newer plugin releases [here](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases) )
+2. Choose type "**url"** and paste the URL of the latest release zip: \
+   [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip)
 3. Make sure both the plugins "**Server PDF Plugin**" and "**PDF Creator Plugin**" are marked as **enabled**.
 
 ### Create at least one PDF template
