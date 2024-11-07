@@ -10,6 +10,8 @@ You need a fylr licence including Authentification to use LDAP. To enable fylr u
 
 <figure><img src="../_assets/images/fylr-ldap-find-menu (1).png" alt=""><figcaption><p>where to find LDAP in the menues</p></figcaption></figure>
 
+## User Login
+
 Here is an **example** configuration with the public test provider ldap.forumsys.com:
 
 <figure><img src="../_assets/images/fylr-ldap-cropped (1).png" alt=""><figcaption><p>example ldap configuration</p></figcaption></figure>
@@ -27,21 +29,37 @@ Here is an **example** configuration with the public test provider ldap.forumsys
 **User filter**: Which LDAP attribute shall be compared to the login string (which is entered during fylr login)? For example if I am Albert Einstein and my login username ist `einstein`: Which **LDAP attribute** contains the string `einstein`? In the example above it is the attribute `uid` . the values of `uid` are compared to the login given by the user. So if I enter `einstein` and my password, fylr then searches for LDAP objects which have the attribute `uid` with value `einstein` . If one is found, the password of _that_ LDAP object is also checked and if correct, this LDAP object is considered logged in. For this scenario, the user filter `(uid=%(login)s)` would be enough. To reduce search time and the number of objects compared, the example in the screenshot additionally restricts the search to only LDAP objects of `objectClass` = `person`. \
 If it does not work, <mark style="color:red;">try upper/lower case</mark>. For example, in one case the log messages showed an unexpected replacement from `(Login)` to `%\28Login\29s` and the solution was to write `(login)` (_lower_ case L) in the User filter.
 
-**User Update**
+### **User Update**
 
 During login with LDAP credentials, fylr creates a fylr user that is considered equivalent to the LDAP user - if that fylr user does not already exist. To decide, whether the fylr user already exists, a fylr attribute is compared with an LDAP attribute. In the drop-down menu **User Update**, you can choose which fylr-Attribute is compared: **Referenz**, **Login** or **E-Mail**. Default is **Referenz** (English: reference). In **USER MAPPING** (below) you chose, which LDAP-Attribute to compare.\
 
 
-As an example, let us assume that **E-Mail** is chosen in **User Update** and in **USER MAPPING**, the **Target** **Email** is set to **Value** `%(mail)s`, which is the LDAP attribute `mail`. When a user with email address Marity@example.com first logs in with her LDAP credentials, a new fylr user is created and it's attribute **Email** is filled with the string `Marity@example.com`.  Log message: `DBG user new in fylr [...] login=ldap`.\
-When she logs in the second time, the same fylr user is used, as expected, because `Marity@example.com` is found in the fylr attribute **Email**. Log Message: `DBG user found in fylr with id 31, version 2 [...] login=ldap`. (`31` is just an example, `2` is increased with each login)\
-Now, to make the disadvantages of using **E-Mail** clear, let us assume that the user marries and now has her email address in LDAP changed to Marity-Einstein@example.com. When she logs into fylr after the change, no fylr user is found with **Email**  `Marity-Einstein@example.com`. It is a different string than the stored `Marity@example.com` in the fylr attribute **Email**. Thus a _new_ fylr user is created. Log message: `DBG user new in fylr [...] login=ldap`. Problematic: The same person can no longer log into her original fylr account.\
+As an example, let us assume that ...
+
+* **E-Mail** is chosen in **User Update** and
+* in **USER MAPPING**, the **Target**: **Email** is set to **Value** `%(mail)s`\
+  \
+  (**E-Mail** and **Email** are just different labels of the same data in fylr. So ignore this difference.)
+
+... thus fylr **E-Mail** will be compared to LDAP `mail`. \
+\
+When a user with email address Marity@example.com first logs in with her LDAP credentials, a new fylr user is created and it's attribute **Email** is filled with the string `Marity@example.com`.  Log message: \
+`DBG user new in fylr [...] login=ldap`.\
+When she logs in the second time, the same fylr user is used, as expected, because `Marity@example.com` is found in the fylr attribute **Email**. Log Message: \
+`DBG user found in fylr with id 31, version 2 [...] login=ldap`\
+(`31` is just an example, `2` is increased with each login)\
+\
+Now, to make the disadvantages of using **E-Mail** clear, let us assume that the user marries and now has her email address in LDAP changed to Marity-Einstein@example.com. When she logs into fylr after the change, no fylr user is found with **Email**  `Marity-Einstein@example.com`. It is a different string than the stored `Marity@example.com` in the fylr attribute **Email**. Thus another _new_ fylr user is created. Log message: \
+`DBG user new in fylr [...] login=ldap`. \
+Problematic: The same person can no longer log into her original fylr account.\
+\
 To prevent this, we recommend to set **User Update** to **Referenz** and in **USER MAPPING** set the **Value** of the **Target**: **Reference** to an LDAP attribute that does _not_ change.
 
-## USER MAPPING
+### USER MAPPING
 
 <figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>tested example for ldap.forumsys.com</p></figcaption></figure>
 
-**+**: Add another mapped Attribute. We suggest you have the same ones as shown above. At least **`Login`** and the one chosen in **User Update**.
+**`+`**`Add`: Add another mapped Attribute. We suggest you have the same ones as shown above. At least **`Login`** and the one chosen in **User Update**.
 
 **Target:** Choose fylr attribute to be mapped to LDAP attribute.
 
