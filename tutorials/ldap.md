@@ -39,7 +39,7 @@ To prevent this, we recommend to set **User Update** to **Referenz** and in **US
 
 ## USER MAPPING
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>tested example for ldap.forumsys.com</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>tested example for ldap.forumsys.com</p></figcaption></figure>
 
 **+**: Add another mapped Attribute. We suggest you have the same ones as shown above. At least **`Login`** and the one chosen in **User Update**.
 
@@ -77,28 +77,33 @@ If you do not see enough ldap-related log messages, check:
 
 ## Group settings
 
-We recommend to only configure group settings after the above settings are working to log in. Group settings are optional.
+We recommend to only configure group settings after the above settings are working to log in. Group settings are optional.\
 
-<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>example for Group settings</p></figcaption></figure>
 
-**Group Base DN**: Organizational Unit or whole organization, in which to search for groups. Example: `OU=Groups,DC=example,DC=com` .
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>example Group settings tested with ldap.forumsys.com</p></figcaption></figure>
 
-**Group Filter**: Here, entere a search expression to find the LDAP objects to look at when deciding group membership. You can use attributes of the user here, e.g. `cn`, in the syntax `%(cn)s` - but you have to use it in an evaluation. In other words, compare it to another attribute with `=`.
+**Group Base DN**: Organizational Unit or whole organization, in which to search for groups. Above you can see what works with ldap.forumsys.com. A more typical example for a production environment:\
+`OU=groups,DC=example,DC=com` .
 
-Example: To compare all attributes named `member`, use as Group Filter: `(member=%(cn)s)`. This will result in all objects that have the user's `cn` in an attribute called `member`.
+**Group Filter**: Here, entere a search expression to find the LDAP objects the user is a member in. You should use one attributes of the group (`uniqueMember` or `member`) and one attribute of the user (e.g. `cn` or `DN` in the syntax `%(...)s` ) in an evaluation. In other words, compare them with `=`.
 
-For the context of ldap.forumsys.com, the distinguished name (usable as `DN`) is in the group attribute `uniqueMember`.
+In the context of ldap.forumsys.com, the distinguished name (usable as `DN`) is in the group attribute `uniqueMember`.
 
 So `(uniqueMember=%(DN)s)` could work. But to not evaluate _all_ objects, or in other words, to evaluate only groups, we add the object class: `(&(objectClass=groupOfUniqueNames)(uniqueMember=%(DN)s))`. This was successfully tested with ldap.formusys.com.
 
-Another example, from a different LDAP installation:
+As a second example: To compare all attributes named `member` to a user's `cn`: \
+`(member=%(cn)s)`. This will result in (an ldap search during login that returns) all objects that have the user's `cn` in an attribute called `member`. In other words: All the user's groups.
 
-`(&(member=%(distinguishedName)s)(objectClass=group))` .
+A third example, from a different LDAP installation (Microsoft Active Directory):
+
+`(&(member=%(distinguishedName)s)(objectClass=group))`
+
+`(&(condition1)(condition2))` is the syntax for requiring two conditions (AND). For more, see [https://docs.ldap.com/specs/rfc4515.txt](https://docs.ldap.com/specs/rfc4515.txt)
 
 Now you have narrowed the comparison to a few objects, likely groups. Next step: Which attribute of these objects shall be compared during matching of fylr groups to LDAP groups? This is determined in Group Mapping:
 
 **Group Mapping**: Which attribute to look at when matching fylr groups to LDAP groups. Look at the (final) next step for an example. To use e.g. the group's common name, use `%(cn)s` here, which works with ldap.forumsys.com.\
-If in doubt, which LDAP attributes can be used between `%(` and `)`, see fylr log output. How to do that see above around the previous log output. Log output for a group looks like:
+If in doubt, which LDAP attributes can be used between `%(` and `)`, see fylr log output. How to do that see above around the previous log output. Log output for groups (in this case just one) looks like:
 
 ```
 2029-12-31 23:59:59 DBG search with base DN "dc=example,dc=com" and filter "(uniquemember=uid=einstein,dc=example,dc=com)"  login=ldap
