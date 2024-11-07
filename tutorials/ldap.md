@@ -85,11 +85,14 @@ We recommend to only configure group settings after the above settings are worki
 **Group Base DN**: Organizational Unit or whole organization, in which to search for groups. Above you can see what works with ldap.forumsys.com. A more typical example for a production environment:\
 `OU=groups,DC=example,DC=com` .
 
-**Group Filter**: Here, entere a search expression to find the LDAP objects the user is a member in. You should use one attributes of the group (`uniqueMember` or `member`) and one attribute of the user (e.g. `cn` or `DN` in the syntax `%(...)s` ) in an evaluation. In other words, compare them with `=`.
+**Group Filter**: Here, enter a search expression to find the LDAP objects to further evaluate. Typically: the group objects of which the user is a member. You should use one attribute of the LDAP group (`uniqueMember` or `member`) and one attribute of the user (e.g. `cn` or `DN` in the syntax `%(...)s` ) in an evaluation. In other words, compare them with `=`.
 
-In the context of ldap.forumsys.com, the distinguished name (usable as `DN`) is in the group attribute `uniqueMember`.
+In the context of ldap.forumsys.com, the distinguished name (usable as `DN`) is in the group attribute `uniqueMember`, so we use those:
 
-So `(uniqueMember=%(DN)s)` could work. But to not evaluate _all_ objects, or in other words, to evaluate only groups, we add the object class: `(&(objectClass=groupOfUniqueNames)(uniqueMember=%(DN)s))`. This was successfully tested with ldap.formusys.com.
+`(uniqueMember=%(DN)s)` \
+... this would work. But to not evaluate _all_ objects, instead we evaluate only groups, thus adding the object class. Now the whole expression is:\
+`(&(objectClass=groupOfUniqueNames)(uniqueMember=%(DN)s))`\
+... this was successfully tested with ldap.formusys.com.
 
 As a second example: To compare all attributes named `member` to a user's `cn`: \
 `(member=%(cn)s)`. This will result in (an ldap search during login that returns) all objects that have the user's `cn` in an attribute called `member`. In other words: All the user's groups.
@@ -98,12 +101,12 @@ A third example, from a different LDAP installation (Microsoft Active Directory)
 
 `(&(member=%(distinguishedName)s)(objectClass=group))`
 
-`(&(condition1)(condition2))` is the syntax for requiring two conditions (AND). For more, see [https://docs.ldap.com/specs/rfc4515.txt](https://docs.ldap.com/specs/rfc4515.txt)
+`(&  )` is the syntax for requiring two conditions ("AND"). For more, see [https://docs.ldap.com/specs/rfc4515.txt](https://docs.ldap.com/specs/rfc4515.txt)
 
-Now you have narrowed the comparison to a few objects, likely groups. Next step: Which attribute of these objects shall be compared during matching of fylr groups to LDAP groups? This is determined in Group Mapping:
+Now you have narrowed the comparison to a few objects, likely groups. Next: Which attribute of these objects shall be compared when picking one single LDAP group to match one single fylr group? This is determined in Group Mapping:
 
-**Group Mapping**: Which attribute to look at when matching fylr groups to LDAP groups. Look at the (final) next step for an example. To use e.g. the group's common name, use `%(cn)s` here, which works with ldap.forumsys.com.\
-If in doubt, which LDAP attributes can be used between `%(` and `)`, see fylr log output. How to do that see above around the previous log output. Log output for groups (in this case just one) looks like:
+**Group Mapping**: Give a LDAP attribute to look at when matching one specific fylr group to one specific LDAP group. (Thus preparing "Final step:"  further down). To use e.g. the group's common name, use `%(cn)s` here, which works with ldap.forumsys.com.\
+If in doubt, which LDAP attributes can be used between `%(` and `)`, see fylr log output. How to do that is described above around the previous log output. Log output for groups (in this case just one) looks like:
 
 ```
 2029-12-31 23:59:59 DBG search with base DN "dc=example,dc=com" and filter "(uniquemember=uid=einstein,dc=example,dc=com)"  login=ldap
@@ -115,7 +118,8 @@ If in doubt, which LDAP attributes can be used between `%(` and `)`, see fylr lo
   objectClass: [groupOfUniqueNames top]
 ```
 
-So, usable attributes in this example are `DN`, `uniqueMember`, `cn`, `ou` and `objectClass`.
+So, usable attributes in this example are `DN`, `uniqueMember`, `cn`, `ou` and `objectClass`.\
+But `objectClass` is not specific to one group. Similarly `uniqueMember` could be the same in another group and it is very long and could change any time. `DN` is usable but quite long.  `ou` could be used in other objects. Thus we suggest `cn` in this case, if it is unique. Otherwise `DN`.
 
 ### Final step: **Matching an LDAP group to a fylr group**:
 
