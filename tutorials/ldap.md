@@ -32,20 +32,25 @@ If it does not work, <mark style="color:red;">try upper/lower case</mark>. For e
 During login with LDAP credentials, fylr creates a fylr user that is considered equivalent to the LDAP user - if that fylr user does not already exist. To decide, whether the fylr user already exists, a fylr attribute is compared with an LDAP attribute. In the drop-down menu **User Update**, you can choose which fylr-Attribute is compared: **Referenz**, **Login** or **E-Mail**. Default is **Referenz** (English: reference). In **USER MAPPING** (below) you chose, which LDAP-Attribute to compare.\
 
 
-As an example, let us assume that **E-Mail** is chosen in **User Update** and in **USER MAPPING**, the **Target** **Email** is set to **Value** `%(mail)s`, which is the LDAP attribute `mail`. When a user with email address Marity@example.com first logs in with her LDAP credentials, a new fylr user is created and it's attribute **Email** is filled with the string `Marity@example.com`. When she logs in the second time, the same fylr user is used, as expected, because `Marity@example.com` is found in the fylr attribute **Email**. Now, to make the disadvantages of using **E-Mail** clear, let us assume that the user marries and now has her email address in LDAP changed to Marity-Einstein@example.com. When she logs into fylr after the change, no fylr user is found with **Email**  `Marity-Einstein@example.com`. It is a different string than the stored `Marity@example.com` in the fylr attribute **Email**. Thus a _new_ fylr user is created. The same person can no longer log into her original fylr account.\
+As an example, let us assume that **E-Mail** is chosen in **User Update** and in **USER MAPPING**, the **Target** **Email** is set to **Value** `%(mail)s`, which is the LDAP attribute `mail`. When a user with email address Marity@example.com first logs in with her LDAP credentials, a new fylr user is created and it's attribute **Email** is filled with the string `Marity@example.com`.  Log message: `DBG user new in fylr [...] login=ldap`.\
+When she logs in the second time, the same fylr user is used, as expected, because `Marity@example.com` is found in the fylr attribute **Email**. Log Message: `DBG user found in fylr with id 31, version 2 [...] login=ldap`. (`31` is just an example, `2` is increased with each login)\
+Now, to make the disadvantages of using **E-Mail** clear, let us assume that the user marries and now has her email address in LDAP changed to Marity-Einstein@example.com. When she logs into fylr after the change, no fylr user is found with **Email**  `Marity-Einstein@example.com`. It is a different string than the stored `Marity@example.com` in the fylr attribute **Email**. Thus a _new_ fylr user is created. Log message: `DBG user new in fylr [...] login=ldap`. Problematic: The same person can no longer log into her original fylr account.\
 To prevent this, we recommend to set **User Update** to **Referenz** and in **USER MAPPING** set the **Value** of the **Target**: **Reference** to an LDAP attribute that does _not_ change.
 
 ## USER MAPPING
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>example for fields USER MAPPING and User Update</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>tested example for ldap.forumsys.com</p></figcaption></figure>
 
 **+**: Add another mapped Attribute. We suggest you have the same ones as shown above. At least **`Login`** and the one chosen in **User Update**.
 
 **Target:** Choose fylr attribute to be mapped to LDAP attribute.
 
-**Value:** Enter one or more LDAP attributes, each given between `%(` and`)s`. <mark style="color:red;">Upper case / lower case</mark> _<mark style="color:red;">is</mark>_ <mark style="color:red;">important here, even if it is not important inside your LDAP Directory!</mark>
+**Value:** Enter one or more LDAP attributes, each given between `%(` and`)s`. <mark style="color:red;">Upper case / lower case</mark> _<mark style="color:red;">is</mark>_ <mark style="color:red;">important here, even if it is not important inside your LDAP Directory!</mark>\
+The example values working with ldap.forumsys.com are simplistic. In your environment, they may look more like:\
+`%(sAMAccountName)s` or\
+`%(displayName)s`
 
-If in doubt, which LDAP attributes can be used between `%(` and `)s` during **User Mapping**, check your LDAP structure or fylr's output after a LDAP login. fylr's output is shown as container logs and in [https://fylr.example.com/inspect/system/console/](https://fylr.example.com/inspect/system/console/).\
+If in doubt, which LDAP attributes can be used between `%(` and `)s` during **User Mapping**, check your LDAP structure or fylr's output after a LDAP login attempt. fylr's output is shown as container logs and in [https://fylr.example.com/inspect/system/console/](https://fylr.example.com/inspect/system/console/).\
 The output may look like:
 
 <pre><code><strong>2029-12-31 23:59:59 DBG search with base DN "dc=example,dc=com" and filter "(uid=einstein)" login=lda
@@ -74,7 +79,7 @@ If you do not see enough ldap-related log messages, check:
 
 We recommend to only configure group settings after the above settings are working to log in. Group settings are optional.
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>example for Group settings</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>example for Group settings</p></figcaption></figure>
 
 **Group Base DN**: Organizational Unit or whole organization, in which to search for groups. Example: `OU=Groups,DC=example,DC=com` .
 

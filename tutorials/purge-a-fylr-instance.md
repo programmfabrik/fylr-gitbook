@@ -40,7 +40,7 @@ fylr+:
 
 3. If you want to purge storage: Allow per location: Navigation bar - Cogwheels/**Administration** - **Location Manager**: `Allow Purge` for those locations that you want to purge
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
 ## Start the purge
 
