@@ -14,7 +14,7 @@ Here is an **example** configuration with the public test provider ldap.forumsys
 
 <figure><img src="../_assets/images/fylr-ldap-cropped (1).png" alt=""><figcaption><p>example ldap configuration</p></figcaption></figure>
 
-**URL**: Do not forget the protocol, in this case, `ldap://`. This could also be `ldaps://`.
+**URL**: Do not forget the protocol, in this case, `ldap://`. This could also be `ldaps://`. `ldap://` can be combined with **Start TLS**.
 
 **Allow insecure connection**: Can be safe if security is done by other means, e.g. fylr and LDAP server are running internally.
 
@@ -24,20 +24,29 @@ Here is an **example** configuration with the public test provider ldap.forumsys
 
 **User Base DN**: Organizatinal Unit or whole organization, in which to search for users. All users who shall be able to log in must be inside this unit. Bind User does not have to be inside this unit. Example: `OU=Users,DC=example,DC=com` .
 
-**User filter**: Which LDAP attribute shall be compared to the login string (which is entered during fylr login)? For example if I am Albert Einstein and my login username ist `einstein`: Which **LDAP attribute** contains the string `einstein`? In the example above: the attribute `uid` is compared to the login given by the user. So if I enter `einstein` and my password, fylr then searches for LDAP objects which have the attribute `uid` with value `einstein` in that attribute. If one is found, the password of _that_ LDAP object is also checked and if correct, this LDAP object is considered logged in. fylr creates a fylr user (if not already existing) that is considered connected to this LDAP object. For this scenario, the user filter `(uid=%(login)s)` is enough. To reduce search time and number of objects searched, the example in the screenshot additionally restricts the search to only LDAP objects of `objectClass` = `person`. \
+**User filter**: Which LDAP attribute shall be compared to the login string (which is entered during fylr login)? For example if I am Albert Einstein and my login username ist `einstein`: Which **LDAP attribute** contains the string `einstein`? In the example above it is the attribute `uid` . the values of `uid` are compared to the login given by the user. So if I enter `einstein` and my password, fylr then searches for LDAP objects which have the attribute `uid` with value `einstein` . If one is found, the password of _that_ LDAP object is also checked and if correct, this LDAP object is considered logged in. For this scenario, the user filter `(uid=%(login)s)` would be enough. To reduce search time and the number of objects compared, the example in the screenshot additionally restricts the search to only LDAP objects of `objectClass` = `person`. \
 If it does not work, <mark style="color:red;">try upper/lower case</mark>. For example, in one case the log messages showed an unexpected replacement from `(Login)` to `%\28Login\29s` and the solution was to write `(login)` (_lower_ case L) in the User filter.
+
+**User Update**
+
+During login with LDAP credentials, fylr creates a fylr user that is considered equivalent to the LDAP user - if that fylr user does not already exist. To decide, whether the fylr user already exists, a fylr attribute is compared with an LDAP attribute. In the drop-down menu **User Update**, you can choose which fylr-Attribute is compared: **Referenz**, **Login** or **E-Mail**. Default is **Referenz** (English: reference). In **USER MAPPING** (below) you chose, which LDAP-Attribute to compare.\
+
+
+As an example, let us assume that **E-Mail** is chosen in **User Update** and in **USER MAPPING**, the **Target** **Email** is set to **Value** `%(mail)s`, which is the LDAP attribute `mail`. When a user with email address Marity@example.com first logs in with her LDAP credentials, a new fylr user is created and it's attribute **Email** is filled with the string `Marity@example.com`. When she logs in the second time, the same fylr user is used, as expected, because `Marity@example.com` is found in the fylr attribute **Email**. Now, to make the disadvantages of using **E-Mail** clear, let us assume that the user marries and now has her email address in LDAP changed to Marity-Einstein@example.com. When she logs into fylr after the change, no fylr user is found with **Email**  `Marity-Einstein@example.com`. It is a different string than the stored `Marity@example.com` in the fylr attribute **Email**. Thus a _new_ fylr user is created. The same person can no longer log into her original fylr account.\
+To prevent this, we recommend to set **User Update** to **Referenz** and in **USER MAPPING** set the **Value** of the **Target**: **Reference** to an LDAP attribute that does _not_ change.
 
 ## USER MAPPING
 
-![](<../.gitbook/assets/image (6).png>)
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>example for fields USER MAPPING and User Update</p></figcaption></figure>
 
-**+**: Add another mapped Attribute. We suggest `Display Name` and `EMail`.
+**+**: Add another mapped Attribute. We suggest you have the same ones as shown above. At least **`Login`** and the one chosen in **User Update**.
 
-**Target:** Choose one, at least `Login`.
+**Target:** Choose fylr attribute to be mapped to LDAP attribute.
 
 **Value:** Enter one or more LDAP attributes, each given between `%(` and`)s`. <mark style="color:red;">Upper case / lower case</mark> _<mark style="color:red;">is</mark>_ <mark style="color:red;">important here, even if it is not important inside your LDAP Directory!</mark>
 
-If in doubt, which LDAP attributes can be used between `%(` and `)` during **User Mapping**, set fylr's log level to at least `debug` and pick attributes from the log output after a LDAP search. It looks like:
+If in doubt, which LDAP attributes can be used between `%(` and `)s` during **User Mapping**, check your LDAP structure or fylr's output after a LDAP login. fylr's output is shown as container logs and in [https://fylr.example.com/inspect/system/console/](https://fylr.example.com/inspect/system/console/).\
+The output may look like:
 
 <pre><code><strong>2029-12-31 23:59:59 DBG search with base DN "dc=example,dc=com" and filter "(uid=einstein)" login=lda
 </strong><strong>2029-12-31 23:59:59 DBG search found 1 entries [...] login=ldap
@@ -52,9 +61,20 @@ If in doubt, which LDAP attributes can be used between `%(` and `)` during **Use
 
 So, usable attributes in this example are `DN`, `objectClass`, `cn`, `sn`, `uid`, `mail` and `telephoneNumber`.
 
+If you do not see enough ldap-related log messages, check:
+
+* Your license includes **Capabilties**: External Authentication : **true** .\
+  (check in **Base Configuration** - **License Management**)
+* fylr's log **Level** is at least `debug`.\
+  (check in **Base Configuration** - **Development** - **Logging**)
+* **Log Steps** is activated.\
+  (check in **Base Configuration** - **User Management** - **LDAP** - **Debug**)
+
 ## Group settings
 
 We recommend to only configure group settings after the above settings are working to log in. Group settings are optional.
+
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>example for Group settings</p></figcaption></figure>
 
 **Group Base DN**: Organizational Unit or whole organization, in which to search for groups. Example: `OU=Groups,DC=example,DC=com` .
 
@@ -72,8 +92,8 @@ Another example, from a different LDAP installation:
 
 Now you have narrowed the comparison to a few objects, likely groups. Next step: Which attribute of these objects shall be compared during matching of fylr groups to LDAP groups? This is determined in Group Mapping:
 
-**Group Mapping**: Which attribute to look at when matching groups. Look at the (final) next step for an example. To use e.g. the group's common name, use `%(cn)s` here, which works with ldap.forumsys.com.\
-If in doubt, which LDAP attributes can be used between `%(` and `)`, set the log level of fylr to at least `debug` and pick attributes from the log output after a LDAP search. It looks like:
+**Group Mapping**: Which attribute to look at when matching fylr groups to LDAP groups. Look at the (final) next step for an example. To use e.g. the group's common name, use `%(cn)s` here, which works with ldap.forumsys.com.\
+If in doubt, which LDAP attributes can be used between `%(` and `)`, see fylr log output. How to do that see above around the previous log output. Log output for a group looks like:
 
 ```
 2029-12-31 23:59:59 DBG search with base DN "dc=example,dc=com" and filter "(uniquemember=uid=einstein,dc=example,dc=com)"  login=ldap
@@ -87,9 +107,9 @@ If in doubt, which LDAP attributes can be used between `%(` and `)`, set the log
 
 So, usable attributes in this example are `DN`, `uniqueMember`, `cn`, `ou` and `objectClass`.
 
-Final step: **Matching an LDAP group to a fylr group**:
+### Final step: **Matching an LDAP group to a fylr group**:
 
-*   In a fylr group's settings, enter a string that matches one LDAP group. For the example of ldap.forumsys.com, we created the fylr group `scientists` and since we chose `cn` above in **Group Mapping**, we now have to use the string `Scientists`, as this is the value in that group's common name (`cn`). In the fylr frontend this is done here:
+*   In the settings for a fylr group, enter a string that matches one LDAP group. For the example of ldap.forumsys.com, we created the fylr group `scientists` and since we chose `cn` above in **Group Mapping**, we now have to use the string `Scientists`, as this is the value in that group's common name (`cn`). In the fylr frontend this is done here:
 
     <figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption><p>fylr frontend > Rights Management > Groups > Choose group > Authentication Services > LDAP section > Add row</p></figcaption></figure>
 * So now, when the ldap.forumsys.com's user `einstein` or `newton` logs into this fylr, they will be automatically in the fylr group `scientists` and enjoy all the group's system rights and permissions in fylr.
