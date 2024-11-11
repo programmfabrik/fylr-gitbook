@@ -193,6 +193,7 @@
   * [string](for-developers/types/string.md)
   * [text\_l10n, text\_l10n\_oneline](for-developers/types/text\_l10n-text\_l10n\_oneline.md)
   * [boolean](for-developers/types/boolean.md)
+  * [number](for-developers/types/number.md)
   * [in progress](for-developers/types/in-progress.md)
 * [Custom Data](for-developers/customdata.md)
 * [Emails](for-developers/emails.md)
