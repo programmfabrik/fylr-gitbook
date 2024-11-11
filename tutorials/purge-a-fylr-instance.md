@@ -36,11 +36,11 @@ fylr+:
 
 2. Allow purge in the fylr frontend, if not already set: Navigation bar - Cogwheels/**Administration** - **Base Configuration** - **Development** - **Purge**:
 
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption><p>the lower checkbox is optional, depending on whether you want to preserve the stored files</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (2).png" alt=""><figcaption><p>the lower checkbox is optional, depending on whether you want to preserve the stored files</p></figcaption></figure>
 
 3. If you want to purge storage: Allow per location: Navigation bar - Cogwheels/**Administration** - **Location Manager**: `Allow Purge` for those locations that you want to purge
 
-<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
 ## Start the purge
 
@@ -50,4 +50,4 @@ So if your fylr is available at [https://fylr.example.com](https://fylr.example.
 
 2. Click **System** and there click the `Purge...` button: (at the bottom)
 
-<figure><img src="../.gitbook/assets/image (2) (2).png" alt=""><figcaption><p>The inspect web frontend at /inspect/system/</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (2) (1).png" alt=""><figcaption><p>The inspect web frontend at /inspect/system/</p></figcaption></figure>

@@ -361,8 +361,9 @@ fylr:
     # service "server" serves the API & oauth2
     api:
       # address of the api listener (with authentication)
-      # if omitted, this server is not started
-      addr: :8080
+      # if omitted, this server is not started.
+      addr: ":8080"
+
       # for tls support ("addr" only), provide a cert and key file
       tls:
         certFile: ""
@@ -474,11 +475,27 @@ fylr:
         # Needs to be set to the port of fylr.services.api.addr
         internalURL: "http://localhost:8080/"
 
-      # optional reverse proxy. redirect endpoint
-      # /api and /inspect to target
+      # The reverse proxy can be used to redirect requests to the api
+      # and the backend and also for custom servers behind fylr.
       reverseProxy:
+        # The webapp can redirect request to /api and /inspect to the respective
+        # backend services fylr.services.api and fylr.services.backend if
+        # configured in the reverseProxy.
+        #
+        # For /api the webapp has a special mode where itself is serving the
+        # requests. This saves time during the request as it is not passing the
+        # request onto the api server but serving this internally. To activate
+        # this mode, the keyword "bind" must be set in reverseProxy.api. This is
+        # also the default. These requests will be logged as "webapi".
         api: "http://localhost:8080"
+
+        # The backend serves the /inspect pages and is used to store and
+        # retrieve files from file based storage locations. It is recommended to
+        # proxy /inspect to the backend server so that users can access /inspect
+        # through the regular fylr url and port. When served through the reverse proxy,
+        # a root login is required to access.
         backend: "http://localhost:8081"
+
         # custom map for reverse proxy endpoints, use pathPrefix as the key and
         # the targetURL as the value. Internally fylr uses
         # https://pkg.go.dev/net/http/httputil#NewSingleHostReverseProxy. It is

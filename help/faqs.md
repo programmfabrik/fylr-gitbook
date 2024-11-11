@@ -54,7 +54,23 @@ Make sure to assign the right "**Create Collections**" under "**Access Search**"
 
 </details>
 
-#### &#x20; <a href="#comment-2" id="comment-2"></a>
+<details>
+
+<summary>I want to share a collection with a specific user, but I don't see their name in the list of available users. </summary>
+
+If the users you want to share the collection with are not visible in the user pulldown, you're missing permissions to see them. Ask your administrator to give you access to these users. They need to edit the group you want to share the collection with (let's say "Group A") and add your group (let's say "Group B") to the permissions and assign the right "View Users" and/ or "View Group".
+
+</details>
 
 
+
+## Search
+
+<details>
+
+<summary>How do I find records with empty / missing values for a given field?</summary>
+
+First make sure your object type is enabled in the resources. Then open the expert search and find the field you want to search for. Next to the label, click the icon to search for records where this field has no data. Start the search and if needed, add more search terms or use the filters.
+
+</details>
 
