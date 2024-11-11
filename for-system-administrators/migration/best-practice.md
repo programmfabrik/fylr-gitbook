@@ -7,6 +7,8 @@ description: >-
 
 Here we describe multiple use cases and scenarios for the backup and restore tools. We want to provide examples and recommended parameters settings. This is based on experience with different migrations. Since the backup and restore processes are always different and are depending on the size and complexity of the data, and also on the technical limitations of the source and target instances, the recommended parameters are not definitive.
 
+After any migration, the success and completeness can be [validated by comparing the source and target instances](#checking-the-success-of-the-migration).
+
 The following use cases and examples are a starting point to find the best settings for each migration. The most important distinction is between testing a migration and performing a full migration that is intended for productive use.
 
 Test migrations are done to prepare for a final productive migration. The focus is on the content of the data and the datamodel. They should be fast, and so the actual files in the records are not copied. For most test migrations, it is not necessary to include any files, but it is enough to just use small preview images. This makes the restore process faster and also saves disk space.
@@ -33,10 +35,6 @@ Productive migrations include the complete data, as well as all files. The files
     * [Purge, upload datamodel and base configuration](#purge-upload-datamodel-and-base-configuration)
     * [Purge, upload datamodel but skip upload of base configuration](#purge-upload-datamodel-but-skip-upload-of-base-configuration)
     * [No purge and skip upload of datamodel and base configuration](#no-purge-and-skip-upload-of-datamodel-and-base-configuration)
-<!--
-  todo
-  * [Full migration](#full-migration)
--->
 
 ## Restoring without any files
 
@@ -258,10 +256,86 @@ If the target instance has been purged and set up manually before, you don't wan
 Use `--datamodel=-` to not upload the datamodel, and use `--base-config=-` to not upload the base configuration.
 
 
-<!-- ## Full migration -->
+# Checking the success of the migration
+
+To check the success of a migration, first evaluate the result of the restore process. If it failed, look into the log to find more details about the problem(s).
+
+If the restore was successful, all basetypes and records that were in the backup and were listed in the manifest, have been copied to the target instance. Depending on the file upload parameters, the target instance will still be busy with loading assets from the source, and/or producing versions. This means, that in many cases you can not test the success of the migration of assets right away. To check the progress of the asset import, see `<target url>/inspect/system/queues/` and select the `file` queue. When this is empty, it means all assets have been loaded and/or versions have been produced.
+
+{% hint style="info" %}
+From a technical point of view, the migration is finished at this point. Even if there are problems with copying asset data, all necessary information should be in the target instance, especially the URLs to the assets in the source instance.
+{% endhint %}
+
+{% hint style="warning" %}
+Comparing the source and target instances is only possible if none of these instances has been changed between the start of the backup and the end of the restore process. Otherwise, you can not directly compare the numbers!
+{% endhint %}
+
+## Comparing the migrated records
+
+To compare the numbers of migrated records, both easydb5 and fylr provide an overview page with records of different objecttypes. Open these pages in the source and target instance to compare the numbers.
+
+### Data overview in easydb5
+
+In the frontend, open the [Server Status](https://docs.easydb.de/en/webfrontend/administration/server-status/) and select the "Data Overview" tab. In the table "Object Types" for all objecttypes the number of records is listed, as well as a total number of records.
+
+{% hint style="info" %}
+This overview only shows the latest versions of records, and no deleted records.
+{% endhint %}
+
+### Data overview in fylr
+
+Go to `<url>/inspect/objects/`. For all objecttypes, the number of records are listed, as well as a total number of records.
+
+{% hint style="info" %}
+This overview shows **all** versions of records, as well as deleted records. Make sure to select "Latest" in the "Versions" dropdown, to only get the latest and non-deleted versions, only these values are valid numbers to check the migration.
+{% endhint %}
+
+### What to do if the numbers do not match?
+
+If the numbers match, then all data from the source was migrated into the target instance. Otherwise, check if
+
+1. Number in source instance is higher than in the target instance:
+  * Check if the backup was complete, or if it was limited:
+    * Parameter `--limit` would only backup a maximum number of each objecttype
+    * Parameter `--include` would only backup specific objecttypes
+    * *Solution*: Repeat the backup without these parameters and restore again
+  * Was the restore process paused and repeated with `--continue`?
+    * Check the restore log to see if any payloads were skipped that should have been restored
+    * In corner cases, the progress file might not be complete
+    * *Solution*: Repeat the restore process
+2. Number in source instance is lower than in the target instance:
+  * In general, this should not be possible, there can not be more records in the backup than in the source
+  * Make sure that the overview page in fylr only shows the latest, non-deleted records
+
+## Comparing the migrated files
+
+The files should only be compared after the number of records matches. Otherwise, not all file URLs might not have been migrated, and the numbers will not match.
+
+### File overview in easydb5
+
+In the frontend, open the [Server Status](https://docs.easydb.de/en/webfrontend/administration/server-status/) and select the "Data Overview" tab. In the "Object Types" table, for each objecttype the total number of (original) assets which are linked in these objects, is shown. Most important is the "Total number of assets in objects" below. This counts all original assets which are linked in records.
+
+The total number of assets in the system can be different, for example pool watermarks or files in the base configuration are not counted here.
+
+Below, in the "Assets" table, all assets are shown. "Total number of assets" counts all assets in the system, including those which are not linked in records.
+
+### File overview in fylr
+
+Go to `<url>/inspect/files/`. This shows a list of all assets and versions in the system, as well as their status.
+
+{% hint style="info" %}
+This overview shows **all** versions of assets. Make sure to select "original" in the "Version" dropdown, to only get the original assets, only these values are valid numbers to check the migration.
+{% endhint %}
 
 <!-- todo -->
 
+**t.b.a.**
+
+### What to do if the numbers do not match?
+
+<!-- todo -->
+
+**t.b.a.**
 
 # Known problems and solutions
 
