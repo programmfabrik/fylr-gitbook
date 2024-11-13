@@ -2,6 +2,18 @@
 
 The type `number` stores integers between `-(2**53)+1` and (`2**53)-1`. This follows the recommendation in [RFC 8259](https://datatracker.ietf.org/doc/html/rfc8259). The range is between -`9,007,199,254,740,991` and `9,007,199,254,740,991` (incl.).
 
+## API
+
+A number looks like this when send and received over the API:
+
+```json
+{
+    "number": 1234
+}
+```
+
+The above example has the value _1234_ for column `number`.
+
 ## Index&#x20;
 
 The index stores the `number` as [`long`](https://www.elastic.co/guide/en/elasticsearch/reference/current/number.html).

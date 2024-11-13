@@ -6,6 +6,18 @@ Text are stored as received, so a leading or trailing space is preserved. Fronte
 
 Text must be encoded in [UTF-8](https://en.wikipedia.org/wiki/UTF-8) and stores in all [normalization forms](https://unicode.org/reports/tr15/#Norm\_Forms). There is not limit on the length of storable text.
 
+## API
+
+Text looks like this when send and received over the API:
+
+```json
+{
+    "text": "this is the text"
+}
+```
+
+The above example has the value _this is the text_ for column `text`.
+
 ## Index
 
 Normalization is performed as part of the indexer documentation creation where all text is run through a `icu_normalizer`.&#x20;

@@ -2,6 +2,18 @@
 
 The type `boolean` can be used to store two states, `false` and `true`. The default is `false`.
 
+## API
+
+A boolean looks like this when send and received over the API:
+
+```json
+{
+    "bool": true
+}
+```
+
+The above example has the value _true_ for column `bool`.
+
 ## Index
 
 The indexed document contains an entry with `false` or `true`. It is mapped as type [`boolean`](https://www.elastic.co/guide/en/elasticsearch/reference/current/boolean.html).&#x20;

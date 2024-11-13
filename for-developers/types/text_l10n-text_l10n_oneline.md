@@ -2,6 +2,10 @@
 
 The types `text_l10n` and `text_l10n_oneline` are designed to store localized values. The format is a JSON object consisting of the language as key and the text as value.
 
+## API
+
+Localized text looks like this send and received over the API.
+
 ```json
 {
   "title_loca": {
@@ -10,6 +14,8 @@ The types `text_l10n` and `text_l10n_oneline` are designed to store localized va
   }
 }
 ```
+
+The above example set the German value _German_ and English value _English_ for column `title_loca`.
 
 The API is not checking the passed language. So, load and save of an unconfigured database language is supported.
 

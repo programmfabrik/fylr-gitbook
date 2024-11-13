@@ -2,6 +2,18 @@
 
 The `string` type's main difference to the text type is how it's indexed. It is recommended to use string types for identification strings which may contain special characters which would be dropped by the analyzer.&#x20;
 
+## API
+
+String looks like this when send and received over the API:
+
+```json
+{
+    "ref": "A$5667"
+}
+```
+
+The above example has the value $5667 for column `ref`.
+
 ## Index
 
 String values are normalised and lowercased for the index document.&#x20;
