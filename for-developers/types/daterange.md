@@ -27,6 +27,8 @@ Alongside with the date values, a textual value for the `daterange` can be set. 
 
 The index works the same as for the [`date, datetime`](date-datetime.md#index) type. Internally **fylr** always works with date ranges to store values.
 
+Alongside with the `from` and `to` values, a `from_to` value is stored which allows for aggregations using the middle value of a date. To aggregate over the range, **fylr** additionally stores a `range` value which consists of all values between the lower and upper limit. **fylr** stores all years, months and days found in between the lower and upper value of the range, resp. If the date has the width `year`, all years in between are stored for aggregations. E.g. for the above example, the dates `2001-01-01 00:00:00, 2002-01-01 00:00:00, ..., 2010-01-01 00:00:00`.
+
 ## Sorting
 
 Sorting works the same as described in for the [`date, datetime`](date-datetime.md#sorting) type.

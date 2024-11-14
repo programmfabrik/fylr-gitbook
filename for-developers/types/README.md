@@ -14,4 +14,4 @@ The date types store dates with or without time and also date range. **fylr** su
 
 ## Other types
 
-**fylr** supports [`boolean`](boolean.md) and file as other types.
+**fylr** supports [`boolean`](boolean.md), [`files`](files.md) and [`geojson`](geojson.md) as other types.
