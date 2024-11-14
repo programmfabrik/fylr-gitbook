@@ -1,18 +1,20 @@
 ---
-description: This section describes the migration process between two instances using the fylr migration tool
+description: >-
+  This section describes the migration process between two instances using the
+  fylr migration tool. Either from easyb5 to fylr or from fylr to fylr.
 ---
 
 # Migration Tool
 
 {% hint style="info" %}
-This page describes the complete migration between productive instances.
-
-For using SQL dumps as backups, please see [Backups & Restore](../backup.md) instead. The migration tools should **not** be used for any data backups! Especially files are not part of the backup, but only referenced by URL.
+For using SQL dumps as safety backups, please see [Backups & Restore](../backup.md) instead. The migration tools on this page here should **not** be used for any data backups! Especially files are not part of the backup, but only referenced by URL.\
+\
+The process on this page is also not intended for PostgreSQL upgrades.
 {% endhint %}
 
 This page describes of the **fylr migration tool**, which is an internal part of the **fylr** binary and can be used by calling sub commands from the command line.
 
-The migration consists of two parts: **[backup](backup.md)** and **[restore](restore.md)**. A complete migration is done by loading a backup from a source instance (**easydb5** or **fylr**) using the `fylr backup` command, and later restoring it to a target instance (**fylr** only) using the `fylr restore` command.
+The migration consists of two parts: [**backup**](backup.md) and [**restore**](restore.md). A complete migration is done by loading a backup from a source instance (**easydb5** or **fylr**) using the `fylr backup` command, and later restoring it to a target instance (**fylr** only) using the `fylr restore` command.
 
 The migration tools use the API store JSON files with payloads. The payloads contain basetypes and records stored in a way that the content can be used as the body of POST requests to the API of the target instance.
 
