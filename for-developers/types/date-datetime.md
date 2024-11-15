@@ -50,7 +50,9 @@ DATE_TIME_SEC_TZS = "2006-01-02T15:04:05Z07:00:00"
 
 The left side reflects the recognized width of the value.
 
+{% hint style="info" %}
 The parser does not support sending a timezone for shortened date strings. For shorter date strings, the stored time zone is always UTC.
+{% endhint %}
 
 ## Index
 
