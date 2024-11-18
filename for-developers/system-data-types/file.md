@@ -21,8 +21,7 @@ Files are stored in configurable locations, like **S3** or **disk** storage.
 
 ## Fields
 
-
-    <table>
+<table>
         <thead>
             <tr>
                 <th width="123">Field</th>
@@ -30,19 +29,9 @@ Files are stored in configurable locations, like **S3** or **disk** storage.
                 <th>Description</th>
             </tr>
         </thead>
-        <tbody>
-            
-                
-    
-    
-    <tr>
+        <tbody><tr>
         <td><code>_id</code></td>
         <td><code>int64<code></td>
-        <td>The **_id** is created when a file is uploaded into the fylr server.
-</td>
-    </tr>
-
-            
-        </tbody>
+        <td>The **_id** is created when a file is uploaded into the fylr server.</td>
+    </tr></tbody>
     </table>
-
