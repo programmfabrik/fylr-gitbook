@@ -23,5 +23,35 @@ Files are stored in configurable locations, like **S3** or **disk** storage.
 
 ## Type
 
-<table><thead><tr><th width="123">Field</th><th width="155">Format</th><th>Description</th></tr></thead><tbody><tr><td><code>_id</code></td><td><code>int64</code></td><td>Description of this</td></tr><tr><td><code>hello</code></td><td><code>string</code></td><td>Hello this is here</td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>
+<table>
+    <thead>
+        <tr>
+            <th width="123">Field</th>
+            <th width="155">Format</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>_id</code></td>
+            <td><code>int64</code></td>
+            <td>Description of this</td>
+        </tr>
+        <tr>
+            <td><code>hello</code></td>
+            <td><code>string</code></td>
+            <td>Hello this is here</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
 
