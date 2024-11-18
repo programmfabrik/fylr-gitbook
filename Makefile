@@ -8,4 +8,8 @@ gen-release-notes:
 	@echo './gen_release_notes.py $$GITHUB_TOKEN'
 	@./gen_release_notes.py "${GITHUB_TOKEN}"
 
-.PHONY: gen-release-notes
+openapi:
+	rm -rf for-developers/system-data-types
+	cd for-developers && wget -q -R "*.html*" --cut-dirs=3 -nH -r -np http://localhost:8081/inspect/apidocs/gitbook/system-data-types/
+
+.PHONY: gen-release-notes .gen-openapi-docs

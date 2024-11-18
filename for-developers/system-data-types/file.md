@@ -1,7 +1,5 @@
 # file
 
-
-
 The system data type file stores all files used throughout the fylr system:
 
 * Objects
@@ -21,37 +19,30 @@ Files are stored in configurable locations, like **S3** or **disk** storage.
 
 **fylr** runs programs to discover metadata for each file. Plugins can extend the list of programs run to find metadata.
 
-## Type
+## Fields
 
-<table>
-    <thead>
-        <tr>
-            <th width="123">Field</th>
-            <th width="155">Format</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><code>_id</code></td>
-            <td><code>int64</code></td>
-            <td>Description of this</td>
-        </tr>
-        <tr>
-            <td><code>hello</code></td>
-            <td><code>string</code></td>
-            <td>Hello this is there</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </tbody>
-</table>
+
+    <table>
+        <thead>
+            <tr>
+                <th width="123">Field</th>
+                <th width="155">Format</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                
+    
+    
+    <tr>
+        <td><code>_id</code></td>
+        <td><code>int64<code></td>
+        <td>The **_id** is created when a file is uploaded into the fylr server.
+</td>
+    </tr>
+
+            
+        </tbody>
+    </table>
 
