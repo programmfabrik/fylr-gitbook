@@ -21,4 +21,18 @@ Files are stored in configurable locations, like **S3** or **disk** storage.
 
 ## Fields
 
-<table><thead><tr><th width="123">Field</th><th width="155">Format</th><th>Description</th></tr></thead><tbody><tr><td><code>_id</code></td><td><code>int64</code></td><td>The <code>_id</code> is <strong>created</strong> <em>when</em> a file is uploaded into the fylr server.</td></tr></tbody></table>
+<table>
+        <thead>
+            <tr>
+                <th width="123">Field</th>
+                <th width="155">Format</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody><tr>
+        <td><code>_id</code></td>
+        <td><code>int64<code></td>
+        <td><p>The <code>_id</code> is <strong>created</strong> <em>when</em> a file is uploaded into the fylr server.</p>
+</td>
+    </tr></tbody>
+    </table>
