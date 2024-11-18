@@ -40,7 +40,7 @@ Files are stored in configurable locations, like **S3** or **disk** storage.
         <tr>
             <td><code>hello</code></td>
             <td><code>string</code></td>
-            <td>Hello this is here</td>
+            <td>Hello this is there</td>
         </tr>
         <tr>
             <td></td>
