@@ -1,5 +1,7 @@
 # file
 
+
+
 The system data type file stores all files used throughout the fylr system:
 
 * Objects
@@ -18,4 +20,8 @@ Files are stored in configurable locations, like **S3** or **disk** storage.
 **fylr** can also manage purley **remote stored files**. In that case only the URL is stored for the file.
 
 **fylr** runs programs to discover metadata for each file. Plugins can extend the list of programs run to find metadata.
+
+## Type
+
+<table><thead><tr><th width="123">Field</th><th width="155">Format</th><th>Description</th></tr></thead><tbody><tr><td><code>_id</code></td><td><code>int64</code></td><td>Description of this</td></tr><tr><td><code>hello</code></td><td><code>string</code></td><td>Hello this is here</td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>
 
