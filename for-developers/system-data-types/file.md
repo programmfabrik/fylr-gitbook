@@ -24,7 +24,7 @@ Files are stored in configurable locations, like **S3** or **disk** storage.
 <table>
         <thead>
             <tr>
-                <th width="123">Field</th>
+                <th width="500">Field</th>
                 <th width="155">Format</th>
                 <th>Description</th>
             </tr>
