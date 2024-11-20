@@ -9,7 +9,10 @@ gen-release-notes:
 	@./gen_release_notes.py "${GITHUB_TOKEN}"
 
 openapi:
-	rm -rf for-developers/system-data-types
-	cd for-developers && wget -q -R "*.html*" --cut-dirs=3 -nH -r -np http://localhost:8081/inspect/apidocs/gitbook/system-data-types/
+	# openapi docs live inside ".gitbook/includes"
+	# the gitbook editor can be used to pull the prepared docs
+	# into the articels
+	rm -rf .gitbook/includes
+	cd .gitbook && wget -q -R "*.html*" --cut-dirs=3 -nH -r -np http://localhost:8081/inspect/apidocs/gitbook/includes/
 
 .PHONY: gen-release-notes .gen-openapi-docs
