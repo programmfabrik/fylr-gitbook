@@ -38,7 +38,7 @@ title: file
     </tr><tr>
         <td>    <code>_basetype</code></td>
         <td><code>string<code></td>
-        <td><p><strong>&quot;user&quot;</strong>. More info can be found <a href="./user.md">here</a> <a href="../system-data-types/user.md">here2</a></p>
+        <td><p><strong>&quot;user&quot;</strong>. More info can be found <a href="./user.md">here</a> <a href="../system-data-types/user.md">here2</a> <a href="../../for-developers/system-data-types/user.md">here3</a></p>
 </td>
     </tr><tr>
         <td>    <code>user</code></td>
