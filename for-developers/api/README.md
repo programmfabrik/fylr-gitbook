@@ -21,7 +21,7 @@ description: >-
 
 Most of the **fylr** configuration is offered via API. This includes general system configuration such as a custom logo, custom colors, the name of the system, email server configuration, LDAP & SAML IDP configuration etc.
 
-[schema](../mask.md)
+#### [schema](endpoints/api-schema.md)
 
 This endpoint is used to define the basic structure of how objects are stored in **fylr**. This is the main endpoint which created the data model.
 
