@@ -1,5 +1,5 @@
 ---
-description: fylr and what to consider using/changing DNS domains
+description: fylr and what to consider when using/changing DNS domains
 ---
 
 # DNS Domains
