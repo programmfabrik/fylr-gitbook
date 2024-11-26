@@ -23,3 +23,11 @@ Files are stored in configurable locations, like **S3** or **disk** storage.
 
 {% include "../../.gitbook/includes/file.md" %}
 
+### Technical Metadata
+
+{% include "../../.gitbook/includes/technical_metadata.md" %}
+
+### File Versions
+
+{% include "../../.gitbook/includes/file_version.md" %}
+
