@@ -63,7 +63,7 @@ The endpoint manages the preset for permissions. It also lets frontends retrieve
 
 #### [pool](endpoints/api-pool.md)
 
-One important type is the [pool](../system-data-types/pool.md). Pools allow you to categorize objects. It is often use to reflect the departments of an organisation. Pools can be used as the top level object of the permission management for objects. Pools are hierarchically structured.
+One important type is the [pool](../system-data-types/pool-1.md). Pools allow you to categorize objects. It is often use to reflect the departments of an organisation. Pools can be used as the top level object of the permission management for objects. Pools are hierarchically structured.
 
 #### [objecttype](endpoints/api-objecttype.md)
 

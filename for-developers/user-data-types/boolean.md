@@ -16,7 +16,7 @@ The above example has the value _true_ for column `bool`.
 
 ## Index
 
-The indexed document contains an entry with `false` or `true`. It is mapped as type [`boolean`](https://www.elastic.co/guide/en/elasticsearch/reference/current/boolean.html).&#x20;
+The indexed document contains an entry with `false` or `true`. It is mapped as type [`boolean`](https://www.elastic.co/guide/en/elasticsearch/reference/current/boolean.html).
 
 ## Sorting
 
@@ -24,7 +24,7 @@ The ascending order of the sort is `false`, `true`. The sorting is independent o
 
 ## Export
 
-&#x20;The **XML representation** looks like this:
+The **XML representation** looks like this:
 
 ```xml
 <bool type="boolean" column-api-id="2">true</bool>
@@ -36,4 +36,6 @@ The **CSV representation** is `false` or `true`, resp.
 
 The **JSON representation** is a JSON boolean.
 
-_The storage inside the fylr server distinguished between `null` and `false`, but this is not visible over the API._
+{% hint style="info" %}
+The storage inside the **fylr** server distinguishes between `null` and `false`, but this is not visible over the API.
+{% endhint %}
