@@ -130,11 +130,11 @@
 * [Messages](for-administrators/messages.md)
 * [Events](for-administrators/events.md)
 * [Backup Manager](for-administrators/backup-manager.md)
-* [Additional Features](for-administrators/plugins/README.md)
-  * [Connector](for-administrators/plugins/connector.md)
-  * [Zooniverse](for-administrators/plugins/zooniverse.md)
-  * [Protocols](for-administrators/plugins/protocols/README.md)
-    * [OAI/PMH](for-administrators/plugins/protocols/oai.md)
+* [Additional Features](for-administrators/features/README.md)
+  * [Connector](for-administrators/features/connector.md)
+  * [Zooniverse](for-administrators/features/zooniverse.md)
+  * [Protocols](for-administrators/features/protocols/README.md)
+    * [OAI/PMH](for-administrators/features/protocols/oai.md)
 
 ## FOR SYSTEM ADMINISTRATORS
 
