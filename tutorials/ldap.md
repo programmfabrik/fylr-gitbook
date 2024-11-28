@@ -57,7 +57,7 @@ To prevent this, we recommend to set **User Update** to **Referenz** and in **US
 
 ### USER MAPPING
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>tested example for ldap.forumsys.com</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>tested example for ldap.forumsys.com</p></figcaption></figure>
 
 **`+`**`Add`: Add another mapped Attribute. We suggest you have the same ones as shown above. At least **`Login`** and the one chosen in **User Update**.
 
@@ -98,7 +98,7 @@ If you do not see enough ldap-related log messages, check:
 We recommend to only configure group settings after the above settings are working to log in. Group settings are optional.\
 
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>example Group settings tested with ldap.forumsys.com</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>example Group settings tested with ldap.forumsys.com</p></figcaption></figure>
 
 **Group Base DN**: Organizational Unit or whole organization, in which to search for groups. Above you can see what works with ldap.forumsys.com. A more typical example for a production environment:\
 `OU=groups,DC=example,DC=com` .

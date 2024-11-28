@@ -18,6 +18,8 @@ This configures in which locations _new_ files will be stored.&#x20;
 
 _Already existing_ files are still used in all locations, not only the default locations.
 
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
 ## Details
 
 | OPTION            | DESCRIPTION                                                                                                                                  |
