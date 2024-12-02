@@ -72,7 +72,7 @@ The double field is used to handle floating-point numbers with double precision.
 
 ## File Upload Field
 
-The file upload field allows you to upload one or more files from your local device. This field supports various file types, depending on the [configuration](../../../for-administrators/readme/file-worker.md) and [permissions](../../../for-administrators/permissions/). Each file is processed and stored according to the application's requirements. You can drag and drop files into the field or use the 3-dot-menu button to select files manually.
+The file upload field allows you to upload one or more files from your local device. This field supports various file types, depending on the [configuration](../../../for-administrators/readme/file-worker/) and [permissions](../../../for-administrators/permissions/). Each file is processed and stored according to the application's requirements. You can drag and drop files into the field or use the 3-dot-menu button to select files manually.
 
 Once a field has been uploaded, additional options become available in the 3-dot-menu.&#x20;
 

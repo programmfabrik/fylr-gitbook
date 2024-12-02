@@ -10,7 +10,7 @@ Variant of a file. Files can be cropped or rotated and the result is a file vari
 
 ### File Version
 
-Version of a file. Each time a file has been uploaded, different (preview) versions are created automatically. Specify in the [file worker](../for-administrators/readme/file-worker.md), which versions should be created.
+Version of a file. Each time a file has been uploaded, different (preview) versions are created automatically. Specify in the [file worker](../for-administrators/readme/file-worker/), which versions should be created.
 
 ### Record Version
 
@@ -18,8 +18,8 @@ State of a record after saving. Each time a record has been saved, a new version
 
 ### Rendition
 
-\-> see ["File Version"](glossary.md#file-version)
+-> see ["File Version"](glossary.md#file-version)
 
 ### Version
 
-\-> see ["Record Version"](glossary.md#record-version), ["File Version"](glossary.md#file-version) & ["File Variant"](glossary.md#file-variant)
+-> see ["Record Version"](glossary.md#record-version), ["File Version"](glossary.md#file-version) & ["File Variant"](glossary.md#file-variant)
