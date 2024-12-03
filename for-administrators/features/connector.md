@@ -16,19 +16,23 @@ The plugin needs to be installed and enabled on the local and the remote instanc
 
 ## Adding the Plugin
 
-First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](../../for-administrators/plugin-manager.md). If not, add the plugin. To license and get the plugin, please get in touch with Programmfabrik GmbH.
+First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](../plugin-manager.md). If not, add the plugin. To license and get the plugin, please get in touch with Programmfabrik GmbH.
 
 ## Configuration
 
-Open the [Base Configuration](../../for-administrators/readme/), go to "Plugins" and open "easydb-connector-plugin".
+Open the [Base Configuration](../readme/), go to "Plugins" and open "easydb-connector-plugin".
 
 First, enable the Connector by enabling "Activated for users".
 
 Under "easydb instances for Connector", add one or more connections to remote easydb5 and fylr instances.
 
+{% hint style="info" %}
+if you want to connect to an easydb instance, you need to add your current instances URL to the allowed sources in the easydbs base config.
+{% endhint %}
+
 For each remote instance, set the following configuration:
 
-<table><thead><tr><th width="213">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Enable</strong></td><td>Enable/disable this connection</td></tr><tr><td><strong>Name</strong></td><td>Name of this connection, is shown in the Connector Overview</td></tr><tr><td><strong>URL</strong></td><td>The Server URL of the remote instance. Mandatory.</td></tr><tr><td><strong>Login</strong></td><td>Connector user login name. Mandatory. The user should have sufficient rights (<a href="connector.md#setting-up-fylr-for-connector-partners">see below</a>).</td></tr><tr><td><strong>Password</strong></td><td>Connector user password. Mandatory.</td></tr><tr><td><strong>OAuth2 Client ID</strong></td><td>Client ID of a remote fylr (can be set in the <a href="../../for-administrators/readme/user-management.md#oauth-service">base configuration</a>). Mandatory, if the remote instance is a fylr. Can be ignored for easydb5 instances. </td></tr><tr><td><strong>OAuth2 Client Secret</strong></td><td>Client Secret (in clear text) of a remote fylr (can be set in the <a href="../../for-administrators/readme/user-management.md#oauth-service">base configuration</a>). Mandatory, if the remote instance is a fylr and the remote instance is configured with a secret. If the fylr instance is public, or the remote instance is an easydb5, this can be ignored.</td></tr><tr><td><strong>Allow HTTPS without certificate verification</strong></td><td>Enable this to skip certificate verification, if the remote instance uses HTTPS</td></tr><tr><td><strong>Timeout in seconds</strong></td><td>If there are connection problems to the remote instance, and the authentication takes too long, timeout after this duration. <code>0</code>: no timeout, default: <code>10</code></td></tr></tbody></table>
+<table><thead><tr><th width="213">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Enable</strong></td><td>Enable/disable this connection</td></tr><tr><td><strong>Name</strong></td><td>Name of this connection, is shown in the Connector Overview</td></tr><tr><td><strong>URL</strong></td><td>The Server URL of the remote instance. Mandatory.</td></tr><tr><td><strong>Login</strong></td><td>Connector user login name. Mandatory. The user should have sufficient rights (<a href="connector.md#setting-up-fylr-for-connector-partners">see below</a>).</td></tr><tr><td><strong>Password</strong></td><td>Connector user password. Mandatory.</td></tr><tr><td><strong>OAuth2 Client ID</strong></td><td>Client ID of a remote fylr (can be set in the <a href="../readme/user-management.md#oauth-service">base configuration</a>). Mandatory, if the remote instance is a fylr. The default is <code>fylr-web-frontend</code>. Can be ignored for easydb5 instances. </td></tr><tr><td><strong>OAuth2 Client Secret</strong></td><td>Client Secret (in clear text) of a remote fylr (can be set in the <a href="../readme/user-management.md#oauth-service">base configuration</a>). Mandatory, if the remote instance is a fylr and the remote instance is configured with a secret. If the fylr instance is public, or the remote instance is an easydb5, this can be ignored.</td></tr><tr><td><strong>Allow HTTPS without certificate verification</strong></td><td>Enable this to skip certificate verification, if the remote instance uses HTTPS</td></tr><tr><td><strong>Timeout in seconds</strong></td><td>If there are connection problems to the remote instance, and the authentication takes too long, timeout after this duration. <code>0</code>: no timeout, default: <code>10</code></td></tr></tbody></table>
 
 ## Setting up fylr for connector partners
 
