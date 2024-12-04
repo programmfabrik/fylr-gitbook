@@ -74,3 +74,16 @@ First make sure your object type is enabled in the resources. Then open the expe
 
 </details>
 
+
+
+
+
+## For Administrators
+
+<details>
+
+<summary>An API-Script suddenly started failing</summary>
+
+Did you recently create [Messages](https://docs.fylr.io/for-administrators/messages), that users had to confirm after logging in? Login with your API users credentials and confirm the messages, the API-Script should work as usual afterwards.
+
+</details>
