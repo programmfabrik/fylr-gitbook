@@ -44,6 +44,20 @@ Disallow the group to “Upload Files” into given fields **or** create a mask 
 
 </details>
 
+<details>
+
+<summary>How do I let a user only upload a certain type of file to a specific field, e.g. only images?</summary>
+
+Depending on if you manage an Object Type by itself or if you are using pool management, you find the solution to this problem inside the Rights Management section of Fylr.&#x20;
+
+You can provide the right "Upload File" to groups/ users and define, which field in which Object Type should only have a certain type of File.&#x20;
+
+The options for a field are: Image, Office, Video, Audio, Unknown
+
+</details>
+
+
+
 ## Collections
 
 <details>
