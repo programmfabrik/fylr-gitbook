@@ -134,6 +134,7 @@
 * [Events](for-administrators/events.md)
 * [Backup Manager](for-administrators/backup-manager.md)
 * [Additional Features](for-administrators/features/README.md)
+  * [IIIF](for-administrators/features/iiif.md)
   * [Connector](for-administrators/features/connector.md)
   * [Zooniverse](for-administrators/features/zooniverse.md)
   * [Protocols](for-administrators/features/protocols/README.md)
