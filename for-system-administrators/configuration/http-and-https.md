@@ -1,5 +1,5 @@
 ---
-description: Variants to use fylr with and without TLS certificate
+description: Variants of how to use fylr with and without TLS certificate
 ---
 
 # HTTP and HTTPS
@@ -140,3 +140,9 @@ We did not test this exact example, please use it as a starting point.
 ## No HTTPS and domain is localhost
 
 This is the default.
+
+
+
+## Further reading
+
+Related topic: [Multiple DNS domains and changing DNS domains](dns-domains.md)
