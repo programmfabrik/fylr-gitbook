@@ -108,6 +108,14 @@ If a repeatable field consists of just one field, an empty field is always shown
 
 
 
+## Repeatable Fields as Popup
+
+Usually all fields in a repeatable field are shown directly in the editor (see above). If there are many fields in a repeatable field, it might make sense to hide them in a popover. In the editor only a summary of the values is shown and the actual values can be then edited in a popover by clicking on the little pencil icon in each row. New rows can be added by clicking on "Add" at the end of the list. And existing rows can be deleted by clicking on the trash bin in each row.
+
+The popup functionality and the fields that should appear in the summary can be configured in the mask in the data model.
+
+
+
 ## Tags
 
 Tags help in categorizing and organizing content efficiently.  You can assign multiple tags to records, making it easier to filter and search for relevant information or to give certain users access to specific records. They are structured in groups, which define if you can assign multiple tags  (checkboxes) or just one tag (radio button) from a group to the record.
