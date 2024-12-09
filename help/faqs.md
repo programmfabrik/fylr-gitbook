@@ -88,9 +88,13 @@ First make sure your object type is enabled in the resources. Then open the expe
 
 </details>
 
+<details>
 
+<summary>How do I enable / disable searching in documents?</summary>
 
+Fylr only searches in a document if "full text" is enabled in the mask for the file field. Disabling excludes this field from the search.
 
+</details>
 
 ## For Administrators
 
