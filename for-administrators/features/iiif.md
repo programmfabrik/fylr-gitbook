@@ -1,7 +1,3 @@
----
-description: 'Original Project: https://iiif.io/api/image/2.0/'
----
-
 # IIIF
 
 The **International Image Interoperability Framework (IIIF)** is a powerful standard for sharing, presenting, and analyzing high-resolution digital images. Fylr leverages IIIF to enhance image accessibility, interoperability, and customization, making it an ideal platform for institutions that handle digital collections. Below is an integrated overview combining Fylr's IIIF features with an explanation of IIIF server functionality.
