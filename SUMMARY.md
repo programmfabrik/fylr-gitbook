@@ -65,7 +65,8 @@
 * [FAQs](help/faqs.md)
 * [Tutorials](help/tutorials/README.md)
   * [For Users](help/tutorials/for-users.md)
-  * [For Administrators](help/tutorials/for-administrators.md)
+  * [For Administrators](help/tutorials/for-administrators/README.md)
+    * [Exporting & Importing Hierarchical Lists](help/tutorials/for-administrators/exporting-and-importing-hierarchical-lists.md)
   * [For System Administrators](help/tutorials/for-system-administrators.md)
 * [Glossary](help/glossary.md)
 
