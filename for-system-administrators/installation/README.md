@@ -34,6 +34,10 @@ Please note: We do all of our automated and manual software testing based on Lin
 
 ## Topics for all variants
 
+### Software Versions
+
+* We are regularly testing fylr with **PostgreSQL 17**. Customers with problems and PostgreSQL 14 (or even earlier versions) may be asked to upgrade PostgreSQL first.
+
 ### Troubleshooting
 
 [fylr log messages that can be ignored](../symptom-and-solution/log-messages-that-can-be-ignored.md)
