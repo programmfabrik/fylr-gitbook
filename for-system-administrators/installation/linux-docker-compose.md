@@ -29,6 +29,7 @@ How to install fylr on a Linux Server via docker compose
 
 * The below mentioned containers are linux containers, so you need a linux server or linux virtual machine.
 * fylr requires a running container engine. In this instructions, we use docker. So install docker according to its documentation: [how to install docker](https://docs.docker.com/engine/install/#server).
+* We are regularly testing fylr with PostgreSQL 17. Customers with problems and PostgreSQL 14 (or even earlier versions) may be asked to upgrade PostgreSQL first.
 
 The following commands assume a Debian or Ubuntu server and a bash shell.
 
