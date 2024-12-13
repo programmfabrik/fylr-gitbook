@@ -294,7 +294,7 @@ This overview shows **all** versions of records, as well as deleted records. Mak
 
 If the numbers match, then all data from the source was migrated into the target instance. Otherwise, check if
 
-1. Number in source instance is higher than in the target instance:
+* **Number in source instance is higher than in the target instance:**
   * Check if the backup was complete, or if it was limited:
     * Parameter `--limit` would only backup a maximum number of each objecttype
     * Parameter `--include` would only backup specific objecttypes
@@ -303,7 +303,7 @@ If the numbers match, then all data from the source was migrated into the target
     * Check the restore log to see if any payloads were skipped that should have been restored
     * In corner cases, the progress file might not be complete
     * *Solution*: Repeat the restore process
-2. Number in source instance is lower than in the target instance:
+* **Number in source instance is lower than in the target instance:**
   * In general, this should not be possible, there can not be more records in the backup than in the source
   * Make sure that the overview page in fylr only shows the latest, non-deleted records
 
@@ -324,24 +324,35 @@ Below, in the "Assets" table, all assets are shown. "Total number of assets" cou
 Go to `<url>/inspect/files/`. This shows a list of all assets and versions in the system, as well as their status.
 
 {% hint style="info" %}
-This overview shows **all** versions of assets. Make sure to select "original" in the "Version" dropdown, to only get the original assets, only these values are valid numbers to check the migration.
+This overview shows **all** versions of assets. Make sure to select "original" in the "Version" dropdown, to only get the original assets.
+
+Only these values are valid numbers to check the migration.
 {% endhint %}
 
-<!-- todo -->
+In the dropdown menu, next to "original" the total number of files in the system is shown. This includes any file, including background images, favicons, uploaded XSLT files, etc. During a migration, these original files are transferred.
 
-**t.b.a.**
+All versions are produced based on these original files, but in a separate process after the migration. It is important to check that all originals have been migrated. The version calculation process can be (re)started afterwards, indpendent from the migration process.
+
+All migrated files are imported based on the URLs which are included in the backup files. During the restore process, the files are loaded from these URLs. It is important that these file URLs are reachable during the restore process. Otherwise, the files can not be imported into the target system.
+
+Depending on the `--file-api` parameter, the handling of the file imports is different:
+
+* `put`: the restore tool loads the file from the URL, and uploads it to the target system
+* `rput`: the restore tool transfers the URL to the target system, later the target system loads the file from this URL
+
+If the file URLs have been transferred, and the source system is still reachable, the files can be loaded again. Important is, that the URLs have been transferred.
 
 ### What to do if the numbers do not match?
 
-<!-- todo -->
-
-**t.b.a.**
+Make sure that all records with files have been in the backup, and that all payloads have been restored. Otherwise all files in these records will also be missing in the target system. Check the backup settings (see above), and in doubt repeat the backup and restore process to avoid missing records.
 
 # Known problems and solutions
 
 This section is a collection of known issues and possible solutions. Also the meaning of some warnings and errors in the logs are explained.
 
+{% hint style="info" %}
 This part is not complete! Over time, it will be extended.
+{% endhint %}
 
 ## Gateway errors and timeouts
 
@@ -357,7 +368,7 @@ This part is not complete! Over time, it will be extended.
 
 * This is an expected API error during the restore process
 * It happens when files are uploaded
-* If records are restored which have multiple history versions, the same file is not stored multiple times, but the same file is reused
+* If records are restored which have multiple history versions, the same file is not stored multiple times, but it is reused
 * Each file has a reference which is derived from the EAS ID of the source instance, and this reference is stored in the database
 * If a file with the same reference is uploaded again, this special API error returns the file ID in the target instance
 * If you see this message in the log, **it can be ignored**
