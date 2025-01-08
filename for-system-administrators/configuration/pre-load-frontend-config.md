@@ -76,14 +76,12 @@ When you want to for example change the produce configuration for preview versio
         init:
           configFile: config.json
           config:
-          # this has to be empty or else configFile is not loaded
           locations:
             assets:
               kind: file
     [... etc. ...]
     ```
-6. Make sure you have no configuration-"leaves" in the `config:`-"branch" as shown in the example above. In other words: `config` has to be empty or else it will replace `configFile`.
-7. Only then start the new fylr instance.
+6. Only then start the new fylr instance.
 
 {% hint style="info" %}
 `config.json` will only be used if this SQL Database was never used before by fylr.
