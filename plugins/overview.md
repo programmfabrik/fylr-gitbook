@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2025-01-09 10:24:58 (UTC)
+    * timestamp: 2025-01-09 12:01:11 (UTC)
 -->
 
 # Plugin Overview
@@ -72,6 +72,7 @@ This custom data type allows you to reference entities of the gn250-Set of [Bund
 This custom data type allows you to reference entities (only Differentiated Persons, Cooperates, Subject Headings, Place or geographic name, Works and Events) of the [Integrated Authority File (GND)](https://d-nb.info/standards/elementset/gnd).
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gnd](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gnd)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gnd/releases/latest/download/customDataTypeGND.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gnd/releases/latest/download/customDataTypeGND.zip)
 * This is a custom data type.
 
 
@@ -80,6 +81,7 @@ This custom data type allows you to reference entities (only Differentiated Pers
 This custom data type allows you to reference entities of the [Gemeinsame Datenbank k10plus](https://kxp.k10plus.de/).
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-k10plus](https://github.com/programmfabrik/fylr-plugin-custom-data-type-k10plus)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-k10plus/releases/latest/download/customDataTypek10plus.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-k10plus/releases/latest/download/customDataTypek10plus.zip)
 * This is a custom data type.
 
 
@@ -88,6 +90,7 @@ This custom data type allows you to reference entities of the [Gemeinsame Datenb
 This custom data type allows you to reference entities of the [Iconclass-Vocabulary](http://iconclass.org/).
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass](https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass/releases/latest/download/customDataTypeIconclass.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass/releases/latest/download/customDataTypeIconclass.zip)
 * This is a custom data type.
 
 
@@ -197,6 +200,7 @@ Mask splitter that is configured for a text field. It shows in the editor whethe
 Plugin to store settings of the Attention developed fylr Java classes.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-ejc](https://github.com/programmfabrik/fylr-plugin-ejc)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-plugin-ejc.zip](https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-plugin-ejc.zip)
 * This plugin was developed by Programmfabrik GmbH.
 
 
