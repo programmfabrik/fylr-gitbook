@@ -18,7 +18,7 @@ description: Tutorial on how to get images from a fylr into a google document
 5.  In the appearing panel (right hand side of the document) Login or Register for a free trial with CI HUB.&#x20;
 
     <figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
-6. In the CI HUB side panel, search for fylr and click the plus button:
+6. In the CI HUB side panel, search for fylr and click the plus button (marked in green below):![](<../.gitbook/assets/image (16).png>)
 7.  Choose ANY\* fylr URL (where you have a login) and click Login:
 
     (\*=There may be a few fylrs that do not have the OAuth client ci-hub configured, but it is configured by default)
