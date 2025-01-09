@@ -57,7 +57,7 @@ To prevent this, we recommend to set **User Update** to **Referenz** and in **US
 
 ### USER MAPPING
 
-<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>tested example for ldap.forumsys.com</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption><p>tested example for ldap.forumsys.com</p></figcaption></figure>
 
 **`+`**`Add`: Add another mapped Attribute. We suggest you have the same ones as shown above. At least **`Login`** and the one chosen in **User Update**.
 
@@ -98,7 +98,7 @@ If you do not see enough ldap-related log messages, check:
 We recommend to only configure group settings after the above settings are working to log in. Group settings are optional.\
 
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>example Group settings tested with ldap.forumsys.com</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>example Group settings tested with ldap.forumsys.com</p></figcaption></figure>
 
 **Group Base DN**: Organizational Unit or whole organization, in which to search for groups. Above you can see what works with ldap.forumsys.com. A more typical example for a production environment:\
 `OU=groups,DC=example,DC=com` .
@@ -143,7 +143,7 @@ But `objectClass` is not specific to one group. Similarly `uniqueMember` could b
 
 *   In the settings for a fylr group, enter a string that matches one LDAP group. For the example of ldap.forumsys.com, we created the fylr group `scientists` and since we chose `cn` above in **Group Mapping**, we now have to use the string `Scientists`, as this is the value in that group's common name (`cn`). In the fylr frontend this is done here:
 
-    <figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption><p>fylr frontend > Rights Management > Groups > Choose group > Authentication Services > LDAP section > Add row</p></figcaption></figure>
+    <figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption><p>fylr frontend > Rights Management > Groups > Choose group > Authentication Services > LDAP section > Add row</p></figcaption></figure>
 * So now, when the ldap.forumsys.com's user `einstein` or `newton` logs into this fylr, they will be automatically in the fylr group `scientists` and enjoy all the group's system rights and permissions in fylr.
 
 ### Walk the chain of ancestry

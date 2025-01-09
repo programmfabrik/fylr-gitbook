@@ -17,7 +17,7 @@ description: >-
    1. Configure your desired values in another running fylr instance, in the frontend.
    2.  Download that configuration: (it will be in JSON format)
 
-       <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption><p>Cogwheel menu at the bottom of the Base Configuration</p></figcaption></figure>
+       <figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption><p>Cogwheel menu at the bottom of the Base Configuration</p></figcaption></figure>
 
 
    3.  Extract from the downloaded JSON file the desired settings. In this example, we want to make sure the Service `Email Notifications` is started. The relevant JSON is:&#x20;
@@ -64,7 +64,7 @@ When you want to for example change the produce configuration for preview versio
 1. Configure your desired values in another running fylr instance, in the frontend.
 2. Download that configuration: (it will be in JSON format)
 
-<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption><p>Cogwheel menu at the bottom of the Base Configuration</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption><p>Cogwheel menu at the bottom of the Base Configuration</p></figcaption></figure>
 
 3. Optionally change the JSON configuration file to your requirements.
 4. Put the downloaded JSON file as (in this example) `config.json` into the same directory as the `fylr.yml` file.

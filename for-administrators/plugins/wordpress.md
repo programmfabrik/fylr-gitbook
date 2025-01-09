@@ -27,7 +27,7 @@ You have to activate it in the **Plugin Manager** as shown by the following scre
 
 Also do not forget to klick the **Save** button on the lower right.
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>where to activate a plugin</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption><p>where to activate a plugin</p></figcaption></figure>
 
 ### 2. Configuration
 
