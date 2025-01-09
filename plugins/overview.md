@@ -6,42 +6,19 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2024-09-23 15:07:20 (UTC)
+    * timestamp: 2025-01-09 10:24:58 (UTC)
 -->
 
 # Plugin Overview
 
 
 
-## `custom-data-type-cerlthesaurus`
-
-This custom data type allows you to reference the entities of the [CERL-Thesaurus](https://data.cerl.org/thesaurus/).
-
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-cerlthesaurus](https://github.com/programmfabrik/easydb-custom-data-type-cerlthesaurus)
-* This is a custom data type.
-
-
 ## `custom-data-type-dante`
 
-This custom data type allows you to reference the entities of the [DANTE-Vocabulary-Server](https://dante.gbv.de/). For easydb5.
-
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-dante](https://github.com/programmfabrik/easydb-custom-data-type-dante)
-* This is a custom data type.
-
-
-## `custom-data-type-dante`
-
-This custom data type allows you to reference the entities of the [DANTE-Vocabulary-Server](https://dante.gbv.de/). For fylr.
+This custom data type allows you to reference the entities of the [DANTE-Vocabulary-Server](https://dante.gbv.de/).
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-dante](https://github.com/programmfabrik/fylr-plugin-custom-data-type-dante)
-* This is a custom data type.
-
-
-## `custom-data-type-gazetteer`
-
-This custom data type allows you to reference entities of the [Gazetteer](https://gazetteer.dainst.org/) repository.
-
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-gazetteer](https://github.com/programmfabrik/easydb-custom-data-type-gazetteer)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-dante/releases/latest/download/customDataTypeDante.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-dante/releases/latest/download/customDataTypeDante.zip)
 * This is a custom data type.
 
 
@@ -49,7 +26,8 @@ This custom data type allows you to reference entities of the [Gazetteer](https:
 
 This custom data type allows you to reference the entities of the [GeoNames](http://ws.gbv.de/suggest/geonames/) geographical database.
 
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-geonames](https://github.com/programmfabrik/easydb-custom-data-type-geonames)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-geonames](https://github.com/programmfabrik/fylr-plugin-custom-data-type-geonames)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-geonames/releases/latest/download/customDataTypeGeonames.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-geonames/releases/latest/download/customDataTypeGeonames.zip)
 * This is a custom data type.
 
 
@@ -57,7 +35,8 @@ This custom data type allows you to reference the entities of the [GeoNames](htt
 
 This custom data type allows you to store geoJSON data in the database. You can set polygons, linestrings and points on the worldmap.
 
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-georef](https://github.com/programmfabrik/easydb-custom-data-type-georef)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-georef](https://github.com/programmfabrik/fylr-plugin-custom-data-type-georef)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-georef/releases/latest/download/customDataTypeGeoref.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-georef/releases/latest/download/customDataTypeGeoref.zip)
 * This is a custom data type.
 
 
@@ -65,7 +44,8 @@ This custom data type allows you to store geoJSON data in the database. You can 
 
 This custom data type allows you to reference entities of the [Getty Vocabulary](http://vocab.getty.edu/).
 
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-getty](https://github.com/programmfabrik/easydb-custom-data-type-getty)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-getty](https://github.com/programmfabrik/fylr-plugin-custom-data-type-getty)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-getty/releases/latest/download/customDataTypeGetty.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-getty/releases/latest/download/customDataTypeGetty.zip)
 * This is a custom data type.
 
 
@@ -74,6 +54,7 @@ This custom data type allows you to reference entities of the [Getty Vocabulary]
 This custom data type allows you to reference entities of the [GFBio Terminology Service](https://terminologies.gfbio.org/api/).
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gfbio](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gfbio)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gfbio/releases/latest/download/customDataTypeGfbio.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gfbio/releases/latest/download/customDataTypeGfbio.zip)
 * This is a custom data type.
 
 
@@ -81,7 +62,8 @@ This custom data type allows you to reference entities of the [GFBio Terminology
 
 This custom data type allows you to reference entities of the gn250-Set of [Bundesamt für Kartographie](http://www.geodatenzentrum.de/).
 
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-gn250](https://github.com/programmfabrik/easydb-custom-data-type-gn250)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250/releases/latest/download/customDataTypeGN250.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250/releases/latest/download/customDataTypeGN250.zip)
 * This is a custom data type.
 
 
@@ -89,39 +71,15 @@ This custom data type allows you to reference entities of the gn250-Set of [Bund
 
 This custom data type allows you to reference entities (only Differentiated Persons, Cooperates, Subject Headings, Place or geographic name, Works and Events) of the [Integrated Authority File (GND)](https://d-nb.info/standards/elementset/gnd).
 
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-gnd](https://github.com/programmfabrik/easydb-custom-data-type-gnd)
-* This is a custom data type.
-
-
-## `custom-data-type-goobi`
-
-This custom data type allows you to reference entities of the [Goobi](https://www.intranda.com/digiverso/goobi/) workflow.
-
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-goobi](https://github.com/programmfabrik/easydb-custom-data-type-goobi)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gnd](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gnd)
 * This is a custom data type.
 
 
 ## `custom-data-type-gvk`
 
-This custom data type allows you to reference entities of the [Gemeinsame Datenbank k10plus](https://kxp.k10plus.de/). For easydb5.
-
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-gvk](https://github.com/programmfabrik/easydb-custom-data-type-gvk)
-* This is a custom data type.
-
-
-## `custom-data-type-gvk`
-
-This custom data type allows you to reference entities of the [Gemeinsame Datenbank k10plus](https://kxp.k10plus.de/). For fylr.
+This custom data type allows you to reference entities of the [Gemeinsame Datenbank k10plus](https://kxp.k10plus.de/).
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-k10plus](https://github.com/programmfabrik/fylr-plugin-custom-data-type-k10plus)
-* This is a custom data type.
-
-
-## `custom-data-type-html-editor`
-
-This custom data type allows you to integrate a WYSIWYG editor and store HTML content in the database.
-
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-html-editor](https://github.com/programmfabrik/easydb-custom-data-type-html-editor)
 * This is a custom data type.
 
 
@@ -129,68 +87,8 @@ This custom data type allows you to integrate a WYSIWYG editor and store HTML co
 
 This custom data type allows you to reference entities of the [Iconclass-Vocabulary](http://iconclass.org/).
 
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-iconclass](https://github.com/programmfabrik/easydb-custom-data-type-iconclass)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass](https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass)
 * This is a custom data type.
-
-
-## `custom-data-type-iucn`
-
-This custom data type allows you to reference entities of the IUCN (International Union for Conservation of Nature) [red list repository](https://www.iucnredlist.org/).
-
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-iucn](https://github.com/programmfabrik/easydb-custom-data-type-iucn)
-* This is a custom data type.
-* This plugin was developed by Programmfabrik GmbH.
-
-
-## `custom-data-type-link`
-
-This custom data type allows you to store web links in the database which can have a title and a date and are clickable in the detail view.
-
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-link](https://github.com/programmfabrik/easydb-custom-data-type-link)
-* This is a custom data type.
-* This plugin was developed by Programmfabrik GmbH.
-
-
-## `custom-data-type-location`
-
-This custom data type allows you to store gps coordinates in the database and show them on a map in the detail view of records.
-
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-location](https://github.com/programmfabrik/easydb-custom-data-type-location)
-* This is a custom data type.
-* This plugin was developed by Programmfabrik GmbH.
-
-
-## `custom-data-type-nomisma`
-
-This custom data type allows you to reference records from different online ressources of the [Nomisma-Project](http://www.nomisma.org/datasets).
-
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-nomisma](https://github.com/programmfabrik/easydb-custom-data-type-nomisma)
-* This is a custom data type.
-
-
-## `custom-data-type-tnadiscovery`
-
-This custom data type allows you to reference entities of the [Nationalarchives Discovery System](http://discovery.nationalarchives.gov.uk/).
-
-* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-tnadiscovery](https://github.com/programmfabrik/easydb-custom-data-type-tnadiscovery)
-* This is a custom data type.
-
-
-## `custom-data-type-ubhdgnd`
-
-This custom data type allows you to reference entities of the [Integrated Authority File (GND)](https://d-nb.info/standards/elementset/gnd).
-
-* Repository: [https://gitlab.ub.uni-heidelberg.de/fdm/easydb-custom-data-type-ubhdgnd](https://gitlab.ub.uni-heidelberg.de/fdm/easydb-custom-data-type-ubhdgnd)
-* This is a custom data type.
-
-
-## `custom-data-type-zotero`
-
-This custom data type allows you to integrate externally managed [Zotero](https://zotero.org) bibliographies.
-
-* Repository: [https://github.com/ssciwr/easydb-custom-data-type-zotero](https://github.com/ssciwr/easydb-custom-data-type-zotero)
-* This is a custom data type.
-* This plugin was developed by Scientific Software Center, Heidelberg University.
 
 
 ## `custom-vzg-validationhub`
@@ -198,6 +96,7 @@ This custom data type allows you to integrate externally managed [Zotero](https:
 This is a plugin for fylr which sends data to the validation center of the [VZG](https://www.gbv.de/informationen/Verbundzentrale), where content validations can be carried out.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-vzg-validationhub](https://github.com/programmfabrik/fylr-plugin-custom-vzg-validationhub)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-vzg-validationhub/releases/latest/download/customVZGValidationHub.zip](https://github.com/programmfabrik/fylr-plugin-custom-vzg-validationhub/releases/latest/download/customVZGValidationHub.zip)
 
 
 ## `default-values-from-pool`
@@ -205,6 +104,7 @@ This is a plugin for fylr which sends data to the validation center of the [VZG]
 Configure standard fields in the base configuration, which can be defined per pool and then integrated into masks. These can then be used in the data model to assign default values to fields.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-default-values-from-pool](https://github.com/programmfabrik/fylr-plugin-default-values-from-pool)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-default-values-from-pool/releases/latest/download/DefaultValuesFromPool.zip](https://github.com/programmfabrik/fylr-plugin-default-values-from-pool/releases/latest/download/DefaultValuesFromPool.zip)
 
 
 ## `easydb-connector-plugin`
@@ -246,6 +146,7 @@ Adds a tool to the base configuration to set default values for simple text fiel
 Plugin to parse CSV exports from [Zooniverse](https://www.zooniverse.org/) and update records in fylr.
 
 * Repository: [https://github.com/programmfabrik/easydb-plugin-zooniverse-import](https://github.com/programmfabrik/easydb-plugin-zooniverse-import)
+* Release URL: [https://github.com/programmfabrik/easydb-plugin-zooniverse-import/releases/latest/download/easydb-plugin-zooniverse-import.zip](https://github.com/programmfabrik/easydb-plugin-zooniverse-import/releases/latest/download/easydb-plugin-zooniverse-import.zip)
 * See also: [https://docs.fylr.io/for-users/plugins/zooniverse](https://docs.fylr.io/for-users/plugins/zooniverse)
 * This plugin was developed by Programmfabrik GmbH.
 
@@ -279,6 +180,7 @@ Add your [Wordpress](https://wordpress.com/) page to fylr and send selected file
 This custom mask splitter allows you to hide input fields depending on another fields value.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-editor-field-visibility](https://github.com/programmfabrik/fylr-plugin-editor-field-visibility)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-editor-field-visibility/releases/latest/download/EditorFieldVisibility.zip](https://github.com/programmfabrik/fylr-plugin-editor-field-visibility/releases/latest/download/EditorFieldVisibility.zip)
 * This plugin was developed by Programmfabrik GmbH.
 
 
@@ -287,6 +189,7 @@ This custom mask splitter allows you to hide input fields depending on another f
 Mask splitter that is configured for a text field. It shows in the editor whether the field has had the same value in the user's visibility range before.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values](https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values/releases/latest/download/FindDuplicateFieldValues.zip](https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values/releases/latest/download/FindDuplicateFieldValues.zip)
 
 
 ## `fylr-ejc-plugin`
@@ -294,7 +197,6 @@ Mask splitter that is configured for a text field. It shows in the editor whethe
 Plugin to store settings of the Attention developed fylr Java classes.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-ejc](https://github.com/programmfabrik/fylr-plugin-ejc)
-* Release URL: [https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-ejc-plugin.zip](https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-ejc-plugin.zip)
 * This plugin was developed by Programmfabrik GmbH.
 
 
@@ -303,6 +205,7 @@ Plugin to store settings of the Attention developed fylr Java classes.
 This plugin contains a lot of examples for developers. It has no productive use.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-example](https://github.com/programmfabrik/fylr-plugin-example)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-example/releases/latest/download/fylr-plugin-example.zip](https://github.com/programmfabrik/fylr-plugin-example/releases/latest/download/fylr-plugin-example.zip)
 * This plugin was developed by Programmfabrik GmbH.
 
 
@@ -337,6 +240,7 @@ Adds support for the `geo-json` custom data type with an editor that allows for 
 Custom monitoring-endpoint for fylr-API. The plugin provides a new API endpoint under `GET /api/v1/plugin/base/monitoring/monitoring`.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-monitoring](https://github.com/programmfabrik/fylr-plugin-monitoring)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-monitoring/releases/latest/download/monitoringEndpoint.zip](https://github.com/programmfabrik/fylr-plugin-monitoring/releases/latest/download/monitoringEndpoint.zip)
 
 
 ## `server-pdf`
@@ -344,5 +248,5 @@ Custom monitoring-endpoint for fylr-API. The plugin provides a new API endpoint 
 This plugin allows the conversion of HTML to PDF, using an internal Chromium binary.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-server-pdf](https://github.com/programmfabrik/fylr-plugin-server-pdf)
-* Release URL: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/server-pdf.zip)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip)
 * This plugin was developed by Programmfabrik GmbH.
