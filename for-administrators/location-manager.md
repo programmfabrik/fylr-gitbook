@@ -4,7 +4,7 @@ description: manage permanent storage locations
 
 # Location Manager
 
-<figure><img src="../.gitbook/assets/image (14).png" alt=""><figcaption><p>How to reach the location manager in the black menu and an example view of the location manager</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (14) (1).png" alt=""><figcaption><p>How to reach the location manager in the black menu and an example view of the location manager</p></figcaption></figure>
 
 ## Working with the Location Manager
 
@@ -18,7 +18,7 @@ This configures in which locations _new_ files will be stored.&#x20;
 
 _Already existing_ files are still used in all locations, not only the default locations.
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
 
 ## Details
 

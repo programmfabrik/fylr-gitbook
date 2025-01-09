@@ -13,11 +13,17 @@ At least Wordpress version 4.7 is required.
 
 ## Installation & Configuration
 
-To use the plugin, it needs to be installed and configured in fylr.&#x20;
+To use the plugin, it has to be present and aactivated and configured in fylr.&#x20;
 
-### 1. Installation
+### 1. Activation
 
+In e.g. fylr version 6.16, the wordpress plugin is already included as **easydb-wordpress-plugin**.
 
+You have to activate it in the **Plugin Manager** as shown by the following screenshot.&#x20;
+
+Also do not forget to klick the **Save** button on the lower right.
+
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>where to activate a plugin</p></figcaption></figure>
 
 ### 2. Configuration
 
