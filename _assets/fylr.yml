@@ -73,6 +73,20 @@ fylr+:
               dir: "/fylr/files/backups"
 
   plugin:
+    defaults:
+      # enable plugins that many installations benefit from. But they are not strictly needed
+      custom-data-type-gnd: # filename easydb-custom-data-type-gnd
+        enabled: true
+      eventmanager: # filename easydb-eventmanager-plugin
+        enabled: true
+      custom-mask-splitter-detail-linked: # filename easydb-custom-mask-splitter-detail-linked-plugin
+        enabled: true
+      custom-data-type-link: # filename easydb-custom-data-type-link
+        enabled: true
+      easydb-display-field-values: # filename easydb-display-field-values-plugin
+        enabled: true
+      basemigration: # filename easydb-basemigration-plugin
+        enabled: true
     paths:
       - "/fylr/files/plugins/easydb/easydb-barcode-display-pdf-plugin"
       - "/fylr/files/plugins/easydb/easydb-barcode-display-plugin"
