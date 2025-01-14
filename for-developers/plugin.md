@@ -114,7 +114,11 @@ callbacks:
 Extensions add API endpoints to the **base url of the plugin**.  The name of the endpoint is the key in the prodived map `extensions` in the plugin manifest. The `exec` map is identical to Callbacks. The map specifies how the file worker chain is called to execute the extension.
 
 {% hint style="info" %}
-The plugin `fylr_example` defines an extension `dump/info` . This endpoint will be available under `https://<fylr-server>/api/v1/plugin/extension/dump/info`. All HTTP Methods are available for the endpoint. An access token is required. It can be passed as `access_token` as URL parameter or with HTTP Header `Authorization: Bearer <access token>` or `X-Fylr-Authorization: Bearer <access token>` .
+The plugin `fylr_example` defines an extension `dump/info` . This endpoint will be available under:
+
+`https://<fylr-server>/api/v1/plugin/extension/fylr_example/dump/info`
+
+All HTTP Methods are available for the endpoint. An access token is required. It can be passed as `access_token` as URL parameter or with HTTP Header `Authorization: Bearer <access token>` or `X-Fylr-Authorization: Bearer <access token>` .
 {% endhint %}
 
 The plugin must use the provided `/writer` endpoint (replacement `%_output.url%`) to transport data back to the request. If used directly, all http headers sent to that endpoint are copied over to the response of the extension endpoint. The http response status can be set using the special response header `x-fylr-response-status`.
