@@ -14,7 +14,7 @@ But keep in mind:
 
 Changes to domains:
 
-* When you change fylr's main domain, so after changing fylr.yml and restart, you need to do a re-indexation, which might take hours, if you have a lot of objects. It can be found in the inspect-Interace (https://fylr.example.co&#x6D;**/inspect/** )  behind the **System**-button.
+* When you change fylr's main domain, so after changing fylr.yml and restart, you need to do a re-indexation, which might take hours, if you have a lot of objects. It can be found in the inspect-Interface (https://fylr.example.co&#x6D;**/inspect/** )  behind the **System**-button.
 * Licenses are bound to domains so make sure you have a license for the new main domain configured as `externalURL`.
 * Make sure that you either have a certificate for the new domain or to let fylr automatically retrieve a certificate for the new domain. And optionally, `additionalDomains`, as mentioned above.
 
