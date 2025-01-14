@@ -10,7 +10,7 @@ This can be used to log into fylr with users from e.g. Shibboleth and Azure Acti
 
 ### Background
 
-SAML 2.0 is an [XML](https://en.wikipedia.org/wiki/XML)-based [protocol](https://en.wikipedia.org/wiki/Communications\_protocol) that uses [security tokens](https://en.wikipedia.org/wiki/Software\_token) containing [assertions](https://en.wikipedia.org/wiki/Security\_Assertion\_Markup\_Language) to pass information about a principal (usually an end user) between a SAML authority, named an [Identity Provider](https://en.wikipedia.org/wiki/Identity\_Provider), and a SAML consumer, named a [Service Provider](https://en.wikipedia.org/wiki/Service\_Provider).
+SAML 2.0 is an [XML](https://en.wikipedia.org/wiki/XML)-based [protocol](https://en.wikipedia.org/wiki/Communications_protocol) that uses [security tokens](https://en.wikipedia.org/wiki/Software_token) containing [assertions](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language) to pass information about a principal (usually an end user) between a SAML authority, named an [Identity Provider](https://en.wikipedia.org/wiki/Identity_Provider), and a SAML consumer, named a [Service Provider](https://en.wikipedia.org/wiki/Service_Provider).
 
 fylr acts as a Service Provider and as such needs to connect to an Identity Provider. For testing and to understand the configuration workflow, you can use the public Identity Provider [https://mocksaml.com](https://mocksaml.com).
 
@@ -31,7 +31,7 @@ openssl genrsa -out private.key 1024
 openssl req -new -x509 -key private.key -out publickey.cer -days 365
 ```
 
-When asked for `Common Name (e.g. server FQDN or YOUR name)` answer with `fylr.example.eu` if your fylr is at [https://fylr.exemple.eu](https://fylr.exemple.eu) .
+When asked for `Common Name (e.g. server FQDN or YOUR name)` answer with `fylr.example.eu` if your fylr is at [https://fylr.example.eu](https://fylr.exemple.eu).
 
 Now you can view the contents of the files `private.key` and `publickey.cer` and put that into fylr's frontend: (**Certificate** and **Key** fields) as in this screenshot:
 
