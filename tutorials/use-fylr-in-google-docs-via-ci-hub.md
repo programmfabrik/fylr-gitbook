@@ -8,7 +8,7 @@ description: Tutorial on how to get images from a fylr into a google document
 
 * Login to a fylr instance with permission to see at least on image asset.
   * This fylr needs to have the CI HUB capability in its fylr license. This is not part of all fylr licenses.
-  * By default all fylr installations have the "OAuth client" named "ci-hub" configured, so this should not be an additional step. However, during a fylr installation, this could theoretically be turned off. If you have problems to connect CI HUB to fylr, check with this fylr's administrator.
+  * By default all fylr installations have the "OAuth client" named "ci-hub" configured, so this should not be an issue. However, during a fylr installation, this _could_ theoretically be changed. If you have problems to connect CI HUB to fylr, check this with the fylr's administrator.
 
 ## Steps
 
@@ -29,7 +29,8 @@ description: Tutorial on how to get images from a fylr into a google document
 11. Then  click on the magnifying class _below the first one_, to search for any asset in fylr. Both magnifying glasses are marked in green here:&#x20;
 
     <figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
-12. Click on one preview image once, then click on it a _2nd time_ and **drag** it into your document before releasing the click.
+12. If nothing is found, you may have to choose an Object Type in the drop down menu `Object Type`.
+13. Click on one preview image once, then click on it a _2nd time_ and **drag** it into your document before releasing the click.
 
 Wait a few seconds for the transfer. (There is a spinning circle in the preview as long as CI HUB is working on it.)
 
