@@ -68,6 +68,7 @@
   * [For Users](help/tutorials/for-users.md)
   * [For Administrators](help/tutorials/for-administrators/README.md)
     * [Exporting & Importing Hierarchical Lists](help/tutorials/for-administrators/exporting-and-importing-hierarchical-lists.md)
+    * [Regenerating preview images](help/tutorials/for-administrators/regenerating-preview-images.md)
   * [For System Administrators](help/tutorials/for-system-administrators.md)
 * [Glossary](help/glossary.md)
 
