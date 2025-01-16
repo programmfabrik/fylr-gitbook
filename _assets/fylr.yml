@@ -1,4 +1,7 @@
 fylr+:
+
+  # For production, this URL should be in your license.
+  # If you change it, fylr needs a manual re-index.
   externalURL: "https://EXAMPLE.COM"
 
   encryptionKey: "EXAMPLE5cca29f8ddec415fd80bdbe25"
