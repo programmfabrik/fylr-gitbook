@@ -8,7 +8,8 @@ You can point multiple DNS Records and thus domains to your fylr.
 
 But keep in mind:
 
-* fylr always has only one main DNS domain, typically configured in fylr.yml's `externalURL`, and fylr will redirect to this URL and use it for image URLs.
+* fylr always has only _one_ main DNS domain, configured in fylr.yml's `externalURL`, and fylr will redirect to this URL and use it for image URLs.
+* The domain in `externalURL` has to be part of your fylr license. Except when testing as the fylr root user or on localhost.
 * If fylr shall react to additional domains besides the one main domain, make sure that these are also present in the one certificate that fylr uses.&#x20;
 * If you let fylr retrieve the certificate automatically, you need to configure them as `additionalDomains` in fylr.yml. See [HTTPS](http-and-https.md) for examples and details about using certificates.
 
