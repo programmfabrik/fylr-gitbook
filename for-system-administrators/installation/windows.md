@@ -12,13 +12,13 @@ It contains:
 * `fylr.exe` fylr native for Windows amd64.
 * `fylr.yml` a starting configuration already adjusted with Windows path syntax and for the following instructions.
 * `fylr.example.yml` most configuration parameters. Look here for reference.
-* `fylr.default.yml` compiled-in default values.
+* `fylr.default.yml` compiled-in default values. Just as a copy for you to look them up.
 * `LICENSE` legal information on who may use fylr.
 * A folder with plugins.
 
 ## Windows path length
 
-The shorter the path of your fylr installation directory, the less likely your installation will fail processing files due to exceeding the [length limit](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry). So prefer `C:\fylr` over `C:\user\adam doe\Desktop\software-project\fylr-v6.4.0\unpacked`. Fylr newer than v6.3.1 will try to use only short internal file names, but every little bit helps. Same for Libre Office installation (more about that below).
+The shorter the path of your fylr installation directory, the less likely your installation will fail processing files due to exceeding the [length limit](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry). So prefer `C:\fylr` over `C:\user\adam doe\Desktop\software-project\fylr-v6.17.0\unpacked`. Fylr newer than v6.3.1 will try to use only short internal file names, but every little bit helps. Same for Libre Office installation (more about that below).
 
 ## Get the dependencies
 
@@ -31,14 +31,14 @@ OpenSearch is our default and recommendation.
 We installed OpenSearch as described in [https://opensearch.org/docs/latest/install-and-configure/install-opensearch/windows/](https://opensearch.org/docs/latest/install-and-configure/install-opensearch/windows/)
 
 * Version 2.11 (Version 2.12.0 works from fylr v6.9.0 onwards, make sure you set a strong initial password for admin, the OpenSearch user)
-* We disabled security and let it explicitly listen only on localhost:
+* We disabled security and let it explicitly listen only on localhost, thus protecting it:
 
 ```
 network.host: 127.0.0.1
 plugins.security.disabled: true
 ```
 
-* We installed one plugin:
+* We installed the one needed plugin:
 
 ```
 opensearch-2.11.0> .\bin\opensearch-plugin install analysis-icu
@@ -75,7 +75,7 @@ xpack.security.enabled: false
 
 Elasticsearch then used the default address `http://localhost:9200`, which is also configured in `fylr.yml`.
 
-### Start with minimal dependencies
+### Start fylr with minimal dependencies
 
 Edit fylr.yml to not use any 3rd part tools for the moment if you want to test/start with minimal effort:
 
@@ -121,7 +121,7 @@ For a full installation it is recommended to install all of the following and un
 
 "Un-comment" = turning the comments into configuration.
 
-### Postgresql
+### PostgreSQL
 
 * We installed 15.2 from [https://www.enterprisedb.com/downloads/postgres-postgresql-downloads](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
 * We started pgadmin and created a role "fylr" (with LOGIN and INHERIT, the defaults), with password "fylr"; and a database "fylr" owned by role "fylr".
@@ -145,10 +145,10 @@ For a full installation it is recommended to install all of the following and un
 
 If you want to go back to a fresh state between two test runs:
 
-* Stop fylr.exe and elasticsearch. Optionally check that java / openjdk is stopped alongside elasticsearch.
-* Remove the directory `data` and elasticsearch's data/\*
-* Start elasticsearch as shown at the beginnig.
-* If you use postgres, remove and recreate the database.
+* Stop fylr.exe and the indexer (opensearch or elasticsearch). Optionally check that java / openjdk is stopped alongside elasticsearch.
+* Remove the directory `data` and elasticsearch's `data/*` .
+* Start elasticsearch as shown at the beginning.
+* If you use PostgreSQL, remove and recreate the database.
 
 ### pdf tools
 
@@ -194,7 +194,7 @@ We unpacked the whole package as the folder "python3" inside `C:\fylr\utils`.
 
 ### Java
 
-For extracting text from pdfs in the fylr\_example plugin and for the API test suite, the "metadata" service in fylr.yml needs a "java" command.
+For extracting information from assets, fylr needs a "java" command. We made sure to have java installed and that it can be started by the command `java` (for that, it has to be in the system environment variable PATH, which already was the case after java installation).
 
 ### Xsltproc
 
@@ -226,23 +226,27 @@ We tested ghostscript integration by uploading a pdf file into fylr and checking
 
 ### Libreoffice
 
-We "installed" `LibreOfficePortable_7.4.5_MultilingualStandard.paf.exe` from [https://www.libreoffice.org/download/portable-versions/](https://www.libreoffice.org/download/portable-versions/) to `C:\LibreOfficePortable`.
+We installed LibreOffice ([ https://de.libreoffice.org/donate/dl/win-x86\_64/24.8.4/de/LibreOffice\_24.8.4\_Win\_x86-64.msi](https://de.libreoffice.org/donate/dl/win-x86_64/24.8.4/de/LibreOffice_24.8.4_Win_x86-64.msi))
 
-Fair warning: If you make your installation path too long, libre office will not work.\
+and configured in fylr.yml:
+
+```
+fylr+:
+  services+:
+    execserver+:
+      commands:
+        soffice:
+          prog: "C:\\Program Files\\LibreOffice\\program\\soffice.exe"
+```
+
 \
-We then configured the path to `soffice.exe` in `fylr.yml`.
+As an alternative we successfully tested `LibreOfficePortable_7.4.5_MultilingualStandard.paf.exe` from [https://www.libreoffice.org/download/portable-versions/](https://www.libreoffice.org/download/portable-versions/) to `C:\LibreOfficePortable`.
+
+Fair warning: If you make your installation path too long, libre office will not work.
 
 Example for too long: `C:\Users\Klaus Thorn\Desktop\pf\fylr_v6.2.4_windows_amd64\utils\LibreOfficePortable\`.
 
-### Inkscape
-
-We installed Inkscape 1.2 via its default Installer.
-
-We added Inkscape's `bin` directory to the Windows System PATH as in [https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows#answer\_104285](https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows#answer\_104285)
-
-We closed and opened a new window for `fylr.exe server` so that the new PATH is known to the window.
-
-We tested Inkscape integration by uploading a svg file into fylr and check whether a preview is generated.
+We then configured the path to `soffice.exe` in `fylr.yml`.
 
 ## Tools in fylr.yml
 
@@ -335,6 +339,16 @@ fylr+:
 
 Check that each indentation level is two spaces. (No tab characters, just space characters).
 
+### Inkscape
+
+We installed Inkscape 1.2 via its default Installer.
+
+We added Inkscape's `bin` directory to the Windows System PATH as in [https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows#answer\_104285](https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows#answer_104285)
+
+We closed and opened a new window for `fylr.exe server` so that the new PATH is known to the window.
+
+We tested Inkscape integration by uploading a svg file into fylr and check whether a preview is generated.
+
 ***
 
 ## Start fylr as a service
@@ -344,3 +358,58 @@ After testing, you may want to switch to
 ```
 fylr.exe server -c fylr.yml --service install
 ```
+
+## fylr v6.17
+
+Version 6.17 needs these tools, additionally:
+
+### tika
+
+We downloaded from [https://tika.apache.org/download.html](https://tika.apache.org/download.html) the jar file `tika-app-3.0.0.jar`.
+
+We configured in fylr.yml:
+
+```
+fylr+:
+  services+:
+    execserver+:
+      commands:
+        tika:
+          prog: java
+          args:
+            - "-jar"
+            - "C:\\fylr\\utils\\tika-app-2.9.2.jar"
+```
+
+### tesseract
+
+From [https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki) we downloaded and started the installer `tesseract-ocr-w64-setup-5.5.0.20241111.exe` (64 bit)
+
+* In the installer dialogs we chose all languages and script data
+* We installed to `C:\fylr\utils\tesseract`
+* We configured in `fylr.yml`:
+
+```
+fylr+:
+  services+:
+    execserver+:
+      commands:
+        tesseract:
+          prog: "C:\\fylr\\utils\\tesseract\\tesseract.exe"
+```
+
+### mupdf tools
+
+We downloaded `mupdf-1.25.2-windows.zip` from [https://mupdf.com/releases](https://mupdf.com/releases) and unpacked it into `C:\fylr\utils\mupdf\` .
+
+In `fylr.yml we` configured:
+
+```
+fylr+:
+  services+:
+    execserver+:
+      commands:
+        mutool:
+          prog: "C:\\fylr\\utils\\mupdf\\mutool.exe"
+```
+
