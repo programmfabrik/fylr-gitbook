@@ -101,12 +101,12 @@ The OAI/PMH will use the configured profile to generate the Dublin Core represen
 ### XSLT Formats
 
 ```
-?metadataPrefix=xslt:<prefix>
+?metadataPrefix=xslt-<prefix>
 ```
 
 Besides those two formats, more formats can be defined using the base configuration, tab "Export and OAI/PMH", table "XSLT formats".
 
-There is a column "Name (OAI/PMH prefix, name in Deep-Links with /api/objects)" that is used to identify the XSLT file. The prefix must be conform to the standard and unique. Notice that `oai_dc` and `easydb` are already used. This prefix is used to format the metadata prefix: `xslt:<prefix>`.
+There is a column "Name (OAI/PMH prefix, name in Deep-Links with /api/objects)" that is used to identify the XSLT file. The prefix must be conform to the standard and unique. Notice that `oai_dc` and `easydb` are already used. This prefix is used to format the metadata prefix: `xslt-<prefix>`.
 
 To enable the XSLT file to be used as a Metadata Format for OAI/PMH, enable the Checkbox "Use for OAI/PMH". Make sure that you use XSLT files that output valid XML when activating them for OAI/PMH. Optionally, you can specify a namespace and a schema for the Metadata Format.
 
