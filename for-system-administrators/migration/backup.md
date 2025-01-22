@@ -64,6 +64,7 @@ Flags:
     --include=STRING             Filter regexp to include objecttypes.
     --retry-max-count=10         Number of retries for failed requests with network problems.
     --retry-sleep-between=30     Wait time in seconds between retries for failed requests.
+    --pretty                     Output pretty JSON.
 ```
 
 
@@ -71,7 +72,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=0
-timestamp: 2024-10-11 12:24:34 (UTC)
+timestamp: 2025-01-22 08:50:53 (UTC)
 
 -->
 
@@ -261,10 +262,6 @@ If the source instance uses OAuth2 for user authentication, this is the OAuth2 c
 
 ### `--insecure`
 
-{% hint style="info" %}
-This parameter is available in fylr from version **v6.14.0**.
-{% endhint %}
-
 Set to `true` to skip the certificate check for the connection to the source instance.
 
 {% hint style="warning" %}
@@ -296,6 +293,18 @@ Set to `true` to log the requests and responses.
 If this is a valid file path, the log output is written to this file. If this is empty (default), the log output is written to `stdout` instead.
 
 * type: `string`
+
+
+### `--pretty`
+
+{% hint style="info" %}
+This parameter is available in fylr from version **v6.17.0**.
+{% endhint %}
+
+Set to `true` to save the data in a prettified JSON.
+
+* type: `bool`
+* default: `false`
 
 
 <!--

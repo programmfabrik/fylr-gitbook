@@ -42,40 +42,43 @@ Usage: fylr restore [flags]
 Restore API backup into FYLR
 
 Flags:
-
--h, --help                       Show context-sensitive help.
--v, --verbose                    Set to true, to show additional info.
--n, --log-network                Set to true, to log all network traffic.
-    --server=STRING              Source url (overwrites URL of source instance from config)
--l, --login=STRING               If --server is set, use as login. Make sure to use the system root user to connect if used together with --purge.
--p, --password=STRING            If --server is set, use as password
-    --client-id=STRING           If --server is set, use as OAUTH2 client ID
-    --client-secret=STRING       If --server is set, use as OAUTH2 client secret
-    --client-token-url=STRING    If --server is set, use as OAUTH2 token url
-    --insecure                   Set to true, to not verify the server's certificate chain and host name
-    --log=STRING                 Set output to logfile
-    --purge                      For backup: set to true, to purge the target directory. For restore: set to true, to purge the target and copy the datamodel. The current password of the user used for the login will be set for the system root user.
-    --continue                   Set to true, to continue.
-    --limit=INT                  Limit records. Set to 0 for unlimited.
-    --chunk=100                  chunk size for fetching/pushing data.
-    --include-events=STRING      Comma separated list of event types. Use "-" to skip backup/restoring of events.
-    --manifest=STRING            Path to manifest.json.
-    --base-config=STRING         Base config to upload to the target. Not supported with --continue. By default the base config from the backup is uploaded. Use "-" to not upload a base config.
-    --datamodel=STRING           Datamodel to upload to the target. Not supported with --continue. By default the datamodel from the backup is uploaded. Use "-" to not upload a datamodel.
-    --upload-ignore-files-with-errors
-                                 Set to true, to ignore file upload errors and strip objects from them.
-    --max-parallel-upload-files=4
-                                 Max number of parallel original file + its versions uploads. Defaults to 4 (0 for bulk), max is 10 (unlimited for bulk).
-    --timeout-min=10             Timeout for connections to target (minutes).
-    --include-password           Include password in user restore.
-    --skip-constraints           Skip constraints during restore.
-    --file-api=STRING            API used to upload files. Leave empty to not upload files. "put": restore tool uploads files synchronous. "rput": target server loads files from remote URLs. "rput_leave": target server stores remote URLs, no data is copied to storage. "rput" and "rput_leave" are faster, "put" might take long.
-    --file-api-access-token=STRING
-                                 Use this to pass an access token to fylr backends. This is needed to load files from fylr source instances. It appends the "access_token" query parameter to the remote url of files, and removes the "x-fylr-signature" query parameter.
-    --file-version=STRING        Set to version to use for upload. "original" might take long for "put". Use "preview" for test runs.
-    --upload-versions            Set to true, to not produce local preview versions, but instead upload the source versions. The upload method is used for versions the same way as for the original.
-    --rename-versions=RENAME-VERSIONS,...
-                                 Rename versions before uploading. This affects uploaded rights as well as file versions. The versions need to be given in the notation "<cls>.<version>:<new version>", e.g. "image.preview:640px" would replace the "preview" version of image to "640px". If the "<new version>" is omitted, the version is removed.
+-h, --help                                   Show context-sensitive help.
+-v, --verbose                                Set to true, to show additional info.
+-n, --log-network                            Set to true, to log all network traffic.
+    --server=STRING                          Source url (overwrites URL of source instance from config)
+-l, --login=STRING                           If --server is set, use as login. Make sure to use the system root user to connect if used together with --purge.
+-p, --password=STRING                        If --server is set, use as password
+    --client-id=STRING                       If --server is set, use as OAUTH2 client ID
+    --client-secret=STRING                   If --server is set, use as OAUTH2 client secret
+    --client-token-url=STRING                If --server is set, use as OAUTH2 token url
+    --insecure                               Set to true, to not verify the server's certificate chain and host name
+    --log=STRING                             Set output to logfile
+    --purge                                  For backup: set to true, to purge the target directory. For restore: set to true, to purge the target and copy the datamodel. The current
+                                              password of the user used for the login will be set for the system root user.
+    --continue                               Set to true, to continue.
+    --chunk=100                              chunk size for fetching/pushing data.
+    --include-events=STRING                  Comma separated list of event types. Use "-" to skip backup/restoring of events.
+    --manifest=STRING                        Path to manifest.json.
+    --base-config=STRING                     Base config to upload to the target. Not supported with --continue. By default the base config from the backup is uploaded. Use "-" to not
+                                              upload a base config.
+    --datamodel=STRING                       Datamodel to upload to the target. Not supported with --continue. By default the datamodel from the backup is uploaded. Use "-" to not upload a
+                                              datamodel.
+    --upload-ignore-files-with-errors        Set to true, to ignore file upload errors and strip objects from them.
+    --max-parallel-upload-files=4            Max number of parallel original file + its versions uploads. Defaults to 4 (0 for bulk), max is 10 (unlimited for bulk).
+    --timeout-min=10                         Timeout for connections to target (minutes).
+    --include-password                       Include password in user restore.
+    --skip-constraints                       Skip constraints during restore.
+    --file-api=STRING                        API used to upload files. Leave empty to not upload files. "put": restore tool uploads files synchronous. "rput": target server loads files
+                                              from remote URLs. "rput_leave": target server stores remote URLs, no data is copied to storage. "rput" and "rput_leave" are faster, "put" might
+                                              take long.
+    --file-api-access-token=STRING           Use this to pass an access token to fylr backends. This is needed to load files from fylr source instances. It appends the "access_token" query
+                                              parameter to the remote url of files, and removes the "x-fylr-signature" query parameter.
+    --file-version=STRING                    Set to version to use for upload. "original" might take long for "put". Use "preview" for test runs.
+    --upload-versions                        Set to true, to not produce local preview versions, but instead upload the source versions. The upload method is used for versions the same way
+                                              as for the original.
+    --rename-versions=RENAME-VERSIONS,...    Rename versions before uploading. This affects uploaded rights as well as file versions. The versions need to be given in the notation
+                                              "<cls>.<version>:<new version>", e.g. "image.preview:640px" would replace the "preview" version of image to "640px". If the "<new version>" is
+                                              omitted, the version is removed.
 ```
 
 
@@ -83,7 +86,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=1408589219
-timestamp: 2024-10-11 12:24:34 (UTC)
+timestamp: 2025-01-22 08:52:13 (UTC)
 
 -->
 
@@ -233,6 +236,10 @@ The upload batch size for objects to the target instance. Can be used to control
 
 ### `--limit`
 
+{% hint style="warning" %}
+**Deprecated!** This parameter is removed in fylr in version **v6.17.0**.
+{% endhint %}
+
 Set this to a number bigger than `0` to limit the number of objects of each objecttype. This can be used to test or debug to only restore a small sample of the source instance.
 
 * type: `int`
@@ -356,10 +363,6 @@ For fylr this is `<source url>/api/oauth2/token`.
 
 
 ### `--insecure`
-
-{% hint style="info" %}
-This parameter is available in fylr from version **v6.14.0**.
-{% endhint %}
 
 Set to `true` to skip the certificate check for the connection to the target instance.
 
