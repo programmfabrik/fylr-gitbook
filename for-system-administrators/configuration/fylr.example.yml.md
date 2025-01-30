@@ -1,7 +1,6 @@
 ---
 description: >-
-  In this section you find most settings possible in fylr.yml and explanations
-  as comments
+  Most settings possible in fylr.yml and explanations as comments
 ---
 
 # fylr.example.yml
@@ -62,16 +61,20 @@ fylr:
   # all object caches (which store the URL). This re-index can be started from
   # /inspect/system.
   #
+  # This URL has to be part of your license, except testing as root or on localhost.
+  #
   # fylr will redirect all incoming requests to this externalURL, unless there is
   # a reverse proxy source matching in fylr.services.webapp.reverseProxy.custom.
   externalURL: "http://localhost"
+
+  # The license file can also be uploaded into the fylr webfrontend as root.
 
   # licenseFile (default: none). Path to license file. This is used as default
   # if nothing is set in the baseconfig. This setting is mutually exclusive with
   # fylr.license.
   licenseFile: "license.json"
 
-  # licsense: Inline JSON of license.  This is used as default if nothing is set
+  # license: Inline JSON of license.  This is used as default if nothing is set
   # in the baseconfig. This setting is mutually exclusive with fylr.licenseFile.
   license: "<JSON>"
 
@@ -577,6 +580,9 @@ fylr:
           prog: exiftool
         magick:
           prog: magick
+          args:
+            # %_exec.binDir% is replaced with the directory the binary is in
+            - more
 
       services:
         node:
@@ -627,6 +633,7 @@ fylr:
                 - FYLR_METADATA_BLURHASH=1g
               prog: "fylr"
               args:
+                # %_exec.binDir% is replaced with the directory the binary is in
                 - "metadata"
         ffmpeg:
           waitgroup: a
@@ -758,6 +765,5 @@ fylr:
               prog: "fylr"
               args:
                 - "iiif"
-
 ```
 {% endcode %}
