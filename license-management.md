@@ -1,16 +1,18 @@
 ---
-description: This page describes the management of fylr licenses.
+description: >-
+  Overview of fylr licenses and how they define the capabilities of a fylr
+  installation.
 ---
 
-# License Management
+# License
+
+For all installations a fylr license is required, except for a quick peek and for development.
 
 ## License contract & Licenses
 
-The fylr server comes with a license management.
+Once you have signed a fylr license contract, you will be given a fylr license. Depending on your license contract this can be one license or several licenses. This license has to be entered into the [license management](for-administrators/readme/license-management.md#upload-your-license) in the Base Configuration or has to be made part of the fylr.yml configuration.
 
-Once you have signed a fylr license contract, you will be given a fylr license. Depending on your licens contract this can be one license or several licenses. This license has to be entered into the fylr [base configuration](for-administrators/readme/license-management.md#upload-your-license).
-
-The license contract determines
+The license contract determines:
 
 * How many production instances can be used
 * How many test instances can be used
@@ -85,10 +87,10 @@ Administrators (configured in the base config email section) will receive an ema
 
 If you don't have a license key at all, or don't have a valid license key, you can start a fylr instance, nevertheless.
 
-fylr can be used without or with an expired license if one of the following applies:
+fylr can be used without or with an expired license if **one** of the following applies:
 
 * The external URL `fylr.externalURL` is set to _localhost_ or ends in _.localhost_
-* The user is main administrator (**system:root**). In this case, other users cannot log onto the system.
+* The fylr user account **root** is used. Other users can only log into localhost (see above).
 
 In case of an expired license, no data ist lost.
 

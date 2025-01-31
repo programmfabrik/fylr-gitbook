@@ -59,7 +59,7 @@
     * [Release v6.2.1 (2023-01-05)](releases/2023/v6.2.1.md)
   * [2022](releases/2022.md)
     * [fylr first Production Ready Release 🎉 (2022-12-22)](releases/2022/v6.2.0.md)
-* [License Management](license-management.md)
+* [License](license-management.md)
 * [Plugins](plugins.md)
   * [Plugin Overview](plugins/overview.md)
 
