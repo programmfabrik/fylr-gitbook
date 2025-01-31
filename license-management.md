@@ -6,7 +6,7 @@ description: >-
 
 # License
 
-For all installations a fylr license is required, except for a quick peek and for development.
+For all installations a fylr license is required, except for development and [cases explained below](license-management.md#fylr-with-an-invalid-or-no-license).
 
 ## License contract & Licenses
 
