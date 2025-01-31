@@ -6,7 +6,7 @@ description: >-
 
 # License
 
-For all installations a fylr license is required, except for development and [cases explained below](license-management.md#fylr-with-an-invalid-or-no-license).
+For all installations a fylr license is required, except for [cases explained below](license-management.md#fylr-with-an-invalid-or-no-license).
 
 ## License contract & Licenses
 
@@ -89,8 +89,8 @@ If you don't have a license key at all, or don't have a valid license key, you c
 
 fylr can be used without or with an expired license if **one** of the following applies:
 
-* The external URL `fylr.externalURL` is set to _localhost_ or ends in _.localhost_
-* The fylr user account **root** is used. Other users can only log into localhost (see above).
+* The external URL `fylr.externalURL` is set to _localhost_ or ends in _.localhost_. This is aimed at development of fylr and of plugins.
+* The fylr user account **root** is used. This makes sure that you can always reach the part of fylr where to uplaod licenses. Other users can only log into localhost (see above).
 
 In case of an expired license, no data ist lost.
 
