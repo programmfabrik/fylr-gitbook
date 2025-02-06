@@ -72,7 +72,8 @@
   * [For Administrators](help/tutorials/for-administrators/README.md)
     * [Exporting & Importing Hierarchical Lists](help/tutorials/for-administrators/exporting-and-importing-hierarchical-lists.md)
     * [Regenerating preview images](help/tutorials/for-administrators/regenerating-preview-images.md)
-  * [For System Administrators](help/tutorials/for-system-administrators.md)
+  * [For System Administrators](help/tutorials/for-system-administrators/README.md)
+    * [How to setup and use IIIF](help/tutorials/for-system-administrators/how-to-setup-and-use-iiif.md)
 * [Glossary](help/glossary.md)
 
 ## FOR USERS
