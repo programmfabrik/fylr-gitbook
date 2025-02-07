@@ -126,6 +126,8 @@ fylr+:
       - "/fylr/files/plugins/easydb/easydb-remote-plugin"
       - "/fylr/files/plugins/easydb/easydb-typo3-plugin"
       - "/fylr/files/plugins/easydb/easydb-wordpress-plugin"
+    urls:
+      - "https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip"
 
   elastic+:
     addresses:
