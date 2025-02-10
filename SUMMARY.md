@@ -180,6 +180,7 @@
   * [too many nested clauses](for-system-administrators/symptom-and-solution/too-many-nested-clauses.md)
   * [context canceled](for-system-administrators/symptom-and-solution/context-canceled.md)
   * [ContainerConfig error](for-system-administrators/symptom-and-solution/containerconfig-error.md)
+  * [Purge objects](for-system-administrators/symptom-and-solution/purge-objects.md)
 * [PostgreSQL versions](for-system-administrators/postgresql-versions.md)
 
 ## Tutorials
