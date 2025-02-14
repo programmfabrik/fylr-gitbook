@@ -20,7 +20,7 @@ services:
       driver: "journald"
 
   postgresql:
-    image: postgres:16
+    image: postgres:17
     container_name: postgresql
     restart: always
     shm_size: 1g
