@@ -140,10 +140,18 @@ fylr:
           prog: inkscape
         soffice:
           prog: soffice
+        ebook-convert:
+          prog: ebook-convert
+        ebook-meta:
+          prog: ebook-meta
         pdftotext:
           prog: pdftotext
-        pdftoppm:
-          prog: pdftoppm
+        mutool:
+          prog: mutool
+        tika:
+          prog: tika
+        tesseract:
+          prog: tesseract
         magick:
           prog: magick
         ffprobe:

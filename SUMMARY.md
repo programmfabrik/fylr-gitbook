@@ -2,6 +2,11 @@
 
 * [Welcome](README.md)
 * [Releases](releases/README.md)
+  * [2025](releases/2025.md)
+    * [Release v6.17.3 (2025-02-14)](releases/2025/v6.17.3.md)
+    * [Release v6.17.2 (2025-02-07)](releases/2025/v6.17.2.md)
+    * [Release v6.17.1 (2025-02-06)](releases/2025/v6.17.1.md)
+    * [Release v6.17.0 (2025-01-30)](releases/2025/v6.17.0.md)
   * [2024](releases/2024.md)
     * [Release v6.16.0 (2024-12-12)](releases/2024/v6.16.0.md)
     * [Release v6.15.0 (2024-11-27)](releases/2024/v6.15.0.md)
@@ -57,7 +62,7 @@
     * [Release v6.2.1 (2023-01-05)](releases/2023/v6.2.1.md)
   * [2022](releases/2022.md)
     * [fylr first Production Ready Release 🎉 (2022-12-22)](releases/2022/v6.2.0.md)
-* [License Management](license-management.md)
+* [License](license-management.md)
 * [Plugins](plugins.md)
   * [Plugin Overview](plugins/overview.md)
 
@@ -69,7 +74,8 @@
   * [For Administrators](help/tutorials/for-administrators/README.md)
     * [Exporting & Importing Hierarchical Lists](help/tutorials/for-administrators/exporting-and-importing-hierarchical-lists.md)
     * [Regenerating preview images](help/tutorials/for-administrators/regenerating-preview-images.md)
-  * [For System Administrators](help/tutorials/for-system-administrators.md)
+  * [For System Administrators](help/tutorials/for-system-administrators/README.md)
+    * [How to setup and use IIIF](help/tutorials/for-system-administrators/how-to-setup-and-use-iiif.md)
 * [Glossary](help/glossary.md)
 
 ## FOR USERS
@@ -175,6 +181,7 @@
   * [too many nested clauses](for-system-administrators/symptom-and-solution/too-many-nested-clauses.md)
   * [context canceled](for-system-administrators/symptom-and-solution/context-canceled.md)
   * [ContainerConfig error](for-system-administrators/symptom-and-solution/containerconfig-error.md)
+  * [Purge objects](for-system-administrators/symptom-and-solution/purge-objects.md)
 * [PostgreSQL versions](for-system-administrators/postgresql-versions.md)
 
 ## Tutorials

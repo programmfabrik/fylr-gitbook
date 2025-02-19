@@ -41,30 +41,31 @@ Backup ez5 or FYLR via API
 
 Flags:
 
--h, --help                       Show context-sensitive help.
--v, --verbose                    Set to true, to show additional info.
--n, --log-network                Set to true, to log all network traffic.
-    --server=STRING              Source url (overwrites URL of source instance from config)
--l, --login=STRING               If --server is set, use as login. Make sure to use the system root user to connect if used together with --purge.
--p, --password=STRING            If --server is set, use as password
-    --client-id=STRING           If --server is set, use as OAUTH2 client ID
-    --client-secret=STRING       If --server is set, use as OAUTH2 client secret
-    --client-token-url=STRING    If --server is set, use as OAUTH2 token url
-    --insecure                   Set to true, to not verify the server's certificate chain and host name
-    --log=STRING                 Set output to logfile
-    --purge                      For backup: set to true, to purge the target directory. For restore: set to true, to purge the target and copy the datamodel. The current password of the user used for the login will be set for the system root user.
-    --continue                   Set to true, to continue.
-    --limit=INT                  Limit records. Set to 0 for unlimited.
-    --chunk=100                  chunk size for fetching/pushing data.
-    --include-events=STRING      Comma separated list of event types. Use "-" to skip backup/restoring of events.
--d, --dir=STRING                 Target directory.
-    --size=100                   Size of .json files.
-    --compression=0              0: no compression, 1: speed, 9: best.
-    --all-versions               Set to true, to request all versions of an object.
-    --include=STRING             Filter regexp to include objecttypes.
-    --retry-max-count=10         Number of retries for failed requests with network problems.
-    --retry-sleep-between=30     Wait time in seconds between retries for failed requests.
-    --pretty                     Output pretty JSON.
+-h, --help                      Show context-sensitive help.
+-v, --verbose                   Set to true, to show additional info.
+-n, --log-network               Set to true, to log all network traffic.
+    --server=STRING             Source url (overwrites URL of source instance from config)
+-l, --login=STRING              If --server is set, use as login. Make sure to use the system root user to connect if used together with --purge.
+-p, --password=STRING           If --server is set, use as password
+    --client-id=""              If --server is set, use as OAUTH2 client ID
+    --client-secret=""          If --server is set, use as OAUTH2 client secret
+    --client-token-url=""       If --server is set, use as OAUTH2 token url
+    --insecure                  Set to true, to not verify the server's certificate chain and host name
+    --log=STRING                Set output to logfile
+    --purge                     For backup: set to true, to purge the target directory. For restore: set to true, to purge the target and copy the datamodel. The current password of the user used for the login will be set for the system root user.
+    --continue                  Set to true, to continue.
+    --verify                    If set, verify payloads of an existing backup (same what --continue does at the beginning).
+    --chunk-size=100            chunk size for fetching/pushing data.
+    --include-events=""         Comma separated list of event types. Use "-" to skip backup/restoring of events. Empty string will backup/restore all known event types.
+    --max-parallel=1            Maximum numbers of parallel workers. 0 uses the number of available CPUs. This creates more load on the source / target system. Defaults to "1" (only one parallel process).
+-d, --dir=STRING                Target directory.
+    --compression=0             0: no compression, 1: speed, 9: best.
+    --all-versions              Set to true, to request all versions of an object.
+    --include=""                Filter regexp to include objecttypes.
+    --maximum-count=0           Limit records. Set to 0 for unlimited.
+    --retry-max-count=10        Number of retries for failed requests with network problems.
+    --retry-sleep-between=30    Wait time in seconds between retries for failed requests.
+    --pretty                    Output pretty JSON.
 ```
 
 
@@ -72,7 +73,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=0
-timestamp: 2025-01-22 08:50:53 (UTC)
+timestamp: 2025-02-19 11:19:25 (UTC)
 
 -->
 
@@ -144,6 +145,10 @@ If the target folder already exists, this parameter (or `--purge`) must be set, 
 
 ### `--size`
 
+{% hint style="warning" %}
+**Deprecated!** This parameter is removed in fylr in version **v6.18.0**.
+{% endhint %}
+
 The target size for objects in payloads. The effective size of the generated payloads is limited by `--chunk`.
 
 * type: `int`
@@ -153,6 +158,28 @@ The target size for objects in payloads. The effective size of the generated pay
 
 
 ### `--chunk`
+
+{% hint style="warning" %}
+**Deprecated!** This parameter is removed in fylr in version **v6.18.0**.
+{% endhint %}
+
+The requested size for objects from the source instance. Can be used to control the size of the responses. It can be lowered if the requests cause timeouts or network problems.
+
+{% hint style="warning" %}
+This parameter was renamed to `--chunk-size`
+{% endhint %}
+
+* type: `int`
+* minimum: `1`
+* maximum: `1000`
+* default: `100`
+
+
+### `--chunk-size`
+
+{% hint style="info" %}
+This parameter is available in fylr from version **v6.18.0**.
+{% endhint %}
 
 The requested size for objects from the source instance. Can be used to control the size of the responses. It can be lowered if the requests cause timeouts or network problems.
 
@@ -164,11 +191,55 @@ The requested size for objects from the source instance. Can be used to control 
 
 ### `--limit`
 
+{% hint style="warning" %}
+**Deprecated!** This parameter is removed in fylr in version **v6.18.0**.
+{% endhint %}
+
+Set this to a number bigger than `0` to limit the number of objects of each objecttype. This can be used to test or debug, and can be combined with `--include` to only backup a small sample of the source instance.
+
+{% hint style="warning" %}
+This parameter was renamed to `--max-count`
+{% endhint %}
+
+* type: `int`
+* minimum: `0`
+* default: `0`
+
+
+### `--max-count`
+
+{% hint style="info" %}
+This parameter is available in fylr from version **v6.18.0**.
+{% endhint %}
+
 Set this to a number bigger than `0` to limit the number of objects of each objecttype. This can be used to test or debug, and can be combined with `--include` to only backup a small sample of the source instance.
 
 * type: `int`
 * minimum: `0`
 * default: `0`
+
+
+### `--max-parallel`
+
+{% hint style="info" %}
+This parameter is available in fylr from version **v6.18.0**.
+{% endhint %}
+
+Maximum numbers of parallel workers.
+
+{% hint style="info" %}
+`0` uses the number of available CPUs.
+
+Defaults to `1` (only one parallel process).
+{% endhint %}
+
+{% hint style="warning" %}
+This creates more load on the source system.
+{% endhint %}
+
+* type: `int`
+* minimum: `0`
+* default: `1`
 
 
 ### `--compression`

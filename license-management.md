@@ -1,23 +1,25 @@
 ---
-description: This page describes the management of fylr licenses.
+description: >-
+  Overview of fylr licenses and how they define the capabilities of a fylr
+  installation.
 ---
 
-# License Management
+# License
 
-## License contract & Licences
+For all installations a fylr license is required, except for [cases explained below](license-management.md#fylr-with-an-invalid-or-no-license).
 
-The fylr server comes with a license management.
+## License contract & Licenses
 
-Once you have signed a fylr license contract, you will be given a fylr license. Depending on your licence contract this can be one licence or several licences. This license has to be entered into the fylr [base configuration](for-administrators/readme/).
+Once you have signed a fylr license contract, you will be given a fylr license. Depending on your license contract this can be one license or several licenses. This license has to be entered into the [license management](for-administrators/readme/license-management.md#upload-your-license) in the Base Configuration or has to be made part of the fylr.yml configuration.
 
-The license contract determines
+The license contract determines:
 
 * How many production instances can be used
 * How many test instances can be used
 * Whether you licensed the edition workgroup, department or organization
 * Which other fylr add-ons, plugins or extensions, can be used
 
-## Licence Editions
+## License Editions
 
 <table><thead><tr><th width="194">LICENSE EDITION</th><th width="210">INSTANCES</th><th>ADDITIONAL FEATURES</th></tr></thead><tbody><tr><td>Workgroup</td><td>1 production instance<br>0 test instance</td><td>All main fylr features</td></tr><tr><td>Department</td><td>1 production instance<br>0 test instance</td><td> + Authentication/ Single Sign-On</td></tr><tr><td>Organization</td><td>1 production instance<br>1 test instance</td><td> + Authentication/ Single Sign-On <br> + Kubernetes Installation (Horizontal Scaling)</td></tr></tbody></table>
 
@@ -27,7 +29,7 @@ The license contract determines
 All fylr license editions grant you the permission to use the system with an unlimited number of users / user accounts (read and write accounts) and unlimited data. However this can be treated differently in the fylr cloud.
 {% endhint %}
 
-## Licence Add-ons
+## License Add-ons
 
 In your license contract you can choose from these license add-ons, which are either extensions or plugins:
 
@@ -41,7 +43,7 @@ In your license contract you can choose from these license add-ons, which are ei
 
 ## Capabilities
 
-Based on the fylr licence contract the enabled capabilities are defined in the fylr licence. They extend the features of fylr.
+Based on the fylr license contract the enabled capabilities are defined in the fylr license. They extend the features of fylr.
 
 * Authentication service LDAP & SAML
 * CI-Hub-Integration for Adobe and Office products
@@ -85,10 +87,10 @@ Administrators (configured in the base config email section) will receive an ema
 
 If you don't have a license key at all, or don't have a valid license key, you can start a fylr instance, nevertheless.
 
-fylr can be used without or with an expired license if one of the following applies:
+fylr can be used without or with an expired license if **one** of the following applies:
 
-* The external URL `fylr.externalURL` is set to _localhost_ or ends in _.localhost_
-* The user is main administrator (**system:root**). In this case, other users cannot log onto the system.
+* The external URL `fylr.externalURL` is set to _localhost_ or ends in _.localhost_. This is aimed at development of fylr and of plugins.
+* The fylr user account **root** is used. This makes sure that you can always reach the part of fylr where to uplaod licenses. Other users can only log into localhost (see above).
 
 In case of an expired license, no data ist lost.
 
@@ -102,4 +104,5 @@ To download, install and test fylr see these pages:
 
 * Find the latest [fylr release](releases/) to download it
 * [fylr Installation](for-system-administrators/installation/)
+* [upload your fylr license](for-administrators/readme/license-management.md#upload-your-license)
 
