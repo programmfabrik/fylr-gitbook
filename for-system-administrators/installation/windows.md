@@ -365,7 +365,7 @@ Version 6.17 needs these tools, additionally:
 
 ### tika
 
-We downloaded from [https://tika.apache.org/download.html](https://tika.apache.org/download.html) the jar file `tika-app-3.0.0.jar`.
+We downloaded from [https://tika.apache.org/download.html](https://tika.apache.org/download.html) the jar file `tika-app-2.9.2.jar`.
 
 We configured in fylr.yml:
 
