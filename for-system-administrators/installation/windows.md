@@ -248,97 +248,6 @@ Example for too long: `C:\Users\Klaus Thorn\Desktop\pf\fylr_v6.2.4_windows_amd64
 
 We then configured the path to `soffice.exe` in `fylr.yml`.
 
-## Tools in fylr.yml
-
-Now was a good time to go to the last part in fylr.yml and replace minimal 3rd party tools config into explicit tools config:
-
-* before:
-
-```
-fylr+:
-  [...]
-  services+:
-  [...]
-    execserver+:
-
-      commands:
-       fylr:
-         prog: fylr.exe
-      services:
-
-      # commands+:
-        # fylr:
-          # prog: fylr.exe
-        # ffmpegthumbnailer:
-          # # ffmpegthumbnailer: not under Windows. ffmpeg is used instead as a fallback
-        # soffice:
-          # prog: "C:\\LibreOfficePortable\\LibreOfficePortable.exe"
-        # magick:
-          # prog: "C:\\fylr\\utils\\magick.exe"
-        # exiftool:
-          # prog: "C:\\fylr\\utils\\exiftool.exe"
-        # ffmpeg:
-          # prog: "C:\\fylr\\utils\\ffmpeg.exe"
-        # ffprobe:
-          # prog: "C:\\fylr\\utils\\ffprobe.exe"
-        # node:
-          # prog: "C:\\fylr\\utils\\node.exe"
-        # python3:
-          # # prog: "C:\\fylr\\utils\\python3\\python.exe"
-          # # is searched in PATH variable:
-          # prog: "python.exe"
-        # pdftotext:
-          # prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdftotext.exe"
-        # pdftoppm:
-          # prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdftoppm.exe"
-        # pdfinfo:
-          # prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdfinfo.exe"
-```
-
-* after:
-
-<pre><code><strong>fylr+:
-</strong><strong>  [...]
-</strong><strong>  services+:
-</strong><strong>  [...]
-</strong>    execserver+:
-    
-      # commands:
-       # fylr:
-         # prog: fylr.exe
-      # services:
-
-      commands+:
-        fylr:
-          prog: fylr.exe
-        ffmpegthumbnailer:
-          # ffmpegthumbnailer: not under Windows. ffmpeg is used instead as a fallback
-        soffice:
-          prog: "C:\\LibreOfficePortable\\LibreOfficePortable.exe"
-        magick:
-          prog: "C:\\fylr\\utils\\magick.exe"
-        exiftool:
-          prog: "C:\\fylr\\utils\\exiftool.exe"
-        ffmpeg:
-          prog: "C:\\fylr\\utils\\ffmpeg.exe"
-        ffprobe:
-          prog: "C:\\fylr\\utils\\ffprobe.exe"
-        node:
-          prog: "C:\\fylr\\utils\\node.exe"
-        python3:
-          #prog: "C:\\fylr\\utils\\python3\\python.exe"
-          # is searched in PATH variable:
-          prog: "python.exe"
-        pdftotext:
-          prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdftotext.exe"
-        pdftoppm:
-          prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdftoppm.exe"
-<strong>        pdfinfo:
-</strong>          prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdfinfo.exe"
-</code></pre>
-
-Check that each indentation level is two spaces. (No tab characters, just space characters).
-
 ### Inkscape
 
 We installed Inkscape 1.2 via its default Installer.
@@ -348,20 +257,6 @@ We added Inkscape's `bin` directory to the Windows System PATH as in [https://de
 We closed and opened a new window for `fylr.exe server` so that the new PATH is known to the window.
 
 We tested Inkscape integration by uploading a svg file into fylr and check whether a preview is generated.
-
-***
-
-## Start fylr as a service
-
-After testing, you may want to switch to
-
-```
-fylr.exe server -c fylr.yml --service install
-```
-
-## fylr v6.17
-
-Version 6.17 needs these tools, additionally:
 
 ### tika
 
@@ -413,3 +308,96 @@ fylr+:
           prog: "C:\\fylr\\utils\\mupdf\\mutool.exe"
 ```
 
+### dot
+
+from [https://www.graphviz.org/download/](https://www.graphviz.org/download/)
+
+### calibre
+
+from [https://calibre-ebook.com/download\_windows](https://calibre-ebook.com/download_windows)
+
+## Tools in fylr.yml
+
+Now was a good time to go to the last part in fylr.yml and replace minimal 3rd party tools config into explicit tools config:
+
+* before:
+
+```
+fylr+:
+  [...]
+  services+:
+  [...]
+    execserver+:
+
+      commands:
+        fylr:
+          prog: fylr.exe
+      services:
+      
+```
+
+* after:
+
+<pre><code><strong>fylr+:
+</strong><strong>  [...]
+</strong><strong>  services+:
+</strong><strong>  [...]
+</strong>    execserver+:
+      commands:
+        fylr:
+          prog: fylr.exe
+        # ffmpegthumbnailer: not under Windows. ffmpeg is used instead as a fallback
+        soffice:
+          prog: "C:\\LibreOfficePortable\\LibreOfficePortable.exe"
+        magick:
+          prog: "C:\\fylr\\utils\\magick.exe"
+        exiftool:
+          prog: "C:\\fylr\\utils\\exiftool.exe"
+        ffmpeg:
+          prog: "C:\\fylr\\utils\\ffmpeg.exe"
+        ffprobe:
+          prog: "C:\\fylr\\utils\\ffprobe.exe"
+        node:
+          prog: "C:\\fylr\\utils\\node.exe"
+        python3:
+          #prog: "C:\\fylr\\utils\\python3\\python.exe"
+          # is searched in PATH variable:
+          prog: "python.exe"
+        pdftotext:
+          prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdftotext.exe"
+<strong>        pdfinfo:
+</strong>          prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdfinfo.exe"
+        java:
+          prog: java.exe
+        inkscape:
+          prog: inkscape.exe
+        xsltproc:
+          prog: "C:\\ProgramData\\chocolatey\\bin\\xsltproc.exe"
+        dot:
+          prog: "C:\\fylr\\utils\\Graphviz\\bin\\dot.exe"
+        tika:
+          prog: java
+          args:
+            - "-jar"
+            - "C:\\fylr\\utils\\tika-app-2.9.2.jar"
+        tesseract:
+          prog: "C:\\fylr\\utils\\tesseract\\tesseract.exe"
+        mutool:
+          prog: "C:\\fylr\\utils\\mupdf\\mutool.exe"
+        ebook-meta:
+          prog: "C:\\fylr\\utils\\Calibre2\\ebook-meta.exe"
+        ebook-convert:
+          prog: "C:\\fylr\\utils\\Calibre2\\ebook-convert.exe"
+</code></pre>
+
+Check that each indentation level is two spaces. (No tab characters, just space characters).
+
+***
+
+## Start fylr as a service
+
+After testing, you may want to switch to
+
+```
+fylr.exe server -c fylr.yml --service install
+```
