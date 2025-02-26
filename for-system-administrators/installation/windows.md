@@ -318,9 +318,9 @@ from [https://calibre-ebook.com/download\_windows](https://calibre-ebook.com/dow
 
 ## Tools in fylr.yml
 
-Now was a good time to go to the last part in fylr.yml and replace minimal 3rd party tools config into explicit tools config:
+Here is how to configure all these tools in fylr.yml:
 
-* before:
+* before, the tools in `fylr.yml` look like this (minimal, no 3rd party tools):
 
 ```
 fylr+:
@@ -336,7 +336,7 @@ fylr+:
       
 ```
 
-* after:
+* after we add all the tools: (use paths valid on your installation)
 
 <pre><code><strong>fylr+:
 </strong><strong>  [...]
