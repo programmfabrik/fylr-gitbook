@@ -21,21 +21,31 @@ Refer to the documentation on [export-and-deep-links.md](../../../for-administra
 
 ### Settings up rights management for Deep Links
 
-{% hint style="warning" %}
-WIP
-{% endhint %}
+In fylrs right management section, we need to setup correct rights for the system user `deep_link.`This user is included in a fylr instance per default.
+
+It's likely you'll set these permissions for a Pool managing more than one Object Type. Depending on your usage of the datamodel, it's possible you the deep\_link user permissions have to be set for an Object Type directly.
+
+
+
+<figure><img src="../../../.gitbook/assets/Screenshot 2025-02-26 at 15.18.48.png" alt=""><figcaption><p>Rights Management > Permissions Tab: example configuration for deep_link user permissions</p></figcaption></figure>
+
+The required Permissions are:
+
+* View Records
+  * select the Object Types you want to share with the deep\_link user
+* Allowed Masks
+  * for those Object Types, select the Masks you want the deep\_link user to hace access to
 
 ## Using Deeplinks
 
+<figure><img src="../../../.gitbook/assets/Screenshot 2025-02-06 at 17.46.34.png" alt=""><figcaption><p>Using the three-dot menu at a records file field to access deep links.</p></figcaption></figure>
 
+To enable sharing URLs for the deep\_link user, we need to also assign the permissions:
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-02-06 at 17.46.34.png" alt=""><figcaption></figcaption></figure>
-
-The links are shared with the Deep-Link user. If some URLs appear to be unavailable, this is because they are not shared.&#x20;
-
-{% hint style="warning" %}
-**WIP**
-{% endhint %}
+* View Versions
+  * select the versions of your object types corresponding file class you want the deep\_link user to have access to (this example uses images only)
+* Download Versions
+  * select the you want the deep\_link user to be allowed to download
 
 ## Adding custom IIIF viewers
 
