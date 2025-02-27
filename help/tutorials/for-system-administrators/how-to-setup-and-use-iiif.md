@@ -27,7 +27,7 @@ It's likely you'll set these permissions for a Pool managing more than one Objec
 
 
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-02-26 at 15.18.48.png" alt=""><figcaption><p>Rights Management > Permissions Tab: example configuration for deep_link user permissions</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/Screenshot 2025-02-27 at 11.03.09.png" alt=""><figcaption><p>Rights Management > Permissions Tab: example configuration for deep_link user permissions</p></figcaption></figure>
 
 The required Permissions are:
 
@@ -35,8 +35,13 @@ The required Permissions are:
   * select the Object Types you want to share with the deep\_link user
 * Allowed Masks
   * for those Object Types, select the Masks you want the deep\_link user to hace access to
+* View Versions
+  * the versions the user is allowed to see
+  * Only versions with checked rights management checkbox are listed here: see [file-worker](../../../for-administrators/readme/file-worker/ "mention") ( Base Configuration > File Worker > renditions tables "rights management" checkbox)
+* Download Versions
+  * mark the versions the deep\_link user should be able to download (required for deep linking versions)
 
-## Using Deeplinks
+### Using Deeplinks
 
 <figure><img src="../../../.gitbook/assets/Screenshot 2025-02-06 at 17.46.34.png" alt=""><figcaption><p>Using the three-dot menu at a records file field to access deep links.</p></figcaption></figure>
 
