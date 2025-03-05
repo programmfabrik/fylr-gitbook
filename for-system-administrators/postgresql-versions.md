@@ -6,9 +6,9 @@ description: Supported major versions and upgrading between versions
 
 ## Supported PostgreSQL versions
 
-fylr is tested with PostgreSQL 15 und 16.
+fylr is tested with PostgreSQL 15, 16 and 17.
 
-The newest recommended version is part of our [installation documentation](installation/linux-docker-compose.md), in [docker-compose.yml](https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/\_assets/docker-compose.yml)
+The newest recommended version is part of our [installation documentation](installation/linux-docker-compose.md), in [docker-compose.yml](https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/docker-compose.yml)
 
 ## Upgrade between major versions
 
@@ -22,7 +22,7 @@ The newest recommended version is part of our [installation documentation](insta
    * At the appropriate step, we renamed the old data directory by: \
      `mv /srv/fylr/postgres/pgdata /srv/fylr/postgres/pgdata_old` \
      The new `pgdata` directory was then automatically created by the new PostgreSQL.
-   * We instructed `docker compose` to use a newer major PostgreSQL version by changing  [docker-compose.yml](https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/\_assets/docker-compose.yml) , e.g. from `image: postgres:15` to `image: postgres:16`.
-   * The following Errors, while restoring, can be caused by [docker-compose.yml](https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/\_assets/docker-compose.yml) and in that case be safely ignored: `role "fylr" already exists` and `database "fylr" already exists`.
+   * We instructed `docker compose` to use a newer major PostgreSQL version by changing  [docker-compose.yml](https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/docker-compose.yml) , e.g. from `image: postgres:15` to `image: postgres:16`.
+   * The following Errors, while restoring, can be caused by [docker-compose.yml](https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/docker-compose.yml) and in that case be safely ignored: `role "fylr" already exists` and `database "fylr" already exists`.
 4. Start fylr, e.g.  `docker compose up -d fylr`.
 
