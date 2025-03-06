@@ -27,7 +27,7 @@ Background: The certificate will be entered in the fylr frontend's form fields a
 This can be done where ever openssl is installed as a command line utility.
 
 ```bash
-openssl genrsa -out private.key 2048
+openssl genrsa -out private.key 3072
 openssl req -new -x509 -key private.key -out publickey.cer -days 365
 ```
 
