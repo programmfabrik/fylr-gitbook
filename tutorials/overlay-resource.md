@@ -54,7 +54,7 @@ fylr+:
 For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md), the command would be:
 
 ```
-docker-compose exec fylr /fylr/bin/fylr resources -c /fylr/config/fylr.yml --fs=fylr.resources
+docker compose exec fylr /fylr/bin/fylr resources -c /fylr/config/fylr.yml --fs=fylr.resources
 
 +--------------------------------------------------+----------+----------------------+
 |                       PATH                       |   SIZE   |        SOURCE        |
@@ -92,7 +92,7 @@ Let us assume that the file `robots.txt` needs to be changed:
 For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md), the command to show this, would be:
 
 ```
-docker-compose exec fylr /fylr/bin/fylr resources --fs=fylr.services.webapp.path --copy=- robots.txt>robots.txt
+docker compose exec fylr /fylr/bin/fylr resources --fs=fylr.services.webapp.path --copy=- robots.txt>robots.txt
 ```
 
 ### Prepare the replacement
@@ -141,7 +141,7 @@ How to show the command syntax and options of your fylr version.
 For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md), the command to show this, would be:
 
 ```
-docker-compose exec fylr /fylr/bin/fylr resources --help
+docker compose exec fylr /fylr/bin/fylr resources --help
 ```
 
 ###
@@ -151,7 +151,7 @@ docker-compose exec fylr /fylr/bin/fylr resources --help
 To list all resources, let fylr give you a list of each overlay-able filesystem. Currently (fylr v6.9.3), there are two such filesystems. For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md), the commands to list both, would be:
 
 ```
-docker-compose exec fylr /fylr/bin/fylr resources --fs=fylr.resources
+docker compose exec fylr /fylr/bin/fylr resources --fs=fylr.resources
 
 +--------------------------------------------------+----------+--------+
 |                       PATH                       |   SIZE   | SOURCE |
@@ -165,7 +165,7 @@ docker-compose exec fylr /fylr/bin/fylr resources --fs=fylr.resources
 | pages.csv                                        |  90.3 kB |  embed |
 +--------------------------------------------------+----------+--------+
 
-docker-compose exec fylr /fylr/bin/fylr resources --fs=fylr.services.webapp.path
+docker compose exec fylr /fylr/bin/fylr resources --fs=fylr.services.webapp.path
 
 +------------------------------------------------------+----------+--------+
 |                         PATH                         |   SIZE   | SOURCE |
