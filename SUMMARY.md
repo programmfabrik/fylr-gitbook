@@ -3,6 +3,7 @@
 * [Welcome](README.md)
 * [Releases](releases/README.md)
   * [2025](releases/2025.md)
+    * [Release v6.18.1 (2025-03-07)](releases/2025/v6.18.1.md)
     * [Release v6.18.0 (2025-02-26)](releases/2025/v6.18.0.md)
     * [Release v6.17.3 (2025-02-14)](releases/2025/v6.17.3.md)
     * [Release v6.17.2 (2025-02-07)](releases/2025/v6.17.2.md)
