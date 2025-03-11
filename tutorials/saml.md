@@ -54,12 +54,12 @@ Now go to the fylr login page (e.g. by logging out or using a second browser or 
 mocksaml.com is simplified. Here are some details you might need in a real world scenario.
 
 * Target: **Login**: This can be used to determine the username during login, as in: The pair of username and Password used to log in. Example value: `%(login)s`. Or `%(sAMAccountName)s`. Has to match an attribute name that is actually present in your IDP's data.
-* Target: **Display Name**:  Example value: `%(displayName)s`. Has to match an attribute name that is actually present in your IDP's data.
+* Target: **Display Name**: Example value: `%(displayName)s`. Has to match an attribute name that is actually present in your IDP's data.
 * Target: **Email**: <mark style="color:orange;">Note that email addresses in fylr have to be unique. The same email address cannot be used by two fylr users under any circumstances. fylr will not allow the email address to be saved a second time, preventing the login via SAML, if the email address is already present in fylr.</mark>
 * Target: **Reference**: Make sure this is adjusted to your data. Do not just copy and paste. It can be very different from the above simple example. Another example:\
   `%(urn:oasis:names:tc:SAML:attribute:subject-id)s`
-  * By default, **Reference** is used to determine whether a user already exists in fylr or whether to create a new one as a SAML user logs in. You may think of it as the unique ID.&#x20;
-* **Benutzer-Update** (**User Update**): Set the attribute which is used to determine whether the SAML user (who is logging in) already has a matching account in fylr. If it has a matching account, that user is logged in (and attributes may get overwritten with the current values in SAML). If it has no matching account in fylr yet, a new one is being created. By default, the used attribute is **Reference**. But you can choose the attributes **Email** or **Login**, instead. \
+  * By default, **Reference** is used to determine whether a user already exists in fylr or whether to create a new one as a SAML user logs in. You may think of it as the unique ID.
+* **Benutzer-Update** (**User Update**): Set the attribute which is used to determine whether the SAML user (who is logging in) already has a matching account in fylr. If it has a matching account, that user is logged in (and attributes may get overwritten with the current values in SAML). If it has no matching account in fylr yet, a new one is being created. By default, the used attribute is **Reference**. But you can choose the attributes **Email** or **Login**, instead.\
   Example: Assume that the chosen attribute for **Benutzer-Update** is `Email` and that Alice logs in the first time with her SAML user alice@example.com. Company policy changes and thus her email address (in SAML) changes to alice.lastname@example.com. During her next login into fylr, a new user is being created, as there is no user yet with alice.lastname@example.com. Now Alice has two user accounts in fylr and can only log in to the second one.
 
 More topics that you might need with other identity providers:
@@ -68,9 +68,33 @@ More topics that you might need with other identity providers:
 
 fylr's metadata URL is [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr.example.com/api/saml/metadata) (replace domain name with the one from your instance). You might need to give this URL to your Identity provider or you might have to call this URL yourself and then give the downloaded XML to your Identity provider.
 
+### Other URLs
+
+* ACS Assertionsverbraucherdienst-URL: [https://FYLR.EXAMPLE.COM/api/saml/acs](https://fylr.example.com/api/saml/metadata)
+* Logout URL: [https://FYLR.EXAMPLE.COM/api/saml/slo](https://fylr.example.com/api/saml/metadata)
+
+### MS Entra
+
+This section was contributed by partners and customers, we did not verify this.
+
+* Into the URL field of the fylr SAM config, put the URL that you find in MS Entra. The syntax is like:\
+  [https://login.microsoftonline.com/abc\[...\]/federationmetadata/2007-06/federationmetadata.xml?appid=def\[...\]](https://login.microsoftonline.com/abc\[...]/federationmetadata/2007-06/federationmetadata.xml?appid=def\[...]) (recommended)\
+  or\
+  [https://login.microsoftonline.com/abc\[...\]/FederationMetadata/2007-06/FederationMetadata.xml](https://login.microsoftonline.com/abc\[...]/FederationMetadata/2007-06/FederationMetadata.xml)\
+  (might also work)\
+  \
+  Here a screenshot (in German, but the location should be similar in any language) of MS Entra about where to find this URL. See the red rectangle. Also some other config is visible:\
+  \
+  ![](<../.gitbook/assets/image (17).png>)\
+
+* Where to put fylr URLs in MS Entra:\
+  ![](<../.gitbook/assets/image (18).png>)
+* Check that certificates are not expired / expiring too soon. Here a place in MS Entra to check one of the involved certificates:\
+  ![](<../.gitbook/assets/image (19).png>)
+
 ### Signed AuthnRequest
 
-Checkbox:  ☑︎ **Sign requests** (default off)
+Checkbox: ☑︎ **Sign requests** (default off)
 
 Some environments have the requirement that the SPs (in this case fylr) must sign the authentication requests.
 
