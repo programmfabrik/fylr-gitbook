@@ -25,7 +25,7 @@ What a purge does not:
 
 ## Allow purge
 
-1. Make sure you have in your **fylr.yml**: `allowpurge: true`. Example:
+1. Make sure you have in your **fylr.yml**: `allowpurge: true` at the exact following indentation depth:
 
 ```
 fylr+:
@@ -33,6 +33,10 @@ fylr+:
 
 [...the rest of the file is omitted here...]
 ```
+
+{% hint style="info" %}
+Possible misunderstanding: There are other purge settings in fylr.yml, but you also need the above one.
+{% endhint %}
 
 2. Allow purge in the fylr frontend, if not already set: Navigation bar - Cogwheels/**Administration** - **Base Configuration** - **Development** - **Purge**:
 
