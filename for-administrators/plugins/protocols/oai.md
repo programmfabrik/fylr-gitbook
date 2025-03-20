@@ -12,9 +12,14 @@ More information about the standard can be found here: [http://www.openarchives.
 
 ## Configuration
 
-OAI/PMH is configured in the base configuration tab ["Export and OAI/PMH"](/for-administrators/readme/export-and-deep-links#oai-pmh). In order to use it, first enable it using the checkbox and then fill in the fields:
+OAI/PMH is configured in the base configuration tab ["Export and OAI/PMH"](/for-administrators/readme/export-and-deep-links.md#oai-pmh). In order to use it, first enable it using the checkbox and then fill in the nessary fields.
 
-- Repository-Name: information provided by [`Identify`](#identify) (`repositoryName`)
+## Rights Management
+
+The OAI endpoint is accessible without any authenticated Access Token, however it is protected by the rights management. Internally, the [System User](/for-administrators/permissions/user.md#system-user) `oai_pmh` is used to apply the rights. When the endpoint is called, the rights this user has are deciding which records are available.
+
+Make sure that the `oai_pmh` user has the necessary read rights on all masks and objects which should be exposed over the OAI endpoint. Since the OAI endpoint is read only, all rights that allow writing have no effect. The rights can be applied in pools or objecttypes, just like for any other user or group.
+
 
 ### Identify
 
@@ -39,6 +44,7 @@ Example:
 
 fylr provides the information configured in the base configuration tab "OAI/PMH" to identify the repository. The granularity offered is `"YYYY-MM-DDThh:mm:ssZ"` and the `deletedRecord` policy is set to `"persistent"`.
 
+If the endpoint is called without any `verb`, the fallback is `Identify` and this information is shown.
 
 ## API
 
@@ -46,7 +52,7 @@ The OAI/PMH can be accessed under:
 
 <mark style="color:blue;">`GET`</mark> `/api/v1/oai`
 
-The parameters are defined under [Protocol Requests and Responses](https://www.openarchives.org/OAI/openarchivesprotocol.html#ProtocolMessages).
+The parameters are defined in the external documentation: [Protocol Requests and Responses](https://www.openarchives.org/OAI/openarchivesprotocol.html#ProtocolMessages).
 
 
 ## Repository
