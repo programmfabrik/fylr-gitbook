@@ -132,7 +132,7 @@ In case of an error, fylr tries to parse errors using the api error format. If a
 ```json
 {
   "code": "error.code", // define in l10n
-  "err": "error string",
+  "error": "error string",
   "params": {}, // map to ender the error code localization
   "realm": "api", // this should always be "api"
   "statuscode": 400 // an optional status code
