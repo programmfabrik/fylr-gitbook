@@ -196,17 +196,24 @@ We unpacked the whole package as the folder "python3" inside `C:\fylr\utils`.
 
 For extracting information from assets, fylr needs a "java" command. We made sure to have java installed and that it can be started by the command `java` (for that, it has to be in the system environment variable PATH, which already was the case after java installation).
 
-### Xsltproc
+### Saxon
 
-We installed xsltproc.exe by
+This replaces _xsltproc_ in fylr v6.19.
 
-* installling the chocolatey package manager as in [https://docs.chocolatey.org/en-us/choco/setup](https://docs.chocolatey.org/en-us/choco/setup)
-* installing xsltproc with chocolatey as in [https://community.chocolatey.org/packages/xsltproc#install](https://community.chocolatey.org/packages/xsltproc#install)
-* test that xsltproc is running:
+We downloaded **SaxonJ-HE 12.5** from [https://www.saxonica.com/download/java.xml](https://www.saxonica.com/download/java.xml)
+
+* The unpacked file was `C:\fylr\utils\saxon\saxon-he-12.5.jar` .
 
 ```
-xsltproc.exe --version
-Using libxml 20903, libxslt 10128 and libexslt 817
+fylr+:
+  services+:
+    execserver+:
+      commands:
+        saxon:
+          prog: java
+          args:
+            - "-jar"
+            - "C:\\fylr\\utils\\saxon\\saxon-he-12.5.jar"
 ```
 
 ### Ghostscript
@@ -316,11 +323,29 @@ from [https://www.graphviz.org/download/](https://www.graphviz.org/download/)
 
 from [https://calibre-ebook.com/download\_windows](https://calibre-ebook.com/download_windows)
 
-## Tools in fylr.yml
+### chrome
+
+**Optional**. Only needed for the plugin called `server-pdf` in the plugin manager. this plugin is not packaged with fylr by default. We mention it here to show the config under Windows as an example.
+
+* If you have at least version 1.1.0 of the plugin: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/tag/v1.1.0](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/tag/v1.1.0) it is ready for fylr under Windows.
+* Install the browser **Chrome**
+* configure the location of chrome in `fylr.yml`:
+
+```
+fylr+:
+  env:
+    SERVER_PDF_CHROME: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+```
+
+To update the plugin automatically, use this URL: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip)
+
+
+
+## Configure the tools in fylr.yml
 
 Here is how to configure all these tools in fylr.yml:
 
-* before, the tools in `fylr.yml` look like this (minimal, no 3rd party tools):
+* _**before**_, the tools in `fylr.yml` look like this (minimal, no 3rd party tools):
 
 ```
 fylr+:
@@ -336,10 +361,12 @@ fylr+:
       
 ```
 
-* after we add all the tools: (use paths valid on your installation)
+* _**after**_ we have added the tools: (remember to instead use paths valid on _your_ installation)
 
 <pre><code><strong>fylr+:
-</strong><strong>  [...]
+</strong>  env:
+    SERVER_PDF_CHROME: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+<strong>  [...]
 </strong><strong>  services+:
 </strong><strong>  [...]
 </strong>    execserver+:
@@ -371,8 +398,11 @@ fylr+:
           prog: java.exe
         inkscape:
           prog: inkscape.exe
-        xsltproc:
-          prog: "C:\\ProgramData\\chocolatey\\bin\\xsltproc.exe"
+        saxon:
+          prog: java
+          args:
+            - "-jar"
+            - "C:\\fylr\\utils\\saxon\\saxon-he-12.5.jar"
         dot:
           prog: "C:\\fylr\\utils\\Graphviz\\bin\\dot.exe"
         tika:
@@ -390,7 +420,7 @@ fylr+:
           prog: "C:\\fylr\\utils\\Calibre2\\ebook-convert.exe"
 </code></pre>
 
-Check that each indentation level is two spaces. (No tab characters, just space characters).
+Check that each indentation level is **two** spaces. (No tab characters, just space characters).
 
 ***
 
