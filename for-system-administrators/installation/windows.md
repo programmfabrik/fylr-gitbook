@@ -1,6 +1,13 @@
+---
+description: How to install fylr on Microsoft Windows
+---
+
 # Windows
 
-Running fylr.exe
+There are now two ways to do this:
+
+* The fully automated installer made by Attention Solutions: [https://attention.dk/docs/att/doku.php?id=winfylr:start](https://attention.dk/docs/att/doku.php?id=winfylr:start) - needs a paid subscription with Attention Solutions.
+* Use fylr directly from the developer Programmfabrik GmbH and download the 3rd party tools by yourself. This is what the rest of this page guides you through:
 
 ## Download fylr.exe
 
