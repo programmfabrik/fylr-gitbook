@@ -330,6 +330,9 @@ fylr:
     username: ""
     # password
     password: ""
+    # startupConnectTimeSec. Number of seconds fylr tries to reach the indexer at startup. If the indexer cannot be reached fylr
+    # will not start and exit. fylr will try every 5 seconds to ping the indexer. Defaults to 50.
+    startupConnectTimeSec: 50
 
   # Client configuration of execserver is used
   # for syncing of files, metadata generation and plugin execution
@@ -754,8 +757,8 @@ fylr:
         xslt:
           waitgroup: a
           commands:
-            xsltproc:
-              prog: "xsltproc"
+            saxon:
+              prog: "saxon"
         iiif:
           waitgroup: a
           commands:

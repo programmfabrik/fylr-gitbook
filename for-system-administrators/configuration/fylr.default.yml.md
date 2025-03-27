@@ -155,6 +155,8 @@ fylr:
           prog: tika
         tesseract:
           prog: tesseract
+        saxon:
+          prog: saxon
         magick:
           prog: magick
         ffprobe:
@@ -167,8 +169,6 @@ fylr:
           prog: dot
         python3:
           prog: python3
-        xsltproc:
-          prog: xsltproc
         # used by fylr-plugin-example (Tesseract)
         java:
           prog: java
