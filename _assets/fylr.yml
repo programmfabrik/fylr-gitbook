@@ -80,8 +80,6 @@ fylr+:
       # enable plugins that many installations benefit from. But they are not strictly needed
       custom-data-type-gnd: # filename easydb-custom-data-type-gnd
         enabled: true
-      eventmanager: # filename easydb-eventmanager-plugin
-        enabled: true
       custom-mask-splitter-detail-linked: # filename easydb-custom-mask-splitter-detail-linked-plugin
         enabled: true
       custom-data-type-link: # filename easydb-custom-data-type-link
@@ -116,7 +114,6 @@ fylr+:
       - "/fylr/files/plugins/easydb/easydb-drupal-plugin"
       - "/fylr/files/plugins/easydb/easydb-easydb4migration-plugin"
       - "/fylr/files/plugins/easydb/easydb-editor-tagfilter-defaults-plugin"
-      - "/fylr/files/plugins/easydb/easydb-eventmanager-plugin"
       - "/fylr/files/plugins/easydb/easydb-export-transport-ftp-plugin"
       - "/fylr/files/plugins/easydb/easydb-falconio-plugin"
       - "/fylr/files/plugins/easydb/easydb-hijri-gregorian-converter-plugin"
