@@ -502,15 +502,19 @@ fylr:
         # a root login is required to access.
         backend: "http://localhost:8081"
 
-        # custom map for reverse proxy endpoints, use pathPrefix as the key and
-        # the targetURL as the value. Internally fylr uses
-        # https://pkg.go.dev/net/http/httputil#NewSingleHostReverseProxy. It is
-        # possible to give a full URL here and set the source host
-        # (domain:port). A match of such a source URL will precede the redirect
-        # which would normally go to fylr.externalURL
+        # Custom map for reverse proxy endpoints.
+        # fylr uses https://pkg.go.dev/net/http/httputil#NewSingleHostReverseProxy.
+        # Before the : give a path prefix like /system2 or a domain as //example.com/.
+        # After the : give the URL of the existing content, may contain :port.
         custom:
-          "/system2": "http://localhost:7890"
-          "//other-domain/": http://localhost:9999/
+          # show http://localhost:81/system2 at https://externalURL/system2
+          "/system2": "http://localhost:81"
+          # you may need to replace localhost if fylr runs in a container
+
+          # the next line shows http://1.2.3.4:81/ at https://example.com
+          "//example.com/": http://1.2.3.4:81/
+          # you need the https certificat for example.com, e.g. with additionalDomains
+
       # http basic auth for all access to the webfrontend
       basicAuth:
         root: admin
