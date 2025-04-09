@@ -25,7 +25,7 @@ It contains:
 
 ## Windows path length
 
-The shorter the path of your fylr installation directory, the less likely your installation will fail processing files due to exceeding the [length limit](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry). So prefer `C:\fylr` over `C:\user\adam doe\Desktop\software-project\fylr-v6.17.0\unpacked`. Fylr newer than v6.3.1 will try to use only short internal file names, but every little bit helps. Same for Libre Office installation (more about that below).
+The shorter the path of your fylr installation directory, the less likely your installation will fail processing files due to exceeding the [length limit](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry). So prefer `C:\fylr` over `C:\user\jane doe\Desktop\software-project\fylr-v6.17.0\unpacked`. fylr newer than v6.3.1 will try to use only short internal file names, but every little bit helps. Same for Libre Office installation (more about that below).
 
 ## Get the dependencies
 
@@ -225,18 +225,25 @@ fylr+:
 
 ### Ghostscript
 
-We downloaded `Ghostscript 10.0.0 for Windows (64 bit)` from [https://ghostscript.com/releases/gsdnld.html](https://ghostscript.com/releases/gsdnld.html)
+We downloaded `Ghostscript 10.05.0 for Windows (64 bit)` from [https://ghostscript.com/releases/gsdnld.html](https://ghostscript.com/releases/gsdnld.html)
 
-We used its default installation (`C:\Program Files (x86)\gs\gs10.00.0` or `C:\Program Files\gs\gs10.00.0`)
+We installed to `C:\Program Files\gs\gs10.05.0` .
+
+The `bin` directory was added automatically to the system `%PATH%` by the Ghostscript installer.
+
+We then copied `gswin64c.exe` to `gs.exe` so that other programs are able to find it in `%PATH%`.
 
 ```
--a----         9/21/2022   3:09 PM          86528 gs.exe
--a----         9/21/2022   3:09 PM          86528 gswin32c.exe
+PS C:\Program Files\gs\gs10.05.0\bin> dir
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----    Mi, 12.03.2025     13:58          93696 gs.exe
+-a----    Mi, 12.03.2025     13:58          93696 gswin64c.exe
 ```
 
-We then copied `gswin32c.exe` to `gs.exe` so that `convert.exe` is able to find it in %PATH%.
+We also added to the system path: `C:\Program Files\gs\gs10.05.0\lib`.&#x20;
 
-We tested ghostscript integration by uploading a pdf file into fylr and checking whether a preview is generated (showing the first page of the pdf).
+The latter is needed for the generation of previews for `.eps`-files via `ps2pdf` and [inkscape](windows.md#inkscape).
 
 ### Libreoffice
 
@@ -264,11 +271,19 @@ We then configured the path to `soffice.exe` in `fylr.yml`.
 
 ### Inkscape
 
-We installed Inkscape 1.2 via its default Installer.
+We installed Inkscape 1.4 via its default Installer.
 
-We added Inkscape's `bin` directory to the Windows System PATH as in [https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows#answer\_104285](https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows#answer_104285)
+Version 1.4 is needed for the generation of previews for `.eps`-files via `ps2pdf` and inkscape.
 
-We closed and opened a new window for `fylr.exe server` so that the new PATH is known to the window.
+We added Inkscape's `bin` directory to the Windows System `%PATH%` like this:
+
+1. In the Windows Start Menu, we typed `env`, then selected `Edit the system environment variables`
+2. We clicked the `Environment Variables...` button
+3. In the lower section titled `System variables` , we selected the line starting with `Path`.
+4. We clicked `Edit...`
+5. In the new window, we clicked `New` and pasted `C:\Program Files\Inkscape\bin` .&#x20;
+6. We clicked `OK`.
+7. We closed and opened a new window for `fylr.exe` so that the new `%PATH%` is known to the window and thus to fylr.
 
 We tested Inkscape integration by uploading a svg file into fylr and check whether a preview is generated.
 
