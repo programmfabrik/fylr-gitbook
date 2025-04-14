@@ -15,15 +15,19 @@ Activating IIIF
 
 Refer to the documentation on [export-and-deep-links.md](../../../for-administrators/readme/export-and-deep-links.md "mention") for further explanation on the individual options.
 
-{% hint style="info" %}
-**Please note:** you have to assign permissions to the system user "Deep Link" so the links are working. Users also need the system right "Deep Links" to access the links in the detail view.
-{% endhint %}
+### Activate Rights-Management for versions in the File Worker
+
+When an asset is uploaded to fylr, the [File Worker](../../../for-administrators/readme/file-worker/) creates different versions (renditions) defined in the Base Configuration.&#x20;
+
+Inside the renditions table of the File Worker, choose the appropriate class (audio, image, office, video) and inside the configuration for a given rendition check the "rights management" checkbox to allow sharing of that version via Deep Links.
+
+Make sure to save and reload the instance to apply your changes.&#x20;
 
 ### Settings up rights management for Deep Links
 
 In fylrs right management section, we need to setup correct rights for the system user `deep_link.`This user is included in a fylr instance per default.
 
-It's likely you'll set these permissions for a Pool managing more than one Object Type. Depending on your usage of the datamodel, it's possible you the deep\_link user permissions have to be set for an Object Type directly.
+It's likely you'll set these permissions for a Pool managing more than one Object Type. Depending on your usage of the datamodel, it's possible the deep\_link user permissions have to be set for an Object Type directly.
 
 
 
@@ -34,16 +38,16 @@ The required Permissions are:
 * View Records
   * select the Object Types you want to share with the deep\_link user
 * Allowed Masks
-  * for those Object Types, select the Masks you want the deep\_link user to hace access to
+  * for those Object Types, select the Masks you want the deep\_link user to have access to
 * View Versions
-  * the versions the user is allowed to see
+  * the versions the deep\_link user is allowed to see
   * Only versions with checked rights management checkbox are listed here: see [file-worker](../../../for-administrators/readme/file-worker/ "mention") ( Base Configuration > File Worker > renditions tables "rights management" checkbox)
 * Download Versions
   * mark the versions the deep\_link user should be able to download (required for deep linking versions)
 
-### Using Deeplinks
+### Creating and using Deep Links
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-02-06 at 17.46.34.png" alt=""><figcaption><p>Using the three-dot menu at a records file field to access deep links.</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/Screenshot 2025-04-14 at 12.38.04.png" alt=""><figcaption><p>Using the three-dot menu at a records file field to access deep links.</p></figcaption></figure>
 
 To enable sharing URLs for the deep\_link user, we need to also assign the permissions:
 
@@ -51,6 +55,10 @@ To enable sharing URLs for the deep\_link user, we need to also assign the permi
   * select the versions of your object types corresponding file class you want the deep\_link user to have access to (this example uses images only)
 * Download Versions
   * select the you want the deep\_link user to be allowed to download
+
+If you cannot see a sharable link to copy, it's likely the version is not configured to be present in the rights management in the file worker. Refer to [#activate-rights-management-for-versions-in-the-file-worker](how-to-setup-and-use-iiif.md#activate-rights-management-for-versions-in-the-file-worker "mention") to allow sharing of more versions.
+
+To assert a working deep\_link, paste the copy into a incognito tab.
 
 ## Adding custom IIIF viewers
 
