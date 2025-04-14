@@ -367,7 +367,11 @@ part above was auto generated
 
 ## Migration of events: differences between easydb5 and fylr
 
-Events of the following types are either not migrated at all, or they need to be changed to be imported into fylr:
+Events of the following types are either not migrated at all, or they will automatically be changed to be imported into fylr.
+
+All event types which are not mentioned here, will be migrated without any type changes.
+
+The event info block will be migrated without any changes. IDs which relate to objects, files, etc., and which are not part of the event info block, are automatically replaced during the restore process.
 
 
 <!--
