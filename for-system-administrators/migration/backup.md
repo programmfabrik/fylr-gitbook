@@ -1,7 +1,6 @@
 ---
 description: >-
-  This page describes the process of creating a local backup of JSON payloads
-  from a source instance
+  This page describes the process of creating a local backup of JSON payloads from a source instance
 ---
 
 # Create payloads (fylr backup)
@@ -29,6 +28,13 @@ fylr backup \
 {% hint style="warning" %}
 The backup over the API only stores the data in local files. The files are only referenced by URLs. Only during restoring, the files are loaded from the source instance. Until the restore is finished, the source instance still needs to be reachable.
 {% endhint %}
+
+{% hint style="warning" %}
+Not all events will be migrated from easydb5 to fylr, because they have no purpose in fylr. Also, some events need to be changed.
+
+For a complete overview, see [below](#migration-of-events-differences-between-easydb5-and-fylr)
+{% endhint %}
+
 
 ## Parameters
 
@@ -67,6 +73,17 @@ Flags:
     --retry-sleep-between=30    Wait time in seconds between retries for failed requests.
     --pretty                    Output pretty JSON.
 ```
+
+
+<!--
+
+part below was auto generated
+source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=0
+timestamp: 2025-04-14 10:48:35 (UTC)
+
+-->
+
+
 
 ### `--dir`
 
@@ -260,7 +277,7 @@ If this parameter is unset, all events are backupped
 {% hint style="warning" %}
 Specific event types, which are irrelevant for the migration, are never in the backup, even if they are specifically requested.
 
-For now, this includes `OBJECT_INDEX`, but this might be extended in the future.
+For now, this includes `OBJECT_INDEX`, `SESSION_INVALID`, `FRONTEND_ERROR` and `COLLECTION_OWNER_RIGHTS_ERROR`, but this might be extended in the future.
 {% endhint %}
 
 * type: `string`
@@ -339,3 +356,271 @@ Set to `true` to save the data in a prettified JSON.
 
 * type: `bool`
 * default: `false`
+
+
+<!--
+
+part above was auto generated
+
+-->
+
+
+## Migration of events: differences between easydb5 and fylr
+
+Events of the following types are either not migrated at all, or they need to be changed to be imported into fylr:
+
+
+<!--
+
+part below was auto generated
+source: https://docs.google.com/spreadsheets/d/1FkbU1t-WuDQ6YSRKUu2VYR8Hdg3x6ZPBntFFmI4VUM4/export?format=csv&gid=0
+timestamp: 2025-04-14 10:48:35 (UTC)
+
+-->
+
+
+
+### Event Type `API_CALL`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `API_PROGRESS`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `COLLECTION_OWNER_RIGHTS_ERROR`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `CUSTOM_TYPE_UPDATER_START`
+
+The event type will be changed from `CUSTOM_TYPE_UPDATER_START` to `CUSTOM_DATA_TYPE_UPDATER` in fylr.
+
+
+
+### Event Type `CUSTOM_TYPE_UPDATER_RESPONSE`
+
+The event type will be changed from `CUSTOM_TYPE_UPDATER_RESPONSE` to `CUSTOM_DATA_TYPE_UPDATER` in fylr.
+
+
+
+### Event Type `CUSTOM_TYPE_UPDATER_RESPONSE_ERROR`
+
+The event type will be changed from `CUSTOM_TYPE_UPDATER_RESPONSE_ERROR` to `CUSTOM_DATA_TYPE_UPDATER_ERROR` in fylr.
+
+
+
+### Event Type `CUSTOM_TYPE_UPDATER_RESPONSE_FAILED`
+
+The event type will be changed from `CUSTOM_TYPE_UPDATER_RESPONSE_FAILED` to `CUSTOM_DATA_TYPE_UPDATER_ERROR` in fylr.
+
+
+
+### Event Type `SCHEMA_COMMIT`
+
+The event type will be changed from `SCHEMA_COMMIT` to `DATAMODEL_COMMIT` in fylr.
+
+
+
+### Event Type `EXPORT_ASSET`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `EXPORT_OBJECT`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `ASSET_EXPORT_TRANSPORT_DOWNLOAD`
+
+The event type will be changed from `ASSET_EXPORT_TRANSPORT_DOWNLOAD` to `EXPORT_TRANSPORT` in fylr.
+
+
+
+### Event Type `EXPORT_STOPPED`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `DOWNLOAD_EXPORT`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `ASSET_DOWNLOAD`
+
+The event type will be changed from `ASSET_DOWNLOAD` to `FILE_DOWNLOAD` in fylr.
+
+The basetype of this event will be changed from `asset` to `file` in fylr.
+
+
+
+### Event Type `ASSET_EXPORT_DOWNLOAD`
+
+The event type will be changed from `ASSET_EXPORT_DOWNLOAD` to `FILE_DOWNLOAD` in fylr.
+
+The basetype of this event will be changed from `asset` to `file` in fylr.
+
+
+
+### Event Type `SUGGEST_INDEX_DONE`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `SUGGEST_INDEX_FAILED`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `JANITOR_SESSION_PURGE`
+
+The event type will be changed from `JANITOR_SESSION_PURGE` to `JANITOR` in fylr.
+
+
+
+### Event Type `MAPPING_DELETE`
+
+The basetype of this event will be set to `mapping` in fylr. In easydb5, there was no basetype for this event type.
+
+
+
+### Event Type `MAPPING_INSERT`
+
+The basetype of this event will be set to `mapping` in fylr. In easydb5, there was no basetype for this event type.
+
+
+
+### Event Type `MAPPING_UPDATE`
+
+The basetype of this event will be set to `mapping` in fylr. In easydb5, there was no basetype for this event type.
+
+
+
+### Event Type `RESOURCE_NOT_AVAILABLE`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `SERVER_START`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `SERVER_SHUTDOWN`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `SESSION_INVALID`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `SUGGEST_INDEX_DONE`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `SUGGEST_INDEX_FAILED`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `USER_CREATED`
+
+The event type will be changed from `USER_CREATED` to `USER_INSERT` in fylr.
+
+The basetype of this event will be set to `user` in fylr. In easydb5, there was no basetype for this event type.
+
+
+
+### Event Type `USER_LOGIN`
+
+The basetype of this event will be set to `user` in fylr. In easydb5, there was no basetype for this event type.
+
+
+
+### Event Type `USER_LOGOUT`
+
+The basetype of this event will be set to `user` in fylr. In easydb5, there was no basetype for this event type.
+
+
+
+### Event Type `LOGIN_FAILED`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `USER_ACCEPTED_MESSAGE`
+
+{% hint style="warning" %}
+Events with this type can not be migrated to fylr at all!
+{% endhint %}
+
+
+
+### Event Type `WEBHOOK_OK`
+
+The event type will be changed from `WEBHOOK_OK` to `WEBHOOK` in fylr.
+
+
+
+<!--
+
+part above was auto generated
+
+-->
+
