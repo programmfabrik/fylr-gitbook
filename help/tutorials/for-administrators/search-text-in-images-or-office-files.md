@@ -7,6 +7,14 @@ description: >-
 
 # Search Text in images or office files
 
+{% hint style="warning" %}
+Large files / large amount of files may temporarily slow down your instance due to increased processing requirements.&#x20;
+
+Some OCR jobs may fail to produce correct output because of source quality (fonts, external artifacts, DPI).&#x20;
+
+Special characters, pages structures and editorial features (tables, headers, footnotes etc.) are not filtered and may produce nonsensical contents.
+{% endhint %}
+
 By default, OCR is only applied to PDF files. This Tutorial will expand on adding other file types besides PDF.
 
 1. navigate to [readme](../../../for-administrators/readme/ "mention"), into the [file-worker](../../../for-administrators/readme/file-worker/ "mention")
@@ -15,11 +23,9 @@ By default, OCR is only applied to PDF files. This Tutorial will expand on addin
 4. You will find the OCR Recipe configured to only write PDFs file contents to the index
 5. Add the extensions you want OCR applied to and written to the index
 
-The recipe configuration offers more options, those are not necessarily required to run OCR on new files.
+<figure><img src="../../../.gitbook/assets/Screenshot 2025-04-17 at 14.38.40.png" alt="" width="563"><figcaption><p>Example configuration of OCR to include JP(E)G, PNG, EPUBS</p></figcaption></figure>
 
-{% hint style="danger" %}
-Large files may temporarily slow down your instance due to large processing requirements
-{% endhint %}
+The recipe configuration offers more options, those are not necessarily required to run OCR on new files.
 
 ### Asserting OCR output is indexed
 
