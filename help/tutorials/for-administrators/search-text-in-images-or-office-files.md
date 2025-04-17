@@ -50,5 +50,7 @@ To leverage OCR in the fylr search, make sure include the textual contents of yo
 
 Now you can find records by searching the human readable contents of files - just type in the search bar as usual.
 
+### Applying OCR on already existing records
 
+OCR image-to-text will run when indexing a file. Consult [regenerating-preview-images.md](regenerating-preview-images.md "mention") for a Tutorial on how to reindex one or more records.&#x20;
 
