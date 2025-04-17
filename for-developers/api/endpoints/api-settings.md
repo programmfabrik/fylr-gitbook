@@ -2,6 +2,4 @@
 
 
 
-{% swagger src="https://demo.fylr.dev/inspect/apidocs/spec/spec.json" path="/settings" method="get" %}
-[https://demo.fylr.dev/inspect/apidocs/spec/spec.json](https://demo.fylr.dev/inspect/apidocs/spec/spec.json)
-{% endswagger %}
+For now, the growing API documentation is shown as part of each running fylr instance, like https://fylr.example.com/inspect/apidocs/.
