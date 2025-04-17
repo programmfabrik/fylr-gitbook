@@ -80,6 +80,7 @@
   * [For Administrators](help/tutorials/for-administrators/README.md)
     * [Exporting & Importing Hierarchical Lists](help/tutorials/for-administrators/exporting-and-importing-hierarchical-lists.md)
     * [Regenerating preview images](help/tutorials/for-administrators/regenerating-preview-images.md)
+    * [Search Text in images or office files](help/tutorials/for-administrators/search-text-in-images-or-office-files.md)
   * [For System Administrators](help/tutorials/for-system-administrators/README.md)
     * [How to setup and use IIIF](help/tutorials/for-system-administrators/how-to-setup-and-use-iiif.md)
     * [External access: Sharing collections with anonymous users](help/tutorials/for-system-administrators/external-access-sharing-collections-with-anonymous-users.md)
