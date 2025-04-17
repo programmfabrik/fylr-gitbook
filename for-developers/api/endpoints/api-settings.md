@@ -2,6 +2,6 @@
 
 
 
-{% swagger src="http://localhost:8081/inspect/apidocs/spec/spec.json" path="/settings" method="get" %}
-[http://localhost:8081/inspect/apidocs/spec/spec.json](http://localhost:8081/inspect/apidocs/spec/spec.json)
+{% swagger src="http://demo.fylr.dev/inspect/apidocs/spec/spec.json" path="/settings" method="get" %}
+[http://demo.fylr.dev/inspect/apidocs/spec/spec.json](http://demo.fylr.dev/inspect/apidocs/spec/spec.json)
 {% endswagger %}
