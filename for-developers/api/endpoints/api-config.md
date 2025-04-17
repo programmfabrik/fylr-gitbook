@@ -2,14 +2,4 @@
 
 
 
-{% swagger src="http://localhost:8081/inspect/apidocs/spec/spec.json" path="/config" method="get" %}
-[http://localhost:8081/inspect/apidocs/spec/spec.json](http://localhost:8081/inspect/apidocs/spec/spec.json)
-{% endswagger %}
-
-{% swagger src="http://localhost:8081/inspect/apidocs/spec/spec.json" path="/config" method="post" %}
-[http://localhost:8081/inspect/apidocs/spec/spec.json](http://localhost:8081/inspect/apidocs/spec/spec.json)
-{% endswagger %}
-
-{% swagger src="http://localhost:8081/inspect/apidocs/spec/spec.json" path="/config/list" method="get" %}
-[http://localhost:8081/inspect/apidocs/spec/spec.json](http://localhost:8081/inspect/apidocs/spec/spec.json)
-{% endswagger %}
+For now, the growing API documentation is shown as part of each running fylr instance, like https://fylr.example.com/inspect/apidocs/.

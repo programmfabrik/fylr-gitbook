@@ -2,6 +2,4 @@
 
 
 
-{% swagger src="../../../.gitbook/assets/spec.json" path="/eas/{fileId}" method="x-path" %}
-[spec.json](../../../.gitbook/assets/spec.json)
-{% endswagger %}
+For now, the growing API documentation is shown as part of each running fylr instance, like https://fylr.example.com/inspect/apidocs/.
