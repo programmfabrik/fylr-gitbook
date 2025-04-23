@@ -1,5 +1,5 @@
 # /api/eas
 
-{% swagger src="/.gitbook/assets/spec.json" path="/eas/fileId" method="x-path" %}
-[spec.json](/.gitbook/assets/spec.json)
+{% swagger src="https://demo.fylr.dev/api/v1/system/openapi/spec.json" path="/eas/{fileId}" method="x-path" %}
+[https://demo.fylr.dev/api/v1/system/openapi/spec.json](https://demo.fylr.dev/api/v1/system/openapi/spec.json)
 {% endswagger %}
