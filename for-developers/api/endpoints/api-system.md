@@ -1,3 +1,5 @@
 # /api/system
 
-For now, the growing API documentation is shown as part of each running fylr instance, like https://fylr.example.com/inspect/apidocs/.
+{% swagger src="https://demo.fylr.dev/api/v1/system/openapi/spec.json" path="/system" method="get" %}
+[https://demo.fylr.dev/api/v1/system/openapi/spec.json](https://demo.fylr.dev/api/v1/system/openapi/spec.json)
+{% endswagger %}
