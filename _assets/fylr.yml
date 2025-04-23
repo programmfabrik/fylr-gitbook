@@ -131,7 +131,7 @@ fylr+:
     - "http://opensearch:9200"
 
   services+:
-    execserver:
+    execserver+:
       # all: delete failed jobs, for preserving disk space. done: keep failed jobs, for debugging
       jobRemovalPolicy: all
     webapp+:
