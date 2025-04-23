@@ -131,6 +131,9 @@ fylr+:
     - "http://opensearch:9200"
 
   services+:
+    execserver:
+      # all: delete failed jobs, for preserving disk space. done: keep failed jobs, for debugging
+      jobRemovalPolicy: all
     webapp+:
       addr: ":443"
       tls:
@@ -149,11 +152,6 @@ fylr+:
         # If not configured, each container recreation results in new tokens.
         # The format is a string of exactly 32 byte length.
         signingSecret: "EXAMPLE8901234567890123456789023"
-        clients+:
-          # key in next line = value of fylr.services.webapp.oauth.clientID (and a + to indicate using defaults)
-          fylr-web-frontend+:
-            redirectURIs:
-            - https://EXAMPLE.COM/oauth2/callback
 
     # for using /inspect/migration/ of this instance
     backend+:
