@@ -4,10 +4,30 @@
 [spec.json](/.gitbook/assets/spec.json)
 {% endswagger %}
 
-{% swagger src="https://demo.fylr.dev/api/v1/system/openapi/spec.json" path="/eas/{fileId}" method="get" %}
+{% swagger src="https://demo.fylr.dev/api/v1/system/openapi/spec.json" path="/eas" method="get" %}
 [https://demo.fylr.dev/api/v1/system/openapi/spec.json](https://demo.fylr.dev/api/v1/system/openapi/spec.json)
 {% endswagger %}
 
-{% swagger src="https://demo.fylr.dev/api/v1/system/openapi/spec.json" path="/eas/{fileId}" method="post" %}
+{% swagger src="https://demo.fylr.dev/api/v1/system/openapi/spec.json" path="/eas/download" method="get" %}
+[https://demo.fylr.dev/api/v1/system/openapi/spec.json](https://demo.fylr.dev/api/v1/system/openapi/spec.json)
+{% endswagger %}
+
+{% swagger src="https://demo.fylr.dev/api/v1/system/openapi/spec.json" path="/eas/produce" method="get" %}
+[https://demo.fylr.dev/api/v1/system/openapi/spec.json](https://demo.fylr.dev/api/v1/system/openapi/spec.json)
+{% endswagger %}
+
+{% swagger src="https://demo.fylr.dev/api/v1/system/openapi/spec.json" path="/eas/rput" method="get" %}
+[https://demo.fylr.dev/api/v1/system/openapi/spec.json](https://demo.fylr.dev/api/v1/system/openapi/spec.json)
+{% endswagger %}
+
+{% swagger src="https://demo.fylr.dev/api/v1/system/openapi/spec.json" path="/eas/put" method="get" %}
+[https://demo.fylr.dev/api/v1/system/openapi/spec.json](https://demo.fylr.dev/api/v1/system/openapi/spec.json)
+{% endswagger %}
+
+{% swagger src="https://demo.fylr.dev/api/v1/system/openapi/spec.json" path="/eas/iiif" method="get" %}
+[https://demo.fylr.dev/api/v1/system/openapi/spec.json](https://demo.fylr.dev/api/v1/system/openapi/spec.json)
+{% endswagger %}
+
+{% swagger src="https://demo.fylr.dev/api/v1/system/openapi/spec.json" path="/eas/zoom" method="get" %}
 [https://demo.fylr.dev/api/v1/system/openapi/spec.json](https://demo.fylr.dev/api/v1/system/openapi/spec.json)
 {% endswagger %}
