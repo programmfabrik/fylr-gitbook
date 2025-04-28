@@ -243,6 +243,7 @@
     * [/api/user](for-developers/api/endpoints/api-user.md)
     * [/api/webdav](for-developers/api/endpoints/api-webdav.md)
     * [/api/xmlmapping](for-developers/api/endpoints/api-xmlmapping.md)
+    * [/api/task](for-developers/api/endpoints/api-task.md)
 * [Schema](for-developers/mask.md)
 * [System Data Types](for-developers/system-data-types/README.md)
   * [pool](for-developers/system-data-types/pool.md)
