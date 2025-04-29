@@ -6,11 +6,19 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2025-01-09 12:01:11 (UTC)
+    * timestamp: 2025-04-29 11:19:38 (UTC)
 -->
 
 # Plugin Overview
 
+
+
+## `ai-metadata`
+
+This plugin allows to configure AI services in order to gather enhanced metadata to use in the fylr metadata mapper.
+
+* Repository: [https://github.com/programmfabrik/fylr-plugin-ai-metadata](https://github.com/programmfabrik/fylr-plugin-ai-metadata)
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `custom-data-type-dante`
@@ -195,30 +203,30 @@ Mask splitter that is configured for a text field. It shows in the editor whethe
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values/releases/latest/download/FindDuplicateFieldValues.zip](https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values/releases/latest/download/FindDuplicateFieldValues.zip)
 
 
-## `fylr-ejc-plugin`
+## `fjc`
 
 Plugin to store settings of the Attention developed fylr Java classes.
 
-* Repository: [https://github.com/programmfabrik/fylr-plugin-ejc](https://github.com/programmfabrik/fylr-plugin-ejc)
-* Release URL: [https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-plugin-ejc.zip](https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-plugin-ejc.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-fjc](https://github.com/programmfabrik/fylr-plugin-fjc)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-fjc/releases/latest/download/fylr-plugin-fjc.zip](https://github.com/programmfabrik/fylr-plugin-fjc/releases/latest/download/fylr-plugin-fjc.zip)
 * This plugin was developed by Programmfabrik GmbH.
 
 
-## `fylr-plugin-example`
-
-This plugin contains a lot of examples for developers. It has no productive use.
-
-* Repository: [https://github.com/programmfabrik/fylr-plugin-example](https://github.com/programmfabrik/fylr-plugin-example)
-* Release URL: [https://github.com/programmfabrik/fylr-plugin-example/releases/latest/download/fylr-plugin-example.zip](https://github.com/programmfabrik/fylr-plugin-example/releases/latest/download/fylr-plugin-example.zip)
-* This plugin was developed by Programmfabrik GmbH.
-
-
-## `fylr-plugin-formula-columns`
+## `formula-columns`
 
 This plugin allows you to set or change the values in fields using small Javascript snippets.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-formula-columns](https://github.com/programmfabrik/fylr-plugin-formula-columns)
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/latest/download/fylr-plugin-formula-columns.zip](https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/latest/download/fylr-plugin-formula-columns.zip)
+* This plugin was developed by Programmfabrik GmbH.
+
+
+## `fylr_example`
+
+This plugin contains a lot of examples for developers. It has no productive use.
+
+* Repository: [https://github.com/programmfabrik/fylr-plugin-example](https://github.com/programmfabrik/fylr-plugin-example)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-example/releases/latest/download/fylr-plugin-example.zip](https://github.com/programmfabrik/fylr-plugin-example/releases/latest/download/fylr-plugin-example.zip)
 * This plugin was developed by Programmfabrik GmbH.
 
 
@@ -254,3 +262,21 @@ This plugin allows the conversion of HTML to PDF, using an internal Chromium bin
 * Repository: [https://github.com/programmfabrik/fylr-plugin-server-pdf](https://github.com/programmfabrik/fylr-plugin-server-pdf)
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip)
 * This plugin was developed by Programmfabrik GmbH.
+
+
+## `fylr-plugin-linked-object-use-once`
+
+This plugin provides the possibity to allow the linking of specific objects only once. If another object tries to link to these objects, an api error is thrown. This can be used to identify objects with a unique linked object, similar to entries from a TAN list.
+
+* Repository: [https://github.com/programmfabrik/fylr-plugin-linked-object-use-once](https://github.com/programmfabrik/fylr-plugin-linked-object-use-once)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-linked-object-use-once/releases/latest/download/fylr-plugin-linked-object-use-once.zip](https://github.com/programmfabrik/fylr-plugin-linked-object-use-once/releases/latest/download/fylr-plugin-linked-object-use-once.zip)
+* This plugin was developed by Programmfabrik GmbH.
+
+
+## `custom-data-type-wikidata`
+
+Plugin for fylr with Custom Data Type `CustomDataTypeWikidata` for references to records of the Wikidata (https://www.wikidata.org).
+
+* Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-wikidata](https://github.com/programmfabrik/fylr-plugin-custom-data-type-wikidata)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-wikidata/releases/latest/download/customDataTypeWikidata.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-wikidata/releases/latest/download/customDataTypeWikidata.zip)
+* This is a custom data type.

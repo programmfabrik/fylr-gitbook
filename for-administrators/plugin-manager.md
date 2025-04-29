@@ -18,6 +18,9 @@ Please refer to the official [Programmfabrik GmbH GitHub](https://github.com/org
 For a technical introduction to plugins, please click [here](../for-developers/plugin.md).
 {% endhint %}
 
+{% hint style="info" %}
+For a overview over all publicly available plugins, please click [here](../for-users/plugins/overview.md).
+{% endhint %}
 
 
 ## Working with the Plugin Manager
