@@ -483,7 +483,7 @@ fylr:
 
       # The reverse proxy can be used to redirect requests to the api
       # and the backend and also for custom servers behind fylr.
-      reverseProxy:
+      reverseProxy+:
         # The webapp can redirect request to /api and /inspect to the respective
         # backend services fylr.services.api and fylr.services.backend if
         # configured in the reverseProxy.
@@ -502,7 +502,7 @@ fylr:
         # a root login is required to access.
         backend: "http://localhost:8081"
 
-        # Custom map for reverse proxy endpoints.
+        # Custom map for reverse proxy endpoints. 
         # fylr uses https://pkg.go.dev/net/http/httputil#NewSingleHostReverseProxy.
         # Before the : give a path prefix like /system2 or a domain as //example.com/.
         # After the : give the URL of the existing content, may contain :port.
