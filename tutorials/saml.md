@@ -88,7 +88,7 @@ The regular expressions syntax rules: https://pkg.go.dev/regexp#Regexp.ReplaceAl
 
 Example: `%(email||^.*=||)s`, in context:
 
-When a user logs in with attribute email equal to `urn:campus:1:mail=ben@example.com` and attribute mapping Target:Email equal to `%(email||^.*=||)s` then his email address in fylr will be just `ben@example.com`, because the search part matches all up to the equal sign.
+When a user logs in with attribute email equal to `urn:campus:1:mail=ben@example.com` and attribute mapping Target:Email `%(email||^.*=||)s` then his email address in fylr will be just `ben@example.com`, because the search part matches all up to the equal sign and the replacement is empty.
     
 ### Signed AuthnRequest
 
