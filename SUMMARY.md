@@ -97,7 +97,7 @@
   * [Collections (& Presentations)](for-users/quick-access/collections-and-presentations.md)
   * [Saved Searches (& Lists)](for-users/quick-access/saved-searches-and-lists.md)
 * [Lists](for-users/lists.md)
-* [Plugins](for-users/plugins.md)
+* [Plugins](for-users/plugins/README.md)
   * [Plugin Overview](for-users/plugins/overview.md)
 
 ## FOR ADMINISTRATORS
