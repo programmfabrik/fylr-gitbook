@@ -51,18 +51,7 @@ Now go to the fylr login page (e.g. by logging out or using a second browser or 
 
 ## What you might need with other providers
 
-mocksaml.com is simplified. Here are some details you might need in a real world scenario.
-
-* Target: **Login**: This can be used to determine the username during login, as in: The pair of username and Password used to log in. Example value: `%(login)s`. Or `%(sAMAccountName)s`. Has to match an attribute name that is actually present in your IDP's data.
-* Target: **Display Name**: Example value: `%(displayName)s`. Has to match an attribute name that is actually present in your IDP's data.
-* Target: **Email**: <mark style="color:orange;">Note that email addresses in fylr have to be unique. The same email address cannot be used by two fylr users under any circumstances. fylr will not allow the email address to be saved a second time, preventing the login via SAML, if the email address is already present in fylr.</mark>
-* Target: **Reference**: Make sure this is adjusted to your data. Do not just copy and paste. It can be very different from the above simple example. Another example:\
-  `%(urn:oasis:names:tc:SAML:attribute:subject-id)s`
-  * By default, **Reference** is used to determine whether a user already exists in fylr or whether to create a new one as a SAML user logs in. You may think of it as the unique ID.
-* **Benutzer-Update** (**User Update**): Set the attribute which is used to determine whether the SAML user (who is logging in) already has a matching account in fylr. If it has a matching account, that user is logged in (and attributes may get overwritten with the current values in SAML). If it has no matching account in fylr yet, a new one is being created. By default, the used attribute is **Reference**. But you can choose the attributes **Email** or **Login**, instead.\
-  Example: Assume that the chosen attribute for **Benutzer-Update** is `Email` and that Alice logs in the first time with her SAML user alice@example.com. Company policy changes and thus her email address (in SAML) changes to alice.lastname@example.com. During her next login into fylr, a new user is being created, as there is no user yet with alice.lastname@example.com. Now Alice has two user accounts in fylr and can only log in to the second one.
-
-More topics that you might need with other identity providers:
+mocksaml.com is simplified. Here are some details you might need with other identity providers:
 
 ### fylr SAML Metadata
 
@@ -72,6 +61,42 @@ fylr's metadata URL is [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr
 
 * ACS Assertionsverbraucherdienst-URL: [https://FYLR.EXAMPLE.COM/api/saml/acs](https://fylr.example.com/api/saml/metadata)
 * Logout URL: [https://FYLR.EXAMPLE.COM/api/saml/slo](https://fylr.example.com/api/saml/metadata)
+
+### Attributes and user matching
+
+* Target: **Login**: This can be used to determine the username during login, as in: The pair of username and Password used to log in. Example value: `%(login)s`. Or `%(sAMAccountName)s`. Has to match an attribute name that is actually present in your IDP's data.
+* Target: **Display Name**: Example value: `%(displayName)s`. Has to match an attribute name that is actually present in your IDP's data.
+* Target: **Email**: <mark style="color:orange;">Note that email addresses in fylr have to be unique. The same email address cannot be used by two fylr users under any circumstances. fylr will not allow the email address to be saved a second time, preventing the login via SAML, if the email address is already present in fylr.</mark>
+* Target: **Reference**: Make sure this is adjusted to your data. Do not just copy and paste. It can be very different from the above simple example. Another example:\
+  `%(urn:oasis:names:tc:SAML:attribute:subject-id)s`
+  * By default, **Reference** is used to determine whether a user already exists in fylr or whether to create a new one as a SAML user logs in. You may think of it as the unique ID.
+* **User update**: Set the attribute which is used to determine whether the SAML user (who is logging in) already has a matching account in fylr. If it has a matching account, that user is logged in (and attributes may get overwritten with the current values in SAML). If it has no matching account in fylr yet, a new one is being created. By default, the used attribute is **Reference**. But you can choose the attributes **Email** or **Login**, instead.\
+  Example: Assume that the chosen attribute for **Benutzer-Update** is `Email` and that Alice logs in the first time with her SAML user alice@example.com. Company policy changes and thus her email address (in SAML) changes to alice.lastname@example.com. During her next login into fylr, a new user is being created, as there is no user yet with alice.lastname@example.com. Now Alice has two user accounts in fylr and can only log in to the second one.
+
+### Replacing strings in attributes
+    
+Our attribute syntax can replace strings. This syntax is part of our attribute matching (fylr 6.20 and newer):
+
+
+```
+%(key||search||replacement)s
+```
+
+Where `search` is the regexp matching what is then replaced with `replacement`.
+
+The regular expressions syntax rules: https://pkg.go.dev/regexp#Regexp.ReplaceAllString.
+
+Example: `%(email||^.*=||)s`, in context:
+
+When a user logs in with attribute email equal to `urn:campus:1:mail=ben@example.com` and attribute mapping Target:Email equal to `%(email||^.*=||)s` then his email address in fylr will be just `ben@example.com`, because the search part matches all up to the equal sign.
+    
+### Signed AuthnRequest
+
+Checkbox: ☑︎ **Sign requests** (default off)
+
+Some environments have the requirement that the SPs (in this case fylr) must sign the authentication requests.
+
+Needs at least fylr v6.12.0.
 
 ### MS Entra
 
@@ -91,14 +116,6 @@ This section was contributed by partners and customers, we did not verify this.
   ![](<../.gitbook/assets/image (18).png>)
 * Check that certificates are not expired / expiring too soon. Here a place in MS Entra to check one of the involved certificates:\
   ![](<../.gitbook/assets/image (19).png>)
-
-### Signed AuthnRequest
-
-Checkbox: ☑︎ **Sign requests** (default off)
-
-Some environments have the requirement that the SPs (in this case fylr) must sign the authentication requests.
-
-Needs at least fylr v6.12.0.
 
 ### Group Mapping
 
