@@ -297,7 +297,10 @@ fylr:
 
   # Optional path to resources, that are all files needed by FLYR during runtime
   # (inspect, pages, etc..) If unset, fylr uses binary embedded resources (so no
-  # resource folder needed in that case). Defaults to embedded.
+  # resource folder needed in that case). Defaults to embedded. Resources are
+  # overloaded, if the given directory tree doesn't contain the resource
+  # requested, fylr uses the embedded resource. To see what files are loaded
+  # from where use "fylr resources".
   resources: ""
 
   # Elastic is the indexer for FYLR

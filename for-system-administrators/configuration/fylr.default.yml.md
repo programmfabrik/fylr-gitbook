@@ -184,7 +184,8 @@ fylr:
           waitgroup: fast
         xslt:
           waitgroup: fast
-        # file conversion support
+        # file conversion support, also used by video thumbmnail which
+        # is calling "fylr convert" which then calls ffmpeg
         convert:
           waitgroup: medium
         ffmpeg:
