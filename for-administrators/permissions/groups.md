@@ -49,6 +49,12 @@ Define which other users or user groups should be able to access (read, write, d
 
 Define which data of a user of this group should be kept, deleted or pseudonymized when archiving it.
 
+
+
+{% hint style="info" %}
+If a user is part of multiple groups with clashing pseudonymization strategies, the stricter one will be applied: **Clear** beats **Randomize** beats **Keep**
+{% endhint %}
+
 <table><thead><tr><th width="142">OPTION</th><th width="360">DESCRIPTION</th><th>AVAILABLE FOR FIELD</th></tr></thead><tbody><tr><td>Keep</td><td>When the user is archived, the content of the field is kept.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Department</li><li>Email</li></ul></td></tr><tr><td>Randomize</td><td>When the user is archived, the content of the field is replaced by a random string.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Department</li></ul></td></tr><tr><td>Clear</td><td>When the user is archived, the content of the field is deleted.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Department</li><li>Email</li></ul></td></tr></tbody></table>
 
 ### Authentication Services
