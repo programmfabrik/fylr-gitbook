@@ -55,7 +55,26 @@ Define which data of a user of this group should be kept, deleted or pseudonymiz
 If a user is part of multiple groups with clashing pseudonymization strategies, the stricter one will be applied: **Clear** beats **Randomize** beats **Keep**
 {% endhint %}
 
-<table><thead><tr><th width="142">OPTION</th><th width="360">DESCRIPTION</th><th>AVAILABLE FOR FIELD</th></tr></thead><tbody><tr><td>Keep</td><td>When the user is archived, the content of the field is kept.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Department</li><li>Email</li></ul></td></tr><tr><td>Randomize</td><td>When the user is archived, the content of the field is replaced by a random string.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Department</li></ul></td></tr><tr><td>Clear</td><td>When the user is archived, the content of the field is deleted.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Department</li><li>Email</li></ul></td></tr></tbody></table>
+<table><thead><tr><th width="142">OPTION</th><th width="360">DESCRIPTION</th><th>AVAILABLE FOR FIELD</th></tr></thead><tbody><tr><td>Keep</td><td>When the user is archived, the content of the field is kept.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Additional Information</li></ul><ul><li>Email</li></ul></td></tr><tr><td>Randomize</td><td>When the user is archived, the content of the field is replaced by a random string.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Additional Information</li></ul></td></tr><tr><td>Clear</td><td>When the user is archived, the content of the field is deleted.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Additional Information</li><li>Email</li></ul></td></tr></tbody></table>
+
+
+
+"Additional Information" includes:
+
+* Company
+* Department
+* Phone
+* Profile Picture
+* Internal Comment
+* Extra Address Line
+* Street
+* No. / App.
+* ZIP Code
+* City
+* State
+* Country
+
+
 
 ### Authentication Services
 
