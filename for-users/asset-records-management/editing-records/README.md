@@ -30,9 +30,9 @@ The popover editor is only available in list fields. So whenever the field requi
 
 ## General Structure
 
-Usually the editors consist of 4 parts:
+Usually the editors consist of 5 parts:
 
-<table><thead><tr><th width="169">PART</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Asset Browser</td><td>The asset browser is the part of the editor where a preview image is shown. Not available for object types without files.</td></tr><tr><td>Standard Info</td><td>Above the input fields, the so called "Standard Info" of the record is shown. It usually consists of a title for the record and system information (such as pool and ID).</td></tr><tr><td>Input Fields</td><td>The input fields allow you to enter your data. They are based on the data model and are therefore fully customizable by administrators.</td></tr><tr><td>Footer</td><td>The footer shows some technical information such as the date the record was created and last updated.</td></tr></tbody></table>
+<table><thead><tr><th width="169">PART</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Header</td><td></td></tr><tr><td>Asset Browser</td><td>The asset browser is the part of the editor where a preview image is shown. Not available for object types without files.</td></tr><tr><td>Standard Info</td><td>Above the input fields, the so called "Standard Info" of the record is shown. It usually consists of a title for the record and system information (such as pool and ID).</td></tr><tr><td>Input Fields</td><td>The input fields allow you to enter your data. They are based on the data model and are therefore fully customizable by administrators.</td></tr><tr><td>Footer</td><td>The footer shows some technical information such as the date the record was created and last updated.</td></tr></tbody></table>
 
 ## General Features
 
