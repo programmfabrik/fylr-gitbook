@@ -161,6 +161,10 @@
   * [Protocols](for-administrators/plugins/protocols/README.md)
     * [OAI/PMH](for-administrators/plugins/protocols/oai.md)
 
+***
+
+* [Files and version production](files-and-version-production.md)
+
 ## FOR SYSTEM ADMINISTRATORS
 
 * [Installation](for-system-administrators/installation/README.md)
