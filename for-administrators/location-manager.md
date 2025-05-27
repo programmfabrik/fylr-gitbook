@@ -14,7 +14,7 @@ To **create** a new location, click on the **plus** button in the lower **left**
 
 Click on the **settings** ![](<../.gitbook/assets/image (15).png>) icon in the lower **right** to configure the **default** storage locations.
 
-This configures in which locations _new_ files will be stored.&#x20;
+This configures in which locations _new_ files will be stored. Locations marked as read-only cannot be used here.
 
 _Already existing_ files are still used in all locations, not only the default locations.
 
@@ -29,6 +29,7 @@ _Already existing_ files are still used in all locations, not only the default l
 | Prefix            | an optional path preceding each file, for example to separate from other data                                                                                                                                                                                             |
 | Allow Purge       | when purging this fylr instance, shall the files also be deleted?                                                                                                                                                                                                         |
 | Allow Redirect    | whether to hide S3 URLs behind fylr's own URL                                                                                                                                                                                                                             |
+| Read Only         | Prevents changes made by fylr. Can not be set for locations that are currently configured as Default Storage Locations.                                                                                                                                                   |
 | Type              | Filesystem, S3 Bucket or Azure blob storage                                                                                                                                                                                                                               |
 | Directory         | A path - only for type `Filesystem`. Either an absolute path on the system visible to fylr (might be in a container); or a path relative to the fylr executable (e.g. in a container, it is relative to `/fylr/bin/`, which is not recommended, so use an absolute path). |
 | Access Key        | Credentials for type S3                                                                                                                                                                                                                                                   |
