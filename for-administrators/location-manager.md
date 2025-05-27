@@ -30,7 +30,7 @@ _Already existing_ files are still used in all locations, not only the default l
 | Allow Purge       | when purging this fylr instance, shall the files also be deleted?                                                                            |
 | Allow Redirect    | whether to hide S3 URLs behind fylr's own URL                                                                                                |
 | Type              | Filesystem, S3 Bucket or Azure blob storage                                                                                                  |
-| Directory         | Path, only for type Filesystem                                                                                                               |
+| Directory         | Path, only for type Filesystem. Either a fully qualified path or relative to the setting in `fylr.yml`                                       |
 | Access Key        | Credentials for type S3                                                                                                                      |
 | Secret Key        | Credentials for type S3                                                                                                                      |
 | Bucket Name       | Needed for type S3                                                                                                                           |
