@@ -11,6 +11,7 @@ description: >-
 fylr:
   name: "fylr"
   externalURL: "http://localhost"
+
   logger:
     format: "console"
     level: "info"
@@ -43,7 +44,9 @@ fylr:
   elastic:
     parallel: 4
     objectsPerJob: 100
+    metadataFulltextLimit: 1mb
     maxMem: 100mb
+    maxHeapAlloc: 1g
     addresses:
       - "http://localhost:9200"
 

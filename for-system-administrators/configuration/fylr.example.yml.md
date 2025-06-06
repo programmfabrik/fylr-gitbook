@@ -108,6 +108,15 @@ fylr:
     # Outputs object loader timing and load depth information. This setting can also
     # be set in the base config.
     logTimings: true
+    # Set to true to disable loading standard from cache. This can help to
+    # investigate indexer problems.
+    objectLoadDisableCache: false
+    # indexerSingleMode sets the request to single mode instead of bulk mode,
+    # set this to true to more easily debug index requests. Default: false.
+    indexerSingleMode: false
+    # indexerDebug can be set to output statistics & memory allocation information
+    # during object indexing. Defaults to false.
+    indexerDebug: false
 
   # optional, set environment. This can be used to set FYLR_CMD_* inside the fylr.yml
   env:
@@ -319,8 +328,16 @@ fylr:
     parallel: 1
     # number of objects per job passed to the indexer process
     objectsPerJob: 100
-    # limit of payloads sent to Elastic
+    # maxMem is the cut-off JSON size in bytes for objects sent to the indexer. Defaults to 100MB.
     maxMem: 100mb
+    # maxHeapAlloc is the maxium allocation of heap memory during indexing of
+    # user objects (not base types). The indexer tries to keep the heap memory
+    # below this value. If the indexer sees twice the heap size used, it runs
+    # the Go garbage collector and outputs a warning. In such a case, the
+    # maxHeapAlloc should be set to a higher value or the datastructure of the
+    # indexed objects need to be looked at. On capable systems we recommend 4G,
+    # defaults to 1G.
+    maxHeapAlloc: 1g
     # fielddata (debug feature). if set to true, fields are mapped including their fielddata
     # in the reverse index. with that, the inspect view of the indexed version of
     # the object shows a per field list of stored terms. This can be useful for debugging
@@ -336,6 +353,12 @@ fylr:
     # startupConnectTimeSec. Number of seconds fylr tries to reach the indexer at startup. If the indexer cannot be reached fylr
     # will not start and exit. fylr will try every 5 seconds to ping the indexer. Defaults to 50.
     startupConnectTimeSec: 50
+
+    # metadataFulltextLimit. Number of bytes to limit indexed fulltext. For files we might index fulltext information. This
+    # parameter limits the number of bytes to which the fulltext is indexed. This is per language for localised fields. Defaults to "1mb".
+    # The format is a human readable format like "100mb" or "100kb".
+    metadataFulltextLimit: "1mb"
+
 
   # Client configuration of execserver is used
   # for syncing of files, metadata generation and plugin execution
@@ -505,7 +528,7 @@ fylr:
         # a root login is required to access.
         backend: "http://localhost:8081"
 
-        # Custom map for reverse proxy endpoints. 
+        # Custom map for reverse proxy endpoints.
         # fylr uses https://pkg.go.dev/net/http/httputil#NewSingleHostReverseProxy.
         # Before the : give a path prefix like /system2 or a domain as //example.com/.
         # After the : give the URL of the existing content, may contain :port.
@@ -760,7 +783,6 @@ fylr:
               prog: "fylr"
               args:
                 - "metadata"
-
         xslt:
           waitgroup: a
           commands:
@@ -775,5 +797,6 @@ fylr:
               prog: "fylr"
               args:
                 - "iiif"
+
 ```
 {% endcode %}
