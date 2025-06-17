@@ -75,6 +75,8 @@
   * [2022](releases/2022.md)
     * [fylr first Production Ready Release 🎉 (2022-12-22)](releases/2022/v6.2.0.md)
 * [License](license-management.md)
+* [Plugins](plugins/README.md)
+  * [Plugin Overview](plugins/overview.md)
 
 ## Help
 
@@ -104,8 +106,6 @@
   * [Collections (& Presentations)](for-users/quick-access/collections-and-presentations.md)
   * [Saved Searches (& Lists)](for-users/quick-access/saved-searches-and-lists.md)
 * [Lists](for-users/lists.md)
-* [Plugins](for-users/plugins/README.md)
-  * [Plugin Overview](for-users/plugins/overview.md)
 
 ## FOR ADMINISTRATORS
 
