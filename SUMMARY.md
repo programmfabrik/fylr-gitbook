@@ -107,6 +107,10 @@
   * [Saved Searches (& Lists)](for-users/quick-access/saved-searches-and-lists.md)
 * [Lists](for-users/lists.md)
 
+***
+
+* [Search](search.md)
+
 ## FOR ADMINISTRATORS
 
 * [Permissions](for-administrators/permissions/README.md)
