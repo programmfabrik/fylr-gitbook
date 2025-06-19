@@ -105,3 +105,11 @@ Fylr only searches in a document if "full text" is enabled in the mask for the f
 Did you recently create [Messages](https://docs.fylr.io/for-administrators/messages), that users had to confirm after logging in? Login with your API users credentials and confirm the messages, the API-Script should work as usual afterwards.
 
 </details>
+
+<details>
+
+<summary>Emails are not sent</summary>
+
+After setting up the requirements for the mail server in the "Email" section of the base configuration, make sure to enable "Email Notifications" in the base configurations "Services".
+
+</details>
