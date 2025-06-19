@@ -6,9 +6,16 @@ description: How to spread one fylr over two linux servers
 
 This is a variation over the main installation method in [here](../linux-docker-compose.md#installation). So we will concentrate on the differences.
 
+## Goal
+
+1. One server with only the "execserver" part of fylr, which will be doing the heavy lifting of processing assets, for example generating preview thumbnails. So it should have some CPU cores.\
+   We call this one _**exec**_.example.com, here.
+2. One server with all the other parts of fylr, doing Webfrontend, SQL, Indexing, etc.. \
+   We call this one _**main**_.example.com, here.
+
 ## On the system with the execserver
 
-(We call that system _exec_.example.com here and the other one: _main_.example.com)
+(We call this system _exec_.example.com)
 
 * ensure that only _main_.example.com is allowed to reach port 8083 on _exec_.example.com (firewall, or private IP address, etc.)
 * use a `fylr.yml` like this: (which disables all parts except execserver)
@@ -66,7 +73,7 @@ networks:
 
 ## On the system without the execserver
 
-(We call that system _main_.example.com here and the other one: _exec_.example.com)
+(We call this system _main_.example.com)
 
 * ensure that only _exec_.example.com is allowed to reach port 8080 and 8081 on _main_.example.com (firewall, or private IP address, etc.)
 * use a `fylr.yml` with these changes, the rest remains as in [the default installation](../linux-docker-compose.md#installation):
