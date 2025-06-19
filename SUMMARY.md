@@ -179,6 +179,7 @@
   * [Linux](for-system-administrators/installation/linux-docker-compose.md)
     * [multiple fylrs in one Linux](for-system-administrators/installation/linux-docker-compose/multiple-fylrs-in-one-linux.md)
     * [proxy and fylr](for-system-administrators/installation/linux-docker-compose/proxy-and-fylr.md)
+    * [execserver on another linux](for-system-administrators/installation/linux-docker-compose/execserver-on-another-linux.md)
   * [Windows](for-system-administrators/installation/windows.md)
   * [Kubernetes](for-system-administrators/installation/helm.md)
 * [Configuration](for-system-administrators/configuration/README.md)
