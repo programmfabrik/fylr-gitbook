@@ -80,13 +80,14 @@ networks:
 
 ```
 [...]
-  execserver:
+  execserver: # the following tells fylr how to connect to the execserver
     addresses:
       - http://exec.example.com:8083/?pretty=true
     parallel: 18
     parallelHigh: 10
     pluginJobTimeoutSec: 2400
     connectTimeoutSec: 120
+    # the following tells the execserver how to connect back to the main fylr
     callbackBackendInternalURL: "http://main.example.com:8081"
     callbackApiInternalURL: "http://main.example.com:8080"
 
