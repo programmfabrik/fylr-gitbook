@@ -4,13 +4,13 @@ description: How to spread one fylr over two linux servers
 
 # execserver on another linux
 
-This is a variation over the main installation method in [here](../linux-docker-compose.md#installation). So we will concentrate on the differences.
+This is a variation of the main installation method described [here](../linux-docker-compose.md#installation). So we will concentrate on the differences.
 
 ## Goal
 
 1. One server with only the "execserver" part of fylr, which will be doing the heavy lifting of processing assets, for example generating preview thumbnails. So it should have some CPU cores.\
    We call this one _**exec**_.example.com, here.
-2. One server with all the other parts of fylr, doing Webfrontend, SQL, Indexing, etc.. \
+2. Another server with all the remaining parts of fylr, doing Webfrontend, SQL, Indexing, etc.. \
    We call this one _**main**_.example.com, here.
 
 ## On the system with the execserver
