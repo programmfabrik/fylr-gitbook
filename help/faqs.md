@@ -113,3 +113,13 @@ Did you recently create [Messages](https://docs.fylr.io/for-administrators/messa
 After setting up the requirements for the mail server in the "Email" section of the base configuration, make sure to enable "Email Notifications" in the base configurations "Services".
 
 </details>
+
+<details>
+
+<summary>I added a new field to an object type and cannot see it in the fylr UI</summary>
+
+After adding a new field to an object type, saving and committing the new datamodel are required.  Additionally a reindex is required to update the Index with the new column.
+
+If you still don't see a field in frontend of fylr, you probably forgot to **enable the new field in the masks**. For this field in your mask of choice, select the desired visibility options and define interactive elements. Again, saving, committing and a reindex are required.
+
+</details>
