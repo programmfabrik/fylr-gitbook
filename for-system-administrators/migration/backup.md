@@ -367,260 +367,43 @@ part above was auto generated
 
 ## Migration of events: differences between easydb5 and fylr
 
-Events of the following types are either not migrated at all, or they will automatically be changed to be imported into fylr.
+If events are migrated (see parameter [`--include-events`](#--include-events)), there are differences between easydb5 and fylr. For some events, the eventtype or the basetype is changed. Also there are events in easydb5 which have no matching event in fylr, these events are not migrated at all.
 
-All event types which are not mentioned here, will be migrated without any type changes.
+The event info block will be migrated without any changes. IDs which relate to objects, files, etc., are replaced during the restore process. This is done for IDs on top level (`object_id`), and known IDs in the info block.
 
-The event info block will be migrated without any changes. IDs which relate to objects, files, etc., and which are not part of the event info block, are automatically replaced during the restore process.
+In the following table, all migrated events are listed, including changes which are automatially done during the restore process. Events which are not listed here are **never migrated** from easydb5 to fylr.
 
 
 <!--
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1FkbU1t-WuDQ6YSRKUu2VYR8Hdg3x6ZPBntFFmI4VUM4/export?format=csv&gid=0
-timestamp: 2025-04-14 10:48:35 (UTC)
+timestamp: 2025-06-27 08:21:07 (UTC)
 
 -->
 
-
-
-### Event Type `API_CALL`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `API_PROGRESS`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `COLLECTION_OWNER_RIGHTS_ERROR`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `CUSTOM_TYPE_UPDATER_START`
-
-The event type will be changed from `CUSTOM_TYPE_UPDATER_START` to `CUSTOM_DATA_TYPE_UPDATER` in fylr.
-
-
-
-### Event Type `CUSTOM_TYPE_UPDATER_RESPONSE`
-
-The event type will be changed from `CUSTOM_TYPE_UPDATER_RESPONSE` to `CUSTOM_DATA_TYPE_UPDATER` in fylr.
-
-
-
-### Event Type `CUSTOM_TYPE_UPDATER_RESPONSE_ERROR`
-
-The event type will be changed from `CUSTOM_TYPE_UPDATER_RESPONSE_ERROR` to `CUSTOM_DATA_TYPE_UPDATER_ERROR` in fylr.
-
-
-
-### Event Type `CUSTOM_TYPE_UPDATER_RESPONSE_FAILED`
-
-The event type will be changed from `CUSTOM_TYPE_UPDATER_RESPONSE_FAILED` to `CUSTOM_DATA_TYPE_UPDATER_ERROR` in fylr.
-
-
-
-### Event Type `SCHEMA_COMMIT`
-
-The event type will be changed from `SCHEMA_COMMIT` to `DATAMODEL_COMMIT` in fylr.
-
-
-
-### Event Type `EXPORT_ASSET`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `EXPORT_OBJECT`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `ASSET_EXPORT_TRANSPORT_DOWNLOAD`
-
-The event type will be changed from `ASSET_EXPORT_TRANSPORT_DOWNLOAD` to `EXPORT_TRANSPORT` in fylr.
-
-
-
-### Event Type `EXPORT_STOPPED`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `DOWNLOAD_EXPORT`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `ASSET_DOWNLOAD`
-
-The event type will be changed from `ASSET_DOWNLOAD` to `FILE_DOWNLOAD` in fylr.
-
-The basetype of this event will be changed from `asset` to `file` in fylr.
-
-
-
-### Event Type `ASSET_EXPORT_DOWNLOAD`
-
-The event type will be changed from `ASSET_EXPORT_DOWNLOAD` to `FILE_DOWNLOAD` in fylr.
-
-The basetype of this event will be changed from `asset` to `file` in fylr.
-
-
-
-### Event Type `SUGGEST_INDEX_DONE`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `SUGGEST_INDEX_FAILED`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `JANITOR_SESSION_PURGE`
-
-The event type will be changed from `JANITOR_SESSION_PURGE` to `JANITOR` in fylr.
-
-
-
-### Event Type `MAPPING_DELETE`
-
-The basetype of this event will be set to `mapping` in fylr. In easydb5, there was no basetype for this event type.
-
-
-
-### Event Type `MAPPING_INSERT`
-
-The basetype of this event will be set to `mapping` in fylr. In easydb5, there was no basetype for this event type.
-
-
-
-### Event Type `MAPPING_UPDATE`
-
-The basetype of this event will be set to `mapping` in fylr. In easydb5, there was no basetype for this event type.
-
-
-
-### Event Type `RESOURCE_NOT_AVAILABLE`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `SERVER_START`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `SERVER_SHUTDOWN`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `SESSION_INVALID`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `SUGGEST_INDEX_DONE`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `SUGGEST_INDEX_FAILED`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `USER_CREATED`
-
-The event type will be changed from `USER_CREATED` to `USER_INSERT` in fylr.
-
-The basetype of this event will be set to `user` in fylr. In easydb5, there was no basetype for this event type.
-
-
-
-### Event Type `USER_LOGIN`
-
-The basetype of this event will be set to `user` in fylr. In easydb5, there was no basetype for this event type.
-
-
-
-### Event Type `USER_LOGOUT`
-
-The basetype of this event will be set to `user` in fylr. In easydb5, there was no basetype for this event type.
-
-
-
-### Event Type `LOGIN_FAILED`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `USER_ACCEPTED_MESSAGE`
-
-{% hint style="warning" %}
-Events with this type can not be migrated to fylr at all!
-{% endhint %}
-
-
-
-### Event Type `WEBHOOK_OK`
-
-The event type will be changed from `WEBHOOK_OK` to `WEBHOOK` in fylr.
-
-
+| Eventtype in easydb5 | Eventtype in fylr | Notes |
+|---|---|---|
+| `ASSET_DOWNLOAD_CONFIRMATION_MESSAGE` |  | <ul><li>Basetype is set to `message`, there was no basetype in easydb5<li>The following IDs in the info block are replaced: <ul><li>`assets.#.id`: The ID is replaced with the new file ID</ul></ul> |
+| `CUSTOM_TYPE_UPDATER_RESPONSE` | `CUSTOM_DATA_TYPE_UPDATER` | <ul><li>Eventtype is changed</ul> |
+| `CUSTOM_TYPE_UPDATER_START` | `CUSTOM_DATA_TYPE_UPDATER` | <ul><li>Eventtype is changed</ul> |
+| `CUSTOM_TYPE_UPDATER_RESPONSE_ERROR` | `CUSTOM_DATA_TYPE_UPDATER_ERROR` | <ul><li>Eventtype is changed</ul> |
+| `CUSTOM_TYPE_UPDATER_RESPONSE_FAILED` | `CUSTOM_DATA_TYPE_UPDATER_ERROR` | <ul><li>Eventtype is changed</ul> |
+| `SCHEMA_COMMIT` | `DATAMODEL_COMMIT` | <ul><li>Eventtype is changed</ul> |
+| `DETAIL_VIEW` |  |  |
+| `EMAIL_SENT` |  |  |
+| `DOWNLOAD_EXPORT` | `EXPORT_DOWNLOAD` | <ul><li>Eventtype is changed</ul> |
+| `ASSET_DOWNLOAD` | `FILE_DOWNLOAD` | <ul><li>Eventtype is changed<li>Basetype is changed from `asset` to `file`<li>The following IDs in the info block are replaced: <ul><li>`export._id`: The related record is not migrated, the ID is set to `null`<li>`export_user_id`: The ID is replaced with the new user ID</ul></ul> |
+| `ASSET_EXPORT_DOWNLOAD` | `FILE_DOWNLOAD` | <ul><li>Eventtype is changed<li>Basetype is changed from `asset` to `file`<li>The following IDs in the info block are replaced: <ul><li>`export._id`: The related record is not migrated, the ID is set to `null`<li>`export_user_id`: The ID is replaced with the new user ID</ul></ul> |
+| `OBJECT_DELETE` |  |  |
+| `OBJECT_INSERT` |  |  |
+| `OBJECT_UPDATE` |  |  |
+| `SEARCH` |  |  |
+| `USER_CREATED` | `USER_INSERT` | <ul><li>Eventtype is changed<li>Basetype is set to `user`, there was no basetype in easydb5</ul> |
+| `USER_LOGIN` |  | <ul><li>Basetype is set to `user`, there was no basetype in easydb5</ul> |
+| `USER_LOGOUT` |  | <ul><li>Basetype is set to `user`, there was no basetype in easydb5</ul> |
+| `WEBHOOK_OK` | `WEBHOOK` | <ul><li>Eventtype is changed</ul> |
+| `WEBHOOK_ERROR` |  |  |
 
 <!--
 
