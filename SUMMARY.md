@@ -195,7 +195,7 @@
   * [Create payloads (fylr backup)](for-system-administrators/migration/backup.md)
   * [Insert payloads (fylr restore)](for-system-administrators/migration/restore.md)
   * [Best Practice](for-system-administrators/migration/best-practice.md)
-  * [Using the fylr inspect page](for-system-administrators/migration/inspect.md)
+  * [Using the inspect page to migrate](for-system-administrators/migration/inspect.md)
 * [Integration](for-system-administrators/integration/README.md)
   * [Authentication](for-system-administrators/integration/authentication.md)
   * [Hotfolder](for-system-administrators/integration/hotfolder.md)
