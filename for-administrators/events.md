@@ -7,7 +7,7 @@ description: >-
 # Events
 
 {% hint style="info" %}
-This menu is only available if the plugin "eventmanager" is enabled.
+This menu is only available for users with the appropriate system right.
 {% endhint %}
 
 ## Search
