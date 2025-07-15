@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2025-04-30 11:35:05 (UTC)
+    * timestamp: 2025-07-15 08:20:01 (UTC)
 -->
 
 # Plugin Overview
@@ -98,6 +98,11 @@ This custom data type allows you to reference the entities of the [DANTE-Vocabul
 * This is a custom data type.
 
 
+### Dependencies:
+
+* [`commons-library`](#commons-library)
+
+
 ## `custom-data-type-geonames`
 
 This custom data type allows you to reference the entities of the [GeoNames](http://ws.gbv.de/suggest/geonames/) geographical database.
@@ -105,6 +110,11 @@ This custom data type allows you to reference the entities of the [GeoNames](htt
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-geonames](https://github.com/programmfabrik/fylr-plugin-custom-data-type-geonames)
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-geonames/releases/latest/download/customDataTypeGeonames.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-geonames/releases/latest/download/customDataTypeGeonames.zip)
 * This is a custom data type.
+
+
+### Dependencies:
+
+* [`commons-library`](#commons-library)
 
 
 ## `custom-data-type-georef`
@@ -116,6 +126,11 @@ This custom data type allows you to store geoJSON data in the database. You can 
 * This is a custom data type.
 
 
+### Dependencies:
+
+* [`commons-library`](#commons-library)
+
+
 ## `custom-data-type-getty`
 
 This custom data type allows you to reference entities of the [Getty Vocabulary](http://vocab.getty.edu/).
@@ -123,6 +138,11 @@ This custom data type allows you to reference entities of the [Getty Vocabulary]
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-getty](https://github.com/programmfabrik/fylr-plugin-custom-data-type-getty)
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-getty/releases/latest/download/customDataTypeGetty.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-getty/releases/latest/download/customDataTypeGetty.zip)
 * This is a custom data type.
+
+
+### Dependencies:
+
+* [`commons-library`](#commons-library)
 
 
 ## `custom-data-type-gfbio`
@@ -134,6 +154,11 @@ This custom data type allows you to reference entities of the [GFBio Terminology
 * This is a custom data type.
 
 
+### Dependencies:
+
+* [`commons-library`](#commons-library)
+
+
 ## `custom-data-type-gn250`
 
 This custom data type allows you to reference entities of the gn250-Set of [Bundesamt für Kartographie](http://www.geodatenzentrum.de/).
@@ -141,6 +166,11 @@ This custom data type allows you to reference entities of the gn250-Set of [Bund
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250)
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250/releases/latest/download/customDataTypeGN250.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250/releases/latest/download/customDataTypeGN250.zip)
 * This is a custom data type.
+
+
+### Dependencies:
+
+* [`commons-library`](#commons-library)
 
 
 ## `custom-data-type-gnd`
@@ -152,6 +182,11 @@ This custom data type allows you to reference entities (only Differentiated Pers
 * This is a custom data type.
 
 
+### Dependencies:
+
+* [`commons-library`](#commons-library)
+
+
 ## `custom-data-type-iconclass`
 
 This custom data type allows you to reference entities of the [Iconclass-Vocabulary](http://iconclass.org/).
@@ -159,6 +194,11 @@ This custom data type allows you to reference entities of the [Iconclass-Vocabul
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass](https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass)
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass/releases/latest/download/customDataTypeIconclass.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass/releases/latest/download/customDataTypeIconclass.zip)
 * This is a custom data type.
+
+
+### Dependencies:
+
+* [`commons-library`](#commons-library)
 
 
 ## `custom-data-type-gvk`
@@ -170,6 +210,11 @@ This custom data type allows you to reference entities of the [Gemeinsame Datenb
 * This is a custom data type.
 
 
+### Dependencies:
+
+* [`commons-library`](#commons-library)
+
+
 ## `custom-data-type-loc`
 
 This is a plugin for fylr with Custom Data Type `CustomDataTypeLoc` for references to [Subject Headings](https://id.loc.gov/search/?q=cs:http://id.loc.gov/authorities/subjects) of the Library of Congress.
@@ -179,6 +224,11 @@ This is a plugin for fylr with Custom Data Type `CustomDataTypeLoc` for referenc
 * This is a custom data type.
 
 
+### Dependencies:
+
+* [`commons-library`](#commons-library)
+
+
 ## `custom-data-type-wikidata`
 
 Plugin for fylr with Custom Data Type `CustomDataTypeWikidata` for references to records of the Wikidata ([https://www.wikidata.org](https://www.wikidata.org)).
@@ -186,6 +236,21 @@ Plugin for fylr with Custom Data Type `CustomDataTypeWikidata` for references to
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-wikidata](https://github.com/programmfabrik/fylr-plugin-custom-data-type-wikidata)
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-wikidata/releases/latest/download/customDataTypeWikidata.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-wikidata/releases/latest/download/customDataTypeWikidata.zip)
 * This is a custom data type.
+
+
+### Dependencies:
+
+* [`commons-library`](#commons-library)
+
+
+## `commons-library`
+
+Provides shared functions for CustomDataTypePlugins.
+
+This plugin **must be installed** as well so that plugins which are dependant on this plugin work properly.
+
+* Repository: [https://github.com/programmfabrik/fylr-plugin-commons-library](https://github.com/programmfabrik/fylr-plugin-commons-library)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-commons-library/releases/latest/download/commonsLibrary.zip](https://github.com/programmfabrik/fylr-plugin-commons-library/releases/latest/download/commonsLibrary.zip)
 
 
 ## `custom-vzg-validationhub`
@@ -201,6 +266,7 @@ This is a plugin for fylr which sends data to the validation center of the [VZG]
 Configure standard fields in the base configuration, which can be defined per pool and then integrated into masks. These can then be used in the data model to assign default values to fields.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-default-values-from-pool](https://github.com/programmfabrik/fylr-plugin-default-values-from-pool)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-default-values-from-pool/releases/latest/download/DefaultValuesFromPool.zip](https://github.com/programmfabrik/fylr-plugin-default-values-from-pool/releases/latest/download/DefaultValuesFromPool.zip)
 
 
 ## `editor-field-visibility`
