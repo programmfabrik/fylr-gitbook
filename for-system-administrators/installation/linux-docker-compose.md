@@ -118,7 +118,7 @@ docker compose up --force-recreate --no-deps -d fylr
 
 You can now surf to your fylr webfrontend.
 
-Default login is `root` with password `admin`. Please replace with a secure password: Click on `root` in the upper left corner.
+Default login is `root` with password `admin`. Please replace with a secure password: Click on `root` in the upper right corner.
 
 ### automate SQL dumps and update installation
 
