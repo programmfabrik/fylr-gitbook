@@ -155,9 +155,9 @@ You can change the maintain script's config in `/etc/default/fylr`, using bash s
 
 ## Keep log messages
 
-The most important step to not throw away log messages with each container re-creation is already done in the above downloaded `docker-compose.yml`: it uses `logging:` `driver: journald`.
+The most important step, to not throw away log messages with each container re-creation, is already done: the above downloaded `docker-compose.yml` uses `logging:` `driver: journald`.
 
-You additionally can configure [journald](https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html) to your use case.
+You _additionally_ can tune [journald](https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html) to your use case.
 
 As an example, we do:
 
@@ -191,7 +191,7 @@ Load the changes:
 systemctl restart systemd-journald.service
 ```
 
-Aspects to consider if  your logs need to be 100% reliable (usually overkill)
+Aspects to consider if your logs need to be 100% reliable (usually overkill)
 
 * hardcoded maximum file size is capped to 4G in compact mode (which is enabled by default), source: [https://www.freedesktop.org/software/systemd/man/journald.conf.html](https://www.freedesktop.org/software/systemd/man/journald.conf.html)
 * this is using the default “blocking” mode
@@ -199,20 +199,22 @@ Aspects to consider if  your logs need to be 100% reliable (usually overkill)
 ## Troubleshooting
 
 * `docker compose` needs to be executed in the directory with the `docker-compose.yml`.
-* When docker cannot start containers with errors refering to `shim, OCI, apparmor`: `apt-get install apparmor apparmor-utils; systemctl restart docker`
+* When docker cannot start containers with errors refering to `shim, OCI, apparmor`: \
+  Try  `apt-get install apparmor apparmor-utils; systemctl restart docker`
 * When the indexer does not work, make sure you used `sysctl` as shown above.
 
 Many messages can be safely ignored, see [here](../symptom-and-solution/log-messages-that-can-be-ignored.md).
 
-Trouble with reachability, network, redirects:
+Incase of trouble with reachability, network, redirects:
 
 * If you set your firewall rules to Allow, does the problem (e.g. `400 Bad Request`) go away?
 * Does your network use a private IP range that overlaps with docker networks?
-* Ubuntu may use `ufw` as Firewall, but there are problems in combination with docker. Consider to use `shorewall` > 5.0.6 instead (https://shorewall.org/Docker.html).
+* Ubuntu may use `ufw` as Firewall, but there are problems in combination with docker. Consider to use `shorewall` > 5.0.6 instead (https://shorewall.org/Docker.html). \
+  Or **restart docker** (not just fylr) after changing your firewall. This **re-creates docker's firewall rules**.
 
-Assets are not processed, previews are not generated:
+In case assets are not processed / previews are not generated:
 
-* Look into the URL path /inspect/files, so e.g. https://your-fylr-domain/inspect/files and look for status: `failed` and `error`. Click on the IDs and e.g. `Show details` to search for error messages.
+* Surf to [https://your-fylr-domain/inspect/files](https://your-fylr-domain/inspect/files) (replace domain) and login as root. Look for status: `failed` and `error`. Click on the IDs and e.g. `Show details` to search for error messages.
 
 If the indexer plugin `analysis-icu` is not installed you will get errors like:
 
