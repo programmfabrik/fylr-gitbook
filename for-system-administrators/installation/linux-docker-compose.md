@@ -88,19 +88,24 @@ If unsure about wasting your quota with letsencrypt, start with `useStagingCA: t
 
 ### docker compose
 
-Much of the setup is encapsulated in a yaml file for docker compose. Get it and use it like this:
+Much of the setup is encapsulated in a yaml file for docker compose. Get it like this:
 
 (We still assume that you are in the `/srv/fylr` directory.)
 
 ```bash
 curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/docker-compose.yml -o docker-compose.yml
+```
 
+In `docker-compose.yml`, replace EXAMPLE with some string to make a better password. But this is not as critical to security as "password" sounds, because OpenSearch cannot be reached directly, in this setup. Still, the password has to be good enough for OpenSearch to accept it or else it will not start.\
+Then, use `docker-compose.yml` like this:
+
+```
 docker compose up -d postgresql opensearch ; docker compose logs -f opensearch
 ```
 
-`Ctrl` + `c` stops the display of new messages. We suggest you stop checking new messages when opensearch is done with its startup. Either when it quiets down or when you catch the message `Cluster health status changed` \[...] `reason: [shards started`.
+`Ctrl` + `c` stops the display of new messages. We suggest you stop checking new messages when OpenSearch is done with its startup. Either when it quiets down or when you catch the message `Cluster health status changed` \[...] `reason: [shards started`.
 
-So now postgres and opensearch are running.
+So now postgres and OpenSearch are running.
 
 Download and start fylr:
 
