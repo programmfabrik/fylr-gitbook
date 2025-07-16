@@ -87,7 +87,7 @@
   * [For Administrators](help/tutorials/for-administrators/README.md)
     * [Exporting & Importing Hierarchical Lists](help/tutorials/for-administrators/exporting-and-importing-hierarchical-lists.md)
     * [Regenerating preview images](help/tutorials/for-administrators/regenerating-preview-images.md)
-    * [Search Text in images or office files](help/tutorials/for-administrators/search-text-in-images-or-office-files.md)
+    * [Search in Text of Images or Office Files](help/tutorials/for-administrators/search-text-in-images-or-office-files.md)
     * [How to share editing templates with users](help/tutorials/for-administrators/how-to-share-editing-templates-with-users.md)
   * [For System Administrators](help/tutorials/for-system-administrators/README.md)
     * [How to setup and use IIIF](help/tutorials/for-system-administrators/how-to-setup-and-use-iiif.md)
