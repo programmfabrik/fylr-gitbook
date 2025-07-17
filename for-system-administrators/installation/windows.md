@@ -326,7 +326,7 @@ fylr+:
 
 We downloaded `mupdf-1.25.2-windows.zip` from [https://mupdf.com/releases](https://mupdf.com/releases) and unpacked it into `C:\fylr\utils\mupdf\` .
 
-In `fylr.yml we` configured:
+In `fylr.yml` we configured:
 
 ```
 fylr+:
@@ -344,6 +344,24 @@ from [https://www.graphviz.org/download/](https://www.graphviz.org/download/)
 ### calibre
 
 from [https://calibre-ebook.com/download\_windows](https://calibre-ebook.com/download_windows)
+
+### libvips
+
+Optional but recommended.
+
+From [https://www.libvips.org](https://www.libvips.org/) we followed `Download` and `Windows binaries` to then download [vips-dev-w64-all-8.17.1.zip](https://github.com/libvips/build-win64-mxe/releases/download/v8.17.1/vips-dev-w64-all-8.17.1.zip). (The newest version at the time)
+
+We unpacked this zip file to `C:\fylr\utils\vips-dev-8.17`.
+
+In `fylr.yml` :
+
+<pre><code><strong>fylr+:
+</strong>  services+:
+    execserver+:
+      commands:
+        vips:
+          prog: "C:\\fylr\\utils\\vips-dev-8.17\\bin\\vips.exe"
+</code></pre>
 
 ### chrome
 
