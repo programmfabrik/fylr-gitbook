@@ -11,6 +11,7 @@ If you start your hierarchy in fylr.yml with `fylr+:` instead of `fylr:`, then d
 
 {% code title="fylr.yml" %}
 ```yaml
+
 ## - Some of the regexs to check for versions might require modifications
 ## - All relative paths described in the file are relative to cmd/fylr unless otherwise
 ##    stated
@@ -117,6 +118,15 @@ fylr:
     # indexerDebug can be set to output statistics & memory allocation information
     # during object indexing. Defaults to false.
     indexerDebug: false
+    # indexerNestedNotIncludeInRoot can be set to not include nested documents
+    # in the root document. If set, queries are wrapped into the nested index
+    # if they are not already inside a "type": "nested". This is for development
+    # purposes only. If you change this option, a re-index is required.
+    indexerNestedNotIncludeInRoot: false
+    # janitorEnableObjectAndFileRemoval can be set to run the janitor file removal
+    # procedure. This will be enabled by default in 6.23.0 and is in 6.22.0 as
+    # an experimental feature.
+    janitorEnableObjectAndFileRemoval: false
 
   # optional, set environment. This can be used to set FYLR_CMD_* inside the fylr.yml
   env:
@@ -193,20 +203,18 @@ fylr:
       # empty.
       config: null
 
-      # To setup a purgeable system with default storage locations
-      # locfile & locs3, configure the following. The location_default map
-      # accepts location ids as well as names:
-      #
-      # config:
-      #   system:
-      #     config:
+      # location_defaults map accepts location ids as well as names:
+      config:
+        system:
+          config:
+            location_defaults:
+              originals: mys3
+              versions: mys3
+              backups: myfile
+      # To setup purgeable locations:
       #       purge:
       #         allow_purge: true
       #         purge_storage: true
-      #       location_defaults:
-      #         originals: file
-      #         versions: s3
-      #         backups: file
 
       # preconfigure locations for empty databases
       locations:
@@ -221,7 +229,7 @@ fylr:
         # The driver "file" will create directories inside the configured
         # top level directory but never remove them. So, if you use purge
         # a lot, FYLR will leave empty directories on disk.
-        file:
+        myfile:
           # The kind is either "file" or "s3" or "azure" (see below)
           kind: file
           # Each location can configure a prefix which will
@@ -230,18 +238,21 @@ fylr:
           # Set to true if files in this location can be
           # purged by FYLR (if the purge api call is used)
           allow_purge: true
-          # Set to true if that storage location allows its download URLs to be
-          # exposed. For the kind "file" storage backend this is a dangerous
-          # setting and should be used for development purposes only. Default to
-          # false.
+          # For "file" storage backend allow_redirect is a dangerous
+          # setting and should be used for development purposes only.
+          # Default is the safe false.
           allow_redirect: false
           config:
             file:
               dir: "_files"
-        s3:
+        mys3:
           kind: s3
           prefix: "apitest/"
           allow_purge: true
+          # Set allow_redirect to true to expose download URLs directly to the s3 provider.
+          # Default is false.
+          # false uses fylr URLs instead, which might be less performant.
+          allow_redirect: false
           config:
             s3:
               bucket: apitest
@@ -250,7 +261,7 @@ fylr:
               secretkey: "minioadmin"
               region: "us-east-1"
               ssl: false
-        azure:
+        myazure:
           kind: azure
           allow_purge: true
           config:
@@ -331,19 +342,18 @@ fylr:
     # maxMem is the cut-off JSON size in bytes for objects sent to the indexer. Defaults to 100MB.
     maxMem: 100mb
     # maxHeapAlloc is the maxium allocation of heap memory during indexing of
-    # user objects (not base types). The indexer tries to keep the heap memory
-    # below this value. If the indexer sees twice the heap size used, it runs
-    # the Go garbage collector and outputs a warning. In such a case, the
-    # maxHeapAlloc should be set to a higher value or the datastructure of the
-    # indexed objects need to be looked at. On capable systems we recommend 4G,
-    # defaults to 1G.
+    # user objects (not base types). fylr tries to keep the heap memory below
+    # this value. If fylr sees twice the heap size used, it runs the Go garbage
+    # collector and outputs a warning. In such a case, the maxHeapAlloc should
+    # be set to a higher value or the datastructure of the indexed objects need
+    # to be looked at. On capable systems we recommend 4G, defaults to 1G.
     maxHeapAlloc: 1g
     # fielddata (debug feature). if set to true, fields are mapped including their fielddata
     # in the reverse index. with that, the inspect view of the indexed version of
     # the object shows a per field list of stored terms. This can be useful for debugging
     # of analyzer settings.
     fielddata: false
-    # addresses of the elastic servers
+    # addresses of the elastic servers, see https://godoc.org/github.com/elastic/go-elasticsearch#Config for details.
     addresses:
       - "http://localhost:9200"
     # username
@@ -797,6 +807,5 @@ fylr:
               prog: "fylr"
               args:
                 - "iiif"
-
 ```
 {% endcode %}

@@ -162,6 +162,8 @@ fylr:
           prog: saxon
         magick:
           prog: magick
+        vips:
+          prog: vips
         ffprobe:
           prog: ffprobe
         ffmpegthumbnailer:
@@ -175,6 +177,7 @@ fylr:
         # used by fylr-plugin-example (Tesseract)
         java:
           prog: java
+
 
       services:
         # this service allows to execute arbitrary binaries
