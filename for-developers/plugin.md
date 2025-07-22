@@ -102,12 +102,14 @@ callbacks:
               - type: "value"
                 value: "%info.json%"
 
+# additional base config, in this example adding a plugin user
+base_config:
+  - name: user
+    parameters:
+      api_user:
+        type: user
+  
 ```
-
-| Parameter   | Description                                                                                                 |
-| ----------- | ----------------------------------------------------------------------------------------------------------- |
-| `l10n`      | Path to localization file in FYLR format (CSV). The keys are merged into `/api/v1/l10n/static/<lang>.json`. |
-| `callbacks` | Definition of callbacks.                                                                                    |
 
 ## Extensions
 
@@ -197,6 +199,8 @@ This will then call a `node` programm `export_demo.js` if configured like so in 
 ```yaml
 export:
   demo:
+    plugin_user:
+      base_config: "user.api_user" # path in config
     exec:
       service: "node"
       commands:
@@ -221,15 +225,18 @@ export:
 
 #### Payload in %info.json%
 
-| Property                                | Description                                               |
-| --------------------------------------- | --------------------------------------------------------- |
-| `info.config.system`                    | Base config of the instance.                              |
-| `info.request`                          | Inforrmation about the request.                           |
-| `export`                                | Export in API format, enhanced with internal information. |
-| `export._files[n].export_file_internal` | Internal information per file.                            |
-| `plugin_action`                         | Set if the request is for an plugin exported file.        |
-| `api_callback.token`                    | Token to call back into the API.                          |
-| `api_callback.url`                      | URL to call back into the API.                            |
+| Property                                | Description                                                                                                                                                                                                                                                                                |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `info.config.system`                    | Base config of the instance.                                                                                                                                                                                                                                                               |
+| `info.request`                          | Inforrmation about the request.                                                                                                                                                                                                                                                            |
+| `export`                                | Export in API format, enhanced with internal information.                                                                                                                                                                                                                                  |
+| `export._files[n].export_file_internal` | Internal information per file.                                                                                                                                                                                                                                                             |
+| `plugin_action`                         | Set if the request is for an plugin exported file.                                                                                                                                                                                                                                         |
+| `api_user_access_token`                 | Token to call back into the API. This is the token of the user authenticated for the currently running api call.                                                                                                                                                                           |
+| `api_user`                              | The current user of the API.                                                                                                                                                                                                                                                               |
+| `api_url`                               | URL to call back into the API.                                                                                                                                                                                                                                                             |
+| `plugin_user_access_token`              | If defined in the manifest, **fylr** will issue a plugin user token, based on settings in the base config. If no user is set, or the current user of the API is set, the token will be the same as `api_user_access_token`. If no `plugin_user` is defined, this property will be not set. |
+| `plugin_user`                           | The plugin user as explained in `plugin_user_access_token`.                                                                                                                                                                                                                                |
 
 #### Return payload
 
