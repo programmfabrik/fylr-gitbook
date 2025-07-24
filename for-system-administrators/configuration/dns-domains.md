@@ -13,7 +13,7 @@ But keep in mind:
 * If fylr shall react to additional domains besides the one main domain, make sure that these are also present in the certificate that fylr uses.&#x20;
 * If you let fylr retrieve the certificate automatically, you need to configure them as `additionalDomains` in fylr.yml. See [HTTPS](http-and-https.md) for examples and details about using certificates.
 
-**Changes** to the main domain:
+### **Changes** to the main domain
 
 * When you change fylr's main domain, configured as `externalURL`, so after changing fylr.yml and restart, you need to do a re-index. A re-index likely takes only minutes, but also might take hours, if you have a lot of objects. It can be found in the inspect-Interface (https://fylr.example.co&#x6D;**/inspect/** )  behind the **System**-button.
 * During that re-index, even if it is running in the background, preview images **will not be visible**. Only after the re-index, the images are prepared and working with the new domain.
