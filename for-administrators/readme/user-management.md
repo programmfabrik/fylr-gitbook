@@ -6,11 +6,7 @@ description: >-
 
 # User Management
 
-<div align="left">
-
-<figure><img src="../../.gitbook/assets/image (1) (1) (1) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-</div>
+<div align="left"><figure><img src="../../.gitbook/assets/image (1) (1) (1) (2) (1) (1).png" alt=""><figcaption></figcaption></figure></div>
 
 ## User Management
 
@@ -58,4 +54,4 @@ This big topic has [its own page](../../tutorials/ldap.md) in our Tutorials.
 
 ## SAML
 
-This big topic has [its own page](../../tutorials/saml.md) in our Tutorials.
+This big topic has [its own page](../../tutorials/auth/saml/) in our Tutorials.

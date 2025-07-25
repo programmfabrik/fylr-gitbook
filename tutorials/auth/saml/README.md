@@ -6,7 +6,7 @@ description: How to connect fylr to a SAML authentication service.
 
 This can be used to log into fylr with users from e.g. Shibboleth and Azure ActiveDirectory.
 
-<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption><p>Where to find the settings in the frontend.</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3).png" alt=""><figcaption><p>Where to find the settings in the frontend.</p></figcaption></figure>
 
 ### Background
 
@@ -35,7 +35,7 @@ When asked for `Common Name (e.g. server FQDN or YOUR name)` answer with `fylr.e
 
 Now you can view the contents of the files `private.key` and `publickey.cer` and put that into fylr's frontend: (**Certificate** and **Key** fields) as in this screenshot:
 
-<figure><img src="../.gitbook/assets/image (8).png" alt=""><figcaption><p>screenshot of the form fields for certificate and key</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (8).png" alt=""><figcaption><p>screenshot of the form fields for certificate and key</p></figcaption></figure>
 
 ### Base Config
 
@@ -62,6 +62,14 @@ fylr's metadata URL is [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr
 * ACS Assertionsverbraucherdienst-URL: [https://FYLR.EXAMPLE.COM/api/saml/acs](https://fylr.example.com/api/saml/metadata)
 * Logout URL: [https://FYLR.EXAMPLE.COM/api/saml/slo](https://fylr.example.com/api/saml/metadata)
 
+### IdP-Metadaten-URL
+
+Mandatory, enter your IDP-Metadata-URL.
+
+### Service-Provider EntityID
+
+Optional, leave empty and fylr will use the default: [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr.example.com/api/saml/metadata)&#x20;
+
 ### Attributes and user matching
 
 * Target: **Login**: This can be used to determine the username during login, as in: The pair of username and Password used to log in. Example value: `%(login)s`. Or `%(sAMAccountName)s`. Has to match an attribute name that is actually present in your IDP's data.
@@ -73,23 +81,10 @@ fylr's metadata URL is [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr
 * **User update**: Set the attribute which is used to determine whether the SAML user (who is logging in) already has a matching account in fylr. If it has a matching account, that user is logged in (and attributes may get overwritten with the current values in SAML). If it has no matching account in fylr yet, a new one is being created. By default, the used attribute is **Reference**. But you can choose the attributes **Email** or **Login**, instead.\
   Example: Assume that the chosen attribute for **Benutzer-Update** is `Email` and that Alice logs in the first time with her SAML user alice@example.com. Company policy changes and thus her email address (in SAML) changes to alice.lastname@example.com. During her next login into fylr, a new user is being created, as there is no user yet with alice.lastname@example.com. Now Alice has two user accounts in fylr and can only log in to the second one.
 
-### Replacing strings in attributes
-    
-Our attribute syntax can replace strings. This syntax is part of our attribute matching (fylr 6.20 and newer):
+### [manipulating attributes](manipulating-attributes.md)
 
+Replacing strings, Multi-Value-Attributes, etc.
 
-```
-%(key||search||replacement)s
-```
-
-Where `search` is the regexp matching what is then replaced with `replacement`.
-
-The regular expressions syntax rules: https://pkg.go.dev/regexp#Regexp.ReplaceAllString.
-
-Example: `%(email||^.*=||)s`, in context:
-
-When a user logs in with attribute email equal to `urn:campus:1:mail=ben@example.com` and attribute mapping Target:Email `%(email||^.*=||)s` then his email address in fylr will be just `ben@example.com`, because the search part matches all up to the equal sign and the replacement is empty.
-    
 ### Signed AuthnRequest
 
 Checkbox: ☑︎ **Sign requests** (default off)
@@ -110,12 +105,11 @@ This section was contributed by partners and customers, we did not verify this.
   \
   Here a screenshot (in German, but the location should be similar in any language) of MS Entra about where to find this URL. See the red rectangle. Also some other config is visible:\
   \
-  ![](<../.gitbook/assets/image (17).png>)\
-
+  ![](<../../../.gitbook/assets/image (17).png>)\\
 * Where to put fylr URLs in MS Entra:\
-  ![](<../.gitbook/assets/image (18).png>)
+  ![](<../../../.gitbook/assets/image (18).png>)
 * Check that certificates are not expired / expiring too soon. Here a place in MS Entra to check one of the involved certificates:\
-  ![](<../.gitbook/assets/image (19).png>)
+  ![](<../../../.gitbook/assets/image (19).png>)
 
 ### Group Mapping
 
@@ -125,11 +119,11 @@ Mapping goal of the following example: Every role that ends in the letters `saml
 
 1. In fylr-URL/configmanager > `User management` > `SAML` add into the form field `Group Mapping` the value `%(role)s` (see following screenshot).
 
-<figure><img src="../_assets/images/fylr-saml-group-mapping-en (1).png" alt=""><figcaption><p>How to add an attribute for SAML group mapping in the fylr frontend</p></figcaption></figure>
+<figure><img src="../../../_assets/images/fylr-saml-group-mapping-en (1).png" alt=""><figcaption><p>How to add an attribute for SAML group mapping in the fylr frontend</p></figcaption></figure>
 
 2. In fylr-URL/groupmanager add a group named `testidp`. Give that group some system rights that are visible after logging in.
 3. In this group's configuration > `AUTHENTICATION SERVICES` > below `Single-Sign-On` add an entry with Method `Regular Expression` and Input `.*samltest.id` (see following screenshot).
 
-<figure><img src="../_assets/images/fylr-group-mapping-en (1).png" alt=""><figcaption><p>How to match a value for a group mapping in the fylr frontend</p></figcaption></figure>
+<figure><img src="../../../_assets/images/fylr-group-mapping-en (1).png" alt=""><figcaption><p>How to match a value for a group mapping in the fylr frontend</p></figcaption></figure>
 
 4. Save. Test the login as a SAML user with a matching role. The user now has the rights given to the group `testidp`.

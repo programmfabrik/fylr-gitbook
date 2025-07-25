@@ -13,17 +13,17 @@ fylr can be connected to multiple LDAP servers. With or without TLS. Typically, 
 ### SAML
 
 fylr can be configured to be a Service Provider against a SAML IDP.\
-In other words: fylr can be connected to e.g. Shibboleth IDPs and Microsoft Azure Active Directory via SAML. See [our tutorial](../../tutorials/saml.md).
+In other words: fylr can be connected to e.g. Shibboleth IDPs and Microsoft Azure Active Directory via SAML. See [our tutorial](../../tutorials/auth/saml/).
 
 ### Shibboleth
 
-Shibboleth IDentityProviders can be connected via SAML to fylr, which then is a ServiceProvider. See [our tutorial](../../tutorials/saml.md).
+Shibboleth IDentityProviders can be connected via SAML to fylr, which then is a ServiceProvider. See [our tutorial](../../tutorials/auth/saml/).
 
 ### Active Directory
 
 Microsoft Active Directory, as used in a Local Area network, can be connected via LDAP. See [our LDAP-tutorial](../../tutorials/ldap.md).
 
-Microsoft Azure Active Directory can be connected via SAML to fylr. See [our SAML-tutorial](../../tutorials/saml.md).
+Microsoft Azure Active Directory can be connected via SAML to fylr. See [our SAML-tutorial](../../tutorials/auth/saml/).
 
 ### Kerberos
 
