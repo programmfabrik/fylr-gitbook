@@ -29,3 +29,7 @@ Example: `%(dpmt||^.*=||||;)s`, in context:
 When a user logs in with these two attributes  `urn:campus:1:dpmt=marketing` and `urn:campus:2:dpmt=sales` , the attribute mapping is done like above and in fylr the department will be
 
 `marketing;sales`
+
+## pick first attribute
+
+If an attribute is replaced like this `%(mail|email)s`, fylr now uses the first entry which is not empty as replacement.
