@@ -68,7 +68,7 @@ Mandatory, enter your IDP-Metadata-URL.
 
 ### Service-Provider EntityID
 
-Optional, leave empty and fylr will use the default: [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr.example.com/api/saml/metadata)&#x20;
+Optional, leave empty and fylr will use the default as **entityID** in its metadata: [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr.example.com/api/saml/metadata)&#x20;
 
 ### Attributes and user matching
 
