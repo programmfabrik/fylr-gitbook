@@ -30,9 +30,17 @@ When a plugin wants to return an error, it needs to exit with a non zero exit co
 ## Format of manifest.yml
 
 ```yml
-l10n: l10n/loca.csv
-webfrontend:
-  l10n: l10n/
+plugin:
+  name: plugin_name
+  displayname:
+    en-US: "Name of the Plugin"
+  l10n: l10n/loca.csv
+  webfrontend:
+    url: plugin_name.js
+    css: plugin_name.css
+
+base_url_prefix: "webfrontend"
+
 extensions:
   dump/info:
     exec:
@@ -49,6 +57,7 @@ extensions:
               value: "dump_info.js"
             - type: "value"
               value: "%info.json%"
+
 callbacks:
   transition_db_pre_save:
     set_comment:
