@@ -6,11 +6,20 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2025-07-15 08:20:01 (UTC)
+    * timestamp: 2025-08-26 11:25:15 (UTC)
 -->
 
 # Plugin Overview
 
+
+
+## `basemigration`
+
+Adds the "Permissions Download & Upload" option to the main menu and enables you to download permissions and upload them in another fylr installation.
+
+* Repository: [https://github.com/programmfabrik/easydb-basemigration-plugin](https://github.com/programmfabrik/easydb-basemigration-plugin)
+* See also: [https://docs.fylr.io/for-administrators/tools/permissions-download-and-upload](https://docs.fylr.io/for-administrators/tools/permissions-download-and-upload)
+* This plugin was developed by Programmfabrik GmbH.
 
 
 ## `easydb-connector-plugin`
@@ -24,7 +33,7 @@ Adds the Connection feature which enables you to include other fylr installation
 
 ## `easydb-drupal-plugin`
 
-Add your [Drupal](https://www.drupal.org/) page to fylr and send selected files to Drupal.
+Add your [Drupal](https://www.drupal.org/) page to easydb5 or fylr and send selected files to Drupal.
 
 * Repository: [https://github.com/programmfabrik/easydb-drupal-plugin](https://github.com/programmfabrik/easydb-drupal-plugin)
 * This plugin was developed by Programmfabrik GmbH.
@@ -44,6 +53,14 @@ Adds a tool to the base configuration to set default values for simple text fiel
 
 * Repository: [https://github.com/programmfabrik/easydb-editor-tagfilter-defaults-plugin](https://github.com/programmfabrik/easydb-editor-tagfilter-defaults-plugin)
 * Release URL: [https://github.com/programmfabrik/easydb-editor-tagfilter-defaults-plugin/releases/latest/download/easydb-editor-tagfilter-defaults-plugin.zip](https://github.com/programmfabrik/easydb-editor-tagfilter-defaults-plugin/releases/latest/download/easydb-editor-tagfilter-defaults-plugin.zip)
+* This plugin was developed by Programmfabrik GmbH.
+
+
+## `easydb-export-transport-ftp-plugin`
+
+Enables the export to transport the files to a FTP server.
+
+* Repository: [https://github.com/programmfabrik/easydb-export-transport-ftp-plugin](https://github.com/programmfabrik/easydb-export-transport-ftp-plugin)
 * This plugin was developed by Programmfabrik GmbH.
 
 
@@ -335,7 +352,6 @@ This plugin provides the possibity to allow the linking of specific objects only
 Custom monitoring-endpoint for fylr-API. The plugin provides a new API endpoint under `GET /api/v1/plugin/base/monitoring/monitoring`.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-monitoring](https://github.com/programmfabrik/fylr-plugin-monitoring)
-* Release URL: [https://github.com/programmfabrik/fylr-plugin-monitoring/releases/latest/download/monitoringEndpoint.zip](https://github.com/programmfabrik/fylr-plugin-monitoring/releases/latest/download/monitoringEndpoint.zip)
 
 
 ## `fylr-plugin-sequence`
@@ -343,7 +359,6 @@ Custom monitoring-endpoint for fylr-API. The plugin provides a new API endpoint 
 This plugin allows you to automatically generate a string based on sequential numbers when inserting records.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-sequence](https://github.com/programmfabrik/fylr-plugin-sequence)
-* Release URL: [https://github.com/programmfabrik/fylr-plugin-sequence/releases/latest/download/fylr-plugin-sequence.zip](https://github.com/programmfabrik/fylr-plugin-sequence/releases/latest/download/fylr-plugin-sequence.zip)
 * This plugin was developed by Programmfabrik GmbH.
 
 
