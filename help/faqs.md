@@ -1,14 +1,25 @@
 ---
-description: Here you find some frequently asked questions.
+description: frequently asked questions
 ---
 
 # FAQs
 
+## Keyboard Shortcuts
+
+The following shortcuts are available to all users for faster navigation and efficiency.&#x20;
+
 {% hint style="info" %}
-Currently work in progress
+The user account needs the permissions to execute the underlying function.
 {% endhint %}
 
-
+| Shortcut                                | Description                         |
+| --------------------------------------- | ----------------------------------- |
+| **Ctrl / Option / Command + N**         | Create new record                   |
+| **Ctrl / Option / Command + A**         | Select all records                  |
+| **Ctrl / Option / Command + D**         | Open download popover for selection |
+| **Ctrl / Option / Command + E**         | Open expert search                  |
+| **Ctrl / Option / Command + S**         | Save                                |
+| **Shift + Ctrl / Option / Command + E** | Open export popover for selection   |
 
 ## Upload
 
