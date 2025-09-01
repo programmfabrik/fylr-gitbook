@@ -147,7 +147,7 @@ Upload collections are available for choosing a ChatGPT Metadata Mapping to be a
 To run the **ai-metadata plugin** in background tasks, follow these steps:
 
 {% hint style="danger" %}
-Creating a background-tasks from a selection of records to be mapped by the ai-metadata plugin is not supported currently.
+**Creating a new background task from a selection of records** to be mapped by the ai-metadata plugin is currently **not supported**.
 {% endhint %}
 
 ### Create and Configure the Task
@@ -163,8 +163,6 @@ Creating a background-tasks from a selection of records to be mapped by the ai-m
 
 * **Manual time** (default: now)
 * **Scheduled time** (future execution)
-
-
 
 
 
@@ -184,14 +182,18 @@ Creating a background-tasks from a selection of records to be mapped by the ai-m
 
 
 
-#### Configure the search result to apply the mapping to:
+#### Creating a search result to apply the mapping to
 
 For the task to have records to apply the mapping to, configure a search that finds the records you want to be filled by ChatGPT (selection of records / the entire search result).
 
 {% hint style="warning" %}
-**If individual records are selected, only those will be mapped.**&#x20;
+If individual records are selected, only those will be mapped.&#x20;
 
-**If an entire search result is selected using "Select All", the search can be reused for the next scheduled run of the background task.**
+If an entire search result is selected using **"Select All", the same search will be reused** for the next scheduled run of the background task.
+{% endhint %}
+
+{% hint style="danger" %}
+**Warning: An empty search will result in the background-task sending ALL records to ChatGPT.**
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/Screenshot 2025-08-26 at 15.33.46.png" alt="Example configuration of a search query showing results to be mapped by the ai-metadata plugin using the bg-tasks." width="563"><figcaption><p>Example configuration of a search query showing results to be mapped by the ai-metadata plugin using the bg-tasks.</p></figcaption></figure>
