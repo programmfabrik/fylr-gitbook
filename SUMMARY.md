@@ -232,6 +232,7 @@
 * [Data Model Sync](tutorials/objectstore.md)
 * [Purge a fylr instance](tutorials/purge-a-fylr-instance.md)
 * [typo3 plugin](tutorials/typo3-plugin.md)
+* [ai metadata plugin](tutorials/ai-metadata-plugin.md)
 * [Use fylr in Google docs via CI HUB](tutorials/use-fylr-in-google-docs-via-ci-hub.md)
 
 ## FOR DEVELOPERS

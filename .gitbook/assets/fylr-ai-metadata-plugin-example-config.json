@@ -1,0 +1,41 @@
+{
+    "chatgpt": {
+        "apikey": "",
+        "apikey:info": {
+            "is_default": false
+        },
+        "debug": false,
+        "debug:info": {
+            "is_default": false
+        },
+        "fields": [
+            {
+                "name": "Basic Object Description",
+                "question": "Describe in one sentence what is shown in the image.",
+                "type": "text"
+            },
+            {
+                "name": "Multilingual Short Caption",
+                "question": "Describe what is shown in the image in one short sentence in English and German. Please output both languages in the following format.",
+                "type": "localized"
+            },
+            {
+                "name": "List of Detected Items",
+                "question": "List the main objects visible in the image. Only return the list of objects, one per line, without any additional explanation.",
+                "type": "list"
+            },
+            {
+                "name": "Multilingual Detail List",
+                "question": "Identify the three most important visual elements in the image and output them as a list with one item per line. For every item provide a translation in English, German and French.",
+                "type": "localized list"
+            }
+        ],
+        "fields:info": {
+            "is_default": false
+        },
+        "upload_file_size": "small",
+        "upload_file_size:info": {
+            "is_default": false
+        }
+    }
+}
