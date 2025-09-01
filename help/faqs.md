@@ -10,16 +10,21 @@ description: frequently asked questions
 
 <summary>Can I use keyboard shortcuts?</summary>
 
-Yes, these shortcuts are available to all users for faster navigation and efficiency.&#x20;
+Yes, shortcuts are available to all users for faster navigation and efficiency.&#x20;
 
-| Shortcut                                | Description                         |
-| --------------------------------------- | ----------------------------------- |
-| **Ctrl / Option / Command + N**         | Create new record                   |
-| **Ctrl / Option / Command + A**         | Select all records                  |
-| **Ctrl / Option / Command + D**         | Open download popover for selection |
-| **Ctrl / Option / Command + E**         | Open expert search                  |
-| **Ctrl / Option / Command + S**         | Save                                |
-| **Shift + Ctrl / Option / Command + E** | Open export popover for selection   |
+Action keys:
+
+* **Windows**: Control, Alt, Win-Key
+* **MacOS**: Control, Option, Command
+
+| Shortcut           | Description                         |
+| ------------------ | ----------------------------------- |
+| **Action key + N** | Create new record                   |
+| **Action key + A** | Select all records                  |
+| **Action key + D** | Open download popover for selection |
+| **Action key + E** | Open expert search                  |
+| **Action key + S** | Save                                |
+| **Action key + E** | Open export popover for selection   |
 
 The user account needs the permissions to execute the underlying function.
 
