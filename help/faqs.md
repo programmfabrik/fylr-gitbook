@@ -4,13 +4,13 @@ description: frequently asked questions
 
 # FAQs
 
-## Keyboard Shortcuts
 
-The following shortcuts are available to all users for faster navigation and efficiency.&#x20;
 
-{% hint style="info" %}
-The user account needs the permissions to execute the underlying function.
-{% endhint %}
+<details>
+
+<summary>Can I use keyboard shortcuts?</summary>
+
+Yes, these shortcuts are available to all users for faster navigation and efficiency.&#x20;
 
 | Shortcut                                | Description                         |
 | --------------------------------------- | ----------------------------------- |
@@ -20,6 +20,10 @@ The user account needs the permissions to execute the underlying function.
 | **Ctrl / Option / Command + E**         | Open expert search                  |
 | **Ctrl / Option / Command + S**         | Save                                |
 | **Shift + Ctrl / Option / Command + E** | Open export popover for selection   |
+
+The user account needs the permissions to execute the underlying function.
+
+</details>
 
 ## Upload
 
