@@ -16,7 +16,7 @@ If these criteria below are not possible, we still have at least two alternative
 * We need HTTPS (Port 443) and SSH access **to your server**.\
   Our approach is:\
   <mark style="color:$success;">**SSH is encrypted, secure and state of the art, even as a permanently open port.**</mark>
-* The account has to have full administrative rights, either directly as root or via "sudo" or "su".
+* The account has to have full administrative rights, either directly as `root` or via `sudo` or `su`.
 * Access can be granted by password or - preferred - by our public ssh key: \
   `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINHZyevoIWd21NeOejA3AtXsiY5fOhDFXjhnMFmRBOMi`&#x20;
 * The SSH access has to be without manual tokens, PINs, TANs, telephone calls, etc.. We have multiple employees sharing tasks and with separate areas of knowledge and responsibility, so one hardware token will not work and individual accounts would be too numerous. To fit the task for you into our work, we cannot predict when we will need access and it too often is outside of business hours to rely on calling you first to open the connection. A permanently open SSH port solves all of this.
