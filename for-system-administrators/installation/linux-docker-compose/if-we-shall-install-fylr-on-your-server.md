@@ -1,0 +1,37 @@
+---
+description: also known as On Premise Installation
+---
+
+# if we shall install fylr on your server
+
+We offer to install or troubleshoot on your server in case the following criteria are met\
+(and if a business agreement was made).\
+\
+If these criteria below are not possible, we still have at least two alternative approaches: You can install on your server; or we install on our servers (which then needs a hosting contract).\
+
+
+* We need HTTPS (Port 443) and SSH access **to your server**.\
+  Our approach is:\
+  `SSH is encrypted, secure and state of the art, even as a permanently open port.`
+* The account has to have full administrative rights, either directly as root or via "sudo" or "su".
+* Access can be granted by password or - preferred - by our public ssh key: \
+  `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINHZyevoIWd21NeOejA3AtXsiY5fOhDFXjhnMFmRBOMi`&#x20;
+* The SSH access has to be without manual tokens, PINs, TANs, telephone calls, etc.. We have multiple employees sharing tasks and with separate areas of knowledge and responsibility, so one hardware token will not work and individual accounts would be too numerous. To fit the task for you into our work, we cannot predict when we will need access and it too often is outside of business hours to rely on calling you first to open the connection. A permanently open SSH port solves all of this.
+* **Optional**: The access may be restricted to our IP address. We are using the static IP address `138.199.160.200` as source IP address during access.
+* **Optional**: The SSH port can be configured by the customer. The default is 22.
+* **Optional**: The access can be secured via a customer operated SSH proxy (also known as Jumphost). This only includes SSH protocol software, not virtual desktops.
+* **Optional**: Additionally, a customer operated OpenVPN server can be used. We can evaluate other software, if it is compatible with OpenConnect or if it can be done with OpenFortiVPN. All these have encryption, which is made redundant by SSH's encryption, and they increase complexity and fragility and are thus not recommended.
+* **Optional**: We can offer you to connect to our SSH server and use that connection to tunnel to you - sometimes called a "reverse SSH tunnel". This tends to be unstable and is thus not recommended.
+* **From your server to the internet** we need access to https://docker.easydb.de, https://raw.githubusercontent.com, https://download.docker.com and package sources of the Linux distribution used on your server.\
+  **Optional**: Use of an HTTP(S) proxy for these is possible, but will take longer to configure.
+
+We recommend that we test SSH access a few working days prior to the installation, whereby we also check the prerequisites of the server.
+
+The installation takes several minutes or a few hours in case of complications.
+
+## if we shall maintain fylr on your server
+
+Also known as a maintenance contract.
+
+* We need permanent SSH access to your server, to do maintenance tasks and to monitor your server. Our monitoring software connects every few minutes, so it is essentially a permanent connection.
+* The SSH access has to be fully automated, with no manual tokens, PINs, TANs, telephone calls, etc. so that our monitoring software can run on its own.
