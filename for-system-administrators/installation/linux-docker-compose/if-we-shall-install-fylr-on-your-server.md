@@ -10,9 +10,14 @@ We offer to install or troubleshoot on your server in case the following criteri
 If these criteria below are not possible, we still have at least two alternative approaches: You can install on your server; or we install on our servers (which then needs a hosting contract).\
 
 
-* Pre-installed **Debian** or **Ubuntu**. A version which is recent enough to be in active maintenance by the distribution. Without Desktop, with SSH server.\
-  fylr can run on many more operating systems, but we do not have sufficient experience with all of them to do the installation ourselves. \
-  **RedHat** may be possible as a pioneer project, but we only have limited experience there as of yet.
+* Pre-installed **Debian** or **Ubuntu**. \
+  A version which is recent enough to be in active maintenance by the distribution. \
+  Without Desktop, with SSH server, without firewall software.\
+  \
+  fylr can run on many more operating systems, but we do not have sufficient experience with all of them to do the installation ourselves.\
+  \
+  **RedHat** may be possible as a pioneer project, but we only have limited experience there as of yet.\
+
 * We need HTTPS (Port 443) and SSH access **to your server**.\
   Our approach is:\
   <mark style="color:$success;">**SSH is encrypted, secure and state of the art, even as a permanently open port.**</mark>
@@ -24,13 +29,20 @@ If these criteria below are not possible, we still have at least two alternative
 * **Optional**: The SSH port can be configured by the customer. The default is 22.
 * **Optional**: The access can be secured via a customer operated SSH proxy (also known as Jumphost). This only includes SSH protocol software, not virtual desktops.
 * **Optional**: Additionally, a customer operated OpenVPN server can be used. We can evaluate other software, if it is compatible with OpenConnect or if it can be done with OpenFortiVPN. All these have encryption, which is made redundant by SSH's encryption, and they increase complexity and fragility and are thus not recommended.
-* **Optional**: We can offer you to connect to our SSH server and use that connection to tunnel to you - sometimes called a "reverse SSH tunnel". This tends to be unstable and is thus not recommended.
-* **From your server to the internet** we need access to https://docker.easydb.de, https://raw.githubusercontent.com, https://download.docker.com and package sources of the Linux distribution used on your server.\
-  **Optional**: Use of an HTTP(S) proxy for these is possible, but will take longer to configure.
+* **Optional**: We can offer you to connect to our SSH server and use that connection to tunnel to you - sometimes called a "reverse SSH tunnel". This tends to be unstable and is thus not recommended.\
+
+* **From your server to the internet** we need access to \
+  https://docker.easydb.de, \
+  https://raw.githubusercontent.com, \
+  https://download.docker.com \
+  and package sources of the Linux distribution used on your server.\
+  **Optional**: Use of an HTTP(S) proxy for these is possible, but will take longer to configure.\
+
 
 We recommend that we test SSH access a few working days prior to the installation, whereby we also check the prerequisites of the server.
 
-The installation takes several minutes or a few hours in case of complications.
+The installation takes several minutes or a few hours in case of complications.\
+
 
 ## if we shall maintain fylr on your server
 
