@@ -10,6 +10,9 @@ We offer to install or troubleshoot on your server in case the following criteri
 If these criteria below are not possible, we still have at least two alternative approaches: You can install on your server; or we install on our servers (which then needs a hosting contract).\
 
 
+* Pre-installed Debian or Ubuntu. Without Desktop, with SSH server.\
+  fylr can run on many more operating systems, but we do not have sufficient experience with all of them to do the installation ourselves. \
+  RedHat may be possible as a pioneer project, but we only have limited experience there as of yet.
 * We need HTTPS (Port 443) and SSH access **to your server**.\
   Our approach is:\
   `SSH is encrypted, secure and state of the art, even as a permanently open port.`
