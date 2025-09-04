@@ -7,6 +7,7 @@ How to install fylr on a Linux Server via docker compose
 * A domain name (like **fylr.example.com**), but not just a subpath (like **example.com/fylr**).
 * A port (typically 443) to do https.
 * Either an HTTPS certificate. Or Port 443 or Port 80 for registering and renewing a certificate with letsencrypt. Or the decision to operate fylr with HTTP only (insecure for passwords etc.).
+* If _we_ shall install fylr on _your_ server, also see [that page](linux-docker-compose/if-we-shall-install-fylr-on-your-server.md).
 
 ### Hardware
 
