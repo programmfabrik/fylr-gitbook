@@ -208,6 +208,7 @@
   * [Authentication](for-system-administrators/integration/authentication.md)
   * [Hotfolder](for-system-administrators/integration/hotfolder.md)
 * [Symptom & Solution](for-system-administrators/symptom-and-solution/README.md)
+  * [blurred preview images only](for-system-administrators/symptom-and-solution/blurred-preview-images-only.md)
   * [Log messages that can be ignored](for-system-administrators/symptom-and-solution/log-messages-that-can-be-ignored.md)
   * [too many clients are connected](for-system-administrators/symptom-and-solution/too-many-clients-are-connected.md)
   * [too many nested clauses](for-system-administrators/symptom-and-solution/too-many-nested-clauses.md)
