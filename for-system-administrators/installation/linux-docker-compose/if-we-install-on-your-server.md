@@ -7,7 +7,7 @@ description: also known as On Premise Installation
 We offer to install fylr (or troubleshoot) on _your_ server in case the following criteria are met\
 (and if a business agreement was made).\
 \
-If these criteria below are _not_ possible, we still have at least two alternative approaches: You can install on your server; or we install on our servers (which then needs a hosting contract with us).\
+If these criteria below are _not_ possible, we still have at least two alternative approaches: _You_ can install on your server; or we install on _our_ servers (which then needs a hosting contract with us).\
 
 
 * Pre-installed **Debian** or **Ubuntu**. \
