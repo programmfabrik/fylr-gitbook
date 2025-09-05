@@ -4,6 +4,8 @@ description: If in fylr frontend, all images are only shown heavily blurred
 
 # blurred preview images only
 
+<figure><img src="../../.gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
+
 ## Background knowledge
 
 1. Blurred previews can be displayed from the SQL database without needing any access to the actual asset images or asset previews. Whenever there is a problem accessing preview images, fylr falls back to just showing the blurred previews from the tiny "blur hash" saved in SQL database.
