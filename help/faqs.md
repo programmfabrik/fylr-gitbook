@@ -4,6 +4,16 @@ description: frequently asked questions
 
 # FAQs
 
+<details>
+
+<summary>Do you have an architecture diagram with all relevant components of fylr?</summary>
+
+Here for the default installation method (linux with docker compose):
+
+<figure><img src="../.gitbook/assets/fylr-arch.svg" alt=""><figcaption></figcaption></figure>
+
+</details>
+
 
 
 <details>
