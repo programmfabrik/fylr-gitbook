@@ -4,6 +4,8 @@ description: frequently asked questions
 
 # FAQs
 
+## Sales
+
 <details>
 
 <summary>Do you have an architecture diagram with all relevant components of fylr?</summary>
@@ -14,7 +16,7 @@ Here for the default installation method (linux with docker compose):
 
 </details>
 
-
+## User Interface
 
 <details>
 
