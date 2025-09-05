@@ -2,12 +2,12 @@
 description: also known as On Premise Installation
 ---
 
-# if we shall install fylr on your server
+# if we install on your server
 
 We offer to install or troubleshoot on your server in case the following criteria are met\
 (and if a business agreement was made).\
 \
-If these criteria below are not possible, we still have at least two alternative approaches: You can install on your server; or we install on our servers (which then needs a hosting contract).\
+If these criteria below are _not_ possible, we still have at least two alternative approaches: You can install on your server; or we install on our servers (which then needs a hosting contract with us).\
 
 
 * Pre-installed **Debian** or **Ubuntu**. \
@@ -24,8 +24,8 @@ If these criteria below are not possible, we still have at least two alternative
 * The account has to have full administrative rights, either directly as `root` or via `sudo` or `su`.
 * Access can be granted by password or - preferred - by our public ssh key: \
   `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINHZyevoIWd21NeOejA3AtXsiY5fOhDFXjhnMFmRBOMi`&#x20;
-* The SSH access has to be without manual tokens, PINs, TANs, telephone calls, etc.. We have multiple employees sharing tasks and with separate areas of knowledge and responsibility, so one hardware token will not work and individual accounts would be too numerous. To fit the task for you into our work, we cannot predict when we will need access and it too often is outside of business hours to rely on calling you first to open the connection. A permanently open SSH port solves all of this.
-* **Optional**: The access may be restricted to our IP address. We are using the static IP address `138.199.160.200` as source IP address during access.
+* The SSH access has to be without manual tokens, PINs, TANs, telephone calls, etc.. We have multiple employees sharing tasks and also with separate areas of knowledge and responsibility, so one hardware token will not work and individual accounts would be too numerous. To fit the tasks for you into our work, we cannot predict when we will need access and too often it is outside of business hours to rely on calling you first to open the connection. A permanently open SSH port with just one account for our company solves all of this. We will make sure that the minimal number of people and data is accessed.
+* **Optional**: The access may be restricted to our IP address. We are using the static IP address `138.199.160.200` as the source IP address during access. This can be the second factor besides the ssh key (or password) to be sure it is _us_ who is connecting. Thus providing "Multi Factor Authentication" / "Two Factor Authentication".
 * **Optional**: The SSH port can be configured by the customer. The default is 22.
 * **Optional**: The access can be secured via a customer operated SSH proxy (also known as Jumphost). This only includes SSH protocol software, not virtual desktops.
 * **Optional**: Additionally, a customer operated OpenVPN server can be used. We can evaluate other software, if it is compatible with OpenConnect or if it can be done with OpenFortiVPN. All these have encryption, which is made redundant by SSH's encryption, and they increase complexity and fragility and are thus not recommended.
