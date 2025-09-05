@@ -4,7 +4,7 @@ description: also known as On Premise Installation
 
 # if we install on your server
 
-We offer to install fylr (or troubleshoot) on your server in case the following criteria are met\
+We offer to install fylr (or troubleshoot) on _your_ server in case the following criteria are met\
 (and if a business agreement was made).\
 \
 If these criteria below are _not_ possible, we still have at least two alternative approaches: You can install on your server; or we install on our servers (which then needs a hosting contract with us).\
