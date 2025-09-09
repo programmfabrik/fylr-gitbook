@@ -7,7 +7,7 @@ description: How the software components work together
 fylr is build on top of open source technologies:
 
 * PostgreSQL
-* OpenSearch (but also with Elasticsearch)
+* OpenSearch (fylr can use Elasticsearch instead)
 * Media processing tools: libvips, ExifTool, FFmpeg, etc., see below
 
 As a [Go](https://go.dev/) program, fylr runs on Linux, [on Windows](installation/windows.md) and on MacOS.
