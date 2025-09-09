@@ -182,6 +182,7 @@
 
 ## FOR SYSTEM ADMINISTRATORS
 
+* [Architecture](for-system-administrators/architecture.md)
 * [Installation](for-system-administrators/installation/README.md)
   * [Linux](for-system-administrators/installation/linux-docker-compose.md)
     * [multiple fylrs in one Linux](for-system-administrators/installation/linux-docker-compose/multiple-fylrs-in-one-linux.md)

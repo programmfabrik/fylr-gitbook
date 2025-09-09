@@ -12,7 +12,7 @@ description: frequently asked questions
 
 Here for the default installation method (linux with docker compose):
 
-<figure><img src="../.gitbook/assets/fylr-arch.svg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-arch (1).svg" alt=""><figcaption></figcaption></figure>
 
 </details>
 
