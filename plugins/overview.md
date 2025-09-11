@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2025-08-26 11:25:15 (UTC)
+    * timestamp: 2025-09-11 13:26:51 (UTC)
 -->
 
 # Plugin Overview
@@ -352,6 +352,7 @@ This plugin provides the possibity to allow the linking of specific objects only
 Custom monitoring-endpoint for fylr-API. The plugin provides a new API endpoint under `GET /api/v1/plugin/base/monitoring/monitoring`.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-monitoring](https://github.com/programmfabrik/fylr-plugin-monitoring)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-monitoring/releases/latest/download/monitoringEndpoint.zip](https://github.com/programmfabrik/fylr-plugin-monitoring/releases/latest/download/monitoringEndpoint.zip)
 
 
 ## `fylr-plugin-sequence`
@@ -359,6 +360,7 @@ Custom monitoring-endpoint for fylr-API. The plugin provides a new API endpoint 
 This plugin allows you to automatically generate a string based on sequential numbers when inserting records.
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-sequence](https://github.com/programmfabrik/fylr-plugin-sequence)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-sequence/releases/latest/download/fylr-plugin-sequence.zip](https://github.com/programmfabrik/fylr-plugin-sequence/releases/latest/download/fylr-plugin-sequence.zip)
 * This plugin was developed by Programmfabrik GmbH.
 
 
@@ -368,4 +370,13 @@ This plugin allows the conversion of HTML to PDF, using an internal Chromium bin
 
 * Repository: [https://github.com/programmfabrik/fylr-plugin-server-pdf](https://github.com/programmfabrik/fylr-plugin-server-pdf)
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip)
+* This plugin was developed by Programmfabrik GmbH.
+
+
+## `collection-csv-import`
+
+Plugin manages the server side csv importer.
+
+* Repository: [https://github.com/programmfabrik/fylr-plugin-collection-csv-import](https://github.com/programmfabrik/fylr-plugin-collection-csv-import)
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-collection-csv-import/releases/latest/download/fylr-plugin-collection-csv-import.zip](https://github.com/programmfabrik/fylr-plugin-collection-csv-import/releases/latest/download/fylr-plugin-collection-csv-import.zip)
 * This plugin was developed by Programmfabrik GmbH.
