@@ -95,10 +95,10 @@ fs = Filestore()
 # per-release pages
 for rel in gh.get_releases():
     if rel.get('prerelease') or rel.get('draft'):
-        #print("skip %s: prerelease=%s, draft=%s" % (rel['name'], rel.get('prerelease'), rel.get('draft')))
+        print("skip %s: prerelease=%s, draft=%s" % (rel['name'], rel.get('prerelease'), rel.get('draft')))
         continue
 
-    #print("release %s..." % (rel['name']))
+    print("release %s..." % (rel['name']))
 
     name = rel['name'].strip()
     tag = rel['tag_name']
@@ -117,12 +117,14 @@ for rel in gh.get_releases():
     for asset in rel["assets"]:
         a_name = tag + "/" + asset['name']
         a_url = asset['url']
-
+        print('* checking file {}'.format(a_url))
         if not fs.has_file(a_name):
             with tempfile.NamedTemporaryFile() as tmpfile:
-                print('* fetch file {}'.format(a_url))
+                print('* copy file {}'.format(a_url))
                 gh.get_file(a_url, tmpfile)
                 fs.put_file(a_name, tmpfile.name, asset['content_type'])
+        else:
+            print('* found {}'.format(a_url))
 
         md.add_raw('* [{}]({})\n'.format(asset['name'], fs.get_url(a_name)))
     md.add_raw('\n')
