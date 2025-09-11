@@ -1,17 +1,15 @@
 ---
-description: >-
-  Most settings possible in fylr.yml and explanations as comments
+description: Most settings possible in fylr.yml and explanations as comments
 ---
 
 # fylr.example.yml
 
-This is NOT a coherent fylr.yml, do not use for an installation; use [this](https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/\_assets/fylr.yml) instead.
+This is NOT a coherent fylr.yml, do not use for an installation; use [this](https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/fylr.yml) instead.
 
 If you start your hierarchy in fylr.yml with `fylr+:` instead of `fylr:`, then defaults are used where not explicilty overwritten. Defaults see [fylr.default.yml](fylr.default.yml.md)
 
-{% code title="fylr.yml" %}
+{% code title="fylr.example.yml" %}
 ```yaml
-
 ## - Some of the regexs to check for versions might require modifications
 ## - All relative paths described in the file are relative to cmd/fylr unless otherwise
 ##    stated
@@ -807,5 +805,7 @@ fylr:
               prog: "fylr"
               args:
                 - "iiif"
+
+
 ```
 {% endcode %}

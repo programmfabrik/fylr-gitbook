@@ -1,10 +1,12 @@
 ---
 description: >-
-  In this section you find the default settings, used if you start fylr.yml with fylr+:
+  In this section you find the default settings, used if you start fylr.yml with
+  fylr+:
 ---
 
-# fylr.yml
-{% code title="fylr.yml" lineNumbers="true" %}
+# fylr.default.yml
+
+{% code title="fylr.default.yml" %}
 ```yaml
 # The default fylr yml is used if the config file "" is requested.
 # It's built into the fylr binary.
@@ -208,5 +210,7 @@ fylr:
           waitgroup: fast
         metadata:
           waitgroup: fast
+
+
 ```
 {% endcode %}
