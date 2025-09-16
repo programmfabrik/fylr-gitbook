@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2025-09-11 13:26:51 (UTC)
+    * timestamp: 2025-09-16 14:22:13 (UTC)
 -->
 
 # Plugin Overview
@@ -19,6 +19,22 @@ Adds the "Permissions Download & Upload" option to the main menu and enables you
 
 * Repository: [https://github.com/programmfabrik/easydb-basemigration-plugin](https://github.com/programmfabrik/easydb-basemigration-plugin)
 * See also: [https://docs.fylr.io/for-administrators/tools/permissions-download-and-upload](https://docs.fylr.io/for-administrators/tools/permissions-download-and-upload)
+* This plugin was developed by Programmfabrik GmbH.
+
+
+## `easydb-barcode-display`
+
+Adds a Custom Mask Splitter to output a barcode based on data of another field in the record.
+
+* Repository: [https://github.com/programmfabrik/easydb-barcode-display-plugin](https://github.com/programmfabrik/easydb-barcode-display-plugin)
+* This plugin was developed by Programmfabrik GmbH.
+
+
+## `easydb-barcode-display-pdf-plugin`
+
+Extension of [easydb-barcode-display](#easydb-barcode-display) to use the barcode in the PDF Creator.
+
+* Repository: [https://github.com/programmfabrik/easydb-barcode-display-pdf-plugin](https://github.com/programmfabrik/easydb-barcode-display-pdf-plugin)
 * This plugin was developed by Programmfabrik GmbH.
 
 
