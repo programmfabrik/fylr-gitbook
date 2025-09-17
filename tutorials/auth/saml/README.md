@@ -59,8 +59,8 @@ fylr's metadata URL is [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr
 
 ### Other URLs
 
-* ACS Assertionsverbraucherdienst-URL: [https://FYLR.EXAMPLE.COM/api/saml/acs](https://fylr.example.com/api/saml/metadata)
-* Logout URL: [https://FYLR.EXAMPLE.COM/api/saml/slo](https://fylr.example.com/api/saml/metadata)
+* ACS Assertionsverbraucherdienst-URL: [https://FYLR.EXAMPLE.COM/api/saml/acs](https://fylr.example.com/api/saml/acs)
+* Logout URL: [https://FYLR.EXAMPLE.COM/api/saml/slo](https://fylr.example.com/api/saml/slo)
 
 ### IdP-Metadaten-URL
 
