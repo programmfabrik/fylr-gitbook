@@ -98,7 +98,7 @@ fylr:
               - "read"
               - "write"
               - "offline"
-          santa-cruz:
+          linkrui:
             public: true
             redirectURIs:
               - "https://fylr.linkrui.com/oauth"

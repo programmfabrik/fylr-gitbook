@@ -121,10 +121,6 @@ fylr:
     # if they are not already inside a "type": "nested". This is for development
     # purposes only. If you change this option, a re-index is required.
     indexerNestedNotIncludeInRoot: false
-    # janitorEnableObjectAndFileRemoval can be set to run the janitor file removal
-    # procedure. This will be enabled by default in 6.23.0 and is in 6.22.0 as
-    # an experimental feature.
-    janitorEnableObjectAndFileRemoval: false
 
   # optional, set environment. This can be used to set FYLR_CMD_* inside the fylr.yml
   env:
@@ -333,7 +329,7 @@ fylr:
     # file make sure to base it on the default
     # resources/index/index_settings.json which is included in the distribution.
     settings: ""
-    # number of parallel workers to index documents, default to 1, set to 0 to disable
+    # number of parallel workers to index documents, defaults to 4, set to 0 to disable
     parallel: 1
     # number of objects per job passed to the indexer process
     objectsPerJob: 100
