@@ -59,7 +59,7 @@ fylr+:
           waitgroup: fast
 ```
 
-* 4 parallel jobs instruct the indexer to add changed and new data to the index.&#x20;
+* 4 parallel fylr jobs instruct the indexer to add changed and new data to the index. fylr has to compile the documents for the indexer. This is a complex task and depending on the data model and data, this can be more CPU-consuming than what the indexer is doing.
 * 10 workers check whether further conversions can be started, for standard preview versions&#x20;
 * 18 workers check whether further processing can be started: Like reading metadata from new assets and everything else&#x20;
 * 2 simultaneous processing of video/office preview images are allowed. \
