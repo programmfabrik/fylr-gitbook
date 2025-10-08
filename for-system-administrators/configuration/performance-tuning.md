@@ -117,6 +117,8 @@ These example values are the defaults in fylr v6.12.
 Maybe you then have to increase the hardware resources, too:
 
 * Mor CPU cores
-* Run the execserver jobs (conversion, metadata-readout etc.) on multiple hardware servers
-  * optionally: decide which hardware does which kind of jobs
+* Run the execserver jobs (conversion, metadata-readout etc.) on multiple hardware servers\
+  Example: [see execserver on another linux](../installation/linux-docker-compose/execserver-on-another-linux.md) (only one, but easily customizable to multiple)
+  * optionally: decide which hardware does which kind of jobs\
+    Example: see [outsource only video processing with ffmpeg to another fylr](../installation/linux-docker-compose/execserver-on-another-linux-1.md)
 
