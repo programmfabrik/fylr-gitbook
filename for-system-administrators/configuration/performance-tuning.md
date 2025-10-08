@@ -118,5 +118,6 @@ Maybe you then have to increase the hardware resources, too:
 
 * Mor CPU cores
 * Run the execserver jobs (conversion, metadata-readout etc.) on multiple hardware servers
-  * optionally: decide which hardware does which kind of jobs
+  * optionally: decide which hardware does which kind of jobs\
+    Example: see [outsource only video processing with ffmpeg to another fylr](../installation/linux-docker-compose/execserver-on-another-linux-1.md)
 
