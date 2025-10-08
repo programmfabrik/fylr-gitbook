@@ -6,7 +6,7 @@ description: Supported major versions and upgrading between versions
 
 ## Supported PostgreSQL versions
 
-fylr is tested with PostgreSQL 15, 16, 17 and 18.
+fylr is tested with PostgreSQL 15, 16 and 17.
 
 The newest recommended version is part of our [installation documentation](installation/linux-docker-compose.md), in [docker-compose.yml](https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/docker-compose.yml)
 

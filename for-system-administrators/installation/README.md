@@ -42,7 +42,7 @@ Please note: We do all of our automated and manual software testing based on Lin
 
 ### Software Versions
 
-* We are regularly testing fylr with **PostgreSQL 18** since 2025-10-08 and recommend it with fylr. Customers with problems and earlier PostgreSQL versions may be asked to upgrade PostgreSQL first.
+* We are regularly testing fylr with **PostgreSQL 17** and recommend it with fylr. Customers with problems and earlier PostgreSQL versions may be asked to upgrade PostgreSQL first.
 
 ### Troubleshooting
 
