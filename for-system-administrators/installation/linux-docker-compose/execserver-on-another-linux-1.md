@@ -10,10 +10,10 @@ This is a variation of the main installation method described [here](../linux-do
 
 ## Goal
 
-1. One server with only the "execserver" part of fylr, which will be doing the heavy lifting of processing assets with **ffmpeg**, typically whn big videos are uploaded.\
-   We call this one _**ff**_.example.com, here.
+1. One server with only the "execserver" part of fylr, which will be doing the heavy lifting of processing assets with **ffmpeg**, typically when big videos are uploaded.\
+   We call this installation by its domain _**ff**_.example.com, here.
 2. Another server with all the remaining jobs of fylr: Webfrontend, SQL, Indexing, etc.. \
-   We call this one _**main**_.example.com, here.
+   We call this installation by its domain _**main**_.example.com, here.
 
 ## On the system with ffmpeg
 
@@ -33,10 +33,10 @@ fylr+:
 
   elastic:
 
-  execserver: # no need to configure the client here, as this flyr is the execserver
+  execserver: # no need to configure the client here, as this fylr is the execserver
 
   services+:
-    execserver+: # this is the execserver
+    execserver+: # this is the local server config of ff.example.com's execserver
       # all: delete failed jobs, for preserving disk space. done: keep failed jobs, for debugging
       jobRemovalPolicy: all
       addr: :8083
@@ -71,7 +71,7 @@ networks:
   fylr:
 ```
 
-* About backups: You will have no permanent data on this system, like: no assets, no database. Just a bit of configuration.
+* About backups: You will have no permanent data on this system: no assets, no database. Just a bit of configuration.
 
 ## On the main fylr system
 
@@ -79,13 +79,13 @@ networks:
 
 * caveat: this particular case+config has not been tested by us yet, so use it as a starting point
 * security: ensure that only _ff_.example.com and _main_.example.com are allowed to reach port 8080 and 8081 on _main_.example.com (firewall, or private IP address, etc.)
-* pitfalls: on the hand, make sure that DNS and routing works in both execservers to reach back to the main fylr. Also that firewalling does not block them.
+* pitfalls: on the hand, make sure that DNS and routing works in both execservers, in the container, to reach back to the main fylr. Also that firewalling does not block them.
 * use a `fylr.yml` with these changes, the rest remains as in [the default installation](../linux-docker-compose.md#installation):
 
 ```
 fylr+:
 [...]
-  execserver: # how to connect to the execservers ("client")
+  execserver: # how to connect to the execservers (this is the "client" part)
     addresses:
       - http://ff.example.com:8083/job/ffmpeg?pretty=true
       - http://localhost:8083/?pretty=true
@@ -100,13 +100,13 @@ fylr+:
 [...]
   services+:
 [...]
-    execserver+: # what the execserver at main.example.com does ("server")
+    execserver+: # what the execserver at main.example.com does ("server" part)
       commands+: # the + tells fylr to use defaults unless explicitly overwritten
         ffmpeg:
-          # empty = should not be able to find ffmpeg
+          # overwritten with empty = should not be able to find ffmpeg
       services+:
         ffmpeg:
-          # empty = should not consider ffmpeg as part of his services
+          # overwritten with empty = should not consider ffmpeg as a local service
 ```
 
 * use a `docker-compose.yml` with these changes, the rest remains as in [the default installation](../linux-docker-compose.md#installation):
