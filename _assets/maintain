@@ -120,6 +120,46 @@ requires(){
 
 requires docker
 
+sql_create_collation_func="
+CREATE OR REPLACE FUNCTION try_fix_db_collation(text) RETURNS void LANGUAGE plpgsql AS \$body\$
+DECLARE
+    v_state   TEXT;
+    v_msg     TEXT;
+    v_detail  TEXT;
+    v_hint    TEXT;
+    v_context TEXT;
+BEGIN
+    IF (SELECT datcollversion = pg_database_collation_actual_version(oid)
+        FROM pg_database WHERE datname = quote_ident(\$1)) THEN
+        RAISE NOTICE 'collection of database % is current, no need to do anything', \$1;
+        RETURN;
+    END IF;
+    BEGIN
+        EXECUTE \$\$ REINDEX DATABASE \$\$ || quote_ident(\$1);
+        EXECUTE \$\$ ALTER DATABASE \$\$ || quote_ident(\$1) || \$\$ REFRESH COLLATION VERSION \$\$;
+        RAISE NOTICE 'sucessfully upgraded collation in %', \$1;
+    EXCEPTION WHEN OTHERS THEN
+        GET STACKED DIAGNOSTICS
+            v_state   = RETURNED_SQLSTATE,
+            v_msg     = MESSAGE_TEXT,
+            v_detail  = PG_EXCEPTION_DETAIL,
+            v_hint    = PG_EXCEPTION_HINT,
+            v_context = PG_EXCEPTION_CONTEXT;
+        RAISE WARNING E'failed to upgrade collation in database %:
+            state:   %
+            message: %
+            detail:  %
+            hint:    %
+            context: %', \$1, v_state, v_msg, v_detail, v_hint, v_context;
+    END;
+END
+\$body\$"
+
+check_fix_database() {
+	res=`docker exec postgresql pg_dump -U fylr -c "$sql_check_fix_required" "$1"`
+	echo "$res"
+}
+
 ### PARSE ARGUMENTS
 
 log "___called with $@"
@@ -171,6 +211,16 @@ backup)
     log "finished sql dumps"
     exit 0
     ;;
+fixdb)
+	log "check if databases need fixes"
+    docker ps|grep -q 'postgresql$' || errorexit "no container named postgresql, cannot backup"
+	primary_database=`echo $DBS | awk '{print $1}'`
+	docker exec postgresql psql -U fylr -c "$sql_create_collation_func" "$primary_database"
+    for DB in "postgres" $DBS; do
+		docker exec postgresql psql -U fylr -c "SELECT try_fix_db_collation('$DB')" "$primary_database"
+	done
+	exit 0
+	;;
 sqldump)
     # do sql backup of one given sql db name (inside docker container "postgresql")
     cd "$BACKUPDIR"                 || errorexit "could not change into directory '$BACKUPDIR'"
