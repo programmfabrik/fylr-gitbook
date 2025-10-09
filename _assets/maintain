@@ -155,11 +155,6 @@ BEGIN
 END
 \$body\$"
 
-check_fix_database() {
-	res=`docker exec postgresql pg_dump -U fylr -c "$sql_check_fix_required" "$1"`
-	echo "$res"
-}
-
 ### PARSE ARGUMENTS
 
 log "___called with $@"
