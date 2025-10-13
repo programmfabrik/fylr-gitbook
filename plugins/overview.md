@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2025-10-13 08:41:25 (UTC)
+    * timestamp: 2025-10-13 08:53:13 (UTC)
 -->
 
 # Plugin Overview
@@ -411,6 +411,14 @@ Custom monitoring-endpoint for fylr-API. The plugin provides a new API endpoint 
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
+## `fylr-plugin-pdf-creator`
+
+Plugin to provide HTML to PDF functionality for fylr.
+
+* Repository: [https://github.com/programmfabrik/fylr-plugin-pdf-creator](https://github.com/programmfabrik/fylr-plugin-pdf-creator)
+* This plugin was developed by *Programmfabrik GmbH*.
+
+
 ## `pdf-creator-custom-value`
 
 This fylr-plugin allows to use custom javascript in the pdfcreator.
@@ -422,7 +430,7 @@ This fylr-plugin allows to use custom javascript in the pdfcreator.
 
 ### Dependencies:
 
-* [`pdf-creator`](#pdf-creator)
+* [`fylr-plugin-pdf-creator`](#fylr-plugin-pdf-creator)
 
 
 ## `fylr-scancode-display`
@@ -436,7 +444,7 @@ Display scancodes like barcode and qrcode in editor, detail & pdf.
 
 ### Dependencies:
 
-* [`pdf-creator`](#pdf-creator)
+* [`fylr-plugin-pdf-creator`](#fylr-plugin-pdf-creator)
 
 
 ## `fylr-plugin-sequence`
@@ -468,4 +476,4 @@ Uses user-image as logo in frontend and PDF-creator.
 
 ### Dependencies:
 
-* [`pdf-creator`](#pdf-creator)
+* [`fylr-plugin-pdf-creator`](#fylr-plugin-pdf-creator)
