@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2025-10-13 08:53:13 (UTC)
+    * timestamp: 2025-10-13 09:55:25 (UTC)
 -->
 
 # Plugin Overview
@@ -142,6 +142,22 @@ This plugin **must be installed** as well so that plugins which are dependant on
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
+This plugin is a dependency for these plugins:
+
+* [`custom-data-type-dante`](#custom-data-type-dante)
+* [`custom-data-type-geonames`](#custom-data-type-geonames)
+* [`custom-data-type-georef`](#custom-data-type-georef)
+* [`custom-data-type-getty`](#custom-data-type-getty)
+* [`custom-data-type-gfbio`](#custom-data-type-gfbio)
+* [`custom-data-type-gn250`](#custom-data-type-gn250)
+* [`custom-data-type-gnd`](#custom-data-type-gnd)
+* [`custom-data-type-gvk`](#custom-data-type-gvk)
+* [`custom-data-type-iconclass`](#custom-data-type-iconclass)
+* [`custom-data-type-loc`](#custom-data-type-loc)
+* [`custom-data-type-nomisma`](#custom-data-type-nomisma)
+* [`custom-data-type-wikidata`](#custom-data-type-wikidata)
+
+
 ## `custom-data-type-dante`
 
 This custom data type allows you to reference the entities of the [DANTE-Vocabulary-Server](https://dante.gbv.de/).
@@ -152,7 +168,7 @@ This custom data type allows you to reference the entities of the [DANTE-Vocabul
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`commons-library`](#commons-library)
 
@@ -167,7 +183,7 @@ This custom data type allows you to reference the entities of the [GeoNames](htt
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`commons-library`](#commons-library)
 
@@ -182,7 +198,7 @@ This custom data type allows you to store geoJSON data in the database. You can 
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`commons-library`](#commons-library)
 
@@ -197,7 +213,7 @@ This custom data type allows you to reference entities of the [Getty Vocabulary]
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`commons-library`](#commons-library)
 
@@ -212,7 +228,7 @@ This custom data type allows you to reference entities of the [GFBio Terminology
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`commons-library`](#commons-library)
 
@@ -227,7 +243,7 @@ This custom data type allows you to reference entities of the gn250-Set of [Bund
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`commons-library`](#commons-library)
 
@@ -242,7 +258,7 @@ This custom data type allows you to reference entities (only Differentiated Pers
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`commons-library`](#commons-library)
 
@@ -257,7 +273,7 @@ This custom data type allows you to reference entities of the [Iconclass-Vocabul
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`commons-library`](#commons-library)
 
@@ -272,7 +288,7 @@ This custom data type allows you to reference entities of the [Gemeinsame Datenb
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`commons-library`](#commons-library)
 
@@ -287,7 +303,7 @@ This is a plugin for fylr with Custom Data Type `CustomDataTypeLoc` for referenc
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`commons-library`](#commons-library)
 
@@ -302,7 +318,7 @@ Custom data type for references to the records from different online ressources 
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`commons-library`](#commons-library)
 
@@ -317,7 +333,7 @@ Plugin for fylr with Custom Data Type `CustomDataTypeWikidata` for references to
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`commons-library`](#commons-library)
 
@@ -419,6 +435,13 @@ Plugin to provide HTML to PDF functionality for fylr.
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
+This plugin is a dependency for these plugins:
+
+* [`fylr-scancode-display`](#fylr-scancode-display)
+* [`pdf-creator-custom-value`](#pdf-creator-custom-value)
+* [`user-logo`](#user-logo)
+
+
 ## `pdf-creator-custom-value`
 
 This fylr-plugin allows to use custom javascript in the pdfcreator.
@@ -428,7 +451,7 @@ This fylr-plugin allows to use custom javascript in the pdfcreator.
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`fylr-plugin-pdf-creator`](#fylr-plugin-pdf-creator)
 
@@ -442,7 +465,7 @@ Display scancodes like barcode and qrcode in editor, detail & pdf.
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`fylr-plugin-pdf-creator`](#fylr-plugin-pdf-creator)
 
@@ -474,6 +497,6 @@ Uses user-image as logo in frontend and PDF-creator.
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-### Dependencies:
+This plugin depends on these plugins:
 
 * [`fylr-plugin-pdf-creator`](#fylr-plugin-pdf-creator)
