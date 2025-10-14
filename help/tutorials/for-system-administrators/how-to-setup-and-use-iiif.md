@@ -65,10 +65,8 @@ To assert a working deep\_link, paste the copy into a incognito tab.
 In the base config, we can add custom IIIF viewers using template replacement for fylr to generate manifests and embeddable templates.
 
 {% hint style="info" %}
-**The default viewer used in fylr is the** [**Mirador Viewer**](https://projectmirador.org/)
+**The default viewer used in fylr is the** [**Mirador Viewer**](https://projectmirador.org/)**.** This example additionally showcases the [Curation Viewer](https://codh.rois.ac.jp/software/iiif-curation-viewer/demo/).
 {% endhint %}
-
-This example uses the [Curation Viewer](https://codh.rois.ac.jp/software/iiif-curation-viewer/demo/).
 
 **Label:**
 
@@ -98,10 +96,8 @@ src="https://projectmirador.org/embed/?iiif-content=%iiif_presentation_manifest.
 The fylr server will replace the template `%iiif_presentation_manifest.url%`  with  the actual manifest URL.
 
 {% hint style="info" %}
-Templates and Links are presented differently (see Share Link screenshot below!)
+Templates and IIIF-Manifest links are presented accordingly (see Share Link screenshot below!)
 {% endhint %}
-
-
 
 ## **Usage**
 
