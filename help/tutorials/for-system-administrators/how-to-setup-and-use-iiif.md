@@ -23,7 +23,7 @@ Inside the renditions table of the File Worker, choose the appropriate class (au
 
 Make sure to save and reload the instance to apply your changes.&#x20;
 
-### Settings up rights management for Deep Links
+### Setting up rights management for Deep Links
 
 In fylrs right management section, we need to setup correct rights for the system user `deep_link.`This user is included in a fylr instance per default.
 
@@ -72,29 +72,46 @@ This example uses the [Curation Viewer](https://codh.rois.ac.jp/software/iiif-cu
 
 **Label:**
 
-A name for the label, such as "Universal Viewer", "Curation Viewer," would be appropriate.
+A descriptive name for the configured viewer.
 
 **HTML Code:**
 
-We define a template used by the server to generate an HTML snippet that embeds a standalone IIIF viewer (e.g., Mirador or Curation Viewer). This snippet can then be externally integrated.
+Construct the URL to be displayed in the frontend by adding the replacement string to your preferred  viewers URL.&#x20;
+
+Examples:
+
+```
+https://projectmirador.org/embed/?iiif-content=%iiif_presentation_manifest.url%
+https://codh.rois.ac.jp/software/iiif-curation-viewer/demo/?manifest=%iiif_presentation_manifest.url%
+```
+
+Alternatively, define a template to generate an HTML snippet embedding a standalone IIIF viewer (e.g., Mirador or Curation Viewer). This snippet can then be externally integrated.
 
 {% code overflow="wrap" %}
 ```html
-<iframe 
-    width="100%" 
-    height="600" 
-    src="https://codh.rois.ac.jp/software/iiif-curation-viewer/demo/?manifest=%iiif_presentation_manifest.url%">
-</iframe>
+<iframe
+src="https://projectmirador.org/embed/?iiif-content=%iiif_presentation_manifest.url%"
+></iframe>
 ```
 {% endcode %}
 
 The fylr server will replace the template `%iiif_presentation_manifest.url%`  with  the actual manifest URL.
 
+{% hint style="info" %}
+Templates and Links are presented differently (see Share Link screenshot below!)
+{% endhint %}
 
 
-**Usage**
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-02-06 at 17.44.14.png" alt="" width="375"><figcaption><p>FInd the custom IIIF viewer in the sharing dialog</p></figcaption></figure>
+## **Usage**
+
+{% hint style="warning" %}
+A user requires the system right "Sharing of Frontend & Asset Deep Links" to be able to see the share dialogs.
+{% endhint %}
+
+The 3-dot menu at the detail view of a record offers  ![](<../../../.gitbook/assets/Screenshot 2025-10-14 at 11.27.35.png>)function.
+
+<figure><img src="../../../.gitbook/assets/Screenshot 2025-02-06 at 17.44.14.png" alt="" width="375"><figcaption><p>IIIF viewers in the sharing dialog of a record.</p></figcaption></figure>
 
 * You can copy the generated code from the sharing dialog of a dataset and test it by putting inside the  [W3Schools iframe test](https://seleniumbase.io/w3schools/iframes) and pressing "Run."
 * This link can also be integrated into other web pages
