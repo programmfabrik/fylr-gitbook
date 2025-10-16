@@ -10,7 +10,7 @@ Enables users to configure and schedule server-side jobs.&#x20;
 
 Open the **Background Tasks** section in the header bar of your fylr instance.
 
-<figure><img src="../../.gitbook/assets/Screenshot 2025-08-22 at 14.19.16.png" alt="background tasks manager located in the header bar of fylr" width="375"><figcaption><p>background tasks manager located in the header bar of fylr</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/Screenshot 2025-08-22 at 14.19.16.png" alt="background tasks manager located in the header bar of fylr" width="375"><figcaption><p>background tasks manager located in the header bar of fylr</p></figcaption></figure>
 
 #### Tasks Table
 
@@ -25,7 +25,7 @@ For each task, users can:
 
 ### Creating a New Task
 
-Create a **new task** by using the <img src="../../.gitbook/assets/Screenshot 2025-08-20 at 15.28.24.png" alt="" data-size="line">-Icon and selecting the module
+Create a **new task** by using the <img src="../.gitbook/assets/Screenshot 2025-08-20 at 15.28.24.png" alt="" data-size="line">-Icon and selecting the module
 
 #### Select a Module
 
@@ -34,7 +34,7 @@ Each module executes a type of background job. The selected module determines wh
 Available modules:
 
 * `delete_objects` : Delete objects
-* `metadata`: Apply metadata mappings on search results &#x20;
+* [metadata.md](background-tasks/metadata.md "mention"): Apply metadata mappings on search results &#x20;
 * `search` : Execute an advanced search (send summaries via email)
 * `set_unset_tags` — Set or unset tags
 
@@ -53,7 +53,8 @@ Email Notifications: Send an email notification when the task completes
 
 #### Common Parameters
 
-* **Search Configuration**: Define the target records for the task using a commong [search.md](../../search.md "mention")
+* **Search Configuration**: Define the target records for the task using a commong [search.md](../search.md "mention")
+* **Overwrite Values:** If a record has values in fields, the task is allowed to overwrite those with the results of the module
 
 Depending on the module used different parameters will be available.
 
