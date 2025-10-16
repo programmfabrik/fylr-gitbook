@@ -237,6 +237,7 @@
     * [manipulating attributes](tutorials/auth/saml/manipulating-attributes.md)
 * [Data Model Sync](tutorials/objectstore.md)
 * [Purge a fylr instance](tutorials/purge-a-fylr-instance.md)
+* [Background tasks](tutorials/background-tasks.md)
 * [typo3 plugin](tutorials/typo3-plugin.md)
 * [ai metadata plugin](tutorials/ai-metadata-plugin.md)
 * [Use fylr in Google docs via CI HUB](tutorials/use-fylr-in-google-docs-via-ci-hub.md)
