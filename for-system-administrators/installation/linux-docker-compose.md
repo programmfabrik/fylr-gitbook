@@ -173,12 +173,13 @@ vi /etc/systemd/journald.conf.d/local_limits.conf
 and in `local_limits.conf`:
 
 ```
+[Journal]
 # do not fill the entire disk
 SystemKeepFree=10G
 # keep for ...
 MaxRetentionSec=2month
 # rotate files after ...
-MaxFilesSec=1day
+MaxFileSec=1day
 
 # no other limits, but hardcoded maximum file size is 4G
 SystemMaxUse=0
