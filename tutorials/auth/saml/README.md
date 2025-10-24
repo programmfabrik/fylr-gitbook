@@ -47,7 +47,11 @@ Now you can view the contents of the files `private.key` and `publickey.cer` and
 
 ### Test Connection
 
-Now go to the fylr login page (e.g. by logging out or using a second browser or private tab) and click on _**SAML Login**_ in the login dialog. This sends you to the login page of the Identify Provider. Login using any name and password (as written on that test login page). fylr will log the user in with no further rights (unless configured). Optionally check the User Manager in fylr to see that the user record has been created (you can only view this as a privileged user, e.g. root).
+Now go to the fylr login page (e.g. by logging out or using a second browser or private tab) and click on _**SAML Login**_ in the login dialog.&#x20;
+
+In case it does not have a a SAML Login, `External Authentication` may be missing in your fylr license.&#x20;
+
+This sends you to the login page of the Identify Provider. Login using any name and password (as written on that test login page). fylr will log the user in with no further rights (unless configured). Optionally check the User Manager in fylr to see that the user record has been created (you can only view this as a privileged user, e.g. root).
 
 ## What you might need with other providers
 
@@ -111,7 +115,7 @@ This section was contributed by partners and customers, we did not verify this.
 * Check that certificates are not expired / expiring too soon. Here a place in MS Entra to check one of the involved certificates:\
   ![](<../../../.gitbook/assets/image (19).png>)
 
-### Group Mapping
+## Group Mapping
 
 Users of production Identity providers often have an attribute that groups user accounts together and can be used to give permissions in fylr to a whole group. We will assume an attribute called `role` to demonstrate a group mapping:
 
