@@ -362,19 +362,51 @@ Create the following two:
 
 **This was the central step.** fylr is now independent from easydb and easydb can be turned off. (after testing fylr of course)
 
-## 6. Let fylr produce its own previews
+## 6. Adjust previews to fylr standards
 
-As previews from easydb are different from fylr previews, it is recommended to replace easydb previews with fylr previews. Maybe silently in the background while already working with fylr. Although this whole step is optional, you should do it if you encounter problems. When seeking support from the developer you will likely be asked to do this step to come to a clean coherent state.
+As previews from easydb are different from fylr previews, it is recommended to replace easydb previews with fylr previews. This will be done in the background while you can already work with fylr. Although this whole step is optional, you should do it if you encounter problems. When seeking support from the developer you will likely be asked to do this step to come to a clean coherent state.
 
-TODO: translate to English
+<details>
 
-Auf allen originalen (filter: original), die action "produce versions" ausführen
+<summary>6.a Produce fylr previews</summary>
 
-* Go to https://fylr.example.com/inspect/files/
-* Search with `Version` = `original`
-* die action\*\* produce versions\*\* ausführen
+* Surf to **https://**&#x66;ylr.example.co&#x6D;**/inspect/files/** (login as root)
 
-When all preview versions are replaced, you can remove easydb preview versions. At first just by removing the access of fylr to them. Then, when all is still working, you can delete them to regain more storage capacity.
+- In the drop down menu  `Version`  choose  `original`  and click the `Search` button.
+
+* In the drop down menu `Action` choose `produce versions` .
+
+- To the right select the round button below `Search result` (not below `Selected`).
+
+* Click the `Action` button.
+
+</details>
+
+<details>
+
+<summary>6.b Check whether all previews have been replaced</summary>
+
+* Is the File queue empty at **https://**&#x66;ylr.example.co&#x6D;**/inspect/system/queues/?queue=file** ?\
+  At the top it would show something like:\
+  &#xNAN;_`There are 18 parallel and 10 parallel high priority only file workers active. The queue`` `**`contains 0 total entries`**`.`_
+
+- Surf to **https://**&#x66;ylr.example.co&#x6D;**/inspect/files/** (login as root)
+  * In the drop down menu  `location`  choose  `EAS versions`  and click the `Search` button.
+  * The Search shows zero results when all have been replaced.
+
+</details>
+
+<details>
+
+<summary>6.c Remove easydb preview versions to regain storage (optional)</summary>
+
+* At first just remove fylr's access to them (e.g. remove it from `/srv/fylr/docker-compose.yml` and recreate the container).&#x20;
+
+- Check that the fylr webfrontend still shows previews, an https://fylr.example.com.
+
+* Then, when all is still working, you can delete them to free storage capacity.
+
+</details>
 
 ## 7. Remove easydb
 
