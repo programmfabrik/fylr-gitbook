@@ -412,16 +412,31 @@ As previews from easydb are different from fylr previews, it is recommended to r
 
 This step is optional but recommended, as easydb lifetime and support will end before fylr's.
 
-### Replace easydb PostgreSQL and Indexer with the ones from default fylr installation
+<details>
 
-See the default fylr installation for the missing pieces and adjust docker-compose.yml and fylr.yml.
+<summary>7.a Replace easydb PostgreSQL and Indexer</summary>
 
-TODO: link default install page and add some non-obvious steps
+See the [default fylr installation](../../../for-system-administrators/installation/linux-docker-compose.md#installation) for the missing pieces and adjust `docker-compose.yml` and `fylr.yml`.
 
-### Remove Apache
+</details>
 
-TODO: specific steps
+<details>
 
-### Change fylr domain
+<summary>7.b Remove Apache</summary>
 
-see TODO: link other page here
+See the [default fylr installation](../../../for-system-administrators/installation/linux-docker-compose.md#installation) and adjust `docker-compose.yml` and `fylr.yml`. for default ports and certificate.
+
+```
+systemctl stop apache2
+systemctl disable apache2
+systemctl mask apache2
+/srv/fylr/maintain fylr-recreate
+cd /srv/fylr
+docker-compose logs -f fylr
+```
+
+</details>
+
+**7.c Change fylr domain**
+
+In case you want to change fylr's domain to the former domain of easydb, see [here](../../../for-system-administrators/configuration/dns-domains.md#changes-to-the-main-domain).
