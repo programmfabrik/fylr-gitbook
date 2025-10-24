@@ -15,8 +15,12 @@ But keep in mind:
 
 ### **Changes** to the main domain
 
-* When you change fylr's main domain, configured as `externalURL`, so after changing fylr.yml and restart, you need to do a re-index. A re-index likely takes only minutes, but also might take hours, if you have a lot of objects. It can be found in the inspect-Interface (https://fylr.example.co&#x6D;**/inspect/** )  behind the **System**-button.
-* During that re-index, even if it is running in the background, preview images **will not be visible**. Only after the re-index, the images are prepared and working with the new domain.
 * Licenses are bound to domains so make sure you have a license for the new main domain configured as `externalURL`.
 * Make sure that you either have a certificate for the new domain or to let fylr automatically retrieve a certificate for the new domain. And optionally, `additionalDomains`, as mentioned above.
+* When you change fylr's main domain:&#x20;
+  * configured it as `externalURL` in `fylr.yml` and restart fylr
+  *   you need to do a re-index: Surf to **https://**&#x66;ylr.example.co&#x6D;**/inspect/system/** (login as root)
+
+      A re-index likely takes only minutes, but also might take hours, if you have a lot of objects.
+* During that re-index, even if it is running in the background, preview images **will not be visible**. Only after the re-index the images are prepared and working, with the new domain.
 
