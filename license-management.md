@@ -79,6 +79,10 @@ This limitation does not apply if all of the following applies:
 * the license is of type _buy_
 * the fylr binary was released before the license expire date
 
+For _subscription licences_, the creation date of the binary plus one year—or the license end date—defines how long fylr can be used.
+
+For _buy licenses_, there is also an end date, but it works differently: this date is not the end of the license itself, but a cutoff date for the creation of binaries. Binaries created before the license end date will continue to work indefinitely, while binaries created after that date will not.
+
 {% hint style="info" %}
 Administrators (configured in the base config email section) will receive an email warning 30, 5 and 1 day prior to the expiration.
 {% endhint %}
