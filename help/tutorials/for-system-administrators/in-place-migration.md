@@ -301,7 +301,7 @@ Click **`Restore`** . This can take from a few minutes to many hours depending o
 * You can come back to it via **https://**&#x66;ylr.example.co&#x6D;**/inspect/migration**
 * And also directly via **https://**&#x66;ylr.example.co&#x6D;**/inspect/migration/**&#x6D;ymigrationname
 
-TODO: for more information see **link** page
+See [here](../../../for-system-administrators/migration/inspect.md#restore) for more information.
 
 ## 5. Teach fylr where to find easydb assets on disk
 
