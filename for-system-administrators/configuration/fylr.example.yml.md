@@ -121,6 +121,10 @@ fylr:
     # if they are not already inside a "type": "nested". This is for development
     # purposes only. If you change this option, a re-index is required.
     indexerNestedNotIncludeInRoot: false
+    # disableHttp2Client disables HTTP2 for client connections. Set this to true if
+    # you are experiencing difficulties connecting to certain web servers for
+    # file upload. E.g. "stream error".
+    disableHttp2Client: false
 
   # optional, set environment. This can be used to set FYLR_CMD_* inside the fylr.yml
   env:
@@ -801,7 +805,6 @@ fylr:
               prog: "fylr"
               args:
                 - "iiif"
-
 
 ```
 {% endcode %}

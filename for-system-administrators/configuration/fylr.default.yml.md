@@ -196,6 +196,8 @@ fylr:
         # is calling "fylr convert" which then calls ffmpeg
         convert:
           waitgroup: medium
+        ocr:
+          waitgroup: slow
         ffmpeg:
           waitgroup: slow
         inkscape:
@@ -210,7 +212,5 @@ fylr:
           waitgroup: fast
         metadata:
           waitgroup: fast
-
-
 ```
 {% endcode %}
