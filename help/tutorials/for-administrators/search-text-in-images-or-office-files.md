@@ -15,15 +15,14 @@ Some OCR jobs may fail to produce correct output because of source quality (font
 Special characters, pages structures and editorial features (tables, headers, footnotes etc.) are not filtered and may produce nonsensical contents.
 {% endhint %}
 
-By default, OCR is only applied to PDF files. This tutorial will expand on adding other file types besides PDF.
+By default, OCR is disabled for all files. This tutorial will expand on adding file types.
 
 1. Navigate to [readme](../../../for-administrators/readme/ "mention"), into the [file-worker](../../../for-administrators/readme/file-worker/ "mention")
 2. Uncheck "Use Default Settings"
 3. Expand "CUSTOM METADATA"
-4. You will find the OCR Recipe configured to only write PDFs file contents to the index
-5. Add the extensions you want OCR applied to and written to the index
+4. Add the extensions you want OCR applied to and written to the index
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-04-17 at 14.38.40.png" alt="" width="563"><figcaption><p>Example configuration of OCR to include JP(E)G, PNG, EPUBS</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/Screenshot 2025-04-17 at 14.38.40.png" alt="" width="563"><figcaption><p>Example configuration of OCR to include JP(E)G, PNG, EPUB, PDF</p></figcaption></figure>
 
 The recipe configuration offers more options, those are not necessarily required to run OCR on new files.
 
