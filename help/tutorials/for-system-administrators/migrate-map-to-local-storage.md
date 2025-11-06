@@ -301,6 +301,8 @@ Click **`Restore`** . This can take from a few minutes to many hours depending o
 
 See [here](../../../for-system-administrators/migration/inspect.md#restore) for more information.
 
+When the restore/inject is done, a reindex will be done for fylr, so it will take a while until you can see the data in the webfrontend https://fylr.example.com.
+
 ## 5. Teach fylr where to find easydb assets on disk
 
 <details>
