@@ -63,6 +63,7 @@ chown 1000 assets backups migration
 chown  999 postgres sqlbackups
 curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/fylr.yml -o config/fylr/fylr.yml
 curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/maintain -o maintain
+curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/docker-compose.yml -o docker-compose.yml
 chmod a+x maintain
 vi docker-compose.yml # see below for content
 docker compose up -d; docker compose logs -f
