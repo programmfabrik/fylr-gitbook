@@ -187,6 +187,7 @@ Add a minimal VirtualHost for the fylr to your Apache configuration:
 Install and use certbot: _(unless you have another method to obtain a https-certificate for fylr)_
 
 ```
+apache2ctl graceful
 apt install snapd
 snap install --classic certbot
 certbot --apache # in the shown choice: select the fylr domain
@@ -214,6 +215,20 @@ SSLCertificateFile /etc/letsencrypt/live/fylr.example.com/fullchain.pem
 SSLCertificateKeyFile /etc/letsencrypt/live/fylr.example.com/privkey.pem
 Include /etc/letsencrypt/options-ssl-apache.conf
 </VirtualHost>
+```
+
+Make sure that you have the correct number of virtual hosts: 4 (easydb 80, easydb port 443, fylr 80, fylr 443) across all Apache config files. Certbot creates an additional config file and double VirtualHosts (e.g. a fifth one) can cause hard to find errors.
+
+Make sure to now also use explicit  **IP address** (not `*`) and **ServerName** in the easydb configuration for apache:
+
+```
+<VirtualHost 1.2.3.4:80>
+    ServerName easydb.example.com
+
+[...]
+
+<VirtualHost 1.2.3.4:443>
+    ServerName easydb.example.com 
 ```
 
 </details>
