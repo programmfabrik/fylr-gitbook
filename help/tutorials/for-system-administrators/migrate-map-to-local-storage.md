@@ -51,6 +51,8 @@ docker exec easydb-server curl http://easydb-elasticsearch:9200/_cat/indices
 
 To save resources like RAM, we use easydb's infrastructure
 
+To save resources like RAM, we use easydb's infrastructure
+
 <details>
 
 <summary>1.a use docker compose for fylr installation</summary>
@@ -167,6 +169,8 @@ docker compose up -d; docker compose logs -f
 Stop outputting log messages with `Ctrl`-`c` if seen enough
 
 </details>
+
+1.e Allow purging fylr in the Frontend, see the screenshot under **2.** [here](../../../tutorials/purge-a-fylr-instance.md#allow-purge).
 
 ## 2. Apache and https certificate for fylr
 
