@@ -279,7 +279,7 @@ See [here](../../../for-system-administrators/migration/inspect.md) for more inf
 * `File Mode`: choose `Use files from source - rput_leave (bulk)`
 * `File Version`: use the default `original`
 * `Copy file preview versions`: Enable this box.
-* `Include Password`: Can be turned off for test runs. When turned on, passwords are included. But for that, the above backup has to be made with a less secure easydb configuration active. See TODO
+* `Include Password`: Can be turned off for test runs. When turned on, passwords are included. But for that, the above backup has to be made with a less secure easydb configuration active. See [http://docs.easydb.de/en/technical/api/user/#returning-password-hashes](http://docs.easydb.de/en/technical/api/user/#returning-password-hashes)
 * `Include Events`: Turn on if you want to transfer the events that were recorded in easydb. Considered not needed unless you know you want it.
 * `OAuth2`: This box has to be enabled.
 * `OAuth2 Client Id`: leave the default fylr-web-frontend
