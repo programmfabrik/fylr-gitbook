@@ -322,7 +322,11 @@ https://easydb.example.com/eas/partitions-inline/2/ (for Versions and)
 https://easydb.example.com/eas/partitions-inline/1/ (for Originals)
 ```
 
-* Count the number of partitions in https://easydb.example.com/servermanager
+*   Count the number of partitions in **https://**&#x65;asydb.example.co&#x6D;**/servermanager**\
+    For that you have to choose easydb Asset Server (EAS) at the top.\
+
+
+    <figure><img src="../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 * Continue searching through different files as above until you have the URL prefix for each partition (but often there are just two).
 
 </details>

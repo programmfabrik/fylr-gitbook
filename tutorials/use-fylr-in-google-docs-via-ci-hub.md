@@ -18,17 +18,17 @@ description: Tutorial on how to get images from a fylr into a google document
 4. In the `Extensions` menu again, select `CI HUB Connector` and `Open`:<img src="../.gitbook/assets/image (2).png" alt="" data-size="original">
 5.  In the appearing panel (right hand side of the document) `Login` either with an existing CI HUB ID or `Register` for a free trial with CI HUB:&#x20;
 
-    <figure><img src="../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
+    <figure><img src="../.gitbook/assets/image (1) (1) (2) (1).png" alt=""><figcaption></figcaption></figure>
 6. After you logged in with your CI HUB ID, the side panel should change (you may have to re-open it).&#x20;
 7.  In the CI HUB side panel, search for `fylr` and click the plus button (marked in green below):
 
     <figure><img src="../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
-8. Enter any fylr URL (where you have a login) and click `Login`: ![](<../.gitbook/assets/image (1).png>)
+8. Enter any fylr URL (where you have a login) and click `Login`: ![](<../.gitbook/assets/image (1) (1).png>)
 9. Log in to the appearing fylr login dialog with your _fylr_ credentials.
 10. Go back to the Google document. In the side panel e.g. click on the magnifying glass.
 11. Then  click on the magnifying class _below the first one_, to search for any asset in fylr. Both magnifying glasses are marked in green here:&#x20;
 
-    <figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+    <figure><img src="../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 12. If nothing is found, you may have to choose an Object Type in the drop down menu `Object Type`.
 13. Click on one preview image once, then click on it a _2nd time_ and **drag** it into your document before releasing the click.
 

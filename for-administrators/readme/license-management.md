@@ -17,4 +17,4 @@ In the navigation side bar:
 * then choose `License Management`
 * click on `Upload License File` and choose your license file, typically a text file ending in `.json`
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>Where to find license management</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption><p>Where to find license management</p></figcaption></figure>
