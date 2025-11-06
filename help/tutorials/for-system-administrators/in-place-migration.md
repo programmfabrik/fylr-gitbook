@@ -20,9 +20,7 @@ The server should have enough **RAM** available (at least 8 GB free when easydb 
 <summary>Is there enough free storage?</summary>
 
 * for doubling the indexes and SQL-DB of easydb (fylr will have its own)
-
-- for doubling the preview images of easydb (fylr is recommended to generate its own)
-
+* for doubling the preview images of easydb (fylr is recommended to generate its own)
 * 20+ GB for fylr container versions
 
 </details>
@@ -39,12 +37,7 @@ Have a DNS entry, in our example _fylr.example.com_, pointing to the same IP add
 
 <summary>Prevent name collisions</summary>
 
-Check that SQL databases and indexes will not collide _**by name**_ between eaydb5 and fylr:
-
-<pre class="language-bash"><code class="lang-bash"><strong>docker exec easydb-pgsql psql -U postgres -l
-</strong></code></pre>
-
-<p align="right">... good if there is no database named "fylr" yet.</p>
+Check indexes will not collide _**by name**_ between eaydb5 and fylr:
 
 ```bash
 docker exec easydb-server curl http://easydb-elasticsearch:9200/_cat/indices
@@ -60,34 +53,14 @@ To save resources like RAM, we use easydb's infrastructure
 
 <details>
 
-<summary>1.a Create a dedicated SQL database for fylr</summary>
-
-```bash
-docker exec -ti easydb-pgsql psql -U postgres
-CREATE DATABASE fylr ENCODING 'UTF8';
-CREATE USER fylr WITH LOGIN ENCRYPTED PASSWORD 'fylr';
-GRANT ALL PRIVILEGES ON DATABASE "fylr" TO "fylr";
-ALTER DATABASE fylr OWNER TO fylr;
-exit
-```
-
-We suggest to include this fylr database in the easydb backup:&#x20;
-
-Change the file `/srv/easydb/maintain` :
-
-* add `fylr` so that you have e.g.: `DBS="eas easydb5 fylr"` .
-
-</details>
-
-<details>
-
-<summary>1.b use docker compose for fylr installation</summary>
+<summary>1.a use docker compose for fylr installation</summary>
 
 ```bash
 apt-get install docker-compose-plugin
 mkdir /srv/fylr ; cd /srv/fylr
-mkdir -p config/fylr assets backups migration
+mkdir -p config/fylr assets backups migration postgres sqlbackups
 chown 1000 assets backups migration
+chown  999 postgres sqlbackups
 curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/fylr.yml -o config/fylr/fylr.yml
 curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/maintain -o maintain
 chmod a+x maintain
@@ -101,7 +74,7 @@ Stop outputting log messages with `Ctrl`-`c` if seen enough
 
 <details>
 
-<summary>1.c create <code>/srv/fylr/docker-compose.yml</code></summary>
+<summary>1.b create <code>/srv/fylr/docker-compose.yml</code></summary>
 
 Check the volume paths, left of the `:`, so .e.g. `/srv/easydb/eas/lib/assets/orig`.
 
@@ -126,6 +99,29 @@ services:
     logging:
       driver: "journald"
 
+  postgresql:
+    image: postgres:17
+    container_name: postgresql
+    restart: always
+    shm_size: 1g
+    environment:
+      POSTGRES_DB: 'fylr'
+      POSTGRES_USER: 'fylr'
+      POSTGRES_PASSWORD: 'fylr'
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - "/srv/fylr/postgres:/var/lib/postgresql/data"
+      - "/srv/fylr/sqlbackups:/mnt"
+    command: >
+      -c work_mem=64MB
+      -c maintenance_work_mem=32MB
+      -c max_wal_size=512MB
+      -c max_connections=100
+    networks:
+      - easydb_default
+    logging:
+      driver: "journald"
+
 networks:
   easydb_default:
     external: true
@@ -135,16 +131,12 @@ networks:
 
 <details>
 
-<summary>1.d Adjust <code>/srv/fylr/config/fylr/fylr.yml</code></summary>
+<summary>1.c Adjust <code>/srv/fylr/config/fylr/fylr.yml</code></summary>
 
 ```yaml
 fylr+:
   allowpurge: true
   externalURL: "https://fylr.example.com"
-[...]
-  db:
-    driver: "postgres"
-    dsn: "postgres://fylr:fylr@easydb-pgsql:5432/fylr?sslmode=disable"
 [...]
   elastic+:
     addresses:
@@ -162,7 +154,7 @@ fylr+:
 
 <details>
 
-<summary>1.e Start fylr</summary>
+<summary>1.d Start postgres and fylr</summary>
 
 ```bash
 docker compose up -d; docker compose logs -f
@@ -239,16 +231,11 @@ Include /etc/letsencrypt/options-ssl-apache.conf
 <summary>3.c. Fill in at least the following values:</summary>
 
 * `URL of server` : Fill in your equivalent of `https://easydb.example.com`
-
-- `Login`: `root`
-
+* `Login`: `root`
 * `Password`: password of easydb's root account
-
-- `OAuth2`: uncheck this box, it is only needed to extract from fylr
-
+* `OAuth2`: uncheck this box, it is only needed to extract from fylr
 * `Max Parallel`: To not slow your easydb down, choose a number that is half or less of the available CPU cores.
-
-- `Purge`: you can leave this on, it does not affect easydb or fylr. (It was added to overwrite backup files, but currently it creates a new backup anyway)
+* `Purge`: you can leave this on, it does not affect easydb or fylr. (It was added to overwrite backup files, but currently it creates a new backup anyway)
 
 </details>
 
@@ -267,29 +254,17 @@ See [here](../../../for-system-administrators/migration/inspect.md) for more inf
 <summary>4.c. Fill in at least the following values:</summary>
 
 * `Backup` : choose the backup that you created above
-
-- `URL` : Fill in your equivalent of `https://fylr.example.com`
-
+* `URL` : Fill in your equivalent of `https://fylr.example.com`
 * `Login`: `root`
-
-- `Password`: password of fylr's root account
-
+* `Password`: password of fylr's root account
 * `File Mode`: choose `Use files from source - rput_leave (bulk)`
-
-- `File Version`: use the default `original`
-
+* `File Version`: use the default `original`
 * `Copy file preview versions`: Enable this box.
-
-- `Include Password`: Can be turned off for test runs. When turned on, passwords are included. But for that, the above backup has to be made with a less secure easydb configuration active. See TODO
-
+* `Include Password`: Can be turned off for test runs. When turned on, passwords are included. But for that, the above backup has to be made with a less secure easydb configuration active. See TODO
 * `Include Events`: Turn on if you want to transfer the events that were recorded in easydb. Considered not needed unless you know you want it.
-
-- `OAuth2`: This box has to be enabled.
-
+* `OAuth2`: This box has to be enabled.
 * `OAuth2 Client Id`: leave the default fylr-web-frontend
-
-- `Max Parallel`: To not slow your easydb down, choose a number that is half or less of the available CPU cores.
-
+* `Max Parallel`: To not slow your easydb down, choose a number that is half or less of the available CPU cores.
 * `Purge or Continue`: `Purge` This will overwrite fylr's contents with easydb, which is the whole point.\
   `Continue` is useful if your previous attempt aborted with a timeout or network error and should be continued.
 
@@ -351,12 +326,9 @@ Create the following two:
 <summary>5.c Let fylr use the asset files of easydb5 directly from disk, without asking easydb</summary>
 
 * Go to https://fylr.example.com/inspect/files/
-
-- search with `Location`=`remote`
-
+* search with `Location`=`remote`
 * Choose Action `Map to local storage` and `Search result`, not `Selected`. Click the button `Action` at the right.
-
-- Now the easydb is not used by fylr any more.
+* Now the easydb is not used by fylr any more.
 
 </details>
 
@@ -371,13 +343,9 @@ As previews from easydb are different from fylr previews, it is recommended to r
 <summary>6.a Produce fylr previews</summary>
 
 * Surf to **https://**&#x66;ylr.example.co&#x6D;**/inspect/files/** (login as root)
-
-- In the drop down menu  `Version`  choose  `original`  and click the `Search` button.
-
+* In the drop down menu  `Version`  choose  `original`  and click the `Search` button.
 * In the drop down menu `Action` choose `produce versions` .
-
-- To the right select the round button below `Search result` (not below `Selected`).
-
+* To the right select the round button below `Search result` (not below `Selected`).
 * Click the `Action` button.
 
 </details>
@@ -389,8 +357,7 @@ As previews from easydb are different from fylr previews, it is recommended to r
 * Is the File queue empty at **https://**&#x66;ylr.example.co&#x6D;**/inspect/system/queues/?queue=file** ?\
   At the top it would show something like:\
   &#xNAN;_`There are 18 parallel and 10 parallel high priority only file workers active. The queue`` `**`contains 0 total entries`**`.`_
-
-- Surf to **https://**&#x66;ylr.example.co&#x6D;**/inspect/files/** (login as root)
+* Surf to **https://**&#x66;ylr.example.co&#x6D;**/inspect/files/** (login as root)
   * In the drop down menu  `location`  choose  `EAS versions`  and click the `Search` button.
   * The Search shows zero results when all have been replaced.
 
@@ -401,9 +368,7 @@ As previews from easydb are different from fylr previews, it is recommended to r
 <summary>6.c Remove easydb preview versions to regain storage (optional)</summary>
 
 * At first just remove fylr's access to them (e.g. remove it from `/srv/fylr/docker-compose.yml` and recreate the container).&#x20;
-
-- Check that the fylr webfrontend still shows previews, an https://fylr.example.com.
-
+* Check that the fylr webfrontend still shows previews, an https://fylr.example.com.
 * Then, when all is still working, you can delete them to free storage capacity.
 
 </details>
