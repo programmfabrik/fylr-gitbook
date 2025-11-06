@@ -1,11 +1,11 @@
 ---
 description: >-
-  how to install fylr on an easydb5 server and migrate easydb's content to fylr
-  using easydb's assets files directly from disk, without needing to transfer
-  them
+  how to install fylr "in place" on an easydb5 server and migrate easydb's
+  content to fylr using easydb's assets files directly from disk, without
+  needing to transfer them
 ---
 
-# In place migration
+# Migration with map to local storage
 
 This method can save time and does not need a separate server. easydb5 is only needed to extract metadata, but not to extract asset files, which are used from storage directly as is.
 

@@ -102,7 +102,7 @@
   * [For System Administrators](help/tutorials/for-system-administrators/README.md)
     * [How to setup and use IIIF](help/tutorials/for-system-administrators/how-to-setup-and-use-iiif.md)
     * [External access: Sharing collections with anonymous users](help/tutorials/for-system-administrators/external-access-sharing-collections-with-anonymous-users.md)
-    * [In place migration](help/tutorials/for-system-administrators/in-place-migration.md)
+    * [Migration with map to local storage](help/tutorials/for-system-administrators/migrate-map-to-local-storage.md)
 * [Glossary](help/glossary.md)
 
 ## FOR USERS
