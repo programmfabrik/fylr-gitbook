@@ -74,33 +74,17 @@ Stop outputting log messages with `Ctrl`-`c` if seen enough
 
 <details>
 
-<summary>1.b create <code>/srv/fylr/docker-compose.yml</code></summary>
+<summary>1.b edit <code>/srv/fylr/docker-compose.yml</code></summary>
 
-Check the volume paths, left of the `:`, so .e.g. `/srv/easydb/eas/lib/assets/orig`.
+Make Opensearch just comments. change the network to `easydb_default`, change fylr port and check the volume paths, left of the `:`, so .e.g. `/srv/easydb/eas/lib/assets/orig`.\
+So that you have:
 
-```
-services:
-  fylr:
-    image: docker.fylr.io/fylr/fylr:latest
-    hostname: fylr.localhost
-    container_name: fylr
-    restart: always
-    ports:
-      - "127.0.0.1:91:91"
-    networks:
-      - easydb_default
-    volumes:
-      - "/srv/easydb/eas/lib/assets/orig:/mnt/orig_old:ro"
-      - "/srv/easydb/eas/lib/assets/dest:/mnt/dest_old:ro"
-      - "/srv/fylr/config/fylr:/fylr/config"
-      - "/srv/fylr/assets:/srv"
-      - "/srv/fylr/backups:/fylr/files/backups"     # /inspect/system/backups/ and /backupmanager
-      - "/srv/fylr/migration:/fylr/files/migration" # /inspect/migration/
-    logging:
-      driver: "journald"
-
-  postgresql:
-    image: postgres:17
+<pre><code>services:
+  # opensearch:
+  # [...not shown here: more opensearch as comments ...]
+  
+<strong>  postgresql:
+</strong>    image: postgres:18
     container_name: postgresql
     restart: always
     shm_size: 1g
@@ -121,11 +105,30 @@ services:
       - easydb_default
     logging:
       driver: "journald"
+      
+  fylr:
+    image: docker.fylr.io/fylr/fylr:latest
+    hostname: fylr.localhost
+    container_name: fylr
+    restart: always
+    ports:
+      - "127.0.0.1:91:91"
+    networks:
+      - easydb_default
+    volumes:
+      - "/srv/easydb/eas/lib/assets/orig:/mnt/orig_old:ro"
+      - "/srv/easydb/eas/lib/assets/dest:/mnt/dest_old:ro"
+      - "/srv/fylr/config/fylr:/fylr/config"
+      - "/srv/fylr/assets:/srv"
+      - "/srv/fylr/backups:/fylr/files/backups"     # /inspect/system/backups/ and /backupmanager
+      - "/srv/fylr/migration:/fylr/files/migration" # /inspect/migration/
+    logging:
+      driver: "journald"
 
 networks:
   easydb_default:
     external: true
-```
+</code></pre>
 
 </details>
 
