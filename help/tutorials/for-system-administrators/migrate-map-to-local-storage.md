@@ -119,8 +119,8 @@ So that you have:
     networks:
       - easydb_default
     volumes:
-      - "/srv/easydb/eas/lib/assets/orig:/mnt/orig_old:ro"
-      - "/srv/easydb/eas/lib/assets/dest:/mnt/dest_old:ro"
+      - "/srv/easydb/eas/lib/assets/orig:/mnt/orig_early:ro"
+      - "/srv/easydb/eas/lib/assets/dest:/mnt/dest_early:ro"
       - "/srv/fylr/config/fylr:/fylr/config"
       - "/srv/fylr/assets:/srv"
       - "/srv/fylr/backups:/fylr/files/backups"     # /inspect/system/backups/ and /backupmanager
@@ -341,10 +341,10 @@ Create the following two:
 
 * Fylr location `EAS originals`
   * `Read Only`
-  * Directory (in container) `/mnt/orig`
+  * Directory (in container) `/mnt/orig_early`
   * Remote Url Prefix example: https://easydb.example.com/eas/partitions-inline/1/
 * Fylr location `EAS versions`
-  * Directory (in container) `/mnt/dest`
+  * Directory (in container) `/mnt/dest_early`
   * Remote URL Prefix example: https://easydb.example.com/eas/partitions-inline/2/
   * If you have enough free storage space to double all preview versions, then set this location to `Read Only`. Then none of them will be deleted. Otherwise set it as Default Location for `versions` . Then easydb previews will be deleted as they are replaced with fylr previews. `Read Only` is safer, especially if you still want to use easydb, and thus recommended.
 
