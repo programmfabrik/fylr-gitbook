@@ -185,7 +185,7 @@ fylr+:
 docker compose up -d; docker compose logs -f
 ```
 
-Stop outputting log messages with `Ctrl`-`c` if seen enough
+Stop outputting log messages with `Ctrl`-`c` if you have seen enough.
 
 </details>
 
@@ -430,9 +430,48 @@ This step is optional but recommended, as easydb lifetime and support will end b
 
 <details>
 
-<summary>7.a Replace easydb PostgreSQL and Indexer</summary>
+<summary>7.a Replace easydb Indexer</summary>
 
-See the [default fylr installation](../../../for-system-administrators/installation/linux-docker-compose.md#installation) for the missing pieces and adjust `docker-compose.yml` and `fylr.yml`.
+Adjust `docker-compose.yml` to now feature Opensearch:
+
+```
+services:
+  opensearch:
+    [...not shown here: more opensearch details...]
+```
+
+Make sure fylr and Opensearch are in the same docker-network.
+
+Change `fylr.yml` to use Opensearch:
+
+```
+fylr+:
+[...]
+  elastic+:
+    addresses:
+    - "http://opensearch:9200"
+```
+
+Start Opensearch:
+
+```
+cd /srv/fylr
+docker compose up -d opensearch ; docker logs -f opensearch
+```
+
+Stop outputting log messages with `Ctrl`-`c` if you have seen enough.
+
+Restart fylr:
+
+```
+docker compose restart fylr ; docker logs -f --tail 0 fylr
+```
+
+Stop outputting log messages with `Ctrl`-`c` if you have seen enough.
+
+Create the Indexes in Opensearch: _(might take a while!)_&#x20;
+
+Surf to **https://**&#x66;ylr.example.co&#x6D;**/inspect/** - System - `Reindex (Blocking)`
 
 </details>
 
@@ -446,13 +485,12 @@ See the [default fylr installation](../../../for-system-administrators/installat
 systemctl stop apache2
 systemctl disable apache2
 systemctl mask apache2
-/srv/fylr/maintain fylr-recreate
 cd /srv/fylr
-docker-compose logs -f fylr
+/srv/fylr/maintain fylr-recreate ; docker-compose logs -f fylr
 ```
 
 </details>
 
-**7.c Change fylr domain**
+**7.c Change fylr domain**&#x20;
 
-In case you want to change fylr's domain to the former domain of easydb, see [here](../../../for-system-administrators/configuration/dns-domains.md#changes-to-the-main-domain).
+In case you want to change fylr's domain (e.g. to the former domain of easydb), see [here](../../../for-system-administrators/configuration/dns-domains.md#changes-to-the-main-domain).
