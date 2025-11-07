@@ -417,10 +417,14 @@ As previews from easydb are different from fylr previews, it is recommended to r
 
 <summary>6.c Remove easydb preview versions to regain storage (optional)</summary>
 
-* At first just remove the location `EAS versions`  in the location manager
-* Next, remove fylr's access to them (e.g. remove it from `/srv/fylr/docker-compose.yml` and recreate the container).&#x20;
+* At first remove the location `EAS versions`  in the location manager. But leave the originals.
+* Next, remove fylr's access to them (e.g. remove it from `/srv/fylr/docker-compose.yml` and recreate the container). But leave the originals.
 * Check that the fylr webfrontend still shows previews, an https://fylr.example.com.
-* Then, when all is still working, you can delete them to free storage capacity.
+* Then, when all is still working, you can delete the easydb previews them to free storage capacity. \
+  \
+  **Warning**: Removing the preview versions of easydb should only be done if the easydb is not needed any more.\
+  \
+  **Warning** 2: But the easydb _**originals**_ are used by fylr, so **do never remove them**!
 
 </details>
 
