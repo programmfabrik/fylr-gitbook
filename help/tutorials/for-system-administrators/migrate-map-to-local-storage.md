@@ -430,7 +430,9 @@ As previews from easydb are different from fylr previews, it is recommended to r
 
 ## 7. Remove easydb
 
-This step is optional but recommended, as easydb lifetime and support will end before fylr's.
+These steps are optional but recommended, as easydb lifetime and support will end before fylr's.
+
+Also check that you have uploaded a fylr license and tested/configured optional features that you need, e.g. Single Sign On, email sending, schema-sync via objectstore, hotfolder, etc..
 
 <details>
 
