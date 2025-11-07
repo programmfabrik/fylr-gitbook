@@ -260,7 +260,9 @@ Make sure to now also use explicit  **IP address** (not `*`) and **ServerName** 
 
 2.c Change the password of root to a secure one.
 
-2.d Check that fylr is at least Version 6.26.0.
+2.d Check that fylr is at least Version 6.26.0
+
+<figure><img src="../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 ## 3. Extract metadata from easydb5
 
@@ -345,7 +347,7 @@ https://easydb.example.com/eas/partitions-inline/1/ (for Originals)
     For that you have to choose easydb Asset Server (EAS) at the top.\
 
 
-    <figure><img src="../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+    <figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 * Continue searching through different files as above until you have the URL prefix for each partition (but often there are just two).
 
 </details>
