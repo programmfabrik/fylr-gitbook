@@ -47,6 +47,16 @@ docker exec easydb-server curl http://easydb-elasticsearch:9200/_cat/indices
 
 </details>
 
+<details>
+
+<summary>Allow Passwords to be transferred</summary>
+
+In standard configuration, easydb does not serve account passwords for migration, as a security feature. To make a full migration, you have to change that setting temporarily, for the _extract metadata_ ("backup") step. For the exact configuration see [http://docs.easydb.de/en/technical/api/user/#returning-password-hashes](http://docs.easydb.de/en/technical/api/user/#returning-password-hashes)
+
+</details>
+
+
+
 ## 1. fylr installation
 
 To save resources like RAM, we use easydb's infrastructure
