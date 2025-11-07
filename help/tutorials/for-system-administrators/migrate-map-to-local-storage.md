@@ -456,10 +456,12 @@ fylr+:
     - "http://opensearch:9200"
 ```
 
-Start Opensearch:
+Start Opensearch and prepare its directory:
 
 ```
 cd /srv/fylr
+mkdir indexer
+chown 1000 indexer
 docker compose up -d opensearch ; docker logs -f opensearch
 ```
 
