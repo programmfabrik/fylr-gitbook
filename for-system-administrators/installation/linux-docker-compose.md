@@ -19,10 +19,11 @@ How to install fylr on a linux server via docker compose
 * amd64 Architecture, for this method.
 *   #### Storage <a href="#network-storage" id="network-storage"></a>
 
-    40 GB for container images. (default `/var/lib/docker`)\
+    Circa two times the storage space of you assets. So if you want to manage 1 TB of assets with fylr, have _another_ 1 TB for preview images. If you tend to have big assets, you might need much less, as the previews then are much smaller in comparison to your asset files.\
+    Add fast storage (SSD/NVME) for database and indices: 4% of what your assets need. So for 1 TB of assets have 40 GB. Most installations need a lot less than 4%.\
+    The following also benefits from fast storage, especially during asset processing:\
     Ca. 100 GB for temporary file systems of containers. (default `/var/lib/docker`)\
-    Ca. two times the storage space of you assets. So if you want to manage 1 TB of assets with fylr, have another 1 TB for preview images. If you tend to have big assets, you might need much less, as the previews then are much smaller in comparison to your assets.\
-    Add fast storage for database and indices: 4% of what your assets need. So for 1 TB of assets have 40 GB. Most installations need a lot less than 4%.
+    40 GB for container images. (default `/var/lib/docker`)
 *   #### Network Storage <a href="#network-storage" id="network-storage"></a>
 
     At most, put assets, previews and database dumps on network storage. Do not put other data on network storage as features may collide (e.g. overlay file system by docker).\
