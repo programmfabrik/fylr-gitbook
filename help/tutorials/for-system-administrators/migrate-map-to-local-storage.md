@@ -15,6 +15,8 @@ The following example migrates all from <mark style="color:blue;">https://easydb
 
 The server should have enough **RAM** available (at least 8 GB free when easydb is running, more is recommended during image preview generation).
 
+
+
 <details>
 
 <summary>Is there enough free storage?</summary>
@@ -49,13 +51,27 @@ docker exec easydb-server curl http://easydb-elasticsearch:9200/_cat/indices
 
 <details>
 
-<summary>Allow Passwords to be transferred</summary>
+<summary>Allow passwords to be transferred</summary>
 
-In standard configuration, easydb does not serve account passwords for migration, as a security feature. To make a full migration, you have to change that setting temporarily, for the _extract metadata_ ("backup") step. For the exact configuration see [http://docs.easydb.de/en/technical/api/user/#returning-password-hashes](http://docs.easydb.de/en/technical/api/user/#returning-password-hashes)
+In standard configuration, easydb does not output account passwords for migration, as a security feature. To make a full migration, you have to change that setting temporarily, at least for the step "_extract metadata"_ ("backup"). The setting in easydb5 is:&#x20;
+
+```yaml
+server:
+  api:
+    user:
+      include_password: true
+```
+
+... e.g. in `easydb-server.yml` . For more information see [http://docs.easydb.de/en/technical/api/user/#returning-password-hashes](http://docs.easydb.de/en/technical/api/user/#returning-password-hashes)
 
 </details>
 
-
+```
+server:
+  api:
+    user:
+      include_password: true
+```
 
 ## 1. fylr installation
 
