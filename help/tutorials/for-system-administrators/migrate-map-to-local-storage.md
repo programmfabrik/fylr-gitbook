@@ -66,13 +66,6 @@ server:
 
 </details>
 
-```
-server:
-  api:
-    user:
-      include_password: true
-```
-
 ## 1. fylr installation
 
 To save resources like RAM, we use easydb's infrastructure
