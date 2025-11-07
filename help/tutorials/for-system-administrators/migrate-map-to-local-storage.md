@@ -195,7 +195,7 @@ Stop outputting log messages with `Ctrl`-`c` if seen enough
 
 <details>
 
-<summary>2.a Assuming you use certbot with LetsEncrypt, do...</summary>
+<summary>2.a Assuming certbot with LetsEncrypt is OK for you, do...</summary>
 
 Add a minimal VirtualHost for the fylr to your Apache configuration:
 
