@@ -7,7 +7,7 @@ description: >-
 
 # Services
 
-## E-Mail Notifications
+E-Mail Notifications
 
 This service sends emails such as welcome emails, collection share emails or emails triggered by workflows (if configured under "Tags & Workflows"). If not enabled, no emails will be send.
 
@@ -66,12 +66,23 @@ Deletes all tokens (Access, Refresh, ...) for which:
 
 And enables all the following:
 
-### Remove Unused Files After n Days
+### Settings for Files
 
 Specify after how many days unused files should be deleted from the storage. Unused files are files that has been uploaded to FYLR but have never been linked to a record. Enter "0" to remove unused files with every janitor run (every 10 minutes).
 
 {% hint style="danger" %}
 Please note, this also applies to files which where uploaded but not yet been saved. We recommend to use at least an interval of 1 day.
+{% endhint %}
+
+### Settings for Objects
+
+### Allow overwriting in pools and object types
+
+When this checkbox is enabled, the Janitor can be configured directly at the pool or object type. This is dependent on the pool management setting at the object type in the data model configuration.
+
+{% hint style="info" %}
+**Enabling the Overwrite option requires further activation and configuration** in Rights Management for the janitor to run.\
+
 {% endhint %}
 
 ### Settings For Users
@@ -100,7 +111,7 @@ Attention: deleted users will be removed from the system and can't be re-activat
 
 ### Settings For Events
 
-Specify after how many days the events should be deleted. Enter "0" to delete the events with every janitor run (every 10 minutes).
+Specify after how many days the individual events should be deleted. Enter "0" to delete the events with every janitor run (every 10 minutes).
 
 #### Delete IP Address From Events After n Days
 
