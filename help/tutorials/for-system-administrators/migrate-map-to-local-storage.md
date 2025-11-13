@@ -1,8 +1,8 @@
 ---
 description: >-
-  how to install fylr "in place" on an easydb5 server and migrate easydb's
+  How to install fylr "in place" on an easydb5 server and migrate easydb's
   content to fylr using easydb's assets files directly from disk, without
-  needing to transfer them
+  needing to transfer them.
 ---
 
 # Migration with map to local storage
@@ -332,10 +332,10 @@ When the restore/inject is done, a reindex will be done for fylr, so it will tak
 
 Look into **https://**&#x66;ylr.example.co&#x6D;**/inspect/files/** (log in as root)
 
-* Click on a version (the `Version` column has `small` or `full` or others but not `ORIGINAL`) file on it's ID
-  * note the field `Remote URL`, it might contain e.g. `https://easydb.example.com/eas/partitions-inline/2/0/1270/1270/4839d32e5c8ecca1`
-* Click an original (`Version` column has `ORIGINAL`) file on it's ID
-  * Also for this asset note the field `Remote URL`, it might contain e.g. `https://easydb.example.com/eas/partitions-inline/1/0/1270/1270/acda0f0f5982bb64`
+* Click a _version file_ on it's ID number (_version file_ = the `Version` column has `small` or `full` or others but _not_ `ORIGINAL`).
+  * note the content of field `Remote URL`, it might contain e.g. `https://easydb.example.com/eas/partitions-inline/2/0/1270/1270/4839d32e5c8ecca1`
+* Click an original (`Version` column _has_ `ORIGINAL`) file on it's ID number.
+  * Also for this asset note the content of field `Remote URL`, it might contain e.g. `https://easydb.example.com/eas/partitions-inline/1/0/1270/1270/acda0f0f5982bb64`
 * Next you need to cut off the last parts of the Remote URLs in your notes, so that only the URL prefix remains, which is what you need. The prefix ends before the single zero. So in our example the prefixes are:
 
 ```
@@ -343,8 +343,8 @@ https://easydb.example.com/eas/partitions-inline/2/ (for Versions and)
 https://easydb.example.com/eas/partitions-inline/1/ (for Originals)
 ```
 
-*   Count the number of partitions in **https://**&#x65;asydb.example.co&#x6D;**/servermanager**\
-    For that you have to choose easydb Asset Server (EAS) at the top.\
+*   Count the number of partitions in **https://**&#x65;asydb.example.co&#x6D;**/servermanager**.\
+    For that you have to choose easydb Asset Server (EAS) at the top:\
 
 
     <figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
