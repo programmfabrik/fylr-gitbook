@@ -245,6 +245,7 @@
 * [typo3 plugin](tutorials/typo3-plugin.md)
 * [ai metadata plugin](tutorials/ai-metadata-plugin.md)
 * [Use fylr in Google docs via CI HUB](tutorials/use-fylr-in-google-docs-via-ci-hub.md)
+* [Accessing fylr through LinkrUI](tutorials/accessing-fylr-through-linkrui.md)
 
 ## FOR DEVELOPERS
 

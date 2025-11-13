@@ -1,16 +1,16 @@
 ---
-description: Tutorial on how to get images from a fylr into a google document
+description: Tutorial on how to get images from a fylr instance into a google document
 ---
 
 # Use fylr in Google docs via CI HUB
 
 ## Required
 
-* Login to a fylr instance with permission to see at least on image asset.
+* Login to a fylr instance with permission to see some media content
   * This fylr needs to have the CI HUB capability in its fylr license. This is not part of all fylr licenses.
-  * By default all fylr installations have the "OAuth client" named "ci-hub" configured, so this should not be an issue. However, during a fylr installation, this _could_ theoretically be changed. If you have problems to connect CI HUB to fylr, check this with the fylr's administrator.
+  * By default all fylr installations have the "OAuth client" named "ci-hub" configured, so this should not be an issue. However, during a fylr installation, this _could_ theoretically be changed. If you have problems to connect CI HUB to fylr, consult the instances administrator.
 
-## Steps
+## Setup
 
 1. Open a Google document on [https://docs.google.com](https://docs.google.com)
 2. Open the `Extensions` menu and select `Get Add-ons`.
