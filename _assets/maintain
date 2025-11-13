@@ -62,7 +62,7 @@ log(){
 log_container_versions(){
     log "$@"
     docker ps     >>"$MYLOG"
-    docker images >>"$MYLOG"
+    docker images --format table >>"$MYLOG"
 }
 
 error(){ # send output to stderr and logfile in one call
