@@ -361,12 +361,13 @@ Surf to **https://**&#x66;ylr.example.co&#x6D;**/locationmanager** (log in as ro
 Create the following two:
 
 * Fylr location `EAS originals`
-  * `Read Only`
-  * Directory (in container) `/mnt/orig_early`
-  * Remote Url Prefix example: https://easydb.example.com/eas/partitions-inline/1/
+  * **Read Only**: enable this
+  * **Directory** (in container) `/mnt/orig_early`
+  * **Remote URL Prefix** example: https://easydb.example.com/eas/partitions-inline/1/\
+    &#xNAN;_(Do not confuse this with the **Prefix** field. Use **Remote URL Prefix** instead.)_
 * Fylr location `EAS versions`
-  * Directory (in container) `/mnt/dest_early`
-  * Remote URL Prefix example: https://easydb.example.com/eas/partitions-inline/2/
+  * **Directory** (in container) `/mnt/dest_early`
+  * **Remote URL Prefix** example: https://easydb.example.com/eas/partitions-inline/2/
   * If you have enough free storage space to double all preview versions, then set this location to `Read Only`. Then none of them will be deleted. Otherwise set it as Default Location for `versions` . Then easydb previews will be deleted as they are replaced with fylr previews. `Read Only` is safer, especially if you still want to use easydb, and thus recommended.
 
 </details>
