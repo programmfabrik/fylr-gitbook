@@ -118,39 +118,40 @@ requires(){
 requires docker
 
 sql_create_collation_func="
-CREATE OR REPLACE FUNCTION try_fix_db_collation(text) RETURNS void LANGUAGE plpgsql AS \$body\$
-DECLARE
-    v_state   TEXT;
-    v_msg     TEXT;
-    v_detail  TEXT;
-    v_hint    TEXT;
-    v_context TEXT;
+CREATE OR REPLACE FUNCTION check_db_collation(text) RETURNS text LANGUAGE plpgsql AS \$body\$
 BEGIN
     IF (SELECT datcollversion = pg_database_collation_actual_version(oid)
         FROM pg_database WHERE datname = quote_ident(\$1)) THEN
-        RAISE NOTICE 'collation of database % is current, no need to do anything', \$1;
-        RETURN;
+        RETURN 'current';
+	ELSE
+		RETURN 'outdated';
     END IF;
-    BEGIN
-        EXECUTE \$\$ REINDEX DATABASE \$\$ || quote_ident(\$1);
-        EXECUTE \$\$ ALTER DATABASE \$\$ || quote_ident(\$1) || \$\$ REFRESH COLLATION VERSION \$\$;
-        RAISE NOTICE 'sucessfully upgraded collation in %', \$1;
-    EXCEPTION WHEN OTHERS THEN
-        GET STACKED DIAGNOSTICS
-            v_state   = RETURNED_SQLSTATE,
-            v_msg     = MESSAGE_TEXT,
-            v_detail  = PG_EXCEPTION_DETAIL,
-            v_hint    = PG_EXCEPTION_HINT,
-            v_context = PG_EXCEPTION_CONTEXT;
-        RAISE WARNING E'failed to upgrade collation in database %:
-            state:   %
-            message: %
-            detail:  %
-            hint:    %
-            context: %', \$1, v_state, v_msg, v_detail, v_hint, v_context;
-    END;
 END
 \$body\$"
+
+try_fix_db_collation() {
+	DB=$1
+	primary_database=$2
+
+	state=`docker exec postgresql psql -U fylr -q --tuples-only -c "SELECT check_db_collation('$DB')" "$primary_database" | sed -e 's/^[[:space:]]//g'`
+
+	case $state in
+	current)
+		echo "collation of database $DB is current, no need to do anything"
+		return
+		;;
+	outdated)
+		if ! docker exec postgresql psql -U fylr -c "REINDEX DATABASE \"$DB\"" "$DB"; then
+			echo "some error occurred when trying to reindex database '$DB', did not update collation version"
+			return
+		fi
+		docker exec postgresql psql -U fylr -c "ALTER DATABASE \"$DB\" REFRESH COLLATION VERSION" "$primary_database"
+		;;
+	*)
+		echo "got some unexpected state when checking database '$DB': $state"
+		;;
+	esac
+}
 
 ### PARSE ARGUMENTS
 
@@ -209,7 +210,7 @@ fixdb)
 	primary_database=`echo $DBS | awk '{print $1}'`
 	docker exec postgresql psql -U fylr -c "$sql_create_collation_func" "$primary_database"
     for DB in "postgres" "template1" $DBS; do
-		docker exec postgresql psql -U fylr -c "SELECT try_fix_db_collation('$DB')" "$primary_database"
+		try_fix_db_collation "$DB" "$primary_database"
 	done
 	exit 0
 	;;
