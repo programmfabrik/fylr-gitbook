@@ -128,7 +128,7 @@ DECLARE
 BEGIN
     IF (SELECT datcollversion = pg_database_collation_actual_version(oid)
         FROM pg_database WHERE datname = quote_ident(\$1)) THEN
-        RAISE NOTICE 'collection of database % is current, no need to do anything', \$1;
+        RAISE NOTICE 'collation of database % is current, no need to do anything', \$1;
         RETURN;
     END IF;
     BEGIN
@@ -196,7 +196,7 @@ backup)
     # do sql backup of all sql dbs $DBS
     log "starting sql dumps"
     # WARNING: there are only $KEEPDBS kept - repeating this quickly removes all old backups (on this host) !
-    docker ps|grep -q 'postgresql$' || errorexit "no container named postgresql, cannot backup"
+    docker ps|grep -q 'postgresql$' || errorexit "no container named postgresql running, cannot backup"
     for DB in $DBS; do
             $0 sqldump $DB          || errorexit "sqldump db '$DB' failed"
     done
@@ -205,7 +205,7 @@ backup)
     ;;
 fixdb)
 	log "check if databases need fixes"
-    docker ps|grep -q 'postgresql$' || errorexit "no container named postgresql, cannot backup"
+    docker ps|grep -q 'postgresql$' || errorexit "no container named postgresql running, cannot check"
 	primary_database=`echo $DBS | awk '{print $1}'`
 	docker exec postgresql psql -U fylr -c "$sql_create_collation_func" "$primary_database"
     for DB in "postgres" "template1" $DBS; do
