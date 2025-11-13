@@ -100,9 +100,6 @@ cleanup_docker(){
         log "... none found."
     fi
 
-    # next step:
-    # docker images | grep '<none>' | awk '{print }' | xargs -r docker rmi -f
-
     log "removing dangling volumes..."
     LIST=$(docker volume ls -qf dangling=true)
     if [ "$LIST" ] ; then
