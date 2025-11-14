@@ -518,3 +518,9 @@ systemctl mask certbot.timer
 **7.c Change fylr domain**&#x20;
 
 In case you want to change fylr's domain (e.g. to the former domain of easydb), see [here](../../../for-system-administrators/configuration/dns-domains.md#changes-to-the-main-domain).
+
+**7.d Stopping easydb services**
+
+Consider stopping all easydb services that are not needed any more (check whether you still use the indexer).
+
+You may want to stop regular maintenance tasks for easydb, typically in `/etc/cron.d/easydb*`.
