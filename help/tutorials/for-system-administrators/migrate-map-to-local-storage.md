@@ -98,8 +98,14 @@ Stop outputting log messages with `Ctrl`-`c` if seen enough
 
 <summary>1.b edit <code>/srv/fylr/docker-compose.yml</code></summary>
 
-Make Opensearch just comments. change the network to `easydb_default`, change fylr port and check the volume paths, left of the `:`, so .e.g. `/srv/easydb/eas/lib/assets/orig`.\
-So that you have:
+* Make Opensearch just comments
+* Change the network to `easydb_default`
+* Change fylr port
+* Check the volume paths, left of the `:`, \
+  so .e.g. `/srv/easydb/eas/lib/assets/orig`.
+* The example below has two volumes for two easydb partitions. Your easydb may have more partitions. Create one fylr volume per easydb partition.&#x20;
+
+... so that you have something like this example:
 
 <pre><code>services:
   # opensearch:
