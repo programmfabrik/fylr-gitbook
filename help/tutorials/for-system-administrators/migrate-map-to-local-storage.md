@@ -507,6 +507,12 @@ cd /srv/fylr
 /srv/fylr/maintain fylr-recreate ; docker-compose logs -f fylr
 ```
 
+Is certbot now also not needed any more? Then consider:
+
+```
+systemctl mask certbot.timer
+```
+
 </details>
 
 **7.c Change fylr domain**&#x20;
