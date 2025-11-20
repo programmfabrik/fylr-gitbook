@@ -110,9 +110,6 @@ These example values are the defaults in fylr v6.12.
     fylr+:
       services+:
         execserver+:
-          waitgroups+:
-            video:
-              processes: 1
           env:
             # threads used by ffmpeg for mp4 video format
             - FYLR_CONVERT_VIDEO_MP4_THREADS=1
