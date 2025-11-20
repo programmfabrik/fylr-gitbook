@@ -53,7 +53,7 @@ Inside the plugin managers config tab, create one or more **named prompts** by c
 
 The available inputs are mandatory.
 
-<table><thead><tr><th width="141.953125">Setting</th><th width="302.953125">Description</th><th>Options</th></tr></thead><tbody><tr><td>Name</td><td>Name your prompt. This name will be used later to refer to this particular prompt.</td><td>-</td></tr><tr><td>Question for Chat GPT</td><td>Your custom ChatGPT prompt</td><td>-</td></tr><tr><td>Type</td><td>Output type</td><td><p></p><ul><li><em>Single line text</em></li></ul><ul><li><em>Single line text (multilingual)</em></li></ul><ul><li><em>List text</em></li></ul><ul><li><em>List text (multilingual)</em></li></ul></td></tr></tbody></table>
+<table><thead><tr><th width="141.953125">Setting</th><th width="302.953125">Description</th><th>Options</th></tr></thead><tbody><tr><td>Name</td><td>Name your prompt. This name will be used later to refer to this particular prompt.</td><td>-</td></tr><tr><td>Question for Chat GPT</td><td>Your custom ChatGPT prompt</td><td>-</td></tr><tr><td>Type</td><td>Output type</td><td><p></p><ul><li><em>Single line text</em></li><li><em>Single line text (multilingual)</em></li><li><em>List text</em></li><li><em>List text (multilingual)</em></li></ul></td></tr></tbody></table>
 
 #### Choosing the Output Type
 
@@ -68,7 +68,7 @@ If it doesn't, edit your datamodel accordingly and continue afterwards.
 * _Single line text (multilingual)_
   * maps to [#single-line-and-multiline-text-multilingual](../for-administrators/tools/csv-importer/examples/all-data-types.md#single-line-and-multiline-text-multilingual "mention")&#x20;
 * _List text_
-  * maps to[#single-line--multi-line-text-simple-text-string](../for-administrators/tools/csv-importer/examples/all-data-types.md#single-line--multi-line-text-simple-text-string "mention") in a nested field.
+  * maps to [#single-line--multi-line-text-simple-text-string](../for-administrators/tools/csv-importer/examples/all-data-types.md#single-line--multi-line-text-simple-text-string "mention") in a nested field.
 * _List text (multilingual)_
   * maps to [#single-line-and-multiline-text-multilingual](../for-administrators/tools/csv-importer/examples/all-data-types.md#single-line-and-multiline-text-multilingual "mention") in a nested field.
 
@@ -124,21 +124,17 @@ The mapping can be used
 
 When clicking **Next**, you will see the Metadata Mapping being applied with a progress indicator.
 
-<figure><img src="../.gitbook/assets/Screenshot 2025-08-21 at 10.10.21.png" alt="" width="305"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Screenshot 2025-08-21 at 10.10.21.png" alt="" width="305"><figcaption><p>Metadata mapping status progress</p></figcaption></figure>
 
-
-
-In the next view, see the prompt results arranged into your fields.
-
-&#x20;After saving, the records will be accessible just like any other record.&#x20;
-
-{% hint style="warning" %}
-If not satisfied with the results, after updating your prompts with closer alignment to your requirements, restart the import process or continue to&#x20;
-{% endhint %}
+In the next view, see the prompt results arranged into your fields. After saving, the records will be accessible just like any other record.&#x20;
 
 {% hint style="info" %}
-Upload collections are available for choosing a ChatGPT Metadata Mapping to be applied to all freshly added records to the collection.
+**Upload collections** can be configured to apply a custom metadata mapping to be applied to all newly added records
 {% endhint %}
+
+If not satisfied with the results, after updating your prompts with closer alignment to your requirements, restart the import process or continue reading to apply the mapping with a background task.
+
+
 
 ***
 
