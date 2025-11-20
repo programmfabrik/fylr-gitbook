@@ -104,6 +104,19 @@ These example values are the defaults in fylr v6.12.
             ffmpeg:
               waitgroup: video 
     ```
+*   Reduce the number allowed CPU cores used per MP4 video conversion:
+
+    ```
+    fylr+:
+      services+:
+        execserver+:
+          waitgroups+:
+            video:
+              processes: 1
+          env:
+            # threads used by ffmpeg for mp4 video format
+            - FYLR_CONVERT_VIDEO_MP4_THREADS=1
+    ```
 
 ### User experience in Frontend is slowed down by asset processing in general
 
