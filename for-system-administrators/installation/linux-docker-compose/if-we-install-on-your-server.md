@@ -30,7 +30,7 @@ If these criteria below are _not_ possible, we still have at least two alternati
 * **Optional**: We can offer you to connect to our SSH server and use that connection to tunnel to you - sometimes called a "reverse SSH tunnel". This tends to be unstable and is thus not recommended.<br>
 * **From your server to the internet** we need access to download our software and required software such as docker, Opensearch, PostgreSQL, plugins, etc..\
   We strongly **recommend** to give your fylr server general internet access instead of just specific sites. This will never be a desktop computer where someone sits in front of and clicks on malicious links or attachments. \
-  If you need a whitelist of allowed sources, it will include the following, but docker could anytime change these or add more required sites ...\
+  If you need a whitelist of allowed sources instead, it will include the following, but docker could anytime change these or add more required sites ...\
   https://docker.fylr.io (fylr core),\
   https://download.docker.com,\
   https://artifacts.opensearch.org and https://artifacts.elastic.co (indexer plugin),\
