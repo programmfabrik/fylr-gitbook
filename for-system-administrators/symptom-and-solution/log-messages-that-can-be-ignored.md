@@ -16,8 +16,7 @@ WRN Accepting token failed error
 
 ... are probably just old browser sessions with a now invalid authentication.
 
-\
-
+<br>
 
 ### During migration
 

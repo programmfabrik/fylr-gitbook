@@ -28,8 +28,7 @@ Caution: Because these object IDs are continually assigned, it can be a security
 
 ### Access by Column
 
-Allows access by specific values in object type columns (they have to be unique). Example: https://\<your-fylr-url>/api/v1/objects/column/\<object-type>/\<name-of-unique-column>/\<value>.\
-
+Allows access by specific values in object type columns (they have to be unique). Example: https://\<your-fylr-url>/api/v1/objects/column/\<object-type>/\<name-of-unique-column>/\<value>.<br>
 
 ### Embed Linked Records
 

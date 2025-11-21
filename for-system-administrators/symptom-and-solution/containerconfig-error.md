@@ -28,8 +28,7 @@ KeyError: 'ContainerConfig'
 
 ## Causes
 
-As far as we know, docker changed something so that `docker-compose` does not work with containers that were created with an older version `docker-compose`.\
-
+As far as we know, docker changed something so that `docker-compose` does not work with containers that were created with an older version `docker-compose`.<br>
 
 But as `docker-compose` is considered <mark style="color:red;">deprecated</mark> and should be replaced with `docker compose` (note the missing `-` . It is now a plugin to `docker` instead of a stand-alone program named `docker-compose`), we just switch to `docker compose` instead of investigating the situation further with the deprecated `docker-compose`.
 
@@ -41,8 +40,7 @@ Stop and remove all running containers. For good measure you can also restart th
 
 Make sure the docker plugin for compose is installed. E.g. in the Debian package `docker-compose-plugin`.
 
-Create all desired containers, but with `docker compose` instead of `docker-compose` (Note the difference: `-`) \
-
+Create all desired containers, but with `docker compose` instead of `docker-compose` (Note the difference: `-`) <br>
 
 In our [recommended installation page](../installation/linux-docker-compose.md), we now recommend docker compose.
 

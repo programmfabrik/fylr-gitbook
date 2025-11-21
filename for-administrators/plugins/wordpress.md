@@ -39,8 +39,7 @@ For each Wordpress installation you need to configure the following:
 
 ### 3. Permissions
 
-By default, the plugin is disabled for all users except root. To grant selected users/groups access to the plugin, you need to assign them the system right "Allow Wordpress Export". This can be done in the [user](../permissions/user.md)/[group](../permissions/groups.md) editor on the tab "System Rights" > "Plugins".\
-
+By default, the plugin is disabled for all users except root. To grant selected users/groups access to the plugin, you need to assign them the system right "Allow Wordpress Export". This can be done in the [user](../permissions/user.md)/[group](../permissions/groups.md) editor on the tab "System Rights" > "Plugins".<br>
 
 ## Usage
 

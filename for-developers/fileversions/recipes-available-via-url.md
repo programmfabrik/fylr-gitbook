@@ -18,8 +18,7 @@ Extensions supported:
 * opus
 * ra
 * wav
-* wma\
-
+* wma<br>
 
 ### Recipe Options
 
@@ -52,4 +51,4 @@ also see the technical documentation under&#x20;
 * for `version` use a named rendition, like `original.mp3` &#x20;
 * alternatively, download the record in the frontend and copy the according download URL in the browsers dev tools
 * use `&recipe=audioconverter:snippet`  to use the recipe
-* and pass the `recipe_params` as URL encoded JSON (depending on request context this might not be required)\
+* and pass the `recipe_params` as URL encoded JSON (depending on request context this might not be required)<br>

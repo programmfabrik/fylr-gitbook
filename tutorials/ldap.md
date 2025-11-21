@@ -8,13 +8,13 @@ LDAP is an authentication service that you might already have, to hold your user
 
 You need a fylr licence including Authentification to use LDAP. To enable fylr users to **log in** with LDAP accounts, scroll the **User Management** page to LDAP, _above_ SAML:
 
-<figure><img src="../_assets/images/fylr-ldap-find-menu (1).png" alt=""><figcaption><p>where to find LDAP in the menues</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-ldap-find-menu (1).png" alt=""><figcaption><p>where to find LDAP in the menues</p></figcaption></figure>
 
 ## User Login
 
 Here is an **example** configuration with the public test provider ldap.forumsys.com:
 
-<figure><img src="../_assets/images/fylr-ldap-cropped (1).png" alt=""><figcaption><p>example ldap configuration</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-ldap-cropped (1).png" alt=""><figcaption><p>example ldap configuration</p></figcaption></figure>
 
 **URL**: Do not forget the protocol, in this case, `ldap://`. This could also be `ldaps://`. `ldap://` can be combined with **Start TLS**.
 
@@ -31,8 +31,7 @@ If it does not work, <mark style="color:red;">try upper/lower case</mark>. For e
 
 ### **User Update**
 
-During login with LDAP credentials, fylr creates a fylr user that is considered equivalent to the LDAP user - if that fylr user does not already exist. To decide, whether the fylr user already exists, a fylr attribute is compared with an LDAP attribute. In the drop-down menu **User Update**, you can choose which fylr-Attribute is compared: **Referenz**, **Login** or **E-Mail**. Default is **Referenz** (English: reference). In **USER MAPPING** (below) you chose, which LDAP-Attribute to compare.\
-
+During login with LDAP credentials, fylr creates a fylr user that is considered equivalent to the LDAP user - if that fylr user does not already exist. To decide, whether the fylr user already exists, a fylr attribute is compared with an LDAP attribute. In the drop-down menu **User Update**, you can choose which fylr-Attribute is compared: **Referenz**, **Login** or **E-Mail**. Default is **Referenz** (English: reference). In **USER MAPPING** (below) you chose, which LDAP-Attribute to compare.<br>
 
 As an example, let us assume that ...
 
@@ -95,8 +94,7 @@ If you do not see enough ldap-related log messages, check:
 
 ## Group settings
 
-We recommend to only configure group settings after the above settings are working to log in. Group settings are optional.\
-
+We recommend to only configure group settings after the above settings are working to log in. Group settings are optional.<br>
 
 <figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption><p>example Group settings tested with ldap.forumsys.com</p></figcaption></figure>
 

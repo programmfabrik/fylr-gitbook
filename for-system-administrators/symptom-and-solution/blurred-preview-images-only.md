@@ -16,4 +16,4 @@ description: If in fylr frontend, all images are only shown heavily blurred
 * You changed the URL, for example http instead https or vice versa, or you changed the domain name in fylr's `externalURL` setting. This can be remedied with a re-index (which will take time)
 * There is a routing or firewalling problem so that asset previews cannot be shown. This would be additionally indicated by error messages in ...&#x20;
   * in your browsers development tools (errors in "console" of "dev-tools" visibel with the `F12` key)&#x20;
-  * or in error messages in the fylr log (accessible as fylr output or container output on the sysadmin level, or in https://your-fylr.example.co&#x6D;**/inspect/system/console/** (needs fylr root account access).\
+  * or in error messages in the fylr log (accessible as fylr output or container output on the sysadmin level, or in https://your-fylr.example.co&#x6D;**/inspect/system/console/** (needs fylr root account access).<br>

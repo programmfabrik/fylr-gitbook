@@ -81,8 +81,7 @@ Please note, this also applies to files which where uploaded but not yet been sa
 When this checkbox is enabled, the Janitor can be configured directly at the pool or object type. This is dependent on the pool management setting at the object type in the data model configuration.
 
 {% hint style="info" %}
-**Enabling the Overwrite option requires further activation and configuration** in Rights Management for the janitor to run.\
-
+**Enabling the Overwrite option requires further activation and configuration** in Rights Management for the janitor to run.<br>
 {% endhint %}
 
 ### Settings For Users

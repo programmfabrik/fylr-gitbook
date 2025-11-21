@@ -154,4 +154,4 @@ The following information is sufficient for the GVK custom data type:
 ```
 {% endcode %}
 
-Only the corresponding target field has to be selected in the mapping. There are no further options.\
+Only the corresponding target field has to be selected in the mapping. There are no further options.<br>
