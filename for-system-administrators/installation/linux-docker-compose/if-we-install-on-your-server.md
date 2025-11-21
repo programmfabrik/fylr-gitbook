@@ -28,14 +28,16 @@ If these criteria below are _not_ possible, we still have at least two alternati
 * **Optional**: The access can be secured via a customer operated SSH proxy (also known as Jumphost). This only includes SSH protocol software, not virtual desktops.
 * **Optional**: Additionally, a customer operated OpenVPN server can be used. We can evaluate other software, if it is compatible with OpenConnect or if it can be done with OpenFortiVPN. All these have encryption, which is made redundant by SSH's encryption, and they increase complexity and fragility and are thus not recommended.
 * **Optional**: We can offer you to connect to our SSH server and use that connection to tunnel to you - sometimes called a "reverse SSH tunnel". This tends to be unstable and is thus not recommended.<br>
-* **From your server to the internet** we need access to \
-  https://docker.easydb.de, \
-  https://raw.githubusercontent.com, \
+* **From your server to the internet** we need access to at least\
+  https://docker.fylr.io,\
   https://download.docker.com,\
-  for fylr plugins https://github.io and https://github.com \
+  https://raw.githubusercontent.com, \
+  https://github.io and https://github.com (fylr plugins )\
   and of course the package sources of the Linux distribution used on your server.\
   \
-  **Optional**: Use of a proxy for these is possible, but will take longer to configure. Not tested for plugin downloads yet.<br>
+  **Optional**: Use of a proxy for these is possible, but will take longer to configure. Not tested for download of plugins yet.\
+  \
+  We strongly recommend to give your fylr server general internet access. This will never be a desktop computer where someone sits in front of and clicks on malicious links or attachments.&#x20;
 
 We recommend that we test SSH access a few working days prior to the installation, whereby we also check the prerequisites of the server.
 
