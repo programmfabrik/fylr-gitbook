@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2025-10-13 09:55:25 (UTC)
+    * timestamp: 2025-11-25 11:01:32 (UTC)
 -->
 
 # Plugin Overview
@@ -500,3 +500,11 @@ Uses user-image as logo in frontend and PDF-creator.
 This plugin depends on these plugins:
 
 * [`fylr-plugin-pdf-creator`](#fylr-plugin-pdf-creator)
+
+
+## `obscure-image`
+
+Obscure (Pixelate/Blur/Blackout) tool for the Fylr AssetVersions editor.
+
+* Repository: [https://github.com/programmfabrik/fylr-plugin-obscure-image](https://github.com/programmfabrik/fylr-plugin-obscure-image)
+* This plugin was developed by *Programmfabrik GmbH*.
