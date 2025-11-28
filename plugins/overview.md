@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2025-11-25 11:41:59 (UTC)
+    * timestamp: 2025-11-28 11:21:11 (UTC)
 -->
 
 # Plugin Overview
@@ -57,6 +57,7 @@ Adds a tool to the base configuration to set default values for simple text fiel
 
 Enables the export to transport the files to a FTP server.
 
+* Release URL: [https://github.com/programmfabrik/easydb-export-transport-ftp-plugin/releases/latest/download/easydb-export-transport-ftp-plugin.zip](https://github.com/programmfabrik/easydb-export-transport-ftp-plugin/releases/latest/download/easydb-export-transport-ftp-plugin.zip)
 * Repository: [https://github.com/programmfabrik/easydb-export-transport-ftp-plugin](https://github.com/programmfabrik/easydb-export-transport-ftp-plugin)
 * This plugin was developed by *Programmfabrik GmbH*.
 
@@ -404,6 +405,43 @@ Custom monitoring-endpoint for fylr-API. The plugin provides a new API endpoint 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-monitoring/releases/latest/download/monitoringEndpoint.zip](https://github.com/programmfabrik/fylr-plugin-monitoring/releases/latest/download/monitoringEndpoint.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-monitoring](https://github.com/programmfabrik/fylr-plugin-monitoring)
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
+
+
+## `obscure-image`
+
+Obscure (Pixelate/Blur/Blackout) tool for the Fylr AssetVersions editor.
+
+
+
+{% hint style="info" %}
+This plugin does not have a public release URL.
+
+To get access to this plugin and receive a URL, please contact our support.
+{% endhint %}
+
+* This plugin was developed by *Programmfabrik GmbH*.
+
+
+## `fylr-plugin-pdf-creator`
+
+Plugin to provide HTML to PDF functionality for fylr.
+
+
+
+{% hint style="info" %}
+This plugin does not have a public release URL.
+
+To get access to this plugin and receive a URL, please contact our support.
+{% endhint %}
+
+* This plugin was developed by *Programmfabrik GmbH*.
+
+
+This plugin is a dependency for these plugins:
+
+* [`fylr-scancode-display`](#fylr-scancode-display)
+* [`pdf-creator-custom-value`](#pdf-creator-custom-value)
+* [`user-logo`](#user-logo)
 
 
 ## `pdf-creator-custom-value`
