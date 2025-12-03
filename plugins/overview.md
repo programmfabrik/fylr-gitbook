@@ -6,11 +6,18 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2025-11-28 11:21:11 (UTC)
+    * timestamp: 2025-12-03 13:29:07 (UTC)
 -->
 
 # Plugin Overview
 
+
+
+## `collection-plugin-example`
+
+An example plugin showing how to add custom context menu for selections and collection on ez5 and fylr.
+
+* Repository: [https://github.com/programmfabrik/collection-plugin-example](https://github.com/programmfabrik/collection-plugin-example)
 
 
 ## `easydb-barcode-display-pdf-plugin`
@@ -95,6 +102,14 @@ To get access to this plugin and receive a URL, please contact our support.
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
+## `fylr-plugin-ai-validator`
+
+This is a plugin for fylr which runs AI and other validations on texts like user comments on whether they should be moderated by editorial staff.
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-ai-validator/releases/latest/download/ai-validator.zip](https://github.com/programmfabrik/fylr-plugin-ai-validator/releases/latest/download/ai-validator.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-ai-validator](https://github.com/programmfabrik/fylr-plugin-ai-validator)
+
+
 ## `collection-csv-import`
 
 Plugin manages the server side csv importer.
@@ -144,6 +159,23 @@ This custom data type allows you to reference the entities of the [DANTE-Vocabul
 This plugin depends on these plugins:
 
 * [`commons-library`](#commons-library)
+
+
+## `fylr-plugin-custom-data-type-doris`
+
+This plugin adds the new data type "DoRIS" to a Fylr instance, enabling communication between Fylr and the [DoRIS DMS](https://doris-dms.de/).
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-doris/releases/latest/download/CustomDataTypeDoRIS.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-doris/releases/latest/download/CustomDataTypeDoRIS.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-doris](https://github.com/programmfabrik/fylr-plugin-custom-data-type-doris)
+* This is a custom data type.
+
+
+## `fylr-plugin-custom-data-type-finto`
+
+This is a plugin for fylr with Custom Data Type `CustomDataTypeFINTO` for references to entities of the Finnish Thesaurus and Ontology Service FINTO ([https://finto.fi/](https://finto.fi/)).
+
+* Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-finto](https://github.com/programmfabrik/fylr-plugin-custom-data-type-finto)
+* This is a custom data type.
 
 
 ## `custom-data-type-geonames`
@@ -236,6 +268,15 @@ This plugin depends on these plugins:
 * [`commons-library`](#commons-library)
 
 
+## `fylr-plugin-custom-data-type-goobi`
+
+This is a plugin for fylr with Custom Data Type CustomDataTypeGoobi for references to entities to [Goobi workflow](https://www.intranda.com/digiverso/goobi/).
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-goobi/releases/latest/download/customDataTypeGoobi.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-goobi/releases/latest/download/customDataTypeGoobi.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-goobi](https://github.com/programmfabrik/fylr-plugin-custom-data-type-goobi)
+* This is a custom data type.
+
+
 ## `custom-data-type-iconclass`
 
 This custom data type allows you to reference entities of the [Iconclass-Vocabulary](http://iconclass.org/).
@@ -281,6 +322,15 @@ This plugin depends on these plugins:
 * [`commons-library`](#commons-library)
 
 
+## `fylr-plugin-custom-data-type-nfis-geometry`
+
+This plugin adds the new data type "Geometry link via WFS-T and Masterportal" to a fylr instance.
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-nfis-geometry/releases/latest/download/CustomDataTypeNFISGeometry.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-nfis-geometry/releases/latest/download/CustomDataTypeNFISGeometry.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-nfis-geometry](https://github.com/programmfabrik/fylr-plugin-custom-data-type-nfis-geometry)
+* This is a custom data type.
+
+
 ## `custom-data-type-nomisma`
 
 Custom data type for references to the records from different online ressources of the [Nomisma-Project](http://www.nomisma.org/datasets).
@@ -296,6 +346,15 @@ This plugin depends on these plugins:
 * [`commons-library`](#commons-library)
 
 
+## `fylr-plugin-custom-data-type-tnadiscovery`
+
+This is a plugin for fylr with Custom Data Type `CustomDataTypeTNADiscovery` for references to entities of the [Nationalarchives-Discovery-System](http://discovery.nationalarchives.gov.uk/).
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-tnadiscovery/releases/latest/download/customDataTypeTNADiscovery.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-tnadiscovery/releases/latest/download/customDataTypeTNADiscovery.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-tnadiscovery](https://github.com/programmfabrik/fylr-plugin-custom-data-type-tnadiscovery)
+* This is a custom data type.
+
+
 ## `custom-data-type-wikidata`
 
 Plugin for fylr with Custom Data Type `CustomDataTypeWikidata` for references to records of the Wikidata ([https://www.wikidata.org](https://www.wikidata.org)).
@@ -309,6 +368,14 @@ Plugin for fylr with Custom Data Type `CustomDataTypeWikidata` for references to
 This plugin depends on these plugins:
 
 * [`commons-library`](#commons-library)
+
+
+## `fylr-plugin-custom-l10n`
+
+Configure new l10n-keys or overwrite existing keys.
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-l10n/releases/latest/download/CustomL10n.zip](https://github.com/programmfabrik/fylr-plugin-custom-l10n/releases/latest/download/CustomL10n.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-custom-l10n](https://github.com/programmfabrik/fylr-plugin-custom-l10n)
 
 
 ## `custom-vzg-validationhub`
@@ -336,6 +403,14 @@ This custom mask splitter allows you to hide input fields depending on another f
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-editor-field-visibility/releases/latest/download/EditorFieldVisibility.zip](https://github.com/programmfabrik/fylr-plugin-editor-field-visibility/releases/latest/download/EditorFieldVisibility.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-editor-field-visibility](https://github.com/programmfabrik/fylr-plugin-editor-field-visibility)
 * This plugin was developed by *Programmfabrik GmbH*.
+
+
+## `fylr-plugin-ejc`
+
+Plugin to support EJC classes.
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-plugin-ejc.zip](https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-plugin-ejc.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-ejc](https://github.com/programmfabrik/fylr-plugin-ejc)
 
 
 ## `fylr_example`
@@ -407,6 +482,24 @@ Custom monitoring-endpoint for fylr-API. The plugin provides a new API endpoint 
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
+## `fylr-plugin-nfis-denkxweb-export`
+
+Custom endpoint for fylr-API.
+
+The plugin provides a new API endpoint under `GET /api/v1/plugin/extension/nfis-denkxweb-export/export`.
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-nfis-denkxweb-export/releases/latest/download/nfisDenkxwebExport.zip](https://github.com/programmfabrik/fylr-plugin-nfis-denkxweb-export/releases/latest/download/nfisDenkxwebExport.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-nfis-denkxweb-export](https://github.com/programmfabrik/fylr-plugin-nfis-denkxweb-export)
+
+
+## `fylr-plugin-numeric-id-auto-incrementer`
+
+This server plugin for fylr allows automatically setting the values of numeric ID fields when saving data.
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-numeric-id-auto-incrementer/releases/latest/download/NumericIdAutoIncrementer.zip](https://github.com/programmfabrik/fylr-plugin-numeric-id-auto-incrementer/releases/latest/download/NumericIdAutoIncrementer.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-numeric-id-auto-incrementer](https://github.com/programmfabrik/fylr-plugin-numeric-id-auto-incrementer)
+
+
 ## `obscure-image`
 
 Obscure (Pixelate/Blur/Blackout) tool for the Fylr AssetVersions editor.
@@ -472,6 +565,14 @@ This plugin depends on these plugins:
 * [`fylr-plugin-pdf-creator`](#fylr-plugin-pdf-creator)
 
 
+## `fylr-scancode-display`
+
+Custom Mask Splitter for fylr to output scancodes based on data of another field in the record. Various barcode formats and QR codes are available. This plugin can be used in datamodel-masks and also in the pdfcreator.
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-scancode-display/releases/latest/download/ScancodeDisplay.zip](https://github.com/programmfabrik/fylr-plugin-scancode-display/releases/latest/download/ScancodeDisplay.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-scancode-display](https://github.com/programmfabrik/fylr-plugin-scancode-display)
+
+
 ## `fylr-plugin-sequence`
 
 This plugin allows you to automatically generate a string based on sequential numbers when inserting records.
@@ -488,6 +589,24 @@ This plugin allows the conversion of HTML to PDF, using an internal Chromium bin
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-server-pdf](https://github.com/programmfabrik/fylr-plugin-server-pdf)
 * This plugin was developed by *Programmfabrik GmbH*.
+
+
+## `fylr-plugin-tray-link-manager`
+
+Create and manage tray-links for app-header.
+
+The plugin makes it possible to create tray entries in baseconfig and to provide them with text, a link and an icon, and to assign group permissions there.
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-tray-link-manager/releases/latest/download/trayLinkManager.zip](https://github.com/programmfabrik/fylr-plugin-tray-link-manager/releases/latest/download/trayLinkManager.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-tray-link-manager](https://github.com/programmfabrik/fylr-plugin-tray-link-manager)
+
+
+## `fylr-plugin-ubhd-3d-viewer`
+
+3D Viewer Plugin der Universitätsbibliothek Heidelberg basierend auf 3DHOP, three.js und Relight.
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-ubhd-3d-viewer/releases/latest/download/fylr-plugin-ubhd-3d-viewer.zip](https://github.com/programmfabrik/fylr-plugin-ubhd-3d-viewer/releases/latest/download/fylr-plugin-ubhd-3d-viewer.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-ubhd-3d-viewer](https://github.com/programmfabrik/fylr-plugin-ubhd-3d-viewer)
 
 
 ## `user-logo`
