@@ -17,8 +17,6 @@ Plugins may be packed into a .zip file, if they are FYLR serves the data from wi
 
 Configured callbacks use replacements for specific URL to receive and send data.
 
-![img](../reference/camera.jpg)
-
 | Replacement     | Description                                                                                                                                                                                                                                                                                                                                                                                              |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `%_input.url%`  | The URL pointing to an HTTP endpoint sending out the input data for the plugin. This can be mapped to STDIN or read directly by the plugin.                                                                                                                                                                                                                                                              |
@@ -122,7 +120,7 @@ base_config:
 
 ## Extensions
 
-Extensions add API endpoints to the **base url of the plugin**.  The name of the endpoint is the key in the prodived map `extensions` in the plugin manifest. The `exec` map is identical to Callbacks. The map specifies how the file worker chain is called to execute the extension.
+Extensions add API endpoints to the **base url of the plugin**. The name of the endpoint is the key in the prodived map `extensions` in the plugin manifest. The `exec` map is identical to Callbacks. The map specifies how the file worker chain is called to execute the extension.
 
 {% hint style="info" %}
 The plugin `fylr_example` defines an extension `dump/info` . This endpoint will be available under:
