@@ -110,9 +110,6 @@ fylr:
     # Set to true to disable loading standard from cache. This can help to
     # investigate indexer problems.
     objectLoadDisableCache: false
-    # indexerSingleMode sets the request to single mode instead of bulk mode,
-    # set this to true to more easily debug index requests. Default: false.
-    indexerSingleMode: false
     # indexerDebug can be set to output statistics & memory allocation information
     # during object indexing. Defaults to false.
     indexerDebug: false
@@ -123,7 +120,7 @@ fylr:
     indexerNestedNotIncludeInRoot: false
     # disableHttp2Client disables HTTP2 for client connections. Set this to true if
     # you are experiencing difficulties connecting to certain web servers for
-    # file upload. E.g. "stream error".
+    # file upload. E.g. with "stream error".
     disableHttp2Client: false
 
   # optional, set environment. This can be used to set FYLR_CMD_* inside the fylr.yml
@@ -199,12 +196,10 @@ fylr:
       # baseconfig setting in this .yml file. Runs after configFile, so
       # everything in config overwrites settings from configFile. Default is
       # empty.
-      config: null
-
-      # location_defaults map accepts location ids as well as names:
       config:
         system:
           config:
+            # location_defaults map accepts location ids as well as names:
             location_defaults:
               originals: mys3
               versions: mys3
@@ -318,7 +313,8 @@ fylr:
   # resource folder needed in that case). Defaults to embedded. Resources are
   # overloaded, if the given directory tree doesn't contain the resource
   # requested, fylr uses the embedded resource. To see what files are loaded
-  # from where use "fylr resources".
+  # from where use "fylr resources". This does not include the webfrontend files.
+  # To overload those, you must set "fylr.services.webapp.path".
   resources: ""
 
   # Elastic is the indexer for FYLR
@@ -335,17 +331,13 @@ fylr:
     settings: ""
     # number of parallel workers to index documents, defaults to 4, set to 0 to disable
     parallel: 1
-    # number of objects per job passed to the indexer process
+    # number of objects per job passed to the indexer worker
     objectsPerJob: 100
-    # maxMem is the cut-off JSON size in bytes for objects sent to the indexer. Defaults to 100MB.
+    # maxMem is the cut-off JSON size in bytes for objects
+    # sent to the indexer. Defaults to 100MB. If set to <= 0 the cut-off is
+    # disabled and all objects are processed before this is handed over to the
+    # indexer.
     maxMem: 100mb
-    # maxHeapAlloc is the maxium allocation of heap memory during indexing of
-    # user objects (not base types). fylr tries to keep the heap memory below
-    # this value. If fylr sees twice the heap size used, it runs the Go garbage
-    # collector and outputs a warning. In such a case, the maxHeapAlloc should
-    # be set to a higher value or the datastructure of the indexed objects need
-    # to be looked at. On capable systems we recommend 4G, defaults to 1G.
-    maxHeapAlloc: 1g
     # fielddata (debug feature). if set to true, fields are mapped including their fielddata
     # in the reverse index. with that, the inspect view of the indexed version of
     # the object shows a per field list of stored terms. This can be useful for debugging

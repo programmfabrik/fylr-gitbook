@@ -47,8 +47,7 @@ fylr:
     parallel: 4
     objectsPerJob: 100
     metadataFulltextLimit: 1mb
-    maxMem: 100mb
-    maxHeapAlloc: 1g
+    maxMem: 25mb
     addresses:
       - "http://localhost:9200"
 
