@@ -210,6 +210,7 @@
 * [Migration Tool](for-system-administrators/migration/README.md)
   * [Create payloads (fylr backup)](for-system-administrators/migration/backup.md)
   * [Insert payloads (fylr restore)](for-system-administrators/migration/restore.md)
+  * [Limitations and differences](for-system-administrators/migration/limitations.md)
   * [Best Practice](for-system-administrators/migration/best-practice.md)
   * [Using the inspect page to migrate](for-system-administrators/migration/inspect.md)
 * [Integration](for-system-administrators/integration/README.md)
