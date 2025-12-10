@@ -102,7 +102,8 @@
     * [Using editor templates](help/tutorials/for-administrators/how-to-share-editing-templates-with-users.md)
   * [For System Administrators](help/tutorials/for-system-administrators/README.md)
     * [How to setup and use IIIF](help/tutorials/for-system-administrators/how-to-setup-and-use-iiif.md)
-    * [External access: Sharing collections with anonymous users](help/tutorials/for-system-administrators/external-access-sharing-collections-with-anonymous-users.md)
+    * [Sharing collections with groups and users](help/tutorials/for-system-administrators/sharing-collections-with-groups-and-users.md)
+    * [Sharing collections with external users](help/tutorials/for-system-administrators/external-access-sharing-collections-with-anonymous-users.md)
     * [Migration with map to local storage](help/tutorials/for-system-administrators/migrate-map-to-local-storage.md)
 * [Glossary](help/glossary.md)
 
