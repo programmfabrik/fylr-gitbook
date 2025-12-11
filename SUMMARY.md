@@ -316,7 +316,7 @@
   * [Recipes available via URL](for-developers/fileversions/recipes-available-via-url.md)
 * [WebDAV](for-developers/webdav.md)
 * [Plugin](for-developers/plugin.md)
-  * [Packaging and Release](for-developers/plugin/release.md)
+  * [fylr Plugins: Packaging and Release](for-developers/plugin/release.md)
 * [Collection Pin Code](for-developers/collection_pin_code.md)
 * [easydb 5](for-developers/changes-easydb5-fylr.md)
 * [Localization](for-developers/localization.md)
