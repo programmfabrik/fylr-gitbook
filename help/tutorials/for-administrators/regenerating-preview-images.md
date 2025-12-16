@@ -45,6 +45,10 @@ To produce the new rendition for existing records, follow this list:
 6. select action `resync`  to generate missing renditions for the selected files
 7. confirm the the action
 
+{% hint style="info" %}
+**To select all records in the action panel, deselect the `Parents` and `Children` checkboxes.**
+{% endhint %}
+
 #### Generating renditions for all files
 
 If renditions turn out erroneous it's best to produce a new set versions using the action `produce versions` . **This will produce versions for all selected files**.&#x20;
