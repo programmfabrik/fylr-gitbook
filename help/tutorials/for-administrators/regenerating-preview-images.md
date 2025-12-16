@@ -55,4 +55,6 @@ If renditions turn out erroneous it's best to produce a new set versions using t
 
 &#x20;
 
-Depending on the number of selected files the resync can take some time. To confirm the successful generation of new versions find a record in the Fylr frontend and inspect the versions in the details Info tab. Alternatively inspect the detailed logs in the Fylr console located at the URL `/your-instance.com/inspect/system/console` .
+Depending on the number of selected files the resync can take some time. To confirm the successful generation of new versions find a record in the Fylr frontend and inspect the versions in the details Info tab.&#x20;
+
+Alternatively inspect the detailed logs in the Fylr console located at the URL `<fylr url>/inspect/system/console` .
