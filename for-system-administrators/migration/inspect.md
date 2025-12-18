@@ -1,15 +1,16 @@
 ---
 description: >-
-  This page describes the process of migrating data into fylr instances using the /inspect/migration page in fylr
+  This page describes the process of migrating data into fylr instances using
+  the /inspect/migration page in fylr
 ---
 
-# Using the fylr inspect page for migrations
+# Using the inspect page to migrate
 
 The migration using the `fylr backup` and `fylr restore` commands can also be performed in the inspect page for migrations (open `<fylr url>/inspect/migration/` in the browser). This provides a graphical overview to run these commands.
 
-The source instance for the backup can be any **easydb5** or **fylr** instance, even the current **fylr** instance. The same is true for the target instance of the restore, this can theoretically be the same **fylr** instance, although this is not recommended and you should use another target instance.
+The source instance for the backup can be any **easydb5** or **fylr** instance, even the current **fylr** instance. The same is true for the target instance of the restore, this can be the same **fylr** instance.
 
-The following example shows how a backup with the name *"example"* would be migrated from server *"http://example.fylr.xyz"* to server *"http://target.fylr.xyz"*.
+The following example shows how a backup with the name _"example"_ would be migrated from server _"http://example.fylr.xyz"_ to server _"http://target.fylr.xyz"_.
 
 The backup and restore processes are performed in the background. They run on the server and are independant of the browser window. The progress can be checked by opening the status page of a backup / restore process (see below).
 
@@ -65,10 +66,10 @@ See also: [Backup Parameters](backup.md#parameters)
 * Select only if the source instance uses OAuth2
 * **easydb5** does not use OAuth2
 * this enables the following options:
-  * *OAuth2 Client Id*
+  * _OAuth2 Client Id_
     * Client Id of the source instance
     * This sets `--client-id fylr-web-frontend`
-  * *OAuth2 Client Secret*
+  * _OAuth2 Client Secret_
     * Client Secret of the source instance
     * Leave empty if the source instance is public
     * This sets `--client-secret foo`
@@ -145,9 +146,9 @@ See also: [Restore Parameters](restore.md#parameters)
 #### File Mode
 
 * Method used to upload files, leave empty to not upload files (this is the default)
-  * *Copy files from source (through browser) - `put`*
-  * *Copy files from source (via server) - `rput`*
-  * *Use files from source - `rput_leave`*
+  * _Copy files from source (through browser) - `put`_
+  * _Copy files from source (via server) - `rput`_
+  * _Use files from source - `rput_leave`_
     * The target server stores remote URLs, no data is copied to storage
     * Use `rput_leave` to not copy files to the restored instance if you want to only test a migration quickly
 * This sets `--file-api rput`
@@ -155,8 +156,8 @@ See also: [Restore Parameters](restore.md#parameters)
 #### File Version
 
 * Set a version which will be used as the new original version in the restored instance
-  * *original* (the original asset, no version. This is the default)
-  * *preview*
+  * _original_ (the original asset, no version. This is the default)
+  * _preview_
   * and other version names (depend on configurations)
 * If you are not using `rput_leave` use a small version like `preview` to save disk space and process more quickly
 * This sets `--file-version original`
@@ -201,10 +202,10 @@ This sets `--file-api-access-token <token>`
 * Select only if the target instance uses OAuth2
 * **easydb5** does not use OAuth2
 * this enables the following options:
-* *OAuth2 Client Id*
+* _OAuth2 Client Id_
   * Client Id of the target instance
   * This sets `--client-id web-client`
-* *OAuth2 Client Secret*
+* _OAuth2 Client Secret_
   * Client Secret of the target instance
   * Leave empty if the target instance is public
   * This sets `--client-secret foo`
@@ -258,7 +259,6 @@ The following parameters are set in the background:
 
 Click on **Restore** to start the restoring process in the background.
 
-Confirm the message *This will destroy all data on "http://target.fylr.xyz"!*. Be sure you want to **delete all data and the complete datamodel** on the target instance. The restore process is always performed with `--purge`.
+Confirm the message _This will destroy all data on "http://target.fylr.xyz"!_. Be sure you want to **delete all data and the complete datamodel** on the target instance. The restore process is always performed with `--purge`.
 
 The progress of the restore is the shown in a new page where you can see the log. You also access this page directly under `<fylr url>/inspect/migration/<backup name>`, so in this example under `<fylr url>/inspect/migration/example`.
-

@@ -212,6 +212,11 @@ export:
       service: "node"
       commands:
         - prog: "node"
+          stdin:
+            # fylr will send the export json via stdin (starting in 6.28.0), if
+            # stdin is configured as type "body". This applies to export as well
+            # as to export transport.
+            type: body
           stdout:
             type: body
           args:
@@ -236,7 +241,7 @@ export:
 | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `info.config.system`                    | Base config of the instance.                                                                                                                                                                                                                                                               |
 | `info.request`                          | Inforrmation about the request.                                                                                                                                                                                                                                                            |
-| `export`                                | Export in API format, enhanced with internal information.                                                                                                                                                                                                                                  |
+| `export`                                | Export in API format, enhanced with internal information. Starting with `6.28.0` this property is only present if the exec.command does not read `stdin` from `body`.                                                                                                                      |
 | `export._files[n].export_file_internal` | Internal information per file.                                                                                                                                                                                                                                                             |
 | `plugin_action`                         | Set if the request is for an plugin exported file.                                                                                                                                                                                                                                         |
 | `api_user_access_token`                 | Token to call back into the API. This is the token of the user authenticated for the currently running api call.                                                                                                                                                                           |
