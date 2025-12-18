@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2025-12-03 13:29:07 (UTC)
+    * timestamp: 2025-12-18 15:40:19 (UTC)
 -->
 
 # Plugin Overview
@@ -174,6 +174,7 @@ This plugin adds the new data type "DoRIS" to a Fylr instance, enabling communic
 
 This is a plugin for fylr with Custom Data Type `CustomDataTypeFINTO` for references to entities of the Finnish Thesaurus and Ontology Service FINTO ([https://finto.fi/](https://finto.fi/)).
 
+* Release URL: [https://github.com/programmfabrik/fylr-custom-data-type-finto/releases/latest/download/customDataTypeFinto.zip](https://github.com/programmfabrik/fylr-custom-data-type-finto/releases/latest/download/customDataTypeFinto.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-finto](https://github.com/programmfabrik/fylr-plugin-custom-data-type-finto)
 * This is a custom data type.
 
@@ -461,6 +462,21 @@ This plugin does not have a public release URL.
 To get access to this plugin and receive a URL, please contact our support.
 {% endhint %}
 
+* This plugin was developed by *Programmfabrik GmbH*.
+
+
+## `geo-json (public)`
+
+{% hint style="warning" %}
+This plugin repository will be removed soon!
+
+Please change to [geo-json](#geo-json) (same functionality and content) as soon as possible!
+{% endhint %}
+
+This plugin enables support for the GeoJSON format within the Fylr application. It provides views and editors for fields of type GeoJSON, along with additional utilities to work with geographic data.
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-geo-json-public/releases/latest/download/geo-json.zip](https://github.com/programmfabrik/fylr-plugin-geo-json-public/releases/latest/download/geo-json.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-geo-json-public](https://github.com/programmfabrik/fylr-plugin-geo-json-public)
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
