@@ -317,7 +317,7 @@ fylr:
   # To overload those, you must set "fylr.services.webapp.path".
   resources: ""
 
-  # Elastic is the indexer for FYLR
+  # The indexer. The configuration is below "elastic", even when Opensearch is used.
   elastic:
     # Logger used for the elastic client
     # "Text": TextLogger prints the log message in plain text.
@@ -333,10 +333,11 @@ fylr:
     parallel: 1
     # number of objects per job passed to the indexer worker
     objectsPerJob: 100
-    # maxMem is the cut-off JSON size in bytes for objects
-    # sent to the indexer. Defaults to 100MB. If set to <= 0 the cut-off is
-    # disabled and all objects are processed before this is handed over to the
-    # indexer.
+    # maxMem is the cut-off JSON size in bytes for objects sent to the indexer.
+    # Defaults to 100MB. If set to <= 0 the cut-off is disabled and all objects
+    # are processed before this is handed over to the indexer. This value is
+    # auto adjusted to be at maximum 10% smaller than the allowecd
+    # http.max_content_length cluster setting as reported by the indexer.
     maxMem: 100mb
     # fielddata (debug feature). if set to true, fields are mapped including their fielddata
     # in the reverse index. with that, the inspect view of the indexed version of
@@ -401,9 +402,11 @@ fylr:
         certFile: ""
         keyFile: ""
 
-      # hotfolder path, if set this folder will be created by fylr (if not
-      # exists).
-      webDAVHotfolderPath: "_hotfolder"
+      # webDAVHotfolderPath must be set to a folder where fylr will spin up a
+      # WebDAV hotfolder with. The directory is created if it doesn't exist.
+      # Only if the path is set, fylr will enable support for the drop hotfolder
+      # (write only). There is no default setting configured.
+      webDAVHotfolderPath: ""
 
       # oauth2 server settings
       oauth2Server:
@@ -492,8 +495,10 @@ fylr:
           # additionalDomains:
           # - "www.database.de"
 
-      # javascript files for the webapp
-      path: ../easydb-webfrontend/build
+      # alternativ path to the webfrontend code. if configured the files here
+      # overload the included webfrontend files. see fylr.resources for more
+      # information on overloading resources.
+      path: ""
       # oauth2 client configuration to connect to
       # server. This must match the configuration above.
       oauth2:
