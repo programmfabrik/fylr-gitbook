@@ -96,7 +96,8 @@
 
 * [FAQs](help/faqs.md)
 * [Tutorials](help/tutorials/README.md)
-  * [For Users](help/tutorials/for-users.md)
+  * [For Users](help/tutorials/for-users/README.md)
+    * [Using Templates for Records](help/tutorials/for-users/using-templates-for-records.md)
   * [For Administrators](help/tutorials/for-administrators/README.md)
     * [Exporting & Importing Hierarchical Lists](help/tutorials/for-administrators/exporting-and-importing-hierarchical-lists.md)
     * [Regenerating preview images](help/tutorials/for-administrators/regenerating-preview-images.md)
