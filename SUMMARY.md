@@ -96,7 +96,7 @@
 
 * [FAQs](help/faqs.md)
 * [Tutorials](help/tutorials/README.md)
-  * [For Users](help/tutorials/for-users/README.md)
+  * [For Users](help/tutorials/for-users.md)
     * [Using Templates for Records](help/tutorials/for-users/using-templates-for-records.md)
   * [For Administrators](help/tutorials/for-administrators/README.md)
     * [Exporting & Importing Hierarchical Lists](help/tutorials/for-administrators/exporting-and-importing-hierarchical-lists.md)
@@ -119,6 +119,7 @@
     * [Input Fields](for-users/asset-records-management/editing-records/input-fields.md)
     * [Group Editor](for-users/asset-records-management/editing-records/group-editor.md)
   * [Deleting Records](for-users/asset-records-management/deleting-records.md)
+* [Search & Filter](for-users/search-and-filter.md)
 * [Quick Access](for-users/quick-access/README.md)
   * [Collections (& Presentations)](for-users/quick-access/collections-and-presentations.md)
   * [Saved Searches (& Lists)](for-users/quick-access/saved-searches-and-lists.md)
