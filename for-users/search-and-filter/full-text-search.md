@@ -6,9 +6,9 @@ description: Learn everything you need to know about searching and filtering.
 
 Full-text search provides several options to precisely define search queries and narrow down results. The following features can be used individually or combined, depending on your use case.
 
-When typing a word into the search field, you get suggestions where you can pick from or simply continue writing.
+When typing a word into the search field, you get suggestions where you can pick from or simply continue writing (for more details see below):
 
-<table><thead><tr><th width="218.359375">OPTION</th><th>EXPLANATION</th></tr></thead><tbody><tr><td>Fulltext</td><td></td></tr><tr><td>Exact Match</td><td></td></tr><tr><td>Word Suggestions</td><td></td></tr><tr><td>Lists</td><td></td></tr></tbody></table>
+<table><thead><tr><th width="218.359375">OPTION</th><th>EXPLANATION</th></tr></thead><tbody><tr><td>Fulltext</td><td>Automatically adds wildcards left and right.</td></tr><tr><td>Exact Match</td><td>A case-sensitive search that only finds records where the whole value of a field match.</td></tr><tr><td>Word Suggestions</td><td> Shows words from the index and searches without wildcards.</td></tr><tr><td>Lists</td><td>Shows entries from lists, vocabularies and thesauri.</td></tr></tbody></table>
 
 ### Searching for a Specific Word
 
@@ -21,13 +21,17 @@ Examples:
 * `report`, `Report`, and `REPORT` return the same results.
 * Searching for `programmfabrik` also matches `Programmfabrik`.
 
-A case-sensitive search is only possible with the exact search. As the exact search matches the whole string, you need to add wildcards like  `` `*programmfabrik*` ``.
-
-Example:
-
-* `` `*programmfabrik*` `` does **not** match `Programmfabrik` or `PROGRAMMFABRIK`.
+A case-sensitive search is only possible with the exact search (see below).
 
 #### Exact Search
+
+The exact search allows you to find records where a specific field matches **exactly** the search term you enter. This type of search is **case-sensitive** and does not return partial matches or variations (add wildcards to achieve this).
+
+If the field contains `fylr documentation`:
+
+<table><thead><tr><th width="276.671875">Search Term</th><th>Result</th></tr></thead><tbody><tr><td><code>`FYLR`</code></td><td>❌ No match</td></tr><tr><td><code>`fylr documentation`</code>   </td><td>✅ Match</td></tr><tr><td><code>`documentation`</code></td><td>❌ No match</td></tr><tr><td><code>`Fylr Documentation`</code>  </td><td>❌ No match</td></tr><tr><td><code>`fylr*`</code></td><td>✅ Match</td></tr></tbody></table>
+
+***
 
 
 
