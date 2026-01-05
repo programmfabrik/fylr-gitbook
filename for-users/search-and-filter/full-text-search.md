@@ -1,10 +1,6 @@
----
-description: Learn everything you need to know about searching and filtering.
----
-
 # Full Text Search
 
-Full-text search provides several options to precisely define search queries and narrow down results. The following features can be used individually or combined, depending on your use case.
+Full-text search provides several options to **precisely define search queries** and narrow down results. The following features can be used **individually or combined**, depending on your use case.
 
 When typing a word into the search field, you get suggestions where you can pick from or simply continue writing (for more details see below):
 
@@ -30,10 +26,6 @@ The exact search allows you to find records where a specific field matches **exa
 If the field contains `fylr documentation`:
 
 <table><thead><tr><th width="276.671875">Search Term</th><th>Result</th></tr></thead><tbody><tr><td><code>`FYLR`</code></td><td>❌ No match</td></tr><tr><td><code>`fylr documentation`</code>   </td><td>✅ Match</td></tr><tr><td><code>`documentation`</code></td><td>❌ No match</td></tr><tr><td><code>`Fylr Documentation`</code>  </td><td>❌ No match</td></tr><tr><td><code>`fylr*`</code></td><td>✅ Match</td></tr></tbody></table>
-
-***
-
-
 
 ### Phrase Search
 

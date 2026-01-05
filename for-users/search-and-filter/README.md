@@ -24,8 +24,12 @@ If you cannot find the expected results, make sure that **all relevant Sources a
 
 ## Full Text Search
 
-[Please refer to this article of the full text search.](./)
+[Please refer to this article for the full text search.](./)
 
 ## Expert Search
 
+
+
 ## Filter
+
+[Please refer to this article for filtering.](./)
