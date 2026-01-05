@@ -2,17 +2,7 @@
 description: Learn everything you need to know about searching and filtering.
 ---
 
-# Search & Filter
-
-## Introduction
-
-fylr offers several tools to search and filter for records. From defining your sources, to powerful full text searches and expert options, this article explains the possibilities.
-
-## Sources
-
-
-
-## Full Text Search
+# Full Text Search
 
 Full-text search provides several options to precisely define search queries and narrow down results. The following features can be used individually or combined, depending on your use case.
 
@@ -165,7 +155,3 @@ Matches:
 
 * The `*` wildcard can be used at the beginning, middle, or end of a word.
 * Searches with a leading `*` may impact performance.
-
-## Expert Search
-
-## Filter
