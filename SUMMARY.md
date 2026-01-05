@@ -121,6 +121,7 @@
   * [Deleting Records](for-users/asset-records-management/deleting-records.md)
 * [Search & Filter](for-users/search-and-filter/README.md)
   * [Full Text Search](for-users/search-and-filter/full-text-search.md)
+  * [Expert Search](for-users/search-and-filter/expert-search.md)
   * [Filter](for-users/search-and-filter/filter.md)
 * [Quick Access](for-users/quick-access/README.md)
   * [Collections (& Presentations)](for-users/quick-access/collections-and-presentations.md)
