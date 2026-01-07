@@ -1,10 +1,10 @@
 services:
   opensearch:
-    image: opensearchproject/opensearch:2.18.0
+    image: opensearchproject/opensearch:3
     container_name: opensearch
     restart: always
     environment:
-      - "OPENSEARCH_JAVA_OPTS=-Xms2g -Xmx2g"
+      - "OPENSEARCH_JAVA_OPTS=-Xms2g -Xmx2g -Dopensearch.xcontent.depth.max=10000"
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - network.publish_host=127.0.0.1
