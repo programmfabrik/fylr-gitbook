@@ -21,7 +21,7 @@ To create a template, either:
 
 In the upper-right corner of the editor, click the **bookmark** icon and select "**Save as Template"**.
 
-<div align="center"><figure><img src="../../../.gitbook/assets/Bildschirmfoto 2025-12-22 um 11.09.01.png" alt="" width="354"><figcaption></figcaption></figure></div>
+<div align="center"><figure><img src="../../../.gitbook/assets/Record Templates.png" alt="" width="375"><figcaption></figcaption></figure></div>
 
 
 
