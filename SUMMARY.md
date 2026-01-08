@@ -101,13 +101,12 @@
     * [Using Templates for Records](help/tutorials/for-users/using-templates-for-records.md)
   * [For Administrators](help/tutorials/for-administrators/README.md)
     * [Exporting & Importing Hierarchical Lists](help/tutorials/for-administrators/exporting-and-importing-hierarchical-lists.md)
-    * [Regenerating preview images](help/tutorials/for-administrators/regenerating-preview-images.md)
     * [Search in Text of Images or Office Files](help/tutorials/for-administrators/search-text-in-images-or-office-files.md)
-    * [Using editor templates](help/tutorials/for-administrators/how-to-share-editing-templates-with-users.md)
+    * [How to setup and use IIIF](help/tutorials/for-administrators/how-to-setup-and-use-iiif.md)
+    * [Sharing collections with groups and users](help/tutorials/for-administrators/sharing-collections-with-groups-and-users.md)
+    * [Sharing collections with external users](help/tutorials/for-administrators/external-access-sharing-collections-with-anonymous-users.md)
   * [For System Administrators](help/tutorials/for-system-administrators/README.md)
-    * [How to setup and use IIIF](help/tutorials/for-system-administrators/how-to-setup-and-use-iiif.md)
-    * [Sharing collections with groups and users](help/tutorials/for-system-administrators/sharing-collections-with-groups-and-users.md)
-    * [Sharing collections with external users](help/tutorials/for-system-administrators/external-access-sharing-collections-with-anonymous-users.md)
+    * [Regenerating preview images](help/tutorials/for-system-administrators/regenerating-preview-images.md)
     * [Migration with map to local storage](help/tutorials/for-system-administrators/migrate-map-to-local-storage.md)
 * [Glossary](help/glossary.md)
 
@@ -129,10 +128,6 @@
   * [Collections (& Presentations)](for-users/quick-access/collections-and-presentations.md)
   * [Saved Searches (& Lists)](for-users/quick-access/saved-searches-and-lists.md)
 * [Lists](for-users/lists.md)
-
-***
-
-* [Search](search.md)
 
 ## FOR ADMINISTRATORS
 

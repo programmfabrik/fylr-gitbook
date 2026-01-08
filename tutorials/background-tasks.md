@@ -4,7 +4,7 @@ description: How to use background tasks in fylr
 
 # Background tasks
 
-Enables users to configure and schedule server-side jobs.&#x20;
+Enables users to configure and schedule server-side jobs.
 
 ### Overview
 
@@ -34,7 +34,7 @@ Each module executes a type of background job. The selected module determines wh
 Available modules:
 
 * `delete_objects` : Delete objects
-* [metadata.md](background-tasks/metadata.md "mention"): Apply metadata mappings on search results &#x20;
+* [metadata.md](background-tasks/metadata.md "mention"): Apply metadata mappings on search results
 * `search` : Execute an advanced search (send summaries via email)
 * `set_unset_tags` — Set or unset tags
 
@@ -53,7 +53,7 @@ Email Notifications: Send an email notification when the task completes
 
 #### Common Parameters
 
-* **Search Configuration**: Define the target records for the task using a commong [search.md](../search.md "mention")
+* **Search Configuration**: Define the target records for the task using a commong [Broken link](/broken/pages/PsBLo3OT3NigjqB6vjmA "mention")
 * **Overwrite Values:** If a record has values in fields, the task is allowed to overwrite those with the results of the module
 
 Depending on the module used different parameters will be available.
@@ -70,7 +70,7 @@ The user needs appropriate permissions to the datamodel to successfully apply mo
 
 Once a task is created and executed, its progress and results can be monitored through the **Task Log**.
 
-Task Log may be accessed from the tasks table or from the task editor.&#x20;
+Task Log may be accessed from the tasks table or from the task editor.
 
 The log includes:
 

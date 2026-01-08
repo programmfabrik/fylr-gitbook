@@ -51,6 +51,8 @@ This search returns only records where the complete phrase appears exactly as en
 
 Boolean operators allow you to logically combine multiple search terms.
 
+<table><thead><tr><th width="128.5234375">KEY</th><th width="187.8515625">SEARCH OPERATOR</th><th>EXPLANATION</th></tr></thead><tbody><tr><td><code>-</code> or <code>!</code></td><td>NOT</td><td>The following search term is searched with “Not”.</td></tr><tr><td><code>+</code></td><td>AND</td><td>The following search term is combined with “And”.</td></tr><tr><td><code>,</code></td><td>OR</td><td>The following search term is combined with “Or”.</td></tr><tr><td><code>(</code></td><td><code>(</code></td><td>Parenthesis for logical groupings.</td></tr><tr><td><code>)</code></td><td><code>)</code></td><td>Parenthesis for logical groupings.</td></tr></tbody></table>
+
 #### AND
 
 The **AND** operator returns only records that contain **all** specified terms. It is not necessary to use the **AND** operator explicitly. By default, all search terms are automatically combined using an implicit **AND**. Therefore, records will only be returned if they contain all specified terms.
