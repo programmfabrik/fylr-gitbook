@@ -26,6 +26,8 @@ To connect to a fylr instance, enter the **URL** on the home screen and log in u
 {% endcolumn %}
 {% endcolumns %}
 
+***
+
 {% columns %}
 {% column width="33.33333333333333%" %}
 <figure><img src=".gitbook/assets/fylr-app-collection-list.PNG" alt=""><figcaption></figcaption></figure>
@@ -41,6 +43,8 @@ After logging in, the **collection list** is displayed. All collections you have
 You can search collections by **name** or **description**. Tap on a collection to view the records it contains. New collections can be created by tapping **“+ Collection”** in the footer.
 {% endcolumn %}
 {% endcolumns %}
+
+***
 
 {% columns %}
 {% column width="33.33333333333333%" %}
@@ -60,6 +64,8 @@ Depending on your system configuration, you may also need to select an **Object 
 {% endcolumn %}
 {% endcolumns %}
 
+***
+
 {% columns %}
 {% column width="33.33333333333333%" %}
 <figure><img src=".gitbook/assets/fylr-app-upload.PNG" alt=""><figcaption></figcaption></figure>
@@ -73,6 +79,8 @@ Depending on your system configuration, you may also need to select an **Object 
 To upload files, open a collection and tap the **upload icon** in the footer. You can choose files from the **camera**, **video recorder**, **photo gallery**, **video gallery**, or **document browser**.
 {% endcolumn %}
 {% endcolumns %}
+
+***
 
 {% columns %}
 {% column width="33.33333333333333%" %}
@@ -90,6 +98,8 @@ After selecting files, the **upload status** screen shows the progress of each u
 {% endcolumn %}
 {% endcolumns %}
 
+***
+
 {% columns %}
 {% column width="33.33333333333333%" %}
 <figure><img src=".gitbook/assets/fylr-app-collection-standard-view.PNG" alt=""><figcaption></figcaption></figure>
@@ -105,6 +115,8 @@ By default, records in a collection are displayed as **square thumbnail previews
 
 {% endcolumn %}
 {% endcolumns %}
+
+***
 
 {% columns %}
 {% column width="33.33333333333333%" %}
@@ -122,6 +134,8 @@ You can switch to the **List View** to display records with their **standard inf
 {% endcolumn %}
 {% endcolumns %}
 
+***
+
 {% columns %}
 {% column width="33.33333333333333%" %}
 <figure><img src=".gitbook/assets/fylr-app-detail.PNG" alt=""><figcaption></figcaption></figure>
@@ -137,6 +151,8 @@ The **record detail view** displays the standard information of the record. From
 
 {% endcolumn %}
 {% endcolumns %}
+
+***
 
 {% columns %}
 {% column width="33.33333333333333%" %}
@@ -154,6 +170,8 @@ In **full screen mode**, you can zoom into images or play videos. This view also
 {% endcolumn %}
 {% endcolumns %}
 
+***
+
 {% columns %}
 {% column width="33.33333333333333%" %}
 <figure><img src=".gitbook/assets/fylr-app-image-info.PNG" alt=""><figcaption></figcaption></figure>
@@ -169,6 +187,8 @@ Technical details about the file, such as format and dimensions, can be accessed
 
 {% endcolumn %}
 {% endcolumns %}
+
+***
 
 {% columns %}
 {% column width="33.33333333333333%" %}
@@ -186,6 +206,8 @@ Files can be shared or downloaded either from the **record detail view** or the 
 {% endcolumn %}
 {% endcolumns %}
 
+***
+
 {% columns %}
 {% column width="33.33333333333333%" %}
 <figure><img src=".gitbook/assets/fylr-app-collection-editor.PNG" alt=""><figcaption></figcaption></figure>
@@ -201,6 +223,8 @@ Collections can be edited from the **collection detail view** by tapping the **p
 
 {% endcolumn %}
 {% endcolumns %}
+
+***
 
 {% columns %}
 {% column width="33.33333333333333%" %}
