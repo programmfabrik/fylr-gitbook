@@ -91,6 +91,7 @@
 * [License](license-management.md)
 * [Plugins](plugins/README.md)
   * [Plugin Overview](plugins/overview.md)
+* [Mobile App](mobile-app.md)
 
 ## Help
 
