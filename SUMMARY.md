@@ -119,6 +119,7 @@
   * [Editing Records](for-users/asset-records-management/editing-records/README.md)
     * [Input Fields](for-users/asset-records-management/editing-records/input-fields.md)
     * [Group Editor](for-users/asset-records-management/editing-records/group-editor.md)
+  * [Copying Records](for-users/asset-records-management/copying-records.md)
   * [Deleting Records](for-users/asset-records-management/deleting-records.md)
 * [Search & Filter](for-users/search-and-filter/README.md)
   * [Full Text Search](for-users/search-and-filter/full-text-search.md)
