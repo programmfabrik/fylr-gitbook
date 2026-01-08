@@ -14,7 +14,7 @@ Uploading files through the app is only possible via **collections**. You can up
 
 {% columns %}
 {% column width="33.33333333333333%" %}
-<figure><img src=".gitbook/assets/fylr-app-login.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-app-login.PNG" alt=""><figcaption></figcaption></figure>
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
@@ -30,7 +30,7 @@ To connect to a fylr instance, enter the **URL** on the home screen and log in u
 
 {% columns %}
 {% column width="33.33333333333333%" %}
-<figure><img src=".gitbook/assets/fylr-app-collection-list.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-app-collection-list.PNG" alt=""><figcaption></figcaption></figure>
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
@@ -48,7 +48,7 @@ You can search collections by **name** or **description**. Tap on a collection t
 
 {% columns %}
 {% column width="33.33333333333333%" %}
-<figure><img src=".gitbook/assets/fylr-app-collection-new.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-app-collection-new.PNG" alt=""><figcaption></figcaption></figure>
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
@@ -68,7 +68,7 @@ Depending on your system configuration, you may also need to select an **Object 
 
 {% columns %}
 {% column width="33.33333333333333%" %}
-<figure><img src=".gitbook/assets/fylr-app-upload.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-app-upload.PNG" alt=""><figcaption></figcaption></figure>
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
@@ -84,7 +84,7 @@ To upload files, open a collection and tap the **upload icon** in the footer. Yo
 
 {% columns %}
 {% column width="33.33333333333333%" %}
-<figure><img src=".gitbook/assets/fylr-app-uploaded-file.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-app-uploaded-file.PNG" alt=""><figcaption></figcaption></figure>
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
@@ -102,7 +102,7 @@ After selecting files, the **upload status** screen shows the progress of each u
 
 {% columns %}
 {% column width="33.33333333333333%" %}
-<figure><img src=".gitbook/assets/fylr-app-collection-standard-view.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-app-collection-standard-view.PNG" alt=""><figcaption></figcaption></figure>
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
@@ -120,7 +120,7 @@ By default, records in a collection are displayed as **square thumbnail previews
 
 {% columns %}
 {% column width="33.33333333333333%" %}
-<figure><img src=".gitbook/assets/fylr-app-collection-list-view.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-app-collection-list-view.PNG" alt=""><figcaption></figcaption></figure>
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
@@ -138,7 +138,7 @@ You can switch to the **List View** to display records with their **standard inf
 
 {% columns %}
 {% column width="33.33333333333333%" %}
-<figure><img src=".gitbook/assets/fylr-app-detail.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-app-detail.PNG" alt=""><figcaption></figcaption></figure>
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
@@ -156,7 +156,7 @@ The **record detail view** displays the standard information of the record. From
 
 {% columns %}
 {% column width="33.33333333333333%" %}
-<figure><img src=".gitbook/assets/fylr-app-file-fullscreen.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-app-file-fullscreen.PNG" alt=""><figcaption></figcaption></figure>
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
@@ -174,7 +174,7 @@ In **full screen mode**, you can zoom into images or play videos. This view also
 
 {% columns %}
 {% column width="33.33333333333333%" %}
-<figure><img src=".gitbook/assets/fylr-app-image-info.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-app-image-info.PNG" alt=""><figcaption></figcaption></figure>
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
@@ -192,7 +192,7 @@ Technical details about the file, such as format and dimensions, can be accessed
 
 {% columns %}
 {% column width="33.33333333333333%" %}
-<figure><img src=".gitbook/assets/fylr-app-file-download.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-app-file-download.PNG" alt=""><figcaption></figcaption></figure>
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
@@ -210,7 +210,7 @@ Files can be shared or downloaded either from the **record detail view** or the 
 
 {% columns %}
 {% column width="33.33333333333333%" %}
-<figure><img src=".gitbook/assets/fylr-app-collection-editor.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-app-collection-editor.PNG" alt=""><figcaption></figcaption></figure>
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
@@ -228,7 +228,7 @@ Collections can be edited from the **collection detail view** by tapping the **p
 
 {% columns %}
 {% column width="33.33333333333333%" %}
-<figure><img src=".gitbook/assets/fylr-app-settings.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/fylr-app-settings.PNG" alt=""><figcaption></figcaption></figure>
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}

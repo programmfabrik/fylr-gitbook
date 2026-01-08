@@ -91,7 +91,6 @@
 * [License](license-management.md)
 * [Plugins](plugins/README.md)
   * [Plugin Overview](plugins/overview.md)
-* [Mobile App](mobile-app.md)
 
 ## Help
 
@@ -128,6 +127,7 @@
   * [Collections (& Presentations)](for-users/quick-access/collections-and-presentations.md)
   * [Saved Searches (& Lists)](for-users/quick-access/saved-searches-and-lists.md)
 * [Lists](for-users/lists.md)
+* [Mobile App](for-users/mobile-app.md)
 
 ## FOR ADMINISTRATORS
 
