@@ -286,89 +286,22 @@ As previews from easydb are different from fylr previews, it is recommended to r
 
 </details>
 
-## 7. Remove easydb
+## 7. Final steps
 
-These steps are optional but recommended, as easydb lifetime and support will end before fylr's.
+**Check fylr config**
 
-Also check that you have uploaded a fylr license and tested/configured optional features that you need, e.g. Single Sign On, email sending, schema-sync via objectstore, hotfolder, etc..
+Make sure that you have uploaded a fylr **license** and tested/configured optional features that you need, e.g. Single Sign On, email sending, schema-sync via objectstore, hotfolder, etc..
 
-<details>
 
-<summary>7.a Replace easydb Indexer</summary>
 
-Adjust `docker-compose.yml` to now feature Opensearch:
+**Stopping easydb**
 
-```
-services:
-  opensearch:
-    [...not shown here: more opensearch details...]
-```
-
-Make sure fylr and Opensearch are in the same docker-network.
-
-Change `fylr.yml` to use Opensearch:
-
-```
-fylr+:
-[...]
-  elastic+:
-    addresses:
-    - "http://opensearch:9200"
-```
-
-Start Opensearch and prepare its directory:
-
-```
-cd /srv/fylr
-mkdir indexer
-chown 1000 indexer
-docker compose up -d opensearch ; docker logs -f opensearch
-```
-
-Stop outputting log messages with `Ctrl`-`c` if you have seen enough.
-
-Restart fylr:
-
-```
-docker compose restart fylr ; docker logs -f --tail 0 fylr
-```
-
-Stop outputting log messages with `Ctrl`-`c` if you have seen enough.
-
-Create the Indexes in Opensearch: _(might take a while!)_
-
-Surf to **https://**&#x66;ylr.example.co&#x6D;**/inspect/** - System - `Reindex (Blocking)`
-
-</details>
-
-<details>
-
-<summary>7.b Remove Apache</summary>
-
-See the [default fylr installation](../../../for-system-administrators/installation/linux-docker-compose.md#installation) and adjust `docker-compose.yml` and `fylr.yml`. for default ports and certificate.
-
-```
-systemctl stop apache2
-systemctl disable apache2
-systemctl mask apache2
-cd /srv/fylr
-/srv/fylr/maintain fylr-recreate ; docker-compose logs -f fylr
-```
-
-Is certbot now also not needed any more? Then consider:
-
-```
-systemctl mask certbot.timer
-```
-
-</details>
-
-**7.c Change fylr domain**
-
-In case you want to change fylr's domain (e.g. to the former domain of easydb), see [here](../../../for-system-administrators/configuration/dns-domains.md#changes-to-the-main-domain).
-
-**7.d Stopping easydb services**
-
-Consider stopping all easydb services that are not needed any more (check whether you still use the indexer).
+We recommend stopping all easydb services and Apache and preventing certificate renewal etc..
 
 You may want to stop regular maintenance tasks for easydb, typically in `/etc/cron.d/easydb*`.
+
+
+
+**Change fylr domain**
+
+In case you want to change fylr's domain (e.g. to the former domain of easydb), see [here](../../../for-system-administrators/configuration/dns-domains.md#changes-to-the-main-domain).
