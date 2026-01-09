@@ -318,7 +318,7 @@ See [here](../../../for-system-administrators/migration/inspect.md) if you want 
 * `Include Events`: Turn on if you want to transfer the events that were recorded in easydb. Considered not needed unless you know you want it.
 * `OAuth2`: This box has to be enabled.
 * `OAuth2 Client Id`: leave the default fylr-web-frontend
-* `Max Parallel`: To not slow your easydb down, choose a number that is half or less of the available CPU cores.
+* `Max Parallel`: Choose less than the number of CPU cores.
 * `Purge or Continue`: `Purge` This will overwrite fylr's contents with easydb, which is the whole point.\
   `Continue` is useful if your previous attempt aborted with a timeout or network error and should be continued.
 
@@ -342,9 +342,9 @@ When the restore/inject is done, a reindex will be done for fylr, so it will tak
 
 Look into **https://**&#x66;ylr.example.co&#x6D;**/inspect/files/** (log in as root)
 
-* Click a _version file_ on it's ID number (_version file_ = the `Version` column has `small` or `full` or others but _not_ `ORIGINAL`).
+* Click on an ID number of a _version_ file (the `Version` column has `small` or `full` or others but _not_ `ORIGINAL`).
   * note the content of field `Remote URL`, it might contain e.g. `https://easydb.example.com/eas/partitions-inline/2/0/1270/1270/4839d32e5c8ecca1`
-* Click an original (`Version` column _has_ `ORIGINAL`) file on it's ID number.
+* Click on an ID number of an _original_ file (`Version` column _has_ `ORIGINAL`).
   * Also for this asset note the content of field `Remote URL`, it might contain e.g. `https://easydb.example.com/eas/partitions-inline/1/0/1270/1270/acda0f0f5982bb64`
 * Next you need to cut off the last parts of the Remote URLs in your notes, so that only the URL prefix remains, which is what you need. The prefix ends before the single zero. So in our example the prefixes are:
 
@@ -374,7 +374,7 @@ Create the following two:
   * **Directory** (in container) `/mnt/orig_early`
   * **Remote URL Prefix** example: https://easydb.example.com/eas/partitions-inline/1/\
     Use here one of the prefixes you collected in 5.a.\
-    \&#xNAN;_(Do not confuse this with the **Prefix** field. Use **Remote URL Prefix**.)_
+    &#xNAN;_(Do not confuse this with the **Prefix** field. Use **Remote URL Prefix**.)_
 * Fylr location `easydb versions`
   * **Directory** (in container) `/mnt/dest_early`
   * **Remote URL Prefix**: As above, use one of the collected Remote URL Prefixes.\
