@@ -23,7 +23,7 @@ Except:
 As the common NFS share is used, exisiting original asset files are already accounted for in storage. So you can ignore that part of the requirements in the default recommended installation.
 
 \
-You may want to have free space for future asset uploads, but that is just the same calculation as with only the easydb5.&#x20;
+You may want to have free space for future asset uploads, but that is just the same consideration as with only the easydb5.&#x20;
 
 </details>
 
@@ -33,14 +33,14 @@ You may want to have free space for future asset uploads, but that is just the s
 
 The asset versions of _easydb5_ are typically used by fylr for a while and then are replaced by _fylr_ versions, which are slightly different. How long to use them can be decided on demand, later.
 
-For the configuration _now,_ you have two options:&#x20;
+For the requiremeent&#x73;_,_ you have two options:&#x20;
 
-A. Use easydb5 versions **read-only**: easier, safer, but needs more storage for assets which have both easydb5 versions and fylr versions.
+A. If you use easydb5 versions **read-only (recommended)**: This is easier and safer, but needs more storage for assets which have both easydb5 versions and fylr versions. So get the storage amount that your easydb5 asset versions take and make sure you have the same amount of storage free, for fylr versions. To be on the safe side, 50% more than the same amount, in case you have lots of assets which get bigger _fylr_ versions compared to _easydb5_ versions. \
+Example: 1000 GB for easydb5 versions -> **1500 GB free** for fylr versions recommended.
 
 \
-B. Delete easydb5 versions on the fly whenever fylr creates fylr versions: minimal storage needed, but harder to configure and less safety net (easydb5 cannot use the previews any more)
-
-
+B. If you choose to delete easydb5 versions on the fly whenever fylr creates fylr versions: Then minimal storage is needed, but it is harder to configure and has less safety net (easydb5 cannot use the previews any more).\
+Example: 1000 GB for easydb5 versions -> **500 GB free** for fylr versions recommended.
 
 </details>
 
@@ -67,15 +67,15 @@ A standard installation with changed storage configuration.
 
 <details>
 
-<summary>1.a use docker compose for fylr installation</summary>
+<summary>1.a Use docker compose for fylr installation</summary>
 
-Use the default recommended installation as described [here](../../../for-system-administrators/installation/linux-docker-compose.md). But before starting fylr, change `docker-compose.yml` as described below.
+Use the default recommended installation as described [here](../../../for-system-administrators/installation/linux-docker-compose.md). But before starting fylr, change `docker-compose.yml` and `fylr.yml` as described below.
 
 </details>
 
 <details>
 
-<summary>1.b edit <code>/srv/fylr/docker-compose.yml</code></summary>
+<summary>1.b Edit <code>/srv/fylr/docker-compose.yml</code></summary>
 
 * Add the below shown volume paths, without duplicating the hierarchy (so only one services:, only one fylr:, only one volumes:
 * Make shure you adjust the volume paths left of the `:`,\
@@ -94,11 +94,28 @@ services:
 
 </details>
 
-1.e Allow purging fylr in the Frontend, see the screenshot:<br>
+<details>
+
+<summary>1.c Adjust <code>/srv/fylr/config/fylr/fylr.yml</code> </summary>
+
+```
+fylr+:
+  allowpurge: true
+```
+
+</details>
+
+<details>
+
+<summary>1.d Allow purging fylr in the frontend</summary>
+
+see the screenshot:
 
 <figure><img src="../../../.gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
 
-2.d Check that fylr is at least Version 6.26.0
+</details>
+
+## 2. Check that fylr is at least Version 6.26.0
 
 <figure><img src="../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 

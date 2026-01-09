@@ -191,9 +191,15 @@ Stop outputting log messages with `Ctrl`-`c` if you have seen enough.
 
 </details>
 
-1.e Allow purging fylr in the Frontend, see the screenshot:<br>
+<details>
+
+<summary>1.e Allow purging fylr in the frontend</summary>
+
+See the screenshot:
 
 <figure><img src="../../../.gitbook/assets/image (22).png" alt=""><figcaption></figcaption></figure>
+
+</details>
 
 ## 2. Apache and https certificate for fylr
 
