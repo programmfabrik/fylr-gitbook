@@ -224,8 +224,8 @@ Create the following two:
 * Fylr location `easydb versions`
   * **Directory** (in container) `/mnt/dest_early`
   * **Remote URL Prefix**: As above, use one of the collected Remote URL Prefixes.\
-    Example: https://easydb.example.com/eas/partitions-inline/2/
-  * If you have enough free storage space to double all preview versions, then set this location to `Read Only`. Then none of them will be deleted. Otherwise set it as Default Location for `versions` . Then easydb previews will be deleted as they are replaced with fylr previews. `Read Only` is safer, especially if you still want to use easydb, and thus recommended.
+    Example: `https://easydb.example.com/eas/partitions-inline/2/`
+  * If you have enough free storage space to double all asset **versions** (see explanation in [requirements](migrate-map-to-local-storage-1.md#storage-for-asset-versions), above), then set this location to `Read Only`. Then none of them will be deleted. Otherwise set it as Default Location for `versions` . Then, easydb previews will be deleted as they are replaced with fylr previews. `Read Only` is safer, (especially if you still want to use easydb!) and thus recommended.
 * In case your easydb has more than two partitions, you may have to add more fylr locations.
 
 </details>
@@ -237,15 +237,15 @@ Create the following two:
 * Go to **https://**&#x66;ylr.example.co&#x6D;**/inspect/files/**
 * search with `Location`=`remote`
 * Choose Action `Map to local storage` and `Search result`, not `Selected`. Click the button `Action` at the right.
-* Now the easydb is not used by fylr any more. (But elasticsearch is still used by fylr)
+* Now the easydb is not used by fylr any more.
 
 </details>
 
-**This was the central step.** fylr is now independent from easydb and easydb can be turned off. (after testing fylr of course. And Elasticsearch is still used by fylr)
+**This was the central step.** fylr is now independent from easydb and easydb can be turned off. (after testing fylr of course.)
 
 ## 6. Adjust previews to fylr standards
 
-As previews from easydb are different from fylr previews, it is recommended to replace easydb previews with fylr previews. This will be done in the background while you can already work with fylr. Although this whole step is optional, you should do it if you encounter problems. When seeking support from the developer you will likely be asked to do this step to come to a clean coherent state.
+As previews from easydb are different from fylr previews, it is recommended to replace _easydb_ previews with _fylr_ previews. This will be done in the background while you can already work with fylr. Although this whole step is optional, you should do it if you encounter problems. When seeking support from the developer you will likely be asked to do this step to come to a clean coherent state.
 
 <details>
 
@@ -265,7 +265,7 @@ As previews from easydb are different from fylr previews, it is recommended to r
 
 * Is the File queue empty at **https://**&#x66;ylr.example.co&#x6D;**/inspect/system/queues/?queue=file** ?\
   At the top it would show something like:\
-  \&#xNAN;_` There are 18 parallel and 10 parallel high priority only file workers active. The queue`` `` `**`contains 0 total entries`**`.`_
+  &#xNAN;_` There are 18 parallel and 10 parallel high priority only file workers active. The queue`` `` `**`contains 0 total entries`**`.`_
 * Surf to **https://**&#x66;ylr.example.co&#x6D;**/inspect/files/** (login as root)
   * In the drop down menu `location` choose `easydb versions` and click the `Search` button.
   * The Search shows zero results when all have been replaced.
@@ -276,10 +276,10 @@ As previews from easydb are different from fylr previews, it is recommended to r
 
 <summary>6.c Remove easydb preview versions to regain storage (optional)</summary>
 
-* At first remove the location `easydb versions` in the location manager. But leave the originals.
-* Next, remove fylr's access to them (e.g. remove it from `/srv/fylr/docker-compose.yml` and recreate the container). But leave the originals.
-* Check that the fylr webfrontend still shows previews, at https://fylr.example.com.
-* Then, when all is still working, you can delete the easydb previews them to free storage capacity.\
+* At first remove the location `easydb versions` in the location manager. But do not remove **originals!**
+* Next, remove fylr's access to them (e.g. remove it from `/srv/fylr/docker-compose.yml` and recreate the container). Do not remove originals.
+* Check that the fylr webfrontend still shows previews, at your https://fylr.example.com.
+* Then, when all is still working, you can delete the easydb previews to free storage capacity.\
   \
   **Warning**: Removing the preview versions of easydb should only be done if the easydb is not needed any more.\
   \

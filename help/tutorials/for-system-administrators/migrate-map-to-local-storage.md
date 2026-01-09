@@ -378,7 +378,7 @@ Create the following two:
 * Fylr location `easydb versions`
   * **Directory** (in container) `/mnt/dest_early`
   * **Remote URL Prefix**: As above, use one of the collected Remote URL Prefixes.\
-    Example: https://easydb.example.com/eas/partitions-inline/2/
+    Example: `https://easydb.example.com/eas/partitions-inline/2/`
   * If you have enough free storage space to double all preview versions, then set this location to `Read Only`. Then none of them will be deleted. Otherwise set it as Default Location for `versions` . Then easydb previews will be deleted as they are replaced with fylr previews. `Read Only` is safer, especially if you still want to use easydb, and thus recommended.
 * In case your easydb has more than two partitions, you may have to add more fylr locations.
 
@@ -430,10 +430,10 @@ As previews from easydb are different from fylr previews, it is recommended to r
 
 <summary>6.c Remove easydb preview versions to regain storage (optional)</summary>
 
-* At first remove the location `easydb versions` in the location manager. But leave the originals.
-* Next, remove fylr's access to them (e.g. remove it from `/srv/fylr/docker-compose.yml` and recreate the container). But leave the originals.
+* At first remove the location `easydb versions` in the location manager. But do not remove originals!
+* Next, remove fylr's access to them (e.g. remove it from `/srv/fylr/docker-compose.yml` and recreate the container). But do not remove originals.
 * Check that the fylr webfrontend still shows previews, at https://fylr.example.com.
-* Then, when all is still working, you can delete the easydb previews them to free storage capacity.\
+* Then, when all is still working, you can delete the easydb previews to free storage capacity.\
   \
   **Warning**: Removing the preview versions of easydb should only be done if the easydb is not needed any more.\
   \
