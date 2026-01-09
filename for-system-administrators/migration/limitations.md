@@ -41,6 +41,28 @@ Lookups should be used instead. References are unique, and all restored objects 
 
 In addition to IDs, there are more differences between easydb5 and fylr. Since there are different technologies and concepts behind the systems, some data can not be restored at all, and will be ignored or changed.
 
+
+### Migration of the Base Configuration
+
+Due to different implementations, fylr uses a base configuration which has some differences compared to the base configuration of the easydb5. This is the reason why the base configuration can **not be migrated 1:1**. Some settings are not used in fylr and will be automatically ignored during the migration process.
+
+Other settings from the easydb5 have a different format in fylr and will be migrated if there is a corresponding setting in fylr. The following list shows the corresponding settings which will be transferred.
+
+{% hint style="warning" %}
+This list is not complete. There still might be other settings which are not migrated.
+{% endhint %}
+
+| Setting in easydb5 | Setting in easydb5 (internal) | Setting in fylr | Setting in fylr (internal) |
+|---|---|---|---|
+| "Extended functions" ▸ "Logo and Header" | `system.logo` | "General" ▸ "Appearance" | `system.config.appearance.logo` |
+| "Login" ▸ "Anonymous access from internet" ▸ "Anonymous from internet allowed" | `system["login.internet"].value` | "Access" ▸ "Login" ▸ "Allow guest access" | `system.config.login.guest` |
+| "Login" ▸ "Information next to the login" ▸ "Information (Markdown)" | `system["login.welcome_info"].message` | "Access" ▸ "Login" ▸ "Login Info Text (Markdown)" | `system.config.login.info` |
+| "Login" ▸ "Welcome text (Markdown)" | `system["login.welcome_text"].value` | "Access" ▸ "Login" ▸ "Login Label" | `system.config.login.label` |
+| "Login" ▸ "User can initiate a forgotten password process" ▸ "Show request dialog in login" | `system["login.forgotten_password_process"].show_in_login_dialog` | "Access" ▸ "Password" ▸ "Hint for Supported Passwords" | `system.config.password.showforgot` |
+| "Login" ▸ "Password check" ▸ "Regular expression" | `system["login.password_policy"].policy[].expression` | "Access" ▸ "Password" ▸ "Password Requirements" | `system.config.password.check[].regexp` |
+| "Login" ▸ "Password check" ▸ "Hint" | `system["login.password_policy"].hint` | "Access" ▸ "Password" ▸ "Show 'Forgot password?' on login page" | `system.config.password.hint` |
+
+
 ### Migration of Events
 
 If events are migrated (see parameter [`--include-events`](#--include-events)), there are differences between easydb5 and fylr. For some events, the eventtype or the basetype is changed. Also there are events in easydb5 which have no matching event in fylr, these events are not migrated at all.
