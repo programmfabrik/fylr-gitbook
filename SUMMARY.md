@@ -108,6 +108,7 @@
   * [For System Administrators](help/tutorials/for-system-administrators/README.md)
     * [Regenerating preview images](help/tutorials/for-system-administrators/regenerating-preview-images.md)
     * [Migration with map to local storage](help/tutorials/for-system-administrators/migrate-map-to-local-storage.md)
+    * [Migrate with map to local storage and 2 servers](help/tutorials/for-system-administrators/migrate-map-to-local-storage-1.md)
 * [Glossary](help/glossary.md)
 
 ## FOR USERS
