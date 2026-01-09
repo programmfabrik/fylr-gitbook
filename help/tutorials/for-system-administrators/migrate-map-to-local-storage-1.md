@@ -1,49 +1,46 @@
 ---
 description: >-
-  How to install fylr "in place" on an easydb5 server and migrate easydb's
-  content to fylr using easydb's assets files directly from disk, without
-  needing to transfer them.
+  How to migrate from an easydb5 server to a fylr server, using assets files on
+  a common NFS share, no need to duplicate assets.
 ---
 
-# Migration with map to local storage
+# Migrate with map to local storage and 2 servers
 
-This method can save time and does not need a separate server. easydb5 is only needed to extract metadata, but not to extract asset files, which are used from storage directly as is.
+This method can save time and storage. easydb5 is only needed to extract metadata, but not to extract asset files, which are used from storage directly as is.
 
-The following example migrates all from <mark style="color:blue;">https://easydb.example.com</mark> to <mark style="color:blue;">https://fylr.example.com</mark>. (IP address 1.2.3.4)
+The following example migrates all from <mark style="color:blue;">https://easydb.example.com</mark> to <mark style="color:blue;">https://fylr.example.com</mark>.
 
 ## Checks and Requirements
 
-The server should have enough **RAM** available (at least 8 GB free when easydb is running, more is recommended during image preview generation).
+The requirements of the default recommended installation apply here as well, described [here](../../../for-system-administrators/installation/linux-docker-compose.md)...
+
+Except:
 
 <details>
 
-<summary>Is there enough free storage?</summary>
+<summary>Storage for <em>original</em> assets</summary>
 
-* for doubling the indexes and SQL-DB of easydb (fylr will have its own)
-* for doubling the preview images of easydb (fylr is recommended to generate its own)
-* 20+ GB for fylr container versions
+As the common NFS share is used, exisiting original asset files are already accounted for in storage. So you can ignore that part of the requirements in the default recommended installation.
+
+\
+You may want to have free space for future asset uploads, but that is just the same calculation as with only the easydb5.&#x20;
 
 </details>
 
 <details>
 
-<summary>A DNS subdomain for fylr</summary>
+<summary>Storage for asset <em>versions</em></summary>
 
-Have a DNS entry, in our example _fylr.example.com_, pointing to the same IP address as the easydb (in our example _easydb.example.com_).
+The asset versions of _easydb5_ are typically used by fylr for a while and then are replaced by _fylr_ versions, which are slightly different. How long to use them can be decided on demand, later.
 
-</details>
+For the configuration _now,_ you have two options:&#x20;
 
-<details>
+A. Use easydb5 versions **read-only**: easier, safer, but needs more storage for assets which have both easydb5 versions and fylr versions.
 
-<summary>Prevent name collisions</summary>
+\
+B. Delete easydb5 versions on the fly whenever fylr creates fylr versions: minimal storage needed, but harder to configure and less safety net (easydb5 cannot use the previews any more)
 
-Check indexes will not collide _**by name**_ between eaydb5 and fylr:
 
-```bash
-docker exec easydb-server curl http://easydb-elasticsearch:9200/_cat/indices
-```
-
-<p align="right">... good if they do not start with "fylr".</p>
 
 </details>
 
@@ -66,27 +63,13 @@ server:
 
 ## 1. fylr installation
 
-To save resources like RAM, we use easydb's infrastructure
+A standard installation with changed storage configuration.
 
 <details>
 
 <summary>1.a use docker compose for fylr installation</summary>
 
-```bash
-apt-get install docker-compose-plugin
-mkdir /srv/fylr ; cd /srv/fylr
-mkdir -p config/fylr assets backups migration postgres sqlbackups
-chown 1000 assets backups migration
-chown  999 postgres sqlbackups
-curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/fylr.yml -o config/fylr/fylr.yml
-curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/maintain -o maintain
-curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/docker-compose.yml -o docker-compose.yml
-chmod a+x maintain
-vi docker-compose.yml # see below for content
-docker compose up -d; docker compose logs -f
-```
-
-Stop outputting log messages with `Ctrl`-`c` if seen enough
+Use the default recommended installation as described [here](../../../for-system-administrators/installation/linux-docker-compose.md). But before starting fylr, change `docker-compose.yml` as described below.
 
 </details>
 
@@ -94,175 +77,26 @@ Stop outputting log messages with `Ctrl`-`c` if seen enough
 
 <summary>1.b edit <code>/srv/fylr/docker-compose.yml</code></summary>
 
-* Turn the whole Opensearch section into just comments
-* Change the network to `easydb_default`
-* Change fylr port
-* Check the volume paths, left of the `:`,\
-  so .e.g. `/srv/easydb/eas/lib/assets/orig`.
+* Add the below shown volume paths, without duplicating the hierarchy (so only one services:, only one fylr:, only one volumes:
+* Make shure you adjust the volume paths left of the `:`,\
+  so .e.g. `/srv/easydb/eas/lib/assets/orig` might by instead `/nfs/asset/orig` on your server.&#x20;
 * The example below has two volumes for two easydb partitions. Your easydb may have more partitions. Create one fylr volume per easydb partition.
 
-... so that you have something like this example:
+Example (irrelevant lines not shown):
 
-<pre><code>services:
-  # opensearch:
-  # [...not shown here: more opensearch as comments ...]
-  
-<strong>  postgresql:
-</strong>    image: postgres:18
-    container_name: postgresql
-    restart: always
-    shm_size: 1g
-    environment:
-      POSTGRES_DB: 'fylr'
-      POSTGRES_USER: 'fylr'
-      POSTGRES_PASSWORD: 'fylr'
-      PGDATA: /var/lib/postgresql/data/pgdata
-    volumes:
-      - "/srv/fylr/postgres:/var/lib/postgresql/data"
-      - "/srv/fylr/sqlbackups:/mnt"
-    command: >
-      -c work_mem=64MB
-      -c maintenance_work_mem=32MB
-      -c max_wal_size=512MB
-      -c max_connections=100
-    networks:
-      - easydb_default
-    logging:
-      driver: "journald"
-      
+```
+services:
   fylr:
-    image: docker.fylr.io/fylr/fylr:latest
-    hostname: fylr.localhost
-    container_name: fylr
-    restart: always
-    ports:
-      - "127.0.0.1:91:91"
-    networks:
-      - easydb_default
     volumes:
       - "/srv/easydb/eas/lib/assets/orig:/mnt/orig_early:ro"
       - "/srv/easydb/eas/lib/assets/dest:/mnt/dest_early:ro"
-      - "/srv/fylr/config/fylr:/fylr/config"
-      - "/srv/fylr/assets:/srv"
-      - "/srv/fylr/backups:/fylr/files/backups"     # /inspect/system/backups/ and /backupmanager
-      - "/srv/fylr/migration:/fylr/files/migration" # /inspect/migration/
-    logging:
-      driver: "journald"
-
-networks:
-  easydb_default:
-    external: true
-</code></pre>
-
-</details>
-
-<details>
-
-<summary>1.c Adjust <code>/srv/fylr/config/fylr/fylr.yml</code></summary>
-
-```yaml
-fylr+:
-  allowpurge: true
-  externalURL: "https://fylr.example.com"
-[...]
-  elastic+:
-    addresses:
-    - "http://easydb-elasticsearch:9200"
-[...]
-  services+:
-    webapp+:
-      addr: ":91"
-      tls:
 ```
-
-... and of course unique `encryptionKey` and `signingSecret` .
-
-</details>
-
-<details>
-
-<summary>1.d Start postgres and fylr</summary>
-
-```bash
-docker compose up -d; docker compose logs -f
-```
-
-Stop outputting log messages with `Ctrl`-`c` if you have seen enough.
 
 </details>
 
 1.e Allow purging fylr in the Frontend, see the screenshot:<br>
 
-<figure><img src="../../../.gitbook/assets/image (22).png" alt=""><figcaption></figcaption></figure>
-
-## 2. Apache and https certificate for fylr
-
-<details>
-
-<summary>2.a Assuming certbot with LetsEncrypt is OK for you, do...</summary>
-
-Add a minimal VirtualHost for the fylr to your Apache configuration:
-
-```
-<VirtualHost 1.2.3.4:80>
-    ServerName fylr.example.com
-</VirtualHost>
-```
-
-... replace the IP Address 1.2.3.4 and of course the domain name.
-
-Install and use certbot: _(unless you have another method to obtain a https-certificate for fylr)_
-
-```
-apache2ctl graceful
-apt install snapd
-snap install --classic certbot
-certbot --apache # in the shown choice: select the fylr domain
-```
-
-After certbot improved your Apache configuration, add the configuration to show fylr:
-
-```
-<VirtualHost 1.2.3.4:80>
-    ServerName fylr.example.com
-
-RewriteEngine on
-RewriteCond %{SERVER_NAME} =fylr.example.com
-RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
-</VirtualHost>
-
-<VirtualHost 1.2.3.4:443>
-    ServerName fylr.example.com
-
-    ProxyPreserveHost On
-    ProxyPass / http://127.0.0.1:91/
-    ProxyPassReverse / http://127.0.0.1:91/
-
-SSLCertificateFile /etc/letsencrypt/live/fylr.example.com/fullchain.pem
-SSLCertificateKeyFile /etc/letsencrypt/live/fylr.example.com/privkey.pem
-Include /etc/letsencrypt/options-ssl-apache.conf
-</VirtualHost>
-```
-
-Make sure that you have the correct number of virtual hosts: 4 (easydb 80, easydb port 443, fylr 80, fylr 443) across all Apache config files. Certbot creates an additional config file and double VirtualHosts (e.g. a fifth one) can cause hard to find errors.
-
-Make sure to now also use explicit **IP address** (not `*`) and **ServerName** in the easydb configuration for apache:
-
-```
-<VirtualHost 1.2.3.4:80>
-    ServerName easydb.example.com
-
-[...]
-
-<VirtualHost 1.2.3.4:443>
-    ServerName easydb.example.com 
-```
-
-</details>
-
-2.b Log into your fylr (https://fylr.example.com) as root with password admin.
-
-2.c Change the password of root to a secure one.
+<figure><img src="../../../.gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
 
 2.d Check that fylr is at least Version 6.26.0
 
