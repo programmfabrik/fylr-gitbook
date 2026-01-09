@@ -102,6 +102,7 @@
     * [Exporting & Importing Hierarchical Lists](help/tutorials/for-administrators/exporting-and-importing-hierarchical-lists.md)
     * [Search in Text of Images or Office Files](help/tutorials/for-administrators/search-text-in-images-or-office-files.md)
     * [How to setup and use IIIF](help/tutorials/for-administrators/how-to-setup-and-use-iiif.md)
+    * [Setting Up Collection Sharing](help/tutorials/for-administrators/setting-up-collection-sharing.md)
     * [Sharing collections with groups and users](help/tutorials/for-administrators/sharing-collections-with-groups-and-users.md)
     * [Sharing collections with external users](help/tutorials/for-administrators/external-access-sharing-collections-with-anonymous-users.md)
   * [For System Administrators](help/tutorials/for-system-administrators/README.md)
