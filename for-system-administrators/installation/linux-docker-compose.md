@@ -8,7 +8,7 @@ How to install fylr on a linux server via docker compose
 
 * A domain name (like **fylr.example.com**). Not just a subpath (like **example.com/fylr**).
 * Either an HTTPS certificate. Or Port 443 or Port 80 for registering and renewing a certificate with letsencrypt. Or the decision to operate fylr with HTTP only (insecure for passwords etc.).
-* No firewall software on the same linux. Firewall software tends to delete the firewall rules needed for docker to work at all. So firewalling should be done on a separate host. \
+* No firewall software on the same linux. Firewall software tends to delete the firewall rules needed for docker to work at all. So firewalling should be done on a separate host.\
   To be precise: linux firewall scripts _can_ be crafted in a way to not interfere with docker, but we cannot recommend any firewall software package doing it reliably.
 * If _we_ shall install fylr on _your_ server, also see [that page](linux-docker-compose/if-we-install-on-your-server.md).
 
@@ -17,17 +17,17 @@ How to install fylr on a linux server via docker compose
 * 16 GB of RAM to get going. Add memory if you need to answer more than a few simultaneous requests, or to generate more than a few preview images simultaneously.
 * Start with 4 CPU cores and then adjust to your use case.
 * amd64 Architecture, for this method.
-*   #### Storage <a href="#network-storage" id="network-storage"></a>
+*   **Storage**
 
     Circa two times the storage space of you assets. So if you want to manage 1 TB of assets with fylr, have _another_ 1 TB for preview images. If you tend to have big assets, you might need much less, as the previews then are much smaller in comparison to your asset files.\
     Add fast storage (SSD/NVME) for database and indices: 4% of what your assets need. So for 1 TB of assets have 40 GB. Most installations need a lot less than 4%.\
     The following also benefits from fast storage, especially during asset processing:\
     Ca. 100 GB for temporary file systems of containers. (default `/var/lib/docker`)\
     40 GB for container images. (default `/var/lib/docker`)
-*   #### Network Storage <a href="#network-storage" id="network-storage"></a>
+*   **Network Storage**
 
     At most, put assets, previews and database dumps on network storage. Do not put other data on network storage as features may collide (e.g. overlay file system by docker).\
-    If you use network storage then we recommend the NFS protocol. \
+    If you use network storage then we recommend the NFS protocol.\
     CIFS can also work, but we have seen performance problems on some Windows servers without remedy and even data corruption - thus we do not support CIFS/SMB. Also NFS on a Windows server has been observed to have poor performance compared to Linux servers.
 
 ### Software
@@ -162,6 +162,12 @@ You can change the maintain script's config in `/etc/default/fylr`, using bash s
 
 The most important step, to not throw away log messages with each container re-creation, is already done: the above downloaded `docker-compose.yml` uses `logging:` `driver: journald`.
 
+To access them later:
+
+```
+journalctl CONTAINER_NAME=fylr --since "2026-01-13 15:00" --until "2026-01-13 17:00"
+```
+
 You _additionally_ can tune [journald](https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html) to your use case.
 
 As an example, we do:
@@ -205,8 +211,8 @@ Aspects to consider if your logs need to be 100% reliable (usually overkill)
 ## Troubleshooting
 
 * `docker compose` needs to be executed in the directory with the `docker-compose.yml`.
-* When docker cannot start containers with errors refering to `shim, OCI, apparmor`: \
-  Try  `apt-get install apparmor apparmor-utils; systemctl restart docker`
+* When docker cannot start containers with errors refering to `shim, OCI, apparmor`:\
+  Try `apt-get install apparmor apparmor-utils; systemctl restart docker`
 * When the indexer does not work, make sure you used `sysctl` as shown above.
 
 Many messages can be safely ignored, see [here](../symptom-and-solution/log-messages-that-can-be-ignored.md).
@@ -215,7 +221,7 @@ Incase of trouble with reachability, network, redirects:
 
 * If you set your firewall rules to Allow, does the problem (e.g. `400 Bad Request`) go away?
 * Does your network use a private IP range that overlaps with docker networks?
-* Ubuntu may use `ufw` as Firewall, but there are problems in combination with docker. Consider to use `shorewall` > 5.0.6 instead (https://shorewall.org/Docker.html). \
+* Ubuntu may use `ufw` as Firewall, but there are problems in combination with docker. Consider to use `shorewall` > 5.0.6 instead (https://shorewall.org/Docker.html).\
   Or **restart docker** (not just fylr) after changing your firewall. This **re-creates docker's firewall rules**.
 
 In case assets are not processed / previews are not generated:
