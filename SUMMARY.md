@@ -104,8 +104,6 @@
     * [How to setup and use IIIF](help/tutorials/for-administrators/how-to-setup-and-use-iiif.md)
     * [Configuring Captions for Image Previews](help/tutorials/for-administrators/configuring-captions-for-image-previews.md)
     * [Setting Up Collection Sharing](help/tutorials/for-administrators/setting-up-collection-sharing.md)
-    * [Sharing collections with groups and users](help/tutorials/for-administrators/sharing-collections-with-groups-and-users.md)
-    * [Sharing collections with external users](help/tutorials/for-administrators/external-access-sharing-collections-with-anonymous-users.md)
   * [For System Administrators](help/tutorials/for-system-administrators/README.md)
     * [Regenerating preview images](help/tutorials/for-system-administrators/regenerating-preview-images.md)
     * [Migration with map to local storage](help/tutorials/for-system-administrators/migrate-map-to-local-storage.md)
