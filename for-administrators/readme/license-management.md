@@ -4,17 +4,32 @@ description: The fylr user interface to upload and display your license
 
 # License Management
 
-For all installations a fylr license is required, except for a quick peek and for development.
+### License Installation & Updates
+
+To ensure your system runs without interruption, you must upload a valid license file provided by **programmfabrik**.
+
+* In the **Configuration Base** locate the **License Management** section
+* The license must be a valid **.json** file.&#x20;
+* Locate the license upload section and select the file provided to you.
 
 For more information on licenses, please refer to [fylr Licenses](../../license-management.md).
 
-## Upload your license
-
-In the navigation side bar:
-
-* choose the cog wheels (`Administration`)&#x20;
-* then `Base Configuration`&#x20;
-* then choose `License Management`
-* click on `Upload License File` and choose your license file, typically a text file ending in `.json`
-
 <figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Where to find license management</p></figcaption></figure>
+
+### Expiration Warnings & Notifications
+
+The system includes an automated warning service to prevent service disruption.
+
+#### Automatic Emails
+
+Warnings are sent via email at the following intervals before the license expires:
+
+* **30 Days**
+* **5 Days**
+* **1 Day**
+
+By default, notifications are sent to the **Administrator Email** defined in the **Base Configuration** > **Email**
+
+{% hint style="info" %}
+To add additional recipients for these warning mails, **contact programmfabrik support**. We will update the extended notification list for your instance.
+{% endhint %}
