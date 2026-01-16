@@ -16,7 +16,7 @@ In this example we call the instances "old" and "new" and the linux servers runn
 
 ### prepare old server
 
-Check that you have access to the SQL backups: In the case of an installation via docker-compose, the access is a mounted volume (e.g. in the [docker-compose.yml](../_assets/docker-compose.yml) of our installation [instructions](installation/linux-docker-compose/)):
+Check that you have access to the SQL backups: In the case of an installation via docker-compose, the access is a mounted volume (e.g. in the [docker-compose.yml](../_assets/docker-compose.yml) of our installation [instructions](installation/linux-docker-compose.md#configuration)):
 
 ```
 services:
