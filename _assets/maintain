@@ -130,27 +130,27 @@ END
 \$body\$"
 
 try_fix_db_collation() {
-	DB=$1
-	primary_database=$2
+    DB=$1
+    primary_database=$2
 
-	state=`docker exec postgresql psql -U fylr -q --tuples-only -c "SELECT check_db_collation('$DB')" "$primary_database" | sed -e 's/^[[:space:]]//g'`
+    state=`docker exec postgresql psql -U fylr -q --tuples-only -c "SELECT check_db_collation('$DB')" "$primary_database" | sed -e 's/^[[:space:]]//g'`
 
-	case $state in
-	current)
-		echo "collation of database $DB is current, no need to do anything"
-		return
-		;;
-	outdated)
-		if ! docker exec postgresql psql -U fylr -c "REINDEX DATABASE \"$DB\"" "$DB"; then
-			echo "some error occurred when trying to reindex database '$DB', did not update collation version"
-			return
-		fi
-		docker exec postgresql psql -U fylr -c "ALTER DATABASE \"$DB\" REFRESH COLLATION VERSION" "$primary_database"
-		;;
-	*)
-		echo "got some unexpected state when checking database '$DB': $state"
-		;;
-	esac
+    case $state in
+    current)
+        echo "collation of database $DB is current, no need to do anything"
+        return
+        ;;
+    outdated)
+        if ! docker exec postgresql psql -U fylr -c "REINDEX DATABASE \"$DB\"" "$DB"; then
+            echo "some error occurred when trying to reindex database '$DB', did not update collation version"
+            return
+        fi
+        docker exec postgresql psql -U fylr -c "ALTER DATABASE \"$DB\" REFRESH COLLATION VERSION" "$primary_database"
+        ;;
+    *)
+        echo "got some unexpected state when checking database '$DB': $state"
+        ;;
+    esac
 }
 
 ### PARSE ARGUMENTS
