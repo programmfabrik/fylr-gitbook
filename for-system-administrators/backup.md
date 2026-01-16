@@ -7,7 +7,7 @@ description: >-
 # Backups & Restore
 
 {% hint style="info" %}
-To migrate between two fylr instances we also develop the [fylr Migration Tool](migration/README.md). For easydb5 to fylr migration, that is already the best tool. For fylr to fylr, this page is currently (2024-03) still recommended.
+To migrate between two running instances, see the [fylr Migration Tool](migration/). For keeping copies in case of emergency, this page is correct.
 {% endhint %}
 
 You need access to the command line.
@@ -16,7 +16,7 @@ In this example we call the instances "old" and "new" and the linux servers runn
 
 ### prepare old server
 
-Check that you have access to the SQL backups: In the case of an installation via docker-compose, the access is a mounted volume (e.g. in the [docker-compose.yml](../\_assets/docker-compose.yml) of our installation [instructions](installation/linux-docker-compose)):
+Check that you have access to the SQL backups: In the case of an installation via docker-compose, the access is a mounted volume (e.g. in the [docker-compose.yml](../_assets/docker-compose.yml) of our installation [instructions](installation/linux-docker-compose/)):
 
 ```
 services:
@@ -33,7 +33,7 @@ services:
 docker exec postgresql pg_dump -U fylr -v -Fc -f /mnt/fylr.pg_dump fylr
 ```
 
-This SQL does include data model, objects, users, groups, user rights and base configuration.&#x20;
+This SQL does include data model, objects, users, groups, user rights and base configuration.
 
 (But not assets and not log messages.)
 
@@ -59,15 +59,11 @@ scp old-server:/srv/fylr/config/fylr/fylr.yml /srv/fylr/config/fylr/fylr.yml.old
 
 Now you have all data for a restore on the new server.
 
-
-
-
-
 ***
 
 ## restore
 
-1. install fylr on the new server, as described in our [installation instructions](installation/linux-docker-compose), _<mark style="background-color:yellow;">**but only start postgresql:**</mark>_
+1. install fylr on the new server, as described in our [installation instructions](installation/linux-docker-compose/), _<mark style="background-color:yellow;">**but only start postgresql:**</mark>_
 
 ```
 docker-compose up -d postgresql
@@ -77,7 +73,7 @@ Make sure that the postgresql DB and elasticsearch indices are empty from previo
 
 For postgreSQL, this may include deleting the database and creating the database `fylr`.
 
-2. import the sql-dump on the new server:&#x20;
+2. import the sql-dump on the new server:
 
 ```
 docker exec -it postgresql pg_restore -U fylr -v -d fylr /mnt/fylr.pg_dump
