@@ -55,6 +55,8 @@ In **fylr**, you can render dynamic captions directly onto **preview images**. C
 Please note that a **resync of all affected records** is necessary after saving the caption configuration. It is **recommended to perform this immediately**. The resync can also be triggered later via **/inspect/files**.&#x20;
 {% endhint %}
 
+For a tutorial on setting up captions, please refer to "[Configuring Captions for Image Previews](../../help/tutorials/for-administrators/configuring-captions-for-image-previews.md)".
+
 ### Masks
 
 This tab is only interesting, if you work with **multiple masks**. If you only have one mask per object type, you can ignore the settings here.
