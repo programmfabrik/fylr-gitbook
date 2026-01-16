@@ -142,13 +142,13 @@ try_fix_db_collation() {
         ;;
     outdated)
         if ! docker exec postgresql psql -U fylr -c "REINDEX DATABASE \"$DB\"" "$DB"; then
-            echo "some error occurred when trying to reindex database '$DB', did not update collation version"
+            echo "some error occurred when trying to reindex database '$DB', did not update collation version" >&2
             return
         fi
         docker exec postgresql psql -U fylr -c "ALTER DATABASE \"$DB\" REFRESH COLLATION VERSION" "$primary_database"
         ;;
     *)
-        echo "got some unexpected state when checking database '$DB': $state"
+        echo "got some unexpected state when checking database '$DB': $state" >&2
         ;;
     esac
 }
@@ -205,15 +205,15 @@ backup)
     exit 0
     ;;
 fixdb)
-	log "check if databases need fixes"
+    log "check if databases need fixes"
     docker ps|grep -q 'postgresql$' || errorexit "no container named postgresql running, cannot check"
-	primary_database=`echo $DBS | awk '{print $1}'`
-	docker exec postgresql psql -U fylr -c "$sql_create_collation_func" "$primary_database"
+    primary_database=`echo $DBS | awk '{print $1}'`
+    docker exec postgresql psql -U fylr -c "$sql_create_collation_func" "$primary_database" >>"$MYLOG"
     for DB in "postgres" "template1" $DBS; do
-		try_fix_db_collation "$DB" "$primary_database"
-	done
-	exit 0
-	;;
+        try_fix_db_collation "$DB" "$primary_database" >>"$MYLOG"
+    done
+    exit 0
+    ;;
 sqldump)
     # do sql backup of one given sql db name (inside docker container "postgresql")
     cd "$BACKUPDIR"                 || errorexit "could not change into directory '$BACKUPDIR'"
