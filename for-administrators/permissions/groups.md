@@ -30,7 +30,7 @@ Each FYLR installation comes with the following **predefined system groups**, th
 ## Group Settings
 
 {% hint style="info" %}
-Group settings can be extended with custom plugins.&#x20;
+Group settings can be extended with custom plugins.
 {% endhint %}
 
 ### General
@@ -45,19 +45,19 @@ Define which parts the users of the user group should be allowed to access and w
 
 Define which other users or user groups should be able to access (read, write, delete) this group and/or the users of this group. Please refer to the general overview of the [permissions](./) for more details.
 
+{% hint style="info" %}
+If **Group A** should be able to see users of **Group B**, you must edit **Group B** and add **Group A** in the permission. This ensures that users of **Group A** can find and for example share collections with users of **Group B**. See also "[Setting Up Collection Sharing](../../help/tutorials/for-administrators/setting-up-collection-sharing.md)".
+{% endhint %}
+
 ### Pseudonymization
 
 Define which data of a user of this group should be kept, deleted or pseudonymized when archiving it.
-
-
 
 {% hint style="info" %}
 If a user is part of multiple groups with clashing pseudonymization strategies, the stricter one will be applied: **Clear** beats **Randomize** beats **Keep**
 {% endhint %}
 
-<table><thead><tr><th width="142">OPTION</th><th width="360">DESCRIPTION</th><th>AVAILABLE FOR FIELD</th></tr></thead><tbody><tr><td>Keep</td><td>When the user is archived, the content of the field is kept.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Additional Information</li></ul><ul><li>Email</li></ul></td></tr><tr><td>Randomize</td><td>When the user is archived, the content of the field is replaced by a random string.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Additional Information</li></ul></td></tr><tr><td>Clear</td><td>When the user is archived, the content of the field is deleted.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Additional Information</li><li>Email</li></ul></td></tr></tbody></table>
-
-
+<table><thead><tr><th width="142">OPTION</th><th width="360">DESCRIPTION</th><th>AVAILABLE FOR FIELD</th></tr></thead><tbody><tr><td>Keep</td><td>When the user is archived, the content of the field is kept.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Additional Information</li><li>Email</li></ul></td></tr><tr><td>Randomize</td><td>When the user is archived, the content of the field is replaced by a random string.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Additional Information</li></ul></td></tr><tr><td>Clear</td><td>When the user is archived, the content of the field is deleted.</td><td><ul><li>Login</li><li>First Name</li><li>Last Name</li><li>Additional Information</li><li>Email</li></ul></td></tr></tbody></table>
 
 "Additional Information" includes:
 
@@ -73,8 +73,6 @@ If a user is part of multiple groups with clashing pseudonymization strategies, 
 * City
 * State
 * Country
-
-
 
 ### Authentication Services
 
