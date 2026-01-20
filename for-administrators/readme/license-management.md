@@ -18,7 +18,7 @@ For more information on licenses, please refer to [fylr Licenses](../../license-
 
 ### Expiration Warnings & Notifications
 
-The system includes an automated warning service to prevent service disruption.
+The licensing system includes an automated warning service to prevent disruption to your fylr instance.
 
 #### Automatic Emails
 
@@ -28,8 +28,8 @@ Warnings are sent via email at the following intervals before the license expire
 * **5 Days**
 * **1 Day**
 
-By default, notifications are sent to the **Administrator Email** defined in the **Base Configuration** > **Email**
+By default, notifications are sent to the **Administrator Email(s)** defined in **Base Configuration** > **Email.** Additional recipients can be added to the license provided by programmfabrik.
 
 {% hint style="info" %}
-To add additional recipients for these warning mails, **contact programmfabrik support**. We will update the extended notification list for your instance.
+To add additional recipients for these warning mails, **contact programmfabrik support**.
 {% endhint %}
