@@ -31,5 +31,5 @@ Warnings are sent via email at the following intervals before the license expire
 By default, notifications are sent to the **Administrator Email(s)** defined in **Base Configuration** > **Email.** Additional recipients can be added to the license provided by programmfabrik.
 
 {% hint style="info" %}
-To add additional recipients for these warning mails, **contact programmfabrik support**.
+To add additional recipients after receiving your license, please **contact programmfabrik support.**
 {% endhint %}
