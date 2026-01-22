@@ -19,7 +19,7 @@ For a technical introduction to plugins, please click [here](../for-developers/p
 {% endhint %}
 
 {% hint style="info" %}
-For a overview over all publicly available plugins, please click [here](../for-users/plugins/overview.md).
+For a overview over all publicly available plugins, please click [here](../plugins/overview.md).
 {% endhint %}
 
 
