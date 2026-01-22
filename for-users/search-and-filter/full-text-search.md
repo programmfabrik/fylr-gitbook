@@ -4,7 +4,7 @@ Full-text search provides several options to **precisely define search queries**
 
 When typing a word into the search field, you get suggestions where you can pick from or simply continue writing (for more details see below):
 
-<table><thead><tr><th width="218.359375">OPTION</th><th>EXPLANATION</th></tr></thead><tbody><tr><td>Fulltext</td><td>Automatically adds wildcards left and right.</td></tr><tr><td>Exact Match</td><td>A case-sensitive search that only finds records where the whole value of a field match.</td></tr><tr><td>Word Suggestions</td><td> Shows words from the index and searches without wildcards.</td></tr><tr><td>Lists</td><td>Shows entries from lists, vocabularies and thesauri.</td></tr></tbody></table>
+<table><thead><tr><th width="218.359375">OPTION</th><th>EXPLANATION</th></tr></thead><tbody><tr><td>Fulltext</td><td>Automatically adds wildcards left and right. Example: <code>*turm*</code></td></tr><tr><td>Exact Match</td><td>A case-sensitive search that only finds records where the whole value of a field match. Example: <code>`Fernsehturm`</code></td></tr><tr><td>Word Suggestions</td><td>Shows words from the index and searches without wildcards. Example: <code>'Berlin'</code></td></tr><tr><td>Lists</td><td>Shows entries from lists, vocabularies and thesauri.</td></tr></tbody></table>
 
 ### Searching for a Specific Word
 
@@ -19,9 +19,15 @@ Examples:
 
 A case-sensitive search is only possible with the exact search (see below).
 
+#### Word Search
+
+The **word search** allows you to search for **exact word matches** across all searchable fields. The search is **not case-sensitive** and finds records where the specified word appears **anywhere within a text**, as long as it matches the complete word.
+
+You can select a word directly from the **autocomplete suggestions**, or you can manually enter a word by enclosing it in **single quotes**, for example `'automobile'`. Using single quotes ensures that the term is treated as a whole word rather than part of a longer string.
+
 #### Exact Search
 
-The exact search allows you to find records where a specific field matches **exactly** the search term you enter. This type of search is **case-sensitive** and does not return partial matches or variations (add wildcards to achieve this).
+The **exact search** allows you to find records where a specific field matches **exactly** the search term you enter. This type of search is **case-sensitive** and does not return partial matches or variations (add wildcards to achieve this).
 
 If the field contains `fylr documentation`:
 

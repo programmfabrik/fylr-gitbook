@@ -1,53 +1,55 @@
 ---
-description: How to use images from fylr in a typo3.
+description: How to use images from fylr in a TYPO3.
 ---
 
-# typo3 plugin
+# TYPO3 plugin
 
-#### Requirements
+#### Requirements to setup
 
-Permissions in a **typo3**
+Full access to a **TYPO3 instance**
 
-* to install an extension (unless that is already done).
-* to use the `Filelist` in the administrative interface.
+* to install the extension
+* to use the `Filelist` in the administrative interface
 
 Permissions in a **fylr instance**
 
-* to activate a plugin (unless that is already done).
-* to download the images you want to use in typo3 (see _step 6)_.
+* to enable plugins (required system right: _"Access plugin manager"_)
+* to download the images you want to use in TYPO3 (required during [#usage](typo3-plugin.md#usage "mention"))
 
-The typo3-plugin is shipped by default with each fylr instance, the plugin must be enabled before usage.
+The TYPO3 plugin is shipped by default with each fylr instance, the plugin must be enabled before usage.
 
 #### fylr setup
 
-1. In the plugin manager of fylr, find the typo3 plugin,  `enable` the plugin and  `Save`.\
+1. In the plugin manager of fylr, find the TYPO3 plugin,  `enable` the plugin and  `Save`.\
    ![](<../.gitbook/assets/image (9).png>)
 2. In the plugin configuration, enable `Activate API` and click `Save`.\
    The configuration can be found in the plugin manager and the base config plugin section.\
    ![](<../.gitbook/assets/image (10).png>)
+   1. _Optional_: Setup a metadata mapping to be applied when loading fylr content into TYPO3, see also [#forward-fylr-metadata-to-typo3](typo3-plugin.md#forward-fylr-metadata-to-typo3 "mention")
 
 #### Typo3 setup
 
-1. In your Typo3, install the extension `easydb TYPO3 integration`: [https://extensions.typo3.org/extension/easydb](https://extensions.typo3.org/extension/easydb)
-2. In your Typo3 Settings, set the URL of your fylr: _(the login is done later)_\
+1. install the extension `easydb TYPO3 integration`: [https://extensions.typo3.org/extension/easydb](https://extensions.typo3.org/extension/easydb)
+2. in the extension configuration set the URL of your fylr instance _(the login is done later)_\
    ![](<../.gitbook/assets/image (11).png>)
 
 #### Usage
 
-1. In your Typo3 `Filelist`, Click on the button `Add files from easydb`:\
+1. In the  `Filelist`, Click on the button `Add files from easydb`:\
    ![](<../.gitbook/assets/image (12).png>)
 2. You will now be presented with the login page of fylr. Log in.
 3. You will be shown a fylr page marked at the top with `TPO3 file selection`.\
    Select one or more files, click the `TYPO3` button, click `Send`\
    ![](<../.gitbook/assets/image (13).png>)\
    \
-   You can then close this window and the files appear in Typo3 `Filelist`.
+   You can then close this window and the files appear in the `Filelist`.
 
-### Forwarding fylr metadata to typo3
+### Forward fylr metadata to TYPO3
 
-* Setup a new typoo3 metadata mapping under _Administration_ > _Metadata Mapping_
+* Setup a new TYPO3 metadata mapping in _Administration_ > _Metadata Mapping_ > TYPO3 _Metadata_
 * Select an Object type and provide a descriptive name for the mapping
-* Map your media files fields to the typo3 metadata
+* Map your media files fields to the TYPO3 metadata
+* Set your mapping in the plugin manager. See a) in [#fylr-setup](typo3-plugin.md#fylr-setup "mention")
 
 ## Good to know
 

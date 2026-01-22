@@ -250,7 +250,7 @@
 * [Purge a fylr instance](tutorials/purge-a-fylr-instance.md)
 * [Background tasks](tutorials/background-tasks.md)
   * [metadata](tutorials/background-tasks/metadata.md)
-* [typo3 plugin](tutorials/typo3-plugin.md)
+* [TYPO3 plugin](tutorials/typo3-plugin.md)
 * [ai metadata plugin](tutorials/ai-metadata-plugin.md)
 * [Use fylr in Google docs via CI HUB](tutorials/use-fylr-in-google-docs-via-ci-hub.md)
 * [Accessing fylr through LinkrUI](tutorials/accessing-fylr-through-linkrui.md)
