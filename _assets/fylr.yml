@@ -88,6 +88,10 @@ fylr+:
         enabled: true
       basemigration: # filename easydb-basemigration-plugin
         enabled: true
+      server-pdf:
+        enabled: true
+      pdf-creator:
+        enabled: true
     paths:
       - "/fylr/files/plugins/easydb/easydb-barcode-display-pdf-plugin"
       - "/fylr/files/plugins/easydb/easydb-barcode-display-plugin"
