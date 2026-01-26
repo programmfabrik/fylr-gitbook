@@ -6,7 +6,7 @@ description: >-
   into a github release workflow.
 ---
 
-# Packaging and Release
+# fylr Plugins: Packaging and Release
 
 Plugins can be uploaded to fylr in the Plugin Manager. Either a ZIP file is uploaded directly, or the URL to a publicly hosted ZIP file is entered. In both cases the same ZIP file can be used.
 
@@ -117,30 +117,42 @@ jobs:
       # [...]
 ```
 
-```yaml
-jobs:
-  build:
-    steps:
-
-      # [...]
-
-      - name: Extract repository name
-        run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
-
-      - name: Set zip file name
-        run: echo "ZIP_NAME=${{env.REPOSITORY_NAME}}.zip" >> $GITHUB_ENV
-
-      - name: Build and package zip file
-        run: make zip
-
-      # [...]
-```
-
 There are multiple other steps, mostly for setting up the build environment and installing third party tools if necessary.
 
 Here the file name of the generated ZIP file is taken from the repository name, but this is optional. The ZIP file can have any name, as long as the internal structure is correct.
 
 The most relevant step here is calling the `zip` target which has been defined in the Makefile.
+
+### Include the github release tag in build info
+
+To include the current release tag, the Makefile and the release workflow must be updated, so that the release tag is passed into the Makefile and written into the build-info.json:
+
+```make
+# extend the buildinfojson target: add new key "release"
+buildinfojson:
+	repo=`git remote get-url origin | sed -e 's/\.git$$//' -e 's#.*[/\\]##'` ;\
+	rev=`git show --no-patch --format=%H` ;\
+	lastchanged=`git show --no-patch --format=%ad --date=format:%Y-%m-%dT%T%z` ;\
+	builddate=`date +"%Y-%m-%dT%T%z"` ;\
+	release=$(if $(strip $(RELEASE_TAG)),'"$(RELEASE_TAG)"','null') ;\
+	echo '{' > build-info.json ;\
+	echo '  "repository": "'$$repo'",' >> build-info.json ;\
+	echo '  "rev": "'$$rev'",' >> build-info.json ;\
+	echo '  "release": '$$release',' >> build-info.json ;\
+	echo '  "lastchanged": "'$$lastchanged'",' >> build-info.json ;\
+	echo '  "builddate": "'$$builddate'"' >> build-info.json ;\
+	echo '}' >> build-info.json
+```
+
+The variable `RELEASE_TAG` is coming from the release workflow. The workflow must be extended so that it is passed into the `make zip` target:
+
+```yaml
+      - name: Build and Package
+        shell: bash
+        run: |
+          export RELEASE_TAG=${{ steps.get_version.outputs.VERSION }}
+          make zip
+```
 
 ### Create a new release in github
 
@@ -191,14 +203,14 @@ Using github URLs only works if the repository is public!
    2. Select "**github-pages**"
    3. Click "(+) Add deployment branch or tag rule"
       1. Select "Ref type: Tag"
-      2. Enter "Name pattern:" `v*.*.*`&#x20;
+      2. Enter "Name pattern:" `v*.*.*`
       3. "Add Rule"
 
 ### Add/update github release workflow
 
 1. If there is no workflow in `.github/workflows/release.yaml`, [add a new workflow](release.md#define-release-workflow-in-plugin)
 2. The following updates are relevant:
-   1.  Store the zip file name of the public zip file: update the step `Set zip file env name` , make sure to replace `UUID` with some random string to make the URL hard to guess:      &#x20;
+   1.  Store the zip file name of the public zip file: update the step `Set zip file env name` , make sure to replace `UUID` with some random string to make the URL hard to guess:
 
        ```yaml
        - name: Set zip file name
@@ -206,7 +218,7 @@ Using github URLs only works if the repository is public!
            echo "ZIP_NAME=${{env.REPOSITORY_NAME}}.zip" >> $GITHUB_ENV
            echo "ZIP_HASH_NAME=${{env.REPOSITORY_NAME}}-UUID-latest.zip" >> $GITHUB_ENV
        ```
-   2.  Add two new steps to upload the zip file to the public pages below step `Build and Package`:      &#x20;
+   2.  Add two new steps to upload the zip file to the public pages below step `Build and Package`:
 
        ```yaml
        - name: Prepare Github Pages upload
@@ -244,9 +256,9 @@ Using github URLs only works if the repository is public!
 
 After the release was run, the public obscured ZIP URL of the plugin is
 
-`https://programmfabrik.github.io/<plugin>/<ZIP_HASH_NAME>`&#x20;
+`https://programmfabrik.github.io/<plugin>/<ZIP_HASH_NAME>`
 
 1. replace `<plugin>` with the plugin name, same as in the repository url
-2. replace `<ZIP_HASH_NAME>` with the zip file name which was defined in `release.yaml`&#x20;
+2. replace `<ZIP_HASH_NAME>` with the zip file name which was defined in `release.yaml`
 
 This URL is stable for each release and can be used in the fylr plugin manager for a URL plugin
