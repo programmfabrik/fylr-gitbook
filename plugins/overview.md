@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2025-12-18 15:40:19 (UTC)
+    * timestamp: 2026-01-26 08:27:45 (UTC)
 -->
 
 # Plugin Overview
@@ -33,6 +33,15 @@ Extension of [easydb-barcode-display](#easydb-barcode-display) to use the barcod
 Adds a Custom Mask Splitter to output a barcode based on data of another field in the record.
 
 * Repository: [https://github.com/programmfabrik/easydb-barcode-display-plugin](https://github.com/programmfabrik/easydb-barcode-display-plugin)
+* This plugin was developed by *Programmfabrik GmbH*.
+
+
+## `custom-mask-splitter-detail-linked`
+
+Custom mask splitter that shows a list of all records that reference the shown record in the detail view.
+
+* Release URL: [https://github.com/programmfabrik/easydb-custom-mask-splitter-detail-linked-plugin/releases/latest/download/easydb-custom-mask-splitter-detail-linked-plugin.zip](https://github.com/programmfabrik/easydb-custom-mask-splitter-detail-linked-plugin/releases/latest/download/easydb-custom-mask-splitter-detail-linked-plugin.zip)
+* Repository: [https://github.com/programmfabrik/easydb-custom-mask-splitter-detail-linked-plugin](https://github.com/programmfabrik/easydb-custom-mask-splitter-detail-linked-plugin)
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
