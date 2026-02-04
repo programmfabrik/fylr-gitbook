@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2026-01-26 08:27:45 (UTC)
+    * timestamp: 2026-02-04 14:00:22 (UTC)
 -->
 
 # Plugin Overview
@@ -37,6 +37,14 @@ Adds a Custom Mask Splitter to output a barcode based on data of another field i
 
 
 ## `custom-mask-splitter-detail-linked`
+
+{% hint style="warning" %}
+This plugin was renamed internally due to technical reasons.
+
+If the plugin was installed in fylr under the name `custom-mask-splitter-detail-linked`, disable and delete this plugin in the plugin manager.
+
+Make sure to install and enable the new version with the name `easydb-custom-mask-splitter-detail-linked-plugin` using the same release url.
+{% endhint %}
 
 Custom mask splitter that shows a list of all records that reference the shown record in the detail view.
 
@@ -403,6 +411,15 @@ Configure standard fields in the base configuration, which can be defined per po
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-default-values-from-pool/releases/latest/download/DefaultValuesFromPool.zip](https://github.com/programmfabrik/fylr-plugin-default-values-from-pool/releases/latest/download/DefaultValuesFromPool.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-default-values-from-pool](https://github.com/programmfabrik/fylr-plugin-default-values-from-pool)
+* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
+
+
+## `edit-info-updater`
+
+This is a server plugin for fylr that updates two fields "Edited by" and "Edit date" whenever either a certain field has been changed or a tag from a certain tag group has been added or removed. Fields can optionally be located inside a nested field.
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-edit-info-updater/releases/latest/download/EditInfoUpdater.zip](https://github.com/programmfabrik/fylr-plugin-edit-info-updater/releases/latest/download/EditInfoUpdater.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-edit-info-updater](https://github.com/programmfabrik/fylr-plugin-edit-info-updater)
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
