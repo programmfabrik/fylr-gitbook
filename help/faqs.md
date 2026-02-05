@@ -10,7 +10,7 @@ description: frequently asked questions
 
 <summary>Can I use keyboard shortcuts?</summary>
 
-Yes, shortcuts are available to all users for faster navigation and efficiency.&#x20;
+Yes, shortcuts are available to all users for faster navigation and efficiency.
 
 Action keys:
 
@@ -34,7 +34,7 @@ The user account needs the permissions to execute the underlying function.
 
 <details>
 
-<summary> I have multiple files that belong together. How do I upload them?</summary>
+<summary>I have multiple files that belong together. How do I upload them?</summary>
 
 First, you have to make sure your data model allows the upload of multiple files for one record (the upload field has to be in a repeatable/nested field). Then you can either name your files the same (with a numbering at the end, for example "file-1.jpg" & "file-2.jpg" or "file 1.png" & "file 2.png") and upload them together with "[Detect Series](../for-users/asset-records-management/creating-records.md#upload-area-and-settings)" enabled. Or, you can skip the upload screen and upload the files in the upload field of that empty record. In both cases you get one record with multiple files.
 
@@ -68,15 +68,13 @@ Disallow the group to “Upload Files” into given fields **or** create a mask 
 
 <summary>How do I let a user only upload a certain type of file to a specific field, e.g. only images?</summary>
 
-Depending on if you manage an Object Type by itself or if you are using pool management, you find the solution to this problem inside the Rights Management section of Fylr.&#x20;
+Depending on if you manage an Object Type by itself or if you are using pool management, you find the solution to this problem inside the Rights Management section of Fylr.
 
-You can provide the right "Upload File" to groups/ users and define, which field in which Object Type should only have a certain type of File.&#x20;
+You can provide the right "Upload File" to groups/ users and define, which field in which Object Type should only have a certain type of File.
 
 The options for a field are: Image, Office, Video, Audio, Unknown
 
 </details>
-
-
 
 ## Collections
 
@@ -90,13 +88,11 @@ Make sure to assign the right "**Create Collections**" under "**Access Search**"
 
 <details>
 
-<summary>I want to share a collection with a specific user, but I don't see their name in the list of available users. </summary>
+<summary>I want to share a collection with a specific user, but I don't see their name in the list of available users.</summary>
 
 If the users you want to share the collection with are not visible in the user pulldown, you're missing permissions to see them. Ask your administrator to give you access to these users. They need to edit the group you want to share the collection with (let's say "Group A") and add your group (let's say "Group B") to the permissions and assign the right "View Users" and/ or "View Group".
 
 </details>
-
-
 
 ## Search
 
@@ -138,8 +134,41 @@ After setting up the requirements for the mail server in the "Email" section of 
 
 <summary>I added a new field to an object type and cannot see it in the fylr UI</summary>
 
-After adding a new field to an object type, saving and committing the new datamodel are required.  Additionally a reindex is required to update the Index with the new column.
+After adding a new field to an object type, saving and committing the new datamodel are required. Additionally a reindex is required to update the Index with the new column.
 
 If you still don't see a field in frontend of fylr, you probably forgot to **enable the new field in the masks**. For this field in your mask of choice, select the desired visibility options and define interactive elements. Again, saving, committing and a reindex are required.
+
+</details>
+
+<details>
+
+<summary>How to allow records to be edited by their owners</summary>
+
+In datamodel > objecttype > select a mask:
+
+* in Input & Output tab, see the system fields table
+* change the system fields owner to "edit" option
+
+Now the creator of a record always has full access permission to it: full read, edit and delete rights. These cannot be revoked again, unless the owner of the record is changed.
+
+<br>
+
+</details>
+
+
+
+### Solutions to API-Errors
+
+<details>
+
+<summary><code>"Objekt #[ID] [objecttype] needs permission \"\" (Best Mask)."</code></summary>
+
+Explanation: The user has an available mask, but that mask is not indexed.
+
+`[objecttype]` : this objecttypes mask is not available to the current user
+
+Known issue:
+
+* mask is excluded from index in Rights Management > Pools > Masks
 
 </details>
