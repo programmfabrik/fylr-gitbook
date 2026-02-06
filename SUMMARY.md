@@ -105,6 +105,7 @@
     * [Search in Text of Images or Office Files](help/tutorials/for-administrators/search-text-in-images-or-office-files.md)
     * [How to setup and use IIIF](help/tutorials/for-administrators/how-to-setup-and-use-iiif.md)
     * [Configuring Captions for Image Previews](help/tutorials/for-administrators/configuring-captions-for-image-previews.md)
+    * [Default export metadata mappings](help/tutorials/for-administrators/default-export-metadata-mappings.md)
     * [Setting Up Collection Sharing](help/tutorials/for-administrators/setting-up-collection-sharing.md)
   * [For System Administrators](help/tutorials/for-system-administrators/README.md)
     * [Regenerating preview images](help/tutorials/for-system-administrators/regenerating-preview-images.md)
