@@ -4,12 +4,6 @@ description: How to set up PDF creation in fylr
 
 # PDF Creator
 
-{% hint style="info" %}
-The "PDF Creator" plugin is licensed as a separate module. Please check your license agreement in case of doubt.
-{% endhint %}
-
-### Install the plugin (if not yet)
-
 1. Got to **Plugin-Manager** and if there is no **Server PDF Plugin** yet, press the **+** button at the bottom:
 
 ![](<../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png>) (click to enlarge)
