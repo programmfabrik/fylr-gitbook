@@ -4,6 +4,10 @@ description: How to set up PDF creation in fylr
 
 # PDF Creator
 
+{% hint style="warning" %}
+The PDF-Creator is officially supported and guaranteed only in Google Chrome. In Firefox and other browsers, the PDF-Creator generally works as well, but full functionality—especially the preview—is not guaranteed, and related issues are not covered by support.
+{% endhint %}
+
 ## Installation (if not yet installed)
 
 
