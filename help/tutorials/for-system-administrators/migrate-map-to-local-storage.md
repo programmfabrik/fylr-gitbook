@@ -389,7 +389,7 @@ Create the following two:
 <summary>5.c Let fylr use the asset files of easydb5 directly from disk, without asking easydb</summary>
 
 * Go to **https://**&#x66;ylr.example.co&#x6D;**/inspect/files/**
-* search with `Location`=`remote`
+* Select `Location`=`remote`  and click Search, so that a search is performed.
 * Choose Action `Map to local storage` and `Search result`, not `Selected`. Click the button `Action` at the right.
 * Now the easydb is not used by fylr any more. (But elasticsearch is still used by fylr)
 
