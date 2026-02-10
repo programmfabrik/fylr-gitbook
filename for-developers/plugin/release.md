@@ -160,6 +160,17 @@ When a new release is created in github, the workflow from the `.github` folder 
 
 See [external documentation](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository).
 
+#### Important: Format of the release tag
+
+The release tag must have the format `v*.*.*` (for example `v1.2.3`), matching the definition in the `release.yaml` file, otherwise the release workflow will not be triggered in github. Other formats could theoretically be defined here, but this is not recommended!
+
+```yaml
+on:
+  push:
+    tags:
+      - "v*.*.*"
+```
+
 ### URL for automatic update of plugin in fylr
 
 Every release produces a specific URL where the ZIP file can be downloaded. This can be used to upload a specific plugin version to fylr.
