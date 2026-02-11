@@ -76,6 +76,20 @@ The options for a field are: Image, Office, Video, Audio, Unknown
 
 </details>
 
+<details>
+
+<summary>What's the difference between file fields and variants?</summary>
+
+**File fields can have variants** (denoted by a layered icon on the preview at the field), accessible at the 3dot-menu.
+
+**Good to know:**
+
+* To edit the variants (upload, remove or create new cropped variants) open the variants in the editor
+* If a file is deleted from a file field, all its variants are deleted as well
+* Variants are not meant to store series of images, use file fields in nested fields instead.
+
+</details>
+
 ## Collections
 
 <details>
