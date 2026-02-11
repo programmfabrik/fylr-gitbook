@@ -75,7 +75,7 @@ Technical name.
 
 In the Deep-Link interface, this XSLT can be applied by using `format/xslt/<xslt-name>`.
 
-In the OAI/PMH interface, this is used as a metadata format (`metadataFormat=<name>`).
+In the OAI/PMH interface, this is used as a metadata format (`metadataFormat=xslt-<name>`).
 
 ### Display Name
 
@@ -87,7 +87,8 @@ Description of the format (optional).
 
 ### **Custom Content-Type**
 
-This optional field allows you to manually define the `Content-Type` header returned by a Deeplink endpoint when an XSLT transformation is applied.\
+This optional field allows you to manually define the `Content-Type` header returned by a Deeplink endpoint when an XSLT transformation is applied.
+
 In most cases, **you do not need to set anything here**.
 
 If the field is left empty (recommended), the system assumes that the XSLT produces **XML**.
@@ -99,23 +100,89 @@ You should only provide a custom value if:
 
 ### Use for deep links with /api/v1/objects
 
-Allow this XSLT to be used in the Deep Link interface.
+Allow this XSLT to be used in the [Deep Link interface](#deep-link-settings).
 
 ### Use for OAI/PMH
 
-Allow this XSLT to be used in the OAI/PMH interface.
+Allow this XSLT to be used in the [OAI/PMH interface](#oaipmh).
 
 {% hint style="info" %}
-Please note: since the OAI/PMH standard requires XML, make sure that the XSLT produces valid XML. Otherwise an internal parsing error can occur in the OAI/PMH plugin.
+Please note: since the OAI/PMH standard requires XML, make sure that the XSLT produces valid XML. Otherwise an internal parsing error can occur in the OAI/PMH endpoint.
 {% endhint %}
 
-### Schema (only OAI/PMH)
+### OAI/PMH only
+
+These settings are only relevant if the XSLT transformation is intended for use with OAI/PMH. In all other cases, these can be ignored.
+
+#### Schema
 
 XML Schema. Used for the namespace (`xmlns`) of the exported records.
 
-### Namespace (only OAI/PMH)
+#### Namespace
 
 XML Namespace. Used as the namespace of the exported records.
+
+#### XPath Query
+
+For the OAI/PMH format, the result of the XSLT must be split into single objects, which will then each be included in the `<record>` nodes. The XPath defines the node in the *resulting XML after the XSLT* has been applied, at which each new record starts. The XPath must include the XML namespace prefix, if the XSLT includes a namespace in the output.
+
+E.g. the resulting XML of a XSLT transformation has the following structure:
+
+```xml
+<lido:lido xmlns:lido ="http://www.lido-schema.org">
+  <!-- object #0 -->
+  <lido:lido>
+    <lido:lidoRecID>001</lido:lidoRecID>
+    <!-- [...] -->
+  </lido:lido>
+  <!-- object #1 -->
+  <lido:lido>
+    <lido:lidoRecID>002</lido:lidoRecID>
+    <!-- [...] -->
+  </lido:lido>
+</lido:lido>
+```
+
+The XPAth to separate the distinct records is
+
+```xml
+lido:lido/lido:lido
+```
+
+This will result in the following output in the OAI/PMH endpoint for a `?verb=ListRecords` request:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">
+  <request verb="ListRecords" metadataPrefix="xslt-lido">/api/v1/oai</request>
+  <ListRecords>
+    <!-- object #0 -->
+    <record>
+      <header>
+        <!-- [...] -->
+      </header>
+      <metadata>
+        <lido:lido>
+          <lido:lidoRecID>001</lido:lidoRecID>
+          <!-- [...] -->
+        </lido:lido>
+      </metadata>
+    </record>
+    <!-- object #1 -->
+    <record>
+      <header>
+        <!-- [...] -->
+      </header>
+      <metadata>
+        <lido:lido>
+          <lido:lidoRecID>002</lido:lidoRecID>
+          <!-- [...] -->
+        </lido:lido>
+      </metadata>
+    </record>
+  </ListRecords>
+</OAI-PMH>
+```
 
 ### **Responsibility & Support**
 
