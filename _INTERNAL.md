@@ -7,7 +7,7 @@ currently it is a manual process:
 
 3. Github access: The script expects a Github token in the `GITHUB_TOKEN` environment variable. You can create such a token in github.com: "Settings"/"Developer settings"/"Personal access tokens"/"Tokens (classic)". It requires the `repo` scope to access the releases of the private repository.
 
-4. S3 access: For access to our S3-provider "Wasabi" the script uses the AWS CLI tools (https://github.com/aws/aws-cli, Debian package `awscli`, command binary `aws`). Before using the script the tools must be configured (`aws configure`). Use the "AWS Access Key ID" and "AWS Secret Access Key" of an authorized user and use `eu-central-1` as the "Default region name".
+4. S3 access: For access to our S3-provider "Wasabi" the script uses the AWS CLI tools (https://github.com/aws/aws-cli, Debian package `awscli`, command binary `aws`, uses `~/.aws/credentials`). Before using the script the tools must be configured (`aws configure`). Use the "AWS Access Key ID" and "AWS Secret Access Key" of an authorized user and use `eu-central-1` as the "Default region name".
 * For storing the release assets, the bucket `fylr-releases` is used.
 
 5. execute `make` in the root directory of this repo. 

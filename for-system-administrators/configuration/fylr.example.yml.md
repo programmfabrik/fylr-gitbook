@@ -484,10 +484,15 @@ fylr:
           # email is used to register the certificate with Let's Encrypt
           email: you@example.com
 
+          # CA overwrites the default CA für Let's Encrypt. If unset, the
+          # default CA is "https://acme-v02.api.letsencrypt.org/directory"
+          CA: ""
+
           # useStagingCA sets the staging server of Let's Encrypt which has a higher
           # quota than the production server. However, these certificates are for
           # testing purposes only. They are not signed for official use, so browser
           # will recognise them as being insecure.
+          # This will use "https://acme-staging-v02.api.letsencrypt.org/directory"
           useStagingCA: false
 
           # additionalDomains can be given to get additional certificates for the given
@@ -533,10 +538,12 @@ fylr:
         # a root login is required to access.
         backend: "http://localhost:8081"
 
-        # Custom map for reverse proxy endpoints.
-        # fylr uses https://pkg.go.dev/net/http/httputil#NewSingleHostReverseProxy.
-        # Before the : give a path prefix like /system2 or a domain as //example.com/.
+        # Custom map for reverse proxy endpoints. fylr uses
+        # https://pkg.go.dev/net/http/httputil#NewSingleHostReverseProxy. Before
+        # the : give a path prefix like /system2 or a domain as //example.com/.
         # After the : give the URL of the existing content, may contain :port.
+        # The target can omit scheme and host in which case the scheme / host of
+        # the request will be used for the redirection.
         custom:
           # show http://localhost:81/system2 at https://externalURL/system2
           "/system2": "http://localhost:81"
@@ -802,6 +809,5 @@ fylr:
               prog: "fylr"
               args:
                 - "iiif"
-
 ```
 {% endcode %}
