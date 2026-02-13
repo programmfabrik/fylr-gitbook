@@ -184,6 +184,66 @@ This will result in the following output in the OAI/PMH endpoint for a `?verb=Li
 </OAI-PMH>
 ```
 
+This parameter is necessary **only** if the XSLT generates XML with top level elements. If there are no top level object, and all objects are directly on the top level, and the number of top level objects matches the number of requested records, no XPath is necessary. Fylr will match each top level object implicitly into the OAI/PMH `<record>` nodes.
+
+E.g. three records are exported into XML, and the resulting XML of a XSLT transformation has the following structure:
+
+```xml
+<object>
+  <!-- object #0 / 3 -->
+</object>
+<object>
+  <!-- object #1 / 3 -->
+</object>
+<object>
+  <!-- object #2 / 3 -->
+</object>
+```
+
+In this case, each top level `<object>` element will be used for `<record>`:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">
+  <request verb="ListRecords" metadataPrefix="xslt-lido">/api/v1/oai</request>
+  <ListRecords>
+    <record>
+      <!-- record #0 / 3 -->
+      <header>
+        <!-- [...] -->
+      </header>
+      <metadata>
+        <object>
+          <!-- object #0 / 3 -->
+        </object>
+      </metadata>
+    </record>
+    <record>
+      <!-- record #1 / 3 -->
+      <header>
+        <!-- [...] -->
+      </header>
+      <metadata>
+        <object>
+          <!-- object #1 / 3 -->
+        </object>
+      </metadata>
+    </record>
+    <record>
+      <!-- record #2 / 3 -->
+      <header>
+        <!-- [...] -->
+      </header>
+      <metadata>
+        <object>
+          <!-- object #2 / 3 -->
+        </object>
+      </metadata>
+    </record>
+  </ListRecords>
+</OAI-PMH>
+```
+
 ### **Responsibility & Support**
 
 Please note:
