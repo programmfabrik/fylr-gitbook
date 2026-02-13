@@ -11,7 +11,9 @@ Upcoming feature, soon to be documented.
 ## Via command line
 
 ```
---rename-versions=,...        Rename versions before uploading. This affects
+fylr restore --help
+
+      --rename-versions=,...        Rename versions before uploading. This affects
                                     uploaded rights as well as file versions.
                                     The versions need to be given in the notation
                                     "<cls>.<version>:<new version>", e.g.
