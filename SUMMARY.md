@@ -229,6 +229,7 @@
   * [Limitations and differences](for-system-administrators/migration/limitations.md)
   * [Best Practice](for-system-administrators/migration/best-practice.md)
   * [Using the inspect page to migrate](for-system-administrators/migration/inspect.md)
+  * [renaming renditions during migration](for-system-administrators/migration/renaming-renditions-during-migration.md)
 * [Integration](for-system-administrators/integration/README.md)
   * [Authentication](for-system-administrators/integration/authentication.md)
   * [Hotfolder](for-system-administrators/integration/hotfolder.md)
