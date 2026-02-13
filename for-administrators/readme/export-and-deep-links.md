@@ -156,8 +156,8 @@ This will result in the following output in the OAI/PMH endpoint for a `?verb=Li
 <OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">
   <request verb="ListRecords" metadataPrefix="xslt-lido">/api/v1/oai</request>
   <ListRecords>
-    <!-- object #0 -->
     <record>
+      <!-- object #0 -->
       <header>
         <!-- [...] -->
       </header>
@@ -168,8 +168,8 @@ This will result in the following output in the OAI/PMH endpoint for a `?verb=Li
         </lido:lido>
       </metadata>
     </record>
-    <!-- object #1 -->
     <record>
+      <!-- object #1 -->
       <header>
         <!-- [...] -->
       </header>
@@ -184,9 +184,9 @@ This will result in the following output in the OAI/PMH endpoint for a `?verb=Li
 </OAI-PMH>
 ```
 
-This parameter is necessary **only** if the XSLT generates XML with top level elements. If there are no top level object, and all objects are directly on the top level, and the number of top level objects matches the number of requested records, no XPath is necessary. Fylr will match each top level object implicitly into the OAI/PMH `<record>` nodes.
+This parameter is **only necessary** if the XSLT generates XML with a top level structure which contains the distinct objects. If there is no top level object, and all objects are directly on the top level, and the number of top level objects matches the number of requested records, no XPath is necessary. Fylr will match each top level object implicitly into the OAI/PMH `<record>` nodes.
 
-E.g. three records are exported into XML, and the resulting XML of a XSLT transformation has the following structure:
+E.g. three records are exported into XML, and the resulting XML of a XSLT transformation has the following structure with exactly three top level objects:
 
 ```xml
 <object>
