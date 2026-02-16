@@ -7,7 +7,7 @@ description: >-
 # Accessing fylr through LinkrUI
 
 {% hint style="info" %}
-**BETA**: fylr integration is currently in active development from [Santa Cruz Software](https://santacruzsoftware.com/)
+**BETA**: fylr integration is currently in active development from [Santa Cruz Software](https://santacruzsoftware.com/linkrui/)
 {% endhint %}
 
 ## Required
@@ -65,3 +65,13 @@ Open the record in fylr, at the file field find the variants with a new addition
 * Exporting into new records
 * Complex field types missing from object type (linked records in nesteds, reverse linked records etc.)
 {% endhint %}
+
+## Setup (Adobe)
+
+1. Download from [LinkrUI for Adobe Creative Cloud](https://santacruzsoftware.com/linkrui/adobecc/), use the according Installer to your system
+2. Run the installer, then restart Adobe&#x20;
+3. Make sure the LinkrUI panel is opened. Find the plugin under **Window** > **Extension > LinkrUI.**
+4. Enter your **Name, Email,** and **Activation Key,** then click **Activate**
+5. Once activated login to your fylr
+
+<br>
