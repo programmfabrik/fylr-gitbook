@@ -19,14 +19,14 @@ Fylr requires linkrui capabilities in license. **Not part of fylr by default.** 
 
 ## Setup (for Google Workspace)
 
-1. Install the "LinkrUI for Google Workspace" Add-On in your extension of choice
+1. Install the "LinkrUI for Google Workspace" Add-On in your tool of choice
 2. Open the LinkrUI Extension
 3. Provide the fylr server URL, authenticate with your login
 
 <figure><img src="../.gitbook/assets/Screenshot 2025-11-13 at 14.58.50.png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="warning" %}
-**Current authentication bug:** If the authenticate page opening shows errors, copy the generated authentication link in the extension, update the URLs `client_id` parameter from `santa-cruz` to `linkrui` , then paste the URL and authenticate.&#x20;
+**Current authentication bug:** If the authenticate page opening shows errors, copy the generated authentication link in the extension, update the URLs `client_id` parameter from `santa-cruz` to `linkrui` , then paste the URL and authenticate.
 {% endhint %}
 
 ## Usage
@@ -36,25 +36,21 @@ Fylr requires linkrui capabilities in license. **Not part of fylr by default.** 
 
 <figure><img src="../.gitbook/assets/Screenshot 2025-11-13 at 15.21.41.png" alt=""><figcaption><p>A simple search in the linkrui extension, result in grid view, filters highlighted</p></figcaption></figure>
 
-
-
 * Place assets by accessing the 3dot-menu at the record, or by drag and dropping them onto the open project
 
 <figure><img src="../.gitbook/assets/Screenshot 2025-11-13 at 15.24.12.png" alt=""><figcaption><p>Open detail view with bottom toolbar options</p></figcaption></figure>
 
 * **Bottom toolbar**: View options for search result, access detail view with link to fylr record
 
-
-
 ### **Supported file formats for exporting back to fylr**
 
-The file types supporting the **"New Version"** option vary depending on the product the extension is used in.&#x20;
+The file types supporting the **"New Version"** option vary depending on the product the extension is used in.
 
 * **Google Docs:** docx, pdf, odt
 * **Google Sheets:** xlsx, pdf, ods
-* **Google Slides:** pptx, pdf&#x20;
-* **Adobe Express:** pdf, jpg, png, mp4&#x20;
-* **Figma:** jpg, png, svg, pdf&#x20;
+* **Google Slides:** pptx, pdf
+* **Adobe Express:** pdf, jpg, png, mp4
+* **Figma:** jpg, png, svg, pdf
 
 The according file format may be exported back into fylr as a new variant of the original asset:
 
@@ -66,6 +62,6 @@ Open the record in fylr, at the file field find the variants with a new addition
 **Currently unsupported:**
 
 * Accessing collections and saved searches in extension
-* Exporting into new records&#x20;
+* Exporting into new records
 * Complex field types missing from object type (linked records in nesteds, reverse linked records etc.)
 {% endhint %}
