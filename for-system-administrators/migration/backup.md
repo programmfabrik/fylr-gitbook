@@ -79,7 +79,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=0
-timestamp: 2025-04-14 10:48:35 (UTC)
+timestamp: 2026-02-19 14:19:30 (UTC)
 
 -->
 
@@ -92,12 +92,14 @@ Target folder for the backup files. If it does not exist, it will be created. If
 * this parameter is **mandatory**!
 * type: `string`
 
+
 ### `--server`
 
 API Url of the source instance. The Url must include the API base endpoint, for fylr this is `<source url>/api/v1`.
 
 * this parameter is **mandatory**!
 * type: `string`
+
 
 ### `--login`
 
@@ -106,12 +108,14 @@ Username of the user in the source instance. It should be a user with root right
 * this parameter is **mandatory**!
 * type: `string`
 
+
 ### `--password`
 
 Password of the user in the source instance.
 
 * this parameter is **mandatory**!
 * type: `string`
+
 
 ### `--purge`
 
@@ -128,6 +132,7 @@ If the target folder already exists, this parameter (or `--continue`) must be se
 * type: `bool`
 * default: `false`
 
+
 ### `--continue`
 
 Defines the mode of the backup (purge or continue).
@@ -143,42 +148,9 @@ If the target folder already exists, this parameter (or `--purge`) must be set, 
 * type: `bool`
 * default: `false`
 
-### `--size`
-
-{% hint style="warning" %}
-**Deprecated!** This parameter is removed in fylr in version **v6.18.0**.
-{% endhint %}
-
-The target size for objects in payloads. The effective size of the generated payloads is limited by `--chunk`.
-
-* type: `int`
-* minimum: `1`
-* maximum: `1000`
-* default: `100`
-
-### `--chunk`
-
-{% hint style="warning" %}
-**Deprecated!** This parameter is removed in fylr in version **v6.18.0**.
-{% endhint %}
-
-The requested size for objects from the source instance. Can be used to control the size of the responses. It can be lowered if the requests cause timeouts or network problems.
-
-{% hint style="warning" %}
-This parameter was renamed to `--chunk-size`
-{% endhint %}
-
-* type: `int`
-* minimum: `1`
-* maximum: `1000`
-* default: `100`
 
 ### `--chunk-size`
 
-{% hint style="info" %}
-This parameter is available in fylr from version **v6.18.0**.
-{% endhint %}
-
 The requested size for objects from the source instance. Can be used to control the size of the responses. It can be lowered if the requests cause timeouts or network problems.
 
 * type: `int`
@@ -186,39 +158,17 @@ The requested size for objects from the source instance. Can be used to control 
 * maximum: `1000`
 * default: `100`
 
-### `--limit`
-
-{% hint style="warning" %}
-**Deprecated!** This parameter is removed in fylr in version **v6.18.0**.
-{% endhint %}
-
-Set this to a number bigger than `0` to limit the number of objects of each objecttype. This can be used to test or debug, and can be combined with `--include` to only backup a small sample of the source instance.
-
-{% hint style="warning" %}
-This parameter was renamed to `--max-count`
-{% endhint %}
-
-* type: `int`
-* minimum: `0`
-* default: `0`
 
 ### `--max-count`
 
-{% hint style="info" %}
-This parameter is available in fylr from version **v6.18.0**.
-{% endhint %}
-
 Set this to a number bigger than `0` to limit the number of objects of each objecttype. This can be used to test or debug, and can be combined with `--include` to only backup a small sample of the source instance.
 
 * type: `int`
 * minimum: `0`
 * default: `0`
 
-### `--max-parallel`
 
-{% hint style="info" %}
-This parameter is available in fylr from version **v6.18.0**.
-{% endhint %}
+### `--max-parallel`
 
 Maximum numbers of parallel workers.
 
@@ -236,16 +186,19 @@ This creates more load on the source system.
 * minimum: `0`
 * default: `1`
 
+
 ### `--compression`
 
 GZIP compression level.
 
-If `0` is selected, there is no compression and the payloads are stored as `.json` files. If a value bigger than `0` is selected, the payloads are stored as compressed `.json.gz` files.
+If `0` is selected, there is no compression and the payloads are stored as `.json` files.
+If a value bigger than `0` is selected, the payloads are stored as compressed `.json.gz` files.
 
 * type: `int`
 * minimum: `0`
 * maximum: `9`
 * default: `0`
+
 
 ### `--all-versions`
 
@@ -258,11 +211,13 @@ Not to be confused with asset versions (see parameters for `fylr restore`)!
 * type: `bool`
 * default: `false`
 
+
 ### `--include`
 
 If this is a valid non empty regex string, only objecttypes are backupped where the internal objecttype name matches the regex.
 
 * type: `string`
+
 
 ### `--include-events`
 
@@ -283,12 +238,14 @@ For now, this includes `OBJECT_INDEX`, `SESSION_INVALID`, `FRONTEND_ERROR` and `
 * type: `string`
 * default: `""`
 
+
 ### `--retry-max-count`
 
 If a request fails with one of the following HTTP status codes that indicate network problems, the request is repeated for a maximum number of times: `502`: Bad Gateway, `503`: Service Unavailable, `504`: Gateway Timeout
 
 * type: `int`
 * default: `10`
+
 
 ### `--retry-sleep-between`
 
@@ -297,11 +254,13 @@ Defines the waiting time in seconds between repeated failed requests.
 * type: `int`
 * default: `30`
 
+
 ### `--client-id`
 
 If the source instance uses OAuth2 for user authentication, this is the configured Client ID.
 
 * type: `string`
+
 
 ### `--client-secret`
 
@@ -309,11 +268,13 @@ If the source instance uses OAuth2 for user authentication, this is the configur
 
 * type: `string`
 
+
 ### `--client-token-url`
 
 If the source instance uses OAuth2 for user authentication, this is the OAuth2 callback endpoint of the instance. For fylr this is `<source url>/api/oauth2/token`.
 
 * type: `string`
+
 
 ### `--insecure`
 
@@ -326,12 +287,14 @@ Only use this option if you can trust the remote server!
 * type: `bool`
 * default: `false`
 
+
 ### `--verbose`
 
 Set to `true` to log debugging info.
 
 * type: `bool`
 * default: `false`
+
 
 ### `--log-network`
 
@@ -340,17 +303,15 @@ Set to `true` to log the requests and responses.
 * type: `bool`
 * default: `false`
 
+
 ### `--log`
 
 If this is a valid file path, the log output is written to this file. If this is empty (default), the log output is written to `stdout` instead.
 
 * type: `string`
 
-### `--pretty`
 
-{% hint style="info" %}
-This parameter is available in fylr from version **v6.17.0**.
-{% endhint %}
+### `--pretty`
 
 Set to `true` to save the data in a prettified JSON.
 

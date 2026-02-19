@@ -68,10 +68,11 @@ Flags:
     --timeout-min=10          Timeout for connections to target (minutes).
     --include-password        Include password in user restore.
     --skip-constraints        Skip constraints during restore.
-    --file-api=""             API used to upload files. Leave empty to not upload files. "put": restore tool uploads files synchronous. "rput": target server loads files from remote URLs. "rput_leave": target server stores remote URLs, no data is copied to storage. "rput" and "rput_leave" are faster, "put" might take long.
+    --file-api=""             Method used to upload files. empty or unset: do not upload any files at all. "put": upload files directly to the target server. "rput": only upload file URLs, target server loads files from remote URLs. "rput_leave": target server only stores remote URLs, no data is copied to storage. "rput_bulk": like "rput", but URLs are uploaded in batches, not in a single request per URL (faster). "rput_bulk_leave": like "rput_leave", but URLs are uploaded in batches (faster).
     --file-api-access-token="" Use this to pass an access token to fylr backends. This is needed to load files from fylr source instances. It appends the "access_token" query parameter to the remote url of files, and removes the "x-fylr-signature" query parameter.
     --file-version=""         Set to version to use for upload. "original" might take long for "put". Use "preview" for test runs.
     --upload-versions         Set to true, to not produce local preview versions, but instead upload the source versions. The upload method is used for versions the same way as for the original.
+    --skip-reindex            If set, skip reindex at the end of the restore.
     --rename-versions=,...    Rename versions before uploading. This affects uploaded rights as well as file versions. The versions need to be given in the notation "<cls>.<version>:<new version>", e.g. "image.preview:640px" would replace the "preview" version of image to "640px". If the "<new version>" is omitted, the version is removed.
 ```
 
@@ -80,7 +81,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=1408589219
-timestamp: 2025-04-14 10:48:35 (UTC)
+timestamp: 2026-02-19 14:30:22 (UTC)
 
 -->
 
@@ -190,6 +191,18 @@ Skip constraints during restore.
 * default: `false`
 
 
+### `--skip-reindex`
+
+{% hint style="info" %}
+This parameter is available in fylr from version **6.29.0**.
+{% endhint %}
+
+If set, skip reindex at the end of the restore.
+
+* type: `bool`
+* default: `false`
+
+
 ### `--include-password`
 
 Include user password hashes. If this option is `true`, the restore tool checks if there is at least one user where a password hash is present. This is done by checking the `has_passwords` flag in the `manifest.json`. If this value is `false`, the restore will stop with an error.
@@ -218,60 +231,33 @@ If this parameter is unset, all events are restored which have a type that is kn
 * default: `""`
 
 
-### `--chunk`
-
-{% hint style="warning" %}
-**Deprecated!** This parameter is removed in fylr in version **v6.18.0**.
-{% endhint %}
-
-The upload batch size for objects to the target instance. Can be used to control the size of the requests. It can be lowered if the requests cause timeouts or network problems.
-
-{% hint style="warning" %}
-This parameter was renamed to `--chunk-size`
-{% endhint %}
-
-* type: `int`
-* minimum: `1`
-* maximum: `1000`
-* default: `100`
-
-
 ### `--chunk-size`
 
-{% hint style="info" %}
-This parameter is available in fylr from version **v6.18.0**.
-{% endhint %}
-
 The upload batch size for objects to the target instance. Can be used to control the size of the requests. It can be lowered if the requests cause timeouts or network problems.
 
 * type: `int`
 * minimum: `1`
 * maximum: `1000`
 * default: `100`
-
-
-### `--limit`
-
-{% hint style="warning" %}
-**Deprecated!** This parameter is removed in fylr in version **v6.17.0**.
-{% endhint %}
-
-Set this to a number bigger than `0` to limit the number of objects of each objecttype. This can be used to test or debug to only restore a small sample of the source instance.
-
-* type: `int`
-* minimum: `0`
-* default: `0`
 
 
 ### `--file-api`
 
-Method used to upload files. Leave empty to not upload files.
-* `put`: restore tool uploads files synchronous.
-* `rput`: target server loads files from remote URLs.
-* `rput_leave`: target server stores remote URLs, no data is copied to storage.
+Method used to upload files.
+* `""` (empty or unset): do not upload any files at all (default)
+* `put`: upload files directly to the target server
+* `rput`: only upload file URLs, target server loads files from remote URLs
+* `rput_leave`: target server only stores remote URLs, no data is copied to storage
+* `rput_bulk`: like `rput`, but URLs are uploaded in batches, not in a single request per URL (faster)
+* `rput_bulk_leave`: like `rput_leave`, but URLs are uploaded in batches (faster)
+
 
 {% hint style="info" %}
-`rput` and `rput_leave` are faster, `put` might take long.
+`rput`, `rput_leave`, `rput_bulk` and `rput_leave_bulk` are faster, `put` might take long.
+{% endhint %}
+
+{% hint style="warning" %}
+By default no files or URLs are uploaded. You have to specify one of the file upload methods to transfer any files.
 {% endhint %}
 
 * type: `string`
@@ -303,8 +289,8 @@ Set to `true`, to not produce local preview versions, but instead upload/link th
 The upload method `--file-api` is used for versions the same way as for the original file.
 
 {% hint style="info" %}
-* If `put` or `rput` is used, the versions are copied from the source instance, but no versions are produced
-* If `rput_leave` is used, the versions are linked by URL, and no files are copied to the target instance and no versions are produced
+* If `put`, `rput` or `rput_bulk` is used, the versions are copied from the source instance, but no versions are produced
+* If `rput_leave` or `rput_bulk_leave` is used, the versions are linked by URL, and no files are copied to the target instance and no versions are produced
 {% endhint %}
 
 * type: `bool`
@@ -325,10 +311,6 @@ If the `<new version>` part is omitted, the version is removed.
 
 
 ### `--max-parallel`
-
-{% hint style="info" %}
-This parameter is available in fylr from version **v6.18.0**.
-{% endhint %}
 
 Maximum numbers of parallel workers.
 
@@ -402,10 +384,6 @@ For fylr this is `<source url>/api/oauth2/token`.
 
 
 ### `--verify`
-
-{% hint style="info" %}
-This parameter is available in fylr from version **v6.18.0**.
-{% endhint %}
 
 Set to `true` to verify payloads of an existing backup.
 
