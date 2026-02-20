@@ -47,9 +47,9 @@ Now you can view the contents of the files `private.key` and `publickey.cer` and
 
 ### Test Connection
 
-Now go to the fylr login page (e.g. by logging out or using a second browser or private tab) and click on _**SAML Login**_ in the login dialog.&#x20;
+Now go to the fylr login page (e.g. by logging out or using a second browser or private tab) and click on _**SAML Login**_ in the login dialog.
 
-In case it does not have a a SAML Login, `External Authentication` may be missing in your fylr license.&#x20;
+In case it does not have a a SAML Login, `External Authentication` may be missing in your fylr license.
 
 This sends you to the login page of the Identify Provider. Login using any name and password (as written on that test login page). fylr will log the user in with no further rights (unless configured). Optionally check the User Manager in fylr to see that the user record has been created (you can only view this as a privileged user, e.g. root).
 
@@ -72,7 +72,7 @@ Mandatory, enter your IDP-Metadata-URL.
 
 ### Service-Provider EntityID
 
-Optional, leave empty and fylr will use the default as **entityID** in its metadata: [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr.example.com/api/saml/metadata)&#x20;
+Optional, leave empty and fylr will use the default as **entityID** in its metadata: [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr.example.com/api/saml/metadata)
 
 ### Attributes and user matching
 
@@ -85,9 +85,12 @@ Optional, leave empty and fylr will use the default as **entityID** in its metad
 * **User update**: Set the attribute which is used to determine whether the SAML user (who is logging in) already has a matching account in fylr. If it has a matching account, that user is logged in (and attributes may get overwritten with the current values in SAML). If it has no matching account in fylr yet, a new one is being created. By default, the used attribute is **Reference**. But you can choose the attributes **Email** or **Login**, instead.\
   Example: Assume that the chosen attribute for **Benutzer-Update** is `Email` and that Alice logs in the first time with her SAML user alice@example.com. Company policy changes and thus her email address (in SAML) changes to alice.lastname@example.com. During her next login into fylr, a new user is being created, as there is no user yet with alice.lastname@example.com. Now Alice has two user accounts in fylr and can only log in to the second one.
 
-### [manipulating attributes](manipulating-attributes.md)
+### manipulating attributes
 
-Replacing strings, Multi-Value-Attributes, etc.
+see page [manipulating attributes](manipulating-attributes.md) for
+
+* Replacing strings, Multi-Value-Attributes
+* Using JavaScript to change incoming values
 
 ### Signed AuthnRequest
 
