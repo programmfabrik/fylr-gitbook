@@ -35,3 +35,11 @@ When a user logs in with these two attributes `urn:campus:1:dpmt=marketing` and 
 ## pick first attribute
 
 If an attribute is replaced like this `%(mail|email)s`, fylr now uses the first entry which is not empty as replacement.
+
+## Using JavaScript
+
+You can edit incoming data from SAML via Javascript in the following field:<br>
+
+<figure><img src="../../../.gitbook/assets/image (24).png" alt=""><figcaption></figcaption></figure>
+
+Each user is processed separately and is stored in the javascript object `entry` with string arrays as values. Changes configured in this field are done before the IDP data is mapped to the fylr user.
