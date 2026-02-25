@@ -13,7 +13,7 @@ At least Wordpress version 4.7 is required.
 
 ## Installation & Configuration
 
-To use the plugin, it has to be present and activated and configured in fylr.&#x20;
+To use the plugin, it has to be present and activated and configured in fylr.
 
 In e.g. fylr version 6.16, the wordpress plugin is already included as **easydb-wordpress-plugin**.
 
@@ -23,7 +23,7 @@ In future releases, we plan to move the plugin to a plugin shop.
 
 ### 1. Activation
 
-You have to activate it in the **Plugin Manager** as shown by the following screenshot.&#x20;
+You have to activate it in the **Plugin Manager** as shown by the following screenshot.
 
 Also do not forget to klick the **Save** button on the lower right.
 
@@ -31,7 +31,7 @@ Also do not forget to klick the **Save** button on the lower right.
 
 ### 2. Configuration
 
-After the plugin was installed successfully, go to the [base configuration](../readme/) and look for "easydb-wordpress-plugin". Here you can add and connect one or more Wordpress installation(s).&#x20;
+After the plugin was installed successfully, go to the [base configuration](../readme/) and look for "easydb-wordpress-plugin". Here you can add and connect one or more Wordpress installation(s).
 
 For each Wordpress installation you need to configure the following:
 
@@ -43,15 +43,23 @@ By default, the plugin is disabled for all users except root. To grant selected 
 
 ## Usage
 
-After a successful installation and configuration, authorized users can create a Wordpress transport via the exporter.
+After a successful installation and configuration, authorized users can create a Wordpress transport via the exporter:
 
-To transfer selected images to Wordpress, select the records in the search and right click on a record and choose "Export". Define which versions should be used and click on the little truck icon in the lower right. Add a transport there and choose the type "Wordpress" as well as your desired Wordpress installation under "Options". Hit "Apply" and "Export" to send the files to Wordpress.
+1.  To transfer selected images to Wordpress, select the records in the search and right click on a record and choose "Export".&#x20;
+
+    <figure><img src="../../.gitbook/assets/image (25).png" alt=""><figcaption></figcaption></figure>
+2. Define which versions should be used and click on the little truck icon in the lower right. \
+   ![](<../../.gitbook/assets/image (26).png>)
+3.  Add a transport there and choose the type "Wordpress" <br>
+
+    <figure><img src="../../.gitbook/assets/image (27).png" alt=""><figcaption></figcaption></figure>
+4.  as well as your desired Wordpress installation under "Options". <br>
+
+    <figure><img src="../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
+5. Hit "Apply" and "Export" to send the files to Wordpress.
 
 You can then go to your Wordpress installation and use the files from the media gallery for your website.
-
-
 
 {% hint style="warning" %}
 Please note, that only images are currently supported and that the deletion of files in Wordpress is currently not supported.
 {% endhint %}
-
