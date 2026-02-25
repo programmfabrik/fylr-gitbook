@@ -31,7 +31,8 @@ Also do not forget to klick the **Save** button on the lower right.
 
 ### 2. Configuration
 
-After the plugin was installed successfully, go to the [base configuration](../readme/) and look for "easydb-wordpress-plugin". Here you can add and connect one or more Wordpress installation(s).
+After the plugin was installed successfully, go to its settings. Here you can add and connect one or more Wordpress installation(s):\
+![](../../.gitbook/assets/image.png)
 
 For each Wordpress installation you need to configure the following:
 
