@@ -52,7 +52,7 @@ After a successful installation and configuration, authorized users can create a
    ![](<../../.gitbook/assets/image (26).png>)
 3.  Add a transport there and choose the type "Wordpress" <br>
 
-    <figure><img src="../../.gitbook/assets/image (27).png" alt=""><figcaption></figcaption></figure>
+    <figure><img src="../../.gitbook/assets/fylr-transport-wordpress.png" alt=""><figcaption></figcaption></figure>
 4.  as well as your desired Wordpress installation under "Options". <br>
 
     <figure><img src="../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
