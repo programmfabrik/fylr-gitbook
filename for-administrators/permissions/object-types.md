@@ -13,7 +13,7 @@ description: >-
 
 ### File Names for Download & Export
 
-When **downloading** or **exporting** files, the original **file name** will be used as a default. If you want to **rename** files when downloading or exporting, you can define a file name for different languages here. You can use **static text** and **data** from the record (click on the "Show Replacements" button to see the supported **replacements**).&#x20;
+When **downloading** or **exporting** files, the original **file name** will be used as a default. If you want to **rename** files when downloading or exporting, you can define a file name for different languages here. You can use **static text** and **data** from the record (click on the "Show Replacements" button to see the supported **replacements**).
 
 Example to create the file name "PF - 3 - Title - original.jpg":
 
@@ -21,31 +21,23 @@ Example to create the file name "PF - 3 - Title - original.jpg":
 PF - %_system_object_id% - %objects.title% - %_asset.version%.%_asset.extension%
 ```
 
-
-
 ## Tags
 
-Only **available** for object types with **enabled** **tag** **management**. By **default**, **all** [globally defined **tags**](tags-and-workflows.md) are **available** c. If you want to **disable** certain tags for specific object types, you have to enable "**Use Individual Tags**" in the lower right. You then see all the tags above and can disable individual tags or make them a default. For more details, please refer to ["Tags & Workflows"](tags-and-workflows.md).&#x20;
+Only **available** for object types with **enabled** **tag** **management**. By **default**, **all** [globally defined **tags**](tags-and-workflows.md) are **available** c. If you want to **disable** certain tags for specific object types, you have to enable "**Use Individual Tags**" in the lower right. You then see all the tags above and can disable individual tags or make them a default. For more details, please refer to ["Tags & Workflows"](tags-and-workflows.md).
 
 Tags that are "**Persistent**" globally **can't be disable** here.
 
-
-
 ## Workflows
 
-Only **available** for object types with **enabled** **tag** **management**. By **default**, **all** [globally defined **workflows**](tags-and-workflows.md) are **available** for all object types. If you want to **disable** certain workflows for specific object types, you have to enable "**Use Individual Workflows**" in the lower right. You then can set up individual workflows. For more details, please refer to ["Tags & Workflows"](tags-and-workflows.md).&#x20;
+Only **available** for object types with **enabled** **tag** **management**. By **default**, **all** [globally defined **workflows**](tags-and-workflows.md) are **available** for all object types. If you want to **disable** certain workflows for specific object types, you have to enable "**Use Individual Workflows**" in the lower right. You then can set up individual workflows. For more details, please refer to ["Tags & Workflows"](tags-and-workflows.md).
 
 Workflows that are "**Persistent**" globally **can't be disable** here.
 
-
-
 ## Permissions
 
-Only **available** for object types **without** enabled **tag** **management**. Define which **user / user groups** can, for example, **view, download, edit or delete** the records of this object type.&#x20;
+Only **available** for object types **without** enabled **tag** **management**. Define which **user / user groups** can, for example, **view, download, edit or delete** the records of this object type.
 
 Please refer to [Permissions](./) for more details.
-
-
 
 ## Input & Output
 
@@ -53,31 +45,27 @@ Please refer to [Permissions](./) for more details.
 
 But it's also possible to tag a record as "**published**" and then keep on **working** on the record internally. Then **external guest users** for example would **see** the **published version**, while the **internal editors** work on **updated versions** of the **same record**.
 
-If you want users to also **access** an **old** **version** of records, you can do so by following this **tutorial** (coming soon).&#x20;
+If you want users to also **access** an **old** **version** of records, you can do so by following this **tutorial** (coming soon).
 
 {% hint style="info" %}
-Please note, these settings are only available for object types with tag management and with multiple masks.&#x20;
+Please note, these settings are only available for object types with tag management and with multiple masks.
 {% endhint %}
-
-
 
 ## Field Visibility
 
-Instead of creating masks to **hide / show fields**, you can also use the field visibility plugin to give users / user groups access to **more or less fields** in the editor or detail view. By **adding** a **field** for a specific user / group, this field will **automatically** **be hidden** for all **other** users.&#x20;
+Instead of creating masks to **hide / show fields**, you can also use the field visibility to give users / user groups access to **more or less fields** in the editor or detail view. By **adding** a **field** for a specific user / group, this field will **automatically** **be hidden** for all **other** users.
 
 {% hint style="info" %}
-Please note, that the field visibility plugin is a frontend only feature. Over the API all fields from the used mask are available (even though they might be hidden with the field visibility plugin).
+Please note, that the field visibility is a frontend only feature. Over the API all fields from the used mask are available (even though they might be hidden with the field visibility).
 {% endhint %}
 
 <table><thead><tr><th width="220.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Internal Name</td><td>Internal name to identify the settings.</td></tr><tr><td>Fields</td><td>Select all fields that should only be visible for a specific user or user group.</td></tr><tr><td>Tag Filter</td><td>Add a tag filter, if the fields should only be visible when a record has a specific tag.</td></tr><tr><td>User / Group</td><td>Select the user and / or groups that should be able to access the specified fields.</td></tr></tbody></table>
 
 So if you have a field "Insurance Sum" that only users of the group "Power Users" are allowed to access, add one row, select the field "Insurance Sum" and select the group "Power Users". All other users won't be able to access this field.
 
-
-
 ## Filter for Linked Object Types
 
-If an **object type refers** to **other object types**, **filters** for these lists / thesauri can be defined here.&#x20;
+If an **object type refers** to **other object types**, **filters** for these lists / thesauri can be defined here.
 
 ### Use Case 1
 
@@ -89,13 +77,11 @@ If, for example, you have a **hierarchical list** of categories and want users t
 
 ### Options
 
-<table><thead><tr><th width="263.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Display Name</td><td>Name of the filter. Will be shown in the search.</td></tr><tr><td>Fields</td><td>Select the fields you want to filter. Only fields that are linked to an object type are available. </td></tr><tr><td>Restrict Selectability to the Lowest Level</td><td>Enable if only the lower levels in a hierarchical list should be selectable. If enabled, records with subordinate records can not be linked. See <a href="object-types.md#use-case-2">use case 2</a>.</td></tr><tr><td>Filter</td><td>Use the expert search to filter the records of the connected object type. This search will automatically be applied to the selected field(s).</td></tr></tbody></table>
+<table><thead><tr><th width="263.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Display Name</td><td>Name of the filter. Will be shown in the search.</td></tr><tr><td>Fields</td><td>Select the fields you want to filter. Only fields that are linked to an object type are available.</td></tr><tr><td>Restrict Selectability to the Lowest Level</td><td>Enable if only the lower levels in a hierarchical list should be selectable. If enabled, records with subordinate records can not be linked. See <a href="object-types.md#use-case-2">use case 2</a>.</td></tr><tr><td>Filter</td><td>Use the expert search to filter the records of the connected object type. This search will automatically be applied to the selected field(s).</td></tr></tbody></table>
 
 {% hint style="info" %}
 Please note, that these filter cannot be disabled in the frontend. Only root users are able to deactivate a filter in the search and access all records of the linked object type.
 {% endhint %}
-
-
 
 ## PDF Creator
 
