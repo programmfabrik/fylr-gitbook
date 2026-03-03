@@ -19,32 +19,36 @@ At least Wordpress version 4.7 is required.
 
 We aim to remove this requirement. So if this is a problematic requirement, try without it, but as of February 2026, it is still needed.
 
+For your chosen Wordpress account, create an "Application Password" for use in fylr.\
+![](<../../.gitbook/assets/image (2).png>)
+
 ## Installation & Configuration
 
-To use the plugin, it has to be present and activated and configured in fylr.
+### 1. Use the newest version of the plugin
 
-In e.g. fylr version 6.16, the wordpress plugin is already included as **easydb-wordpress-plugin**.
+Make sure to use the newest version of the plugin. E.g. in fylr 6.29, an old version of the plugin is included that has since been updated independently from fylr. To get the newest version:
 
-You still have to activate it.
+Go to Administration - Plugin-Manager - select the easydb-wordpress-plugin (type **disk**)
 
-In future releases, we plan to move the plugin to a plugin shop.
+Click the minus ( `-` )button as shown below:
 
-### 1. Activation
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
-You have to activate it in the **Plugin Manager** as shown by the following screenshot.
+Then click the plus (+) button and add a plugin from type URL:
 
-Also do not forget to klick the **Save** button on the lower right.
-
-<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption><p>where to activate a plugin</p></figcaption></figure>
+\
+Enter the URL [https://programmfabrik.github.io/easydb-wordpress-plugin/easydb-wordpress-plugin-a4bd14b6-f687-4138-a0a4-274414cfdb8b-latest.zip](https://programmfabrik.github.io/easydb-wordpress-plugin/easydb-wordpress-plugin-a4bd14b6-f687-4138-a0a4-274414cfdb8b-latest.zip)\
+\
+![](<../../.gitbook/assets/image (1).png>)
 
 ### 2. Configuration
 
 After the plugin was installed successfully, go to its settings. Here you can add and connect one or more Wordpress installation(s):\
-![](../../.gitbook/assets/image.png)
+![](<../../.gitbook/assets/image (3).png>)
 
 For each Wordpress installation you need to configure the following:
 
-<table><thead><tr><th width="208">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Instance Name</td><td>Name for the Wordpress installation. Will be shown in fylr when choosing the target for the export.</td></tr><tr><td>URL</td><td>URL of the Wordpress installation.</td></tr><tr><td>Authentication Type</td><td>Choose between "HTTP Authentication" and "OAuth 1.0".<br>If you can, use HTTP Authentication.</td></tr><tr><td>Login</td><td>Login for Wordpress. Only available for type "HTTP Authentication".<br>Consider using a Wordpress "Application Password" instead of your main admin credentials.</td></tr><tr><td>Password</td><td>Password for Wordpress. Only available for type "HTTP Authentication".</td></tr><tr><td>Client Key</td><td>Client Key for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Client Secret</td><td>Client Secret for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Token</td><td>Token for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Token Secret</td><td>Token Secret for Wordpress. Only available for type "OAuth 1.0".</td></tr></tbody></table>
+<table><thead><tr><th width="208">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Instance Name</td><td>Name for the Wordpress installation. Will be shown in fylr when choosing the target for the export.</td></tr><tr><td>URL</td><td>URL of the Wordpress installation.</td></tr><tr><td>Authentication Type</td><td>Choose "HTTP Authentication".</td></tr><tr><td>Login</td><td>Login for Wordpress. Only available for type "HTTP Authentication".<br>Consider using a Wordpress "Application Password" instead of your main admin credentials.</td></tr><tr><td>Password</td><td>Password for Wordpress. Only available for type "HTTP Authentication".</td></tr><tr><td>Client Key</td><td>Client Key for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Client Secret</td><td>Client Secret for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Token</td><td>Token for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Token Secret</td><td>Token Secret for Wordpress. Only available for type "OAuth 1.0".</td></tr></tbody></table>
 
 ### 3. Permissions
 

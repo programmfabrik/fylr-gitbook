@@ -6,7 +6,7 @@ description: How to connect fylr to a SAML authentication service.
 
 This can be used to log into fylr with users from e.g. Shibboleth and Azure ActiveDirectory.
 
-<figure><img src="../../../.gitbook/assets/image (3).png" alt=""><figcaption><p>Where to find the settings in the frontend.</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (2).png" alt=""><figcaption><p>Where to find the settings in the frontend.</p></figcaption></figure>
 
 ### Background
 

@@ -117,7 +117,7 @@ see the screenshot:
 
 ## 2. Check that fylr is at least Version 6.26.0
 
-<figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (2).png" alt=""><figcaption></figcaption></figure>
 
 ## 3. Extract metadata from easydb5
 
@@ -202,7 +202,7 @@ https://easydb.example.com/eas/partitions-inline/1/ (for Originals)
 *   Count the number of partitions in **https://**&#x65;asydb.example.co&#x6D;**/servermanager**.\
     For that you have to choose easydb Asset Server (EAS) at the top:<br>
 
-    <figure><img src="../../../.gitbook/assets/image (1) (2).png" alt=""><figcaption></figcaption></figure>
+    <figure><img src="../../../.gitbook/assets/image (1) (2) (1).png" alt=""><figcaption></figcaption></figure>
 * Continue searching through different files as above until you have the URL prefix for each partition (but often there are just two).
 
 </details>
