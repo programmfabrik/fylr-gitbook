@@ -11,6 +11,14 @@ description: >-
 At least Wordpress version 4.7 is required.
 {% endhint %}
 
+## Preparation of Wordpress
+
+1. Go to _Settings > Permalinks_.
+2. Select a permalink structure other than “Plain.”
+3. Save the changes.
+
+We aim to remove this requirement. So if this is a problematic requirement, try without it, but as of February 2026, it is still needed.
+
 ## Installation & Configuration
 
 To use the plugin, it has to be present and activated and configured in fylr.
@@ -36,7 +44,7 @@ After the plugin was installed successfully, go to its settings. Here you can ad
 
 For each Wordpress installation you need to configure the following:
 
-<table><thead><tr><th width="208">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Instance Name</td><td>Name for the Wordpress installation. Will be shown in fylr when choosing the target for the export.</td></tr><tr><td>URL</td><td>URL of the Wordpress installation.</td></tr><tr><td>Authentication Type</td><td>Choose between "HTTP Authentication" and "OAuth 1.0".</td></tr><tr><td>Login</td><td>Login for Wordpress. Only available for type "HTTP Authentication".</td></tr><tr><td>Password</td><td>Password for Wordpress. Only available for type "HTTP Authentication".</td></tr><tr><td>Client Key</td><td>Client Key for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Client Secret</td><td>Client Secret for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Token</td><td>Token for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Token Secret</td><td>Token Secret for Wordpress. Only available for type "OAuth 1.0".</td></tr></tbody></table>
+<table><thead><tr><th width="208">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Instance Name</td><td>Name for the Wordpress installation. Will be shown in fylr when choosing the target for the export.</td></tr><tr><td>URL</td><td>URL of the Wordpress installation.</td></tr><tr><td>Authentication Type</td><td>Choose between "HTTP Authentication" and "OAuth 1.0".<br>If you can, use HTTP Authentication.</td></tr><tr><td>Login</td><td>Login for Wordpress. Only available for type "HTTP Authentication".</td></tr><tr><td>Password</td><td>Password for Wordpress. Only available for type "HTTP Authentication".</td></tr><tr><td>Client Key</td><td>Client Key for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Client Secret</td><td>Client Secret for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Token</td><td>Token for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Token Secret</td><td>Token Secret for Wordpress. Only available for type "OAuth 1.0".</td></tr></tbody></table>
 
 ### 3. Permissions
 
