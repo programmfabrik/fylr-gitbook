@@ -13,14 +13,16 @@ At least Wordpress version 4.7 is required.
 
 ## Preparation of Wordpress
 
+For your chosen Wordpress account, create an "Application Password" to use in fylr.\
+![](<../../.gitbook/assets/image (2).png>)
+
+
+
+We aim to remove the following requirement. So if this is a problematic requirement, try without it, but as of February 2026, it is still needed:
+
 1. Go to _Settings > Permalinks_.
 2. Select a permalink structure other than “Plain.”
 3. Save the changes.
-
-We aim to remove this requirement. So if this is a problematic requirement, try without it, but as of February 2026, it is still needed.
-
-For your chosen Wordpress account, create an "Application Password" for use in fylr.\
-![](<../../.gitbook/assets/image (2).png>)
 
 ## Installation & Configuration
 
@@ -48,7 +50,7 @@ After the plugin was installed successfully, go to its settings. Here you can ad
 
 For each Wordpress installation you need to configure the following:
 
-<table><thead><tr><th width="208">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Instance Name</td><td>Name for the Wordpress installation. Will be shown in fylr when choosing the target for the export.</td></tr><tr><td>URL</td><td>URL of the Wordpress installation.</td></tr><tr><td>Authentication Type</td><td>Choose "HTTP Authentication", not OAuth 1.0.</td></tr><tr><td>Login</td><td>Login for Wordpress. Only available for type "HTTP Authentication".</td></tr><tr><td>Password</td><td>Password for Wordpress. Use a Wordpress "Application Password" instead of your main password.</td></tr><tr><td>Client Key</td><td>Client Key for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Client Secret</td><td>Client Secret for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Token</td><td>Token for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Token Secret</td><td>Token Secret for Wordpress. Only available for type "OAuth 1.0".</td></tr></tbody></table>
+<table><thead><tr><th width="208">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Instance Name</td><td>Name for the Wordpress installation. Will be shown in fylr when choosing the target for the export.</td></tr><tr><td>URL</td><td>URL of the Wordpress installation.</td></tr><tr><td>Authentication Type</td><td>Choose "HTTP Authentication", not OAuth 1.0.</td></tr><tr><td>Login</td><td>Username to log into Wordpress and upload files automatically. Only available for type "HTTP Authentication".</td></tr><tr><td>Password</td><td>Password to log into Wordpress account. Use a Wordpress "Application Password" instead of the main password.  Only available for type "HTTP Authentication".</td></tr><tr><td>Client Key</td><td>Client Key for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Client Secret</td><td>Client Secret for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Token</td><td>Token for Wordpress. Only available for type "OAuth 1.0".</td></tr><tr><td>Token Secret</td><td>Token Secret for Wordpress. Only available for type "OAuth 1.0".</td></tr></tbody></table>
 
 ### 3. Permissions
 
