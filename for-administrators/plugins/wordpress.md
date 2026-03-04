@@ -18,7 +18,7 @@ For your chosen Wordpress account, create an "Application Password" to use in fy
 
 
 
-We aim to remove the following requirement. So if this is a problematic requirement, try without it, but as of February 2026, it is still needed:
+With the WordPress plugin for fylr, which is included in fylr 6.29, the following is still required. But with the recommended newer versions, as described below, this is no longer needed:
 
 1. Go to _Settings > Permalinks_.
 2. Select a permalink structure other than “Plain.”
