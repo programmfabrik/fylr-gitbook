@@ -40,7 +40,7 @@ Then click the plus (+) button and add a plugin of type URL:
 
 ![](<../../.gitbook/assets/image (1).png>)
 
-Enter the URL [https://programmfabrik.github.io/easydb-wordpress-plugin/easydb-wordpress-plugin-a4bd14b6-f687-4138-a0a4-274414cfdb8b-latest.zip](https://programmfabrik.github.io/easydb-wordpress-plugin/easydb-wordpress-plugin-a4bd14b6-f687-4138-a0a4-274414cfdb8b-latest.zip)
+
 
 ### 2. Configuration
 
