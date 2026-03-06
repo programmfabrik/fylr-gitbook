@@ -40,7 +40,7 @@ Then click the plus (+) button and add a plugin of type URL:
 
 ![](<../../.gitbook/assets/image (1).png>)
 
-
+Enter the URL of the wordpress-plugin for fylr. You can get this URL from us, [support@rogrammfabrik.de](mailto:support@rogrammfabrik.de). To be allowed to use this plugin, a fylr license from us is needed, which explicitly allows this plugin and which is subject to a charge.
 
 ### 2. Configuration
 
