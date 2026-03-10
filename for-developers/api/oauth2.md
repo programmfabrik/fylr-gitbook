@@ -86,13 +86,21 @@ This flow requires a **Client ID** and **Secret**, as well as a fylr **login** a
 | `client_id`<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`                                        |
 
 {% tabs %}
+
 {% tab title="200 OK" %}
+
 This redirects to the fylr login page. The user enters **login** and **password** directly into fylr.
+
 {% endtab %}
 
 {% tab title="400 Error" %}
-Problems with the parameters, for example an invalid **Client ID**
+
+Problems with the parameters, for example an invalid **Client ID**.
+
+The OAuth2 endpoint will return an error description which explains what is wrong.
+
 {% endtab %}
+
 {% endtabs %}
 
 
@@ -136,6 +144,7 @@ This callback must handle a `GET` request. fylr includes these URL parameters:
 | `code`<mark style="color:red;">\*</mark>          | string | **Authorization Code** from fylr callback             |
 
 {% tabs %}
+
 {% tab title="200 OK" %}
 
 If the **Client ID**, **Secret** and the **Authorization Code** are correct, fylr will return a JSON object in the response with the following values:
@@ -152,7 +161,10 @@ If the **Client ID**, **Secret** and the **Authorization Code** are correct, fyl
 
 {% tab title="400 Error" %}
 
+Problems with the parameters, for example an invalid **Client ID**
+
 {% endtab %}
+
 {% endtabs %}
 
 ### Authorization Code Grant with PKCE Code Challenge
@@ -210,6 +222,7 @@ This flow can be used to directly log into fylr with the user **login** and **pa
 | `password`<mark style="color:red;">\*</mark>      | string | fylr **Password** of the user                         |
 
 {% tabs %}
+
 {% tab title="200 OK" %}
 
 If the **Client ID**, optional **Client Secret** and user **login** and **password** are correct, fylr will return a JSON object in the response with the following values:
@@ -225,8 +238,11 @@ If the **Client ID**, optional **Client Secret** and user **login** and **passwo
 {% endtab %}
 
 {% tab title="400 Error" %}
+
 Problems with the parameters, for example an invalid **Client ID**
+
 {% endtab %}
+
 {% endtabs %}
 
 **Example (CURL)**:
@@ -271,13 +287,19 @@ Using this flow is **not recommended**!
 | `client_id`<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`                              |
 
 {% tabs %}
+
 {% tab title="200 OK" %}
+
+This redirects to the fylr login page. The user enters **login** and **password** directly into fylr.
 
 {% endtab %}
 
 {% tab title="400 Error" %}
+
 Problems with the parameters, for example an invalid **Client ID**
+
 {% endtab %}
+
 {% endtabs %}
 
 #### **Step 2**: callback from fylr to the local callback
@@ -340,14 +362,8 @@ Using this flow is **not recommended**!
 | `client_secret` | string | **Client Secret** of the fylr Instance: `"my-secret"`. If the client is public, the Client Secret must not be used. |
 
 {% tabs %}
+
 {% tab title="200 OK" %}
-
-{% endtab %}
-
-{% tab title="400 Error" %}
-Problems with the parameters, for example an invalid **Client ID**
-{% endtab %}
-{% endtabs %}
 
 If the **Client ID** and **Secret** are correct, fylr will return a JSON object in the response with the following values:
 
@@ -357,3 +373,13 @@ If the **Client ID** and **Secret** are correct, fylr will return a JSON object 
 | `token_type`   | `"bearer"`                                          |
 | `scope`        | `"offline"`, same as above                          |
 | `expires_in`   | Time until the **Access Token** expires, in seconds |
+
+{% endtab %}
+
+{% tab title="400 Error" %}
+
+Problems with the parameters, for example an invalid **Client ID**
+
+{% endtab %}
+
+{% endtabs %}
