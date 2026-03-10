@@ -95,6 +95,7 @@ Problems with the parameters, for example an invalid **Client ID**
 {% endtab %}
 {% endtabs %}
 
+
 #### **Step 2**: callback from fylr to the local HTTP server
 
 This flow requires to implement a local HTTP server that can handle the callback from fylr. The URL for the callback must also be included in the `fylr.yml` (`redirectURIs`) and must be tied to your Client configuration.
@@ -131,18 +132,11 @@ This callback must handle a `GET` request. fylr includes these URL parameters:
 | `grant_type`<mark style="color:red;">\*</mark>    | string | fixed value: `"authorization_code"`                   |
 | `state`<mark style="color:red;">\*</mark>         | string | Client State, same as above                           |
 | `client_id`<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`     |
-| `client_secret`<mark style="color:red;">\*</mark> | string | **Client Secret** of the fylr Instance: `"my-secret"` |
+| `client_secret` | string | **Client Secret** of the fylr Instance: `"my-secret"`. If the client is public, the Client Secret must not be used. |
 | `code`<mark style="color:red;">\*</mark>          | string | **Authorization Code** from fylr callback             |
 
 {% tabs %}
 {% tab title="200 OK" %}
-
-{% endtab %}
-
-{% tab title="400 Error" %}
-
-{% endtab %}
-{% endtabs %}
 
 If the **Client ID**, **Secret** and the **Authorization Code** are correct, fylr will return a JSON object in the response with the following values:
 
@@ -153,6 +147,13 @@ If the **Client ID**, **Secret** and the **Authorization Code** are correct, fyl
 | `token_type`    | `"bearer"`                                          |
 | `scope`         | `"offline"`, same as above                          |
 | `expires_in`    | Time until the **Access Token** expires, in seconds |
+
+{% endtab %}
+
+{% tab title="400 Error" %}
+
+{% endtab %}
+{% endtabs %}
 
 ### Authorization Code Grant with PKCE Code Challenge
 
@@ -204,21 +205,14 @@ This flow can be used to directly log into fylr with the user **login** and **pa
 | `grant_type`<mark style="color:red;">\*</mark>    | string | fixed value: `"password"`                             |
 | `scope`<mark style="color:red;">\*</mark>         | string | fixed value: `"offline"`                              |
 | `client_id`<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`     |
-| `client_secret`<mark style="color:red;">\*</mark> | string | **Client Secret** of the fylr Instance: `"my-secret"` |
+| `client_secret` | string | **Client Secret** of the fylr Instance: `"my-secret"`. If the client is public, the Client Secret must not be used. |
 | `username`<mark style="color:red;">\*</mark>      | string | fylr **Login** of the user                            |
 | `password`<mark style="color:red;">\*</mark>      | string | fylr **Password** of the user                         |
 
 {% tabs %}
 {% tab title="200 OK" %}
 
-{% endtab %}
-
-{% tab title="400 Error" %}
-Problems with the parameters, for example an invalid **Client ID**
-{% endtab %}
-{% endtabs %}
-
-If the **Client ID**, **Secret** and user **login** and **password** are correct, fylr will return a JSON object in the response with the following values:
+If the **Client ID**, optional **Client Secret** and user **login** and **password** are correct, fylr will return a JSON object in the response with the following values:
 
 | Key             | Description                                         |
 | --------------- | --------------------------------------------------- |
@@ -227,6 +221,25 @@ If the **Client ID**, **Secret** and user **login** and **password** are correct
 | `token_type`    | `"bearer"`                                          |
 | `scope`         | `"offline"`, same as above                          |
 | `expires_in`    | Time until the **Access Token** expires, in seconds |
+
+{% endtab %}
+
+{% tab title="400 Error" %}
+Problems with the parameters, for example an invalid **Client ID**
+{% endtab %}
+{% endtabs %}
+
+**Example (CURL)**:
+
+```bash
+curl 'fylr-instance/api/oauth2/token' \
+  --data-urlencode 'grant_type=password' \
+  --data-urlencode 'scope=offline' \
+  --data-urlencode 'client_id=my-client' \
+  --data-urlencode 'client_secret=my-secret' \
+  --data-urlencode 'username=Login' \
+  --data-urlencode 'password=Password'
+```
 
 ### Implicit Grant
 
@@ -324,7 +337,7 @@ Using this flow is **not recommended**!
 | `grant_type`<mark style="color:red;">\*</mark>    | string | fixed value: `"client_credentials"`                                            |
 | `state`<mark style="color:red;">\*</mark>         | string | Client State String (min. 8 characters), for example: `"Implicit_Grant_Login"` |
 | `client_id`<mark style="color:red;">\*</mark>     | string | **Client ID** of the fylr Instance: `"my-client"`                              |
-| `client_secret`<mark style="color:red;">\*</mark> | string | **Client Secret** of the fylr Instance: `"my-secret"`                          |
+| `client_secret` | string | **Client Secret** of the fylr Instance: `"my-secret"`. If the client is public, the Client Secret must not be used. |
 
 {% tabs %}
 {% tab title="200 OK" %}
