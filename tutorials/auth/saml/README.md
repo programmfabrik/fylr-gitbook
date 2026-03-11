@@ -67,9 +67,9 @@ fylr's metadata URL is [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr
 * ACS Assertionsverbraucherdienst-URL: [https://FYLR.EXAMPLE.COM/api/saml/acs](https://fylr.example.com/api/saml/acs)
 * Logout URL: [https://FYLR.EXAMPLE.COM/api/saml/slo](https://fylr.example.com/api/saml/slo)
 
-### IdP-Metadaten-URL
+### IdP Metadata URL
 
-Mandatory, enter your IDP-Metadata-URL. When you **Save** the configuration, the fylr server (not the webfrontend in your browser) downloads the IDP's metadata. Make sure that the fylr server can reach the IDP, especially if saving failed.
+Mandatory; enter your IDP's metadata URL. When you **Save** the configuration, the fylr server (not the fylr web frontend in your browser) downloads the IDP's metadata. Make sure that the fylr server can reach the IDP, especially if saving failed.
 
 ### Service-Provider EntityID
 
