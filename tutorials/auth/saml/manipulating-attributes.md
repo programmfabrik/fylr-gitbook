@@ -10,7 +10,7 @@ Our attribute syntax can replace strings. This syntax is part of our attribute m
 
 Where `search` is the regexp matching what is then replaced with `replacement`.
 
-The regular expressions syntax rules: https://pkg.go.dev/regexp#Regexp.ReplaceAllString.
+The regular expressions syntax rules: [https://pkg.go.dev/regexp#Regexp.ReplaceAllString](https://pkg.go.dev/regexp#Regexp.ReplaceAllString).
 
 Example: `%(email||^.*=||)s`, in context:
 
