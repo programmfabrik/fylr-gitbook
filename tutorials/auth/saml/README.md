@@ -39,11 +39,12 @@ Now you can view the contents of the files `private.key` and `publickey.cer` and
 
 ### Base Config
 
-* As **URL** add [https://mocksaml.com/api/saml/metadata](https://mocksaml.com/api/saml/metadata) ("_metadata URL_**"** of the Identity Provider).
+* As **IdP metadata URL** add [https://mocksaml.com/api/saml/metadata](https://mocksaml.com/api/saml/metadata) ("_metadata URL_**"** of the Identity Provider).
 * We recommend to set the checkmark at **Log Steps**. This will write log events to debug SAML connections. In case of an error, the connection attempt is always logged.
 * In **User Mapping** define how the SAML user is created in fylr. Upon each login the SAML users are mapped to fylr users. If an user already exists, an update is performed. Working with mocksaml.com:
   * Target: **Reference**: `%(email)s`
-  * Target: **Email**: `%(email)s`
+  * Target: **Email**: `%(email)s`&#x20;
+* When you **Save** this configuration, the fylr server (not the webfrontend in your browser) downloads the IDP's metadata. So if this fails, make sure that the fylr server can reach the IDP.
 
 ### Test Connection
 
@@ -68,7 +69,7 @@ fylr's metadata URL is [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr
 
 ### IdP-Metadaten-URL
 
-Mandatory, enter your IDP-Metadata-URL.
+Mandatory, enter your IDP-Metadata-URL. When you **Save** the configuration, the fylr server (not the webfrontend in your browser) downloads the IDP's metadata. Make sure that the fylr server can reach the IDP, especially if saving failed.
 
 ### Service-Provider EntityID
 
