@@ -488,6 +488,27 @@ fylr:
           # default CA is "https://acme-v02.api.letsencrypt.org/directory"
           CA: ""
 
+          #  EAB (External Account Binding) contains information
+          #  necessary to bind or map an ACME account to some
+          #  other account known by the CA.
+          #
+          #  External account bindings are "used to associate an
+          #  ACME account with an existing account in a non-ACME
+          #  system, such as a CA customer database."
+          #
+          #  "To enable ACME account binding, the CA operating the
+          #  ACME server needs to provide the ACME client with a
+          #  MAC key and a key identifier, using some mechanism
+          #  outside of ACME." §7.3.4
+          externalAccount:
+            # "The key identifier MUST be an ASCII string." §7.3.4
+            keyId: ""
+
+            # "The HMAC key SHOULD be provided in base64url-encoded
+            # form, to maximize compatibility between non-ACME
+            # provisioning systems and ACME clients." §7.3.4
+            hmacKey: ""
+
           # useStagingCA sets the staging server of Let's Encrypt which has a higher
           # quota than the production server. However, these certificates are for
           # testing purposes only. They are not signed for official use, so browser
@@ -811,3 +832,4 @@ fylr:
                 - "iiif"
 ```
 {% endcode %}
+
