@@ -4,7 +4,7 @@ The `daterange` type stores a lower and upper value of a date range. Either one 
 
 ## API
 
-The API uses an object with from and to for the daterange type:
+The API uses an object with fields `from` (lower value) and `to` (upper range) for the daterange type:
 
 ```json
 {
@@ -19,9 +19,11 @@ The API uses an object with from and to for the daterange type:
 }
 ```
 
-Parsing of the dates works the same as for the [`date, datetime`](date-datetime.md#api) type.  Thus, a `daterange` can store the full set of widths available for the dates in fylr. The shortest date is the year and the longest the full time including a timezone with seconds.
+The fields `from` and `to` are parsed as `date` or `datetime` values. At least one of `from` and `to` is required.
 
-Alongside with the date values, a textual value for the `daterange` can be set. The format of the text property matches the format of the [text\_l10n](text\_l10n-text\_l10n\_oneline.md) type.
+Parsing of the dates works the same as for the [`date, datetime`](date-datetime.md#api) type. Thus, a `daterange` can store the full set of widths available for the dates in fylr. The shortest date is the year and the longest the full time including a timezone with seconds.
+
+Alongside with the date values, a textual value for the `daterange` can be set. The format of the `text` property matches the format of the [`text_l10n`](text\_l10n-text\_l10n\_oneline.md#api) type. The field `text` is optional and not parsed. It is only used for a additional textual representation which is only saved to be displayed next to the parsed values.
 
 ## Index
 
