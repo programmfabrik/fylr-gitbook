@@ -159,3 +159,19 @@ Matches:
 
 * The `*` wildcard can be used at the beginning, middle, or end of a word.
 * Searches with a leading `*` may impact performance.
+
+
+
+## Others
+
+To search for a question within a text or word, use:
+
+```
+`*\?*`
+```
+
+To search for other characters within a text or word, use:
+
+```
+`*~*`
+```
