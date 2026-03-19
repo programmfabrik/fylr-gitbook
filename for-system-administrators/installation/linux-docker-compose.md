@@ -147,9 +147,9 @@ PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin
 
 #m h  dom m dow user command
 
-43 23  *  *  *  root /srv/fylr/maintain backup && /srv/fylr/maintain update
+43 3  *  *  *  root /srv/fylr/maintain backup && /srv/fylr/maintain update
 
-35 12  *  *  7  root /srv/fylr/maintain cleanup
+35 4  *  *  7  root /srv/fylr/maintain cleanup
 ```
 
 With this setup you will find nightly sql dumps and pg\_dump's log files in `/srv/fylr/sqlbackups`.
