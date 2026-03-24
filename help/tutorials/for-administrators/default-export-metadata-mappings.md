@@ -1,30 +1,9 @@
----
-description: >-
-  How to apply metadata exports when exporting and downloading records from fylr
-  by default
----
+# How to Set Default Metadata Mappings
 
-# Default export metadata mappings
+When **uploading** or **downloading** files, **metadata mappings** can be used to extract **XMP/IPTC/EXIF** metadata - such as create date, keywords or copyright infos - from the files and write them into fields in fylr, or write the data from fylr into the files. By **default**, this only happens when the **user chooses** a metadata mapping when uploading or downloading files.
 
-For a pool or an objecttype it's possible to set default export profiles, as seen in the **general** tab of in rights mangement, at the pool or objecttype:
+But it is also **possible** to define a **default** metadata mapping for the **import** and **export** of files, so that it is **applied** **automatically** without explicitly choosing one. This can either be done for **object types** (tab "General") or for **pools** (tab "General").
 
-The setting at the pool allows forwarding the setting set at the objecttype.
+<table><thead><tr><th width="277.32421875">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>XMP/IPTC/EXIF Import Profile</td><td>Choose a <a href="../../../for-administrators/metadata-mapping.md">metadata mapping profile</a> that should be applied when files are uploaded into fylr to extract metadata and write it into fylr fields.</td></tr><tr><td>XMP/IPTC/EXIF Export Profile</td><td>Choose a <a href="../../../for-administrators/metadata-mapping.md">metadata mapping profile</a> that should be applied when files are downloaded from fylr to write metadata from fylr fields into the file.</td></tr><tr><td>Dublin Core Export Profile</td><td>Choose a <a href="../../../for-administrators/metadata-mapping.md">metadata mapping profile</a> that should be applied when files are exported using <a href="../../../for-administrators/plugins/protocols/oai.md">OAI/PMH</a>.</td></tr></tbody></table>
 
-For both, the options look like:
-
-* Import Profile: used by default when importing
-* Export Profile: used by default when exporting and downloading
-* Dublin Core Export Profile: used when accessing data using [oai.md](../../../for-administrators/plugins/protocols/oai.md "mention")
-
-For selection all metadata mappings created in Administration > Metadata Mappings will be shown at the according selectors.
-
-The **system right "Export metadata"** allows user/groups to include metadata when exporting or downloading records.&#x20;
-
-| Standard Profile Only | `Standard`                                          | Inherits setting from objecttype or pool (if configured).                  |
-| --------------------- | --------------------------------------------------- | -------------------------------------------------------------------------- |
-| Standard              | All user mappings                                   | Provides all standard user mapping options.                                |
-| Original              | All user mappings + "unchanged"                     | Includes standard options plus the ability to retain original values.      |
-| Remove                | All user mappings + "unchanged/original" + "delete" | Includes all previous options plus a specific flag to delete the metadata. |
-
-
-
+For it to work, the user needs the **system right** "Export Metadata" & "Import Metadata" with at least **"Standard Profile Only"**, which can be found in the "System Rights" tab of **users** or **groups** in the "Functions" section under "Frontend Features".
