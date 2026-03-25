@@ -24,10 +24,10 @@ To enable a user to share collections:
 
 To allow a user to select other users or groups when sharing collections:
 
-* Navigate to: **Users or Groups → \[**_**Select the User or Group**_**] → Permissions Tab**.
-* Add a new **permission row** for the sharing group.
-* Select the **user or group** that should be accessible.
-* Assign **at least "Read" permissions** for the records.
+* Navigate to: **Users or Groups → \[**_**Select the User or Group That Should Be Accessed**_**] → Permissions Tab**.
+* Add a new **permission row**.
+* Select the **user or group** that should see the users of the previously selected group.
+* Assign **at least "Read" permissions** for the users.
 
 {% hint style="info" %}
 If **User A** should be able to share collections with **User B**, you must edit **User B** (or the group they belong to) and add **User A** (or the group User A belongs to) in the permissions tab. This ensures that User A can find and share collections with User B.
@@ -37,7 +37,7 @@ If **User A** should be able to share collections with **User B**, you must edit
 
 To share records with other users, the sharing user must be authorized to **grant permissions**. This requires the **Granable** permission for all access rights the user intends to assign to others for the records in the collection:
 
-* Go to: Rights Management > Pools > \[_Select Pool_] > Permissions Tab
+* Go to: **Rights Management > Pools > \[**_**Select Pool**_**] > Permissions Tab**
 
 ## **Requirements for the Invited User/Group**
 
@@ -51,7 +51,7 @@ If the **object type is not pool-managed**, configure permissions under
 
 * Rights Management → Object Types → \[Select the Object Type] → Permissions.
 
-At least **one mask** must be granted for the users or groups that should be able to receive shared collections (for email users use the system group "Users Invited by Email", and for the link for external access use the system group "Anonymous Collection Users"). This is required so users can **see fields** when viewing records.&#x20;
+At least **one mask** must be granted for the users or groups that should be able to receive shared collections (for email users use the system group "Users Invited by Email", and for the link for external access use the system group "Anonymous Collection Users"). This is required so users can **see fields** when viewing records.
 
 {% hint style="info" %}
 If you want users to **access records only through the shared collection** and not see records outside of it, do **not** grant the "**View Records"** permission at the pool or object type level.
@@ -68,3 +68,5 @@ These permissions can be assigned in one of the following ways:
 
 * **Using a collection preset**, which applies a predefined set of permissions configured by an administrator.
 * **Granting custom permissions directly in the sharing dialog**. This option is only available to users who have the system permission "**Allow to Set Custom Sharing Permissions"**.
+
+If the invited user or group should be able to **add records** to the collection, the permission "**Add Records to Collection**" need to be granted.
