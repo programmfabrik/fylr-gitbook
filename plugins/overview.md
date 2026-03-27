@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2026-03-27 15:23:52 (UTC)
+    * timestamp: 2026-03-27 15:32:44 (UTC)
 -->
 
 # Plugin Overview
@@ -635,7 +635,7 @@ This plugin depends on these plugins:
 
 ## `fylr-scancode-display`
 
-Display scancodes like barcode and qrcode in editor, detail & pdf.
+Custom Mask Splitter for fylr to output scancodes based on data of another field in the record. Various barcode formats and QR codes are available. This plugin can be used in datamodel-masks and also in the pdfcreator.
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-scancode-display/releases/latest/download/ScancodeDisplay.zip](https://github.com/programmfabrik/fylr-plugin-scancode-display/releases/latest/download/ScancodeDisplay.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-scancode-display](https://github.com/programmfabrik/fylr-plugin-scancode-display)
@@ -645,14 +645,6 @@ Display scancodes like barcode and qrcode in editor, detail & pdf.
 This plugin depends on these plugins:
 
 * [`fylr-plugin-pdf-creator`](#fylr-plugin-pdf-creator)
-
-
-## `fylr-scancode-display`
-
-Custom Mask Splitter for fylr to output scancodes based on data of another field in the record. Various barcode formats and QR codes are available. This plugin can be used in datamodel-masks and also in the pdfcreator.
-
-* Release URL: [https://github.com/programmfabrik/fylr-plugin-scancode-display/releases/latest/download/ScancodeDisplay.zip](https://github.com/programmfabrik/fylr-plugin-scancode-display/releases/latest/download/ScancodeDisplay.zip)
-* Repository: [https://github.com/programmfabrik/fylr-plugin-scancode-display](https://github.com/programmfabrik/fylr-plugin-scancode-display)
 
 
 ## `fylr-plugin-sequence`
