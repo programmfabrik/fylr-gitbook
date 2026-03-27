@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2026-02-04 14:00:22 (UTC)
+    * timestamp: 2026-03-27 15:23:52 (UTC)
 -->
 
 # Plugin Overview
@@ -104,6 +104,21 @@ Enables you to turn collections into presentations that can be exported as PPTX.
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
+## `easydb-wordpress-plugin`
+
+Add your [Wordpress](https://wordpress.com/) page to fylr and send selected files to Wordpress.
+
+
+
+{% hint style="info" %}
+This plugin does not have a public release URL.
+
+To get access to this plugin and receive a URL, please contact our support.
+{% endhint %}
+
+* This plugin was developed by *Programmfabrik GmbH*.
+
+
 ## `ai-metadata`
 
 This plugin allows to configure AI services in order to gather enhanced metadata to use in the fylr metadata mapper.
@@ -161,6 +176,8 @@ This plugin is a dependency for these plugins:
 * [`custom-data-type-loc`](#custom-data-type-loc)
 * [`custom-data-type-nomisma`](#custom-data-type-nomisma)
 * [`custom-data-type-wikidata`](#custom-data-type-wikidata)
+* [`fylr-plugin-mask-splitter-custom-javascript`](#fylr-plugin-mask-splitter-custom-javascript)
+* [`signaturegenerator`](#signaturegenerator)
 
 
 ## `custom-data-type-dante`
@@ -423,6 +440,15 @@ This is a server plugin for fylr that updates two fields "Edited by" and "Edit d
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
+## `edit-info-updater`
+
+Server plugin for fylr that updates two fields "Edited by" and "Edit date" whenever either a certain field has been changed or a tag from a certain tag group has been added or removed. Fields can optionally be located inside a nested field.
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-edit-info-updater/releases/latest/download/EditInfoUpdater.zip](https://github.com/programmfabrik/fylr-plugin-edit-info-updater/releases/latest/download/EditInfoUpdater.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-edit-info-updater](https://github.com/programmfabrik/fylr-plugin-edit-info-updater)
+* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
+
+
 ## `editor-field-visibility`
 
 This custom mask splitter allows you to hide input fields depending on another fields value.
@@ -513,6 +539,20 @@ This plugin provides the possibity to allow the linking of specific objects only
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-linked-object-use-once/releases/latest/download/fylr-plugin-linked-object-use-once.zip](https://github.com/programmfabrik/fylr-plugin-linked-object-use-once/releases/latest/download/fylr-plugin-linked-object-use-once.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-linked-object-use-once](https://github.com/programmfabrik/fylr-plugin-linked-object-use-once)
 * This plugin was developed by *Programmfabrik GmbH*.
+
+
+## `fylr-plugin-mask-splitter-custom-javascript`
+
+Provides a masksplitter, which can be filled with any custom JavaScript.
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-mask-splitter-custom-javascript/releases/latest/download/MaskSplitterCustomJavascript.zip](https://github.com/programmfabrik/fylr-plugin-mask-splitter-custom-javascript/releases/latest/download/MaskSplitterCustomJavascript.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-mask-splitter-custom-javascript](https://github.com/programmfabrik/fylr-plugin-mask-splitter-custom-javascript)
+* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
+
+
+This plugin depends on these plugins:
+
+* [`commons-library`](#commons-library)
 
 
 ## `monitoring-endpoint`
@@ -631,6 +671,20 @@ This plugin allows the conversion of HTML to PDF, using an internal Chromium bin
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-server-pdf](https://github.com/programmfabrik/fylr-plugin-server-pdf)
 * This plugin was developed by *Programmfabrik GmbH*.
+
+
+## `signaturegenerator`
+
+Allows automatic signature-generation via predefined patterns.
+
+* Release URL: [https://github.com/programmfabrik/fylr-plugin-signature-generator/releases/latest/download/signaturegenerator.zip](https://github.com/programmfabrik/fylr-plugin-signature-generator/releases/latest/download/signaturegenerator.zip)
+* Repository: [https://github.com/programmfabrik/fylr-plugin-signature-generator](https://github.com/programmfabrik/fylr-plugin-signature-generator)
+* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
+
+
+This plugin depends on these plugins:
+
+* [`commons-library`](#commons-library)
 
 
 ## `fylr-plugin-tray-link-manager`
