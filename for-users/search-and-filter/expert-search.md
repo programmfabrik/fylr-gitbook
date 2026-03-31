@@ -22,6 +22,28 @@ For hierarchical lists, you can choose whether you only want results that match 
 
 In addition, you can switch to **more options** to select **relative dates**, such as **"Today"**, **"In 7 days"**, or define a **custom relative range**. This feature enables quick filtering based on dynamic time frames without manually entering exact dates.
 
+### String Fields
+
+In the **expert search**, string fields support queries with **multiple values** and **ranges**. You can search for multiple values by separating them with a comma. Values must be entered **without spaces** between the comma and the next value.
+
+Example: `value1,value2,value3`
+
+This returns all records where the field matches **any of the specified values**.
+
+You can also define a range using the following syntax: `from - to`. This returns all values that fall **between the defined start and end values**.
+
+When working with ranges in string fields, it is important to understand that the comparison is based on **alphabetical order**, not numerical order.
+
+For example, if the data contains: `A 1`, `A 3`, `A 5`
+
+A search for: `A1 - A10` will only return: `A 1`, because strings are sorted alphabetically and `"A10"` is considered smaller than `"A2"`. This behavior is a characteristic of the underlying search engine.
+
+To work correctly with alphanumeric ranges, numbers should be **zero-padded**.
+
+Example: `A 01`, `A 03`, `A 05`
+
+A range like: `A01 - A10` will then return the expected results.
+
 ### File Fields
 
 For **file upload fields**, several **file-specific attributes** are automatically indexed and available for searching. These attributes allow you to search not only for the presence of a file, but also for technical details, metadata, and content-related properties of the uploaded file. This makes it possible to precisely locate records based on file characteristics.
