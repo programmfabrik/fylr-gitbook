@@ -1,12 +1,8 @@
 # Exporting
 
-## General Info
-
-
-
 ## Export Dialogue
 
-
+The export dialogue can be found by in the context menu of a selection of records with associated files. Alternatively a single export can be initiated from a records detail view menu bar.
 
 ### Files
 
@@ -57,6 +53,16 @@ Exports can be scheduled so they run automatically. Just click on the little clo
 Exports can be automatically send via email or delivered to a FTP or WebDav server. Just click on the little truck icon in the right bottom and add a transport to your export.&#x20;
 
 
+
+### Templates
+
+A user can save the configuration of an export to a template for later use.&#x20;
+
+To share a template with other user/groups, the exporting user needs **permission to see and edit** the user/group in question (Rights Management > User/Group > Permissions)
+
+Then a sharing checkbox is available where a user can select which user/group to share the to be created template with.
+
+The other user/users can then select the shared export template when creating an export by selecting it in the top right corner of the export dialogue.
 
 ## Export Manager
 
