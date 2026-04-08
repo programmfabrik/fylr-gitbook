@@ -37,9 +37,11 @@ Pool settings can be extended with custom plugins.
 
 #### Watermarks
 
-**Watermark** settings will be **inherited** by subordinate pools. Meaning, if you set up a watermark for a pool, all files in subordinate pools will get a watermark version, too. This **cannot** be **prevented**.
 
-<table><thead><tr><th width="201.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Watermark File</td><td>Upload an image that should be used as a watermark for all previews. We recommend using images with a transparent background.</td></tr><tr><td>Transparency</td><td>Define the transparency of the watermark from 0 (no transparency) to 100 (full transparency).</td></tr><tr><td>Position</td><td>Define where the watermark image should be placed on the previews. Will be ignored if "Tiled" is enabled.</td></tr><tr><td>Size</td><td>Define the size of the watermark image.</td></tr><tr><td>Tiled</td><td>Enable to cover the whole preview image with the watermark file. It will be repeated in the specified size.</td></tr></tbody></table>
+
+**Watermark** settings can be **inherited** by subordinate pools. If you set up a watermark for a pool, all files in subordinate pools will get a watermark version. To disable this behavior
+
+<table><thead><tr><th width="201.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Activate</td><td><ul><li><strong>None:</strong> no watermarks for the current pool</li><li><strong>From Parent Pool:</strong> use configuration from parent pool</li><li><strong>Enabled:</strong> activate watermarks for this specifically the current pool.</li></ul></td></tr><tr><td>Watermark File</td><td>Upload an image that should be used as a watermark for all previews. We recommend using images with a transparent background.</td></tr><tr><td>Transparency</td><td>Define the transparency of the watermark from 0 (no transparency) to 100 (full transparency).</td></tr><tr><td>Position</td><td>Define where the watermark image should be placed on the previews. Will be ignored if "Tiled" is enabled.</td></tr><tr><td>Size</td><td>Define the size of the watermark image. In pixels (width x height) or a percentage.</td></tr><tr><td>Tiled</td><td>Enable to cover the whole preview image with the watermark file. It will be repeated in the specified size.</td></tr></tbody></table>
 
 {% hint style="info" %}
 Please note, that watermarked preview images are only rendered, if they are specified in the [base configuration](../readme/file-worker/).
