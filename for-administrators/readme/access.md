@@ -25,8 +25,6 @@ This text will be shown as the label for the login input on the login page. Defa
 
 This text will be shown on the login page above the login fields.
 
-
-
 ## Password
 
 ### Hint for Unsupported Passwords
@@ -38,6 +36,13 @@ This message is displayed when a user sets a password and it does not meet the p
 Use regular expressions to define requirements for passwords. To only allow passwords with a length of 8 to 32 characters use ^.{8,32}$ for example.
 
 
+
+### Blocking the login after too many failed attempts
+
+If a user tries to login too many times with a wrong password, further login attempts can be temporarily blocked. Attempts from the same IP adress will be blocked. Attempts from other IP adresses for the same user account will be blocked.
+
+* **Number of attempts with wrong password:** how many attempts does a user get before their login is blocked? Use the value `0` to disable the automatic blocking.
+* **How long to block the login in minutes:** how long to block the users login after the previously set treshold is reached?&#x20;
 
 ## Registration
 
@@ -51,7 +56,7 @@ Please note: this option requires that "Allow Guest Access" is enabled. The user
 
 ### Registration Info Text
 
-This text will be shown on the registration page above the input fields.&#x20;
+This text will be shown on the registration page above the input fields.
 
 ### Form
 
