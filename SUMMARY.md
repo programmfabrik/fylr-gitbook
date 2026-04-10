@@ -110,6 +110,7 @@
     * [Configuring Captions for Image Previews](help/tutorials/for-administrators/configuring-captions-for-image-previews.md)
     * [How to Set Default Metadata Mappings](help/tutorials/for-administrators/default-export-metadata-mappings.md)
     * [Setting Up Collection Sharing](help/tutorials/for-administrators/setting-up-collection-sharing.md)
+    * [Enabling guest access](help/tutorials/for-administrators/enabling-guest-access.md)
   * [For System Administrators](help/tutorials/for-system-administrators/README.md)
     * [Regenerating preview images](help/tutorials/for-system-administrators/regenerating-preview-images.md)
     * [Migration with map to local storage](help/tutorials/for-system-administrators/migrate-map-to-local-storage.md)
