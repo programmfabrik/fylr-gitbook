@@ -98,7 +98,7 @@ Both users are using a mask with the **System Fields** > **Owner** set to **Edit
 
 If User A creates a record and User B is not supposed to see it, follow these steps:
 
-* **Remove** the user/groups **read permissions** on the Pool / Object Type
+* **Remove** the user/groups permission to "**View Records**" in the Pool / Object Type
 * Only assign them **Edit** and **Mask permissions** for the Object Type
 
 Now only owners can edit their records, other users will not be able to see them.
