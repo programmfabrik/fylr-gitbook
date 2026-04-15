@@ -134,10 +134,6 @@ If not satisfied with the results, after updating your prompts with closer align
 
 To run the **ai-metadata plugin** in background tasks, follow these steps:
 
-{% hint style="danger" %}
-**Creating a new background task from a selection of records** to be mapped by the ai-metadata plugin is currently **not supported**.
-{% endhint %}
-
 ### Create and Configure the Task
 
 1. Open the **Background Tasks** section in the header bar of your fylr instance.
