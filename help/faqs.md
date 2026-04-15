@@ -96,7 +96,7 @@ The options for a field are: Image, Office, Video, Audio, Unknown
 
 Both users are using a mask with the **System Fields** > **Owner** set to **Edit**
 
-If User A uploads creates a record and User B is not supposed to see it, follow these steps:
+If User A creates a record and User B is not supposed to see it, follow these steps:
 
 * **Remove** the user/groups **read permissions** on the Pool / Object Type
 * Only assign them **Edit** and **Mask permissions** for the Object Type
