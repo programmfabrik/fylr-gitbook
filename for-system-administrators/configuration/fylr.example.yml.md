@@ -104,6 +104,8 @@ fylr:
     # The indices visible there are not limited to those associated
     # to the fylr instance.
     inspectEnableElasticIndices: false
+    # Show environment on /inspect/ home page.
+    inspectShowEnvironment: false
     # Outputs object loader timing and load depth information. This setting can also
     # be set in the base config.
     logTimings: true
