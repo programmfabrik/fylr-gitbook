@@ -32,7 +32,14 @@ Select the date, time and number format you want to use in this language.
 
 #### Remove Diacritics
 
-Removes diacritics from terms for the index (see [ICU folding token filter](https://docs.opensearch.org/latest/analyzers/token-filters/icu-folding/)).
+Normalizes text using ICU folding (see [ICU folding token filter](https://docs.opensearch.org/latest/analyzers/token-filters/icu-folding/)) by removing accents and standardizing characters (e.g., case, ligatures, width), enabling more consistent and language-independent matching. This improves search results, especially when users omit accents or use different keyboard layouts.
+
+Examples:\
+`Café` → `cafe`
+
+`RÉSUMÉ` → `resume`
+
+&#x20;`Æsop` → `aesop`
 
 #### Synonyms
 
