@@ -60,7 +60,8 @@ server:
       include_password: true
 ```
 
-... e.g. in `easydb-server.yml` . For more information see [http://docs.easydb.de/en/technical/api/user/#returning-password-hashes](http://docs.easydb.de/en/technical/api/user/#returning-password-hashes)
+... e.g. in `easydb-server.yml` . Restart container `easydb-server` to make active.\
+For more information see [http://docs.easydb.de/en/technical/api/user/#returning-password-hashes](http://docs.easydb.de/en/technical/api/user/#returning-password-hashes)
 
 </details>
 
@@ -197,7 +198,7 @@ Stop outputting log messages with `Ctrl`-`c` if you have seen enough.
 
 See the screenshot:
 
-<figure><img src="../../../.gitbook/assets/image (22).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
 
 </details>
 
@@ -374,7 +375,7 @@ Create the following two:
   * **Directory** (in container) `/mnt/orig_early`
   * **Remote URL Prefix** example: https://easydb.example.com/eas/partitions-inline/1/\
     Use here one of the prefixes you collected in 5.a.\
-    &#xNAN;_(Do not confuse this with the **Prefix** field. Use **Remote URL Prefix**.)_
+    \&#xNAN;_(Do not confuse this with the **Prefix** field. Use **Remote URL Prefix**.)_
 * Fylr location `easydb versions`
   * **Directory** (in container) `/mnt/dest_early`
   * **Remote URL Prefix**: As above, use one of the collected Remote URL Prefixes.\
@@ -389,7 +390,7 @@ Create the following two:
 <summary>5.c Let fylr use the asset files of easydb5 directly from disk, without asking easydb</summary>
 
 * Go to **https://**&#x66;ylr.example.co&#x6D;**/inspect/files/**
-* Select `Location`=`remote`  and click Search, so that a search is performed.
+* Select `Location`=`remote` and click Search, so that a search is performed.
 * Choose Action `Map to local storage` and `Search result`, not `Selected`. Click the button `Action` at the right.
 * Now the easydb is not used by fylr any more. (But elasticsearch is still used by fylr)
 
