@@ -12,11 +12,11 @@ Please note: this plugin is licensed as a separate module. If in doubt, please c
 
 The Connector Plugin (`easydb-connector-plugin`) is a frontend plugin which allows to connect to remote easydb and fylr instances. The plugin performs searches in remote instances and shows the results in the local frontend.
 
-The plugin needs to be installed and enabled on the local and the remote instances.
-
 ## Adding the Plugin
 
 First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](../plugin-manager.md). If not, add the plugin. To license and get the plugin, please get in touch with Programmfabrik GmbH.
+
+**The plugin needs to be installed and enabled on the local and the remote instances.**
 
 ## Configuration
 
