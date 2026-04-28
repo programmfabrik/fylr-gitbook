@@ -10,6 +10,9 @@ services:
       - network.publish_host=127.0.0.1
       - plugins.security.disabled=true
       - "OPENSEARCH_INITIAL_ADMIN_PASSWORD=EXAMPLEq_-945873205"
+      - cluster.routing.allocation.disk.watermark.low=30gb
+      - cluster.routing.allocation.disk.watermark.high=25gb
+      - cluster.routing.allocation.disk.watermark.flood_stage=20gb
     volumes:
       - "/srv/fylr/indexer:/usr/share/opensearch/data"
     command: >
