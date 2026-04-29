@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2026-03-27 15:32:44 (UTC)
+    * timestamp: 2026-04-29 09:23:24 (UTC)
 -->
 
 # Plugin Overview
@@ -33,6 +33,16 @@ Extension of [easydb-barcode-display](#easydb-barcode-display) to use the barcod
 Adds a Custom Mask Splitter to output a barcode based on data of another field in the record.
 
 * Repository: [https://github.com/programmfabrik/easydb-barcode-display-plugin](https://github.com/programmfabrik/easydb-barcode-display-plugin)
+* This plugin was developed by *Programmfabrik GmbH*.
+
+
+## `custom-data-type-html-editor`
+
+This custom data type allows you to integrate a WYSIWYG editor and store HTML content in the database.
+
+* Release URL: [https://github.com/programmfabrik/easydb-custom-data-type-html-editor/releases/latest/download/custom-data-type-html-editor.zip](https://github.com/programmfabrik/easydb-custom-data-type-html-editor/releases/latest/download/custom-data-type-html-editor.zip)
+* Repository: [https://github.com/programmfabrik/easydb-custom-data-type-html-editor](https://github.com/programmfabrik/easydb-custom-data-type-html-editor)
+* This is a custom data type.
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
