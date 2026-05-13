@@ -43,7 +43,7 @@ Now you can view the contents of the files `private.key` and `publickey.cer` and
 * We recommend to set the checkmark at **Log Steps**. This will write log events to debug SAML connections. In case of an error, the connection attempt is always logged.
 * In **User Mapping** define how the SAML user is created in fylr. Upon each login the SAML users are mapped to fylr users. If an user already exists, an update is performed. Working with mocksaml.com:
   * Target: **Reference**: `%(email)s`
-  * Target: **Email**: `%(email)s`&#x20;
+  * Target: **Email**: `%(email)s`
 * When you **Save** this configuration, the fylr server (not the webfrontend in your browser) downloads the IDP's metadata. So if this fails, make sure that the fylr server can reach the IDP.
 
 ### Test Connection
@@ -127,11 +127,11 @@ Mapping goal of the following example: Every role that ends in the letters `saml
 
 1. In fylr-URL/configmanager > `User management` > `SAML` add into the form field `Group Mapping` the value `%(role)s` (see following screenshot).
 
-<figure><img src="../../../.gitbook/assets/fylr-saml-group-mapping-en (1).png" alt=""><figcaption><p>How to add an attribute for SAML group mapping in the fylr frontend</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/fylr-saml-group-mapping-en.png" alt=""><figcaption><p>How to add an attribute for SAML group mapping in the fylr frontend</p></figcaption></figure>
 
 2. In fylr-URL/groupmanager add a group named `testidp`. Give that group some system rights that are visible after logging in.
 3. In this group's configuration > `AUTHENTICATION SERVICES` > below `Single-Sign-On` add an entry with Method `Regular Expression` and Input `.*samltest.id` (see following screenshot).
 
-<figure><img src="../../../.gitbook/assets/fylr-group-mapping-en (1).png" alt=""><figcaption><p>How to match a value for a group mapping in the fylr frontend</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/fylr-group-mapping-en.png" alt=""><figcaption><p>How to match a value for a group mapping in the fylr frontend</p></figcaption></figure>
 
 4. Save. Test the login as a SAML user with a matching role. The user now has the rights given to the group `testidp`.

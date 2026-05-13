@@ -18,9 +18,9 @@ Uploading files through the app is only possible via **collections**. You can up
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
-####
 
-#### Connecting to fylr
+
+**Connecting to fylr**
 
 To connect to a fylr instance, enter the **URL** on the home screen and log in using your account credentials on the next screen. Once authenticated, the app establishes a connection to the selected fylr instance.
 {% endcolumn %}
@@ -34,9 +34,9 @@ To connect to a fylr instance, enter the **URL** on the home screen and log in u
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
-####
 
-#### Collection List
+
+**Collection List**
 
 After logging in, the **collection list** is displayed. All collections you have access to are shown in **alphabetical order** and grouped into **My Collections** and **Shared Collections**.
 
@@ -52,15 +52,13 @@ You can search collections by **name** or **description**. Tap on a collection t
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
-####
 
-#### New Collection
+
+**New Collection**
 
 A collection must have a **name** and may include a **description**. Collections created in the app are automatically **enabled for uploads**. This setting should not be changed if you intend to upload files from the app.
 
 Depending on your system configuration, you may also need to select an **Object Type**, **Pool**, **Mask**, and a **file field**. After saving the collection, it is ready for uploading files.
-
-
 {% endcolumn %}
 {% endcolumns %}
 
@@ -72,9 +70,9 @@ Depending on your system configuration, you may also need to select an **Object 
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
-####
 
-#### Uploading
+
+**Uploading**
 
 To upload files, open a collection and tap the **upload icon** in the footer. You can choose files from the **camera**, **video recorder**, **photo gallery**, **video gallery**, or **document browser**.
 {% endcolumn %}
@@ -88,13 +86,11 @@ To upload files, open a collection and tap the **upload icon** in the footer. Yo
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
-####
 
-#### Upload Status
+
+**Upload Status**
 
 After selecting files, the **upload status** screen shows the progress of each upload. Once all uploads are complete, tap **Finish** to return to the collection.
-
-
 {% endcolumn %}
 {% endcolumns %}
 
@@ -106,13 +102,11 @@ After selecting files, the **upload status** screen shows the progress of each u
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
-####
 
-#### Collection Standard View
+
+**Collection Standard View**
 
 By default, records in a collection are displayed as **square thumbnail previews**. Tap a record to open a larger preview and view details, or tap **Fullscreen** to view the file in full screen mode.
-
-
 {% endcolumn %}
 {% endcolumns %}
 
@@ -124,13 +118,11 @@ By default, records in a collection are displayed as **square thumbnail previews
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
-####
 
-#### Collection List View
+
+**Collection List View**
 
 You can switch to the **List View** to display records with their **standard information**.
-
-
 {% endcolumn %}
 {% endcolumns %}
 
@@ -142,13 +134,11 @@ You can switch to the **List View** to display records with their **standard inf
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
-####
 
-#### Record Detail
+
+**Record Detail**
 
 The **record detail view** displays the standard information of the record. From here, you can remove the record from the collection (the record itself remains in fylr), share the file using your device’s sharing options, or open the file in full screen mode.
-
-
 {% endcolumn %}
 {% endcolumns %}
 
@@ -160,13 +150,11 @@ The **record detail view** displays the standard information of the record. From
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
-####
 
-#### Record Full Screen
+
+**Record Full Screen**
 
 In **full screen mode**, you can zoom into images or play videos. This view also provides access to **technical file information** and sharing options.
-
-
 {% endcolumn %}
 {% endcolumns %}
 
@@ -178,13 +166,11 @@ In **full screen mode**, you can zoom into images or play videos. This view also
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
-####
 
-#### File Info
+
+**File Info**
 
 Technical details about the file, such as format and dimensions, can be accessed from within the **full screen view**.
-
-
 {% endcolumn %}
 {% endcolumns %}
 
@@ -196,13 +182,11 @@ Technical details about the file, such as format and dimensions, can be accessed
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
-####
 
-#### Share / Download
+
+**Share / Download**
 
 Files can be shared or downloaded either from the **record detail view** or the **full screen view**. All configured **preview versions** are available for sharing.
-
-
 {% endcolumn %}
 {% endcolumns %}
 
@@ -214,13 +198,11 @@ Files can be shared or downloaded either from the **record detail view** or the 
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
-####
 
-#### Edit Collection
+
+**Edit Collection**
 
 Collections can be edited from the **collection detail view** by tapping the **pencil icon** in the upper-right corner. You can change collection settings or delete the collection. Deleting a collection does **not** delete the records; they remain available in fylr.
-
-
 {% endcolumn %}
 {% endcolumns %}
 
@@ -232,13 +214,10 @@ Collections can be edited from the **collection detail view** by tapping the **p
 {% endcolumn %}
 
 {% column width="66.66666666666667%" %}
-####
 
-#### Settings
+
+**Settings**
 
 From the home screen, you can access the **Settings** menu. Here you can change the **language**, view the **connected server**, check the **app version**, and switch between **light and dark mode**.
-
-
 {% endcolumn %}
 {% endcolumns %}
-
