@@ -178,7 +178,7 @@ To run the **ai-metadata plugin** in background tasks, follow these steps:
 
 #### Creating a search result to apply the mapping to
 
-For the task to have records to apply the mapping to, configure a search that finds the records you want to be filled by ChatGPT (selection of records / the entire search result).
+For the task to have records to apply the mapping to, configure a search that finds the records you want to be filled by the LLM (selection of records / the entire search result).
 
 {% hint style="warning" %}
 If individual records are selected, only those will be mapped.
@@ -187,7 +187,7 @@ If an entire search result is selected using **"Select All", the same search wil
 {% endhint %}
 
 {% hint style="danger" %}
-**Warning: An empty search will result in the background-task sending ALL records to ChatGPT.**
+**Warning: An empty search will result in the background-task sending ALL records to the LLM. This may or may not result in a high usage of tokens.**
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/Screenshot 2025-08-26 at 15.33.46.png" alt="Example configuration of a search query showing results to be mapped by the ai-metadata plugin using the bg-tasks." width="563"><figcaption><p>Example configuration of a search query showing results to be mapped by the ai-metadata plugin using the bg-tasks.</p></figcaption></figure>
