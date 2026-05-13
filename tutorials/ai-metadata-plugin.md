@@ -17,7 +17,7 @@ The **ai-metadata plugin** enables the integration of LLMs compliant with the [C
 To successfully use the ai-metadata plugin to describe your instances content, your Object Type needs to have
 
 * **a file field**: the source image for the LLM to describe
-* **text fields or lists**: (multilingual) text fields to map ChatGPTs output to
+* **text fields or lists**: (multilingual) text fields to map the LLM output to
 * also supported: dates, boolean fields
 
 ### Installation
