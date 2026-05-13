@@ -4,13 +4,11 @@ description: How to configure and use the ai-metadata plugin
 
 # ai metadata plugin
 
-{% hint style="info" %}
-For the setup of this plugin **root** permissions are suggested.
-{% endhint %}
+The ai metadata plugin sends images in a fylr instance to a LLM like ChatGPT to write the generated texts into user defined fields in fylr objects.
 
 ### Plugin description
 
-The **ai-metadata plugin** enables the integration of LLMs compliant with the [Chat Completions API](https://developers.openai.com/api/reference/chat-completions/overview) by OpenAI into fylr. Custom prompts can be configured and mapped to fylr Object Types through metadata mappings. The generated output is written directly to objects during their creation or later during the execution of a (scheduled) background task.
+The **ai-metadata plugin** enables the integration of LLMs compliant with the [Chat Completions API](https://developers.openai.com/api/reference/chat-completions/overview) by OpenAI into fylr. Custom prompts can be configured and mapped to fylr Object Types through metadata mappings. The generated output is written into objects during their creation or during the execution of a (scheduled) background task.
 
 ### Datamodel requirements
 
@@ -37,6 +35,10 @@ While installing enabling the plugin is the default behavior. You can enable or 
 
 
 Install the plugin by release URL to always get the latest updates, after contacting support you will receive an installation URL instead of a ZIP.
+
+{% hint style="info" %}
+For the setup of this plugin **root** permissions are suggested.
+{% endhint %}
 
 ### Configuration
 
