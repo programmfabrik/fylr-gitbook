@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2026-04-29 09:23:24 (UTC)
+    * timestamp: 2026-05-19 15:19:06 (UTC)
 -->
 
 # Plugin Overview
@@ -33,6 +33,22 @@ Extension of [easydb-barcode-display](#easydb-barcode-display) to use the barcod
 Adds a Custom Mask Splitter to output a barcode based on data of another field in the record.
 
 * Repository: [https://github.com/programmfabrik/easydb-barcode-display-plugin](https://github.com/programmfabrik/easydb-barcode-display-plugin)
+* This plugin was developed by *Programmfabrik GmbH*.
+
+
+## `easydb-connector-plugin`
+
+Adds the Connection feature which enables you to include other fylr installations in your search.
+
+
+
+{% hint style="info" %}
+This plugin does not have a public release URL.
+
+To get access to this plugin and receive a URL, please contact our support.
+{% endhint %}
+
+* See also: [https://docs.fylr.io/for-users/plugins/connector](https://docs.fylr.io/for-users/plugins/connector)
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
@@ -218,7 +234,6 @@ This plugin adds the new data type "DoRIS" to a Fylr instance, enabling communic
 
 This is a plugin for fylr with Custom Data Type `CustomDataTypeFINTO` for references to entities of the Finnish Thesaurus and Ontology Service FINTO ([https://finto.fi/](https://finto.fi/)).
 
-* Release URL: [https://github.com/programmfabrik/fylr-custom-data-type-finto/releases/latest/download/customDataTypeFinto.zip](https://github.com/programmfabrik/fylr-custom-data-type-finto/releases/latest/download/customDataTypeFinto.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-finto](https://github.com/programmfabrik/fylr-plugin-custom-data-type-finto)
 * This is a custom data type.
 
