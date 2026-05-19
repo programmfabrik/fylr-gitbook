@@ -78,7 +78,9 @@ fylr:
   license: "<JSON>"
 
   # encryptionKey is used to AES-encrypt sensitive information before writing it
-  # to the database. It must be 32 bytes long. Default is empty.
+  # to the database. It must be 32 bytes long. The encryptionKey must be
+  # provided to decrypt encrypted data from the database. With no encryption
+  # key, the data will not be encrypted. Default is empty.
   encryptionKey: ""
 
   # stdErrFile redirects all output to stderr to the given file when fylr is run
@@ -124,6 +126,8 @@ fylr:
     # you are experiencing difficulties connecting to certain web servers for
     # file upload. E.g. with "stream error".
     disableHttp2Client: false
+    # cookieAllowInsecure enabled cookie setting via http too. Default is "false".
+    cookieAllowInsecure: false
 
   # optional, set environment. This can be used to set FYLR_CMD_* inside the fylr.yml
   env:
@@ -832,6 +836,6 @@ fylr:
               prog: "fylr"
               args:
                 - "iiif"
+
 ```
 {% endcode %}
-

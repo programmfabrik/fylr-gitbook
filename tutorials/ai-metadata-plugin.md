@@ -4,20 +4,19 @@ description: How to configure and use the ai-metadata plugin
 
 # ai metadata plugin
 
-{% hint style="info" %}
-For the setup of this plugin **root** permissions are suggested.
-{% endhint %}
+The ai metadata plugin sends images in a fylr instance to a LLM like ChatGPT to write the generated texts into user defined fields in fylr objects.
 
 ### Plugin description
 
-The **ai-metadata plugin** enables the integration of OpenAIs ChatGPT into a fylr instance by automatically filling object type fields. Custom prompts can be configured and mapped to fylr object types through metadata mappings. The generated output is written directly to objects during their creation.
+The **ai-metadata plugin** enables the integration of LLMs compliant with the [Chat Completions API](https://developers.openai.com/api/reference/chat-completions/overview) by OpenAI into fylr. Custom prompts can be configured and mapped to fylr Object Types through metadata mappings. The generated output is written into objects during their creation or during the execution of a (scheduled) background task.
 
 ### Datamodel requirements
 
 To successfully use the ai-metadata plugin to describe your instances content, your Object Type needs to have
 
-* **a file field**: the source image for ChatGPT to describe
-* **text fields or lists**: (multilingual) text fields to map ChatGPTs output to
+* **a file field**: the source image for the LLM to describe
+* **text fields or lists**: (multilingual) text fields to map the LLM output to
+* also supported: dates, boolean fields
 
 ### Installation
 
@@ -31,7 +30,15 @@ Move to your fylr instances Plugin Manager to install the ai-metadata plugin by 
 
 While installing enabling the plugin is the default behavior. You can enable or disable the plugin anytime, active configuration will be preserved until enabled again.
 
-<figure><img src="../.gitbook/assets/Screenshot 2025-08-20 at 15.27.19.png" alt="" width="343"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Screenshot 2025-08-20 at 15.27.19.png" alt="" width="343"><figcaption><p>An ongoing ZIP installation of the ai-metadata plugin</p></figcaption></figure>
+
+
+
+Install the plugin by release URL to always get the latest updates, after contacting support you will receive an installation URL instead of a ZIP.
+
+{% hint style="info" %}
+For the setup of this plugin **root** permissions are suggested.
+{% endhint %}
 
 ### Configuration
 
@@ -39,19 +46,28 @@ After installing and activating the plugin, select it in the plugin list.
 
 Configure the plugin in the "General Tab" by adding an API Key
 
-| Setting                        | Description                                                                                 |
-| ------------------------------ | ------------------------------------------------------------------------------------------- |
-| **ChatGPT API Key (Required)** | Enter your OpenAI API key. Without API Key, requests to OpenAI will be denied.              |
-| **Erweitertes Protokoll**      | Optional. Debug option (detailed logging).                                                  |
-| **Used image size**            | Controls the resolution of images sent to OpenAI. “Small” is sufficient for most use cases. |
+| Setting                                                                                                                    | Description                                                                                                                                                                                                                                                                       |
+| -------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Extended protocol**                                                                                                      | Additional debug context in FILE\_METADATA events                                                                                                                                                                                                                                 |
+| **API Type**                                                                                                               | OPEN\_AI / AZURE: choose Azure if you want to connect to your own LLM URL.                                                                                                                                                                                                        |
+| **URL**                                                                                                                    | The plugin uses the [Chat Completions API](https://developers.openai.com/api/reference/chat-completions/overview), the selected URL must be a compatible endpoint. If the field is empty, it will fall back to the OpenAI API.                                                    |
+| **API Key (Required)**                                                                                                     | Enter your API key. Without API Key, requests will be denied.                                                                                                                                                                                                                     |
+| **API Version** (only with API Type AZURE)                                                                                 | Use the current version of your LLM                                                                                                                                                                                                                                               |
+| <p><strong>Model</strong></p><ul><li><strong>free entry (deployment name)</strong></li><li><strong>list</strong></li></ul> | <p></p><ul><li>free entry: input your deployemt name</li><li>list: select from the list of OpenAI models</li></ul>                                                                                                                                                                |
+| **Used image size**                                                                                                        | Controls the resolution of images sent to the LLM. The default of 600px is sufficient for most use cases.                                                                                                                                                                         |
+| **Instructions for the AI**                                                                                                | <p>Describe the AI’s general style, role, and behavior here. These instructions apply to all answers, for example tone, perspective, or fixed phrasing rules. Do not enter the actual question here.</p><p><strong>Note:</strong> does currently not work with API Type AZURE</p> |
 
-### Creating the ChatGPT prompts
+{% hint style="warning" %}
+**It's currently not possible to save more than one LLM configuration.**
+{% endhint %}
+
+### Creating the prompts
 
 Inside the plugin managers config tab, create one or more **named prompts** by clicking <img src="../.gitbook/assets/Screenshot 2025-08-20 at 15.33.59.png" alt="" data-size="line">.
 
 The available inputs are mandatory.
 
-<table><thead><tr><th width="141.953125">Setting</th><th width="302.953125">Description</th><th>Options</th></tr></thead><tbody><tr><td>Name</td><td>Name your prompt. This name will be used later to refer to this particular prompt.</td><td>-</td></tr><tr><td>Question for Chat GPT</td><td>Your custom ChatGPT prompt</td><td>-</td></tr><tr><td>Type</td><td>Output type</td><td><ul><li><em>Single line text</em></li><li><em>Single line text (multilingual)</em></li><li><em>List text</em></li><li><em>List text (multilingual)</em></li></ul></td></tr></tbody></table>
+<table><thead><tr><th width="141.953125">Setting</th><th width="302.953125">Description</th><th>Options</th></tr></thead><tbody><tr><td>Name</td><td>Name your prompt. This name will be used later to refer to this particular prompt.</td><td>-</td></tr><tr><td>Prompt</td><td>Your prompt to the LLM</td><td>-</td></tr><tr><td>Type</td><td>Output type</td><td><ul><li><em>Single line text</em></li><li><em>Single line text (multilingual)</em></li><li><em>List text</em></li><li><em>List text (multilingual)</em></li><li><em>Boolean</em></li><li><em>Date (ISO 8601)</em></li></ul></td></tr></tbody></table>
 
 #### Choosing the Output Type
 
@@ -69,6 +85,10 @@ If it doesn't, edit your datamodel accordingly and continue afterwards.
   * maps to [#single-line--multi-line-text-simple-text-string](../for-administrators/tools/csv-importer/examples/all-data-types.md#single-line--multi-line-text-simple-text-string "mention") in a nested field.
 * _List text (multilingual)_
   * maps to [#single-line-and-multiline-text-multilingual](../for-administrators/tools/csv-importer/examples/all-data-types.md#single-line-and-multiline-text-multilingual "mention") in a nested field.
+* _Boolean_
+  * maps to Boolean field
+* _Date (ISO 8601)_&#x20;
+  * maps to [#date-date--time](../for-administrators/tools/csv-importer/examples/all-data-types.md#date-date--time "mention")
 
 #### Examples
 
@@ -78,15 +98,13 @@ If it doesn't, edit your datamodel accordingly and continue afterwards.
 **Multilingual fields:** Make sure to include the languages of your expected output in your prompt.
 {% endhint %}
 
-Each named list entry in the Plugin Managers configuration tab of the ai-metadata plugin becomes available in the **Metadata Mapping** section of fylr.
+Each named list entry in the Plugin Managers configuration tab of the ai-metadata plugin becomes available in the **Metadata Mapping** section of fylr. (see in _sidebar > Administration_)
 
 As a start, you can upload the displayed configuration and modify as needed.
 
 {% file src="../.gitbook/assets/fylr-ai-metadata-plugin-example-config.json" %}
 
 ### Creating the Metadata Mapping
-
-Navigate to "Metadata Mappings" in the configuration.
 
 Create a new **IMPORT Mapping** by finding the <img src="../.gitbook/assets/Screenshot 2025-08-20 at 15.28.24.png" alt="" data-size="line">-Icons in the bottom of the available Mappings and clicking the plus symbol, selecting IMPORT.
 
@@ -162,7 +180,7 @@ To run the **ai-metadata plugin** in background tasks, follow these steps:
 
 #### Creating a search result to apply the mapping to
 
-For the task to have records to apply the mapping to, configure a search that finds the records you want to be filled by ChatGPT (selection of records / the entire search result).
+For the task to have records to apply the mapping to, configure a search that finds the records you want to be filled by the LLM (selection of records / the entire search result).
 
 {% hint style="warning" %}
 If individual records are selected, only those will be mapped.
@@ -171,7 +189,7 @@ If an entire search result is selected using **"Select All", the same search wil
 {% endhint %}
 
 {% hint style="danger" %}
-**Warning: An empty search will result in the background-task sending ALL records to ChatGPT.**
+**Warning: An empty search will result in the background-task sending ALL records to the LLM. This may or may not result in a high usage of tokens.**
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/Screenshot 2025-08-26 at 15.33.46.png" alt="Example configuration of a search query showing results to be mapped by the ai-metadata plugin using the bg-tasks." width="563"><figcaption><p>Example configuration of a search query showing results to be mapped by the ai-metadata plugin using the bg-tasks.</p></figcaption></figure>
@@ -179,3 +197,54 @@ If an entire search result is selected using **"Select All", the same search wil
 If the found records have no values in their fields yet, the **Override Values** checkbox might not be required.
 
 After the created tasks next scheduled job has finished (now or later, depending on the amount of records to be mapped), confirm the changes made in the tasks log and the record itself.
+
+
+
+### Customizable variables in prompts
+
+Create customizable variables used in your prompts to be filled later during usage.
+
+Configuration of a variable:
+
+* **Name (string):**&#x20;
+  * the name of your variable, will be visible later during usage. **No empty space characters allowed.**
+  * Use the variable in your prompts by referencing it using the this syntax: `%variables.NAME%`
+* **Description (string):** will be used as a label to your variables input
+* **Changeable by user (boolean):** users can set the value of the variable during upload or while setting up a background task
+
+### Simple usage examples
+
+#### A customisable prompt to be created during usage
+
+1. A variable prompt to be only defined during usage, not in the plugins prompt configuration:
+
+<figure><img src="../.gitbook/assets/Screenshot 2026-05-13 at 16.13.02.png" alt=""><figcaption></figcaption></figure>
+
+2. Create a placeholder prompt using only the variables content as the full prompt to be send to the LLM
+
+<figure><img src="../.gitbook/assets/Screenshot 2026-05-13 at 16.13.51.png" alt=""><figcaption></figcaption></figure>
+
+3. Create a metadata mapping that uses the the placeholder prompt to connect your variable is input for your placeholder prompt to your object types fields.
+4. When selecting the metadata mapping that's using the placeholder prompt, notice the cog wheel. In the input behind the cog wheel provide a value for the variable (here: the entire prompt!)
+
+<figure><img src="../.gitbook/assets/Screenshot 2026-05-13 at 16.17.36.png" alt=""><figcaption><p>An example dialogue when creating a new record. A metadata mapping is selected, thus the parameter input is enabled (see cog-wheel icon)</p></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/Screenshot 2026-05-13 at 16.36.26.png" alt=""><figcaption><p>Providing the variable value during creation of a new record.</p></figcaption></figure>
+
+#### A variable to control the length of a LLM response
+
+**Setup:**
+
+<figure><img src="../.gitbook/assets/Screenshot 2026-05-13 at 16.40.16.png" alt=""><figcaption><p>Example Setup of a variable controlling the length of a LLM response </p></figcaption></figure>
+
+Reference this variable in another prompt:
+
+<figure><img src="../.gitbook/assets/Screenshot 2026-05-13 at 16.42.11.png" alt=""><figcaption><p>Usage of the amout_of_words variable in a LLM prompt</p></figcaption></figure>
+
+Now during configuration of a prompt a user can control the amount of words used in the LLMs response.
+
+{% hint style="info" %}
+Those are examples with the goal to showcase the setup of the variable system in the ai-metadata plugin.&#x20;
+
+The LLMs responses are only as good as the prompts provided.
+{% endhint %}
