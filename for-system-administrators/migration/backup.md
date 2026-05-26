@@ -67,6 +67,7 @@ Flags:
 -d, --dir=STRING                Target directory.
     --compression=0             0: no compression, 1: speed, 9: best.
     --all-versions              Set to true, to request all versions of an object.
+    --include-deleted           Include soft-deleted objects in the backup. Pairs with restore --include-deleted-linked for a faithful round-trip of links pointing at soft-deleted targets.
     --include=""                Filter regexp to include objecttypes.
     --maximum-count=0           Limit records. Set to 0 for unlimited.
     --retry-max-count=10        Number of retries for failed requests with network problems.
@@ -207,6 +208,22 @@ Set to true so that all history versions of the records are requested.
 {% hint style="warning" %}
 Not to be confused with asset versions (see parameters for `fylr restore`)!
 {% endhint %}
+
+* type: `bool`
+* default: `false`
+
+
+### `--include-deleted`
+
+{% hint style="info" %}
+This parameter is available in fylr from version **6.33.0**.
+{% endhint %}
+
+By default, objects that are soft-deleted in the source (their latest version carries `_latest_version_deleted_at`) are skipped from the backup. Set this to `true` to include them as top-level entries in the payload, in their soft-deleted state.
+
+Links pointing at a soft-deleted target are always written to the backup as a `lookup:_id` wrapper carrying `_latest_version_deleted_at` next to `_system_object_id` and `_allow_defer`. What `--include-deleted` controls is whether the target object itself rides along with that wrapper.
+
+For a faithful round-trip — soft-deleted targets restored as such, with their incoming links intact — use this together with `fylr restore --include-deleted-linked`. If the backup is taken without `--include-deleted` and restored with `--include-deleted-linked`, the wrappers are kept but their lookups defer, so the links surface as `_purged_or_deferred` on read (the same shape the API serves after a real soft-delete-then-purge of the target).
 
 * type: `bool`
 * default: `false`
