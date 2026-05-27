@@ -122,6 +122,21 @@
     * [Migrate with map to local storage and 2 servers](help/tutorials/for-system-administrators/migrate-map-to-local-storage-1.md)
 * [Glossary](help/glossary.md)
 
+## Concepts
+
+* [Overview](concepts/README.md)
+* [Records and objecttypes](concepts/records-and-objecttypes.md)
+* [Files and assets](concepts/files-and-assets.md)
+* [The datamodel](concepts/the-datamodel.md)
+* [Hierarchies and polyhierarchies](concepts/hierarchies-and-polyhierarchies.md)
+* [Nested and reverse-nested tables](concepts/nested-and-reverse-nested.md)
+* [Pools](concepts/pools.md)
+* [Masks](concepts/masks.md)
+* [Permissions](concepts/permissions.md)
+* [Tags and transitions](concepts/tags-and-transitions.md)
+* [Collections and publishing](concepts/collections-and-publishing.md)
+* [Search and events](concepts/search-and-events.md)
+
 ## FOR USERS
 
 * [Getting Started](for-users/getting-started.md)
