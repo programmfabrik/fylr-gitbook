@@ -43,38 +43,38 @@ Restore API backup into FYLR
 
 Flags:
 
--h, --help                    Show context-sensitive help.
--v, --verbose                 Set to true, to show additional info.
--n, --log-network             Set to true, to log all network traffic.
-    --server=STRING           Source url (overwrites URL of source instance from config)
--l, --login=STRING            If --server is set, use as login. Make sure to use the system root user to connect if used together with --purge.
--p, --password=STRING         If --server is set, use as password
-    --client-id=""            If --server is set, use as OAUTH2 client ID
-    --client-secret=""        If --server is set, use as OAUTH2 client secret
-    --client-token-url=""     If --server is set, use as OAUTH2 token url
-    --insecure                Set to true, to not verify the server's certificate chain and host name
-    --log=STRING              Set output to logfile
-    --purge                   For backup: set to true, to purge the target directory. For restore: set to true, to purge the target and copy the datamodel. The current password of the user used for the login will be set for the system root user.
-    --continue                Set to true, to continue.
-    --verify                  If set, verify payloads of an existing backup (same what --continue does at the beginning).
-    --chunk-size=100          chunk size for fetching/pushing data.
-    --include-events=""       Comma separated list of event types. Use "-" to skip backup/restoring of events. Empty string will backup/restore all known event types.
-    --max-parallel=1          Maximum numbers of parallel workers. 0 uses the number of available CPUs. This creates more load on the source / target system. Defaults to "1" (only one parallel process).
-    --manifest=STRING         Path to manifest.json.
-    --base-config=STRING      Base config to upload to the target. Not supported with --continue. By default the base config from the backup is uploaded. Use "-" to not upload a base config.
-    --datamodel=STRING        Datamodel to upload to the target. Not supported with --continue. By default the datamodel from the backup is uploaded. Use "-" to not upload a datamodel.
+-h, --help                      Show context-sensitive help.
+-v, --verbose                   Set to true, to show additional info.
+-n, --log-network               Set to true, to log all network traffic.
+    --server=STRING             Source url (overwrites URL of source instance from config)
+-l, --login=STRING              If --server is set, use as login. Make sure to use the system root user to connect if used together with --purge.
+-p, --password=STRING           If --server is set, use as password
+    --client-id=""              If --server is set, use as OAUTH2 client ID
+    --client-secret=""          If --server is set, use as OAUTH2 client secret
+    --client-token-url=""       If --server is set, use as OAUTH2 token url. If not set, this is derived from --server
+    --insecure                  Set to true, to not verify the server's certificate chain and host name
+    --log=STRING                Set output to logfile
+    --purge                     For backup: set to true, to purge the target directory. For restore: set to true, to purge the target and copy the datamodel. The current password of the user used for the login will be set for the system root user.
+    --continue                  Set to true, to continue.
+    --verify                    If set, verify payloads of an existing backup (same what --continue does at the beginning).
+    --chunk-size=100            chunk size for fetching/pushing data.
+    --include-events=""         Comma separated list of event types. Use "-" to skip backup/restoring of events. Empty string will backup/restore all known event types.
+    --max-parallel=1            Maximum numbers of parallel workers. 0 uses the number of available CPUs. This creates more load on the source / target system. Defaults to "1" (only one parallel process).
+    --manifest=STRING           Path to manifest.json.
+    --base-config=STRING        Base config to upload to the target. Not supported with --continue. By default the base config from the backup is uploaded. Use "-" to not upload a base config.
+    --datamodel=STRING          Datamodel to upload to the target. Not supported with --continue. By default the datamodel from the backup is uploaded. Use "-" to not upload a datamodel.
     --upload-ignore-files-with-errors Set to true, to ignore file upload errors and strip objects from them. Not available in rput_bulk modes.
     --max-parallel-upload-files=4 Max number of parallel original file + its versions uploads. Defaults to 4 (0 for bulk), max is 100.
-    --timeout-min=10          Timeout for connections to target (minutes).
-    --include-password        Include password in user restore.
-    --skip-constraints        Skip constraints during restore.
-    --file-api=""             Method used to upload files. empty or unset: do not upload any files at all. "put": upload files directly to the target server. "rput": only upload file URLs, target server loads files from remote URLs. "rput_leave": target server only stores remote URLs, no data is copied to storage. "rput_bulk": like "rput", but URLs are uploaded in batches, not in a single request per URL (faster). "rput_bulk_leave": like "rput_leave", but URLs are uploaded in batches (faster).
+    --timeout-min=10            Timeout for connections to target (minutes).
+    --include-password          Include password in user restore.
+    --skip-constraints          Skip constraints during restore.
+    --file-api=""               API used to upload files. Leave empty to not upload files. "put": restore tool uploads files synchronous. "rput": target server loads files from remote URLs. "rput_leave": target server stores remote URLs, no data is copied to storage. "rput" and "rput_leave" are faster, "put" might take long.
     --file-api-access-token="" Use this to pass an access token to fylr backends. This is needed to load files from fylr source instances. It appends the "access_token" query parameter to the remote url of files, and removes the "x-fylr-signature" query parameter.
-    --file-version=""         Set to version to use for upload. "original" might take long for "put". Use "preview" for test runs.
-    --upload-versions         Set to true, to not produce local preview versions, but instead upload the source versions. The upload method is used for versions the same way as for the original.
-    --skip-reindex            If set, skip reindex at the end of the restore.
-    --include-deleted-linked  Keep link wrappers pointing at soft-deleted targets instead of stripping them. Pair with backup --include-deleted to preserve the link against the restored target; without it the link surfaces as _purged_or_deferred.
-    --rename-versions=,...    Rename versions before uploading. This affects uploaded rights as well as file versions. The versions need to be given in the notation "<cls>.<version>:<new version>", e.g. "image.preview:640px" would replace the "preview" version of image to "640px". If the "<new version>" is omitted, the version is removed.
+    --file-version=""           Set to version to use for upload. "original" might take long for "put". Use "preview" for test runs.
+    --upload-versions           Set to true, to not produce local preview versions, but instead upload the source versions. The upload method is used for versions the same way as for the original.
+    --include-deleted-linked    By default, linked fields whose target carries _latest_version_deleted_at are dropped during restore — the target won't be re-imported, so the link would become a deferred 'Purged / Deferred object'. Set this to keep them, e.g. for a partial restore where the deleted targets are imported in a separate run.
+    --skip-reindex              If set, skip reindex at the end of the restore.
+    --rename-versions=,...      Rename versions before uploading. This affects uploaded rights as well as file versions. The versions need to be given in the notation "<cls>.<version>:<new version>", e.g. "image.preview:640px" would replace the "preview" version of image to "640px". If the "<new version>" is omitted, the version is removed.
 ```
 
 
@@ -82,7 +82,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=1408589219
-timestamp: 2026-02-19 14:30:22 (UTC)
+timestamp: 2026-05-27 07:50:28 (UTC)
 
 -->
 
@@ -210,17 +210,14 @@ If set, skip reindex at the end of the restore.
 This parameter is available in fylr from version **6.33.0**.
 {% endhint %}
 
-By default the restore strips link wrappers whose target was soft-deleted in the source — the backup writes them as a `lookup:_id` carrying `_latest_version_deleted_at`, and the restore drops them before save. The restored object then simply has no value for that field, so the frontend does not render a "(Purged / Deferred object)" placeholder.
+By default, linked fields whose target carries `_latest_version_deleted_at` are dropped during restore. the target won't be reimported, so the link would become a deferred 'Purged / Deferred object'. Set this to keep them, e.g. for a partial restore where the deleted targets are imported in a separate run.
 
-Set to `true` to keep those wrappers. Two cases to be aware of:
 
-* **Backup made with `--include-deleted`** — the soft-deleted target is in the same payload and the lookup resolves to it on restore. The link is preserved and the target stays soft-deleted in the restored instance.
-* **Backup made without `--include-deleted`** — the target is not in the payload. The lookup uses `_allow_defer` and surfaces the link as `_purged_or_deferred` on read, which mirrors the state of a real soft-delete-then-purge of the target in the source.
+{% hint style="info" %}
+Use this paired with the `fylr backup` parameter `--include-deleted`
+{% endhint %}
 
-A round-trip that preserves both the link and the target requires both flags: `fylr backup --include-deleted` and `fylr restore --include-deleted-linked`.
-
-* type: `bool`
-* default: `false`
+* type: `string`
 
 
 ### `--include-password`
@@ -281,6 +278,7 @@ By default no files or URLs are uploaded. You have to specify one of the file up
 {% endhint %}
 
 * type: `string`
+* default: `""`
 
 
 ### `--file-api-access-token`
@@ -321,10 +319,12 @@ The upload method `--file-api` is used for versions the same way as for the orig
 
 Rename versions before uploading. This affects uploaded rights as well as file versions.
 
-{% hint style="info" %}
 The versions need to be given in the notation `"<cls>.<version>:<new version>"`, e.g. `"image.preview:640px"` would replace the `"preview"` version of class `image` to `640px`.
 
 If the `<new version>` part is omitted, the version is removed.
+
+{% hint style="info" %}
+See also: [https://docs.fylr.io/for-system-administrators/migration/renaming-renditions-during-migration](https://docs.fylr.io/for-system-administrators/migration/renaming-renditions-during-migration)
 {% endhint %}
 
 * type: `string`

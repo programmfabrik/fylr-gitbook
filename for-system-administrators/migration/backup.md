@@ -55,7 +55,7 @@ Flags:
 -p, --password=STRING           If --server is set, use as password
     --client-id=""              If --server is set, use as OAUTH2 client ID
     --client-secret=""          If --server is set, use as OAUTH2 client secret
-    --client-token-url=""       If --server is set, use as OAUTH2 token url
+    --client-token-url=""       If --server is set, use as OAUTH2 token url. If not set, this is derived from --server
     --insecure                  Set to true, to not verify the server's certificate chain and host name
     --log=STRING                Set output to logfile
     --purge                     For backup: set to true, to purge the target directory. For restore: set to true, to purge the target and copy the datamodel. The current password of the user used for the login will be set for the system root user.
@@ -67,7 +67,7 @@ Flags:
 -d, --dir=STRING                Target directory.
     --compression=0             0: no compression, 1: speed, 9: best.
     --all-versions              Set to true, to request all versions of an object.
-    --include-deleted           Include soft-deleted objects in the backup. Pairs with restore --include-deleted-linked for a faithful round-trip of links pointing at soft-deleted targets.
+    --include-deleted           By default soft-deleted objects are skipped. Set this to include them in the backup, so that links pointing at a deleted object can be restored faithfully (paired with restore's --include-deleted-linked).
     --include=""                Filter regexp to include objecttypes.
     --maximum-count=0           Limit records. Set to 0 for unlimited.
     --retry-max-count=10        Number of retries for failed requests with network problems.
@@ -80,7 +80,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=0
-timestamp: 2026-02-19 14:19:30 (UTC)
+timestamp: 2026-05-27 07:50:28 (UTC)
 
 -->
 
@@ -213,25 +213,24 @@ Not to be confused with asset versions (see parameters for `fylr restore`)!
 * default: `false`
 
 
+### `--include`
+
+If this is a valid non empty regex string, only objecttypes are backupped where the internal objecttype name matches the regex.
+
+* type: `string`
+
+
 ### `--include-deleted`
 
 {% hint style="info" %}
 This parameter is available in fylr from version **6.33.0**.
 {% endhint %}
 
-By default, objects that are soft-deleted in the source (their latest version carries `_latest_version_deleted_at`) are skipped from the backup. Set this to `true` to include them as top-level entries in the payload, in their soft-deleted state.
+By default soft-deleted objects are skipped. Set this to include them in the backup, so that links pointing at a deleted object can be restored.
 
-Links pointing at a soft-deleted target are always written to the backup as a `lookup:_id` wrapper carrying `_latest_version_deleted_at` next to `_system_object_id` and `_allow_defer`. What `--include-deleted` controls is whether the target object itself rides along with that wrapper.
-
-For a faithful round-trip — soft-deleted targets restored as such, with their incoming links intact — use this together with `fylr restore --include-deleted-linked`. If the backup is taken without `--include-deleted` and restored with `--include-deleted-linked`, the wrappers are kept but their lookups defer, so the links surface as `_purged_or_deferred` on read (the same shape the API serves after a real soft-delete-then-purge of the target).
-
-* type: `bool`
-* default: `false`
-
-
-### `--include`
-
-If this is a valid non empty regex string, only objecttypes are backupped where the internal objecttype name matches the regex.
+{% hint style="info" %}
+Use this paired with the `fylr restore` parameter `--include-deleted-linked`
+{% endhint %}
 
 * type: `string`
 
