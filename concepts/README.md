@@ -6,7 +6,7 @@ The pages are ordered. Each one only uses words that earlier pages introduced.
 
 ## Status
 
-**This section is a working draft.** Each linked page below is currently a stub that captures the questions it needs to answer; the prose is being filled in incrementally on the `docs-concepts` branch. Pages still marked _stub_ have no real content yet.
+**Draft on the `docs-concepts` branch.** A first prose pass exists for every page in this section; it has not yet been reviewed end-to-end against an instance, so individual sentences may still be wrong. Please raise issues (or fix them directly) when you find one. The section is not yet merged into `main`.
 
 ## Read in this order
 
