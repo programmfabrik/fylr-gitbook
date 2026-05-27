@@ -80,7 +80,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=0
-timestamp: 2026-05-27 07:50:28 (UTC)
+timestamp: 2026-05-27 09:42:41 (UTC)
 
 -->
 
@@ -226,13 +226,19 @@ If this is a valid non empty regex string, only objecttypes are backupped where 
 This parameter is available in fylr from version **6.33.0**.
 {% endhint %}
 
-By default soft-deleted objects are skipped. Set this to include them in the backup, so that links pointing at a deleted object can be restored.
+By default, linked objects that are soft-deleted (their latest version carries `_latest_version_deleted_at`) are skipped from the backup. Set this parameter to `true` to include them as top-level entries in the payload, in their soft-deleted state.
+
+Links pointing at a soft-deleted target are always written to the backup as a `lookup:_id` wrapper carrying `_latest_version_deleted_at` next to `_system_object_id` and `_allow_defer`.
+
+For a faithful round-trip (soft-deleted targets restored as they are, with their incoming links intact) use this together with `fylr restore --include-deleted-linked`. If the backup was done without `--include-deleted` and restored with `--include-deleted-linked`, the wrappers are kept but their lookups defer, so the links are stored as `_purged_or_deferred`.
+
 
 {% hint style="info" %}
 Use this paired with the `fylr restore` parameter `--include-deleted-linked`
 {% endhint %}
 
-* type: `string`
+* type: `bool`
+* default: `false`
 
 
 ### `--include-events`

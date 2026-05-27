@@ -82,7 +82,7 @@ Flags:
 
 part below was auto generated
 source: https://docs.google.com/spreadsheets/d/1JXKxGe6RaIGCpS8JY12qrnlESxDCm9dz8EmeeWmK57U/export?format=csv&gid=1408589219
-timestamp: 2026-05-27 07:50:28 (UTC)
+timestamp: 2026-05-27 09:42:41 (UTC)
 
 -->
 
@@ -210,14 +210,24 @@ If set, skip reindex at the end of the restore.
 This parameter is available in fylr from version **6.33.0**.
 {% endhint %}
 
-By default, linked fields whose target carries `_latest_version_deleted_at` are dropped during restore. the target won't be reimported, so the link would become a deferred 'Purged / Deferred object'. Set this to keep them, e.g. for a partial restore where the deleted targets are imported in a separate run.
+By default the restore ignores linked objects whose target was soft-deleted in the source. The restored object then simply has no value for that field, so the frontend does not render a "(Purged / Deferred object)" placeholder.
 
+Set to `true` to keep those wrappers. Two cases to be aware of:
+
+* **Backup made with `--include-deleted`**:
+  * the soft-deleted target is in the same payload and the lookup resolves to it on restore
+  * the link is preserved and the target stays soft-deleted in the restored instance
+* **Backup made without `--include-deleted`**
+  * the target is not in the payload
+  * the lookup uses `_allow_defer` and shows the link as `_purged_or_deferred` over the API
+  * this mirrors the state of a real soft-delete-then-purge of the target in the source
 
 {% hint style="info" %}
-Use this paired with the `fylr backup` parameter `--include-deleted`
+A round-trip that preserves both the link and the target requires both flags: `fylr backup --include-deleted` and `fylr restore --include-deleted-linked`.
 {% endhint %}
 
-* type: `string`
+* type: `bool`
+* default: `false`
 
 
 ### `--include-password`
