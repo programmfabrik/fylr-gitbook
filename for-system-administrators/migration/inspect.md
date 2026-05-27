@@ -168,6 +168,20 @@ See also: [Restore Parameters](restore.md#parameters)
 * If you are using `rput_leave`, the source version is linked as URL
 * This sets `--upload-versions`
 
+#### Rename Versions
+
+{% hint style="info" %}
+This parameter is available in fylr from version **6.33.0**.
+{% endhint %}
+
+* Rename file versions (renditions) as objects are uploaded into the target instance — useful when the source uses different version names than the target (e.g. `video.1920p` → `1080p`)
+* The form shows a table with three columns: _File class_, _Source version_, _Target version_; a new empty row is appended automatically as soon as the last one is filled
+* Leave _Target version_ empty to remove the version on the target
+* When a backup is selected, the table is pre-populated from the restore parameters used on the previous run
+* On submit, the rows are serialized into `--rename-versions <cls>.<version>:<new version>,...`
+
+See: [renaming renditions during migration](renaming-renditions-during-migration.md)
+
 #### Access Token for file URLs
 
 This is only needed if the source instance of the backup is a **fylr** and there are files that should be uploaded to the target instance. **fylr** requires all requests to be authenticated. So during the restore process the file URLs need to be accessed in the source fylr, but this will fail if there is no authentication.
