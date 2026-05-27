@@ -73,6 +73,7 @@ Flags:
     --file-version=""         Set to version to use for upload. "original" might take long for "put". Use "preview" for test runs.
     --upload-versions         Set to true, to not produce local preview versions, but instead upload the source versions. The upload method is used for versions the same way as for the original.
     --skip-reindex            If set, skip reindex at the end of the restore.
+    --include-deleted-linked  Keep link wrappers pointing at soft-deleted targets instead of stripping them. Pair with backup --include-deleted to preserve the link against the restored target; without it the link surfaces as _purged_or_deferred.
     --rename-versions=,...    Rename versions before uploading. This affects uploaded rights as well as file versions. The versions need to be given in the notation "<cls>.<version>:<new version>", e.g. "image.preview:640px" would replace the "preview" version of image to "640px". If the "<new version>" is omitted, the version is removed.
 ```
 
@@ -198,6 +199,25 @@ This parameter is available in fylr from version **6.29.0**.
 {% endhint %}
 
 If set, skip reindex at the end of the restore.
+
+* type: `bool`
+* default: `false`
+
+
+### `--include-deleted-linked`
+
+{% hint style="info" %}
+This parameter is available in fylr from version **6.33.0**.
+{% endhint %}
+
+By default the restore strips link wrappers whose target was soft-deleted in the source — the backup writes them as a `lookup:_id` carrying `_latest_version_deleted_at`, and the restore drops them before save. The restored object then simply has no value for that field, so the frontend does not render a "(Purged / Deferred object)" placeholder.
+
+Set to `true` to keep those wrappers. Two cases to be aware of:
+
+* **Backup made with `--include-deleted`** — the soft-deleted target is in the same payload and the lookup resolves to it on restore. The link is preserved and the target stays soft-deleted in the restored instance.
+* **Backup made without `--include-deleted`** — the target is not in the payload. The lookup uses `_allow_defer` and surfaces the link as `_purged_or_deferred` on read, which mirrors the state of a real soft-delete-then-purge of the target in the source.
+
+A round-trip that preserves both the link and the target requires both flags: `fylr backup --include-deleted` and `fylr restore --include-deleted-linked`.
 
 * type: `bool`
 * default: `false`

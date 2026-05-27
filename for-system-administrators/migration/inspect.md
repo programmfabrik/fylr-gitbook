@@ -55,6 +55,17 @@ See also: [Backup Parameters](backup.md#parameters)
 * This option is enabled by default
 * This sets `--all-versions true`
 
+#### Include soft-deleted objects
+
+{% hint style="info" %}
+This parameter is available in fylr from version **6.33.0**.
+{% endhint %}
+
+* If set, objects that are soft-deleted in the source are included in the backup as top-level entries (in their soft-deleted state)
+* Links pointing at soft-deleted targets are always written to the backup as a `lookup:_id` wrapper carrying `_latest_version_deleted_at`; this option only controls whether the target object itself rides along
+* Pair with the restore-side _"Include links to soft-deleted objects"_ for a faithful round-trip
+* This sets `--include-deleted true`
+
 #### Include events
 
 * If set, all events from the source are included in the backup
@@ -210,6 +221,17 @@ This sets `--file-api-access-token <token>`
 * This means if there are unknown events in the backup (from easydb5), these will not be imported
 * If not set, no events will be imported
 * This sets `--include-events`
+
+#### Include links to soft-deleted objects
+
+{% hint style="info" %}
+This parameter is available in fylr from version **6.33.0**.
+{% endhint %}
+
+* If set, link wrappers pointing at a soft-deleted target are kept in the restored object instead of being stripped
+* Only fully meaningful when the source backup was taken with _"Include soft-deleted objects"_ — the lookup then resolves to the restored target
+* Without _"Include soft-deleted objects"_ at backup, the lookup defers and the link surfaces as `_purged_or_deferred` on read (the same shape the API serves after a real purge of the target)
+* This sets `--include-deleted-linked true`
 
 #### OAuth2
 
