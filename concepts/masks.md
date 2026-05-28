@@ -1,53 +1,47 @@
 # Masks
 
-A record's objecttype lists every field a record of that kind _can_ carry. That's rarely the same as the fields you want a particular user to _see_ on a particular screen. A cataloguer entering metadata wants the full editing form. A junior reviewer only needs the caption and the rights notice. The summary card in a search result wants the title, the thumbnail and nothing else.
+A **mask** is a view of one objecttype. It selects a subset of the objecttype's fields, decides how each is shown, and has a name. An objecttype usually has several masks for different tasks: a full editing form for a cataloguer, a short form for a reviewer, a summary for a search result.
 
-fylr offers all three of those views through **masks**. A mask is a named view onto a single objecttype that picks a subset of its fields, decides how each one renders, and gets used wherever fylr has to show or accept records of that kind.
+## What a mask controls
 
-## What a mask actually controls
+For each field it includes, a mask decides:
 
-A mask is a list of decisions about how its objecttype's data is presented. For each field the mask includes, it can say:
+- **Whether the field is shown.** A field not listed by the mask is not shown when that mask is in use.
+- **Whether it is editable or read-only.** A field can be editable in one mask and read-only in another.
+- **Whether it is required.** A mask can require a field on top of what the objecttype requires.
+- **Its default value.** A quick-entry mask can pre-fill a field so the user types less.
+- **How a linked record is shown.** When the field links to another record, the mask sets which sub-mask renders that record (see below).
 
-- **Whether the field shows up at all.** A field on the objecttype that isn't mentioned by the mask simply isn't shown when the mask is in use.
-- **Whether it's editable or read-only.** The same field can be editable in the cataloguer's mask and read-only in the reviewer's.
-- **Whether the user must fill it in.** Some masks add their own required-fields rule on top of what the objecttype requires.
-- **What its default value is.** A "quick-create" mask might pre-fill the licence to "internal" so a user only has to type the title.
-- **How a linked record gets rendered inside the form.** When the field is a link to another record, the mask says which sub-mask to use to display that record — see [sub-masks](#sub-masks) below.
+A mask can also set how a record's own system information is shown — which system fields appear, their labels and defaults. This is separate from the field list because it concerns information fylr maintains rather than fields the objecttype defines.
 
-A mask can also override what fylr shows about a record's own metadata — which system properties appear in the header strip, what they're labelled, what their default value is for a new record. That layer is the mask's _system fields_; it's separate from the regular field list because it concerns properties fylr maintains, not properties the objecttype owns.
+A mask does not change the record. The data is the same whichever mask views it; the mask sets what is shown and what can be edited through that view.
 
-The mask doesn't change what the record _is_. The underlying data is the same regardless of which mask was used to view it; the mask only chooses what the user sees and is allowed to touch through that screen.
+## Standard mask, preferred mask, all-fields view
 
-## Standard mask, preferred mask, and `_all_fields`
+- **Standard mask.** Each objecttype has one mask set as its standard mask in the datamodel. fylr uses it when nothing has overridden the choice.
+- **Preferred mask.** A [pool](pools.md) can override the standard mask for an objecttype: within that pool, records of the objecttype use the preferred mask instead of the objecttype's standard mask.
+- **All-fields view.** A built-in view that returns every field of the objecttype with no filtering. It is restricted to the system administrator, since it bypasses the field selection that masks apply.
 
-Three terms come up so often it's worth defining them once.
-
-- **Standard mask.** Each objecttype has one mask designated as its standard mask in the datamodel. When fylr has to pick a mask for an objecttype and nothing has overridden it, this is the one it picks. Think of it as the objecttype's default form.
-- **Preferred mask.** A [pool](pools.md) can override the standard mask choice for any objecttype the pool contains: "in this pool, use this other mask for Photos rather than the objecttype's default". The pool's preferred mask wins over the objecttype's standard mask within that pool's sub-tree.
-- **`_all_fields`.** Not a mask defined in the datamodel, but a built-in pseudo-mask that returns the objecttype's complete field set with no filtering — useful when a tool needs to read every column without being affected by per-mask omissions. Access is restricted: only the system root sees `_all_fields`, since it deliberately bypasses any per-mask restrictions.
-
-Picking one of these is normally automatic. The reader doesn't have to choose — the UI picks the preferred mask for the pool they're in, or the standard mask if none. Naming the choice matters mostly when a developer is building a new screen and has to be explicit about which mask their request uses.
+The choice is usually automatic: the interface uses the pool's preferred mask, or the standard mask if there is none.
 
 ## Sub-masks
 
-When a field on a mask links to another record, the linked record has to be rendered somehow. The simplest rendering is just a name and a link icon. A richer one shows several of the linked record's own fields right inside the parent form: a Photo mask that, where it links to the Photographer, shows the photographer's name, biography snippet and portrait thumbnail without making the user click through.
+When a field links to another record, that record has to be shown somehow. A **sub-mask** is a mask used inside another mask's field to render the linked record — for example a Photo mask showing the photographer's name and portrait inline where it links to the Photographer. A sub-mask is an ordinary mask, with its own field list and rules, chosen by the parent field rather than by a pool or screen. Sub-masks can contain sub-masks; fylr stops at one level of nesting when rendering.
 
-That richer rendering is a **sub-mask**: a mask used inside another mask's field. The sub-mask is itself just a mask — it has its own field list, its own per-field rules — but instead of being chosen by a pool or by a UI screen, it's chosen by the parent field. Sub-masks can themselves contain sub-masks; fylr stops at one level of nesting when rendering, so the screen doesn't grow endlessly.
+Some mask features apply only at the top level. The system-field settings are top-level only; a sub-mask renders part of another record and does not redefine that record's system information.
 
-A handful of mask features only apply at the top level. System-field overrides (the metadata header strip) are top-level only; sub-masks don't redefine the record's metadata, they're rendering a piece of someone else's record.
+## Masks versus permissions for hiding a field
 
-## Masks vs ACLs: hiding a field
+A field can be hidden from a view in two ways, used for different reasons.
 
-There are two reasons you might want a field to disappear from a user's view, and they need different tools.
+- **To leave a field off a screen,** use a mask. A reviewer mask that omits a field omits it for that screen only; the same user, through another mask, would see it.
+- **To prevent a user from seeing a field anywhere,** use [field-level permissions](permissions.md). A field hidden by a mask is still readable through another mask; a field restricted by permissions is not.
 
-- **The field doesn't belong on this screen.** Use a mask. The "reviewer" mask leaves the photographer's birthday out, not for security, but because reviewers don't need to see it on their screen. Switching the same user to a mask that includes the field — through another screen, through the API — would happily show it.
-- **The user mustn't see this field, anywhere.** Use [field-level permissions](permissions.md). A licence-sensitive field that should be invisible to junior staff regardless of which screen they happen to be looking through belongs in an ACL, not in a mask omission.
-
-The clean test: would it be acceptable for a power user with a different mask to see the field? If yes, the mask is the right tool. If no, the ACL is.
+The test: if a user with a different mask may see the field, a mask is enough. If not, use permissions.
 
 ## See also
 
 - [Records and objecttypes](records-and-objecttypes.md) — what a mask is a view of.
 - [The datamodel](the-datamodel.md) — where masks are declared.
-- [Pools](pools.md) — where the per-pool preferred-mask choice lives.
-- [Permissions](permissions.md) — the right tool when you mean to enforce, not to declutter.
+- [Pools](pools.md) — the per-pool preferred mask.
+- [Permissions](permissions.md) — for hiding a field as a restriction rather than as decluttering.
