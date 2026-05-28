@@ -26,9 +26,9 @@ HEAD carries the version number it would receive if committed now. The number do
 
 A commit applies the difference between the old CURRENT and the new one to the underlying database: tables and columns are added or renamed, defaults are written, constraints are changed, and data that no longer matches the new structure is migrated.
 
-The cost of a commit depends on the change. Adding an optional field to an objecttype with no records is cheap. Enabling full-text indexing on a field across a large number of records, or converting a single-parent objecttype to a polyhierarchy, is expensive and may queue a background reindex that runs after the structural change.
+Almost any change to the datamodel also calls for the search index to be rebuilt for the affected records — adding, renaming or removing a field or objecttype, changing a field's type, changing the pool, turning hierarchy or polyhierarchy on or off, and so on. On commit, fylr works out whether the changes need a reindex, and, rather than running one silently, presents it as a task the administrator confirms before the commit completes. Changes that tighten or relax constraints prompt a separate confirmation in the same way.
 
-Changes that affect how records are searched — a field becoming searchable, an objecttype joining the main search index, a language being added — trigger a **reindex** of the affected records. fylr writes events for reindex progress, so the interface and any subscribers can show that a rebuild is in progress.
+A reindex rebuilds the index for the affected records, so its cost scales with how many records there are. On a new or lightly populated datamodel it does almost nothing: turning an objecttype's hierarchy or polyhierarchy on or off, for instance, is flagged for reindex like any other change but reindexes nothing when there are no records yet. On a large instance the reindex can take a while and runs in the background; fylr writes events for its progress, so the interface and any subscribers can show that a rebuild is underway.
 
 ## Why HEAD and CURRENT are separate
 
