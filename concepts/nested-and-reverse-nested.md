@@ -1,42 +1,48 @@
 # Nested and reverse-nested tables
 
-Most objecttypes describe things that exist on their own: a Photo, a Person. Such a record can be looked up by ID, permissioned, and found in search.
+Picture an objecttype as a spreadsheet: each record is a row, each field is a column. Sometimes a single cell needs to hold a table of its own — a list of rows with their own columns. fylr offers two ways to do this, **nested** and **reverse-nested**. They look alike in the interface — a table inside a record — but differ in where the rows live and whether they exist on their own.
 
-Some data only exists as part of something else. The line items of an invoice mean nothing apart from that invoice; the contact methods of a person belong to that person. For this, fylr provides the **nested table**.
+## Nested
 
-## Nested tables
+A **nested** table is a sub-spreadsheet living inside a record, with its own columns and rows. Its rows have no identity of their own: no Object ID, no version. They are created, updated and deleted together with the record that contains them, and cannot be addressed or searched on their own — only as part of that record.
 
-A **nested table** is an objecttype whose records exist only inside a record of another objecttype, as a list of rows. The Invoice is the top-level objecttype; the Invoice Line is a nested table under Invoice. Reading the invoice returns its lines; saving the invoice saves the lines.
+An invoice with its line items, a person with their contact methods: the lines and the contact methods are nested rows. They belong to the one record and have no meaning apart from it.
 
-Because nested rows are part of their containing record, they lack what stand-alone records have:
+In easydb 5, nested rows were held in a separate database table. fylr keeps them inside the containing record's data instead.
 
-- They are not addressed directly. A line is reached through its invoice, not on its own.
-- They have no permissions of their own. Whoever can read the invoice can read its lines; whoever can edit the invoice can edit its lines.
-- They have no owner. The invoice has an owner; the lines belong to the invoice.
-- They are not trashed separately. Removing a line removes it from the invoice on save; deleting the invoice removes its lines.
+A nested table can itself contain nested tables, to any depth.
 
-## Nesting versus linking
+## Reverse-nested
 
-The choice between nesting a sub-thing and linking to it:
+A **reverse-nested** table also appears as a table inside a record, but its rows are records of a separate objecttype.
 
-- **Nest** when the sub-thing is part of the parent: the lines of an invoice, the contact methods of a person, the price tiers of a product. These have no meaning apart from their parent and are not referenced elsewhere.
-- **Link** when the sub-thing is a separate record the parent points at: the photographer of a photo, the exhibition a photo appears in, a product category. These have their own existence, permissions and history, and several records can reference the same one.
+That separate objecttype has a forward link to the containing objecttype, and in the datamodel that link is marked as **reverse**. The containing objecttype then shows, as a reverse-nested table, all the records that link to it.
 
-Two indicators: if more than one parent might point at the same sub-thing, use a link. If the sub-thing should be permissioned differently from the parent, use a link.
+Because the rows are records of their own objecttype, they have their own Object ID and version and can be addressed, searched and edited independently — unlike nested rows.
 
-## Reverse-nested: the view from a nested row
+The reverse marking makes the containing record the **master**: it manages the lifecycle of the records that link to it. Deleting the containing record deletes the records that reverse-link to it, even though those records live in another objecttype and can otherwise be used on their own.
 
-A nested relationship has two sides. From the parent's side, the parent objecttype holds the list of nested rows as a field. From the nested row's side, the **reverse-nested** view exposes the parent record a row belongs to. This lets a nested row be shown on its own — for example in a search result — while still linking up to its containing record. fylr derives the reverse-nested view from the nested declaration.
+A product with its reviews, where Review is its own objecttype that links to Product: the reviews are independent records — searchable, editable, addressable — but deleting the product deletes its reviews.
 
-## The "owned_by" name
+Reverse-nested tables can also be nested.
 
-The relationship is configured in the datamodel under a setting called `owned_by`. The name refers to which top-level objecttype the nested rows live in, not to who has access to them. It is historical: in easydb 5, nested tables were separate database tables with a foreign key to the owning table. fylr keeps the nested rows inside the parent record instead, but the setting kept its name.
+## Reverse-hierarchical
 
-One constraint follows: a nested table cannot hold a link back to a top-level record (a reverse link); the datamodel rejects it. Data that needs such a link is better modelled as a top-level objecttype with an ordinary link.
+A related form applies within a [hierarchy](hierarchies-and-polyhierarchies.md). A **reverse-hierarchical** field shows, on a parent record, its children — the records that link back to it through the parent reference. The parent owns its children, and the structure can repeat to any depth.
+
+The ownership pattern is the same one reverse-nested uses: a record owns the records of another objecttype that link to it with a reverse marking. Reverse-hierarchical is that pattern applied to the parent-child links of a hierarchy.
+
+## Nested, reverse-nested, or a plain link
+
+Three ways one record can hold or reach another:
+
+- **Nested** — the rows are part of this record. No independent identity, no separate lifecycle, not addressable on their own. Use it for parts of the record: invoice lines, contact methods, price tiers.
+- **Reverse-nested** — the rows are records of another objecttype that link back to this one, and this record owns their lifecycle. Independently usable, but deleted with their master. Use it when the related records are real objects in their own right but should not outlive the record they belong to.
+- **Plain link** — a forward reference to an independent record with no ownership. The linked record lives on its own and is unaffected when the linking record is deleted. Use it for shared references: the photographer of a photo, a product's category.
 
 ## See also
 
-- [Records and objecttypes](records-and-objecttypes.md) — what nested rows are nested under.
-- [Hierarchies and polyhierarchies](hierarchies-and-polyhierarchies.md) — records nested under records, a different kind of nesting.
-- [The datamodel](the-datamodel.md) — where nested tables are declared.
-- [Permissions](permissions.md) — why nested rows inherit their parent's permissions.
+- [Records and objecttypes](records-and-objecttypes.md) — the rows and columns these tables are built from.
+- [Hierarchies and polyhierarchies](hierarchies-and-polyhierarchies.md) — parent-child links between records, which reverse-hierarchical fields display.
+- [The datamodel](the-datamodel.md) — where nested and reverse links are declared.
+- [Permissions](permissions.md) — nested rows take their containing record's permissions; reverse-nested records carry their own.
