@@ -10,7 +10,7 @@ Because they are separate, a record can have a file replaced — a re-scan, a co
 
 ## A file field holds a list of files
 
-A file field's value is not a single file but a **list** of files. One field can hold several at once — the front and back of a postcard, multiple scans of one page. Exactly one file in the list is the **preferred** file, and fylr uses the preferred file wherever it needs a single image to stand for the record: the thumbnail in a result grid, the preview on the detail page, an avatar. When a field holds one file, that file is the preferred one.
+A file field's value is not a single file but a **list** of files, called its **variants**. One field can hold several at once — the front and back of a postcard, several scans of one page. Exactly one variant is the **preferred** one, which fylr uses wherever it needs a single image to stand for the record: the thumbnail in a result grid, the preview on the detail page, an avatar. When a field holds one file, that file is the preferred variant.
 
 The file field itself holds only the files. It carries no description of each file beyond the file's own technical data. Descriptive information about a particular file — a caption, a photographer, a usage right — is held in ordinary fields next to it.
 
@@ -20,21 +20,18 @@ A single file field suits a small, fixed set of files. To hold many files per ob
 
 A museum's record for a vase might have a nested table of photographs — each row one photograph with its caption, photographer and date — and a separate nested entry holding the loan agreement as a document. The vase is one record; its ten photographs and its contract are nested rows under it, each carrying its own file. This is the usual way a single object accumulates many files without crowding them into one cell.
 
-## What a file is
+## Original and renditions
 
-Each file is an uploaded **original** together with everything fylr derives from it. On upload, fylr:
+Each variant is an uploaded **original** together with everything fylr derives from it. On upload, fylr:
 
 1. stores the **original** — the unaltered bytes — and records the uploader, the time, the original filename and the file's hash;
-2. assigns the file a **class** (see below), which determines how it is processed;
-3. produces a set of derived files — a thumbnail for grids, a preview for the detail page, a larger image for zooming, a poster frame for video;
+2. assigns it a **class** (see below), which determines how it is processed;
+3. produces a set of **renditions** — a thumbnail for grids, a preview for the detail page, a larger image for zooming, a poster frame and a smaller copy for video;
 4. extracts technical metadata: dimensions, DPI and colour profile for images; duration and codec for audio and video; page count for documents.
 
-The derived files have names:
+A **rendition** is a rendering derived from the original. It can be a smaller image, a smaller video, or a different format altogether — a PDF generated from an office document, for example. The original is never modified; renditions are produced from it, and each has a status while it is produced.
 
-- **Original** — the file as uploaded. fylr does not modify it.
-- **Version** — a file derived from the original, such as a thumbnail, preview or zoom image. A file has several versions, each with a status while it is produced.
-- **Variant** — a rendering prepared for download, in a particular resolution and format.
-- **Rendition** — any file that is not the original. Versions and variants are both renditions.
+(In fylr, _version_ is not a file term. A version is a [record's](records-and-objecttypes.md) version; the files derived from an original are renditions.)
 
 ## Classes
 
@@ -44,8 +41,8 @@ A file's **class** is its broad category: image, video, audio, document, office,
 
 Saving a record does not move its files. Editing the caption, adding a tag or changing a link leaves the files untouched. Replacing a file follows one of two paths:
 
-- **Replace** — a file in the list is swapped for a new one.
-- **New version of the original** — the original is updated, for example with a cropped or rotated file, and the renditions are produced again.
+- **Replace a variant** — a file in the list is swapped for a new one.
+- **Replace the original** — the original is updated, for example with a cropped or rotated file, and its renditions are produced again.
 
 When a record is moved to the [trash](records-and-objecttypes.md), its files stay available, so an undelete restores them. When a record is purged, its files are released for cleanup by the **janitor**, a background process that removes files no record references, drains the trash on schedule, and reclaims storage. Until the janitor runs, the underlying files remain on disk.
 

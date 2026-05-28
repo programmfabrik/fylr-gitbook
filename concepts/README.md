@@ -11,7 +11,7 @@ The pages are ordered. Each one only uses words that earlier pages introduced.
 ## Read in this order
 
 1. **[Records and objecttypes](records-and-objecttypes.md)** — start here. What is a record? What is an objecttype? How do they relate?
-2. **[Files and assets](files-and-assets.md)** — files versus records; originals, versions, variants, renditions.
+2. **[Files and assets](files-and-assets.md)** — files versus records; a file field holds variants; originals and renditions.
 3. **[The datamodel](the-datamodel.md)** — the schema for all your objecttypes. Versions, HEAD vs CURRENT, how changes are committed.
 4. **[Hierarchies and polyhierarchies](hierarchies-and-polyhierarchies.md)** — when objecttypes form trees; single-parent vs multiple-parent.
 5. **[Nested and reverse-nested tables](nested-and-reverse-nested.md)** — rows that live inside another record instead of standing on their own.
