@@ -1,80 +1,64 @@
 # Collections and publishing
 
-Two threads come together on this page: a way for users to **gather** records they care about (collections), and a way to **expose** those records to the outside world (publishing). The two are separate features and you can use either without the other, but they meet often enough — a curator picks 30 photos into a collection and then publishes them as a press kit — that they belong on one page.
+This page covers two features: gathering records into sets (collections), and exposing records to the outside (publishing). They are separate and can be used independently, but are often used together — a set of photos gathered into a collection and then published as a press kit.
 
 ## Collections
 
-A **collection** is a user-curated grouping of records. The closest analogy is a folder: a named container the user puts things into. The mechanics are different from a [pool](pools.md) in three important ways.
+A **collection** is a user-curated set of records. It is like a folder, with three differences from a [pool](pools.md):
 
-- **Records can sit in many collections at once.** A photograph already lives in exactly one pool, but it can also belong to the "Best of 2025" collection, to the "Press kit, March" collection, and to a colleague's "candidates for review" collection. Collections don't move records; they just gather references to them.
-- **A collection can mix objecttypes freely.** A press kit collection might contain photographs, the press release Article, and a Person record for the spokesperson. The pool of each of those records doesn't change.
-- **Collections are made by users.** Where pools are an administrative structure laid out once and changed rarely, collections are a workspace feature — anyone with permission to create them can.
+- A record can be in many collections at once. A photograph lives in one pool but can also be in "Best of 2025", in "Press kit, March", and in a colleague's review set. A collection gathers references to records; it does not move them.
+- A collection can mix objecttypes. A press kit can hold photographs, the press-release Article, and a Person record for the spokesperson.
+- Collections are made by users, where pools are an administrative structure. Anyone with permission to create collections can.
 
-Collections form a tree of their own (each user has their own top-level collection at the root of the user's sub-tree; sub-collections sit underneath), but the tree is mostly a UI convenience, not the structural backbone that the pool tree is.
+Collections form a tree, with each user's collections under their own top-level collection. The tree is an organising convenience rather than the structural backbone the pool tree is.
 
-A collection has its own permissions: who can see it, who can edit it, who can add or remove members. Granting access to a collection lets recipients see the records the collection contains, even if they wouldn't otherwise have direct access to those records — sharing a collection is one of the main ways material moves between people inside the instance.
+A collection has its own permissions: who can see it, edit it, and change its memberships. Granting access to a collection lets recipients see the records it contains, even records they would not otherwise have direct access to. Sharing a collection is a common way material moves between people in an instance.
 
 ## System collections
 
-Every instance has a few collections it doesn't let you delete. The **root collection** at the top of the tree exists so the tree has a root; every user gets a personal top-level collection underneath the root the first time they log in, which is also a system collection — it's where their own sub-collections hang.
-
-System collections behave like ordinary collections for read and use, but they can't be removed. The flag marking a collection as a system collection isn't user-editable.
+Some collections cannot be deleted. The **root collection** is the top of the tree. Each user gets a personal top-level collection beneath the root on first login, which holds their own collections; it too cannot be deleted. System collections are used like ordinary collections but cannot be removed.
 
 ## Pin-protected collections
 
-A collection can be **pin-protected**: a four-digit (or longer) code the recipient has to enter once before fylr will let them see the contents. The pin is set by the owner when sharing; recipients enter it once and fylr remembers that they've passed it for that collection.
-
-The pin is not a substitute for permissions. It is a **second factor** for sharing, on top of the ACL: even a recipient with permission to read the collection has to enter the pin before the contents render. The intended use case is sharing with people whose account already exists but who need an extra friction step for sensitive material — a contract collection, a yet-unreleased catalogue.
+A collection can be **pin-protected**: a code the recipient enters once before its contents are shown. The pin is a second step on top of permissions, not a replacement for them — a recipient with permission to read the collection still enters the pin first. It is used when sharing sensitive material with people who already have an account.
 
 ## Presentations
 
-A **presentation** is a collection used as a slideshow rather than a list. The records inside the collection become the slides; an ordering and per-slide annotations live alongside the collection's contents. The collection itself isn't a different basetype — it is still a collection — it just carries presentation data on the side, and the UI knows to render it as a slideshow when that data is present.
-
-This is why "what's the difference between a collection and a presentation" is usually a question about UI affordance, not data shape: a presentation is a collection with slide settings attached, and converting one into the other is a matter of adding (or removing) those settings.
+A **presentation** is a collection shown as a slideshow rather than a list. The records in the collection are the slides; an order and per-slide annotations are held alongside the collection. A presentation is still a collection — it carries presentation settings, and the interface shows it as a slideshow when those settings are present. Adding or removing those settings converts between the two.
 
 ## Publishing
 
-Where collections gather records for users _inside_ the instance, **publishing** exposes records to viewers _outside_ it.
+Where collections gather records inside the instance, **publishing** exposes records outside it.
 
-A **publication** is a single recorded act of exposing some material: this record (or this collection's records) is being made available at this public URL by this pipeline.
+A **publication** is a single act of exposing material: a record, or a collection's records, made available at a public URL by a particular pipeline. A publication holds:
 
-The shape of a publication:
+- **The source** — which record or collection is published.
+- **The collector** — the pipeline that produces the publication. One produces a PDF, another a public gallery page; plugins add more.
+- **The public URL** the collector produces, which an external viewer opens.
+- **A link back into fylr** — for users with an account, the same publication links to the source record in the editor.
 
-- **The source.** Which record (and, by extension, which collection if the record _is_ a collection) is being published.
-- **The collector** — the pipeline that produces the publication. `pdf_creator` produces a PDF; `gallery` produces a public gallery web page; other collectors can be added by plugins.
-- **The public URL** the collector emits. This is what an external viewer types into their browser.
-- **The deep-link URL back into fylr** — for users with an account, the same publication carries a link that opens the source record in the editor.
-
-Publications are recorded objects (basetype `publish`); they can be listed, audited, and revoked. Revoking a publication unsets its public URL — external viewers who have the URL get a not-found from then on.
-
-A handful of common collectors ship with fylr (PDF, gallery, share-link). Plugins add their own, and a publication carries its collector's name so the UI can offer the right management interface for it.
+Publications are recorded and can be listed, audited and revoked. Revoking a publication removes its public URL; viewers who have the URL then get a not-found.
 
 ## Deep links
 
-A **deep link** is a public URL that exposes a single record's data directly — typically an XML representation, accessible without an account. Set up on a record (or via a publication), it lets external systems pull the record's metadata over HTTP the same way they'd pull from any other web resource.
-
-Deep links don't carry their own per-link permissions: once a deep link exists, anyone with the URL can read what it returns. The control point is whether the deep link is published in the first place. If an instance needs per-recipient access, an authenticated API call or a pin-protected collection is the right tool — not a deep link.
+A **deep link** is a public URL that returns a single record's data directly, usually as XML, without an account. It lets an external system read a record's metadata over HTTP. A deep link has no per-link permissions: anyone with the URL can read what it returns, so the control is whether the deep link is published at all. For per-recipient access, an authenticated request or a pin-protected collection is used instead.
 
 ## WebDAV access
 
-A collection can be **exposed as a WebDAV folder**: a network drive an operating system can mount, with the collection's records (and especially their files) appearing as files inside that drive.
+A collection can be exposed as a **WebDAV folder** — a network drive an operating system can mount, with the collection's records and files appearing as files. Two kinds are available per collection:
 
-Two kinds of WebDAV access are available per collection:
+- **Read-and-write** — the collection is a mountable folder; files can be copied out, copied in, edited and renamed, and fylr keeps the records in sync.
+- **Hotfolder** — write-only; files dropped in create new records in the collection, but existing contents are not exposed back. Used as an upload drop zone.
 
-- **Read-and-write WebDAV** turns the collection into a mountable folder. Files can be copied out, copied in, edited, renamed; fylr keeps the underlying records in sync.
-- **Hotfolder WebDAV** is write-only — files dropped into the folder create new records in the collection, but the folder doesn't expose existing contents back to the user. Used as an upload drop zone for batch workflows.
-
-WebDAV is gated by the collection's ACL: only users with the right permissions on the collection are allowed to mount it. The URL fylr exposes per collection is per-user; sharing the URL doesn't share the access.
+WebDAV is gated by the collection's permissions, and the URL is per user; sharing the URL does not share access.
 
 ## IIIF
 
-For image assets, fylr also speaks **IIIF** — the International Image Interoperability Framework. IIIF is a public standard for image servers used widely by museums, libraries and archives; consuming clients include Mirador, Universal Viewer, and most institutional viewer software.
-
-When fylr serves an image over IIIF, the URL is recognisable to any IIIF viewer and the image becomes pannable, zoomable and croppable inside that viewer without further configuration. The IIIF URL on an image asset is what you'd hand to a partner institution running their own viewer.
+For image files, fylr serves **IIIF** — the International Image Interoperability Framework, a standard used by museums, libraries and archives and supported by viewers such as Mirador and Universal Viewer. An image served over IIIF can be panned, zoomed and cropped in any IIIF viewer. The IIIF URL of an image is what is handed to a partner institution running its own viewer.
 
 ## See also
 
-- [Records and objecttypes](records-and-objecttypes.md) — what collections collect, what publications expose.
-- [Files and assets](files-and-assets.md) — where IIIF and WebDAV ultimately serve from.
-- [Permissions](permissions.md) — collection ACLs and the collection-bag rights.
-- [FOR USERS → Collections & Presentations](../for-users/quick-access/collections-and-presentations.md) — the user-facing guide to working with collections.
+- [Records and objecttypes](records-and-objecttypes.md) — what collections gather and publications expose.
+- [Files and assets](files-and-assets.md) — what IIIF and WebDAV ultimately serve.
+- [Permissions](permissions.md) — collection permissions and sharing.
+- [FOR USERS → Collections & Presentations](../for-users/quick-access/collections-and-presentations.md) — the user guide.
