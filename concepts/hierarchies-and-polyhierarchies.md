@@ -22,9 +22,9 @@ In both cases fylr also provides the reverse direction: given a record, it can l
 
 ## Polyhierarchy and per-record permissions
 
-A polyhierarchical objecttype cannot also carry its own per-record permissions. With more than one parent, there is no single parent for a record to inherit permissions from, and the datamodel rejects the combination. A polyhierarchical objecttype's records take their permissions from their pool.
+A polyhierarchical objecttype cannot also carry its own per-record permissions. The datamodel rejects an objecttype configured as both polyhierarchical and permission-bearing. Records of a polyhierarchical objecttype take their permissions from their pool.
 
-This is the usual reason to reconsider a polyhierarchy. If records must carry their own permissions, the relationship has to be a single-parent tree, or the permissions have to sit on the pool.
+So if records of an objecttype must carry their own permissions, that objecttype cannot be polyhierarchical.
 
 ## Choosing between them
 
