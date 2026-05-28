@@ -1,12 +1,12 @@
 # Hierarchies and polyhierarchies
 
-An objecttype can be configured so that its records form a tree or a graph, with records standing in a parent relationship to one another. fylr supports two shapes for this.
+An objecttype can be configured so that its records stand in a parent relationship to one another, forming a hierarchy. fylr supports two forms.
 
-## Two shapes
+## Two forms
 
-A **hierarchical** objecttype gives each record at most one parent. Its records form a tree: a location structure (Continent → Country → Region → City), an editorial structure (Imprint → Series → Title), a taxonomy where each term has one broader term.
+A **hierarchical** objecttype gives each record at most one parent. Its records form a tree, each record sitting in one place: a location structure (Continent → Country → Region → City), an editorial structure (Imprint → Series → Title), a taxonomy where each term has one broader term.
 
-A **polyhierarchical** objecttype gives each record any number of parents. Its records form a directed acyclic graph (DAG): a subject "Beach holiday" under both "Travel" and "Leisure", an ingredient under both "Vegetable" and "Vitamin source", a subject heading under several broader headings.
+A **polyhierarchical** objecttype gives each record any number of parents. The structure is still a hierarchy of parents and children, but a record can sit under several parents at once and so appears in more than one place in it: a subject "Beach holiday" under both "Travel" and "Leisure", an ingredient under both "Vegetable" and "Vitamin source", a subject heading under several broader headings.
 
 An objecttype is hierarchical, polyhierarchical, or neither — never both.
 
