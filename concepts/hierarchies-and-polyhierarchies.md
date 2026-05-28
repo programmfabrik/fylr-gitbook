@@ -16,6 +16,8 @@ In a hierarchical objecttype, each record holds a single parent reference, point
 
 In a polyhierarchical objecttype, each record holds a list of parents — zero, one or many. fylr maintains the list as parent references are added and removed.
 
+The top level is itself a parent here. fylr provides a pseudo root node, and a record can be a child of that root and a child of other records at the same time — which is how a record appears at the top level and elsewhere simultaneously. Being at the top level is one of the parents a record holds, not the absence of a parent.
+
 In both cases fylr also provides the reverse direction: given a record, it can list the records whose parent reference points to it. This reverse view drives tree-shaped pickers in the interface and traversal from the top of the structure downward.
 
 ## Polyhierarchy and per-record permissions
