@@ -48,11 +48,14 @@ Saving a record does not move its files. Editing the caption, adding a tag or ch
 
 When a record is moved to the [trash](records-and-objecttypes.md), its files stay available, so an undelete restores them. When a record is purged, its files are released for cleanup by the **janitor**, a background process that removes files no record references, drains the trash on schedule, and reclaims storage. Until the janitor runs, the underlying files remain on disk.
 
-## Stored or referenced
+## Copied or referenced
 
-By default fylr copies an uploaded file into its own store, so it can produce renditions, apply watermarks, serve the file under its own URLs, and keep it available if the source goes offline.
+Where the original is held is chosen at upload, independently of whether renditions are produced.
 
-A second mode keeps the file where it already is — a video on a CDN, an image at another institution's image server. In this mode fylr keeps a reference rather than a copy and does not produce renditions; the record points at the external URL, and fylr cannot then guarantee the file's availability or produce its own renditions of it.
+- **Copied into fylr's store** (the default). fylr copies the original into its own storage and holds it from then on.
+- **Referenced at a remote URL.** The original stays where it already is — a video on a CDN, an image at another institution's server — and fylr holds a reference to it rather than a copy. A referenced file can exceed the usual upload size limits, since fylr is not storing it; fylr checks that the reference is reachable.
+
+Producing renditions is a separate choice. fylr can produce renditions whether the original is copied or referenced — fetching a referenced original from its URL when it needs to — or it can hold a file and produce none. Because a referenced original is not held by fylr, its continued availability depends on the remote host.
 
 ## See also
 
