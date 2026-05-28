@@ -29,9 +29,11 @@ A mask does not change the record. The stored data is the same whichever mask is
 
 The choice is usually automatic: the interface uses the pool's preferred mask, or the standard mask if there is none.
 
-## Sub-masks
+## Reaching past the objecttype
 
-A mask field that holds a [nested or reverse-nested table](nested-and-reverse-nested.md) is itself rendered by a mask — a **sub-mask**, which is simply a mask used at a deeper level to select and present the fields of those sub-rows. It is an ordinary mask; nothing about it is special beyond sitting one level down.
+A mask is anchored to one objecttype, but the fields it shows are not limited to that objecttype's own columns. Where the objecttype has a [nested or reverse-nested table](nested-and-reverse-nested.md), the mask can include it, and the rows of that table are shown and edited inline within the mask.
+
+This is how one view reaches past a single objecttype. A mask on an object can present, in the same form, the object's own fields, its nested rows, and the reverse-nested records that belong to it — a museum object shown together with its resources, for example. Because reverse-nested rows are records of another objecttype, a mask that includes them extends beyond its own objecttype's scope: through it a user reads and edits records of more than one objecttype at once.
 
 ## See also
 
