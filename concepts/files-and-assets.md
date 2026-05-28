@@ -33,6 +33,8 @@ A **rendition** is a rendering derived from the original. It can be a smaller im
 
 (In fylr, _version_ is not a file term. A version is a [record's](records-and-objecttypes.md) version; the files derived from an original are renditions.)
 
+Which renditions are produced is set by a **produce configuration**: a set of **recipes**, each selected by file class and other file metadata, that defines what to derive from an original. fylr ships a **default produce configuration**; an instance can define its own in its base configuration, and recipes can be set per objecttype and per pool, so different kinds of record produce different renditions. The mechanics — recipe states, the production queue, reproducing renditions — are covered in [Files and version production](../files-and-version-production.md).
+
 ## Classes
 
 A file's **class** is its broad category: image, video, audio, document, office, or other. The class is not the MIME type. The MIME type is specific (`image/jpeg`, `application/pdf`); the class is the category fylr treats the file as. Several MIME types map to one class — `image/jpeg`, `image/png` and `image/tiff` all map to image — and the class determines which production pipeline runs. The class is also used in permissions: a grant can restrict uploads to specific classes without listing individual MIME types.
