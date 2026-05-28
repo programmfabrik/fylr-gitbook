@@ -58,4 +58,4 @@ A second mode keeps the file where it already is — a video on a CDN, an image 
 - [Nested and reverse-nested tables](nested-and-reverse-nested.md) — how an object holds many files, each with its own metadata.
 - [Permissions](permissions.md) — class-based and per-rendition limits on uploads and downloads.
 - [Collections and publishing](collections-and-publishing.md) — how files are exposed through publishing, IIIF and WebDAV.
-- [FOR ADMINISTRATORS](../for-administrators/) — configuring which versions are produced and which classes are allowed.
+- [FOR ADMINISTRATORS](../for-administrators/) — configuring which renditions are produced and which classes are allowed.
