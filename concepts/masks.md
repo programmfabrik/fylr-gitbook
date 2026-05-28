@@ -1,47 +1,41 @@
 # Masks
 
-A **mask** is a view of one objecttype. It selects a subset of the objecttype's fields, decides how each is shown, and has a name. An objecttype usually has several masks for different tasks: a full editing form for a cataloguer, a short form for a reviewer, a summary for a search result.
+A **mask** is a view of one objecttype. It selects a subset of the objecttype's fields, decides how each one is shown and whether it can be edited, and has a name. An objecttype usually has several masks for different tasks: a full editing form for a cataloguer, a short form for a reviewer, a summary for a search result.
+
+## All data goes through a mask
+
+Every read and every write of a record names a mask. There is no direct, mask-less access to record data — data comes in and goes out through a mask, always. The mask selects which fields are present in the data and whether each one is read-only or editable.
+
+This makes the mask the point where field-level access is decided. The fields a user can read and write are exactly the fields of the mask they use. A user restricted to a mask that omits a field cannot read or write that field, because no request reaches the data except through a mask. There is no separate per-field permission at the data level; the mask is that control. (An objecttype can also carry per-field display settings, but those affect only the frontend, not what the data interface returns or accepts.)
 
 ## What a mask controls
 
 For each field it includes, a mask decides:
 
-- **Whether the field is shown.** A field not listed by the mask is not shown when that mask is in use.
+- **Whether the field is present.** A field not listed by the mask is not read or written through it.
 - **Whether it is editable or read-only.** A field can be editable in one mask and read-only in another.
 - **Whether it is required.** A mask can require a field on top of what the objecttype requires.
-- **Its default value.** A quick-entry mask can pre-fill a field so the user types less.
-- **How a linked record is shown.** When the field links to another record, the mask sets which sub-mask renders that record (see below).
+- **Its default value.** A quick-entry mask can pre-fill a field so the user enters less.
 
-A mask can also set how a record's own system information is shown — which system fields appear, their labels and defaults. This is separate from the field list because it concerns information fylr maintains rather than fields the objecttype defines.
+A mask can also set how a record's system information is presented — which system fields appear, their labels and defaults.
 
-A mask does not change the record. The data is the same whichever mask views it; the mask sets what is shown and what can be edited through that view.
+A mask does not change the record. The stored data is the same whichever mask is used; the mask sets which fields are exchanged and whether they can be edited.
 
 ## Standard mask, preferred mask, all-fields view
 
 - **Standard mask.** Each objecttype has one mask set as its standard mask in the datamodel. fylr uses it when nothing has overridden the choice.
-- **Preferred mask.** A [pool](pools.md) can override the standard mask for an objecttype: within that pool, records of the objecttype use the preferred mask instead of the objecttype's standard mask.
-- **All-fields view.** A built-in view that returns every field of the objecttype with no filtering. It is restricted to the system administrator, since it bypasses the field selection that masks apply.
+- **Preferred mask.** A [pool](pools.md) can override the standard mask for an objecttype: within that pool, records of the objecttype use the preferred mask instead.
+- **All-fields view.** A built-in view returning every field of the objecttype with no filtering. It is restricted to the system administrator, since it bypasses the field selection masks apply.
 
 The choice is usually automatic: the interface uses the pool's preferred mask, or the standard mask if there is none.
 
 ## Sub-masks
 
-When a field links to another record, that record has to be shown somehow. A **sub-mask** is a mask used inside another mask's field to render the linked record — for example a Photo mask showing the photographer's name and portrait inline where it links to the Photographer. A sub-mask is an ordinary mask, with its own field list and rules, chosen by the parent field rather than by a pool or screen. Sub-masks can contain sub-masks; fylr stops at one level of nesting when rendering.
-
-Some mask features apply only at the top level. The system-field settings are top-level only; a sub-mask renders part of another record and does not redefine that record's system information.
-
-## Masks versus permissions for hiding a field
-
-A field can be hidden from a view in two ways, used for different reasons.
-
-- **To leave a field off a screen,** use a mask. A reviewer mask that omits a field omits it for that screen only; the same user, through another mask, would see it.
-- **To prevent a user from seeing a field anywhere,** use [field-level permissions](permissions.md). A field hidden by a mask is still readable through another mask; a field restricted by permissions is not.
-
-The test: if a user with a different mask may see the field, a mask is enough. If not, use permissions.
+A mask field that holds a [nested or reverse-nested table](nested-and-reverse-nested.md) is itself rendered by a mask — a **sub-mask**, which is simply a mask used at a deeper level to select and present the fields of those sub-rows. It is an ordinary mask; nothing about it is special beyond sitting one level down.
 
 ## See also
 
 - [Records and objecttypes](records-and-objecttypes.md) — what a mask is a view of.
 - [The datamodel](the-datamodel.md) — where masks are declared.
 - [Pools](pools.md) — the per-pool preferred mask.
-- [Permissions](permissions.md) — for hiding a field as a restriction rather than as decluttering.
+- [Permissions](permissions.md) — which masks a user may use; masks are how field access is controlled.
