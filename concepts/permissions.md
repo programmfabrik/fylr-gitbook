@@ -4,7 +4,7 @@ fylr checks a permission on almost every action: reading a record, writing to a 
 
 ## Two layers
 
-**System rights** are instance-wide capabilities not tied to a particular record: editing the datamodel, managing tags, resetting other users' passwords, seeing deleted records. Each is granted to a user, directly or through a group, and applies across the instance.
+**System rights** are instance-wide capabilities not tied to a particular record: editing the datamodel, managing tags, managing user accounts, seeing deleted records. Each is granted to a user, directly or through a group, and applies across the instance.
 
 **Permission grants** apply to a specific resource: reading a pool, editing a record, inviting users to a collection. Each grant is attached to one resource and states who may do what on it.
 

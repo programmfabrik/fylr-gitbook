@@ -27,9 +27,9 @@ Each of these has a switch — private permissions, private transitions, private
 
 A pool's name, description, contained records, and root status are local and are not inherited.
 
-## The system pool
+## System pools
 
-Every instance has a **system pool** that fylr uses for objects that need a pool but do not belong to any administrator-created pool. It cannot be deleted, and the marker identifying it cannot be moved to another pool — there is exactly one.
+fylr maintains its own **system pools** for objects that need a pool but do not belong to any administrator-created pool. They cannot be deleted, and the marker that identifies a pool as a system pool cannot be set or changed through the API.
 
 ## Owner and pool contact
 

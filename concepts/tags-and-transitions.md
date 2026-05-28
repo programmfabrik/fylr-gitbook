@@ -42,11 +42,10 @@ On an automatic transition, a tag filter usually states which records the transi
 
 A transition runs an ordered list of **actions** when it fires. The set is extended by plugins; the common ones:
 
-- Set or remove tags on the record.
-- Change the owner to a user, a group, the owner principal or the pool contact.
-- Move the record to another pool.
-- Send an email — to the owner, the pool contact, a fixed address or a list.
-- Call a webhook with a configured payload.
+- Set tags on the record.
+- Change the owner to a user or group.
+- Send an email.
+- Call a configured webhook.
 - Run a plugin operation.
 
 Actions run in order. If one fails, the rest are skipped and the transition rolls back, so the record is not left in a half-changed state.

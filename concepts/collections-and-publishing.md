@@ -16,7 +16,7 @@ A collection has its own permissions: who can see it, edit it, and change its me
 
 ## System collections
 
-Some collections cannot be deleted. The **root collection** is the top of the tree. Each user gets a personal top-level collection beneath the root on first login, which holds their own collections; it too cannot be deleted. System collections are used like ordinary collections but cannot be removed.
+Some collections cannot be deleted. The **root collection** is the top of the tree. Beneath it, each user has a personal top-level collection, created automatically, which holds their own collections; it too cannot be deleted. System collections are used like ordinary collections but cannot be removed.
 
 ## Pin-protected collections
 
@@ -37,7 +37,7 @@ A **publication** is a single act of exposing material: a record, or a collectio
 - **The public URL** the collector produces, which an external viewer opens.
 - **A link back into fylr** — for users with an account, the same publication links to the source record in the editor.
 
-Publications are recorded and can be listed, audited and revoked. Revoking a publication removes its public URL; viewers who have the URL then get a not-found.
+Publications are recorded and can be listed and removed. Removing a publication takes down its public URL, so it no longer resolves.
 
 ## Deep links
 
