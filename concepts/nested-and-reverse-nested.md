@@ -22,7 +22,7 @@ Because the rows are records of their own objecttype, they have their own Object
 
 The reverse marking makes the containing record the **master**: it manages the lifecycle of the records that link to it. Deleting the containing record deletes the records that reverse-link to it, even though those records live in another objecttype and can otherwise be used on their own.
 
-A product with its reviews, where Review is its own objecttype that links to Product: the reviews are independent records — searchable, editable, addressable — but deleting the product deletes its reviews.
+A museum **object** and its **resources** is a real example of this. A resource is a record of its own objecttype — a photograph or scan of the object, carrying its own description, viewpoint, reproduction type, licence, rights-holder and credit line — that links back to the object. Each resource can be searched and edited on its own, but deleting the object deletes its resources.
 
 Reverse-nested tables can also be nested.
 
