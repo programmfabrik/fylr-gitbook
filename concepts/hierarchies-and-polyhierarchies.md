@@ -1,43 +1,41 @@
 # Hierarchies and polyhierarchies
 
-Some kinds of record only make sense as a tree. A Department has a parent department. A Taxonomy term has a broader term. A Subject heading has a more general subject heading. The relationship between a record and its "parent" is special enough that fylr offers two purpose-built shapes for it.
-
-This page is about those two shapes — when each is the right tool, and the consequences of choosing one over the other.
+An objecttype can be configured so that its records form a tree or a graph, with records standing in a parent relationship to one another. fylr supports two shapes for this.
 
 ## Two shapes
 
-When the datamodel marks an objecttype as **hierarchical**, every record of that objecttype can have **at most one parent**. The records of that objecttype together form a classic tree: the museum's location hierarchy (Continent → Country → Region → City), the publishing house's editorial structure (Imprint → Series → Title), a taxonomy where every term has exactly one broader term.
+A **hierarchical** objecttype gives each record at most one parent. Its records form a tree: a location structure (Continent → Country → Region → City), an editorial structure (Imprint → Series → Title), a taxonomy where each term has one broader term.
 
-When the datamodel marks an objecttype as **polyhierarchical**, every record of that objecttype can have **any number of parents**. The records form a directed acyclic graph (DAG) rather than a tree: a Photo Subject "Beach holiday" might sit under both "Travel" and "Leisure", a Recipe Ingredient under both "Vegetable" and "Vitamin source", a Subject Heading under several broader headings.
+A **polyhierarchical** objecttype gives each record any number of parents. Its records form a directed acyclic graph (DAG): a subject "Beach holiday" under both "Travel" and "Leisure", an ingredient under both "Vegetable" and "Vitamin source", a subject heading under several broader headings.
 
-The two are **mutually exclusive**. An objecttype is hierarchical, polyhierarchical, or neither — never both. They model different things, and the difference matters as soon as the tooling for parent-aware behaviour kicks in.
+An objecttype is hierarchical, polyhierarchical, or neither — never both.
 
-## How parents are kept
+## How parents are held
 
-When the objecttype is hierarchical, every record carries a single **parent link** — a pointer to one other record of the same objecttype (or no parent at all, in which case the record is at the root of the tree). The link is a stored value on the record, just like any other field; reading the record gives you its parent immediately.
+In a hierarchical objecttype, each record holds a single parent reference, pointing to one other record of the same objecttype, or to none if the record is at the root. Reading the record gives its parent.
 
-When the objecttype is polyhierarchical, every record carries a **list of parents** instead. There can be zero, one, or many entries. The list is exposed as a system field on the record — fylr maintains it automatically as parent links are added and removed.
+In a polyhierarchical objecttype, each record holds a list of parents — zero, one or many. fylr maintains the list as parent references are added and removed.
 
-In both cases, fylr lets you ask for the child side of the relationship too: given a record, the **reverse view** lists every record whose parent link points back at it. The reverse view is what powers tree-shaped pickers in the UI ("show me the children of Country=Germany") and what makes it possible to traverse the structure from the top down.
+In both cases fylr also provides the reverse direction: given a record, it can list the records whose parent reference points to it. This reverse view drives tree-shaped pickers in the interface and traversal from the top of the structure downward.
 
-## Why polyhierarchies can't also be ACL-bearing
+## Polyhierarchy and per-record permissions
 
-If a polyhierarchical objecttype were also configured to carry its own per-record permissions, fylr would have to decide what those permissions inherit from when a record has more than one parent. There is no honest answer to that question: each parent might confer different permissions, and silently picking one would surprise an administrator who had granted the other. fylr's datamodel validator rejects the combination outright. A polyhierarchical objecttype either takes its permissions from its pool or has no per-record permissions at all.
+A polyhierarchical objecttype cannot also carry its own per-record permissions. With more than one parent, there is no single parent for a record to inherit permissions from, and the datamodel rejects the combination. A polyhierarchical objecttype's records take their permissions from their pool.
 
-This is the most common reason a modeller pulls back from polyhierarchy. If the records absolutely need their own ACL — sensitive material that must be locked down per item — then either the parent relationship must collapse to a single-parent tree, or the ACL has to move to the pool.
+This is the usual reason to reconsider a polyhierarchy. If records must carry their own permissions, the relationship has to be a single-parent tree, or the permissions have to sit on the pool.
 
-## When to pick which
+## Choosing between them
 
-The most useful question is: _can a single record honestly belong to more than one parent in the real world?_
+The deciding question is whether a single record can belong to more than one parent in the real world.
 
-- **Pick hierarchy** when the answer is no. Locations, departments, subordination structures, file-system-shaped folders, dictionary-style taxonomies where one term has one broader term.
-- **Pick polyhierarchy** when the answer is yes and the user expects to navigate from any of those parents to the record. Tag-style categorisation, subject headings, faceted classification, recipe ingredients that fall into multiple food groups.
+- **Hierarchy** — when it cannot. Locations, departments, reporting structures, folder-shaped taxonomies where each term has one broader term.
+- **Polyhierarchy** — when it can, and the record should be reachable from each of its parents. Subject headings, faceted classification, items that fall into several categories.
 
-A third option is to **pick neither** — treat the parent relationship as an ordinary link between records, not a structural relation. This costs you the tree-aware UI and the reverse view, but it's the right call when the relationship is more like "see also" than "is a kind of".
+A third option is to use an ordinary link between records rather than a structural parent relationship. This gives up the tree-aware interface and the reverse view, and suits relationships closer to "see also" than "is a kind of".
 
 ## See also
 
-- [Records and objecttypes](records-and-objecttypes.md) — the building blocks. The flags on an objecttype.
-- [Nested and reverse-nested tables](nested-and-reverse-nested.md) — a different kind of nesting (rows inside a single record, not records inside records).
-- [Pools](pools.md) — pools also form a tree, but for a different reason and with different mechanics.
-- [Permissions](permissions.md) — why ACLs and polyhierarchy can't coexist on the same objecttype.
+- [Records and objecttypes](records-and-objecttypes.md) — the objecttype these are configured on.
+- [Nested and reverse-nested tables](nested-and-reverse-nested.md) — rows held inside a single record, a different kind of nesting.
+- [Pools](pools.md) — pools also form a tree, with different mechanics.
+- [Permissions](permissions.md) — why per-record permissions and polyhierarchy are mutually exclusive.
