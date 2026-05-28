@@ -1,85 +1,59 @@
 # Records and objecttypes
 
-Two words do more work in fylr than any others: **record** and **objecttype**. Almost every other concept on this site — masks, pools, permissions, files, collections — is ultimately a way of choosing _which records_ you mean, or _what shape_ they have, or _who can do what_ with them. Read this page first, then come back to it whenever a later page mentions one of these words and you want to be sure what it refers to.
+A **record** is a single stored thing in fylr — one photograph, one product, one article, one person. An **objecttype** is the definition that all records of one kind follow: which fields they have, what type each field is, which are required, which link to other objecttypes. "Photo", "Product", "Article", "Person" are objecttypes; the individual photographs and products are records.
 
-## A record is a single stored thing
+The relationship is the same as between a table and its rows. The objecttype is the definition; a record is one entry that follows it. An objecttype can exist with no records yet.
 
-A **record** is one entry in your fylr instance: one photograph, one product, one article, one person. If you imagine your data as a long set of filing cabinets, a record is one card in one drawer.
+## What a record carries
 
-Every record carries a small bundle of system information no matter what kind it is: a few identifiers, a version number, a creator, a creation timestamp, and whatever fields its objecttype defines.
+Every record carries a set of system information regardless of its objecttype: a set of identifiers, a version, an owner, a creation timestamp, and the fields defined by its objecttype.
 
-### How a record is identified
+### Identifiers
 
-Records carry four different identifiers — each one answers a different question.
+A record has four identifiers, each unique at a different scope.
 
-- **`_id`** is the record's number _within its objecttype_. The first Photo you ever store is `_id 1`; the first Product you ever store is also `_id 1`. The two are different records — the objecttype name plus the `_id` is what makes the pair unique.
-- **`_system_object_id`** is the record's number _within the whole instance_. Across every kind of record, no two share a `_system_object_id`. Tag references, collection memberships, permission grants and the event log all use the `_system_object_id` to point at a record.
-- **`_uuid`** is a UUID assigned once when the record is created. It survives database renames and re-imports, which makes it the right identifier to keep on file when records flow between systems.
-- **`_global_object_id`** is the `_system_object_id` qualified with the database it came from (written `<_system_object_id>@<database uuid>`). It is what's used when the same record might be referenced from a second fylr instance.
+- **Object ID** — unique within the objecttype. The first Photo created is Object ID 1; the first Product created is also Object ID 1. The objecttype together with the Object ID identifies a record.
+- **System Object ID** — unique within the instance. No two records of any objecttype share a System Object ID. References from elsewhere in fylr — collection memberships, tag references, permission grants, the event log — use the System Object ID.
+- **UUID** — assigned once when the record is created. It is preserved across database renames and re-imports, so it identifies a record when records move between systems.
+- **Global Object ID** — the System Object ID qualified with the database it originated in. It identifies a record when more than one fylr instance is involved. (The interface also labels this Global-System-ID.)
 
-Which one to use:
+The Object ID and System Object ID are settable while a record is new (version 1) and become fixed once the record has been saved.
 
-- Talking about one specific kind of record (Photos, Products) — `_id`.
-- Linking from elsewhere inside the same instance (collections, tags, permission grants, the event log) — `_system_object_id`.
-- Identifying the same record across two instances or after an import — `_uuid` or `_global_object_id`.
+### Version
 
-### How a record changes over time
+A record has a **version**, starting at 1 when it is created and incrementing by 1 on each save. A save must supply the version it started from. If the record has already moved to a higher version — because another user saved it in the meantime — the save is rejected rather than applied on top of the newer data.
 
-A record carries a **version number** that starts at 1 the moment it is created and goes up by one on every edit. When you save a change, you send back the version you started from; if someone else has already moved past it, fylr rejects your save. That is how two cataloguers can work on the same instance without silently overwriting each other.
+A museum cataloguer who creates the photograph _Strandkorb, Sylt, 1928_ as the first record in a new instance gets Object ID 1, System Object ID 1, a new UUID, and version 1. After three rounds of caption edits the record is at version 4; its identifiers are unchanged.
 
-If a museum cataloguer creates the photograph _"Strandkorb, Sylt, 1928"_ as the first Photo in a fresh instance, fylr issues `_id 1`, `_system_object_id 1` (it is also the first record of any kind), a fresh `_uuid`, and version 1. After three rounds of caption edits the record is at version 4; its identifiers have not moved.
+### Owner and creation
 
-## An objecttype is the shape every record of one kind must take
+A record records its **owner** — the user or group set as owner when it was created — and the timestamp of its creation. The owner can be referenced by permission grants (see [Permissions](permissions.md)).
 
-An **objecttype** is the schema for a kind of record: which fields exist, what types they have, which are required, which link to other objecttypes. "Photo", "Product", "Article", "Person", "Exhibition" are all objecttypes a real instance might define.
+## What an objecttype can do
 
-A record and its objecttype are not the same thing in the same way a row and a table are not the same thing. The objecttype is the description; the record is the instance. You can have a Photo objecttype with no Photo records yet, in the same way you can have an empty filing cabinet with the labels already printed.
+An objecttype is one of the kinds of record defined in the [datamodel](the-datamodel.md): Photo, Product, Article. These are defined per instance to match the data being stored.
 
-Objecttypes are defined in the [datamodel](the-datamodel.md). Several choices the datamodel offers about an objecttype carry across this whole site and are worth meeting now:
+Beyond listing the fields a record has, an objecttype sets how its records behave. Each of these is described on its own page:
 
-- An objecttype may live **inside a pool** (most user-content objecttypes do) or be **instance-global** (a handful of administrative ones are). See [Pools](pools.md).
-- An objecttype may carry **its own permissions** per record, or inherit them from the pool it lives in. See [Permissions](permissions.md).
-- An objecttype may **accept tags**, or not. See [Tags and transitions](tags-and-transitions.md).
-- An objecttype may form a **tree** (each record has at most one parent) or a **polyhierarchy** (each record can have any number of parents). See [Hierarchies and polyhierarchies](hierarchies-and-polyhierarchies.md).
-- An objecttype may be **a nested table** — records of this type don't stand on their own, they ship embedded inside records of another objecttype. See [Nested and reverse-nested tables](nested-and-reverse-nested.md).
+- Its records can live in a [pool](pools.md), or be instance-global.
+- Its records can carry their own [permissions](permissions.md), or inherit them from the pool.
+- Its records can accept [tags](tags-and-transitions.md).
+- It can form a tree, or a [polyhierarchy](hierarchies-and-polyhierarchies.md).
+- It can be a [nested table](nested-and-reverse-nested.md), whose records exist only inside records of another objecttype.
 
-Each later page picks up one of these threads.
-
-## Objecttype vs basetype
-
-The two words sound similar and do related work, but they sit on opposite sides of a clear line.
-
-- **Objecttypes** are the kinds of record _you_ design. Photo, Product, Article, Person, Exhibition — they encode the shape of your own data.
-- **Basetypes** are the object families _fylr_ provides out of the box to organise that data. You don't define basetypes; fylr ships them.
-
-The basetypes you'll meet across this section:
-
-- **Pool** — a container for records. See [Pools](pools.md).
-- **Collection** — a curated bundle of references to records. See [Collections and publishing](collections-and-publishing.md).
-- **Tag** and **taggroup** — labels users attach to records, and the groups admins organise tags into. See [Tags and transitions](tags-and-transitions.md).
-- **Term** — an indexed value that drives autocomplete and inspection lookups; distinct from tags.
-- **User** and **group** — accounts and groupings of accounts.
-
-Plus a handful that live mostly behind the scenes — events, messages, exports, right presets, tasks — surfaced where they matter (the event log, system messages) but not usually the thing a reader is looking up.
-
-So the **datamodel is the part you design**, and the basetypes are the scaffolding fylr already provides for organising, permissioning, tagging and discovering the records your datamodel produces.
+Around the records sit the structures fylr provides to organize them. [Pools](pools.md) and [collections](collections-and-publishing.md) gather records into buckets — a pool is the container a record lives in; a collection is a curated set that can draw records from anywhere. Tags label records, and users and groups own and access them. These structures come with fylr; the objecttypes are the part defined per instance.
 
 ## Versions, history and the trash
 
-A record's lifetime is more than a single row. fylr stores records **copy-on-write**: every save writes a fresh version of the record alongside the previous one. The newest version is what fylr returns by default; the older ones make up the record's **history** and can be read back by asking for a specific version explicitly.
+A record is stored copy-on-write: each save writes a new version of the record while the previous version is kept. The newest version is returned by default. The earlier versions are the record's **history** and are read by requesting a specific version.
 
-**Deletion is a soft delete.** A deleted record is moved into the **trash**: no longer searchable, no longer returned by normal reads, no longer counted in pool sizes — but recoverable. From the trash a record can be:
-
-- **undeleted**, returning it to active use with its identifiers and history intact, or
-- **purged**, removing it for good. After a purge, only a backup can bring it back.
-
-When other pages talk about "the current version" of a record they mean the newest copy-on-write row; "version 7" means an older row; "restoring" means lifting a record out of the trash back into active use.
+Deletion is a soft delete. A deleted record is moved to the **trash**: it is no longer returned by normal reads, no longer found by search, and no longer counted in pool sizes. From the trash a record can be **undeleted**, which returns it to active use with its identifiers and history intact, or **purged**, which removes it. After a purge the record can be recovered only from a backup.
 
 ## See also
 
-- [Files and assets](files-and-assets.md) — files attach to records but aren't records themselves.
-- [The datamodel](the-datamodel.md) — the document that holds every objecttype definition.
-- [Masks](masks.md) — different views over the same objecttype.
-- [Pools](pools.md) — the basetype most user-content records live inside.
-- [Permissions](permissions.md) — what owners, ACLs and system rights actually grant.
-- [FOR ADMINISTRATORS → Object Types](../for-administrators/permissions/object-types.md) — administering objecttypes in the UI.
+- [Files and assets](files-and-assets.md) — files attach to records but are not records themselves.
+- [The datamodel](the-datamodel.md) — the definition that holds every objecttype.
+- [Masks](masks.md) — views over the fields of an objecttype.
+- [Pools](pools.md) — the container most data records live in.
+- [Permissions](permissions.md) — how the owner and permission grants apply to records.
+- [FOR ADMINISTRATORS → Object Types](../for-administrators/permissions/object-types.md) — administering objecttypes.
