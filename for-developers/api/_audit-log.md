@@ -15,7 +15,51 @@ human-written reference for the same API contract and is used as a cross-check.
 | Endpoint area | Verified against code | Notes |
 | --- | --- | --- |
 | `db` | ✅ pilot, render-verified | 6 fixes (forbidden example, dry_run, id-gaps, skip_reverse_nested save semantics, concrete 202s + `DbPost202`/`DbDelete202` examples, neutral `package`); locked-error confirmed correct (a wrong "fix" was reverted); verified live via `spec.json` + HTML page |
-| collection, config, db_info, eas, search, settings, system, group, user, right, pool, objecttype, mask, schema, message, transitions, event, export, publish, suggest, l10n, plugin, xmlmapping, oai, webdav, objects, tags, task | ⏳ pending | fan-out after pilot sign-off |
+| all 28 non-`db` areas | ✅ done, render-verified | fan-out in 4 waves of 7 (config/export/webdav/system/plugin/eas/suggest · mask/task/user/collection/objecttype/pool/schema · event/group/objects/right/message/search/transitions · db_info/l10n/oai/publish/settings/tags/xmlmapping). Plus a global `package` neutralization (27 schemas). See "Fan-out summary" below. |
+
+## Fan-out summary
+
+Done in 4 parallel-agent waves (one read-only audit pass over all 28 areas, then
+4 apply waves; every bug re-verified against code, each wave render-verified on a
+live instance, committed per area). **Totals:** 277 fixes applied, **24 audit
+"bugs" rejected as false positives** (with code reasons), 17 registered-but-
+undocumented routes documented (product owner: document them all), 72 examples
+added from real `test/api`/loca sources, **93 items flagged** for human review.
+Commit prefix `apidocs:`; the apidocs YAML lives in the `fylr` code repo.
+
+### Lesson added mid-fan-out: error-envelope `parameters`
+
+`parameters` = the error's generated `*Params` struct, and the codegen adds
+`Realm` + `StatusCode` to **every** such struct — so an error example's
+`parameters` must list the code-specific fields **plus** `realm` + `statuscode`.
+Several agents stripped them after misreading **partial** apitest fixtures
+(fixtures assert presence, not absence). Six schemas were corrected (a dedicated
+commit) and the rule baked into the later wave prompts. Verify the field set from
+the `*Params` struct in `errors.go`, never from a fixture.
+
+### Punch-list — likely CODE / product issues surfaced (not doc fixes)
+
+These were documented as-is but look like real code or product questions:
+
+- **`/system/reindex` has no ACL/auth** (`api_system.go:163`, `search.IndexAll`) —
+  anonymous callers can trigger a full reindex.
+- **`/suggest` handler bug** — `suggestGET` calls `writeError` on a body-decode
+  failure but does **not `return`** (`api_suggest.go:31`).
+- **`/task` handlers swallow `acl.Require` errors** — `if err != nil { return }`
+  without `writeError` (`api_task.go:39`), same class as suggest.
+- **`DELETE /event/list` with no filters** is an unbounded delete of the whole
+  event log (no guard).
+- **`/objects` HEAD runs a full export** (handler binds GET+HEAD to one func);
+  the `version=date/<ISO>` selector **panics** ("VersionDate not implemented").
+- **`message` save with empty `_groups` clears** the group set (replace, not
+  merge).
+- **`GET /publish` and `GET /event/list`** return all rows unbounded (no
+  limit/offset).
+- **Access-control doc claims with no code enforcement:** `mask` `_all_fields`
+  (claimed `system.root`) and `HEAD` reads (claimed `system.datamodel`) have **no**
+  such gate; `pool` GET of a missing pool returns a generic `400`, not `404`.
+- Public-by-design but worth confirming: `GET /plugin`, `GET /l10n/static`,
+  `GET /suggest` (no auth).
 
 ## Method (per endpoint area)
 
