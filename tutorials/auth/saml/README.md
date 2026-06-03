@@ -71,6 +71,10 @@ fylr's metadata URL is [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr
 
 Mandatory; enter your IDP's metadata URL. When you **Save** the configuration, the fylr server (not the fylr web frontend in your browser) downloads the IDP's metadata. Make sure that the fylr server can reach the IDP, especially if saving failed.
 
+### Identity-Provider EntityID
+
+Optional. If your Metadata contains more than one IdP, you can choose the correct one via this form field.
+
 ### Service-Provider EntityID
 
 Optional, leave empty and fylr will use the default as **entityID** in its metadata: [https://FYLR.EXAMPLE.COM/api/saml/metadata](https://fylr.example.com/api/saml/metadata)
