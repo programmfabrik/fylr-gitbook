@@ -8,7 +8,7 @@ description: >-
 # API
 
 {% hint style="info" %}
-**The API documentation is work in progress!** Please refer to the [easydb 5 predecessor](https://docs.easydb.de/en/technical/api/) for this API, most of the API is the same in **easydb 5** and **fylr**.
+The endpoint reference below is generated from fylr's OpenAPI specification. Much of the API matches the [easydb 5 predecessor](https://docs.easydb.de/en/technical/api/), which remains a useful cross-reference.
 {% endhint %}
 
 ## Endpoints
@@ -17,7 +17,7 @@ description: >-
 
 ### Configuration & setup
 
-#### [config](endpoints/api-config.md)
+#### [config](endpoints/config/README.md)
 
 Most of the **fylr** configuration is offered via API. This includes general system configuration such as a custom logo, custom colors, the name of the system, email server configuration, LDAP & SAML IDP configuration etc.
 
@@ -41,7 +41,7 @@ For frontend to display error message and other system output localised, **fylr*
 
 Retrieve a basic set of information about the running **fylr** instance.
 
-#### [system](endpoints/api-system.md)
+#### [system](endpoints/system/README.md)
 
 The endpoint is used to manage storage location, create backups, purge the system and other system related actions.
 
@@ -85,7 +85,7 @@ Tags can be assigned to objects to drive permission management, search filters a
 
 Transitions are used to define actions which run when objects change their states. Such actions can include email notifications or tags settings.
 
-#### [collection](endpoints/api-collection.md)
+#### [collection](endpoints/collection/README.md)
 
 Users can collect and share objects in collections. These collections are stored in a base type managed by **fylr**. Collections are hierarchically structured.
 
@@ -107,7 +107,7 @@ This endpoint is used as a pre-flight call for frontends to display available ch
 
 This endpoint is used to save and load objects. It accesses the database directly without the use of the indexer. Every **fylr** instance has different properties in this endpoint.
 
-#### [eas](endpoints/api-eas.md)
+#### [eas](endpoints/eas/README.md)
 
 The endpoint to manage files. Features include upload and downlaod of originals as well as renditions. This enpoint also offers [IIIF image tiles](https://iiif.io/api/image/2.0/).&#x20;
 
@@ -144,6 +144,8 @@ The API documentation is available in [Open API 3.1.0](https://swagger.io/specif
 
 Because of the variable nature of the fylr API, every fylr instance can output it's own specific Open API specification. Use `/inspect/apidocs` to browse the Open API documentation. The specification can found under `/inspect/apidocs/spec/spec.json`.
 
-{% hint style="info" %}
+The endpoint pages in this section embed an **OpenAPI 3.0** rendering of the spec (the format GitBook's API panels support). The full **OpenAPI 3.1** specification — the generic API, in its native version — is available for download here:
 
-{% endhint %}
+{% file src="../../.gitbook/assets/fylr-openapi-3.1.json" %}
+The fylr API as OpenAPI 3.1.0 (JSON)
+{% endfile %}

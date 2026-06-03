@@ -1,29 +1,63 @@
 # /api/task
 
-{% openapi-operation spec="programmfabrik-api-file" path="/task/{taskId}/log" method="get" %}
-[Broken link](broken-reference)
-{% endopenapi-operation %}
+Use this endpoint to store & retrieve tasks. A task is a configuration to
+run a task module with pre-configured parameters. The tasks are executed in
+the background. Tasks can be scheduled to run periodically.
 
-{% openapi-operation spec="programmfabrik-api-file" path="/task/{taskId}/cancel" method="post" %}
-[Broken link](broken-reference)
-{% endopenapi-operation %}
+Tasks are user specific. Like exports, tasks are run under as the user who created the task. When listing tasks, only the creating user can see his tasks.
 
-{% openapi-operation spec="programmfabrik-api-file" path="/task/{taskId}" method="delete" %}
-[Broken link](broken-reference)
-{% endopenapi-operation %}
+Every task operation requires the system right `system.task` (a
+`system.root` user is also accepted). An unauthenticated request returns
+`401` with code `UserRequired`; an authenticated user lacking `system.task`
+(and not `system.root`) returns `403` with code `SystemRightRequired`.
+The id-addressed operations `GET /task/{taskId}/log`,
+`POST /task/{taskId}/cancel` and `DELETE /task/{taskId}` load the task by
+id and then reject a caller who is neither the task's owner nor a
+`system.root` user with `403` code `InsufficientRights`. The list and
+`GET /task/{taskId}` instead filter by the session user, so another
+user's tasks are simply not returned (an unknown id yields `404`).
 
-{% openapi-operation spec="programmfabrik-api-file" path="/task/{taskId}" method="get" %}
-[Broken link](broken-reference)
-{% endopenapi-operation %}
+### `GET /task`
+{% swagger src="./fylr-openapi.yml" path="/task" method="get" %}
+[fylr-openapi.yml](./fylr-openapi.yml)
+{% endswagger %}
 
-{% openapi-operation spec="programmfabrik-api-file" path="/task/modules" method="get" %}
-[Broken link](broken-reference)
-{% endopenapi-operation %}
+### `POST /task`
+{% swagger src="./fylr-openapi.yml" path="/task" method="post" %}
+[fylr-openapi.yml](./fylr-openapi.yml)
+{% endswagger %}
 
-{% openapi-operation spec="programmfabrik-api-file" path="/task" method="post" %}
-[Broken link](broken-reference)
-{% endopenapi-operation %}
+### `PUT /task`
+{% swagger src="./fylr-openapi.yml" path="/task" method="put" %}
+[fylr-openapi.yml](./fylr-openapi.yml)
+{% endswagger %}
 
-{% openapi-operation spec="programmfabrik-api-file" path="/task" method="get" %}
-[Broken link](broken-reference)
-{% endopenapi-operation %}
+### `GET /task/{taskId}/log`
+{% swagger src="./fylr-openapi.yml" path="/task/{taskId}/log" method="get" %}
+[fylr-openapi.yml](./fylr-openapi.yml)
+{% endswagger %}
+
+### `POST /task/{taskId}/cancel`
+{% swagger src="./fylr-openapi.yml" path="/task/{taskId}/cancel" method="post" %}
+[fylr-openapi.yml](./fylr-openapi.yml)
+{% endswagger %}
+
+### `GET /task/{taskId}`
+{% swagger src="./fylr-openapi.yml" path="/task/{taskId}" method="get" %}
+[fylr-openapi.yml](./fylr-openapi.yml)
+{% endswagger %}
+
+### `PATCH /task/{taskId}`
+{% swagger src="./fylr-openapi.yml" path="/task/{taskId}" method="patch" %}
+[fylr-openapi.yml](./fylr-openapi.yml)
+{% endswagger %}
+
+### `DELETE /task/{taskId}`
+{% swagger src="./fylr-openapi.yml" path="/task/{taskId}" method="delete" %}
+[fylr-openapi.yml](./fylr-openapi.yml)
+{% endswagger %}
+
+### `GET /task/modules`
+{% swagger src="./fylr-openapi.yml" path="/task/modules" method="get" %}
+[fylr-openapi.yml](./fylr-openapi.yml)
+{% endswagger %}
