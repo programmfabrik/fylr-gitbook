@@ -6,11 +6,9 @@ fylr is the **easydb 6** product line: a Go rewrite that keeps the easydb 5 API 
 
 ## Where to start
 
-{% hint style="info" %}
-New to fylr? Begin with the **[Concepts](concepts/README.md)** section — it introduces the vocabulary (records, objecttypes, files, pools, masks, permissions, …) that the interface, the admin screens and the API all rely on.
-{% endhint %}
-
-* **[Concepts](concepts/README.md)** — what fylr is built out of, in plain English.
 * **[For users](for-users/getting-started.md)** — finding, editing, collecting and exporting objects.
 * **[For administrators](for-administrators/permissions/README.md)** — datamodel, pools, masks, permissions and tools.
 * **[For developers](for-developers/api/README.md)** — the HTTP/JSON API reference, generated from fylr's OpenAPI specification.
+* **Help & reference** — [FAQs](help/faqs.md), [tutorials](help/tutorials/README.md) and a [glossary](help/glossary.md) of fylr terms.
+
+Looking for the deeper API specification? The full **OpenAPI 3.1** file is available for download from the [API reference](for-developers/api/README.md).
