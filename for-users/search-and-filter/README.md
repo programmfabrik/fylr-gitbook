@@ -66,12 +66,12 @@ To remove **all search elements at once**, click the **X** button on the right i
 
 ## Full Text Search
 
-[Please refer to this article for the full text search.](./)
+[Please refer to this article for the full text search.](full-text-search.md)
 
 ## Expert Search
 
-[Please refer to this article for the expert search.](./)
+[Please refer to this article for the expert search.](expert-search.md)
 
 ## Filter
 
-[Please refer to this article for filtering.](./)
+[Please refer to this article for filtering.](filter.md)
