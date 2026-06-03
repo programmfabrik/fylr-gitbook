@@ -4,6 +4,10 @@
 
 fylr is the **easydb 6** product line: a Go rewrite that keeps the easydb 5 API contract.
 
+{% hint style="info" %}
+Unless otherwise noted, this documentation describes the **latest published version of fylr**.
+{% endhint %}
+
 ## Where to start
 
 * **[For users](for-users/getting-started.md)** — finding, editing, collecting and exporting objects.
