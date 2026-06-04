@@ -13,7 +13,7 @@ The API uses an object with fields `from` (lower value) and `to` (upper range) f
     "to": "2010",
     "text": {
       "de-DE": "Die erste Dekade im neuen Millennium",
-      "en-US": "The first decade in the new millenium"
+      "en-US": "The first decade in the new millennium"
     }
   }
 }
@@ -45,7 +45,7 @@ The XML Export for the above example looks like this:
   <to>2010</to>
   <text>
     <de-DE>Die erste Dekade im neuen Millennium</de-DE>
-    <en-US>The first decade in the new millenium</en-US>
+    <en-US>The first decade in the new millennium</en-US>
   </text>
 </daterange>
 ```
@@ -58,8 +58,8 @@ The **JSON** exports the data like this:
     "from": "2001",
     "to": "2010",
     "text": {
-      "de-DE": "Die erste Dekade im neuen Millenium",
-      "en-US": "The first decade in the new millenium"
+      "de-DE": "Die erste Dekade im neuen Millennium",
+      "en-US": "The first decade in the new millennium"
     }
   }
 }
@@ -67,5 +67,5 @@ The **JSON** exports the data like this:
 
 **CSV** exports like this:
 
-<table><thead><tr><th>daterange.from</th><th width="136">daterange.to</th><th width="212">daterange.text.de-DE</th><th>daterange.text.en-US</th></tr></thead><tbody><tr><td>2001</td><td>2010</td><td>Die erste Dekade im neuen Millennium</td><td>The first decade in the new millenium</td></tr></tbody></table>
+<table><thead><tr><th>daterange.from</th><th width="136">daterange.to</th><th width="212">daterange.text.de-DE</th><th>daterange.text.en-US</th></tr></thead><tbody><tr><td>2001</td><td>2010</td><td>Die erste Dekade im neuen Millennium</td><td>The first decade in the new millennium</td></tr></tbody></table>
 

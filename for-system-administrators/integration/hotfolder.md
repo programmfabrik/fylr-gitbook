@@ -1,6 +1,6 @@
 ---
 description: >-
-  This section discribes how to integrate the hotfolder.
+  This section describes how to integrate the hotfolder.
 ---
 Assuming you use a docker-compose.yml file and your hotfolder will be located at `/srv/fylr/_hotfolder`:
 

@@ -109,7 +109,7 @@ This endpoint is used to save and load objects. It accesses the database directl
 
 #### [/api/v1/eas](endpoints/eas/README.md)
 
-The endpoint to manage files. Features include upload and downlaod of originals as well as renditions. This enpoint also offers [IIIF image tiles](https://iiif.io/api/image/2.0/).&#x20;
+The endpoint to manage files. Features include upload and downlaod of originals as well as renditions. This endpoint also offers [IIIF image tiles](https://iiif.io/api/image/2.0/).&#x20;
 
 #### [/api/v1/search](endpoints/api-search.md)
 

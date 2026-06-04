@@ -240,7 +240,7 @@ export:
 | Property                                | Description                                                                                                                                                                                                                                                                                |
 | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `info.config.system`                    | Base config of the instance.                                                                                                                                                                                                                                                               |
-| `info.request`                          | Inforrmation about the request.                                                                                                                                                                                                                                                            |
+| `info.request`                          | Information about the request.                                                                                                                                                                                                                                                            |
 | `export`                                | Export in API format, enhanced with internal information. Starting with `6.28.0` this property is only present if the exec.command does not read `stdin` from `body`.                                                                                                                      |
 | `export._files[n].export_file_internal` | Internal information per file.                                                                                                                                                                                                                                                             |
 | `plugin_action`                         | Set if the request is for an plugin exported file.                                                                                                                                                                                                                                         |
@@ -288,7 +288,7 @@ The transport plugin receives the same payload as the **export** plugins, in add
 
 #### Return payload
 
-The transport is expected to tell FYLR is the transport went ok or not. In additon the plugin can provide information which is writte to the info block of the event written by FYLR.
+The transport is expected to tell FYLR is the transport went ok or not. In addition the plugin can provide information which is write to the info block of the event written by FYLR.
 
 All other information does not need to be sent back to FYLR.
 

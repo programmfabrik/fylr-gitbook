@@ -28,7 +28,7 @@ SMTP address including port, like smtp.gmail.com:587
 
 ### HELO Domain
 
-The domain name that FYLR uses to introduce himself as, towards the SMTP server. (HELO or EHLO message in the smtp protocol.) This can be used by the SMTP server to check DNS and reject FYLR, so pick one that is acceppted by the chosen SMTP server.
+The domain name that FYLR uses to introduce himself as, towards the SMTP server. (HELO or EHLO message in the smtp protocol.) This can be used by the SMTP server to check DNS and reject FYLR, so pick one that is accepted by the chosen SMTP server.
 
 ### Server TLS
 

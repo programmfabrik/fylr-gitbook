@@ -211,7 +211,7 @@ Aspects to consider if your logs need to be 100% reliable (usually overkill)
 ## Troubleshooting
 
 * `docker compose` needs to be executed in the directory with the `docker-compose.yml`.
-* When docker cannot start containers with errors refering to `shim, OCI, apparmor`:\
+* When docker cannot start containers with errors referring to `shim, OCI, apparmor`:\
   Try `apt-get install apparmor apparmor-utils; systemctl restart docker`
 * When the indexer does not work, make sure you used `sysctl` as shown above.
 

@@ -6,7 +6,7 @@ description: How to log into fylr with accounts of your LDAP service.
 
 LDAP is an authentication service that you might already have, to hold your users' accounts centrally. It is part of **Microsoft Active Directory** (predecessor to Azure Active Directory) and available as a separate service (OpenLDAP).
 
-You need a fylr licence including Authentification to use LDAP. To enable fylr users to **log in** with LDAP accounts, scroll the **User Management** page to LDAP, _above_ SAML:
+You need a fylr licence including Authentication to use LDAP. To enable fylr users to **log in** with LDAP accounts, scroll the **User Management** page to LDAP, _above_ SAML:
 
 <figure><img src="../.gitbook/assets/fylr-ldap-find-menu.png" alt=""><figcaption><p>where to find LDAP in the menues</p></figcaption></figure>
 
@@ -24,7 +24,7 @@ Here is an **example** configuration with the public test provider ldap.forumsys
 
 **Bind Password**: Password of the Bind User.
 
-**User Base DN**: Organizatinal Unit or whole organization, in which to search for users. All users who shall be able to log in must be inside this unit. Bind User does not have to be inside this unit. Example: `OU=Users,DC=example,DC=com` .
+**User Base DN**: Organizational Unit or whole organization, in which to search for users. All users who shall be able to log in must be inside this unit. Bind User does not have to be inside this unit. Example: `OU=Users,DC=example,DC=com` .
 
 **User filter**: Which LDAP attribute shall be compared to the login string (which is entered during fylr login)? For example if I am Albert Einstein and my login username ist `einstein`: Which **LDAP attribute** contains the string `einstein`? In the example above it is the attribute `uid` . the values of `uid` are compared to the login given by the user. So if I enter `einstein` and my password, fylr then searches for LDAP objects which have the attribute `uid` with value `einstein` . If one is found, the password of _that_ LDAP object is also checked and if correct, this LDAP object is considered logged in. For this scenario, the user filter `(uid=%(login)s)` would be enough. To reduce search time and the number of objects compared, the example in the screenshot additionally restricts the search to only LDAP objects of `objectClass` = `person`.\
 If it does not work, <mark style="color:red;">try upper/lower case</mark>. For example, in one case the log messages showed an unexpected replacement from `(Login)` to `%\28Login\29s` and the solution was to write `(login)` (_lower_ case L) in the User filter.
@@ -85,7 +85,7 @@ So, usable attributes in this example are `DN`, `objectClass`, `cn`, `sn`, `uid`
 
 If you do not see enough ldap-related log messages, check:
 
-* Your license includes **Capabilties**: External Authentication : **true** .\
+* Your license includes **Capabilities**: External Authentication : **true** .\
   (check in **Base Configuration** - **License Management**)
 * fylr's log **Level** is at least `debug`.\
   (check in **Base Configuration** - **Development** - **Logging**)

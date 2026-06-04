@@ -20,7 +20,7 @@ Except:
 
 <summary>Storage for <em>original</em> assets</summary>
 
-As the common NFS share is used, exisiting original asset files are already accounted for in storage. So you can ignore that part of the requirements in the default recommended installation.
+As the common NFS share is used, existing original asset files are already accounted for in storage. So you can ignore that part of the requirements in the default recommended installation.
 
 \
 You may want to have free space for future asset uploads, but that is just the same consideration as with only the easydb5.&#x20;
@@ -33,7 +33,7 @@ You may want to have free space for future asset uploads, but that is just the s
 
 The asset versions of _easydb5_ are typically used by fylr for a while and then are replaced by _fylr_ versions, which are slightly different. How long to use them can be decided on demand, later.
 
-For the requiremeent&#x73;_,_ you have two options:&#x20;
+For the requirement&#x73;_,_ you have two options:&#x20;
 
 A. If you use easydb5 versions **read-only (recommended)**: This is easier and safer, but needs more storage for assets which have both easydb5 versions and fylr versions. So get the storage amount that your easydb5 asset versions take and make sure you have the same amount of storage free, for fylr versions. To be on the safe side, 50% more than the same amount, in case you have lots of assets which get bigger _fylr_ versions compared to _easydb5_ versions. \
 Example: 1000 GB for easydb5 versions -> **1500 GB free** for fylr versions recommended.

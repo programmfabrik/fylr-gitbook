@@ -63,7 +63,7 @@ The `extensions` setting for `allow_upload` is gone. Only `classes` can now be c
 
 `collection.BAG_CREATE[inherit_owner]` is not supported by fylr. `inherit_owner` is always assumed.
 
-Remove `UNLINK` from `_generated_rights` of objects (api/db & api/db\_info). The `UNLINK` right exists for pools as well as collections, so it is ambigious in the context of an object.
+Remove `UNLINK` from `_generated_rights` of objects (api/db & api/db\_info). The `UNLINK` right exists for pools as well as collections, so it is ambiguous in the context of an object.
 
 #### `_standard`-Rendering
 
@@ -233,7 +233,7 @@ The **transform** body parameter is no longer an array but a single transform en
 #### /api/v1/event
 
 * url parameter **base\_type** has been renamed to **basetype**
-* POST /api/event is now symetric. It receives the event as an object inside the top level object's `event` property.
+* POST /api/event is now symmetric. It receives the event as an object inside the top level object's `event` property.
 * DELETE /api/event/list is new, removed DELETE /api/event (url + body post)
 * DELETE /api/event/_id_ is new
 * url parameter "background=1" can be used to background event writing (use from within plugins to not dead lock sqlite installations)

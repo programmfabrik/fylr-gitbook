@@ -56,7 +56,7 @@ Please note that you must assign at least the rights "View data records" and "Pe
 
 To ensure that the users of the connector partner can also use the expert search, grant all necessary rights to the connector user in the "Objecttypes" area.
 
-Finally, send your URL, login and password, as well as the OAuth2 Client informatio to your connector partner.
+Finally, send your URL, login and password, as well as the OAuth2 Client information to your connector partner.
 
 ## Security
 

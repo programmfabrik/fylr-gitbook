@@ -28,7 +28,7 @@ Please follow the **steps** to **create** an **upload** collection:
 
 Then you have to **choose** the **object type** you want to create records with, the **pool** the files should be saved in, the **mask** you want to work with, the **field** for the **files** and a **metadata mapping** to extract metadata. For a **detailed description** of each option, please continue [**here**](../../for-users/quick-access/collections-and-presentations.md#upload-and-file-system-connect).
 
-With the **mode**, you decide wether only **new records** should be **created** for the uploaded files or if **existing records** should be **updated** with the uploaded files. For a **detailed description** of these options, please continue [**here**](../../for-users/quick-access/collections-and-presentations.md#upload-and-file-system-connect).
+With the **mode**, you decide whether only **new records** should be **created** for the uploaded files or if **existing records** should be **updated** with the uploaded files. For a **detailed description** of these options, please continue [**here**](../../for-users/quick-access/collections-and-presentations.md#upload-and-file-system-connect).
 
 Once you're **done**, click "**Activate**" to **save** the changes and then **copy** either the **Hotfolder URL** or **File System Connect URL**.
 

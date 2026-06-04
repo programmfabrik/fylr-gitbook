@@ -53,7 +53,7 @@ To decide on the server size and setup, gather the following information:
 * Storage size of the assets&#x20;
 * Number of assets
 * Frontend URL
-* Authentification services
+* Authentication services
 
 ### Migration
 

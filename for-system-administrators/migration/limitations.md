@@ -69,7 +69,7 @@ If events are migrated (see parameter [`--include-events`](#--include-events)), 
 
 The event info block will be migrated without any changes. IDs which relate to objects, files, etc., are replaced during the restore process. This is done for IDs on top level (`object_id`), and known IDs in the info block.
 
-In the following table, all migrated events are listed, including changes which are automatially done during the restore process. Events which are not listed here are **never migrated** from easydb5 to fylr.
+In the following table, all migrated events are listed, including changes which are automatically done during the restore process. Events which are not listed here are **never migrated** from easydb5 to fylr.
 
 
 <!--

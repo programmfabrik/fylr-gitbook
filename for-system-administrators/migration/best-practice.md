@@ -19,7 +19,7 @@ The source instance should not be changed or even disconnected during test migra
 
 In a backup no actual files are included, but instead the URLs to files are part of the records and are referenced and used during restoring. Until the final migration is finished and all files and their versions have been copied to the target instance, these URLs need to be reachable, otherwise no files can be copied and will be missing!
 
-Productive migrations include the complete data, as well as all files. The files are then copied to the target system, and are then indpendent from the source system. Make sure there is enough disk space on the target system to store all files!
+Productive migrations include the complete data, as well as all files. The files are then copied to the target system, and are then independent from the source system. Make sure there is enough disk space on the target system to store all files!
 
 * For *test* migrations:
   * [Restoring without any files](#restoring-without-any-files)
@@ -221,7 +221,7 @@ One or more terms in the form of `<cls>.<version>:<new version>`. The file versi
 
 For example: in the source, there is the `video` class version `full_hd`, which should be used in the target fylr as well. But in the target instance, the same file version is configured under the name `1920p`. So the term for this is `video.full_hd:1920p`.
 
-Also there is the term to ignore a file version in the from `<cls>.<version>:`. Since `<new version>` is empty, the restore tool knows to skip this version completly. To ignore an `image` class version with the name `small_obsolete`, write a term `image.small_obsolete:`.
+Also there is the term to ignore a file version in the from `<cls>.<version>:`. Since `<new version>` is empty, the restore tool knows to skip this version completely. To ignore an `image` class version with the name `small_obsolete`, write a term `image.small_obsolete:`.
 
 These terms are comma separated. The complete parameter for this example would be:
 
@@ -331,7 +331,7 @@ Only these values are valid numbers to check the migration.
 
 In the dropdown menu, next to "original" the total number of files in the system is shown. This includes any file, including background images, favicons, uploaded XSLT files, etc. During a migration, these original files are transferred.
 
-All versions are produced based on these original files, but in a separate process after the migration. It is important to check that all originals have been migrated. The version calculation process can be (re)started afterwards, indpendent from the migration process.
+All versions are produced based on these original files, but in a separate process after the migration. It is important to check that all originals have been migrated. The version calculation process can be (re)started afterwards, independent from the migration process.
 
 All migrated files are imported based on the URLs which are included in the backup files. During the restore process, the files are loaded from these URLs. It is important that these file URLs are reachable during the restore process. Otherwise, the files can not be imported into the target system.
 

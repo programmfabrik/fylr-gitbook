@@ -21,7 +21,7 @@ Possible, but not exclusive, references between basetypes:
     * tags, users, groups as part of the rightsmanagement
 
 * Pools:
-    * hierachical, so pools reference other pools as a parent
+    * hierarchical, so pools reference other pools as a parent
     * tags, users, groups as part of the rightsmanagement
 
 ----

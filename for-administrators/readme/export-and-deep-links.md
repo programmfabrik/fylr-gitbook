@@ -32,7 +32,7 @@ Allows access by specific values in object type columns (they have to be unique)
 
 ### Embed Linked Records
 
-Decide wether you want to embed linked records in the xml that can be accessed via a deep link or not. Linked records are for example persons, locations, keywords. If you want to include not only the standard text and the id of those linked records but all the data from these object types (like name and contact information of the photographer), you need to choose an option that's not "No records".
+Decide whether you want to embed linked records in the xml that can be accessed via a deep link or not. Linked records are for example persons, locations, keywords. If you want to include not only the standard text and the id of those linked records but all the data from these object types (like name and contact information of the photographer), you need to choose an option that's not "No records".
 
 | OPTION                                                  | DESCRIPTION                                                                                                                                                                                    |
 | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -36,8 +36,8 @@ Various replacements can be used inside the Email templates when rendering. Avai
 
 | Variable | Description |
 |---|---|
-|`.Action`| Struct containing all information of the curent action.|
-|`.Action.Subject` | Confirured subject for the email.
+|`.Action`| Struct containing all information of the current action.|
+|`.Action.Subject` | Configured subject for the email.
 | `.Action.Message` | Configured message for the email.
 | `.Transition` | Struct containing all information of the current transition.
 | `.Transition.Confirm` | Configured onfirmation text.
