@@ -12,7 +12,7 @@ The source instance for the backup can be any **easydb5** or **fylr** instance, 
 
 The following example shows how a backup with the name _"example"_ would be migrated from server _"http://example.fylr.xyz"_ to server _"http://target.fylr.xyz"_.
 
-The backup and restore processes are performed in the background. They run on the server and are independant of the browser window. The progress can be checked by opening the status page of a backup / restore process (see below).
+The backup and restore processes are performed in the background. They run on the server and are independent of the browser window. The progress can be checked by opening the status page of a backup / restore process (see below).
 
 ## Backup
 
