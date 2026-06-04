@@ -72,6 +72,10 @@ To remove **all search elements at once**, click the **X** button on the right i
 
 [Please refer to this article for the expert search.](expert-search.md)
 
+## Query Language
+
+[Please refer to this article for the structured query language (`ql:`).](query-language.md)
+
 ## Filter
 
 [Please refer to this article for filtering.](filter.md)

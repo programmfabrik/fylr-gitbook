@@ -135,6 +135,7 @@
 * [Search & Filter](for-users/search-and-filter/README.md)
   * [Full Text Search](for-users/search-and-filter/full-text-search.md)
   * [Expert Search](for-users/search-and-filter/expert-search.md)
+  * [Query Language](for-users/search-and-filter/query-language.md)
   * [Filter](for-users/search-and-filter/filter.md)
 * [Download & Export](for-users/download-and-export/README.md)
   * [Downloading](for-users/download-and-export/downloading.md)
