@@ -75,7 +75,7 @@ Load the manifest in the JSON Importer and [start the migration](starting-the-mi
 {% hint style="info" %}
 The easiest way to see how a payload is formatted, is to capture the POST/PUT request that is sent by the frontend when a basetype or object is saved. In a browser, open the developer console and find the network tab to see the requests.
 
-Save an object in the editor in the frontend, and find the request that is performed. The body of the post request contains an object JSON represantation, which has exactly the same structure as the objects in the payloads that are used here.
+Save an object in the editor in the frontend, and find the request that is performed. The body of the post request contains an object JSON representation, which has exactly the same structure as the objects in the payloads that are used here.
 {% endhint %}
 
 ### Using lookups instead of IDs

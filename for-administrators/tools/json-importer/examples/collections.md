@@ -4,7 +4,7 @@
 
 # Collections
 
-Objects can be assgigned to new collections after the objects have been migrated. As an example, we create a collection for the Root user, where images of landscapes are stored.
+Objects can be assigned to new collections after the objects have been migrated. As an example, we create a collection for the Root user, where images of landscapes are stored.
 
 The new collection will get the base user collection for Root with the reference "user:ref:system:root" as its parent:
 

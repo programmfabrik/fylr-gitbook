@@ -87,7 +87,7 @@ Checks the integrity of files that have been copied during a [restore](for-syste
 
 Open `<fylr url>/inspect/system/queues/?queue=file`. The table shows queued file jobs as well as file jobs which are currently worked on. Each job is defined by a file in a specific state and the current action.
 
-During the background processing of all file jobs, the queue can grow. This is because original files will produce a number of versions (depending on the recipe). Each new version creates new jobs, so once a single original file job is picked up by a file worker, for each file version which is to be produced, the queue will grow by the number of new jobs. The total number of jobs in the queue is always fluctuating, but should genereally get lower over time.
+During the background processing of all file jobs, the queue can grow. This is because original files will produce a number of versions (depending on the recipe). Each new version creates new jobs, so once a single original file job is picked up by a file worker, for each file version which is to be produced, the queue will grow by the number of new jobs. The total number of jobs in the queue is always fluctuating, but should generally get lower over time.
 
 ## File Locations
 
