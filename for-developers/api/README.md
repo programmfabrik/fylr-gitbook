@@ -17,31 +17,31 @@ The endpoint reference below is generated from fylr's OpenAPI specification. Muc
 
 ### Configuration & setup
 
-#### [config](endpoints/config/README.md)
+#### [/api/v1/config](endpoints/config/README.md)
 
 Most of the **fylr** configuration is offered via API. This includes general system configuration such as a custom logo, custom colors, the name of the system, email server configuration, LDAP & SAML IDP configuration etc.
 
-#### [schema](endpoints/api-schema.md)
+#### [/api/v1/schema](endpoints/api-schema.md)
 
 This endpoint is used to define the basic structure of how objects are stored in **fylr**. This is the main endpoint which created the data model.
 
-#### [mask](endpoints/api-mask.md)
+#### [/api/v1/mask](endpoints/api-mask.md)
 
 On top of the data model, **fylr** knows the notion of masks. Masks are used to hide, show and configure columns in various views of the application. Mask are also the basis to allow users access to data.
 
-#### [l10n](endpoints/api-l10n.md)
+#### [/api/v1/l10n](endpoints/api-l10n.md)
 
 For frontend to display error message and other system output localised, **fylr** provided the translation keys for various languages. This endpoint is also used to save and load custom localisation for schema and mask.
 
-#### [plugin](../plugin.md)
+#### [/api/v1/plugin](endpoints/plugin/README.md)
 
 **fylr** is extensible by plugins. The plugin endpoint is used to manage plugins.
 
-#### [settings](endpoints/api-settings.md)
+#### [/api/v1/settings](endpoints/api-settings.md)
 
 Retrieve a basic set of information about the running **fylr** instance.
 
-#### [system](endpoints/system/README.md)
+#### [/api/v1/system](endpoints/system/README.md)
 
 The endpoint is used to manage storage location, create backups, purge the system and other system related actions.
 
@@ -49,89 +49,89 @@ The endpoint is used to manage storage location, create backups, purge the syste
 
 Base types are used to setup the basic types to drive the system.&#x20;
 
-#### [user](endpoints/api-user.md)
+#### [/api/v1/user](endpoints/api-user.md)
 
 This endpoint manages the users stored in **fylr**.
 
-#### [group](endpoints/api-group.md)
+#### [/api/v1/group](endpoints/api-group.md)
 
 Groups are used to group users. Users can be in multiple groups. This is equivilant to roles in other systems.
 
-#### [right](endpoints/api-right.md)
+#### [/api/v1/right](endpoints/api-right.md)
 
 The endpoint manages the preset for permissions. It also lets frontends retrieve a list of available permission settings.
 
-#### [pool](endpoints/api-pool.md)
+#### [/api/v1/pool](endpoints/api-pool.md)
 
 One important type is the [pool](../system-data-types/pool-1.md). Pools allow you to categorize objects. It is often use to reflect the departments of an organisation. Pools can be used as the top level object of the permission management for objects. Pools are hierarchically structured.
 
-#### [objecttype](endpoints/api-objecttype.md)
+#### [/api/v1/objecttype](endpoints/api-objecttype.md)
 
 The schema of fylr defines the object types. Each object is stored in the format of an object type. This endpoint is used to configure the behaviour of each object types including permission management.
 
-#### [message](endpoints/api-message.md)
+#### [/api/v1/message](endpoints/api-message.md)
 
 Frontend and server can use messages to be presented to the user. The server message type is used to let users confirm an EULA or other informations right after login.
 
-#### [event](endpoints/api-event.md)
+#### [/api/v1/event](endpoints/api-event.md)
 
 **fylr** has an event system where most of the server activity will be logged in. Events are meant for administrator and users. The logfile of fylr targets the system administrator who needs a closer relation to the platform where **fylr** is running on. Applications can also use the event system and post their own custom events.
 
-#### [tags](endpoints/api-tags.md)
+#### [/api/v1/tags](endpoints/api-tags.md)
 
 Tags can be assigned to objects to drive permission management, search filters and transitions.
 
-#### [transitions](endpoints/api-transitions.md)
+#### [/api/v1/transitions](endpoints/api-transitions.md)
 
 Transitions are used to define actions which run when objects change their states. Such actions can include email notifications or tags settings.
 
-#### [collection](endpoints/collection/README.md)
+#### [/api/v1/collection](endpoints/collection/README.md)
 
 Users can collect and share objects in collections. These collections are stored in a base type managed by **fylr**. Collections are hierarchically structured.
 
-#### [publish](endpoints/api-publish.md)
+#### [/api/v1/publish](endpoints/api-publish.md)
 
 This endpoint is used to record publishing information about objects in other systems than fylr.&#x20;
 
-#### [xmlmapping](endpoints/api-xmlmapping.md)
+#### [/api/v1/xmlmapping](endpoints/api-xmlmapping.md)
 
 This endpoint is used to store mappings for im- and export of mostly XML based data, such as image metadata.
 
 ### Save, load and find objects
 
-#### [db\_info](endpoints/api-db_info.md)
+#### [/api/v1/db_info](endpoints/api-db_info.md)
 
 This endpoint is used as a pre-flight call for frontends to display available choices to users to switch pools or tags of objects.
 
-#### [db](endpoints/api-db.md)
+#### [/api/v1/db](endpoints/api-db.md)
 
 This endpoint is used to save and load objects. It accesses the database directly without the use of the indexer. Every **fylr** instance has different properties in this endpoint.
 
-#### [eas](endpoints/eas/README.md)
+#### [/api/v1/eas](endpoints/eas/README.md)
 
 The endpoint to manage files. Features include upload and downlaod of originals as well as renditions. This enpoint also offers [IIIF image tiles](https://iiif.io/api/image/2.0/).&#x20;
 
-#### [search](endpoints/api-search.md)
+#### [/api/v1/search](endpoints/api-search.md)
 
 Every object in **fylr** is compiled into an index document and send to Opensearch or Elasticsearch for fast retrieval. The endpoint acts as a proxy to the indexer in order to find objects.
 
-#### [suggest](endpoints/api-suggest.md)
+#### [/api/v1/suggest](endpoints/api-suggest.md)
 
 To offer autocompletion to the user, fylr offers the suggest endpoint.
 
-#### [export](endpoints/api-export.md)
+#### [/api/v1/export](endpoints/api-export.md)
 
 Export definitions can be created by users to export object data. Exports are based on a stored search and can be repeadetly executed (even scheduled). Export formats include **XML**, **CSV** and **JSON**.
 
-#### [oai](endpoints/api-oai.md)
+#### [/api/v1/oai](endpoints/api-oai.md)
 
 [OAI/PMH](https://www.openarchives.org/OAI/openarchivesprotocol.html) is a standard to harvest data from object storage systems such as **fylr**.
 
-#### [objects](endpoints/api-objects.md)
+#### [/api/v1/objects](endpoints/api-objects.md)
 
 The endpoint is used to retrieve data from a specific object. The object can be accessed using various means, like `_uuid`_,_ `_id` or unique column retrieval. Also available on this endpoints are [IIIF](https://iiif.io/api/) manifests and binary file data.
 
-#### [webdav](endpoints/api-webdav.md)
+#### [/api/v1/WebDAV](endpoints/api-webdav.md)
 
 The webdav endpoint allows to save and load files stored in fylr.&#x20;
 
@@ -139,8 +139,8 @@ The webdav endpoint allows to save and load files stored in fylr.&#x20;
 
 The API documentation is available in [Open API 3.1.0](https://swagger.io/specification/) format. Most endpoints act the same across different instances of **fylr**. However, a few endpoints depend on the configurable schema of each **fylr**. These endpoints adapt themselves to the schema:
 
-* [/api/db](endpoints/api-db.md): The endpoint to synchronously add and retrieve object data.
-* [/api/search](endpoints/api-search.md): This endpoint accesses the indexed data for search and aggregations. The returned data is retrieved from the database. The data is indexed asynchronously, so there can be a slight time gap between the update of an object and when its data lands in the index document.
+* [/api/v1/db](endpoints/api-db.md): The endpoint to synchronously add and retrieve object data.
+* [/api/v1/search](endpoints/api-search.md): This endpoint accesses the indexed data for search and aggregations. The returned data is retrieved from the database. The data is indexed asynchronously, so there can be a slight time gap between the update of an object and when its data lands in the index document.
 
 Because of the variable nature of the fylr API, every fylr instance can output it's own specific Open API specification. Use `/inspect/apidocs` to browse the Open API documentation. The specification can found under `/inspect/apidocs/spec/spec.json`.
 
