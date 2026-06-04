@@ -46,11 +46,9 @@ active.
 
 A single condition has three parts:
 
-```
-   field      operator    value
-──────────    ────────   ────────
-book.title       =@       "report"
-```
+| Field        | Operator | Value      |
+| ------------ | -------- | ---------- |
+| `book.title` | `=@`     | `"report"` |
 
 Conditions are combined with the logical operators `&&` (and), `||` (or) and
 `!` (not), and grouped with parentheses `( … )`:
