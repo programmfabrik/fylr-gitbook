@@ -8,7 +8,7 @@ The type `files` stores a list of files. One of the files must be marked as the 
 
 ## API
 
-Files need to be uploaded into `fylr` via the [**/api/eas**](../api/endpoints/api-eas.md) endpoint. That endpoint will assign a unique ID to that file. That file ID can be used to link the file to an object using the API.
+Files need to be uploaded into `fylr` via the [**/api/eas**](../api/endpoints/eas/) endpoint. That endpoint will assign a unique ID to that file. That file ID can be used to link the file to an object using the API.
 
 ```json5
 {
@@ -30,7 +30,7 @@ Files need to be uploaded into `fylr` via the [**/api/eas**](../api/endpoints/ap
 
 There are 3 properties which only belong to the relation between the object and the file: `preferred`, `name`, `frontend_prefs`.
 
-API users must use the `frontend_prefs` starting with a top level property identifying themselves. In the above example, that would be myapp. To the API user unknown top level properties must be written back as read.&#x20;
+API users must use the `frontend_prefs` starting with a top level property identifying themselves. In the above example, that would be myapp. To the API user unknown top level properties must be written back as read.
 
 ## Index
 

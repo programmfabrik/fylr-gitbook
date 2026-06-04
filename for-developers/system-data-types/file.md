@@ -10,7 +10,7 @@ The system data type `file` stores all files used throughout the fylr system:
 * Objecttype custom data
 
 {% hint style="info" %}
-Files are generally uploaded to the endpoint [**/api/eas/put**](../api/endpoints/api-eas.md). **fylr** can also upload files by copying from remote URLs when using the endpoint [**/api/eas/rput**](../api/endpoints/api-eas.md). Files can also be uploaded via **WebDAV** or by the [**/api/plugin/manage** ](../api/endpoints/api-plugin.md)for plugins with type `url`.
+Files are generally uploaded to the endpoint [**/api/eas/put**](../api/endpoints/eas/). **fylr** can also upload files by copying from remote URLs when using the endpoint [**/api/eas/rput**](../api/endpoints/eas/). Files can also be uploaded via **WebDAV** or by the [**/api/plugin/manage** ](../api/endpoints/plugin/)for plugins with type `url`.
 {% endhint %}
 
 Files are stored in configurable locations, like **S3** or **disk** storage.
@@ -30,10 +30,6 @@ Files are stored in configurable locations, like **S3** or **disk** storage.
 ### File Versions
 
 {% include "../../.gitbook/includes/file_version.md" %}
-
-
-
-
 
 |      |   |                                             |
 | ---- | - | ------------------------------------------- |

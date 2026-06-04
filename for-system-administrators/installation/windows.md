@@ -37,18 +37,30 @@ OpenSearch is our default and recommendation.
 
 We installed OpenSearch as described in [https://opensearch.org/docs/latest/install-and-configure/install-opensearch/windows/](https://opensearch.org/docs/latest/install-and-configure/install-opensearch/windows/)
 
-* Version 2.11 (Version 2.12.0 works from fylr v6.9.0 onwards, make sure you set a strong initial password for admin, the OpenSearch user)
-* We disabled security and let it explicitly listen only on localhost, thus protecting it:
+* Version 3.6.0, downloaded and unzipped.
+* We disabled security and let it explicitly listen only on localhost, thus protecting it, in `opensearch-3.6.0\config\opensearch.yml`:
 
 ```
 network.host: 127.0.0.1
 plugins.security.disabled: true
 ```
 
+* We extended one limit for fylr in `opensearch-3.6.0\config\jvm.options`:
+
+```
+-Dopensearch.xcontent.depth.max=10000
+```
+
 * We installed the one needed plugin:
 
 ```
-opensearch-2.11.0> .\bin\opensearch-plugin install analysis-icu
+opensearch-3.6.0> .\bin\opensearch-plugin install analysis-icu
+```
+
+* Started OpenSearch with
+
+```
+opensearch-3.6.0> .\opensearch-windows-install.bat
 ```
 
 ### Elasticsearch
@@ -241,13 +253,13 @@ Mode                 LastWriteTime         Length Name
 -a----    Mi, 12.03.2025     13:58          93696 gswin64c.exe
 ```
 
-We also added to the system path: `C:\Program Files\gs\gs10.05.0\lib`.&#x20;
+We also added to the system path: `C:\Program Files\gs\gs10.05.0\lib`.
 
 The latter is needed for the generation of previews for `.eps`-files via `ps2pdf` and [inkscape](windows.md#inkscape).
 
 ### Libreoffice
 
-We installed LibreOffice ([ https://de.libreoffice.org/donate/dl/win-x86\_64/24.8.4/de/LibreOffice\_24.8.4\_Win\_x86-64.msi](https://de.libreoffice.org/donate/dl/win-x86_64/24.8.4/de/LibreOffice_24.8.4_Win_x86-64.msi))
+We installed LibreOffice ([ https://de.libreoffice.org/donate/dl/win-x86\_64/24.8.4/de/LibreOffice\_24.8.4\_Win\_x86-64.msi ](https://de.libreoffice.org/donate/dl/win-x86_64/24.8.4/de/LibreOffice_24.8.4_Win_x86-64.msi))
 
 and configured in fylr.yml:
 
@@ -281,7 +293,7 @@ We added Inkscape's `bin` directory to the Windows System `%PATH%` like this:
 2. We clicked the `Environment Variables...` button
 3. In the lower section titled `System variables` , we selected the line starting with `Path`.
 4. We clicked `Edit...`
-5. In the new window, we clicked `New` and pasted `C:\Program Files\Inkscape\bin` .&#x20;
+5. In the new window, we clicked `New` and pasted `C:\Program Files\Inkscape\bin` .
 6. We clicked `OK`.
 7. We closed and opened a new window for `fylr.exe` so that the new `%PATH%` is known to the window and thus to fylr.
 
@@ -378,8 +390,6 @@ fylr+:
 ```
 
 To update the plugin automatically, use this URL: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip)
-
-
 
 ## Configure the tools in fylr.yml
 
