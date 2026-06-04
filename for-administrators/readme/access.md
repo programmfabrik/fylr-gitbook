@@ -39,7 +39,7 @@ Use regular expressions to define requirements for passwords. To only allow pass
 
 ### Blocking the login after too many failed attempts
 
-If a user tries to login too many times with a wrong password, further login attempts can be temporarily blocked. Attempts from the same IP adress will be blocked. Attempts from other IP adresses for the same user account will be blocked.
+If a user tries to login too many times with a wrong password, further login attempts can be temporarily blocked. Attempts from the same IP address will be blocked. Attempts from other IP addresses for the same user account will be blocked.
 
 * **Number of attempts with wrong password:** how many attempts does a user get before their login is blocked? Use the value `0` to disable the automatic blocking.
 * **How long to block the login in minutes:** how long to block the users login after the previously set treshold is reached?&#x20;
