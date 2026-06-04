@@ -106,6 +106,12 @@ fylr:
     # The indices visible there are not limited to those associated
     # to the fylr instance.
     inspectEnableElasticIndices: false
+    # Enables the /inspect/sqlquery/ utility that lets an inspect-authenticated
+    # user run arbitrary read-only SELECT queries against the configured
+    # database. Powerful but unrestricted within the DB user's privileges, so
+    # it's off by default. Only enable on developer / debug instances and make
+    # sure the fylr DB user is not a Postgres superuser.
+    inspectEnableSqlQuery: false
     # Show environment on /inspect/ home page.
     inspectShowEnvironment: false
     # Outputs object loader timing and load depth information. This setting can also
@@ -122,12 +128,13 @@ fylr:
     # if they are not already inside a "type": "nested". This is for development
     # purposes only. If you change this option, a re-index is required.
     indexerNestedNotIncludeInRoot: false
+    # disableOpenapiDocsCache can be set to not cache OpenAPI specs. This is useful
+    # when writing documentation.
+    disableOpenapiDocsCache: true
     # disableHttp2Client disables HTTP2 for client connections. Set this to true if
     # you are experiencing difficulties connecting to certain web servers for
     # file upload. E.g. with "stream error".
     disableHttp2Client: false
-    # cookieAllowInsecure enabled cookie setting via http too. Default is "false".
-    cookieAllowInsecure: false
 
   # optional, set environment. This can be used to set FYLR_CMD_* inside the fylr.yml
   env:
@@ -290,8 +297,7 @@ fylr:
   plugin:
     # load plugins at startup. the loader crawls the given directories
     # and loads given files for plugin config files, ending in ".yml".
-    # "*" and "?" are allowed as placeholders, unmatched directories or
-    # files are silently skipped.
+    # Missing paths are logged as errors and skipped.
     paths:
       - ../../../easydb-plugins
       - ../../../fylr-plugins/fylr_example
@@ -392,6 +398,81 @@ fylr:
     # callbackApiInternalURL will be presented to execserver plugin jobs. This
     # can be used by plugins to call back into the API.
     callbackApiInternalURL: "http://localhost:8080"
+
+
+  # eas (External Asset Store) settings.
+  eas:
+    # rput controls the /api/v1/eas/rput[/bulk] endpoint, which fetches a
+    # caller-supplied URL server-side and stores the response as a file.
+    #
+    # Because the request originates from the fylr server, it can reach
+    # hosts that are otherwise not exposed to the client (loopback, the
+    # fylr backend listener, Kubernetes metadata/API, internal services,
+    # …). Use the blocklist below to keep authenticated callers from
+    # using rput as an SSRF primitive.
+    rput:
+      # blockedHosts is a list of remote URLs that rput must refuse.
+      # An entry matches if it is:
+      #   - an IPv4 or IPv6 CIDR (e.g. "10.0.0.0/8", "fc00::/7",
+      #     "169.254.0.0/16" for link-local, "169.254.169.254/32" for
+      #     cloud metadata)
+      #   - a bare IPv4 or IPv6 address (e.g. "127.0.0.1", "::1")
+      #   - an exact hostname (case-insensitive, e.g. "example.com")
+      #   - a hostname with a "*" wildcard as the entire first label
+      #     ("*.example.com" matches "foo.example.com" but NOT
+      #     "foo.bar.example.com" — one subdomain level only, same as
+      #     the x509 wildcard certificate semantics)
+      #
+      # Bare IP and hostname entries may carry an optional ":port"
+      # suffix to restrict the match to that one port. Without a port,
+      # the entry matches every port on the host. Bracket IPv6 literals
+      # when adding a port: "[::1]:8083". CIDR entries cannot carry a
+      # port (a range doesn't compose with a single port — use a
+      # specific host/IP if you need that).
+      #
+      # The URL's port is compared after resolving the scheme default
+      # ("80" for http, "443" for https), so "example.com:443" also
+      # matches "https://example.com" without an explicit port.
+      #
+      # If the URL host is a name, it is resolved and every resolved
+      # address is checked against the CIDR entries; the connection is
+      # then pinned to that validated IP (Host header and TLS SNI keep
+      # the original hostname). This closes DNS rebinding.
+      #
+      # fylr's own internal services are always blocked implicitly: the
+      # backend callback URL (execserver.callbackBackendInternalURL),
+      # every Elasticsearch node (elastic.addresses), every execserver
+      # (execserver.addresses), and the backend / execserver listener
+      # addresses (services.backend.addr, services.execserver.addr).
+      # Each is auto-injected as a "host:port" entry so blocking, say,
+      # the backend on localhost:8083 does NOT block arbitrary other
+      # ports on localhost. A listener bound to a wildcard address
+      # (e.g. ":8083") is blocked on every local interface IP.
+      #
+      # The compiled-in default (fylr.default.yml) blocks loopback,
+      # link-local and private (RFC1918 / ULA) ranges. Override here for
+      # your deployment — e.g. drop a private range if rput must reach an
+      # internal mirror. Specify an empty list (`blockedHosts: []`) to
+      # disable all checks (not recommended).
+      #
+      # To disable rput entirely (refuse every outbound URL — no
+      # connection to anywhere), set the list to the two universal CIDRs:
+      #   blockedHosts:
+      #     - 0.0.0.0/0
+      #     - ::/0
+      # Every URL — IP literal or hostname-resolved — then matches.
+      blockedHosts:
+        - 127.0.0.0/8
+        - ::1/128
+        - 169.254.0.0/16
+        - fe80::/10
+        - 10.0.0.0/8
+        - 172.16.0.0/12
+        - 192.168.0.0/16
+        - fc00::/7
+        # Examples for name-based entries:
+        # - kubernetes.default.svc
+        # - *.cluster.local
 
 
   # services which will be started. It is possible to configure a standalone
@@ -593,6 +674,44 @@ fylr:
         - from: "/easydb?myeasydb4ID={sid}"
           to: "/#/detail/{sid}"
           statuscode: 301
+
+      # loginAllowRedirects extends the /login `redirect` allow-list (and,
+      # equivalently, the OAuth2 callback's state.Redirect allow-list) beyond
+      # same-origin (fylr.externalURL). Each entry is an absolute URL pattern.
+      # The host follows the RFC 6125 wildcard rules used in TLS server
+      # certificates: a single "*" is permitted only as the entire leftmost
+      # label and matches exactly one label that contains no ".". So
+      # "https://*.fylr.dev" matches "https://branch.fylr.dev" but neither
+      # "https://a.b.fylr.dev", "https://fylr.dev", nor
+      # "https://branch.fylr.dev.evil.com". The scheme must match exactly;
+      # the port matches exactly unless the pattern uses ":*" in place of
+      # the port, in which case any port on the same host is accepted —
+      # including the scheme's default-port form where the URL omits the
+      # port entirely (port 80 for http, 443 for https). So
+      # "http://localhost:*" allows http://localhost, http://localhost:80,
+      # http://localhost:8080 and http://localhost:54321, but never
+      # http://localhost.evil.com.
+      #
+      # The baked-in default config ships with "https://*.web.fylr.dev" so
+      # programmfabrik-hosted frontend branches can be tested against
+      # customer fylrs via the cross-server feature, plus
+      # "http://localhost:*" and "https://localhost:*" so frontend
+      # developers can point a local dev server at any port. Customer
+      # overlays (fylr+: …) interact with the baked-in entries following
+      # the standard yaml-merge rules — unsuffixed sequence keys replace,
+      # "+" extends, "-" removes:
+      #
+      #   loginAllowRedirects:   [...]                          # replaces the baked-in list
+      #   loginAllowRedirects+:  [...]                          # appends to it
+      #   loginAllowRedirects-:  ["http://localhost:*"]         # removes a baked-in entry
+      #
+      # Intended for setups where every webOnly frontend is operator-controlled
+      # (e.g. per-branch staging hosts that share a central fylr).
+      loginAllowRedirects: []
+      # loginAllowRedirects:
+      #   - https://*.fylr.dev
+      #   - http://*.fylr.dev
+      #   - http://dev.internal:*
 
     # service execserver executes binaries and used by FYLR
     # to generate previews, execute plugins and to get metadata
@@ -810,8 +929,8 @@ fylr:
               # The <prog> is the program name (upper case)
               #
               # pdf2pages needs
-              #   - exiftool
-              #   - magick
+              #   - mutool for PDF page rendering
+              #   - exiftool for INDD PageImage extraction
               prog: "fylr"
               args:
                 - "pdf2pages"

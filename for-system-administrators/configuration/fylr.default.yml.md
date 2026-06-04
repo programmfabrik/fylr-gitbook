@@ -61,6 +61,22 @@ fylr:
     callbackBackendInternalURL: "http://localhost:8081"
     callbackApiInternalURL: "http://localhost:8080"
 
+  eas:
+    rput:
+      # Block /api/v1/eas/rput[/bulk] from fetching loopback,
+      # link-local and private (RFC1918 / ULA) addresses by default.
+      # See fylr.example.yml for the full documentation of this list.
+      # To disable, override with an empty list: `blockedHosts: []`.
+      blockedHosts:
+        - 127.0.0.0/8
+        - ::1/128
+        - 169.254.0.0/16
+        - fe80::/10
+        - 10.0.0.0/8
+        - 172.16.0.0/12
+        - 192.168.0.0/16
+        - fc00::/7
+
   services:
     api:
       addr: :8080
@@ -117,6 +133,17 @@ fylr:
       reverseProxy:
         api: "bind"
         backend: "http://localhost:8081"
+      # baked-in so programmfabrik-hosted frontend branches at
+      # *.web.fylr.dev can be tested against customer fylrs via
+      # the cross-server feature. localhost on any port covers
+      # frontend developers running a local dev server. Customer
+      # configs replace this list by default; use
+      # loginAllowRedirects+: to extend it or loginAllowRedirects-:
+      # to remove a baked-in entry.
+      loginAllowRedirects:
+        - https://*.web.fylr.dev
+        - http://localhost:*
+        - https://localhost:*
     execserver:
       addr: :8083
       jobRemovalPolicy: "done"
