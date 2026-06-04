@@ -1,4 +1,4 @@
-# /api/collection/objects
+# /api/v1/collection/objects
 
 Read or replace the objects linked to the collection identified by
 `collectionId`. `GET` returns the linked objects; `POST` replaces the

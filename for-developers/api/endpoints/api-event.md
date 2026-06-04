@@ -1,4 +1,4 @@
-# /api/event
+# /api/v1/event
 
 Read, write and subscribe to **events**. fylr writes events for many
 server-side mutations (object insert/update, collection changes,

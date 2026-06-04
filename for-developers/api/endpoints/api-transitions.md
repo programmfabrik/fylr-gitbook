@@ -1,4 +1,4 @@
-# /api/transitions
+# /api/v1/transitions
 
 Manage workflow **transitions** — rules that fire when objects are
 inserted, updated or deleted, gated on the object's tags, and run

@@ -1,4 +1,4 @@
-# /api/export
+# /api/v1/export
 
 Manage **exports** — long-running jobs that bundle objects and their
 files into a downloadable archive (TAR.GZ or ZIP). All `/export`

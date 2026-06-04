@@ -1,4 +1,4 @@
-# /api/message
+# /api/v1/message
 
 Admin-managed **fylr** messages shown in the web front end, optionally
 requiring per-user confirmation (`confirm_every_version`, `show_always`)

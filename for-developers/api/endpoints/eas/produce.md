@@ -1,4 +1,4 @@
-# /api/eas/produce
+# /api/v1/eas/produce
 
 This endpoint is used to produce a new version of the file. It allows to crop and rotate images. The new file gets a new id. The `produce_version` setting from the parent is inherited.
 

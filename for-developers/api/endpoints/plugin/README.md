@@ -1,4 +1,4 @@
-# /api/plugin
+# /api/v1/plugin
 
 Read information about installed plugins, and download the bundled
 plugin assets (JavaScript, CSS, HTML templates, translations).

@@ -123,7 +123,7 @@ To offer autocompletion to the user, fylr offers the suggest endpoint.
 
 Export definitions can be created by users to export object data. Exports are based on a stored search and can be repeadetly executed (even scheduled). Export formats include **XML**, **CSV** and **JSON**.
 
-#### [oaipmh](endpoints/api-oaipmh.md)
+#### [oai](endpoints/api-oai.md)
 
 [OAI/PMH](https://www.openarchives.org/OAI/openarchivesprotocol.html) is a standard to harvest data from object storage systems such as **fylr**.
 

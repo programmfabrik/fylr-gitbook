@@ -1,4 +1,4 @@
-# /api/collection/remove
+# /api/v1/collection/remove
 
 Unlink the listed objects from the collection identified by
 `collectionId`. The body is a bare JSON array of objects (each by

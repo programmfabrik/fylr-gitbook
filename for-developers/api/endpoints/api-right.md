@@ -1,4 +1,4 @@
-# /api/right
+# /api/v1/right
 
 Access the ACL definitions and the per-context **right presets**
 used elsewhere in the API (collections, objects, pools, ...).

@@ -1,4 +1,4 @@
-# /api/config/list
+# /api/v1/config/list
 
 Read the list of available base-config variable definitions. The list is
 compiled dynamically from fylr's fixed core config items plus any items

@@ -1,4 +1,4 @@
-# /api/eas/put
+# /api/v1/eas/put
 
 The **eas/put** endpoint is used to synchronously upload files.
 

@@ -1,4 +1,4 @@
-# /api/eas
+# /api/v1/eas
 
 Fetch the [file](https://docs.fylr.io/for-developers/system-data-types/file)
 renderings for several files at once. The file `ids` are passed as a JSON

@@ -1,4 +1,4 @@
-# /api/system/share_link
+# /api/v1/system/share_link
 
 Shortens url paths and generates an url friendly share id to be accessed via
 /share/<share_id>.

@@ -1,4 +1,4 @@
-# /api/hotfolder
+# /api/v1/hotfolder
 
 A **drop-only** ingest share at `/api/v1/hotfolder`, distinct from the
 read/write `/api/v1/WebDAV` mount above. Where `/WebDAV` maps WebDAV

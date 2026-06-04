@@ -1,4 +1,4 @@
-# /api/search
+# /api/v1/search
 
 Run searches over the indexed objects, or over a different domain selected
 by the request `type` (`pool`, `collection`, `event`, `message`, `user`,

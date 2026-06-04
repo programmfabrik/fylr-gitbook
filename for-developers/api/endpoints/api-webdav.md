@@ -1,4 +1,4 @@
-# /api/webdav
+# /api/v1/WebDAV
 
 The **read/write** [WebDAV](http://www.webdav.org/specs/rfc4918.html)
 (RFC 4918) interface to **fylr**'s collections, mounted at

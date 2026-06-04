@@ -1,4 +1,4 @@
-# /api/settings
+# /api/v1/settings
 
 Unauthenticated endpoint reporting brief information about the running fylr
 instance: `version`, `instance` name, build details, Elastic `index_names`

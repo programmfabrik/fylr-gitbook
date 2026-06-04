@@ -1,4 +1,4 @@
-# /api/publish
+# /api/v1/publish
 
 Record **publishings** of fylr objects in external systems.
 **fylr has no publishing layer of its own** — the publication

@@ -1,4 +1,4 @@
-# /api/collection
+# /api/v1/collection
 
 Collections can store links to objects. It is possible to link other objects
 from **fylr** as well as foreign objects, unknown to **fylr**. Object links must be unique.

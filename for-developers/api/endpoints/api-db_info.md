@@ -1,4 +1,4 @@
-# /api/db_info
+# /api/v1/db_info
 
 Read-only permission probe for object creation. For a given `objecttype`,
 `pool_id` and `tag_ids` combination it reports where the requesting user may

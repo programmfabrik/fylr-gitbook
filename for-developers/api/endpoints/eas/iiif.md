@@ -1,4 +1,4 @@
-# /api/eas/iiif
+# /api/v1/eas/iiif
 
 Serve the [IIIF Image Information](https://iiif.io/api/image/2.0/#image-information)
 (`info.json`) for a file `version`, per the

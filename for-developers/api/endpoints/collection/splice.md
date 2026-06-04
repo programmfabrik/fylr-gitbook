@@ -1,4 +1,4 @@
-# /api/collection/splice
+# /api/v1/collection/splice
 
 Splice the object list of the collection identified by `collectionId`:
 remove `count` objects at position `index` and insert the supplied

@@ -1,4 +1,4 @@
-# /api/oaipmh
+# /api/v1/oai
 
 [OAI-PMH](https://www.openarchives.org/OAI/openarchivesprotocol.html)
 endpoint. Implements the Open Archives Initiative Protocol for

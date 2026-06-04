@@ -1,4 +1,4 @@
-# /api/collection/push
+# /api/v1/collection/push
 
 Append objects to the end of the collection identified by `collectionId`,
 in request order. Objects already linked are moved to the end. The

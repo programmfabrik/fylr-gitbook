@@ -1,4 +1,4 @@
-# /api/pool
+# /api/v1/pool
 
 Manage **pools** — fylr's hierarchical containers for storage,
 permissions and metadata defaults. Pools form a tree; each pool can

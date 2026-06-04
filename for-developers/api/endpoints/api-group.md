@@ -1,4 +1,4 @@
-# /api/group
+# /api/v1/group
 
 Manage user **groups**. A group bundles a set of users together so
 they can be addressed by the ACL system. Each group has an owner

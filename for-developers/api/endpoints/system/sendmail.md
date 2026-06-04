@@ -1,4 +1,4 @@
-# /api/system/sendmail
+# /api/v1/system/sendmail
 
 Sends an email through the fylr server's mail infrastructure, composed as
 a multipart message with separate HTML and text bodies and optional

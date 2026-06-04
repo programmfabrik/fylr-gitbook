@@ -1,4 +1,4 @@
-# /api/db
+# /api/v1/db
 
 The `/db` endpoint is **datamodel-driven**. `{objecttype}` is the name of an
 object type defined in this instance's datamodel. For every object type,

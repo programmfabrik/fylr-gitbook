@@ -1,4 +1,4 @@
-# /api/config
+# /api/v1/config
 
 Administrators can define base configuration using this API. fylr has a basic
 set of configuration items which are in the core system, such as the name of

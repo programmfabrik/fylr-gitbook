@@ -1,4 +1,4 @@
-# /api/eas/rput/bulk
+# /api/v1/eas/rput/bulk
 
 The **eas/rput/bulk** endpoint is used to asynchronously upload files. It works like **eas/rput** but in bulk. This is the fastest method to upload files into **fylr**.
 

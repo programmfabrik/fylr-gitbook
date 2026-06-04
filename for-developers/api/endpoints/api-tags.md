@@ -1,4 +1,4 @@
-# /api/tags
+# /api/v1/tags
 
 Manages the complete set of tag groups and tags. `GET` returns every
 taggroup and its tags and requires only an authenticated user; `POST`

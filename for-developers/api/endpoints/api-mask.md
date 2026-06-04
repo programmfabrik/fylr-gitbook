@@ -1,4 +1,4 @@
-# /api/mask
+# /api/v1/mask
 
 Access the **mask** definitions of a datamodel version. Masks
 project objecttypes to a subset of fields and are the unit through

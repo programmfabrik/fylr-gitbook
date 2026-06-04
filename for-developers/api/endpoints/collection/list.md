@@ -1,4 +1,4 @@
-# /api/collection/list
+# /api/v1/collection/list
 
 List and create collections. `GET` returns every collection the user has
 `BAG_READ` for, as a flat array (not nested into a tree); `PUT` creates new

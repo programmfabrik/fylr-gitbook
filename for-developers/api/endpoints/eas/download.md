@@ -1,4 +1,4 @@
-# /api/eas/download
+# /api/v1/eas/download
 
 The download endpoint is used to deliver binary file data. It delivers data for original files as well as renditions. These URL to the files should be taken from the responses of `/api/db` or `/api/search`.
 

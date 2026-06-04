@@ -1,4 +1,4 @@
-# /api/plugin/manage
+# /api/v1/plugin/manage
 
 Management API for installed plugins. Every operation requires the
 system right `system.root` or `system.plugin`; a request lacking

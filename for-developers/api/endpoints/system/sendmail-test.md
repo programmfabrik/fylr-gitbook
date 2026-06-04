@@ -1,4 +1,4 @@
-# /api/system/sendmail/test
+# /api/v1/system/sendmail/test
 
 Sends a test email to a single `to` address to verify the mail
 configuration. Each send writes an `EMAIL_SENT` or `EMAIL_SENT_FAILED`

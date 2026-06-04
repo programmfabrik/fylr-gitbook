@@ -1,4 +1,4 @@
-# /api/system
+# /api/v1/system
 
 System-administration endpoints for operating a fylr instance:
 statistics and status, search-index rebuild, backups, storage

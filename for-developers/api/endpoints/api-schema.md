@@ -1,4 +1,4 @@
-# /api/schema
+# /api/v1/schema
 
 The **schema** endpoint exposes the JSON-Schema view of a datamodel
 version — the structural description that `/api/db` and `/api/search`

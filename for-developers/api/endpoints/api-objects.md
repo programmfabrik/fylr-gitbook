@@ -1,4 +1,4 @@
-# /api/objects
+# /api/v1/objects
 
 **Deep link** access to a stored object or one of its files via a
 **structured path grammar** (not an opaque token). The path after

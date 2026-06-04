@@ -1,4 +1,4 @@
-# /api/user
+# /api/v1/user
 
 Manage user accounts. The required rights differ per operation:
 listing and reading users need only an authenticated session (reading

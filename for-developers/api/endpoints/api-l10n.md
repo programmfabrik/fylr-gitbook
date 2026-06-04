@@ -1,4 +1,4 @@
-# /api/l10n
+# /api/v1/l10n
 
 Static UI translations — the localisations the front-end and admin
 pages need before a user is signed in. Returned as

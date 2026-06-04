@@ -1,4 +1,4 @@
-# /api/eas/zoom
+# /api/v1/eas/zoom
 
 The endpoint zoom is used to deliver tiles for images. Use the `/api/db` and `/api/search` endpoints to retrieve the base URL to zoom and add the parameters to pick the tile accordingly. Tiles can be of any size and position. This endpoint uses the default tile size `320`.
 

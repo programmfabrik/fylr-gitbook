@@ -1,4 +1,4 @@
-# /api/objecttype
+# /api/v1/objecttype
 
 Read and write **objecttypes** — the per-record-type configuration
 that fylr layers on the datamodel definition (default masks, exposure

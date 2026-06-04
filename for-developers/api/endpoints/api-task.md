@@ -1,4 +1,4 @@
-# /api/task
+# /api/v1/task
 
 Use this endpoint to store & retrieve tasks. A task is a configuration to
 run a task module with pre-configured parameters. The tasks are executed in

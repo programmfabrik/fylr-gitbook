@@ -1,4 +1,4 @@
-# /api/xmlmapping
+# /api/v1/xmlmapping
 
 Manage XML import/export **mappings** — transformations between
 fylr objects and external XML formats (METS/MODS, LIDO, custom

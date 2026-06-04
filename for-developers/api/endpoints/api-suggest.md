@@ -1,4 +1,4 @@
-# /api/suggest
+# /api/v1/suggest
 
 Auto-suggest / autocomplete. Given the user's current input,
 returns candidate completions either as token frequencies
