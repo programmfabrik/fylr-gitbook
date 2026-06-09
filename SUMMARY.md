@@ -189,6 +189,7 @@
     * [Preview Configuration](for-administrators/readme/file-worker/preview-configuration.md)
     * [Location Defaults](for-administrators/readme/file-worker/location-defaults.md)
     * [Custom .icc Color Profiles](for-administrators/readme/file-worker/custom-.icc-color-profiles.md)
+    * [Custom Version Presets](for-administrators/readme/file-worker/custom-version-presets.md)
   * [Objectstore](for-administrators/readme/objectstore.md)
   * [Services](for-administrators/readme/services.md)
   * [License Management](for-administrators/readme/license-management.md)

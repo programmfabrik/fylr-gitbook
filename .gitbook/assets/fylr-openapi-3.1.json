@@ -13406,6 +13406,48 @@
                               },
                               "type": "object"
                             },
+                            "custom_version_presets": {
+                              "properties": {
+                                "value": {
+                                  "properties": {
+                                    "presets": {
+                                      "description": "Named presets of on-demand custom-version options. Each preset is offered in the download dialog and can be requested on export by name (an export version with `type` `custom` and `custom_version_preset` set to the preset's `name`).",
+                                      "items": {
+                                        "properties": {
+                                          "custom": {
+                                            "$ref": "#/components/schemas/ExportCustomVersion"
+                                          },
+                                          "displayname": {
+                                            "example": {
+                                              "de-DE": "Deutscher text",
+                                              "en-US": "English text"
+                                            },
+                                            "properties": {
+                                              "de-DE": {
+                                                "type": "string"
+                                              },
+                                              "en-US": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "type": "object"
+                                          },
+                                          "name": {
+                                            "description": "Unique name of the preset. Referenced on export via `custom_version_preset` and used in place of `custom` in the produced file name.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      "type": "array"
+                                    }
+                                  },
+                                  "type": "object",
+                                  "x-type": "json"
+                                }
+                              },
+                              "type": "object"
+                            },
                             "deep_link_access": {
                               "properties": {
                                 "allow_access_by_column": {
@@ -16898,6 +16940,48 @@
                             },
                             "type": "object"
                           },
+                          "custom_version_presets": {
+                            "properties": {
+                              "value": {
+                                "properties": {
+                                  "presets": {
+                                    "description": "Named presets of on-demand custom-version options. Each preset is offered in the download dialog and can be requested on export by name (an export version with `type` `custom` and `custom_version_preset` set to the preset's `name`).",
+                                    "items": {
+                                      "properties": {
+                                        "custom": {
+                                          "$ref": "#/components/schemas/ExportCustomVersion"
+                                        },
+                                        "displayname": {
+                                          "example": {
+                                            "de-DE": "Deutscher text",
+                                            "en-US": "English text"
+                                          },
+                                          "properties": {
+                                            "de-DE": {
+                                              "type": "string"
+                                            },
+                                            "en-US": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "type": "object"
+                                        },
+                                        "name": {
+                                          "description": "Unique name of the preset. Referenced on export via `custom_version_preset` and used in place of `custom` in the produced file name.",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "type": "object"
+                                    },
+                                    "type": "array"
+                                  }
+                                },
+                                "type": "object",
+                                "x-type": "json"
+                              }
+                            },
+                            "type": "object"
+                          },
                           "deep_link_access": {
                             "properties": {
                               "allow_access_by_column": {
@@ -20332,6 +20416,48 @@
                               "properties": {
                                 "active": {
                                   "type": "boolean"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "custom_version_presets": {
+                              "properties": {
+                                "value": {
+                                  "properties": {
+                                    "presets": {
+                                      "description": "Named presets of on-demand custom-version options. Each preset is offered in the download dialog and can be requested on export by name (an export version with `type` `custom` and `custom_version_preset` set to the preset's `name`).",
+                                      "items": {
+                                        "properties": {
+                                          "custom": {
+                                            "$ref": "#/components/schemas/ExportCustomVersion"
+                                          },
+                                          "displayname": {
+                                            "example": {
+                                              "de-DE": "Deutscher text",
+                                              "en-US": "English text"
+                                            },
+                                            "properties": {
+                                              "de-DE": {
+                                                "type": "string"
+                                              },
+                                              "en-US": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "type": "object"
+                                          },
+                                          "name": {
+                                            "description": "Unique name of the preset. Referenced on export via `custom_version_preset` and used in place of `custom` in the produced file name.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      "type": "array"
+                                    }
+                                  },
+                                  "type": "object",
+                                  "x-type": "json"
                                 }
                               },
                               "type": "object"
@@ -42269,7 +42395,7 @@
               "version",
               "custom"
             ],
-            "description": "Which rendition of the file to export.\n`original` — the root/original file (resolves to the original\neven when the current value is a produced version).\n`current` — the file value as currently set.\n`version` — a named produced version; requires `version`.\n`custom` — an on-the-fly rendition described by `custom`\n(image class only).\n"
+            "description": "Which rendition of the file to export.\n`original` — the root/original file (resolves to the original\neven when the current value is a produced version).\n`current` — the file value as currently set.\n`version` — a named produced version; requires `version`.\n`custom` — an on-the-fly rendition described by `custom` or, by name, by `custom_version_preset` (image class only).\n"
           },
           "metadata": {
             "description": "Metadata-embedding rule for the exported file. One of the\nstrings `standard` (apply the object's standard image-export\nmetadata mapping), `keep` (leave embedded metadata untouched),\n`remove` (strip IPTC / XMP / Photoshop tags via exiftool), or an\ninteger mapping-profile id (a custom metadata mapping).\n`null` / omitted is treated as `standard`. Any other value is\nrejected.\n",
@@ -42295,6 +42421,10 @@
           },
           "custom": {
             "$ref": "#/components/schemas/ExportCustomVersion"
+          },
+          "custom_version_preset": {
+            "type": "string",
+            "description": "Name of a custom version preset configured in the base config block `custom_version_presets`. An alternative to an inline `custom` object when `type` = `custom`: the server resolves the preset to its options. Set either `custom` or `custom_version_preset`, not both; an unknown name is rejected. The produced file is named after the preset instead of `custom`.\n"
           }
         }
       },
