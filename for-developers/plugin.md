@@ -64,9 +64,9 @@ callbacks:
         commands:
           - prog: "node"
             stdin:
-              url: "%_input.url%"
+              type: "body"
             stdout:
-              url: "%_output.url%"
+              type: "body"
             args:
               - type: "value"
                 value: "set_comment.js"
@@ -86,9 +86,9 @@ callbacks:
           commands:
             - prog: "node"
               stdin:
-                url: "%_input.url%"
+                type: "body"
               stdout:
-                url: "%_output.url%"
+                type: "body"
               args:
                 - type: "value"
                   value: "set_comment.js"
@@ -151,6 +151,10 @@ In case of an error, fylr tries to parse errors using the api error format. If a
 ## Callbacks
 
 Callbacks are predefined hooks in the API of FYLR. Each hook is different and might use its own format for in and output of the data.
+
+{% hint style="warning" %}
+**Stdin/stdout transport differs between extensions and callbacks.** Extensions use the URL-replacement form (`stdin.url: "%_input.url%"` / `stdout.url: "%_output.url%"`) because fylr exposes the input/output as on-the-fly HTTP endpoints. Callbacks (e.g. `db_pre_save`, `transition_db_pre_save`) connect the plugin's process stdin/stdout directly via `type: "body"`. Using the URL form inside a callback definition fails at job dispatch with `Could not prepare stdin "%_input.url%": parse "%_input.url%": invalid URL escape "%_i"` because the placeholder is not substituted in that path.
+{% endhint %}
 
 Errors can be generated using the api error JSON format which looks like this:
 
