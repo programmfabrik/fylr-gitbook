@@ -23500,11 +23500,18 @@ paths:
                 back with the request: ids are never reused, and a save that fails after
                 they are drawn leaves a gap in the numbering. Gaps are expected.
 
-                Saving an object requires the `read` permission on every linked object
-                referenced in the payload — including links that already existed on the
-                object and are sent back unchanged by the client. A caller with `write`
-                on the object but no `read` on a linked target is rejected with
-                `403 ObjectInsufficientRights` (`right: read`).
+                Saving an object requires the `read` permission on a linked object only
+                when the save introduces that target at a **new location** — a field, or
+                a nested row (identified by its `_uuid`) and sub-field, where the object's
+                committed version did not already link it. A target sent back at the same
+                location is exempt, even if its row moved position or other rows around it
+                were removed. Moving a link to a different field or nested row, or
+                replacing it with a not-previously-linked target there, requires `read` on
+                that target; a caller with `write` on the object but no `read` on it is
+                then rejected with `403 ObjectInsufficientRights` (`right: read`). Being
+                linked elsewhere in the same object is not enough — it must be the same
+                location. The frontend round-trips the `_uuid` of existing nested rows, so
+                ordinary edits keep their unchanged links exempt.
 
                 Differs from easydb 5: both create and update use `POST`, and create
                 versus update is decided by `_version` (create when absent or `1`), not by
