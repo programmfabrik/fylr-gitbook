@@ -41263,6 +41263,12 @@ components:
                 num_glyphs:
                     type: number
                     format: int
+                samples_per_pixel:
+                    type: number
+                    format: int
+                    description: |
+                        Number of samples (channels) per pixel of a TIFF, e.g. `7` for RGB plus
+                        4 extra channels (alpha, spot colors) as written by Photoshop.
                 sha256_hash:
                     type: string
                 video_codec:
