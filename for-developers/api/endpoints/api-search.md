@@ -4,6 +4,8 @@ Run searches over the indexed objects, or over a different domain selected by th
 
 Differs from easydb 5: the searchable domains are `pool`, `collection`, `event`, `message`, `user`, `group` and `acl` (plus the default object search). easydb 5 has no `event` domain, and **fylr** has no `pool_management` domain (easydb 5 documents `pool_management` to search pools with `bag_write`).
 
+From version 6.34.0, every element of the `search` array accepts a `boost` parameter (number, default `1`), with the semantics known from easydb 5: a higher boost gives objects matching that element a higher `_score`. Combine `bool: should` elements with different boosts and sort by `_score` to rank preferred matches first.
+
 ### `GET /search` — Search for objects (cacheable).
 
 {% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/search" method="get" %}

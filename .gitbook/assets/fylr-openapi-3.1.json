@@ -53245,7 +53245,7 @@
           },
           "objects": {
             "type": "array",
-            "description": "The page of matching objects. The shape of each item depends on the\nsearch `type`: rendered objects for an object search, otherwise pools,\ncollections, events, messages or users/groups.\n",
+            "description": "The page of matching objects. The shape of each item depends on the\nsearch `type`: rendered objects for an object search, otherwise pools,\ncollections, events, messages or users/groups. Each object search hit\ncarries its relevance in `_score` (number): sort by `_score` to order\nby relevance, raise it for selected search elements with their `boost`\nparameter.\n",
             "items": {}
           },
           "aggregations": {
@@ -53643,6 +53643,10 @@
               "must_not",
               "should"
             ]
+          },
+          "boost": {
+            "type": "number",
+            "description": "Relative weight of this element: a higher boost results in a higher\n`_score` for objects matching it (useful with `bool: should` and\nsorting by `_score`). Applies to every `type`, must not be negative,\nhas no effect on `must_not` elements. Defaults to `1`.\n"
           },
           "fields": {
             "type": "array",

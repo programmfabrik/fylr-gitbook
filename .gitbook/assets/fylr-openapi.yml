@@ -52024,7 +52024,10 @@ components:
                     description: |
                         The page of matching objects. The shape of each item depends on the
                         search `type`: rendered objects for an object search, otherwise pools,
-                        collections, events, messages or users/groups.
+                        collections, events, messages or users/groups. Each object search hit
+                        carries its relevance in `_score` (number): sort by `_score` to order
+                        by relevance, raise it for selected search elements with their `boost`
+                        parameter.
                     items: {}
                 aggregations:
                     type: object
@@ -52365,6 +52368,13 @@ components:
                         - must
                         - must_not
                         - should
+                boost:
+                    type: number
+                    description: |
+                        Relative weight of this element: a higher boost results in a higher
+                        `_score` for objects matching it (useful with `bool: should` and
+                        sorting by `_score`). Applies to every `type`, must not be negative,
+                        has no effect on `must_not` elements. Defaults to `1`.
                 fields:
                     type: array
                     description: Fields this element queries.
