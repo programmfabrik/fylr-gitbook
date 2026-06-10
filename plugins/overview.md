@@ -6,7 +6,7 @@ description: >-
 
 <!--
     * this page was automatically generated!
-    * timestamp: 2026-05-19 15:19:06 (UTC)
+    * timestamp: 2026-06-10 13:57:37 (UTC)
 -->
 
 # Plugin Overview
@@ -28,7 +28,7 @@ Extension of [easydb-barcode-display](#easydb-barcode-display) to use the barcod
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
-## `easydb-barcode-display`
+## `easydb-barcode-display-plugin` (internal name: `easydb-barcode-display`)
 
 Adds a Custom Mask Splitter to output a barcode based on data of another field in the record.
 
@@ -52,7 +52,7 @@ To get access to this plugin and receive a URL, please contact our support.
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
-## `custom-data-type-html-editor`
+## `easydb-custom-data-type-html-editor` (internal name: `custom-data-type-html-editor`)
 
 This custom data type allows you to integrate a WYSIWYG editor and store HTML content in the database.
 
@@ -62,12 +62,12 @@ This custom data type allows you to integrate a WYSIWYG editor and store HTML co
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
-## `custom-mask-splitter-detail-linked`
+## `easydb-custom-mask-splitter-detail-linked-plugin` (internal name: `custom-mask-splitter-detail-linked`)
 
 {% hint style="warning" %}
 This plugin was renamed internally due to technical reasons.
 
-If the plugin was installed in fylr under the name `custom-mask-splitter-detail-linked`, disable and delete this plugin in the plugin manager.
+If the plugin was installed in fylr under the name `custom-mask-splitter-detail-linked`, disable and delete this plugin in the plugin manager. 
 
 Make sure to install and enable the new version with the name `easydb-custom-mask-splitter-detail-linked-plugin` using the same release url.
 {% endhint %}
@@ -130,22 +130,7 @@ Enables you to turn collections into presentations that can be exported as PPTX.
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
-## `easydb-wordpress-plugin`
-
-Add your [Wordpress](https://wordpress.com/) page to fylr and send selected files to Wordpress.
-
-
-
-{% hint style="info" %}
-This plugin does not have a public release URL.
-
-To get access to this plugin and receive a URL, please contact our support.
-{% endhint %}
-
-* This plugin was developed by *Programmfabrik GmbH*.
-
-
-## `ai-metadata`
+## `fylr-plugin-ai-metadata` (internal name: `ai-metadata`)
 
 This plugin allows to configure AI services in order to gather enhanced metadata to use in the fylr metadata mapper.
 
@@ -168,7 +153,7 @@ This is a plugin for fylr which runs AI and other validations on texts like user
 * Repository: [https://github.com/programmfabrik/fylr-plugin-ai-validator](https://github.com/programmfabrik/fylr-plugin-ai-validator)
 
 
-## `collection-csv-import`
+## `fylr-plugin-collection-csv-import` (internal name: `collection-csv-import`)
 
 Plugin manages the server side csv importer.
 
@@ -177,9 +162,9 @@ Plugin manages the server side csv importer.
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
-## `commons-library`
+## `fylr-plugin-commons-library` (internal name: `commons-library`)
 
-Provides shared functions for CustomDataTypePlugins.
+Provides shared functions for CustomDataTypePlugins. 
 
 This plugin **must be installed** as well so that plugins which are dependant on this plugin work properly.
 
@@ -206,7 +191,7 @@ This plugin is a dependency for these plugins:
 * [`signaturegenerator`](#signaturegenerator)
 
 
-## `custom-data-type-dante`
+## `fylr-plugin-custom-data-type-dante` (internal name: `custom-data-type-dante`)
 
 This custom data type allows you to reference the entities of the [DANTE-Vocabulary-Server](https://dante.gbv.de/).
 
@@ -234,11 +219,12 @@ This plugin adds the new data type "DoRIS" to a Fylr instance, enabling communic
 
 This is a plugin for fylr with Custom Data Type `CustomDataTypeFINTO` for references to entities of the Finnish Thesaurus and Ontology Service FINTO ([https://finto.fi/](https://finto.fi/)).
 
+* Release URL: [https://github.com/programmfabrik/fylr-custom-data-type-finto/releases/latest/download/customDataTypeFinto.zip](https://github.com/programmfabrik/fylr-custom-data-type-finto/releases/latest/download/customDataTypeFinto.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-finto](https://github.com/programmfabrik/fylr-plugin-custom-data-type-finto)
 * This is a custom data type.
 
 
-## `custom-data-type-geonames`
+## `fylr-plugin-custom-data-type-geonames` (internal name: `custom-data-type-geonames`)
 
 This custom data type allows you to reference the entities of the [GeoNames](http://ws.gbv.de/suggest/geonames/) geographical database.
 
@@ -253,7 +239,7 @@ This plugin depends on these plugins:
 * [`commons-library`](#commons-library)
 
 
-## `custom-data-type-georef`
+## `fylr-plugin-custom-data-type-georef` (internal name: `custom-data-type-georef`)
 
 This custom data type allows you to store geoJSON data in the database. You can set polygons, linestrings and points on the worldmap.
 
@@ -268,7 +254,7 @@ This plugin depends on these plugins:
 * [`commons-library`](#commons-library)
 
 
-## `custom-data-type-getty`
+## `fylr-plugin-custom-data-type-getty` (internal name: `custom-data-type-getty`)
 
 This custom data type allows you to reference entities of the [Getty Vocabulary](http://vocab.getty.edu/).
 
@@ -283,7 +269,7 @@ This plugin depends on these plugins:
 * [`commons-library`](#commons-library)
 
 
-## `custom-data-type-gfbio`
+## `fylr-plugin-custom-data-type-gfbio` (internal name: `custom-data-type-gfbio`)
 
 This custom data type allows you to reference entities of the [GFBio Terminology Service](https://terminologies.gfbio.org/api/).
 
@@ -298,7 +284,7 @@ This plugin depends on these plugins:
 * [`commons-library`](#commons-library)
 
 
-## `custom-data-type-gn250`
+## `fylr-plugin-custom-data-type-gn250` (internal name: `custom-data-type-gn250`)
 
 This custom data type allows you to reference entities of the gn250-Set of [Bundesamt für Kartographie](http://www.geodatenzentrum.de/).
 
@@ -313,7 +299,7 @@ This plugin depends on these plugins:
 * [`commons-library`](#commons-library)
 
 
-## `custom-data-type-gnd`
+## `fylr-plugin-custom-data-type-gnd` (internal name: `custom-data-type-gnd`)
 
 This custom data type allows you to reference entities (only Differentiated Persons, Cooperates, Subject Headings, Place or geographic name, Works and Events) of the [Integrated Authority File (GND)](https://d-nb.info/standards/elementset/gnd).
 
@@ -337,7 +323,7 @@ This is a plugin for fylr with Custom Data Type CustomDataTypeGoobi for referenc
 * This is a custom data type.
 
 
-## `custom-data-type-iconclass`
+## `fylr-plugin-custom-data-type-iconclass` (internal name: `custom-data-type-iconclass`)
 
 This custom data type allows you to reference entities of the [Iconclass-Vocabulary](http://iconclass.org/).
 
@@ -352,7 +338,7 @@ This plugin depends on these plugins:
 * [`commons-library`](#commons-library)
 
 
-## `custom-data-type-gvk`
+## `fylr-plugin-custom-data-type-k10plus` (internal name: `custom-data-type-gvk`)
 
 This custom data type allows you to reference entities of the [Gemeinsame Datenbank k10plus](https://kxp.k10plus.de/).
 
@@ -367,7 +353,7 @@ This plugin depends on these plugins:
 * [`commons-library`](#commons-library)
 
 
-## `custom-data-type-loc`
+## `fylr-plugin-custom-data-type-loc` (internal name: `custom-data-type-loc`)
 
 This is a plugin for fylr with Custom Data Type `CustomDataTypeLoc` for references to [Subject Headings](https://id.loc.gov/search/?q=cs:http://id.loc.gov/authorities/subjects) of the Library of Congress.
 
@@ -391,7 +377,7 @@ This plugin adds the new data type "Geometry link via WFS-T and Masterportal" to
 * This is a custom data type.
 
 
-## `custom-data-type-nomisma`
+## `fylr-plugin-custom-data-type-nomisma` (internal name: `custom-data-type-nomisma`)
 
 Custom data type for references to the records from different online ressources of the [Nomisma-Project](http://www.nomisma.org/datasets).
 
@@ -415,7 +401,7 @@ This is a plugin for fylr with Custom Data Type `CustomDataTypeTNADiscovery` for
 * This is a custom data type.
 
 
-## `custom-data-type-wikidata`
+## `fylr-plugin-custom-data-type-wikidata` (internal name: `custom-data-type-wikidata`)
 
 Plugin for fylr with Custom Data Type `CustomDataTypeWikidata` for references to records of the Wikidata ([https://www.wikidata.org](https://www.wikidata.org)).
 
@@ -438,7 +424,7 @@ Configure new l10n-keys or overwrite existing keys.
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-l10n](https://github.com/programmfabrik/fylr-plugin-custom-l10n)
 
 
-## `custom-vzg-validationhub`
+## `fylr-plugin-custom-vzg-validationhub` (internal name: `custom-vzg-validationhub`)
 
 This is a plugin for fylr which sends data to the validation center of the [VZG](https://www.gbv.de/informationen/Verbundzentrale), where content validations can be carried out.
 
@@ -447,7 +433,7 @@ This is a plugin for fylr which sends data to the validation center of the [VZG]
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-## `default-values-from-pool`
+## `fylr-plugin-default-values-from-pool` (internal name: `default-values-from-pool`)
 
 Configure standard fields in the base configuration, which can be defined per pool and then integrated into masks. These can then be used in the data model to assign default values to fields.
 
@@ -456,7 +442,22 @@ Configure standard fields in the base configuration, which can be defined per po
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-## `edit-info-updater`
+## `fylr-plugin-drupal`
+
+Add your [Drupal](https://www.drupal.org/) page to fylr and send selected files to Drupal.
+
+
+
+{% hint style="info" %}
+This plugin does not have a public release URL.
+
+To get access to this plugin and receive a URL, please contact our support.
+{% endhint %}
+
+* This plugin was developed by *Programmfabrik GmbH*.
+
+
+## `fylr-plugin-edit-info-updater` (internal name: `edit-info-updater`)
 
 This is a server plugin for fylr that updates two fields "Edited by" and "Edit date" whenever either a certain field has been changed or a tag from a certain tag group has been added or removed. Fields can optionally be located inside a nested field.
 
@@ -465,7 +466,7 @@ This is a server plugin for fylr that updates two fields "Edited by" and "Edit d
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-## `edit-info-updater`
+## `fylr-plugin-edit-info-updater` (internal name: `edit-info-updater`)
 
 Server plugin for fylr that updates two fields "Edited by" and "Edit date" whenever either a certain field has been changed or a tag from a certain tag group has been added or removed. Fields can optionally be located inside a nested field.
 
@@ -474,7 +475,7 @@ Server plugin for fylr that updates two fields "Edited by" and "Edit date" whene
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-## `editor-field-visibility`
+## `fylr-plugin-editor-field-visibility` (internal name: `editor-field-visibility`)
 
 This custom mask splitter allows you to hide input fields depending on another fields value.
 
@@ -491,7 +492,7 @@ Plugin to support EJC classes.
 * Repository: [https://github.com/programmfabrik/fylr-plugin-ejc](https://github.com/programmfabrik/fylr-plugin-ejc)
 
 
-## `fylr_example`
+## `fylr-plugin-example` (internal name: `fylr_example`)
 
 This plugin contains a lot of examples for developers. It has no productive use.
 
@@ -500,7 +501,7 @@ This plugin contains a lot of examples for developers. It has no productive use.
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
-## `find-duplicate-field-values`
+## `fylr-plugin-find-duplicate-field-values` (internal name: `find-duplicate-field-values`)
 
 Mask splitter that is configured for a text field. It shows in the editor whether the field has had the same value in the user's visibility range before.
 
@@ -509,7 +510,7 @@ Mask splitter that is configured for a text field. It shows in the editor whethe
 * This plugin was developed by *Verbundzentrale des GBV (VZG)*.
 
 
-## `fjc`
+## `fylr-plugin-fjc` (internal name: `fjc`)
 
 Plugin to store settings of the Attention developed fylr Java classes.
 
@@ -518,7 +519,7 @@ Plugin to store settings of the Attention developed fylr Java classes.
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
-## `formula-columns`
+## `fylr-plugin-formula-columns` (internal name: `formula-columns`)
 
 This plugin allows you to set or change the values in fields using small Javascript snippets.
 
@@ -527,7 +528,7 @@ This plugin allows you to set or change the values in fields using small Javascr
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
-## `geo-json`
+## `fylr-plugin-geo-json` (internal name: `geo-json`)
 
 Adds support for the `geo-json` custom data type with an editor that allows for easy and intuitive manipulation of this format in fylr. Additionally, it includes the map search view and geolocation search functions.
 
@@ -542,10 +543,10 @@ To get access to this plugin and receive a URL, please contact our support.
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
-## `geo-json (public)`
+## `fylr-plugin-geo-json-public` (internal name: `geo-json (public)`)
 
 {% hint style="warning" %}
-This plugin repository will be removed soon!
+This plugin repository will be removed soon! 
 
 Please change to [geo-json](#geo-json) (same functionality and content) as soon as possible!
 {% endhint %}
@@ -580,7 +581,7 @@ This plugin depends on these plugins:
 * [`commons-library`](#commons-library)
 
 
-## `monitoring-endpoint`
+## `fylr-plugin-monitoring` (internal name: `monitoring-endpoint`)
 
 Custom monitoring-endpoint for fylr-API. The plugin provides a new API endpoint under `GET /api/v1/plugin/base/monitoring/monitoring`.
 
@@ -607,7 +608,7 @@ This server plugin for fylr allows automatically setting the values of numeric I
 * Repository: [https://github.com/programmfabrik/fylr-plugin-numeric-id-auto-incrementer](https://github.com/programmfabrik/fylr-plugin-numeric-id-auto-incrementer)
 
 
-## `obscure-image`
+## `fylr-plugin-obscure-image` (internal name: `obscure-image`)
 
 Obscure (Pixelate/Blur/Blackout) tool for the Fylr AssetVersions editor.
 
@@ -644,7 +645,7 @@ This plugin is a dependency for these plugins:
 * [`user-logo`](#user-logo)
 
 
-## `pdf-creator-custom-value`
+## `fylr-plugin-pdf-creator-custom-value` (internal name: `pdf-creator-custom-value`)
 
 This fylr-plugin allows to use custom javascript in the pdfcreator.
 
@@ -658,7 +659,7 @@ This plugin depends on these plugins:
 * [`fylr-plugin-pdf-creator`](#fylr-plugin-pdf-creator)
 
 
-## `fylr-scancode-display`
+## `fylr-plugin-scancode-display` (internal name: `fylr-scancode-display`)
 
 Custom Mask Splitter for fylr to output scancodes based on data of another field in the record. Various barcode formats and QR codes are available. This plugin can be used in datamodel-masks and also in the pdfcreator.
 
@@ -681,7 +682,7 @@ This plugin allows you to automatically generate a string based on sequential nu
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
-## `server-pdf`
+## `fylr-plugin-server-pdf` (internal name: `server-pdf`)
 
 This plugin allows the conversion of HTML to PDF, using an internal Chromium binary.
 
@@ -690,7 +691,7 @@ This plugin allows the conversion of HTML to PDF, using an internal Chromium bin
 * This plugin was developed by *Programmfabrik GmbH*.
 
 
-## `signaturegenerator`
+## `fylr-plugin-signature-generator` (internal name: `signaturegenerator`)
 
 Allows automatic signature-generation via predefined patterns.
 
@@ -714,6 +715,21 @@ The plugin makes it possible to create tray entries in baseconfig and to provide
 * Repository: [https://github.com/programmfabrik/fylr-plugin-tray-link-manager](https://github.com/programmfabrik/fylr-plugin-tray-link-manager)
 
 
+## `fylr-plugin-typo3`
+
+Integrate fylr in your [TYPO3](https://typo3.org/) to access files stored in fylr from within your TYPO3. The plugin consists of two parts and needs to be installed in fylr and in TYPO3.
+
+
+
+{% hint style="info" %}
+This plugin does not have a public release URL.
+
+To get access to this plugin and receive a URL, please contact our support.
+{% endhint %}
+
+* This plugin was developed by *Programmfabrik GmbH*.
+
+
 ## `fylr-plugin-ubhd-3d-viewer`
 
 3D Viewer Plugin der Universitätsbibliothek Heidelberg basierend auf 3DHOP, three.js und Relight.
@@ -722,7 +738,7 @@ The plugin makes it possible to create tray entries in baseconfig and to provide
 * Repository: [https://github.com/programmfabrik/fylr-plugin-ubhd-3d-viewer](https://github.com/programmfabrik/fylr-plugin-ubhd-3d-viewer)
 
 
-## `user-logo`
+## `fylr-plugin-user-logo` (internal name: `user-logo`)
 
 Uses user-image as logo in frontend and PDF-creator.
 
@@ -734,3 +750,18 @@ Uses user-image as logo in frontend and PDF-creator.
 This plugin depends on these plugins:
 
 * [`fylr-plugin-pdf-creator`](#fylr-plugin-pdf-creator)
+
+
+## `fylr-plugin-wordpress`
+
+Add your [Wordpress](https://wordpress.com/) page to fylr and send selected files to Wordpress.
+
+
+
+{% hint style="info" %}
+This plugin does not have a public release URL.
+
+To get access to this plugin and receive a URL, please contact our support.
+{% endhint %}
+
+* This plugin was developed by *Programmfabrik GmbH*.
