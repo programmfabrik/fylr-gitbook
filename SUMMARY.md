@@ -198,6 +198,7 @@
 * [Metadata Mapping](for-administrators/metadata-mapping.md)
 * [Messages](for-administrators/messages.md)
 * [Events](for-administrators/events.md)
+  * [Event Type Reference](for-administrators/events/event-type-reference.md)
 * [Location Manager](for-administrators/location-manager.md)
 * [Plugin Manager](for-administrators/plugin-manager.md)
 * [Backup Manager](for-administrators/backup-manager.md)
