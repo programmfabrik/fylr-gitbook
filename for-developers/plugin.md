@@ -13,7 +13,7 @@ A plugin consists of a _manifest.yml_ and can include an arbritary tree of files
 
 The config **fylr.yml** needs to be configured to load each individual plugin or a directory containing multiple plugins.
 
-Plugins may be packed into a .zip file, if they are FYLR serves the data from within the ZIP unpacking files on the fly.
+Plugins may be packed into a [.zip file](/for-developers/plugin/conventions.md#build), if they are FYLR serves the data from within the ZIP unpacking files on the fly.
 
 Configured callbacks use replacements for specific URL to receive and send data.
 
@@ -115,7 +115,7 @@ base_config:
     parameters:
       api_user:
         type: user
-  
+
 ```
 
 ## Extensions
