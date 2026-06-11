@@ -8,7 +8,7 @@ description: >-
 
 Every action the fylr server logs is stored as an **event**. Besides the type and the timestamp, an event record can carry:
 
-* the **acting user** — only for event types marked _user-logged_ below, and only if the event's group is enabled in the base configuration (user settings, `user_in_event_group`); selected user fields can additionally be copied into the event (`copy_to_event`). Login events always store the user, regardless of this setting.
+* the **acting user** — only for event types marked _user-logged_ below, and only if the event's group is enabled in the base configuration (user settings, `user_in_event_group`). Login events always store the user, regardless of this setting. User fields selected in `copy_to_event` are additionally copied into `info` as flat `user.<field>` keys (e.g. `user.login`, `user.first_name`), so a CSV export of events can expand them into columns.
 * **record references** — for events about records or base objects: object ID, version, object type or basetype, and the global object ID.
 * **`info`** — a JSON object with additional data, different per event type. This is what the largest part of this page describes.
 * the **remote address** of the request that caused the event.
@@ -94,6 +94,7 @@ Created when the server sends an email successfully.
 * `To`, `Cc`, `Bcc` — recipient addresses
 * `Subject` — the subject line
 * `Attachments` — per attachment: `ContentType`, `Filename`, `Size` (human readable), `Filesize` (bytes)
+* additional keys describing what caused the email, merged in by the sender — for example `Collection`/`CollectionID` and `User`/`UserID` for a collection-share email, or `TaskID` for an email sent by a background task
 
 ### EMAIL_SENT_FAILED
 
@@ -109,8 +110,7 @@ Created when technical metadata is successfully extracted from an uploaded file.
 
 `info`:
 
-* `recipe` — name of the metadata recipe used
-* `metadata` — the job receipt of the metadata job (commands run, timing; secrets removed)
+* `metadata` — the job receipt of the metadata job (commands run with their output, timing, exit codes; secrets removed)
 
 ### FILE_METADATA_ERROR
 
@@ -222,6 +222,8 @@ Created when a record is saved through the API or frontend: `OBJECT_INSERT` for 
 `info`:
 
 * `standard` — the rendered standard (short display text) of the record in the database languages
+
+Saved **exports** are stored as records too: creating or changing an export also emits `OBJECT_INSERT`/`OBJECT_UPDATE` (basetype `export`), whose `info` carries `state` (the export status) instead of `standard`.
 
 ### OBJECT_UNDELETE
 
@@ -340,6 +342,7 @@ Created when a run of a [janitor](../readme/services.md) (periodic background ma
 * `batch_size` — the batch size used
 * `count` — how many items were processed
 * `log` — detailed log of the run
+* individual janitors add their own keys — for example the `objects_purge` janitor adds `system_object_ids` (the records it purged)
 
 ### JANITOR_ERROR
 
@@ -376,6 +379,7 @@ Created when a record or base object (user, group, pool, collection, message) is
 `info`:
 
 * `Priority` — the priority of the indexing job
+* `IndexName` — the target index
 
 ### OBJECT_INDEX_ERROR
 
@@ -636,6 +640,8 @@ Created when a file is delivered as a download (download disposition, as opposed
 * `statuscode` — HTTP status of the delivery
 * `url` — the request URL (access tokens removed)
 * `produce_params` — the conversion parameters, if a custom version was produced on the fly
+* any keys the caller passes in the `event.info` query parameter of the download URL are merged into the event info
+* for downloads that run through a download/export definition additionally: `export_type`, `export_id`, `export_path`, `export_user_id`, and `custom_version` (the requested custom rendition options)
 
 ### FILE_DOWNLOAD_ERROR
 
@@ -710,6 +716,7 @@ Created after every successful login, with any method (password, email, LDAP, SA
 * `login` / `email` — the login name or email address used (depending on the method)
 * `loginused` — for root-on-behalf logins (`root/password` form): the root login used
 * `idp` — the identity provider URL (SAML logins)
+* `plugin_user`, `plugin_user_id` — for plugin-provided users (e.g. the anonymous user of a shared collection link): the plugin user reference and ID
 
 ### USER_LOGIN_FAILED
 
@@ -721,7 +728,6 @@ Created when a login fails because of wrong credentials, or when an account is t
 * `error` — why the login failed
 * `attempt` — the failed-attempt count within the current blocking window (when the user is known)
 * `groups` — the user's groups (empty if the user is unknown)
-* `client` — the OAuth2 client (token endpoint logins)
 
 ### USER_LOGOUT
 
