@@ -15,11 +15,11 @@ Every action the fylr server logs is stored as an **event**. Besides the type an
 
 Events marked _pollable_ can be retrieved by clients through the event poll API (`GET /api/v1/event/poll`) to react to changes; all events can be searched in the [Events](../events.md) manager and through `GET /api/v1/event/list`.
 
-This reference reflects fylr 6.34.0. Events are listed by their group as defined by the server.
+This reference reflects fylr 6.34.0. Events are listed by their group as defined by the server. The quoted name next to each internal name is the display name the [Events](../events.md) manager shows; event types without one are displayed by their internal name.
 
 ## ADMIN
 
-### BACKUP_DONE
+### BACKUP_DONE — "Backup Done"
 
 Created when a [backup](../backup-manager.md) started via the Backup Manager finishes successfully. _User-logged, pollable._
 
@@ -29,7 +29,7 @@ Created when a [backup](../backup-manager.md) started via the Backup Manager fin
 * `Elapsed` — how long the backup took
 * `BackupOpts` — the backup options (format, whether events were included)
 
-### BACKUP_FAILED
+### BACKUP_FAILED — "Backup Failed"
 
 Created when a backup fails. _User-logged, pollable._
 
@@ -37,7 +37,7 @@ Created when a backup fails. _User-logged, pollable._
 
 * `Error` — what failed
 
-### BASE_CONFIG_UPDATE
+### BASE_CONFIG_UPDATE — "Base Configuration Updated"
 
 Created when the [base configuration](../readme/README.md) is saved successfully. _User-logged, pollable._
 
@@ -47,7 +47,7 @@ Created when the [base configuration](../readme/README.md) is saved successfully
 * `Method` — HTTP method of the request (`POST` or `PATCH`)
 * `Path` — the configuration path that was saved (`/` for the whole configuration)
 
-### BASE_CONFIG_ERROR
+### BASE_CONFIG_ERROR — "Base Configuration Update Failed"
 
 Created when saving the base configuration fails (validation or save error). _User-logged._
 
@@ -56,7 +56,7 @@ Created when saving the base configuration fails (validation or save error). _Us
 * `Error` — the error message
 * `Method`, `Path` — as above
 
-### DATAMODEL_COMMIT
+### DATAMODEL_COMMIT — "Data model commited"
 
 Created when a data model change is committed. _User-logged, pollable._
 
@@ -67,7 +67,7 @@ Created when a data model change is committed. _User-logged, pollable._
 
 ## SYSTEM
 
-### CUSTOM_DATA_TYPE_UPDATER
+### CUSTOM_DATA_TYPE_UPDATER — "Custom Data Type Updater"
 
 Created when a custom data type updater run (background update of custom data type values, usually provided by a plugin) finishes successfully. _User-logged._
 
@@ -76,7 +76,7 @@ Created when a custom data type updater run (background update of custom data ty
 * `log` — log lines of the run
 * `stats` — counts: `total`, `updated`, `de_duplicated`
 
-### CUSTOM_DATA_TYPE_UPDATER_ERROR
+### CUSTOM_DATA_TYPE_UPDATER_ERROR — "Custom Data Type Updater Error"
 
 Created when a custom data type updater run fails. _User-logged._
 
@@ -84,7 +84,7 @@ Created when a custom data type updater run fails. _User-logged._
 
 * `error` — the error message
 
-### EMAIL_SENT
+### EMAIL_SENT — "Email Sent"
 
 Created when the server sends an email successfully.
 
@@ -96,7 +96,7 @@ Created when the server sends an email successfully.
 * `Attachments` — per attachment: `ContentType`, `Filename`, `Size` (human readable), `Filesize` (bytes)
 * additional keys describing what caused the email, merged in by the sender — for example `Collection`/`CollectionID` and `User`/`UserID` for a collection-share email, or `TaskID` for an email sent by a background task
 
-### EMAIL_SENT_FAILED
+### EMAIL_SENT_FAILED — "Sending Email Failed"
 
 Created when sending an email fails.
 
@@ -104,7 +104,7 @@ Created when sending an email fails.
 
 * `Error` — the error message
 
-### FILE_METADATA
+### FILE_METADATA — "Metadata Mapping Applied"
 
 Created when technical metadata is successfully extracted from an uploaded file. _User-logged._
 
@@ -112,7 +112,7 @@ Created when technical metadata is successfully extracted from an uploaded file.
 
 * `metadata` — the job receipt of the metadata job (commands run with their output, timing, exit codes; secrets removed)
 
-### FILE_METADATA_ERROR
+### FILE_METADATA_ERROR — "Metadata Mapping Error"
 
 Created when metadata extraction for a file fails. _User-logged._
 
@@ -122,7 +122,7 @@ Created when metadata extraction for a file fails. _User-logged._
 * `receipt` — the job receipt (secrets removed)
 * `body` — raw response body, only present when the response could not be parsed
 
-### FILE_PRODUCE
+### FILE_PRODUCE — "File Version Produced"
 
 Created when a file version (rendition) is successfully produced from an original.
 
@@ -132,13 +132,13 @@ Created when a file version (rendition) is successfully produced from an origina
 * `receipt` — the job receipt of the production job (secrets removed)
 * `connInfos` — connection information of the executing server
 
-### FILE_PRODUCE_ERROR
+### FILE_PRODUCE_ERROR — "File Version Produce Error"
 
 Created when producing a file version fails.
 
 `info`: same as `FILE_PRODUCE`.
 
-### FILE_DELETE
+### FILE_DELETE — "File Deleted"
 
 Created when a file is deleted from storage (e.g. by the janitor after it is no longer referenced).
 
@@ -148,7 +148,7 @@ Created when a file is deleted from storage (e.g. by the janitor after it is no 
 * `filename` — the deleted file
 * `log` — log lines of the deletion
 
-### FILE_DELETE_ERROR
+### FILE_DELETE_ERROR — "File Deletion Failed"
 
 Created when deleting a file from storage fails.
 
@@ -156,7 +156,7 @@ Created when deleting a file from storage fails.
 
 * `error` — the error message
 
-### FILE_MOVE
+### FILE_MOVE — "Remote File Was Moved"
 
 Created when a remote file is copied or moved into a fylr storage location (e.g. after an `rput` upload that referenced a remote URL).
 
@@ -167,7 +167,7 @@ Created when a remote file is copied or moved into a fylr storage location (e.g.
 * `startet`, `took` — start time and duration
 * `size` — the transferred size (human readable)
 
-### FILE_MOVE_ERROR
+### FILE_MOVE_ERROR — "Error When Moving Remote File"
 
 Created when copying/moving a remote file fails.
 
@@ -176,7 +176,7 @@ Created when copying/moving a remote file fails.
 * `remote_url`, `location_key`, `location_id` — as above
 * `error` — the error message
 
-### NOTIFICATION_SCHEDULER_FAILED
+### NOTIFICATION_SCHEDULER_FAILED — "Notification Scheduler Failed"
 
 Created when the background notification scheduler (which compiles and sends scheduled notification emails) fails.
 
@@ -184,7 +184,7 @@ Created when the background notification scheduler (which compiles and sends sch
 
 * `Error` — the error message
 
-### LICENSE_VALIDATION_FAILED
+### LICENSE_VALIDATION_FAILED — "License Validation Failed"
 
 Created when the periodic license validation fails.
 
@@ -192,7 +192,7 @@ Created when the periodic license validation fails.
 
 * `Error` — the error message
 
-### LICENSE_EXPIRATION_EMAIL
+### LICENSE_EXPIRATION_EMAIL — "License Expiration Mail Sent"
 
 Created when a license expiration reminder email is sent to the administrators.
 
@@ -215,7 +215,7 @@ Created when a reminder email is sent because the installed fylr binary is newer
 * `valid_to` — the license's valid-to date (if present)
 * `external_url` — URL of the instance
 
-### OBJECT_INSERT / OBJECT_UPDATE / OBJECT_DELETE
+### OBJECT_INSERT / OBJECT_UPDATE / OBJECT_DELETE — "Record Created" / "Record Updated" / "Record Deleted"
 
 Created when a record is saved through the API or frontend: `OBJECT_INSERT` for a new record (version 1), `OBJECT_UPDATE` for a new version of an existing record, `OBJECT_DELETE` when a record is moved to the trash (deleted, but not yet purged). The record references (object ID, version, object type, global object ID) are stored on the event. _User-logged, pollable._
 
@@ -225,19 +225,19 @@ Created when a record is saved through the API or frontend: `OBJECT_INSERT` for 
 
 Saved **exports** are stored as records too: creating or changing an export also emits `OBJECT_INSERT`/`OBJECT_UPDATE` (basetype `export`), whose `info` carries `state` (the export status) instead of `standard`.
 
-### OBJECT_UNDELETE
+### OBJECT_UNDELETE — "Record Restored"
 
 Created when a record is restored from the trash. _User-logged, pollable._
 
 `info`: same as above (`standard`).
 
-### OBJECT_PURGE
+### OBJECT_PURGE — "Record Permanently Deleted"
 
 Created when a record is permanently purged from the trash. _User-logged, pollable._
 
 `info`: same as above (`standard`).
 
-### USER_INSERT / USER_UPDATE / USER_DELETE
+### USER_INSERT / USER_UPDATE / USER_DELETE — "User Created" / "User Updated" / "User Deleted"
 
 Created when a [user](../permissions/user.md) is created, updated or deleted. The user's ID and version are stored on the event (basetype `user`). _User-logged, pollable._
 
@@ -247,7 +247,7 @@ Created when a [user](../permissions/user.md) is created, updated or deleted. Th
 * `displayname` — the user's display name
 * `reference` — the user's reference
 
-### GROUP_INSERT / GROUP_UPDATE / GROUP_DELETE
+### GROUP_INSERT / GROUP_UPDATE / GROUP_DELETE — "Group Created" / "Group Updated" / "Group Deleted"
 
 Created when a [group](../permissions/groups.md) is created, updated or deleted. _User-logged, pollable._
 
@@ -257,7 +257,7 @@ Created when a [group](../permissions/groups.md) is created, updated or deleted.
 * `displayname` — the group's display name
 * `reference` — the group's reference
 
-### POOL_INSERT / POOL_UPDATE / POOL_DELETE
+### POOL_INSERT / POOL_UPDATE / POOL_DELETE — "Pool Created" / "Pool Updated" / "Pool Deleted"
 
 Created when a [pool](../permissions/pools.md) is created, updated or deleted. A `POOL_UPDATE` is also created for a parent pool when its children change; deleting a pool cascades to its child pools. _User-logged, pollable._
 
@@ -267,7 +267,7 @@ Created when a [pool](../permissions/pools.md) is created, updated or deleted. A
 * `shortname` — the pool's shortname
 * `reference` — the pool's reference
 
-### TAG_INSERT / TAG_UPDATE / TAG_DELETE
+### TAG_INSERT / TAG_UPDATE / TAG_DELETE — "Tag Created" / "Tag Updated" / "Tag Deleted"
 
 Created when a [tag](../permissions/tags-and-workflows.md#tags) is created, updated or deleted. _User-logged, pollable._
 
@@ -277,7 +277,7 @@ Created when a [tag](../permissions/tags-and-workflows.md#tags) is created, upda
 * `shortname` — the tag's shortname
 * `reference` — the tag's reference
 
-### MESSAGE_INSERT / MESSAGE_UPDATE / MESSAGE_DELETE
+### MESSAGE_INSERT / MESSAGE_UPDATE / MESSAGE_DELETE — "Message Created" / "Message Updated" / "Message Deleted"
 
 Created when a [message](../messages.md) is created, updated or deleted. _User-logged, pollable._
 
@@ -287,13 +287,13 @@ Created when a [message](../messages.md) is created, updated or deleted. _User-l
 * `message` — the message content
 * `reference` — the message's reference
 
-### OBJECTTYPE_UPDATE
+### OBJECTTYPE_UPDATE — "Object Type Updated"
 
 Created for every object type whose definition changes during a data model commit (fields, masks, tags, workflows etc.). _User-logged, pollable._
 
 `info`: none — the object type is identified by the references stored on the event.
 
-### COLLECTION_INSERT / COLLECTION_UPDATE / COLLECTION_DELETE
+### COLLECTION_INSERT / COLLECTION_UPDATE / COLLECTION_DELETE — "Collection Created" / "Collection Updated" / "Collection Deleted"
 
 Created when a [collection](../../for-users/quick-access/collections-and-presentations.md) is created, updated or deleted. Deleting a collection also creates events for its deleted child collections. _User-logged, pollable._
 
@@ -303,7 +303,7 @@ Created when a [collection](../../for-users/quick-access/collections-and-present
 * `shortname` — the collection's shortname (if set)
 * `reference` — the collection's reference (if set)
 
-### COLLECTION_UPLOAD
+### COLLECTION_UPLOAD — "Upload into collection"
 
 Created when files are uploaded into an upload collection (e.g. through the [hotfolder](../../for-system-administrators/integration/hotfolder.md)). One upload batch creates several of these events; all of them carry `path` (the file path of the upload). Depending on what happened, the events carry: _User-logged, pollable._
 
@@ -312,7 +312,7 @@ Created when files are uploaded into an upload collection (e.g. through the [hot
 * if records were linked into a hierarchy from the directory structure: `file_eas_id`, `path`, `file`, `filesize`
 * if an upload plugin ran: per log entry `log_entry`, `plugin` and the plugin's log fields (`file`, `file_eas_id`, `filesize`, `msg`, `status`, `system_object_id`)
 
-### TRANSITION_INSERT / TRANSITION_UPDATE / TRANSITION_DELETE
+### TRANSITION_INSERT / TRANSITION_UPDATE / TRANSITION_DELETE — "Workflow Created" / "Workflow Updated" / "Workflow Deleted"
 
 Created when a [workflow](../permissions/tags-and-workflows.md#workflows) (transition) is created, updated or deleted. _User-logged, pollable._
 
@@ -322,7 +322,7 @@ Created when a [workflow](../permissions/tags-and-workflows.md#workflows) (trans
 * `operation_insert`, `operation_update`, `operation_delete` — which operations the workflow applies to
 * `comment` — the workflow's comment
 
-### MAPPING_INSERT / MAPPING_UPDATE / MAPPING_DELETE
+### MAPPING_INSERT / MAPPING_UPDATE / MAPPING_DELETE — "Metadata Mapping Created" / "Metadata Mapping Updated" / "Metadata Mapping Deleted"
 
 Created when a [metadata mapping](../metadata-mapping.md) is created, updated or deleted (deletion also removes the mapping from collections that reference it). _User-logged, pollable._
 
@@ -331,7 +331,7 @@ Created when a [metadata mapping](../metadata-mapping.md) is created, updated or
 * `displayname` — the mapping's display name
 * `profilename` — the mapping profile
 
-### JANITOR
+### JANITOR — "Janitor Run"
 
 Created when a run of a [janitor](../readme/services.md) (periodic background maintenance, e.g. deleting unreferenced files or expired sessions) finishes successfully **and** processed at least one item — idle runs are not logged.
 
@@ -344,7 +344,7 @@ Created when a run of a [janitor](../readme/services.md) (periodic background ma
 * `log` — detailed log of the run
 * individual janitors add their own keys — for example the `objects_purge` janitor adds `system_object_ids` (the records it purged)
 
-### JANITOR_ERROR
+### JANITOR_ERROR — "Janitor Run Error"
 
 Created when a janitor run fails.
 
@@ -372,7 +372,7 @@ Created when a webhook call fails or answers with an error status.
 
 ## INDEX
 
-### OBJECT_INDEX
+### OBJECT_INDEX — "Record Indexed"
 
 Created when a record or base object (user, group, pool, collection, message) is queued for indexing with elevated priority — routine background indexing is not logged.
 
@@ -397,7 +397,7 @@ Created when a document is rejected because the search cluster is overloaded and
 
 `info`: same as `OBJECT_INDEX_ERROR`.
 
-### INDEX_SWITCH
+### INDEX_SWITCH — "Index Switch"
 
 Created when the indexer finishes filling new indices and switches reading over to them. _Pollable._
 
@@ -407,7 +407,7 @@ Created when the indexer finishes filling new indices and switches reading over 
 * `Deleted` — old indices that were removed
 * `Errors` — errors during the switch, if any
 
-### REINDEX_START
+### REINDEX_START — "Reindex Started"
 
 Created when a full reindex starts. _Pollable._
 
@@ -416,7 +416,7 @@ Created when a full reindex starts. _Pollable._
 * `Datamodel` — the data model version being indexed
 * `BlockFrontend` — whether the frontend is blocked during the reindex
 
-### REINDEX_QUEUED
+### REINDEX_QUEUED — "Reindex Queued"
 
 Created when all records and base objects have been queued for the new indices (from this point on, normal operation continues while the indexer works through the queue).
 
@@ -426,7 +426,7 @@ Created when all records and base objects have been queued for the new indices (
 * `IndexVersions` — the index versions created for this reindex
 * `Took` — duration from reindex start until queueing finished
 
-### REINDEX_DONE
+### REINDEX_DONE — "Reindex Finished"
 
 Created when a full reindex finishes and the indices have been switched. _Pollable._
 
@@ -436,7 +436,7 @@ Created when a full reindex finishes and the indices have been switched. _Pollab
 * `IndexVersionsQueued`, `IndexVersions` — the index versions at queue time and after the switch
 * `Took` — total duration of the reindex
 
-### REINDEX_ERROR
+### REINDEX_ERROR — "Reindex Error"
 
 Created when a full reindex fails during preparation. _Pollable._
 
@@ -444,7 +444,7 @@ Created when a full reindex fails during preparation. _Pollable._
 
 * `Error` — the error message
 
-### REINDEX_INDEX_PURGED
+### REINDEX_INDEX_PURGED — "Index Purged After Reindex"
 
 Created when a leftover index from an earlier, unfinished reindex is purged before a new reindex starts.
 
@@ -456,7 +456,7 @@ Created when a leftover index from an earlier, unfinished reindex is purged befo
 
 The events of this group are not created by the server: the web frontend sends them via `POST /api/v1/event`. The server stores their `info` as sent — so any API client may post these types with its own `info` — but the standard web frontend sends the payloads documented here. All are _user-logged_.
 
-### DETAIL_VIEW
+### DETAIL_VIEW — "Detail View Opened"
 
 Sent when a user opens the detail view of a record.
 
@@ -467,7 +467,7 @@ Sent when a user opens the detail view of a record.
 * `pool` — for records in a pool: the pool's `id`, `shortname` and `name`; additionally `pool.1` … `pool.N` with the same keys for every level of the pool path
 * `connector_name`, `connector_url` — for records viewed from a connected remote instance: its name and URL
 
-### SEARCH
+### SEARCH — "Search"
 
 Sent after a search with a non-empty query returns.
 
@@ -477,7 +477,7 @@ Sent after a search with a non-empty query returns.
 * `response` — `count` (number of hits) and `timings` (`request_time` on the server, `client` in the browser)
 * `version` — version of the frontend's search-state format
 
-### FRONTEND_ERROR
+### FRONTEND_ERROR — "Frontend Error"
 
 Sent when a JavaScript error occurs in the frontend.
 
@@ -487,7 +487,7 @@ Sent when a JavaScript error occurs in the frontend.
 * `stack` — the JavaScript stack trace
 * `navigator` — the browser's user agent
 
-### ASSET_DOWNLOAD_CONFIRMATION_MESSAGE
+### ASSET_DOWNLOAD_CONFIRMATION_MESSAGE — "Asset download - Message confirmation"
 
 Sent when a user confirms a download confirmation dialog (an admin message of type _download_ with "send confirmation event" enabled) before downloading assets.
 
@@ -513,7 +513,7 @@ Created when a background task (e.g. a scheduled metadata update) is created or 
 
 Defined, but currently never created by the server.
 
-### TASK
+### TASK — "Task executed"
 
 Created when a background task finishes successfully. _User-logged._
 
@@ -537,7 +537,7 @@ Created when a background task fails or is canceled. _User-logged._
 
 All export events carry `state` in `info` — the status of the export at the time of the event. All are _user-logged_.
 
-### EXPORT_START
+### EXPORT_START — "Export Started"
 
 Created when an [export](../../for-users/download-and-export/exporting.md) starts.
 
@@ -546,7 +546,7 @@ Created when an [export](../../for-users/download-and-export/exporting.md) start
 * `state` — the export status
 * `lastRunAt` — when the export ran the last time (only for re-runs)
 
-### EXPORT_FINISH
+### EXPORT_FINISH — "Export Finished"
 
 Created when an export finishes successfully with at least one exported record.
 
@@ -556,11 +556,11 @@ Created when an export finishes successfully with at least one exported record.
 * `warnings` — warnings, if any
 * `plugin_log` — log of the export plugin, if one ran
 
-### EXPORT_FINISH_EMPTY
+### EXPORT_FINISH_EMPTY — "Empty Export"
 
 Created when an export finishes but matched no records (`totalCount` is `0`). `info`: same as `EXPORT_FINISH`.
 
-### EXPORT_FAILED
+### EXPORT_FAILED — "Export Failed"
 
 Created when an export fails.
 
@@ -579,7 +579,7 @@ Created when a user stops a running export.
 
 Defined, but currently never created by the server (see the two events below).
 
-### EXPORT_TRANSPORT_FINISH
+### EXPORT_TRANSPORT_FINISH — "Transport of Export Finished"
 
 Created for each transport of an export (e.g. copy to another server, send by email) that finishes successfully.
 
@@ -592,7 +592,7 @@ Created for each transport of an export (e.g. copy to another server, send by em
 * `email_sent_to` — recipients, if the transport sent emails
 * `email_sent_error` — error while sending emails, if any
 
-### EXPORT_TRANSPORT_FAILED
+### EXPORT_TRANSPORT_FAILED — "Transport of Export Failed"
 
 Created when a transport fails.
 
@@ -602,7 +602,7 @@ Created when a transport fails.
 
 ## UPLOAD
 
-### FILE_UPLOAD
+### FILE_UPLOAD — "File Uploaded"
 
 Created when a file upload via `POST /api/v1/eas/put` completes successfully. _User-logged._
 
@@ -610,7 +610,7 @@ Created when a file upload via `POST /api/v1/eas/put` completes successfully. _U
 
 * `file` — the complete file object (ID, filename, filesize, hash, MIME type, uploading user, storage location, …)
 
-### FILE_UPLOAD_REMOTE
+### FILE_UPLOAD_REMOTE — "File Uploaded (rput)"
 
 Created when a remote file is registered via `POST /api/v1/eas/rput` — whether the file is fetched or left on the remote server. _User-logged._
 
@@ -618,7 +618,7 @@ Created when a remote file is registered via `POST /api/v1/eas/rput` — whether
 
 * `file` — the file object, including the remote URL and whether the file stays on the remote server
 
-### FILE_UPLOAD_ERROR
+### FILE_UPLOAD_ERROR — "File Upload Error"
 
 Created when a file upload fails (size limit, interrupted transfer, storage error, missing rights). _User-logged._
 
@@ -629,7 +629,7 @@ Created when a file upload fails (size limit, interrupted transfer, storage erro
 
 ## DOWNLOAD
 
-### FILE_DOWNLOAD
+### FILE_DOWNLOAD — "File Downloaded"
 
 Created when a file is delivered as a download (download disposition, as opposed to inline display, e.g. for previews) via `/api/v1/eas/download`. _User-logged._
 
@@ -643,7 +643,7 @@ Created when a file is delivered as a download (download disposition, as opposed
 * any keys the caller passes in the `event.info` query parameter of the download URL are merged into the event info
 * for downloads that run through a download/export definition additionally: `export_type`, `export_id`, `export_path`, `export_user_id`, and `custom_version` (the requested custom rendition options)
 
-### FILE_DOWNLOAD_ERROR
+### FILE_DOWNLOAD_ERROR — "File Download Failed"
 
 Created when a file download fails or is aborted (file missing, connection lost, …). _User-logged._
 
@@ -651,7 +651,7 @@ Created when a file download fails or is aborted (file missing, connection lost,
 
 * `error` — the error message
 
-### OBJECT_DOWNLOAD
+### OBJECT_DOWNLOAD — "Record downloaded (as XML, CSV or JSON)"
 
 Created once per record whenever records are delivered through the export machinery — e.g. exports to JSON/XML/CSV/XLSX/HTML and OAI-PMH harvesting. The record references are set on each event. _User-logged._
 
@@ -665,7 +665,7 @@ Created once per record whenever records are delivered through the export machin
 
 `info` (for OAI-PMH): `url`, `oai_pmh` (the harvesting request) and any keys the harvester passed in the `event.info` query parameter.
 
-### EXPORT_DOWNLOAD
+### EXPORT_DOWNLOAD — "Export downloaded"
 
 Created when an export result is downloaded — a single file or the whole export packed as ZIP or tar.gz. _User-logged._
 
@@ -703,7 +703,7 @@ Created when an LDAP or SAML login fails at any stage (connection, bind, user se
 
 * `log` — the log of the login up to and including the error
 
-### USER_LOGIN
+### USER_LOGIN — "User Logged In"
 
 Created after every successful login, with any method (password, email, LDAP, SAML, anonymous/guest, collection link, action code, "keep me logged in", plugin user). With two-factor authentication enabled, the event is created only after the second factor was completed. The acting user is always stored.
 
@@ -729,7 +729,7 @@ Created when a login fails because of wrong credentials, or when an account is t
 * `attempt` — the failed-attempt count within the current blocking window (when the user is known)
 * `groups` — the user's groups (empty if the user is unknown)
 
-### USER_LOGOUT
+### USER_LOGOUT — "User Logged Out"
 
 Created when a user ends the session by revoking the access token (`/api/oauth2/revoke`). The acting user is always stored.
 
