@@ -8,17 +8,20 @@ The pages are ordered. Each one only uses words that earlier pages introduced. T
 
 In most DAM systems the **asset** is the central object: a file, with metadata attached to it. fylr inverts this. The central object is the [record](records-and-objecttypes.md) — a structured set of fields — and files hang off the record in fields of type file. A record can carry no file at all (a person, a location, an exhibition), one file, or many. What a classical DAM calls an asset corresponds in fylr to a record with a file field; the metadata is not a description attached to "the file" but a record in its own right, which references its files.
 
+Because the metadata lives on the record, several files share one set of it: the front and back of a postcard are two files in one record — where a classical DAM holds two assets with duplicated metadata. See [Files and assets](files-and-assets.md) for the two forms this takes (variants in one file field, nested rows per file).
+
 Rough equivalences, each explained on its page:
 
 | Classical DAM | fylr |
 | --- | --- |
 | Asset (file + metadata) | [Record](records-and-objecttypes.md) with a file field |
+| Related assets with duplicated metadata (front/back, detail shots) | One record holding several files ([variants or nested rows](files-and-assets.md)) |
 | Asset type, metadata schema | [Objecttype](records-and-objecttypes.md) in the [datamodel](the-datamodel.md) |
 | Derivatives, proxies, previews | [Renditions](files-and-assets.md) of an original |
-| Folder tree, workspace, archive | [Pool](pools.md) tree |
+| Workspace, archive | [Pool](pools.md) tree — the permission container a record lives in |
+| Folder tree, category tree, taxonomy | [Hierarchical objecttype](hierarchies-and-polyhierarchies.md) the record links to |
 | Lightbox, basket, share set | [Collection](collections-and-publishing.md) |
 | Metadata form, view | [Mask](masks.md) |
-| Taxonomy, controlled vocabulary | [Hierarchical objecttype](hierarchies-and-polyhierarchies.md) |
 | Keywords, labels, flags | [Tags](tags-and-transitions.md) |
 
 One term is a known trap: in fylr, a **version** is a record's metadata version, not a file derivative. The derived files are renditions — see [Files and assets](files-and-assets.md).
