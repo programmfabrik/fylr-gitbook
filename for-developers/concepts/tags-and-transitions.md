@@ -66,6 +66,13 @@ A manual transition is gated by permissions on the record and by the transition'
 
 Creating, editing and deleting tags and transitions is a system-right action, not tied to a record or pool. It is gated by the tag-manager system right. Users without it can apply existing tags and run existing transitions, subject to per-grant rules, but cannot change the set of tags and transitions. See [Permissions](permissions.md).
 
+## In the API
+
+- A record's tags are its `_tags` list, at the top level of the record envelope.
+- The tag set — groups and tags — is managed through the [`/tags` endpoint](../api/endpoints/api-tags.md): one document holding all tag groups, replaced as a whole on save.
+- Transitions are managed through [`/transitions`](../api/endpoints/api-transitions.md).
+- A tag filter is an object with `all`, `any` and `not` arrays of tag IDs; on transitions, the optional `changed` slot joins them.
+
 ## See also
 
 - [Permissions](permissions.md) — tag filters in grants, and the right that gates this set.

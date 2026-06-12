@@ -82,6 +82,13 @@ Because an event carries the affected record, the field that changed, and the ol
 
 A client can write its own **user event** — a custom log entry on a record. It is used to record something that happened outside fylr but should appear in the trail ("export delivered to client"), or for a plugin to record its activity in the same timeline. User events appear in the event log alongside fylr's own, with the same shape, distinguished by their type. Writing one requires a system right; reading them follows the same rules as other events.
 
+## In the API
+
+- A lookup is a [`/db`](../api/endpoints/api-db.md) read: `/db/{objecttype}/{mask}/{objectId}`.
+- Search is the [`/search` endpoint](../api/endpoints/api-search.md). Query-language strings are parsed by `/search/parse`, and `/search/point_in_time` opens and closes the snapshots deep paging uses.
+- Suggestions come from the [`/suggest` endpoint](../api/endpoints/api-suggest.md).
+- The event log is the [`/event` endpoint](../api/endpoints/api-event.md): `/event/poll/{fromEventId}` for polling, `/event/stream` for streaming, and a POST to `/event` writes a user event.
+
 ## See also
 
 - [Records and objecttypes](records-and-objecttypes.md) — what is indexed and observed.

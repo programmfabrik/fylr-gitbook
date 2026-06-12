@@ -35,6 +35,12 @@ A mask is anchored to one objecttype, but the fields it shows are not limited to
 
 This is how one view reaches past a single objecttype. A mask on an object can present, in the same form, the object's own fields, its nested rows, and the reverse-nested records that belong to it — a museum object shown together with its resources, for example. Because reverse-nested rows are records of another objecttype, a mask that includes them extends beyond its own objecttype's scope: through it a user reads and edits records of more than one objecttype at once.
 
+## In the API
+
+- Every [`/db`](../api/endpoints/api-db.md) read names the mask in the URL — `/db/{objecttype}/{mask}/{objectId}` — and the object's `_mask` field carries the same name.
+- The all-fields view is the mask named `_all_fields`.
+- Mask definitions are read per datamodel version at [`/mask/{version}`](../api/endpoints/api-mask.md) (`HEAD`, `CURRENT` or a number).
+
 ## See also
 
 - [Records and objecttypes](records-and-objecttypes.md) — what a mask is a view of.

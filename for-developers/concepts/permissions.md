@@ -62,6 +62,12 @@ The set of rights a grant can confer is published by the server as a **rights ca
 
 Plugins extend the catalogue. A plugin can register its own rights, after which grants can confer them like any other right.
 
+## In the API
+
+- Grants ride on the resource they protect, as its `_acl` list — on a pool, a record, a collection.
+- The rights catalogue is served by the [`/right` endpoint](../api/endpoints/api-right.md); right presets live under `/right/{context}/presets`.
+- A tag filter is an object with `all`, `any` and `not` arrays of tag IDs (see [Tags and transitions](tags-and-transitions.md)).
+
 ## See also
 
 - [Records and objecttypes](records-and-objecttypes.md) — what gets permissioned.

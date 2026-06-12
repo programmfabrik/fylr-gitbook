@@ -57,6 +57,15 @@ Where the original is held is chosen at upload, independently of whether renditi
 
 Producing renditions is a separate choice. fylr can produce renditions whether the original is copied or referenced — fetching a referenced original from its URL when it needs to — or it can hold a file and produce none. Because a referenced original is not held by fylr, its continued availability depends on the remote host.
 
+## In the API
+
+Files ride inside record JSON and are served by the [`/eas` endpoints](../api/endpoints/eas/README.md):
+
+- A file field's value is a list of file objects; the preferred variant carries `preferred: true`. Each file object holds the file's `class` and its extracted `technical_metadata`.
+- A naming trap: the file API addresses the renditions of an original as the file's **versions** — a download URL is [`/eas/download/{fileId}/{hash}/{version}`](../api/endpoints/eas/download.md), where `{version}` names the rendition to fetch. This is unrelated to a record's `_version`.
+- An upload that copies the file into fylr's store goes to [`/eas/put`](../api/endpoints/eas/put.md); a file referenced at a remote URL is registered with [`/eas/rput`](../api/endpoints/eas/rput.md).
+- Renditions can be produced on demand through [`/eas/produce`](../api/endpoints/eas/produce.md).
+
 ## See also
 
 - [Records and objecttypes](records-and-objecttypes.md) — what files attach to.

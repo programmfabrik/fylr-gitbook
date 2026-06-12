@@ -1,8 +1,27 @@
 # Concepts
 
-This section explains what fylr is built out of. The same words show up everywhere — in the user interface, in the admin screens, in plugin manifests, in the API documentation — so it pays to read these pages once before diving into the role-specific guides.
+This section explains what fylr is built out of. The same words show up everywhere — in the user interface, in the admin screens, in plugin manifests, in the API documentation — so it pays to read these pages once before working with the [API](../api/README.md).
 
-The pages are ordered. Each one only uses words that earlier pages introduced.
+The pages are ordered. Each one only uses words that earlier pages introduced. The prose stays at vocabulary level; each page ends with an **In the API** block that maps its terms to what requests and responses actually say.
+
+## Coming from a classical DAM
+
+In most DAM systems the **asset** is the central object: a file, with metadata attached to it. fylr inverts this. The central object is the [record](records-and-objecttypes.md) — a structured set of fields — and files hang off the record in fields of type file. A record can carry no file at all (a person, a location, an exhibition), one file, or many. What a classical DAM calls an asset corresponds in fylr to a record with a file field; the metadata is not a description attached to "the file" but a record in its own right, which references its files.
+
+Rough equivalences, each explained on its page:
+
+| Classical DAM | fylr |
+| --- | --- |
+| Asset (file + metadata) | [Record](records-and-objecttypes.md) with a file field |
+| Asset type, metadata schema | [Objecttype](records-and-objecttypes.md) in the [datamodel](the-datamodel.md) |
+| Derivatives, proxies, previews | [Renditions](files-and-assets.md) of an original |
+| Folder tree, workspace, archive | [Pool](pools.md) tree |
+| Lightbox, basket, share set | [Collection](collections-and-publishing.md) |
+| Metadata form, view | [Mask](masks.md) |
+| Taxonomy, controlled vocabulary | [Hierarchical objecttype](hierarchies-and-polyhierarchies.md) |
+| Keywords, labels, flags | [Tags](tags-and-transitions.md) |
+
+One term is a known trap: in fylr, a **version** is a record's metadata version, not a file derivative. The derived files are renditions — see [Files and assets](files-and-assets.md).
 
 ## Read in this order
 
@@ -16,22 +35,19 @@ The pages are ordered. Each one only uses words that earlier pages introduced.
 8. **[Permissions](permissions.md)** — who can do what, where. System rights, ACL grants, right presets.
 9. **[Tags and transitions](tags-and-transitions.md)** — tags, tag filters, workflow transitions.
 10. **[Collections and publishing](collections-and-publishing.md)** — collections, presentations, share links, deep links.
-11. **[Search and events](search-and-events.md)** — how search differs from `/db`; the event log; change history.
+11. **[Search and events](search-and-events.md)** — how search differs from direct lookup; the event log; change history.
 
-## Writing style for these pages
+After these pages, the [API reference](../api/README.md) is the natural next step.
 
-These are the rules the section commits to. If you spot a page breaking one of them, file an issue (or, better, fix it):
+## How these pages are written
 
-- **Plain English.** No code, no Go internals, no HTTP method names where a sentence will do.
+- **Plain English, vocabulary level.** The prose explains the concepts; field names and endpoint paths are confined to the **In the API** block ending each page.
 - **One concrete example per concept**, drawn from a real-world use case (museums cataloguing photos, retailers cataloguing products, an archive of articles).
-- **No internal file paths.** Don't link to or mention `internal/api/...`; readers can't reach them and they're noise in a public document.
-- **Cross-link liberally.** The first time another concept appears on a page, link to its concept page.
-- **Each page ends with a "See also"** block pointing at neighbouring concepts and at the relevant role-specific deep-dive (administrators / developers / system administrators) where one exists.
-- **`fylr` is the easydb 6 product line** — a Go rewrite that keeps the easydb 5 API contract. Mention easydb 5 only when explaining historical naming (`owned_by`, `_id_parent`, …); the present tense is fylr.
+- **fylr is the easydb 6 product line** — a Go rewrite that keeps the easydb 5 API contract. easydb 5 comes up only when it explains historical naming.
 
 ## See also
 
+- **[API reference](../api/README.md)** — the endpoints these pages give you the vocabulary for.
 - **[Glossary](../../help/glossary.md)** — one-line definitions of every term used here.
-- **[FOR USERS](../../for-users/getting-started.md)** — how to do things, once you know the vocabulary.
 - **[FOR ADMINISTRATORS](../../for-administrators/permissions/)** — administering the concepts described here.
-- **[FOR DEVELOPERS](../api/)** — the API reference that uses this vocabulary.
+- **[FOR USERS](../../for-users/getting-started.md)** — the interface guide.

@@ -49,6 +49,15 @@ A record is stored copy-on-write: each save writes a new version of the record w
 
 Deletion is a soft delete. A deleted record is moved to the **trash**: it is no longer returned by normal reads, no longer found by search, and no longer counted in pool sizes. From the trash a record can be **undeleted**, which returns it to active use with its identifiers and history intact, or **purged**, which removes it. After a purge the record can be recovered only from a backup.
 
+## In the API
+
+Records are exchanged through the [`/db` endpoint](../api/endpoints/api-db.md) as JSON. The system information sits at the top level of the object; the content fields sit in a nested object named after the objecttype:
+
+- `_objecttype` names the objecttype, `_mask` the [mask](masks.md) the data is shaped by; both are part of every exchange.
+- Inside the content object: the Object ID is `_id`, the version is `_version`. At the top level: the System Object ID is `_system_object_id`, the UUID is `_uuid`, the Global Object ID is `_global_object_id` (`<system object id>@<database uuid>`).
+- The owner is `_owner`, the creation timestamp `_created`.
+- A single record is read at `/db/{objecttype}/{mask}/{objectId}`. A save POSTs the object back to `/db/{objecttype}` carrying the `_version` it was read at; if the record has moved on, the save is rejected as a version conflict.
+
 ## See also
 
 - [Files and assets](files-and-assets.md) — files attach to records but are not records themselves.

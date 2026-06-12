@@ -40,6 +40,14 @@ Three ways one record can hold or reach another:
 - **Reverse-nested** — the rows are records of another objecttype that link back to this one, and this record owns their lifecycle. Independently usable, but deleted with their master. Use it when the related records are real objects in their own right but should not outlive the record they belong to.
 - **Plain link** — a forward reference to an independent record with no ownership. The linked record lives on its own and is unaffected when the linking record is deleted. Use it for shared references: the photographer of a photo, a product's category.
 
+## In the API
+
+In record JSON ([`/db`](../api/endpoints/api-db.md)), the three forms look different:
+
+- **Nested rows** are arrays under keys of the form `_nested:{objecttype}__{field}` inside the record's content, sent and saved together with the record.
+- **Reverse-nested records** appear under keys of the form `_reverse_nested:{objecttype}:{link field}`, each entry a record of the other objecttype with its own envelope.
+- **A plain link** is a field whose value is the linked record, carried with its own `_objecttype` and `_mask`.
+
 ## See also
 
 - [Records and objecttypes](records-and-objecttypes.md) — the rows and columns these tables are built from.

@@ -35,6 +35,11 @@ The deciding question is whether a single record can belong to more than one par
 
 A third option is to use an ordinary link between records rather than a structural parent relationship. This gives up the tree-aware interface and the reverse view, and suits relationships closer to "see also" than "is a kind of".
 
+## In the API
+
+- In a hierarchical objecttype, the parent reference is the `_id_parent` field in the record's content.
+- The reverse view — a record's children — appears as the record's `_reverse_nested:{objecttype}:_id_parent` list (see [Nested and reverse-nested tables](nested-and-reverse-nested.md)).
+
 ## See also
 
 - [Records and objecttypes](records-and-objecttypes.md) — the objecttype these are configured on.

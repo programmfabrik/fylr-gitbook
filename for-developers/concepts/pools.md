@@ -45,6 +45,12 @@ Some objecttypes are not pooled: the [datamodel](the-datamodel.md), users, group
 
 [Nested rows](nested-and-reverse-nested.md) are a separate case: a nested row is part of its containing record and takes that record's pool. It is not placed in a pool directly.
 
+## In the API
+
+- A record names its pool in the `_pool` field of its content; the pool rides along as a linked object.
+- Pools are managed through the [`/pool` endpoint](../api/endpoints/api-pool.md): `/pool`, `/pool/{poolID}`, and `/pool/{poolID}/stats` for record counts.
+- A pool's grants are its `_acl` list, and the inheritance-breaking switch is `_private_acl` (see [Permissions](permissions.md)).
+
 ## See also
 
 - [Records and objecttypes](records-and-objecttypes.md) — what lives in pools.

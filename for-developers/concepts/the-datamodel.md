@@ -40,6 +40,14 @@ It also supports upgrades. fylr ships baseline datamodel content — for example
 
 A saved record records the datamodel version it was saved against. When the datamodel changes, history still needs to be readable as it was at the time: a field removed from the live objecttype may still exist on a record saved against an earlier version, and reading that record correctly uses the datamodel from that version. The numbered versions exist for this.
 
+## In the API
+
+The datamodel is read and edited through the [`/schema` endpoint](../api/endpoints/api-schema.md):
+
+- `/schema/user/{version}` returns the datamodel at a version — `HEAD` (the working copy), `CURRENT`, or a number.
+- `/schema/commit` commits HEAD, making it the new CURRENT.
+- The masks belonging to a datamodel version are read at [`/mask/{version}`](../api/endpoints/api-mask.md), with the same version labels.
+
 ## See also
 
 - [Records and objecttypes](records-and-objecttypes.md) — what the datamodel defines.

@@ -56,6 +56,14 @@ WebDAV is gated by the collection's permissions, and the URL is per user; sharin
 
 For image files, fylr serves **IIIF** — the International Image Interoperability Framework, a standard used by museums, libraries and archives and supported by viewers such as Mirador and Universal Viewer. An image served over IIIF can be panned, zoomed and cropped in any IIIF viewer. The IIIF URL of an image is what is handed to a partner institution running its own viewer.
 
+## In the API
+
+- Collections are managed through the [`/collection` endpoint](../api/endpoints/collection/README.md); memberships through [`/collection/objects`](../api/endpoints/collection/objects.md), [`/collection/push`](../api/endpoints/collection/push.md) and [`/collection/remove`](../api/endpoints/collection/remove.md).
+- Publications are listed, created and removed through [`/publish`](../api/endpoints/api-publish.md).
+- A deep link is served by the [`/objects` endpoint](../api/endpoints/api-objects.md): `/objects/{path}` resolves a record selector when deep links are enabled for the instance.
+- WebDAV mounts live at `/WebDAV/{collection uuid}/…`, hotfolders at `/hotfolder/{collection uuid}/…` — see the [WebDAV reference](../api/endpoints/api-webdav.md).
+- IIIF URLs are served under [`/eas/iiif/…`](../api/endpoints/eas/iiif.md).
+
 ## See also
 
 - [Records and objecttypes](records-and-objecttypes.md) — what collections gather and publications expose.
