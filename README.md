@@ -10,6 +10,7 @@ Unless otherwise noted, this documentation describes the **latest published vers
 
 ## Where to start
 
+* **[Concepts](for-developers/concepts/README.md)** — what fylr is built out of, in plain English (records, objecttypes, files, pools, masks, permissions, …). New to fylr? Start here.
 * **[For users](for-users/getting-started.md)** — finding, editing, collecting and exporting objects.
 * **[For administrators](for-administrators/permissions/README.md)** — datamodel, pools, masks, permissions and tools.
 * **[For developers](for-developers/api/README.md)** — the HTTP/JSON API reference, generated from fylr's OpenAPI specification.

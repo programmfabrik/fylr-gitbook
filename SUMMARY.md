@@ -280,6 +280,18 @@
 
 ## FOR DEVELOPERS
 
+* [Concepts](for-developers/concepts/README.md)
+  * [Records and objecttypes](for-developers/concepts/records-and-objecttypes.md)
+  * [Files and assets](for-developers/concepts/files-and-assets.md)
+  * [The datamodel](for-developers/concepts/the-datamodel.md)
+  * [Hierarchies and polyhierarchies](for-developers/concepts/hierarchies-and-polyhierarchies.md)
+  * [Nested and reverse-nested tables](for-developers/concepts/nested-and-reverse-nested.md)
+  * [Pools](for-developers/concepts/pools.md)
+  * [Masks](for-developers/concepts/masks.md)
+  * [Permissions](for-developers/concepts/permissions.md)
+  * [Tags and transitions](for-developers/concepts/tags-and-transitions.md)
+  * [Collections and publishing](for-developers/concepts/collections-and-publishing.md)
+  * [Search and events](for-developers/concepts/search-and-events.md)
 * [API](for-developers/api/README.md)
   * [OAuth2](for-developers/api/oauth2.md)
   * [Endpoints](for-developers/api/endpoints/README.md)
