@@ -1,10 +1,11 @@
 ---
 label: Plugin Conventions and Standards
 description: >-
-  Conventions and standards for building, naming, localizing, and releasing fylr plugins, including README requirements.
+  Conventions and standards for building, naming, localizing, and releasing fylr
+  plugins, including README requirements.
 ---
 
-# fylr Plugin Conventions and Standards
+# Plugin Conventions and Standards
 
 ## Build
 
@@ -42,10 +43,10 @@ description: >-
 
 ## Release
 
-* GitHub must be used to [create releases](/for-developers/plugin/release.md#github-release-workflow) and [set release tags](/for-developers/plugin/release.md#include-the-github-release-tag-in-build-info)
+* GitHub must be used to [create releases](release.md#github-release-workflow) and [set release tags](release.md#include-the-github-release-tag-in-build-info)
 * Pre-releases are allowed
-* The release workflow must [build the ZIP file](/for-developers/plugin/release.md#zip-archive-structure)
-* For private repositories, the release must [copy the ZIP to GitHub Pages](/for-developers/plugin/release.md#release-of-private-plugins-to-github-pages)
+* The release workflow must [build the ZIP file](release.md#zip-archive-structure)
+* For private repositories, the release must [copy the ZIP to GitHub Pages](release.md#release-of-private-plugins-to-github-pages)
 * Release tags follow semver:
   * `v2.34.1`
   * or with a suffix like `v2.34.0-test.1` for pre-releases (the `-suffix` is what marks it as a pre-release)
@@ -55,7 +56,7 @@ description: >-
 Every plugin repository must include a `README.md` that covers at minimum:
 
 * **How to setup**:
-  * If a ZIP file is avaiable via URL, include it in the Readme so it can be copied into the fylr Plugin Manager
+  * If a ZIP file is available via URL, include it in the Readme so it can be copied into the fylr Plugin Manager
   * The URL should always link to the latest release, in the form `https://github.com/<orgranization>/<plugin>/releases/latest/download/<plugin>.zip`
 * **How to configure**:
   * describe all configuration options the plugin exposes with their expected values and any defaults
