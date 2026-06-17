@@ -51,4 +51,4 @@ If you can’t find the text you want to change in the Google Sheet, open a fylr
 New translations will be included in the general fylr release. Some translations are already visible after a frontend reload or an automatic plugin update:
 
 * add the Google Sheet ID & GID to the [base configuration](../for-administrators/readme/development.md#localization) to see your changes after re-loading the frontend (applies only to [web-frontend-localization](https://docs.google.com/spreadsheets/d/1glXObMmIUd0uXxdFdiPWRZPLCx6qEUaxDfNnmttave4/edit#gid=1441851860) and [Server](https://docs.google.com/spreadsheets/d/1L0TusEEmerNqAW8k6w3893kcYjjpDi3OSoeKsOaPB4U/edit#gid=0))
-* translations for plugins are updated according to the update settings for each plugin in the [plugin manager](../for-administrators/plugin-manager.md) (after a plugin update, a reload of the frontend is required)
+* translations for plugins are updated according to the update settings for each plugin in the [plugin manager](../for-administrators/plugin-manager/README.md) (after a plugin update, a reload of the frontend is required)

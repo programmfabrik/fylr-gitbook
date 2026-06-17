@@ -14,7 +14,7 @@ The Connector Plugin (`easydb-connector-plugin`) is a frontend plugin which allo
 
 ## Adding the Plugin
 
-First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](../plugin-manager.md). If not, add the plugin. To license and get the plugin, please get in touch with Programmfabrik GmbH.
+First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](README.md). If not, add the plugin. To license and get the plugin, please get in touch with Programmfabrik GmbH.
 
 **The plugin needs to be installed and enabled on the local and the remote instances.**
 

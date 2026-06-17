@@ -14,7 +14,7 @@ Please note: this plugin is licensed as a separate module. If in doubt, please c
 
 ## Adding the Plugin
 
-First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](../../for-administrators/plugin-manager.md). If not, add the plugin. To license and get the plugin, please get in touch with Programmfabrik GmbH.
+First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](README.md). If not, add the plugin. To license and get the plugin, please get in touch with Programmfabrik GmbH.
 
 ## Data Model
 

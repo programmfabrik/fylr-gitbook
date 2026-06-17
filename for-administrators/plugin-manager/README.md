@@ -15,11 +15,11 @@ Please refer to the official [Programmfabrik GmbH GitHub](https://github.com/org
 {% endhint %}
 
 {% hint style="info" %}
-For a technical introduction to plugins, please click [here](../for-developers/plugin.md).
+For a technical introduction to plugins, please click [here](../../for-developers/plugin.md).
 {% endhint %}
 
 {% hint style="info" %}
-For a overview over all publicly available plugins, please click [here](../plugins/overview.md).
+For a overview over all publicly available plugins, please click [here](../../plugins/overview.md).
 {% endhint %}
 
 
@@ -32,5 +32,5 @@ Use the **search** to search for the internal or display **names** of plugins an
 To **upload** a plugin, click on the **plus** button in the lower left and either upload the **ZIP** file or enter the **URL** to the ZIP file. Please make sure to **enable** the plugin afterwards. To **remove** a plugin, **select** it and click on the **minus** button in the lower left.
 
 {% hint style="info" %}
-Please note, some plugins may come with custom settings. Please check the [base configuration](readme/plugins.md).
+Please note, some plugins may come with custom settings. Please check the [base configuration](../readme/plugins.md).
 {% endhint %}

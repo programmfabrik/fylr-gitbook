@@ -18,7 +18,7 @@ Please see here for a list of available plugins: [Plugin Overview](plugins/overv
 
 ## For Administrators
 
-Plugins can be enabled/disabled and uploaded/removed using the [Plugin Manager](for-administrators/plugin-manager.md).
+Plugins can be enabled/disabled and uploaded/removed using the [Plugin Manager](for-administrators/plugin-manager/README.md).
 
 
 
