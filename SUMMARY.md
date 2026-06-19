@@ -202,6 +202,7 @@
   * [Event Type Reference](for-administrators/events/event-type-reference.md)
 * [Location Manager](for-administrators/location-manager.md)
 * [Plugin Manager](for-administrators/plugin-manager/README.md)
+  * [AI Metadata](for-administrators/plugin-manager/ai-metadata.md)
   * [Connector](for-administrators/plugin-manager/connector.md)
   * [Wordpress](for-administrators/plugin-manager/wordpress.md)
   * [Zooniverse](for-administrators/plugin-manager/zooniverse.md)
