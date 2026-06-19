@@ -320,8 +320,11 @@ See [here](../../../for-system-administrators/migration/inspect.md) if you want 
 * `OAuth2`: This box has to be enabled.
 * `OAuth2 Client Id`: leave the default fylr-web-frontend
 * `Max Parallel`: Choose less than the number of CPU cores.
-* `Purge or Continue`: `Purge` This will overwrite fylr's contents with easydb, which is the whole point.\
-  `Continue` is useful if your previous attempt aborted with a timeout or network error and should be continued.
+* `Purge or Continue`: \
+  `Purge`  will overwrite fylr's contents with easydb, which is the whole point.\
+  `No Purge` is useful if you purged by other means beforehand.\
+  `Continue` is useful if your previous attempt aborted with a timeout or network error and should be continued.\
+  Start with _either_ `Purge` _or_ `No Purge` and then, if needed, continue with `Continue`.
 
 </details>
 
