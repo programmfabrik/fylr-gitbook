@@ -39,7 +39,7 @@ Now you can view the contents of the files `private.key` and `publickey.cer` and
 
 ### Base Config
 
-* As **IdP metadata URL** add [https://mocksaml.com/api/saml/metadata](https://mocksaml.com/api/saml/metadata) ("_metadata URL_**"** of the Identity Provider).
+* As **IdP metadata URL** add [https://mocksaml.com/api/saml/metadata](https://mocksaml.com/api/saml/metadata) ("_metadata URL_**"** of the Identity Provider). fylr will fetch the IdP metadata from there. [Details](../../../for-system-administrators/configuration/saml-config.md#renewal-of-the-identity-provider-metadata-in-fylr).
 * We recommend to set the checkmark at **Log Steps**. This will write log events to debug SAML connections. In case of an error, the connection attempt is always logged.
 * In **User Mapping** define how the SAML user is created in fylr. Upon each login the SAML users are mapped to fylr users. If an user already exists, an update is performed. Working with mocksaml.com:
   * Target: **Reference**: `%(email)s`
@@ -139,3 +139,7 @@ Mapping goal of the following example: Every role that ends in the letters `saml
 <figure><img src="../../../.gitbook/assets/fylr-group-mapping-en.png" alt=""><figcaption><p>How to match a value for a group mapping in the fylr frontend</p></figcaption></figure>
 
 4. Save. Test the login as a SAML user with a matching role. The user now has the rights given to the group `testidp`.
+
+## After the tutorial
+
+see more details about fylr and SAML in [SAML config](../../../for-system-administrators/configuration/saml-config.md).
