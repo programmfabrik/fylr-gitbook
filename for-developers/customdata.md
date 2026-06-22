@@ -12,7 +12,30 @@ Custom data can contain a `_uuid` at the top level of the data. With such an id 
 
 ## Search
 
-Custom Data Types support search mappings. The search mapping is defined in the `manifest.yml` of the plugin which defines the Custom Data Type.
+Custom Data Types support search mappings. The search mapping is defined in the `manifest.yml` of the plugin which defines the Custom Data Type, under `custom_types.<type>.mapping`. Each entry maps a subfield of the custom data to a column type:
+
+```yaml
+custom_types:
+    example:
+        mapping:
+            title:
+                type: text
+            identifier:
+                type: text_oneline
+                skipTerms: true
+```
+
+The `type` of a subfield controls how its value is indexed in OpenSearch (for search and facets) and how it is broken into terms for the suggest term tables.
+
+### skipTerms
+
+> Available since FYLR 6.34.0.
+
+Set `skipTerms: true` on a subfield to keep it **out of the suggest term tables** while it stays indexed in OpenSearch. The value remains searchable and usable for facets, but it no longer contributes terms to `/api/suggest`.
+
+This is useful for subfields whose values would otherwise flood the suggest index — for example identifiers or URLs, which are split into many short fragments when broken into terms.
+
+`skipTerms` affects only the term generation of that one subfield; it does not change how the subfield is indexed for search. It is independent of the instance-wide `fylr.debug.skipTerms` setting, which disables term generation for the whole instance.
 
 ## Updates
 
