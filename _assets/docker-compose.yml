@@ -13,6 +13,7 @@ services:
       - cluster.routing.allocation.disk.watermark.low=30gb
       - cluster.routing.allocation.disk.watermark.high=25gb
       - cluster.routing.allocation.disk.watermark.flood_stage=20gb
+      - indices.query.bool.max_clause_count=4096
     volumes:
       - "/srv/fylr/indexer:/usr/share/opensearch/data"
     command: >
