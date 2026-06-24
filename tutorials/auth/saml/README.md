@@ -48,17 +48,17 @@ Now you can view the contents of the files `private.key` and `publickey.cer` and
 
 ### Example base config to upload
 
-Instead of filling in the form by hand, you can download this ready-made example and upload it. It targets `mocksaml.com` with the user mapping described above, has LDAP switched off, and turns on **Log Steps**:
+Instead of filling in the form by hand, you can download this ready-made example and upload it. It targets `mocksaml.com` with the user mapping described above, has LDAP switched off, turns on **Log Steps**, and bundles a throwaway test certificate so you can save and test right away:
 
 {% file src="../../../.gitbook/assets/fylr-saml-mocksaml-base-config.json" %}
 
 To use it, open _Administration > Config Manager_, click the menu next to the **Save** button and choose **Upload**, then select the file. The upload **merges** into your current configuration: it replaces only the **SAML** section and leaves all your other settings untouched.
 
-The form is now pre-filled, but nothing is saved yet. Finish the configuration:
+The form is now pre-filled. Click **Save** — the fylr server fetches the IdP metadata from `mocksaml.com` (if saving fails, the server cannot reach the IdP) — then test the login as described below.
 
-1. Paste your **Certificate** and **Key** from [Generate Certificate](#generate-certificate) into the matching fields — the example leaves them empty on purpose.
-2. Click **Save**. The fylr server then fetches the IdP metadata from `mocksaml.com` (if saving fails, the server cannot reach the IdP).
-3. Test the login as described below.
+{% hint style="warning" %}
+The bundled certificate and key are a **public throwaway**, meant only for this mocksaml.com walkthrough — never use them in production. fylr always requires a certificate and key (an RSA key pair), even for this test. For a real identity provider, generate your own as shown under [Generate Certificate](#generate-certificate) and paste them into the **Certificate** and **Key** fields before saving.
+{% endhint %}
 
 {% hint style="info" %}
 The file contains an `__EASYDB_BASE_CONFIG__` marker that identifies it as a fylr base config. Keep it if you edit the file, otherwise the Config Manager rejects the upload.
