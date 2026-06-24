@@ -67,25 +67,43 @@ The license check works offline, the license management does not include any onl
 
 ## fylr version expiration
 
-A fylr version can expire for two reasons:
+How a fylr instance expires depends on the license type. Subscription and buy licenses follow different rules.
 
-* The license has an expiration date set
-* The binary of the fylr version is older than 1 year
+### Subscription licenses
 
-In case of expiration fylr runs with a limited functionality (see below). Please contact our team to help you, if you find yourself in that situation.
+A subscription license is purely time-based. It carries an end date (`valid.to`); the age of the running binary is **not** taken into account.
 
-This limitation does not apply if all of the following applies:
+* Until the end date, the instance runs normally.
+* After the end date, the instance enters a two-month [grace period](license-management.md#grace-period-subscription-only) and keeps working.
+* After the grace period, the license is fully expired and fylr runs with limited functionality (see [fylr with an invalid or no license](license-management.md#fylr-with-an-invalid-or-no-license)).
 
-* the license is of type _buy_
-* the fylr binary was released before the license expire date
+### Buy licenses
 
-For _subscription licences_, the creation date of the binary plus one year—or the license end date—defines how long fylr can be used.
+A buy license is unlimited in time, but only entitles you to run binaries released up to the license's end date:
 
-For _buy licenses_, there is also an end date, but it works differently: this date is not the end of the license itself, but a cutoff date for the creation of binaries. Binaries created before the license end date will continue to work indefinitely, while binaries created after that date will not.
+* A fylr binary **released on or before** the license's end date runs indefinitely, even years after the end date.
+* A fylr binary **released after** the license's end date is refused as "too new" — the instance will not run with such a binary. You either need to fall back to an older binary or to renew the contract that grants you updates.
+
+### Grace period (subscription only)
+
+After a subscription's end date a two-month grace period begins, during which the instance stays fully usable. This gives you time to renew the contract and upload the new license without interrupting operation.
+
+The end of the grace period (`grace_to` = end date plus two calendar months) is shown in the [license management](for-administrators/readme/license-management.md) next to the end date, so administrators can see the technical cut-off at a glance.
 
 {% hint style="info" %}
-Administrators (configured in the base config email section) will receive an email warning 30, 5 and 1 day prior to the expiration.
+The grace period applies to subscription licenses only. Buy licenses are unlimited in time and have no grace period; their separate rule about the binary release date applies instead.
 {% endhint %}
+
+### Expiration warning mails
+
+The administrators configured in the base config email section, and any contact addresses included in the license, are notified by email at four points in a license's lifecycle. All dates in these mails are formatted as DD.MM.YYYY.
+
+* **Paid period ending soon** — subscription, before the end date.
+* **Grace period ending** — subscription, after the end date and during the two-month grace period.
+* **License expired** — subscription, once the grace period is over. The instance now runs with limited functionality.
+* **Binary too new** — buy, sent when a fylr binary released after the license's end date is deployed. The instance will not run until a binary released on or before the end date is installed.
+
+For the exact warning intervals see [Expiration Warnings & Notifications](for-administrators/readme/license-management.md#expiration-warnings-and-notifications).
 
 ## fylr with an invalid or no license
 
