@@ -1,0 +1,30 @@
+{
+    "__EASYDB_BASE_CONFIG__": true,
+    "system": {
+        "config": {
+            "saml": {
+                "url": "https://mocksaml.com/api/saml/metadata",
+                "debug": true,
+                "signrequest": "",
+                "sp_entity_id": "",
+                "cert": "",
+                "key": "",
+                "usermapping": [
+                    {
+                        "key": "reference",
+                        "value": "%(email)s"
+                    },
+                    {
+                        "key": "email",
+                        "value": "%(email)s"
+                    }
+                ],
+                "ldap": {
+                    "bindusername": "",
+                    "bindpassword": "",
+                    "connections": []
+                }
+            }
+        }
+    }
+}

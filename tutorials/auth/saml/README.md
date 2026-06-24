@@ -46,6 +46,28 @@ Now you can view the contents of the files `private.key` and `publickey.cer` and
   * Target: **Email**: `%(email)s`
 * When you **Save** this configuration, the fylr server (not the webfrontend in your browser) downloads the IDP's metadata. So if this fails, make sure that the fylr server can reach the IDP.
 
+### Example base config to upload
+
+Instead of filling in the form by hand, you can download this ready-made example and upload it. It targets `mocksaml.com` with the user mapping described above, has LDAP switched off, and turns on **Log Steps**:
+
+{% file src="../../../.gitbook/assets/fylr-saml-mocksaml-base-config.json" %}
+
+To use it, open _Administration > Config Manager_, click the menu next to the **Save** button and choose **Upload**, then select the file. The upload **merges** into your current configuration: it replaces only the **SAML** section and leaves all your other settings untouched.
+
+The form is now pre-filled, but nothing is saved yet. Finish the configuration:
+
+1. Paste your **Certificate** and **Key** from [Generate Certificate](#generate-certificate) into the matching fields — the example leaves them empty on purpose.
+2. Click **Save**. The fylr server then fetches the IdP metadata from `mocksaml.com` (if saving fails, the server cannot reach the IdP).
+3. Test the login as described below.
+
+{% hint style="info" %}
+The file contains an `__EASYDB_BASE_CONFIG__` marker that identifies it as a fylr base config. Keep it if you edit the file, otherwise the Config Manager rejects the upload.
+{% endhint %}
+
+{% hint style="warning" %}
+Uploading replaces the **whole** SAML section, not single fields. If you already have a working SAML configuration (e.g. with group mappings), those settings are overwritten by this file. Use it on a fresh setup.
+{% endhint %}
+
 ### Test Connection
 
 Now go to the fylr login page (e.g. by logging out or using a second browser or private tab) and click on _**SAML Login**_ in the login dialog.
