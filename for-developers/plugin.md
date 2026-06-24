@@ -167,6 +167,33 @@ Errors can be generated using the api error JSON format which looks like this:
 
 It is not necessary to end the plugin with an error exit code in case the error is wrapped under a top level key `error` as shown in the example.
 
+### Calling back into the API
+
+Most callbacks run server-side in the file-worker tool chain and frequently need to call back into the FYLR API (to read the base config, load or write objects, …). For this, every callback receives the same set of fields — the **unified callback contract** — independent of which hook is run:
+
+| Property                   | Presence           | Description                                                                                                                                                                                                                          |
+| -------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `api_url`                  | always             | Base URL to call back into the API (the internal callback URL). Append `/api/v1/…` to reach an endpoint.                                                                                                                            |
+| `api_user_access_token`    | always             | OAuth2 access token for calling back into the API **as the user the current API call runs as**.                                                                                                                                     |
+| `api_user`                 | always             | The current API user (the `who`).                                                                                                                                                                                                   |
+| `plugin_user_access_token` | only if configured | Access token of the configured **plugin user**. Only set if the callback's `manifest.yml` entry declares a `plugin_user` (issued from the base config). If the plugin user resolves to the current API user it equals `api_user_access_token`. |
+| `plugin_user`              | only if configured | The plugin user (the `who`) belonging to `plugin_user_access_token`.                                                                                                                                                                |
+
+A callback therefore always gets a token for the **current API user**, and *additionally* a token for the **plugin user** when one is configured — it is never one *or* the other.
+
+{% hint style="info" %}
+**These tokens are unbound and short-lived.** FYLR binds a browser session token to the browser via the `fylr-browser-id` cookie, so a plugin replaying the user's own token server-side — without that cookie — would be rejected by session binding. FYLR therefore hands the plugin freshly issued, **session-binding-free** tokens that work for the cookieless server-to-server callback and are revoked once the callback returns. Treat them as short-lived; do not persist them.
+{% endhint %}
+
+**Where the fields live in the payload**
+
+* For **extensions** the payload *is* the info map, so the fields are at the top level: `api_user_access_token`, `api_url`, …
+* For **db\_pre\_save**, **transition\_db\_pre\_save** and **export** the payload also carries the hook's own data (the object list, the export object, …), so the contract fields live under the `info` key: `info.api_user_access_token`, `info.api_url`, …
+
+{% hint style="warning" %}
+**export — backwards compatibility:** the export payload additionally contains a legacy `api_callback` map (`{ "token", "url" }`) that is equivalent to `info.api_user_access_token` + `info.api_url`. It is kept so existing export plugins keep working; **new export plugins should use the unified contract fields above.**
+{% endhint %}
+
 ### db\_pre\_save, transition\_db\_pre\_save/\<transition-type>, webhook\_db\_pre\_save
 
 This callback is run for each **POST /api/db** request or inside a configured transition.
@@ -244,11 +271,8 @@ export:
 | `export`                                | Export in API format, enhanced with internal information. Starting with `6.28.0` this property is only present if the exec.command does not read `stdin` from `body`.                                                                                                                      |
 | `export._files[n].export_file_internal` | Internal information per file.                                                                                                                                                                                                                                                             |
 | `plugin_action`                         | Set if the request is for an plugin exported file.                                                                                                                                                                                                                                         |
-| `api_user_access_token`                 | Token to call back into the API. This is the token of the user authenticated for the currently running api call.                                                                                                                                                                           |
-| `api_user`                              | The current user of the API.                                                                                                                                                                                                                                                               |
-| `api_url`                               | URL to call back into the API.                                                                                                                                                                                                                                                             |
-| `plugin_user_access_token`              | If defined in the manifest, **fylr** will issue a plugin user token, based on settings in the base config. If no user is set, or the current user of the API is set, the token will be the same as `api_user_access_token`. If no `plugin_user` is defined, this property will be not set. |
-| `plugin_user`                           | The plugin user as explained in `plugin_user_access_token`.                                                                                                                                                                                                                                |
+| `info.api_user_access_token`, `info.api_url`, `info.api_user`, `info.plugin_user_access_token`, `info.plugin_user` | Tokens and URL for calling back into the API — the unified callback contract. See [Calling back into the API](#calling-back-into-the-api).                                                                                          |
+| `api_callback`                          | **Backwards compatibility only.** A map `{ "token", "url" }` equivalent to `info.api_user_access_token` + `info.api_url`. Existing export plugins read this; new plugins should use the unified contract fields instead.                                                                       |
 
 #### Return payload
 
