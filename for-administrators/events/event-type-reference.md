@@ -855,9 +855,16 @@ Created when a login fails because of wrong credentials, or when an account is t
 
 _"User Logged Out"_
 
-Created when a user ends the session by revoking the access token (`/api/oauth2/revoke`). The acting user is always stored.
+Created when a user is logged out: by revoking their access token (`/api/oauth2/revoke` or `/logout`), by SAML single-logout, or when an administrator or the inactivity janitor archives, deletes or disables the user — or sets a login validity window that now excludes them. The acting user is always stored.
 
-`info`:
+The keys in `info` depend on how the logout happened. A real-time logout broadcast — used by the frontend to drop the affected sessions to the login page, sent on a browser/user logout, a SAML single-logout, or a forced lock-out — carries:
+
+* `scope` — which sessions ended: `browser` (this browser and all its tabs) or `user` (every session of the user, on all devices)
+* `user_id` — the affected user's id (also placed in `info` because the broadcast event stream omits the top-level user id)
+* `bound_browser` — the browser id whose session ended (browser-scoped logout only)
+* `reason` — why a forced lock-out logged the user out: `archived`, `deleted`, `login_disabled`, `login_valid_from`, or `login_valid_to`; absent for a user-initiated logout
+
+A plain revocation of a token that is not tied to a browser session (e.g. an API or password-grant token) records instead:
 
 * `client` — the OAuth2 client of the revoked token
 * `method` — the original authentication method, if known
