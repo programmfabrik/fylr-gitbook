@@ -21,9 +21,17 @@ Please note: when activated, the user group "Anonymous Users" need the system ri
 
 This text will be shown as the label for the login input on the login page. Default is "Login or email".
 
+### Login Placeholder
+
+This text will be shown as a placeholder for the login field on the login page.
+
 ### Login Info Text
 
 This text will be shown on the login page above the login fields.
+
+### Stay Logged In
+
+Choose between "Off", "7 Days" or "30 Days". When set to "Off", the login is valid only per session or tab. If set to 7 or 30 days, the "Stay Logged In" option on the login form is shown. The login then persists browser-wide for the selected duration (on a rolling basis). Logging out ends it.
 
 ## Password
 
@@ -35,14 +43,12 @@ This message is displayed when a user sets a password and it does not meet the p
 
 Use regular expressions to define requirements for passwords. To only allow passwords with a length of 8 to 32 characters use ^.{8,32}$ for example.
 
-
-
 ### Blocking the login after too many failed attempts
 
 If a user tries to login too many times with a wrong password, further login attempts can be temporarily blocked. Attempts from the same IP address will be blocked. Attempts from other IP addresses for the same user account will be blocked.
 
 * **Number of attempts with wrong password:** how many attempts does a user get before their login is blocked? Use the value `0` to disable the automatic blocking.
-* **How long to block the login in minutes:** how long to block the users login after the previously set threshold is reached?&#x20;
+* **How long to block the login in minutes:** how long to block the users login after the previously set threshold is reached?
 
 ## Registration
 
