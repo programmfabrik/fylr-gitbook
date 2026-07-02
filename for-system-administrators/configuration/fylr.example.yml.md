@@ -346,11 +346,13 @@ fylr:
     # number of objects per job passed to the indexer worker
     objectsPerJob: 100
     # maxMem is the cut-off JSON size in bytes for objects sent to the indexer.
-    # Defaults to 100MB. If set to <= 0 the cut-off is disabled and all objects
-    # are processed before this is handed over to the indexer. This value is
-    # auto adjusted to be at maximum 10% smaller than the allowecd
+    # Defaults to 25MB. Values <= 0 do NOT disable the cut-off — they fall back
+    # to a built-in 100MB limit, because an unbounded bulk request would be
+    # rejected by the cluster with 413 and silently lose all its documents.
+    # This value is auto adjusted down to 5% below the allowed
     # http.max_content_length cluster setting as reported by the indexer.
-    maxMem: 100mb
+    # Bulk requests never exceed maxMem.
+    maxMem: 25mb
     # fielddata (debug feature). if set to true, fields are mapped including their fielddata
     # in the reverse index. with that, the inspect view of the indexed version of
     # the object shows a per field list of stored terms. This can be useful for debugging
@@ -473,6 +475,37 @@ fylr:
         # Examples for name-based entries:
         # - kubernetes.default.svc
         # - *.cluster.local
+
+  # geo controls how geo_json field values are compiled into a record's
+  # _standard (the flattened, mask-driven copy used for searching, filtering
+  # and display).
+  geo:
+    # standardMaxVertices caps how many coordinate vertices a single geo
+    # shape may contribute to _standard.
+    #
+    # A geo_json field can legitimately hold very large geometries — a country
+    # border at metre resolution is millions of vertices. Copying such a value
+    # verbatim into _standard bloats every record that links it (and the
+    # derived geo_shape in the search index). To bound that, any shape with
+    # more than standardMaxVertices vertices is simplified with the
+    # Ramer-Douglas-Peucker algorithm — which drops vertices lying close to the
+    # line between their neighbours, so the silhouette stays faithful — until
+    # it fits the budget, before the copy is stored in _standard.
+    #
+    # This only affects the _standard copy. The original field value always
+    # keeps full precision; downloads, exports and the field's own index are
+    # unchanged.
+    #
+    #   - omit the key   → default (100)
+    #   - a positive N   → simplify any shape over N vertices down to <= N
+    #   - 0              → disabled; full geometry copied into _standard
+    #
+    # The cap applies per shape; a FeatureCollection with several large
+    # polygons has each polygon bounded independently. For pathological inputs
+    # dominated by the number of sub-shapes rather than vertices along them
+    # (e.g. thousands of tiny polygons) RDP cannot reach the target and the
+    # result is the minimal-vertex form, which may still exceed it.
+    standardMaxVertices: 100
 
 
   # services which will be started. It is possible to configure a standalone

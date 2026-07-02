@@ -77,6 +77,13 @@ fylr:
         - 192.168.0.0/16
         - fc00::/7
 
+  geo:
+    # Cap on the number of vertices a single geo shape may contribute to the
+    # compiled _standard. Larger shapes are simplified (RDP) down to this many
+    # before being stored in _standard; the original field value keeps full
+    # precision. See fylr.example.yml. 0 disables simplification.
+    standardMaxVertices: 100
+
   services:
     api:
       addr: :8080
