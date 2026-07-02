@@ -150,6 +150,7 @@
 * [Lists](for-users/lists.md)
 * [Additional Features](for-users/additional-features/README.md)
   * [Change History](for-users/additional-features/change-history.md)
+  * [Background Tasks](for-users/additional-features/background-tasks.md)
   * [Drupal Integration](for-users/additional-features/drupal-integration.md)
 * [Mobile App](for-users/mobile-app.md)
 
