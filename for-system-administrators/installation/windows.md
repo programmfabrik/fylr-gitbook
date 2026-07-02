@@ -99,7 +99,7 @@ Elasticsearch then used the default address `http://localhost:9200`, which is al
 Edit fylr.yml to not use any 3rd part tools for the moment if you want to test/start with minimal effort:
 
 ```
- fylr+:
+fylr+:
   [...]
   services+:
   [...]
@@ -171,29 +171,40 @@ If you want to go back to a fresh state between two test runs:
 
 ### pdf tools
 
-* We downloaded [Release-23.08.0-0.zip](https://github.com/oschwartz10612/poppler-windows/releases/download/v23.08.0-0/Release-23.08.0-0.zip) from [https://github.com/oschwartz10612/poppler-windows](https://github.com/oschwartz10612/poppler-windows/releases/tag/v23.08.0-0) (_not_ xpdf-tools from https://www.xpdfreader.com)
-* We unpacked its contents and configured the path to pdftotext.exe, pdftoppm.exe and pdfinfo.exe in fylr.yml. Alternatively, we tested successfully to add the containing directory of those tools to the PATH.
+* We downloaded the newest release zip (at the time `Release-26.02.0-0.zip`) from [https://github.com/oschwartz10612/poppler-windows](https://github.com/oschwartz10612/poppler-windows/releases) (_not_ xpdf-tools from https://www.xpdfreader.com)
+* fylr only uses `pdfinfo.exe` from poppler: PDF text extraction is done by tika, PDF page rendering by mupdf's mutool (both below).
+* We unpacked the release and configured the path to pdfinfo.exe in fylr.yml. Alternatively, we tested successfully to add the containing directory to the PATH.
 
-### magick.exe and convert.exe and composite.exe
+### magick.exe (ImageMagick)
 
-* We downloaded `ImageMagick-7.1.0-61-portable-Q16-HDRI-x64.zip` from [https://imagemagick.org/script/download.php#windows](https://imagemagick.org/script/download.php#windows)
-* We put the three mentioned tools from the download into `C:\fylr\utils`.
+* We downloaded the newest portable archive (at the time `ImageMagick-7.1.2-26-portable-Q16-HDRI-x64.7z`) from [https://imagemagick.org/script/download.php#windows](https://imagemagick.org/script/download.php#windows)
+* We put `magick.exe` from the download into `C:\fylr\utils`. It is the only ImageMagick binary fylr needs; compositing etc. run as subcommands of `magick.exe`. (`convert.exe` and `composite.exe` are not used by fylr and are no longer part of current ImageMagick anyway.)
+
+**Use a current ImageMagick, and fylr v6.34.0 or newer.** Two version traps around ImageMagick:
+
+* Current ImageMagick no longer accepts the deprecated `magick convert` command form. fylr up to v6.33 called ImageMagick that way, so previews fail with ``NoDecodeDelegateForThisImageFormat `convert'``. fylr v6.34.0 and newer calls `magick` in the modern form, which works with old and new ImageMagick 7.
+* ImageMagick Windows builds from before mid-2024 embed a libheif older than 1.18, which cannot decode HEIC photos taken by newer iPhones (iOS 18 and later): previews fail with `Too many auxiliary image references`. To check what your magick.exe embeds, run the following — the version in parentheses is the libheif version and must be 1.18 or newer:
+
+```
+C:\fylr\utils> .\magick.exe -list format | findstr /i heic
+     HEIC  HEIC      rw+   High Efficiency Image Format (1.22.2)
+```
 
 Hint from the [download page](https://imagemagick.org/script/download.php#windows):
 
-> If you have any problems, you likely need vcomp120.dll. To install it, download Visual C++ Redistributable Package(https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads).
+> If you have any problems, you likely need vcomp140.dll. To install it, download Visual C++ Redistributable Package(https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads).
 
 ### Exiftool.exe
 
-We downloaded: Windows Executable: exiftool-12.56.zip on [http://exiftool.sourceforge.net](http://exiftool.sourceforge.net)
+We downloaded the newest 64-bit Windows Executable (at the time `exiftool-13.59_64.zip`) from [https://exiftool.org](https://exiftool.org)
 
-We have put exiftool(-k).exe from the download into `C:\fylr\utils`.
+We have put the contents of the zip — exiftool(-k).exe and (in newer packages) the `exiftool_files` folder next to it — into `C:\fylr\utils`.
 
-We renamed it to exiftool.exe as recommended on exiftool.sourceforge.net.
+We renamed exiftool(-k).exe to exiftool.exe as recommended by the ExifTool install notes.
 
 ### Ffmpeg.exe and ffprobe.exe
 
-We downloaded ffmpeg-n5.1.2-12-g7268323193-win64-gpl-5.1.zip from [https://github.com/BtbN/FFmpeg-Builds/releases](https://github.com/BtbN/FFmpeg-Builds/releases)
+We downloaded a current release build (at the time `ffmpeg-n8.1-latest-win64-gpl-8.1.zip`) from [https://github.com/BtbN/FFmpeg-Builds/releases](https://github.com/BtbN/FFmpeg-Builds/releases)
 
 We suggest you avoid the LGPL version as testing showed it has less features (x264 and x265).
 
@@ -201,13 +212,13 @@ We have put ffmpeg.exe and ffprobe.exe into `C:\fylr\utils`.
 
 ### Node
 
-We downloaded node-v16.17.0-win-x64.7z from [https://nodejs.org/dist/v16.17.0/](https://nodejs.org/dist/v16.17.0/)
+We downloaded the current LTS version (at the time `node-v24.18.0-win-x64.7z`) from [https://nodejs.org/en/download](https://nodejs.org/en/download)
 
 We put just node.exe into `C:\fylr\utils`.
 
 ### Python
 
-We donwloaded "Windows embeddable package (64-bit)" at [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/) (explained [here](https://docs.python.org/3/using/windows.html#windows-embeddable))
+We downloaded "Windows embeddable package (64-bit)" at [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/) (explained [here](https://docs.python.org/3/using/windows.html#windows-embeddable))
 
 We unpacked the whole package as the folder "python3" inside `C:\fylr\utils`.
 
@@ -301,7 +312,7 @@ We tested Inkscape integration by uploading a svg file into fylr and check wheth
 
 ### tika
 
-We downloaded from [https://tika.apache.org/download.html](https://tika.apache.org/download.html) the jar file `tika-app-2.9.2.jar`.
+We downloaded from [https://tika.apache.org/download.html](https://tika.apache.org/download.html) the newest tika-app jar file (at the time `tika-app-3.3.1.jar`).
 
 We configured in fylr.yml:
 
@@ -314,7 +325,7 @@ fylr+:
           prog: java
           args:
             - "-jar"
-            - "C:\\fylr\\utils\\tika-app-2.9.2.jar"
+            - "C:\\fylr\\utils\\tika-app-3.3.1.jar"
 ```
 
 ### tesseract
@@ -359,21 +370,22 @@ from [https://calibre-ebook.com/download\_windows](https://calibre-ebook.com/dow
 
 ### libvips
 
-Optional but recommended.
+Optional but recommended. fylr requires libvips 8.16 or newer.
 
-From [https://www.libvips.org](https://www.libvips.org/) we followed `Download` and `Windows binaries` to then download [vips-dev-w64-all-8.17.1.zip](https://github.com/libvips/build-win64-mxe/releases/download/v8.17.1/vips-dev-w64-all-8.17.1.zip). (The newest version at the time)
+From [https://www.libvips.org](https://www.libvips.org/) we followed `Download` and `Windows binaries` to then download the newest `vips-dev-w64-all-`X.Y.Z`.zip` (at the time [vips-dev-w64-all-8.18.3.zip](https://github.com/libvips/build-win64-mxe/releases/download/v8.18.3/vips-dev-w64-all-8.18.3.zip)). Use the `all` variant — it includes the loaders (e.g. HEIF) that fylr benefits from.
 
-We unpacked this zip file to `C:\fylr\utils\vips-dev-8.17`.
+We unpacked this zip file to `C:\fylr\utils\vips-dev-8.18`.
 
 In `fylr.yml` :
 
-<pre><code><strong>fylr+:
-</strong>  services+:
+```
+fylr+:
+  services+:
     execserver+:
       commands:
         vips:
-          prog: "C:\\fylr\\utils\\vips-dev-8.17\\bin\\vips.exe"
-</code></pre>
+          prog: "C:\\fylr\\utils\\vips-dev-8.18\\bin\\vips.exe"
+```
 
 ### chrome
 
@@ -413,21 +425,24 @@ fylr+:
 
 * _**after**_ we have added the tools: (remember to instead use paths valid on _your_ installation)
 
-<pre><code><strong>fylr+:
-</strong>  env:
+```
+fylr+:
+  env:
     SERVER_PDF_CHROME: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
-<strong>  [...]
-</strong><strong>  services+:
-</strong><strong>  [...]
-</strong>    execserver+:
+  [...]
+  services+:
+  [...]
+    execserver+:
       commands:
         fylr:
           prog: fylr.exe
         # ffmpegthumbnailer: not under Windows. ffmpeg is used instead as a fallback
         soffice:
-          prog: "C:\\LibreOfficePortable\\LibreOfficePortable.exe"
+          prog: "C:\\Program Files\\LibreOffice\\program\\soffice.exe"
         magick:
           prog: "C:\\fylr\\utils\\magick.exe"
+        vips:
+          prog: "C:\\fylr\\utils\\vips-dev-8.18\\bin\\vips.exe"
         exiftool:
           prog: "C:\\fylr\\utils\\exiftool.exe"
         ffmpeg:
@@ -440,10 +455,8 @@ fylr+:
           #prog: "C:\\fylr\\utils\\python3\\python.exe"
           # is searched in PATH variable:
           prog: "python.exe"
-        pdftotext:
-          prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdftotext.exe"
-<strong>        pdfinfo:
-</strong>          prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdfinfo.exe"
+        pdfinfo:
+          prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdfinfo.exe"
         java:
           prog: java.exe
         inkscape:
@@ -459,7 +472,7 @@ fylr+:
           prog: java
           args:
             - "-jar"
-            - "C:\\fylr\\utils\\tika-app-2.9.2.jar"
+            - "C:\\fylr\\utils\\tika-app-3.3.1.jar"
         tesseract:
           prog: "C:\\fylr\\utils\\tesseract\\tesseract.exe"
         mutool:
@@ -468,7 +481,7 @@ fylr+:
           prog: "C:\\fylr\\utils\\Calibre2\\ebook-meta.exe"
         ebook-convert:
           prog: "C:\\fylr\\utils\\Calibre2\\ebook-convert.exe"
-</code></pre>
+```
 
 Check that each indentation level is **two** spaces. (No tab characters, just space characters).
 
