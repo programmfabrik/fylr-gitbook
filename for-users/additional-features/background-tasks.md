@@ -70,11 +70,7 @@ Applies an existing **Metadata Mapping** to all records matching the **Search** 
 
 Additional parameters:
 
-| OPTION              | DESCRIPTION                                                                                 |
-| ------------------- | ------------------------------------------------------------------------------------------- |
-| **Override Values** | Allow the mapping to replace existing field values; otherwise only empty fields are filled. |
-| **Merge Values**    | Merge mapped values with existing ones instead of replacing them.                           |
-| **Set/Unset Tags**  | Set or remove tags on each record after it was successfully updated.                        |
+<table><thead><tr><th width="212.93359375">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Override Values</strong></td><td>Allow the mapping to replace existing field values; otherwise only empty fields are filled.</td></tr><tr><td><strong>Merge Values</strong></td><td>Merge mapped values with existing ones instead of replacing them.</td></tr><tr><td><strong>Set/Unset Tags</strong></td><td>Set or remove tags on each record after it was successfully updated.</td></tr></tbody></table>
 
 ### **search**
 
@@ -88,12 +84,7 @@ Sets or removes **Tags** on all records matching the **Search** — useful for b
 
 Merges duplicate records: all references to the **Source records** are re-linked to the **Target record**.
 
-| PARAMETER                 | DESCRIPTION                                                                   |
-| ------------------------- | ----------------------------------------------------------------------------- |
-| **Source Secords**        | Select the record(s) that should be replaced.                                 |
-| **Target Record**         | Select the record that should replace the other selected record(s).           |
-| **Dry Run**               | Only report in the task log what would change, without modifying any records. |
-| **Delete Source Records** | Delete the source records after re-linking.                                   |
+<table><thead><tr><th width="246.59375">PARAMETER</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Source Secords</strong></td><td>Select the record(s) that should be replaced.</td></tr><tr><td><strong>Target Record</strong></td><td>Select the record that should replace the other selected record(s).</td></tr><tr><td><strong>Dry Run</strong></td><td>Only report in the task log what would change, without modifying any records.</td></tr><tr><td><strong>Delete Source Records</strong></td><td>Delete the source records after re-linking.</td></tr></tbody></table>
 
 {% hint style="info" %}
 Start with a **dry run** and check the task log before running the consolidation for real.
