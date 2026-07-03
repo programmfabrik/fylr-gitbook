@@ -33,7 +33,7 @@ Maintain fylr installation in $BASEDIR, with docker compose.
 /srv/fylr/maintain restart       # stop and start
 
 /srv/fylr/maintain backup        # dumps sql into ${BASEDIR}/sqlbackups
-                                 # is also part of update and update-auto
+                                 # is also part of update
                                  # DANGER: deletes old backups until $KEEPDBS are left
 
 /srv/fylr/maintain cleanup       # remove old files, e.g. container images
@@ -49,7 +49,7 @@ BACKUPDIR="$BASEDIR"/sqlbackups
 DBS="fylr"
 # Of eas DB in $DBS keep this many newest dumps:
 KEEPDBS=7
-# Where to write log messages to while doing update-auto:
+# Where to write log messages to while doing update:
 MYLOG=/var/log/fylr-maintain.log
 
 ## read LOCAL CONFIG:
