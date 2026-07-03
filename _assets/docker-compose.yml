@@ -47,6 +47,7 @@ services:
       driver: "journald"
 
   fylr:
+    command: ["fylr", "server", "-c", "config/fylr.yml", "-c", "config/fylr-local.yml"]
     image: docker.fylr.io/fylr/fylr:latest
     hostname: fylr.localhost
     container_name: fylr
@@ -60,7 +61,7 @@ services:
     networks:
       - fylr
     volumes:
-      - "/srv/fylr/config/fylr:/fylr/config"
+      - "/srv/fylr/config/fylr/fylr.yml:/fylr/config/fylr-local.yml"
       - "/srv/fylr/assets:/srv"
       - "/srv/fylr/backups:/fylr/files/backups"     # /inspect/system/backups/ and /backupmanager
       - "/srv/fylr/migration:/fylr/files/migration" # /inspect/migration/
