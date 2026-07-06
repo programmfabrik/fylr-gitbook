@@ -195,6 +195,22 @@ fylr:
     # This has to be not more than maxOpenConns
     maxIdleConns: 10
 
+    # https://golang.org/pkg/database/sql/#DB.SetConnMaxIdleTime, default: 30
+    # A pooled connection that has been idle for this many seconds is closed
+    # and its database backend released. A busy server keeps reusing its
+    # connections and is unaffected; a quiet server frees up to maxIdleConns
+    # backends instead of pinning them open forever. This matters when many
+    # fylr instances share one PostgreSQL server. Set to 0 to keep idle
+    # connections open with no time limit.
+    connMaxIdleTimeSec: 30
+
+    # https://golang.org/pkg/database/sql/#DB.SetConnMaxLifetime, default: 0
+    # Maximum total age of a pooled connection in seconds; after that it is
+    # closed and a fresh one is opened on demand. Useful if connections must
+    # be recycled, e.g. behind a connection proxy or load balancer. 0 means
+    # connections live as long as they are usable.
+    connMaxLifetimeSec: 0
+
     # The init block is used to pre-fill the database when its created or purged.
     init:
       # Path to base config file. If set, on a fresh install or after a purge this
