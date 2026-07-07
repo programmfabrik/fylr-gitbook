@@ -16032,6 +16032,83 @@ paths:
                                                                                     versions:
                                                                                         items:
                                                                                             oneOf:
+                                                                                                - description: Recipe "audioconverter:snippet"
+                                                                                                  properties:
+                                                                                                    custommetadata:
+                                                                                                        properties:
+                                                                                                            extensions:
+                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                                items:
+                                                                                                                    enum:
+                                                                                                                        - aac
+                                                                                                                        - aiff
+                                                                                                                        - dts
+                                                                                                                        - flac
+                                                                                                                        - m4a
+                                                                                                                        - mp2
+                                                                                                                        - mp3
+                                                                                                                        - oga
+                                                                                                                        - ogg
+                                                                                                                        - opus
+                                                                                                                        - ra
+                                                                                                                        - wav
+                                                                                                                        - wma
+                                                                                                                    type: string
+                                                                                                                type: array
+                                                                                                            recipename:
+                                                                                                                description: Recipe to process the custom metadata.
+                                                                                                                enum:
+                                                                                                                    - _metadata:ocr
+                                                                                                                type: string
+                                                                                                        type: object
+                                                                                                    displayname:
+                                                                                                        type: object
+                                                                                                        properties:
+                                                                                                            de-DE:
+                                                                                                                type: string
+                                                                                                            en-US:
+                                                                                                                type: string
+                                                                                                        example:
+                                                                                                            de-DE: Deutscher text
+                                                                                                            en-US: English text
+                                                                                                    extensions:
+                                                                                                        items:
+                                                                                                            enum:
+                                                                                                                - aac
+                                                                                                                - aiff
+                                                                                                                - dts
+                                                                                                                - flac
+                                                                                                                - m4a
+                                                                                                                - mp2
+                                                                                                                - mp3
+                                                                                                                - oga
+                                                                                                                - ogg
+                                                                                                                - opus
+                                                                                                                - ra
+                                                                                                                - wav
+                                                                                                                - wma
+                                                                                                            type: string
+                                                                                                        type: array
+                                                                                                    group:
+                                                                                                        type: string
+                                                                                                    name:
+                                                                                                        type: string
+                                                                                                    params:
+                                                                                                        properties:
+                                                                                                            end:
+                                                                                                                description: timestamp to end snippet [string]
+                                                                                                                type: string
+                                                                                                            format:
+                                                                                                                description: ' [string]'
+                                                                                                                type: string
+                                                                                                            start:
+                                                                                                                description: timestamp to start snippet [string]
+                                                                                                                type: string
+                                                                                                        type: object
+                                                                                                    recipename:
+                                                                                                        description: This oneOf block is for "audioconverter:snippet"
+                                                                                                        type: string
+                                                                                                  type: object
                                                                                                 - description: Recipe "audioconverter:convert"
                                                                                                   properties:
                                                                                                     custommetadata:
@@ -16189,83 +16266,6 @@ paths:
                                                                                                         type: object
                                                                                                     recipename:
                                                                                                         description: This oneOf block is for "audioconverter:preview"
-                                                                                                        type: string
-                                                                                                  type: object
-                                                                                                - description: Recipe "audioconverter:snippet"
-                                                                                                  properties:
-                                                                                                    custommetadata:
-                                                                                                        properties:
-                                                                                                            extensions:
-                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                                items:
-                                                                                                                    enum:
-                                                                                                                        - aac
-                                                                                                                        - aiff
-                                                                                                                        - dts
-                                                                                                                        - flac
-                                                                                                                        - m4a
-                                                                                                                        - mp2
-                                                                                                                        - mp3
-                                                                                                                        - oga
-                                                                                                                        - ogg
-                                                                                                                        - opus
-                                                                                                                        - ra
-                                                                                                                        - wav
-                                                                                                                        - wma
-                                                                                                                    type: string
-                                                                                                                type: array
-                                                                                                            recipename:
-                                                                                                                description: Recipe to process the custom metadata.
-                                                                                                                enum:
-                                                                                                                    - _metadata:ocr
-                                                                                                                type: string
-                                                                                                        type: object
-                                                                                                    displayname:
-                                                                                                        type: object
-                                                                                                        properties:
-                                                                                                            de-DE:
-                                                                                                                type: string
-                                                                                                            en-US:
-                                                                                                                type: string
-                                                                                                        example:
-                                                                                                            de-DE: Deutscher text
-                                                                                                            en-US: English text
-                                                                                                    extensions:
-                                                                                                        items:
-                                                                                                            enum:
-                                                                                                                - aac
-                                                                                                                - aiff
-                                                                                                                - dts
-                                                                                                                - flac
-                                                                                                                - m4a
-                                                                                                                - mp2
-                                                                                                                - mp3
-                                                                                                                - oga
-                                                                                                                - ogg
-                                                                                                                - opus
-                                                                                                                - ra
-                                                                                                                - wav
-                                                                                                                - wma
-                                                                                                            type: string
-                                                                                                        type: array
-                                                                                                    group:
-                                                                                                        type: string
-                                                                                                    name:
-                                                                                                        type: string
-                                                                                                    params:
-                                                                                                        properties:
-                                                                                                            end:
-                                                                                                                description: timestamp to end snippet [string]
-                                                                                                                type: string
-                                                                                                            format:
-                                                                                                                description: ' [string]'
-                                                                                                                type: string
-                                                                                                            start:
-                                                                                                                description: timestamp to start snippet [string]
-                                                                                                                type: string
-                                                                                                        type: object
-                                                                                                    recipename:
-                                                                                                        description: This oneOf block is for "audioconverter:snippet"
                                                                                                         type: string
                                                                                                   type: object
                                                                                         type: array
@@ -16714,6 +16714,62 @@ paths:
                                                                                     versions:
                                                                                         items:
                                                                                             oneOf:
+                                                                                                - description: Recipe "officeconverter:browserthumbs"
+                                                                                                  properties:
+                                                                                                    custommetadata:
+                                                                                                        properties:
+                                                                                                            extensions:
+                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                                items:
+                                                                                                                    enum:
+                                                                                                                        - indd
+                                                                                                                        - pdf
+                                                                                                                    type: string
+                                                                                                                type: array
+                                                                                                            recipename:
+                                                                                                                description: Recipe to process the custom metadata.
+                                                                                                                enum:
+                                                                                                                    - _metadata:ocr
+                                                                                                                type: string
+                                                                                                        type: object
+                                                                                                    displayname:
+                                                                                                        type: object
+                                                                                                        properties:
+                                                                                                            de-DE:
+                                                                                                                type: string
+                                                                                                            en-US:
+                                                                                                                type: string
+                                                                                                        example:
+                                                                                                            de-DE: Deutscher text
+                                                                                                            en-US: English text
+                                                                                                    extensions:
+                                                                                                        items:
+                                                                                                            enum:
+                                                                                                                - indd
+                                                                                                                - pdf
+                                                                                                            type: string
+                                                                                                        type: array
+                                                                                                    group:
+                                                                                                        type: string
+                                                                                                    name:
+                                                                                                        type: string
+                                                                                                    params:
+                                                                                                        properties:
+                                                                                                            format:
+                                                                                                                description: output format of the thumbnail [select]
+                                                                                                                enum:
+                                                                                                                    - jpg
+                                                                                                                    - png
+                                                                                                                    - webp
+                                                                                                                type: string
+                                                                                                            size:
+                                                                                                                description: set the output size. [int]
+                                                                                                                type: integer
+                                                                                                        type: object
+                                                                                                    recipename:
+                                                                                                        description: This oneOf block is for "officeconverter:browserthumbs"
+                                                                                                        type: string
+                                                                                                  type: object
                                                                                                 - description: Recipe "officeconverter:font"
                                                                                                   properties:
                                                                                                     custommetadata:
@@ -16836,85 +16892,6 @@ paths:
                                                                                                         description: This oneOf block is for "officeconverter:pdf"
                                                                                                         type: string
                                                                                                   type: object
-                                                                                                - description: Recipe "pdfconverter:pdfpages"
-                                                                                                  properties:
-                                                                                                    custommetadata:
-                                                                                                        properties:
-                                                                                                            extensions:
-                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                                items:
-                                                                                                                    enum:
-                                                                                                                        - csv
-                                                                                                                        - doc
-                                                                                                                        - docx
-                                                                                                                        - epub
-                                                                                                                        - indd
-                                                                                                                        - odp
-                                                                                                                        - ods
-                                                                                                                        - odt
-                                                                                                                        - pdf
-                                                                                                                        - ppsx
-                                                                                                                        - ppt
-                                                                                                                        - pptx
-                                                                                                                        - rtf
-                                                                                                                        - txt
-                                                                                                                        - xls
-                                                                                                                        - xlsx
-                                                                                                                    type: string
-                                                                                                                type: array
-                                                                                                            recipename:
-                                                                                                                description: Recipe to process the custom metadata.
-                                                                                                                enum:
-                                                                                                                    - _metadata:ocr
-                                                                                                                type: string
-                                                                                                        type: object
-                                                                                                    displayname:
-                                                                                                        type: object
-                                                                                                        properties:
-                                                                                                            de-DE:
-                                                                                                                type: string
-                                                                                                            en-US:
-                                                                                                                type: string
-                                                                                                        example:
-                                                                                                            de-DE: Deutscher text
-                                                                                                            en-US: English text
-                                                                                                    extensions:
-                                                                                                        items:
-                                                                                                            enum:
-                                                                                                                - csv
-                                                                                                                - doc
-                                                                                                                - docx
-                                                                                                                - epub
-                                                                                                                - indd
-                                                                                                                - odp
-                                                                                                                - ods
-                                                                                                                - odt
-                                                                                                                - pdf
-                                                                                                                - ppsx
-                                                                                                                - ppt
-                                                                                                                - pptx
-                                                                                                                - rtf
-                                                                                                                - txt
-                                                                                                                - xls
-                                                                                                                - xlsx
-                                                                                                            type: string
-                                                                                                        type: array
-                                                                                                    group:
-                                                                                                        type: string
-                                                                                                    name:
-                                                                                                        type: string
-                                                                                                    params:
-                                                                                                        properties:
-                                                                                                            min_size:
-                                                                                                                description: |-
-                                                                                                                    Size in pixels of the shortest side of the page.
-                                                                                                                     [int]
-                                                                                                                type: integer
-                                                                                                        type: object
-                                                                                                    recipename:
-                                                                                                        description: This oneOf block is for "pdfconverter:pdfpages"
-                                                                                                        type: string
-                                                                                                  type: object
                                                                                                 - description: Recipe "officeconverter:preview"
                                                                                                   properties:
                                                                                                     custommetadata:
@@ -17004,7 +16981,7 @@ paths:
                                                                                                         description: This oneOf block is for "officeconverter:preview"
                                                                                                         type: string
                                                                                                   type: object
-                                                                                                - description: Recipe "officeconverter:browserthumbs"
+                                                                                                - description: Recipe "pdfconverter:pdfpages"
                                                                                                   properties:
                                                                                                     custommetadata:
                                                                                                         properties:
@@ -17012,8 +16989,22 @@ paths:
                                                                                                                 description: If given, only run the custom metadata if the extension of the version matches.
                                                                                                                 items:
                                                                                                                     enum:
+                                                                                                                        - csv
+                                                                                                                        - doc
+                                                                                                                        - docx
+                                                                                                                        - epub
                                                                                                                         - indd
+                                                                                                                        - odp
+                                                                                                                        - ods
+                                                                                                                        - odt
                                                                                                                         - pdf
+                                                                                                                        - ppsx
+                                                                                                                        - ppt
+                                                                                                                        - pptx
+                                                                                                                        - rtf
+                                                                                                                        - txt
+                                                                                                                        - xls
+                                                                                                                        - xlsx
                                                                                                                     type: string
                                                                                                                 type: array
                                                                                                             recipename:
@@ -17035,8 +17026,22 @@ paths:
                                                                                                     extensions:
                                                                                                         items:
                                                                                                             enum:
+                                                                                                                - csv
+                                                                                                                - doc
+                                                                                                                - docx
+                                                                                                                - epub
                                                                                                                 - indd
+                                                                                                                - odp
+                                                                                                                - ods
+                                                                                                                - odt
                                                                                                                 - pdf
+                                                                                                                - ppsx
+                                                                                                                - ppt
+                                                                                                                - pptx
+                                                                                                                - rtf
+                                                                                                                - txt
+                                                                                                                - xls
+                                                                                                                - xlsx
                                                                                                             type: string
                                                                                                         type: array
                                                                                                     group:
@@ -17045,19 +17050,14 @@ paths:
                                                                                                         type: string
                                                                                                     params:
                                                                                                         properties:
-                                                                                                            format:
-                                                                                                                description: output format of the thumbnail [select]
-                                                                                                                enum:
-                                                                                                                    - jpg
-                                                                                                                    - png
-                                                                                                                    - webp
-                                                                                                                type: string
-                                                                                                            size:
-                                                                                                                description: set the output size. [int]
+                                                                                                            min_size:
+                                                                                                                description: |-
+                                                                                                                    Size in pixels of the shortest side of the page.
+                                                                                                                     [int]
                                                                                                                 type: integer
                                                                                                         type: object
                                                                                                     recipename:
-                                                                                                        description: This oneOf block is for "officeconverter:browserthumbs"
+                                                                                                        description: This oneOf block is for "pdfconverter:pdfpages"
                                                                                                         type: string
                                                                                                   type: object
                                                                                         type: array
@@ -18957,172 +18957,6 @@ paths:
                                                                                 versions:
                                                                                     items:
                                                                                         oneOf:
-                                                                                            - description: Recipe "imageconverter:preview_pool_watermark"
-                                                                                              properties:
-                                                                                                custommetadata:
-                                                                                                    properties:
-                                                                                                        extensions:
-                                                                                                            description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                            items:
-                                                                                                                enum:
-                                                                                                                    - ai
-                                                                                                                    - arw
-                                                                                                                    - bmp
-                                                                                                                    - cr2
-                                                                                                                    - cr3
-                                                                                                                    - crw
-                                                                                                                    - dng
-                                                                                                                    - eps
-                                                                                                                    - gif
-                                                                                                                    - heic
-                                                                                                                    - ico
-                                                                                                                    - jfif
-                                                                                                                    - jp2
-                                                                                                                    - jpeg
-                                                                                                                    - jpg
-                                                                                                                    - nef
-                                                                                                                    - pcd
-                                                                                                                    - png
-                                                                                                                    - ppm
-                                                                                                                    - psd
-                                                                                                                    - raf
-                                                                                                                    - rw2
-                                                                                                                    - svg
-                                                                                                                    - tif
-                                                                                                                    - tiff
-                                                                                                                    - webp
-                                                                                                                    - wmf
-                                                                                                                type: string
-                                                                                                            type: array
-                                                                                                        recipename:
-                                                                                                            description: Recipe to process the custom metadata.
-                                                                                                            enum:
-                                                                                                                - _metadata:ocr
-                                                                                                            type: string
-                                                                                                    type: object
-                                                                                                displayname:
-                                                                                                    type: object
-                                                                                                    properties:
-                                                                                                        de-DE:
-                                                                                                            type: string
-                                                                                                        en-US:
-                                                                                                            type: string
-                                                                                                    example:
-                                                                                                        de-DE: Deutscher text
-                                                                                                        en-US: English text
-                                                                                                extensions:
-                                                                                                    items:
-                                                                                                        enum:
-                                                                                                            - ai
-                                                                                                            - arw
-                                                                                                            - bmp
-                                                                                                            - cr2
-                                                                                                            - cr3
-                                                                                                            - crw
-                                                                                                            - dng
-                                                                                                            - eps
-                                                                                                            - gif
-                                                                                                            - heic
-                                                                                                            - ico
-                                                                                                            - jfif
-                                                                                                            - jp2
-                                                                                                            - jpeg
-                                                                                                            - jpg
-                                                                                                            - nef
-                                                                                                            - pcd
-                                                                                                            - png
-                                                                                                            - ppm
-                                                                                                            - psd
-                                                                                                            - raf
-                                                                                                            - rw2
-                                                                                                            - svg
-                                                                                                            - tif
-                                                                                                            - tiff
-                                                                                                            - webp
-                                                                                                            - wmf
-                                                                                                        type: string
-                                                                                                    type: array
-                                                                                                group:
-                                                                                                    type: string
-                                                                                                name:
-                                                                                                    type: string
-                                                                                                params:
-                                                                                                    properties:
-                                                                                                        format:
-                                                                                                            description: output format of the thumbnail [select]
-                                                                                                            enum:
-                                                                                                                - jpg
-                                                                                                                - png
-                                                                                                                - webp
-                                                                                                            type: string
-                                                                                                        resize_mode:
-                                                                                                            description: ' [select]'
-                                                                                                            enum:
-                                                                                                                - ""
-                                                                                                                - height
-                                                                                                                - max
-                                                                                                                - min
-                                                                                                                - width
-                                                                                                            type: string
-                                                                                                        size:
-                                                                                                            description: set the output size. [int]
-                                                                                                            type: integer
-                                                                                                        size_minimum:
-                                                                                                            description: Only produce version if source size (largest dimension, either `width` or `height`) is greater or equal `size_minimum`. [int]
-                                                                                                            type: integer
-                                                                                                    type: object
-                                                                                                recipename:
-                                                                                                    description: This oneOf block is for "imageconverter:preview_pool_watermark"
-                                                                                                    type: string
-                                                                                              type: object
-                                                                                            - description: Recipe "imageconverter:vectortosvg"
-                                                                                              properties:
-                                                                                                custommetadata:
-                                                                                                    properties:
-                                                                                                        extensions:
-                                                                                                            description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                            items:
-                                                                                                                enum:
-                                                                                                                    - ai
-                                                                                                                    - eps
-                                                                                                                    - wmf
-                                                                                                                type: string
-                                                                                                            type: array
-                                                                                                        recipename:
-                                                                                                            description: Recipe to process the custom metadata.
-                                                                                                            enum:
-                                                                                                                - _metadata:ocr
-                                                                                                            type: string
-                                                                                                    type: object
-                                                                                                displayname:
-                                                                                                    type: object
-                                                                                                    properties:
-                                                                                                        de-DE:
-                                                                                                            type: string
-                                                                                                        en-US:
-                                                                                                            type: string
-                                                                                                    example:
-                                                                                                        de-DE: Deutscher text
-                                                                                                        en-US: English text
-                                                                                                extensions:
-                                                                                                    items:
-                                                                                                        enum:
-                                                                                                            - ai
-                                                                                                            - eps
-                                                                                                            - wmf
-                                                                                                        type: string
-                                                                                                    type: array
-                                                                                                group:
-                                                                                                    type: string
-                                                                                                name:
-                                                                                                    type: string
-                                                                                                params:
-                                                                                                    properties: {}
-                                                                                                    type: object
-                                                                                                recipename:
-                                                                                                    description: This oneOf block is for "imageconverter:vectortosvg"
-                                                                                                    type: string
-                                                                                              type: object
                                                                                             - description: Recipe "imageconverter:browserthumbs"
                                                                                               properties:
                                                                                                 custommetadata:
@@ -19295,6 +19129,172 @@ paths:
                                                                                                     description: This oneOf block is for "imageconverter:browserthumbs"
                                                                                                     type: string
                                                                                               type: object
+                                                                                            - description: Recipe "imageconverter:preview_pool_watermark"
+                                                                                              properties:
+                                                                                                custommetadata:
+                                                                                                    properties:
+                                                                                                        extensions:
+                                                                                                            description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                            items:
+                                                                                                                enum:
+                                                                                                                    - ai
+                                                                                                                    - arw
+                                                                                                                    - bmp
+                                                                                                                    - cr2
+                                                                                                                    - cr3
+                                                                                                                    - crw
+                                                                                                                    - dng
+                                                                                                                    - eps
+                                                                                                                    - gif
+                                                                                                                    - heic
+                                                                                                                    - ico
+                                                                                                                    - jfif
+                                                                                                                    - jp2
+                                                                                                                    - jpeg
+                                                                                                                    - jpg
+                                                                                                                    - nef
+                                                                                                                    - pcd
+                                                                                                                    - png
+                                                                                                                    - ppm
+                                                                                                                    - psd
+                                                                                                                    - raf
+                                                                                                                    - rw2
+                                                                                                                    - svg
+                                                                                                                    - tif
+                                                                                                                    - tiff
+                                                                                                                    - webp
+                                                                                                                    - wmf
+                                                                                                                type: string
+                                                                                                            type: array
+                                                                                                        recipename:
+                                                                                                            description: Recipe to process the custom metadata.
+                                                                                                            enum:
+                                                                                                                - _metadata:ocr
+                                                                                                            type: string
+                                                                                                    type: object
+                                                                                                displayname:
+                                                                                                    type: object
+                                                                                                    properties:
+                                                                                                        de-DE:
+                                                                                                            type: string
+                                                                                                        en-US:
+                                                                                                            type: string
+                                                                                                    example:
+                                                                                                        de-DE: Deutscher text
+                                                                                                        en-US: English text
+                                                                                                extensions:
+                                                                                                    items:
+                                                                                                        enum:
+                                                                                                            - ai
+                                                                                                            - arw
+                                                                                                            - bmp
+                                                                                                            - cr2
+                                                                                                            - cr3
+                                                                                                            - crw
+                                                                                                            - dng
+                                                                                                            - eps
+                                                                                                            - gif
+                                                                                                            - heic
+                                                                                                            - ico
+                                                                                                            - jfif
+                                                                                                            - jp2
+                                                                                                            - jpeg
+                                                                                                            - jpg
+                                                                                                            - nef
+                                                                                                            - pcd
+                                                                                                            - png
+                                                                                                            - ppm
+                                                                                                            - psd
+                                                                                                            - raf
+                                                                                                            - rw2
+                                                                                                            - svg
+                                                                                                            - tif
+                                                                                                            - tiff
+                                                                                                            - webp
+                                                                                                            - wmf
+                                                                                                        type: string
+                                                                                                    type: array
+                                                                                                group:
+                                                                                                    type: string
+                                                                                                name:
+                                                                                                    type: string
+                                                                                                params:
+                                                                                                    properties:
+                                                                                                        format:
+                                                                                                            description: output format of the thumbnail [select]
+                                                                                                            enum:
+                                                                                                                - jpg
+                                                                                                                - png
+                                                                                                                - webp
+                                                                                                            type: string
+                                                                                                        resize_mode:
+                                                                                                            description: ' [select]'
+                                                                                                            enum:
+                                                                                                                - ""
+                                                                                                                - height
+                                                                                                                - max
+                                                                                                                - min
+                                                                                                                - width
+                                                                                                            type: string
+                                                                                                        size:
+                                                                                                            description: set the output size. [int]
+                                                                                                            type: integer
+                                                                                                        size_minimum:
+                                                                                                            description: Only produce version if source size (largest dimension, either `width` or `height`) is greater or equal `size_minimum`. [int]
+                                                                                                            type: integer
+                                                                                                    type: object
+                                                                                                recipename:
+                                                                                                    description: This oneOf block is for "imageconverter:preview_pool_watermark"
+                                                                                                    type: string
+                                                                                              type: object
+                                                                                            - description: Recipe "imageconverter:vectortosvg"
+                                                                                              properties:
+                                                                                                custommetadata:
+                                                                                                    properties:
+                                                                                                        extensions:
+                                                                                                            description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                            items:
+                                                                                                                enum:
+                                                                                                                    - ai
+                                                                                                                    - eps
+                                                                                                                    - wmf
+                                                                                                                type: string
+                                                                                                            type: array
+                                                                                                        recipename:
+                                                                                                            description: Recipe to process the custom metadata.
+                                                                                                            enum:
+                                                                                                                - _metadata:ocr
+                                                                                                            type: string
+                                                                                                    type: object
+                                                                                                displayname:
+                                                                                                    type: object
+                                                                                                    properties:
+                                                                                                        de-DE:
+                                                                                                            type: string
+                                                                                                        en-US:
+                                                                                                            type: string
+                                                                                                    example:
+                                                                                                        de-DE: Deutscher text
+                                                                                                        en-US: English text
+                                                                                                extensions:
+                                                                                                    items:
+                                                                                                        enum:
+                                                                                                            - ai
+                                                                                                            - eps
+                                                                                                            - wmf
+                                                                                                        type: string
+                                                                                                    type: array
+                                                                                                group:
+                                                                                                    type: string
+                                                                                                name:
+                                                                                                    type: string
+                                                                                                params:
+                                                                                                    properties: {}
+                                                                                                    type: object
+                                                                                                recipename:
+                                                                                                    description: This oneOf block is for "imageconverter:vectortosvg"
+                                                                                                    type: string
+                                                                                              type: object
                                                                                     type: array
                                                                                 watermark:
                                                                                     description: If set, frontends can use this information to prefer to display a non-watermark version over one with a watermark.
@@ -19344,141 +19344,6 @@ paths:
                                                                                 versions:
                                                                                     items:
                                                                                         oneOf:
-                                                                                            - description: Recipe "pdfconverter:pdfpages"
-                                                                                              properties:
-                                                                                                custommetadata:
-                                                                                                    properties:
-                                                                                                        extensions:
-                                                                                                            description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                            items:
-                                                                                                                enum:
-                                                                                                                    - csv
-                                                                                                                    - doc
-                                                                                                                    - docx
-                                                                                                                    - epub
-                                                                                                                    - indd
-                                                                                                                    - odp
-                                                                                                                    - ods
-                                                                                                                    - odt
-                                                                                                                    - pdf
-                                                                                                                    - ppsx
-                                                                                                                    - ppt
-                                                                                                                    - pptx
-                                                                                                                    - rtf
-                                                                                                                    - txt
-                                                                                                                    - xls
-                                                                                                                    - xlsx
-                                                                                                                type: string
-                                                                                                            type: array
-                                                                                                        recipename:
-                                                                                                            description: Recipe to process the custom metadata.
-                                                                                                            enum:
-                                                                                                                - _metadata:ocr
-                                                                                                            type: string
-                                                                                                    type: object
-                                                                                                displayname:
-                                                                                                    type: object
-                                                                                                    properties:
-                                                                                                        de-DE:
-                                                                                                            type: string
-                                                                                                        en-US:
-                                                                                                            type: string
-                                                                                                    example:
-                                                                                                        de-DE: Deutscher text
-                                                                                                        en-US: English text
-                                                                                                extensions:
-                                                                                                    items:
-                                                                                                        enum:
-                                                                                                            - csv
-                                                                                                            - doc
-                                                                                                            - docx
-                                                                                                            - epub
-                                                                                                            - indd
-                                                                                                            - odp
-                                                                                                            - ods
-                                                                                                            - odt
-                                                                                                            - pdf
-                                                                                                            - ppsx
-                                                                                                            - ppt
-                                                                                                            - pptx
-                                                                                                            - rtf
-                                                                                                            - txt
-                                                                                                            - xls
-                                                                                                            - xlsx
-                                                                                                        type: string
-                                                                                                    type: array
-                                                                                                group:
-                                                                                                    type: string
-                                                                                                name:
-                                                                                                    type: string
-                                                                                                params:
-                                                                                                    properties:
-                                                                                                        min_size:
-                                                                                                            description: |-
-                                                                                                                Size in pixels of the shortest side of the page.
-                                                                                                                 [int]
-                                                                                                            type: integer
-                                                                                                    type: object
-                                                                                                recipename:
-                                                                                                    description: This oneOf block is for "pdfconverter:pdfpages"
-                                                                                                    type: string
-                                                                                              type: object
-                                                                                            - description: Recipe "officeconverter:browserthumbs"
-                                                                                              properties:
-                                                                                                custommetadata:
-                                                                                                    properties:
-                                                                                                        extensions:
-                                                                                                            description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                            items:
-                                                                                                                enum:
-                                                                                                                    - indd
-                                                                                                                    - pdf
-                                                                                                                type: string
-                                                                                                            type: array
-                                                                                                        recipename:
-                                                                                                            description: Recipe to process the custom metadata.
-                                                                                                            enum:
-                                                                                                                - _metadata:ocr
-                                                                                                            type: string
-                                                                                                    type: object
-                                                                                                displayname:
-                                                                                                    type: object
-                                                                                                    properties:
-                                                                                                        de-DE:
-                                                                                                            type: string
-                                                                                                        en-US:
-                                                                                                            type: string
-                                                                                                    example:
-                                                                                                        de-DE: Deutscher text
-                                                                                                        en-US: English text
-                                                                                                extensions:
-                                                                                                    items:
-                                                                                                        enum:
-                                                                                                            - indd
-                                                                                                            - pdf
-                                                                                                        type: string
-                                                                                                    type: array
-                                                                                                group:
-                                                                                                    type: string
-                                                                                                name:
-                                                                                                    type: string
-                                                                                                params:
-                                                                                                    properties:
-                                                                                                        format:
-                                                                                                            description: output format of the thumbnail [select]
-                                                                                                            enum:
-                                                                                                                - jpg
-                                                                                                                - png
-                                                                                                                - webp
-                                                                                                            type: string
-                                                                                                        size:
-                                                                                                            description: set the output size. [int]
-                                                                                                            type: integer
-                                                                                                    type: object
-                                                                                                recipename:
-                                                                                                    description: This oneOf block is for "officeconverter:browserthumbs"
-                                                                                                    type: string
-                                                                                              type: object
                                                                                             - description: Recipe "officeconverter:font"
                                                                                               properties:
                                                                                                 custommetadata:
@@ -19688,6 +19553,141 @@ paths:
                                                                                                     type: object
                                                                                                 recipename:
                                                                                                     description: This oneOf block is for "officeconverter:preview"
+                                                                                                    type: string
+                                                                                              type: object
+                                                                                            - description: Recipe "pdfconverter:pdfpages"
+                                                                                              properties:
+                                                                                                custommetadata:
+                                                                                                    properties:
+                                                                                                        extensions:
+                                                                                                            description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                            items:
+                                                                                                                enum:
+                                                                                                                    - csv
+                                                                                                                    - doc
+                                                                                                                    - docx
+                                                                                                                    - epub
+                                                                                                                    - indd
+                                                                                                                    - odp
+                                                                                                                    - ods
+                                                                                                                    - odt
+                                                                                                                    - pdf
+                                                                                                                    - ppsx
+                                                                                                                    - ppt
+                                                                                                                    - pptx
+                                                                                                                    - rtf
+                                                                                                                    - txt
+                                                                                                                    - xls
+                                                                                                                    - xlsx
+                                                                                                                type: string
+                                                                                                            type: array
+                                                                                                        recipename:
+                                                                                                            description: Recipe to process the custom metadata.
+                                                                                                            enum:
+                                                                                                                - _metadata:ocr
+                                                                                                            type: string
+                                                                                                    type: object
+                                                                                                displayname:
+                                                                                                    type: object
+                                                                                                    properties:
+                                                                                                        de-DE:
+                                                                                                            type: string
+                                                                                                        en-US:
+                                                                                                            type: string
+                                                                                                    example:
+                                                                                                        de-DE: Deutscher text
+                                                                                                        en-US: English text
+                                                                                                extensions:
+                                                                                                    items:
+                                                                                                        enum:
+                                                                                                            - csv
+                                                                                                            - doc
+                                                                                                            - docx
+                                                                                                            - epub
+                                                                                                            - indd
+                                                                                                            - odp
+                                                                                                            - ods
+                                                                                                            - odt
+                                                                                                            - pdf
+                                                                                                            - ppsx
+                                                                                                            - ppt
+                                                                                                            - pptx
+                                                                                                            - rtf
+                                                                                                            - txt
+                                                                                                            - xls
+                                                                                                            - xlsx
+                                                                                                        type: string
+                                                                                                    type: array
+                                                                                                group:
+                                                                                                    type: string
+                                                                                                name:
+                                                                                                    type: string
+                                                                                                params:
+                                                                                                    properties:
+                                                                                                        min_size:
+                                                                                                            description: |-
+                                                                                                                Size in pixels of the shortest side of the page.
+                                                                                                                 [int]
+                                                                                                            type: integer
+                                                                                                    type: object
+                                                                                                recipename:
+                                                                                                    description: This oneOf block is for "pdfconverter:pdfpages"
+                                                                                                    type: string
+                                                                                              type: object
+                                                                                            - description: Recipe "officeconverter:browserthumbs"
+                                                                                              properties:
+                                                                                                custommetadata:
+                                                                                                    properties:
+                                                                                                        extensions:
+                                                                                                            description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                            items:
+                                                                                                                enum:
+                                                                                                                    - indd
+                                                                                                                    - pdf
+                                                                                                                type: string
+                                                                                                            type: array
+                                                                                                        recipename:
+                                                                                                            description: Recipe to process the custom metadata.
+                                                                                                            enum:
+                                                                                                                - _metadata:ocr
+                                                                                                            type: string
+                                                                                                    type: object
+                                                                                                displayname:
+                                                                                                    type: object
+                                                                                                    properties:
+                                                                                                        de-DE:
+                                                                                                            type: string
+                                                                                                        en-US:
+                                                                                                            type: string
+                                                                                                    example:
+                                                                                                        de-DE: Deutscher text
+                                                                                                        en-US: English text
+                                                                                                extensions:
+                                                                                                    items:
+                                                                                                        enum:
+                                                                                                            - indd
+                                                                                                            - pdf
+                                                                                                        type: string
+                                                                                                    type: array
+                                                                                                group:
+                                                                                                    type: string
+                                                                                                name:
+                                                                                                    type: string
+                                                                                                params:
+                                                                                                    properties:
+                                                                                                        format:
+                                                                                                            description: output format of the thumbnail [select]
+                                                                                                            enum:
+                                                                                                                - jpg
+                                                                                                                - png
+                                                                                                                - webp
+                                                                                                            type: string
+                                                                                                        size:
+                                                                                                            description: set the output size. [int]
+                                                                                                            type: integer
+                                                                                                    type: object
+                                                                                                recipename:
+                                                                                                    description: This oneOf block is for "officeconverter:browserthumbs"
                                                                                                     type: string
                                                                                               type: object
                                                                                     type: array
@@ -21542,124 +21542,6 @@ paths:
                                                                                     versions:
                                                                                         items:
                                                                                             oneOf:
-                                                                                                - description: Recipe "imageconverter:preview_pool_watermark"
-                                                                                                  properties:
-                                                                                                    custommetadata:
-                                                                                                        properties:
-                                                                                                            extensions:
-                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                                items:
-                                                                                                                    enum:
-                                                                                                                        - ai
-                                                                                                                        - arw
-                                                                                                                        - bmp
-                                                                                                                        - cr2
-                                                                                                                        - cr3
-                                                                                                                        - crw
-                                                                                                                        - dng
-                                                                                                                        - eps
-                                                                                                                        - gif
-                                                                                                                        - heic
-                                                                                                                        - ico
-                                                                                                                        - jfif
-                                                                                                                        - jp2
-                                                                                                                        - jpeg
-                                                                                                                        - jpg
-                                                                                                                        - nef
-                                                                                                                        - pcd
-                                                                                                                        - png
-                                                                                                                        - ppm
-                                                                                                                        - psd
-                                                                                                                        - raf
-                                                                                                                        - rw2
-                                                                                                                        - svg
-                                                                                                                        - tif
-                                                                                                                        - tiff
-                                                                                                                        - webp
-                                                                                                                        - wmf
-                                                                                                                    type: string
-                                                                                                                type: array
-                                                                                                            recipename:
-                                                                                                                description: Recipe to process the custom metadata.
-                                                                                                                enum:
-                                                                                                                    - _metadata:ocr
-                                                                                                                type: string
-                                                                                                        type: object
-                                                                                                    displayname:
-                                                                                                        type: object
-                                                                                                        properties:
-                                                                                                            de-DE:
-                                                                                                                type: string
-                                                                                                            en-US:
-                                                                                                                type: string
-                                                                                                        example:
-                                                                                                            de-DE: Deutscher text
-                                                                                                            en-US: English text
-                                                                                                    extensions:
-                                                                                                        items:
-                                                                                                            enum:
-                                                                                                                - ai
-                                                                                                                - arw
-                                                                                                                - bmp
-                                                                                                                - cr2
-                                                                                                                - cr3
-                                                                                                                - crw
-                                                                                                                - dng
-                                                                                                                - eps
-                                                                                                                - gif
-                                                                                                                - heic
-                                                                                                                - ico
-                                                                                                                - jfif
-                                                                                                                - jp2
-                                                                                                                - jpeg
-                                                                                                                - jpg
-                                                                                                                - nef
-                                                                                                                - pcd
-                                                                                                                - png
-                                                                                                                - ppm
-                                                                                                                - psd
-                                                                                                                - raf
-                                                                                                                - rw2
-                                                                                                                - svg
-                                                                                                                - tif
-                                                                                                                - tiff
-                                                                                                                - webp
-                                                                                                                - wmf
-                                                                                                            type: string
-                                                                                                        type: array
-                                                                                                    group:
-                                                                                                        type: string
-                                                                                                    name:
-                                                                                                        type: string
-                                                                                                    params:
-                                                                                                        properties:
-                                                                                                            format:
-                                                                                                                description: output format of the thumbnail [select]
-                                                                                                                enum:
-                                                                                                                    - jpg
-                                                                                                                    - png
-                                                                                                                    - webp
-                                                                                                                type: string
-                                                                                                            resize_mode:
-                                                                                                                description: ' [select]'
-                                                                                                                enum:
-                                                                                                                    - ""
-                                                                                                                    - height
-                                                                                                                    - max
-                                                                                                                    - min
-                                                                                                                    - width
-                                                                                                                type: string
-                                                                                                            size:
-                                                                                                                description: set the output size. [int]
-                                                                                                                type: integer
-                                                                                                            size_minimum:
-                                                                                                                description: Only produce version if source size (largest dimension, either `width` or `height`) is greater or equal `size_minimum`. [int]
-                                                                                                                type: integer
-                                                                                                        type: object
-                                                                                                    recipename:
-                                                                                                        description: This oneOf block is for "imageconverter:preview_pool_watermark"
-                                                                                                        type: string
-                                                                                                  type: object
                                                                                                 - description: Recipe "imageconverter:vectortosvg"
                                                                                                   properties:
                                                                                                     custommetadata:
@@ -21880,6 +21762,124 @@ paths:
                                                                                                         description: This oneOf block is for "imageconverter:browserthumbs"
                                                                                                         type: string
                                                                                                   type: object
+                                                                                                - description: Recipe "imageconverter:preview_pool_watermark"
+                                                                                                  properties:
+                                                                                                    custommetadata:
+                                                                                                        properties:
+                                                                                                            extensions:
+                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                                items:
+                                                                                                                    enum:
+                                                                                                                        - ai
+                                                                                                                        - arw
+                                                                                                                        - bmp
+                                                                                                                        - cr2
+                                                                                                                        - cr3
+                                                                                                                        - crw
+                                                                                                                        - dng
+                                                                                                                        - eps
+                                                                                                                        - gif
+                                                                                                                        - heic
+                                                                                                                        - ico
+                                                                                                                        - jfif
+                                                                                                                        - jp2
+                                                                                                                        - jpeg
+                                                                                                                        - jpg
+                                                                                                                        - nef
+                                                                                                                        - pcd
+                                                                                                                        - png
+                                                                                                                        - ppm
+                                                                                                                        - psd
+                                                                                                                        - raf
+                                                                                                                        - rw2
+                                                                                                                        - svg
+                                                                                                                        - tif
+                                                                                                                        - tiff
+                                                                                                                        - webp
+                                                                                                                        - wmf
+                                                                                                                    type: string
+                                                                                                                type: array
+                                                                                                            recipename:
+                                                                                                                description: Recipe to process the custom metadata.
+                                                                                                                enum:
+                                                                                                                    - _metadata:ocr
+                                                                                                                type: string
+                                                                                                        type: object
+                                                                                                    displayname:
+                                                                                                        type: object
+                                                                                                        properties:
+                                                                                                            de-DE:
+                                                                                                                type: string
+                                                                                                            en-US:
+                                                                                                                type: string
+                                                                                                        example:
+                                                                                                            de-DE: Deutscher text
+                                                                                                            en-US: English text
+                                                                                                    extensions:
+                                                                                                        items:
+                                                                                                            enum:
+                                                                                                                - ai
+                                                                                                                - arw
+                                                                                                                - bmp
+                                                                                                                - cr2
+                                                                                                                - cr3
+                                                                                                                - crw
+                                                                                                                - dng
+                                                                                                                - eps
+                                                                                                                - gif
+                                                                                                                - heic
+                                                                                                                - ico
+                                                                                                                - jfif
+                                                                                                                - jp2
+                                                                                                                - jpeg
+                                                                                                                - jpg
+                                                                                                                - nef
+                                                                                                                - pcd
+                                                                                                                - png
+                                                                                                                - ppm
+                                                                                                                - psd
+                                                                                                                - raf
+                                                                                                                - rw2
+                                                                                                                - svg
+                                                                                                                - tif
+                                                                                                                - tiff
+                                                                                                                - webp
+                                                                                                                - wmf
+                                                                                                            type: string
+                                                                                                        type: array
+                                                                                                    group:
+                                                                                                        type: string
+                                                                                                    name:
+                                                                                                        type: string
+                                                                                                    params:
+                                                                                                        properties:
+                                                                                                            format:
+                                                                                                                description: output format of the thumbnail [select]
+                                                                                                                enum:
+                                                                                                                    - jpg
+                                                                                                                    - png
+                                                                                                                    - webp
+                                                                                                                type: string
+                                                                                                            resize_mode:
+                                                                                                                description: ' [select]'
+                                                                                                                enum:
+                                                                                                                    - ""
+                                                                                                                    - height
+                                                                                                                    - max
+                                                                                                                    - min
+                                                                                                                    - width
+                                                                                                                type: string
+                                                                                                            size:
+                                                                                                                description: set the output size. [int]
+                                                                                                                type: integer
+                                                                                                            size_minimum:
+                                                                                                                description: Only produce version if source size (largest dimension, either `width` or `height`) is greater or equal `size_minimum`. [int]
+                                                                                                                type: integer
+                                                                                                        type: object
+                                                                                                    recipename:
+                                                                                                        description: This oneOf block is for "imageconverter:preview_pool_watermark"
+                                                                                                        type: string
+                                                                                                  type: object
                                                                                         type: array
                                                                                     watermark:
                                                                                         description: If set, frontends can use this information to prefer to display a non-watermark version over one with a watermark.
@@ -21929,6 +21929,114 @@ paths:
                                                                                     versions:
                                                                                         items:
                                                                                             oneOf:
+                                                                                                - description: Recipe "officeconverter:browserthumbs"
+                                                                                                  properties:
+                                                                                                    custommetadata:
+                                                                                                        properties:
+                                                                                                            extensions:
+                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                                items:
+                                                                                                                    enum:
+                                                                                                                        - indd
+                                                                                                                        - pdf
+                                                                                                                    type: string
+                                                                                                                type: array
+                                                                                                            recipename:
+                                                                                                                description: Recipe to process the custom metadata.
+                                                                                                                enum:
+                                                                                                                    - _metadata:ocr
+                                                                                                                type: string
+                                                                                                        type: object
+                                                                                                    displayname:
+                                                                                                        type: object
+                                                                                                        properties:
+                                                                                                            de-DE:
+                                                                                                                type: string
+                                                                                                            en-US:
+                                                                                                                type: string
+                                                                                                        example:
+                                                                                                            de-DE: Deutscher text
+                                                                                                            en-US: English text
+                                                                                                    extensions:
+                                                                                                        items:
+                                                                                                            enum:
+                                                                                                                - indd
+                                                                                                                - pdf
+                                                                                                            type: string
+                                                                                                        type: array
+                                                                                                    group:
+                                                                                                        type: string
+                                                                                                    name:
+                                                                                                        type: string
+                                                                                                    params:
+                                                                                                        properties:
+                                                                                                            format:
+                                                                                                                description: output format of the thumbnail [select]
+                                                                                                                enum:
+                                                                                                                    - jpg
+                                                                                                                    - png
+                                                                                                                    - webp
+                                                                                                                type: string
+                                                                                                            size:
+                                                                                                                description: set the output size. [int]
+                                                                                                                type: integer
+                                                                                                        type: object
+                                                                                                    recipename:
+                                                                                                        description: This oneOf block is for "officeconverter:browserthumbs"
+                                                                                                        type: string
+                                                                                                  type: object
+                                                                                                - description: Recipe "officeconverter:font"
+                                                                                                  properties:
+                                                                                                    custommetadata:
+                                                                                                        properties:
+                                                                                                            extensions:
+                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                                items:
+                                                                                                                    enum:
+                                                                                                                        - otf
+                                                                                                                        - ttf
+                                                                                                                    type: string
+                                                                                                                type: array
+                                                                                                            recipename:
+                                                                                                                description: Recipe to process the custom metadata.
+                                                                                                                enum:
+                                                                                                                    - _metadata:ocr
+                                                                                                                type: string
+                                                                                                        type: object
+                                                                                                    displayname:
+                                                                                                        type: object
+                                                                                                        properties:
+                                                                                                            de-DE:
+                                                                                                                type: string
+                                                                                                            en-US:
+                                                                                                                type: string
+                                                                                                        example:
+                                                                                                            de-DE: Deutscher text
+                                                                                                            en-US: English text
+                                                                                                    extensions:
+                                                                                                        items:
+                                                                                                            enum:
+                                                                                                                - otf
+                                                                                                                - ttf
+                                                                                                            type: string
+                                                                                                        type: array
+                                                                                                    group:
+                                                                                                        type: string
+                                                                                                    name:
+                                                                                                        type: string
+                                                                                                    params:
+                                                                                                        properties:
+                                                                                                            size:
+                                                                                                                description: set the output size. This will produce a squared preview [int]
+                                                                                                                type: integer
+                                                                                                            text:
+                                                                                                                description: text to render on the preview [string]
+                                                                                                                type: string
+                                                                                                        type: object
+                                                                                                    recipename:
+                                                                                                        description: This oneOf block is for "officeconverter:font"
+                                                                                                        type: string
+                                                                                                  type: object
                                                                                                 - description: Recipe "officeconverter:pdf"
                                                                                                   properties:
                                                                                                     custommetadata:
@@ -22088,62 +22196,6 @@ paths:
                                                                                                         description: This oneOf block is for "officeconverter:preview"
                                                                                                         type: string
                                                                                                   type: object
-                                                                                                - description: Recipe "officeconverter:browserthumbs"
-                                                                                                  properties:
-                                                                                                    custommetadata:
-                                                                                                        properties:
-                                                                                                            extensions:
-                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                                items:
-                                                                                                                    enum:
-                                                                                                                        - indd
-                                                                                                                        - pdf
-                                                                                                                    type: string
-                                                                                                                type: array
-                                                                                                            recipename:
-                                                                                                                description: Recipe to process the custom metadata.
-                                                                                                                enum:
-                                                                                                                    - _metadata:ocr
-                                                                                                                type: string
-                                                                                                        type: object
-                                                                                                    displayname:
-                                                                                                        type: object
-                                                                                                        properties:
-                                                                                                            de-DE:
-                                                                                                                type: string
-                                                                                                            en-US:
-                                                                                                                type: string
-                                                                                                        example:
-                                                                                                            de-DE: Deutscher text
-                                                                                                            en-US: English text
-                                                                                                    extensions:
-                                                                                                        items:
-                                                                                                            enum:
-                                                                                                                - indd
-                                                                                                                - pdf
-                                                                                                            type: string
-                                                                                                        type: array
-                                                                                                    group:
-                                                                                                        type: string
-                                                                                                    name:
-                                                                                                        type: string
-                                                                                                    params:
-                                                                                                        properties:
-                                                                                                            format:
-                                                                                                                description: output format of the thumbnail [select]
-                                                                                                                enum:
-                                                                                                                    - jpg
-                                                                                                                    - png
-                                                                                                                    - webp
-                                                                                                                type: string
-                                                                                                            size:
-                                                                                                                description: set the output size. [int]
-                                                                                                                type: integer
-                                                                                                        type: object
-                                                                                                    recipename:
-                                                                                                        description: This oneOf block is for "officeconverter:browserthumbs"
-                                                                                                        type: string
-                                                                                                  type: object
                                                                                                 - description: Recipe "pdfconverter:pdfpages"
                                                                                                   properties:
                                                                                                     custommetadata:
@@ -22221,58 +22273,6 @@ paths:
                                                                                                         type: object
                                                                                                     recipename:
                                                                                                         description: This oneOf block is for "pdfconverter:pdfpages"
-                                                                                                        type: string
-                                                                                                  type: object
-                                                                                                - description: Recipe "officeconverter:font"
-                                                                                                  properties:
-                                                                                                    custommetadata:
-                                                                                                        properties:
-                                                                                                            extensions:
-                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                                items:
-                                                                                                                    enum:
-                                                                                                                        - otf
-                                                                                                                        - ttf
-                                                                                                                    type: string
-                                                                                                                type: array
-                                                                                                            recipename:
-                                                                                                                description: Recipe to process the custom metadata.
-                                                                                                                enum:
-                                                                                                                    - _metadata:ocr
-                                                                                                                type: string
-                                                                                                        type: object
-                                                                                                    displayname:
-                                                                                                        type: object
-                                                                                                        properties:
-                                                                                                            de-DE:
-                                                                                                                type: string
-                                                                                                            en-US:
-                                                                                                                type: string
-                                                                                                        example:
-                                                                                                            de-DE: Deutscher text
-                                                                                                            en-US: English text
-                                                                                                    extensions:
-                                                                                                        items:
-                                                                                                            enum:
-                                                                                                                - otf
-                                                                                                                - ttf
-                                                                                                            type: string
-                                                                                                        type: array
-                                                                                                    group:
-                                                                                                        type: string
-                                                                                                    name:
-                                                                                                        type: string
-                                                                                                    params:
-                                                                                                        properties:
-                                                                                                            size:
-                                                                                                                description: set the output size. This will produce a squared preview [int]
-                                                                                                                type: integer
-                                                                                                            text:
-                                                                                                                description: text to render on the preview [string]
-                                                                                                                type: string
-                                                                                                        type: object
-                                                                                                    recipename:
-                                                                                                        description: This oneOf block is for "officeconverter:font"
                                                                                                         type: string
                                                                                                   type: object
                                                                                         type: array
@@ -24452,6 +24452,21 @@ paths:
                     format: int64
                     minimum: 0
                     default: 0
+                - name: files_real_url
+                  in: query
+                  description: |
+                    If set, files that are *left on remote* (leave-on-remote) are returned
+                    with their real upstream URL — e.g. the S3 or foreign-http location
+                    where the bytes actually live — instead of this instance's download
+                    URL, so a backup can recreate them as leave on restore. Non-leave
+                    files are unaffected.
+
+                    Requires the `system.root` system right: a real upstream URL can be a
+                    pre-signed, direct-access URL that bypasses the per-file ACL. A backup
+                    sets this by default.
+                  schema:
+                    type: string
+                    format: boolean
             responses:
                 "200":
                     description: |
