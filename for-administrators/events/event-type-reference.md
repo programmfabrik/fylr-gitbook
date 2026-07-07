@@ -110,7 +110,7 @@ Created when the server sends an email successfully.
 * `To`, `Cc`, `Bcc` — recipient addresses
 * `Subject` — the subject line
 * `Attachments` — per attachment: `ContentType`, `Filename`, `Size` (human readable), `Filesize` (bytes)
-* additional keys describing what caused the email, merged in by the sender — for example `Collection`/`CollectionID` and `User`/`UserID` for a collection-share email, or `TaskID` for an email sent by a background task
+* additional keys describing what caused the email, merged in by the sender — for example `Collection`/`CollectionID`/`CollectionURL` (the mailed deep link, from version 6.34.0) and `User`/`UserID` for a collection-share email, or `TaskID` for an email sent by a background task
 
 ### EMAIL_SENT_FAILED
 

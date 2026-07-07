@@ -32,7 +32,7 @@ Presets can be seen by all users that can share records or collections. Presets 
 
 ### General
 
-<table><thead><tr><th width="199.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>ID</td><td>ID of the preset. Will be generated automatically.</td></tr><tr><td>Name</td><td>Set a name of the preset. This name will be shown when choosing presets for sharing.</td></tr><tr><td>Description</td><td>Add a detailed description of the preset. This description will be shown when hovering over the name of the preset in the sharing pulldown.</td></tr></tbody></table>
+<table><thead><tr><th width="199.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>ID</td><td>ID of the preset. Will be generated automatically.</td></tr><tr><td>Name</td><td>Set a name of the preset. This name will be shown when choosing presets for sharing.</td></tr><tr><td>Description</td><td>Add a detailed description of the preset. This description will be shown when hovering over the name of the preset in the sharing pulldown.</td></tr><tr><td>External URL for sharing links</td><td>Only for collection presets, from version 6.34.0. Optional absolute URL (<code>http</code>/<code>https</code>) of another webapp that serves fylr's collection links, for example a portal on <code>https://media.example.com</code>. Sharing links of share entries that use this preset — the copy/open link buttons and the link in the share notification email — then point to this URL instead of fylr itself; everything after the base URL stays the same. Create one preset per portal to offer several targets. If left empty, sharing links point to fylr as usual.</td></tr></tbody></table>
 
 
 
