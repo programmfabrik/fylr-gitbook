@@ -22,11 +22,16 @@ The licensing system includes an automated warning service to prevent disruption
 
 #### Automatic Emails
 
-Warnings are sent via email at the following intervals before the license expires:
+Warnings are sent via email before the license **end date**:
 
-* **30 Days**
-* **5 Days**
-* **1 Day**
+* **30 days**, **7 days** and **1 day** before the end date.
+
+Once the end date has passed, fylr enters a two-month [grace period](../../license-management.md#grace-period) and keeps reminding you that it is running out:
+
+* **weekly**, starting eight weeks before the grace period ends, and
+* **daily** during the last week before the grace period ends.
+
+A separate notice is sent once the grace period is over, and — for _buy_ licenses — when a fylr binary released after the license end date is deployed (_binary too new_). All dates in these mails use the DD.MM.YYYY notation.
 
 By default, notifications are sent to the **Administrator Email(s)** defined in **Base Configuration** > **Email.** Additional recipients can be added to the license provided by programmfabrik.
 

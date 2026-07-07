@@ -67,25 +67,32 @@ The license check works offline, the license management does not include any onl
 
 ## fylr version expiration
 
-A fylr version can expire for two reasons:
+How long a fylr version can be used depends on the license type — _subscription_ or _buy_ — and, for buy licenses, on when the running binary was released.
 
-* The license has an expiration date set
-* The binary of the fylr version is older than 1 year
+### Subscription licenses
 
-In case of expiration fylr runs with a limited functionality (see below). Please contact our team to help you, if you find yourself in that situation.
+A subscription license is purely time-based. fylr can be used until the license **end date**, followed by a **two-month grace period** (see [below](#grace-period)). The age of the fylr binary no longer plays a role — a subscription is not affected by how old the running fylr version is.
 
-This limitation does not apply if all of the following applies:
+### Buy licenses
 
-* the license is of type _buy_
-* the fylr binary was released before the license expire date
+A buy license does not expire in time — fylr can be used indefinitely. Its end date is instead a **cutoff for binaries**: a fylr binary **released up to the end date runs indefinitely**, while a binary **released after the end date is refused** as _too new_ and will not run. To move to a newer fylr version, the buy license has to be renewed.
 
-For _subscription licences_, the creation date of the binary plus one year—or the license end date—defines how long fylr can be used.
+### Grace period
 
-For _buy licenses_, there is also an end date, but it works differently: this date is not the end of the license itself, but a cutoff date for the creation of binaries. Binaries created before the license end date will continue to work indefinitely, while binaries created after that date will not.
+When a license reaches its end date, fylr does not stop immediately. It enters a **two-month grace period** (end date + 2 months) during which it keeps running normally. Only once the grace period is over does fylr fall back to [limited functionality](#fylr-with-an-invalid-or-no-license).
 
-{% hint style="info" %}
-Administrators (configured in the base config email section) will receive an email warning 30, 5 and 1 day prior to the expiration.
-{% endhint %}
+The license validation reports the end of the grace period as the **grace to** date (end date + two months), which the [License Management](for-administrators/readme/license-management.md) view shows next to the end date.
+
+### Warning emails
+
+Administrators (configured in the base config email section) receive warning emails so an expiring license never comes as a surprise. All dates in these mails use the DD.MM.YYYY notation.
+
+* **Paid period ending** — 30, 7 and 1 day before the end date.
+* **Grace period ending** — during the grace period: weekly starting eight weeks before the grace end, then daily in the last week before it.
+* **License expired** — once the grace period is over.
+* **Binary too new** (buy licenses) — when a binary released after the license end date is deployed.
+
+In case of expiration fylr runs with a limited functionality (see below). Please contact our team to help you if you find yourself in that situation.
 
 ## fylr with an invalid or no license
 
