@@ -46091,7 +46091,7 @@ components:
                             description: Version; increment on each update.
                         login:
                             type: string
-                            maxLength: 100
+                            maxLength: 500
                             description: |
                                 Login name (unique). Required for password-based user types.
                         reference:
