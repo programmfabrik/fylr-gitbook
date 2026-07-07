@@ -33,10 +33,11 @@ Each module executes a type of background job. The selected module determines wh
 
 Available modules:
 
-* `delete_objects` : Delete objects
-* [metadata.md](background-tasks/metadata.md "mention"): Apply metadata mappings on search results
-* `search` : Execute an advanced search (send summaries via email)
-* `set_unset_tags` — Set or unset tags
+* [Delete objects](background-tasks/delete_objects.md): delete, purge or restore the matched records
+* [Metadata](background-tasks/metadata.md): apply a metadata mapping to the matched records' files
+* [Search](background-tasks/search.md): count the matched records and report (optionally by email)
+* [Set / unset tags](background-tasks/set_unset_tags.md): set or remove tags on the matched records
+* [Consolidate objects](../for-users/additional-features/background-tasks.md#consolidate_objects): merge duplicate linked records into one
 
 #### Task Configuration
 
@@ -53,7 +54,7 @@ Email Notifications: Send an email notification when the task completes
 
 #### Common Parameters
 
-* **Search Configuration**: Define the target records for the task using a commong [Broken link](/broken/pages/PsBLo3OT3NigjqB6vjmA "mention")
+* **Search Configuration**: the search that selects the records the task runs on — the same query you build in the search bar (object types, filters, full-text). It is shared by every module. Turn on **Incremental** to run only on records changed since the task's last run, so a scheduled task processes new and edited records instead of re-processing everything each time.
 * **Overwrite Values:** If a record has values in fields, the task is allowed to overwrite those with the results of the module
 
 Depending on the module used different parameters will be available.
