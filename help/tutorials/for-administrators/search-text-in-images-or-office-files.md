@@ -45,6 +45,10 @@ To search for the extracted content, make sure that the OCR-recognizable text of
 
 Now you can find records by searching the human readable content of files - just type in the search bar as usual.
 
+{% hint style="info" %}
+From fylr **6.34.0**, a file's extracted content (OCR text and embedded file metadata) is added to the searchable full-text index only when the **file field** has its **expert** search enabled in the mask. If the extracted text of a file cannot be found in search, check that the file field's expert search is turned on — and re-index existing records after changing it.
+{% endhint %}
+
 ### Applying OCR on Already Existing Records
 
 OCR image-to-text will run when indexing a file. Consult [regenerating-preview-images.md](../for-system-administrators/regenerating-preview-images.md "mention") for a tutorial on how to reindex one or more existing records.
