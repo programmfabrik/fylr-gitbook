@@ -36,10 +36,10 @@ Each tool is a page under `/inspect/<tool>/`. The ones with settings or actions 
 | --- | --- | --- |
 | `config` | the compiled base config | |
 | `datamodel` | objecttypes, masks, fields | |
-| `objects` | object dump — render an object against any datamodel version | |
+| `objects` | object dump — render an object against any datamodel version | [Objects](objects.md) |
 | `objecttypes` | objecttype list and per-type stats | |
 | `files` | file-production state, filters and actions, IIIF viewer | [Files](files.md) |
-| `collections` | the collection tree (paged, searchable) | |
+| `collections` | the collection tree (paged, searchable) | [Collections](collections.md) |
 | `pools`, `tags`, `transitions`, `publish`, `mappings`, `oai-pmh` | per-entity dumps | |
 | `terms` | the suggestion term list | |
 | `indexer` | search index, mappings, analyze | |
@@ -62,8 +62,8 @@ Each tool is a page under `/inspect/<tool>/`. The ones with settings or actions 
 | `migration` | backup & restore in the browser | [Migration](migration.md) |
 | `recalcterms` | rebuild the suggestion term list | [Term Recalculation](term-recalculation.md) |
 | `sqlquery` | an arbitrary-SQL console (only when enabled) | [SQL Query](sql-query.md) |
-| `license` | license info and the expiration-mail simulator | |
-| `pages` | render page / email templates | |
+| `license` | license info and the expiration-mail simulator | [License](license.md) |
+| `pages` | render page / email templates | [Pages](pages.md) |
 | `apidocs` | the rendered API docs and the OpenAPI spec | [API Documentation](api-documentation.md) |
 
 ## Read-only vs mutating
