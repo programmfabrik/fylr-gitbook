@@ -26,7 +26,9 @@ fylr backup \
 {% endhint %}
 
 {% hint style="warning" %}
-The backup over the API only stores the data in local files. The files are only referenced by URLs. Only during restoring, the files are loaded from the source instance. Until the restore is finished, the source instance still needs to be reachable.
+By default the backup over the API only stores the data in local files; the files themselves are only referenced by URL and are loaded from the source instance during the restore, so until the restore is finished the source instance still needs to be reachable.
+
+Use [`--include-files`](#include-files) to pack the file bytes into the backup instead, making it self-contained.
 {% endhint %}
 
 {% hint style="warning" %}
@@ -236,6 +238,22 @@ For a faithful round-trip (soft-deleted targets restored as they are, with their
 {% hint style="info" %}
 Use this paired with the `fylr restore` parameter `--include-deleted-linked`
 {% endhint %}
+
+* type: `bool`
+* default: `false`
+
+
+### `--include-files`
+
+{% hint style="info" %}
+This parameter is available in fylr from version **6.34.0**.
+{% endhint %}
+
+By default a backup only stores the file **URLs**, and the restore fetches the bytes from the source instance (which therefore has to stay reachable until the restore finishes). Set `--include-files` to pack each file's **bytes** into the backup itself, under a `files/` directory. The restore then uploads them from the local backup, so it no longer depends on the source instance.
+
+Files stored _leave on remote_ are not packed: the backup keeps their real upstream URL (it requests `files_real_url=1` on the `/db` list, which needs the _root_ system right) and the restore keeps them as references. On restore the upload method is chosen per file — packed files are uploaded from the backup, leave-on-remote files stay references — for originals and their renditions alike. Combined with the restore's `--upload-versions`, a leave original's renditions are uploaded from the backup while the original itself stays on the remote.
+
+The backup form under `/inspect/migration` offers this as an **Include Files** toggle, and its backup viewer browses the nested `files/` directories.
 
 * type: `bool`
 * default: `false`
