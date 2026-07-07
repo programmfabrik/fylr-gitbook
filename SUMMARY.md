@@ -357,6 +357,8 @@
     * [/api/v1/WebDAV](for-developers/api/endpoints/api-webdav.md)
     * [/.well-known](for-developers/api/endpoints/api-well-known.md)
     * [/api/v1/xmlmapping](for-developers/api/endpoints/api-xmlmapping.md)
+* [Anatomy of a Record](for-developers/record-json.md)
+* [Building a Search Request](for-developers/search-requests.md)
 * [Schema](for-developers/mask.md)
 * [System Data Types](for-developers/system-data-types/README.md)
   * [pool](for-developers/system-data-types/pool.md)
