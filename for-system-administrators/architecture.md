@@ -23,7 +23,7 @@ flowchart TD
 **Services** (configured under `fylr.services` in `fylr.yml`):
 
 * **api / webapp** — the public HTTP surface: the JSON API under `/api/v1` and the web frontend. Clients authenticate here ([OAuth2](../for-developers/api/oauth2.md)) and send their requests.
-* **backend** — does the actual work: reads and writes objects in PostgreSQL, keeps the OpenSearch index in sync, and runs the [file workers](../for-developers/file-worker.md). It also serves the unauthenticated [`/inspect`](../for-developers/inspect.md) surface, so it must stay on a private network.
+* **backend** — does the actual work: reads and writes objects in PostgreSQL, keeps the OpenSearch index in sync, and runs the [file workers](../for-developers/file-worker.md). It also serves the unauthenticated [`/inspect`](inspect/) surface, so it must stay on a private network.
 * **execserver** — runs the external media tools out-of-process, on demand, over a token-guarded protocol (see [Exec server](../for-developers/execserver.md)). It can run standalone and be scaled to several instances.
 
 **Datastores:**
@@ -45,5 +45,5 @@ A single instance runs every service together. For horizontal scaling the [execs
 * [Install from source](installation/from-source.md) — the build and the third-party tools.
 * [Exec server](../for-developers/execserver.md) — how fylr runs the media tools.
 * [The File Worker](../for-developers/file-worker.md) — the file-production pipeline.
-* [The /inspect backend](../for-developers/inspect.md) — the introspection surface on the backend.
+* [The /inspect backend](inspect/) — the introspection surface on the backend.
 * [Scaling the execserver](installation/scaling-the-execserver.md).
