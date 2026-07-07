@@ -15,7 +15,9 @@ user then answer `401`.
 Each page below documents one endpoint group, with an interactive panel per
 operation generated from the OpenAPI specification (`fylr-openapi.yml`). Pages
 are grouped by the first path segment; larger groups — collection, eas, system,
-config, plugin — carry subpages.
+config, plugin — carry subpages. The `/api/v1` groups are listed alphabetically;
+the endpoints that live outside `/api/v1` — `/api/oauth2`, `/.well-known` and
+`/inspect` — follow at the end.
 
 ## All endpoints
 
@@ -28,12 +30,10 @@ config, plugin — carry subpages.
 * [/api/v1/export](api-export.md)
 * [/api/v1/group](api-group.md)
 * [/api/v1/hotfolder](api-hotfolder.md)
-* [/inspect](api-inspect.md)
 * [/api/v1/l10n](api-l10n.md)
 * [/api/v1/mask](api-mask.md)
 * [/api/v1/message](api-message.md)
 * [/api/v1/oai](api-oai.md)
-* [/api/oauth2](api-oauth2.md)
 * [/api/v1/objects](api-objects.md)
 * [/api/v1/objecttype](api-objecttype.md)
 * [/api/v1/plugin](plugin/README.md)
@@ -50,5 +50,7 @@ config, plugin — carry subpages.
 * [/api/v1/transitions](api-transitions.md)
 * [/api/v1/user](api-user.md)
 * [/api/v1/WebDAV](api-webdav.md)
-* [/.well-known](api-well-known.md)
 * [/api/v1/xmlmapping](api-xmlmapping.md)
+* [/api/oauth2](api-oauth2.md)
+* [/.well-known](api-well-known.md)
+* [/inspect](api-inspect.md)
