@@ -39,5 +39,5 @@ The dashboard also links the read-only runtime views:
 ## See also
 
 * [The /inspect Backend](README.md) — the console overview and auth model.
-* [Files and version production](../files-and-version-production.md) — the file queues in depth.
+* [Files and version production](../../files-and-version-production.md) — the file queues in depth.
 * [Backups & Restore](../backup.md).
