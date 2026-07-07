@@ -14,15 +14,16 @@ This page follows one file through that pipeline end to end. It is the technical
 
 ## The pipeline at a glance
 
-```
-upload  →  original file row (status: pending)  →  file_queue job
-                                                        │
-                              ┌─────────────────────────┘
-                              ▼
-   file worker  ──►  run action (produce / metadata / sync / copy …)
-                              │        └── external tools via the execserver
-                              ▼
-                  next status + next queue job   ──►  …  ──►  done / error
+```mermaid
+flowchart TD
+    U["Upload — /eas put · rput · produce"] --> O["Original file row<br/>status: pending"]
+    O --> Q["file_queue job"]
+    Q --> W["A file worker claims the job"]
+    W --> A["Run the action<br/>produce · metadata · sync · copy"]
+    A -. "external tools" .-> X["execserver"]
+    A --> N["Set next status · queue next job"]
+    N -->|more work| Q
+    N --> R(["done / error"])
 ```
 
 Everything the worker needs is on the `File` row and in the `file_queue` table; there is no in-memory job state. That is what lets the workers restart, run in parallel, and scale across instances.
@@ -72,6 +73,20 @@ A file moves through a set of internal states. The important transitions:
 2. **produce** (on an original) → on success the file goes to **`sync`** and a **sync** job is queued.
 3. **metadata** → an original goes to `sync`; a produced version goes straight to `done`.
 4. **sync** → creates the version rows and, once every child version is `done` or `error`, sets the original to **`done`** (or `error` if a `leave_on_remote` URL turned out to be unreachable) and re-indexes the objects.
+
+```mermaid
+stateDiagram-v2
+    [*] --> pending
+    pending --> produce: original needs conversion first
+    pending --> metadata: ordinary original
+    produce --> sync
+    metadata --> sync: original
+    metadata --> done: produced version
+    sync --> done: all versions finished
+    sync --> error: unreachable / failed
+    done --> [*]
+    error --> [*]
+```
 
 The public API does not expose the internal states verbatim. It collapses them:
 
