@@ -11,7 +11,7 @@ Instructions: See our [helm chart](https://github.com/programmfabrik/fylr-helm/b
 Through your firewalls you probably sooner or later need access to:
 
 * https://docker.fylr.io (fylr core)
-* https://artifacts.opensearch.org (indexer plugin)
+* https://artifacts.opensearch.org (Analysis ICU plugin for OpenSearch)
 * https://github.io and https://github.com (fylr plugins)
 * https://auth.docker.io (indexer and PostgreSQL)
 * https://registry-1.docker.io (indexer and PostgreSQL)
