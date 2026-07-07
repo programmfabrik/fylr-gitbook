@@ -47414,6 +47414,20 @@ components:
                                         How many hours after the preset is applied the granted
                                         ACL items expire. If null, grants are permanent until
                                         revoked.
+                                share_url:
+                                    type: string
+                                    description: |
+                                        Optional absolute base URL (`http`/`https`) used instead of
+                                        the server's own external URL when building collection share
+                                        links (copy-link buttons and share notification emails) for
+                                        shares that use this preset. The deep-link path is appended
+                                        to it: a `share_url` of `https://media.example.com/awp`
+                                        produces links like
+                                        `https://media.example.com/awp/collection/<uuid>?...`.
+                                        Only supported in context `collection`; sending it for an
+                                        `object` preset is rejected with `400 Bad Request`. An empty
+                                        string clears the URL; if the field is omitted on update,
+                                        the stored value is kept.
                                 rights:
                                     type: object
                                     description: |

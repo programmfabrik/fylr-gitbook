@@ -50891,6 +50891,10 @@
                     "format": "int64",
                     "description": "How many hours after the preset is applied the granted\nACL items expire. If null, grants are permanent until\nrevoked.\n"
                   },
+                  "share_url": {
+                    "type": "string",
+                    "description": "Optional absolute base URL (`http`/`https`) used instead of\nthe server's own external URL when building collection share\nlinks (copy-link buttons and share notification emails) for\nshares that use this preset. The deep-link path is appended\nto it: a `share_url` of `https://media.example.com/awp`\nproduces links like\n`https://media.example.com/awp/collection/<uuid>?...`.\nOnly supported in context `collection`; sending it for an\n`object` preset is rejected with `400 Bad Request`. An empty\nstring clears the URL; if the field is omitted on update,\nthe stored value is kept.\n"
+                  },
                   "rights": {
                     "type": "object",
                     "description": "The right items the preset grants. Keys are right names\n(`read`, `write`, `delete`, `acl`, ...); each value is\na RightItemApi (same per-right configuration shape used\ninside RightApi.rights).\n",
