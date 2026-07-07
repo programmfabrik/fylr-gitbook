@@ -28,6 +28,7 @@ config, plugin — carry subpages.
 * [/api/v1/export](api-export.md)
 * [/api/v1/group](api-group.md)
 * [/api/v1/hotfolder](api-hotfolder.md)
+* [/inspect](api-inspect.md)
 * [/api/v1/l10n](api-l10n.md)
 * [/api/v1/mask](api-mask.md)
 * [/api/v1/message](api-message.md)

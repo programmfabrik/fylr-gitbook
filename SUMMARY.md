@@ -338,6 +338,7 @@
     * [/api/v1/export](for-developers/api/endpoints/api-export.md)
     * [/api/v1/group](for-developers/api/endpoints/api-group.md)
     * [/api/v1/hotfolder](for-developers/api/endpoints/api-hotfolder.md)
+    * [/inspect](for-developers/api/endpoints/api-inspect.md)
     * [/api/v1/l10n](for-developers/api/endpoints/api-l10n.md)
     * [/api/v1/mask](for-developers/api/endpoints/api-mask.md)
     * [/api/v1/message](for-developers/api/endpoints/api-message.md)
