@@ -4,7 +4,7 @@ description: >-
   the /inspect/migration page in fylr
 ---
 
-# Using the inspect page to migrate
+# Migration
 
 The migration using the `fylr backup` and `fylr restore` commands can also be performed in the inspect page for migrations (open `<fylr url>/inspect/migration/` in the browser). This provides a graphical overview to run these commands.
 
@@ -18,7 +18,7 @@ The backup and restore processes are performed in the background. They run on th
 
 This uses `fylr backup` to create a backup on the **fylr** instance. Not all parameters can be set here. Some parameters are automatically set with a useful default.
 
-See also: [Backup Parameters](backup.md#parameters)
+See also: [Backup Parameters](../migration/backup.md#parameters)
 
 ### Parameter settings
 
@@ -130,7 +130,7 @@ After a backup was finished, it can be restored to a target **fylr** instance.
 
 This uses `fylr restore` to upload the payloads to the **fylr** instance. Not all parameters can be set here. Some parameters are automatically set with a useful default.
 
-See also: [Restore Parameters](restore.md#parameters)
+See also: [Restore Parameters](../migration/restore.md#parameters)
 
 ### Parameter settings
 
@@ -191,7 +191,7 @@ This parameter is available in fylr from version **6.33.0**.
 * When a backup is selected, the table is pre-populated from the restore parameters used on the previous run
 * On submit, the rows are serialized into `--rename-versions <cls>.<version>:<new version>,...`
 
-See: [renaming renditions during migration](renaming-renditions-during-migration.md)
+See: [renaming renditions during migration](../migration/renaming-renditions-during-migration.md)
 
 #### Access Token for file URLs
 
@@ -274,7 +274,7 @@ Only use this option if you can trust the remote server!
   * Use this after manually purging the target and manually uploading the data model and base config
   * This sets neither `--purge` nor `--continue`, but `--base-config=-` and `--datamodel=-`
 
-See also: [Best Practice > Restoring with and without purge](best-practice.md#restoring-with-and-without-purge)
+See also: [Best Practice > Restoring with and without purge](../migration/best-practice.md#restoring-with-and-without-purge)
 
 ### Fixed parameters
 

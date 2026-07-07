@@ -59,12 +59,12 @@ Each tool is a page under `/inspect/<tool>/`. The ones with settings or actions 
 | Tool | Shows / does | Page |
 | --- | --- | --- |
 | `system` | reindex, purge, janitor, queues, execserver, backups, locations, console, status | [System](system.md) |
-| `migration` | backup & restore in the browser | |
-| `recalcterms` | rebuild the suggestion term list | |
-| `sqlquery` | an arbitrary-SQL console (only when enabled) | |
+| `migration` | backup & restore in the browser | [Migration](migration.md) |
+| `recalcterms` | rebuild the suggestion term list | [Term Recalculation](term-recalculation.md) |
+| `sqlquery` | an arbitrary-SQL console (only when enabled) | [SQL Query](sql-query.md) |
 | `license` | license info and the expiration-mail simulator | |
 | `pages` | render page / email templates | |
-| `apidocs` | the rendered API docs and the OpenAPI spec | |
+| `apidocs` | the rendered API docs and the OpenAPI spec | [API Documentation](api-documentation.md) |
 
 ## Read-only vs mutating
 

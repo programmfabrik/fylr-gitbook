@@ -296,7 +296,7 @@ Make sure to now also use explicit **IP address** (not `*`) and **ServerName** i
 
 Click **`Backup`** . This can take from one minute to several hours depending on your data.
 
-See [here](../../../for-system-administrators/migration/inspect.md) if you want more information about this process.
+See [here](../../../for-system-administrators/inspect/migration.md) if you want more information about this process.
 
 ## 4. Inject metadata into fylr
 
@@ -334,7 +334,7 @@ Click **`Restore`** . This can take from a few minutes to many hours depending o
 * You can come back to it via **https://**&#x66;ylr.example.co&#x6D;**/inspect/migration**
 * And also directly via **https://**&#x66;ylr.example.co&#x6D;**/inspect/migration/**&#x6D;ymigrationname
 
-See [here](../../../for-system-administrators/migration/inspect.md#restore) if you want more information about this process.
+See [here](../../../for-system-administrators/inspect/migration.md#restore) if you want more information about this process.
 
 When the restore/inject is done, a reindex will be done for fylr, so it will take a while until you can see the data in the webfrontend https://fylr.example.com.
 
