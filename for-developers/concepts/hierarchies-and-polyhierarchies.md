@@ -10,6 +10,27 @@ A **polyhierarchical** objecttype gives each record any number of parents. The s
 
 An objecttype is hierarchical, polyhierarchical, or neither — never both.
 
+**Hierarchy** — each record has exactly one parent, so the records form a tree:
+
+```mermaid
+flowchart TD
+    Europe --> Germany
+    Europe --> France
+    Germany --> Berlin
+    Germany --> Munich
+    France --> Paris
+```
+
+**Polyhierarchy** — a record can have several parents, so it appears in more than one place — here _Beach holiday_ sits under both _Travel_ and _Leisure_:
+
+```mermaid
+flowchart TD
+    Travel --> Beach["Beach holiday"]
+    Leisure --> Beach
+    Travel --> Hiking
+    Leisure --> Concert
+```
+
 ## How parents are held
 
 In a hierarchical objecttype, each record holds a single parent reference, pointing to one other record of the same objecttype, or to none if the record is at the root. Reading the record gives its parent.

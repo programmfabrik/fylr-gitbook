@@ -86,6 +86,20 @@ External documentation: [https://www.oauth.com/oauth2-servers/server-side-apps/a
 
 This flow requires a **Client ID** (and a **Secret** for confidential clients), and a fylr **login** and **password** for each user. It offers a high level of security.
 
+```mermaid
+sequenceDiagram
+    participant App as Client app
+    participant Browser as User's browser
+    participant fylr as fylr
+    App->>Browser: open /api/oauth2/auth?response_type=code&client_id&state
+    Browser->>fylr: GET /api/oauth2/auth
+    fylr-->>Browser: login page
+    Browser->>fylr: login + password
+    fylr->>App: Step 2 — GET callback?state&code
+    App->>fylr: Step 3 — POST /api/oauth2/token (code, client_id, secret)
+    fylr-->>App: access_token (+ refresh_token, id_token)
+```
+
 #### **Step 1**: client calls fylr
 
 <mark style="color:blue;">`GET`</mark> `fylr-instance/api/oauth2/auth`
