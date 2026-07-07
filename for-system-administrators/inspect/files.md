@@ -5,7 +5,7 @@ description: >-
   /inspect/files page.
 ---
 
-# Files and version production
+# Files
 
 {% hint style="warning" %}
 This page is a work in progress and not complete.
@@ -19,7 +19,7 @@ Open `<fylr url>/inspect/files`. The page shows a list of all files and their ch
 
 Automatic changes between different states, which are done by internal workflows, are done in order. Internal states ("Status") are grouped into API states ("Status API").
 
-<table><thead><tr><th width="82.8515625" align="center">Step</th><th width="373.08984375">Status</th><th>Status API</th><th>Description</th></tr></thead><tbody><tr><td align="center">1</td><td><code>pending</code></td><td><code>pending</code></td><td>The file is in the queue, but has not yet been picked up by any file worker</td></tr><tr><td align="center">2</td><td><code>processing</code></td><td><code>processing</code></td><td>A worker is processing the file.</td></tr><tr><td align="center">2</td><td><code>pending_produce_internal</code></td><td><code>processing</code></td><td></td></tr><tr><td align="center">2</td><td><code>pending_manual_produce_internal</code></td><td><code>processing</code></td><td></td></tr><tr><td align="center">2</td><td><code>pending_original_produce_internal</code></td><td><code>processing</code></td><td></td></tr><tr><td align="center">2</td><td><code>pending_metadata_internal</code></td><td><code>processing</code></td><td></td></tr><tr><td align="center">3</td><td><code>sync</code></td><td><code>sync</code></td><td><p>Processing of the file in file workers is done. Further information are still calculated for the database.</p><p>Files in this state can be exported.</p></td></tr><tr><td align="center">3</td><td><code>pending_copy_internal</code></td><td><code>sync</code></td><td></td></tr><tr><td align="center">3</td><td><code>pending_move_internal</code></td><td><code>sync</code></td><td></td></tr><tr><td align="center">3</td><td><code>pending_checksum</code></td><td><code>sync</code></td><td>Files in this state can be exported.</td></tr><tr><td align="center">4</td><td><code>done</code></td><td><code>done</code></td><td><p>The file and all children have been successfully converted.</p><p>Files in this state can be exported.</p></td></tr><tr><td align="center">4</td><td><code>error</code></td><td><code>failed</code></td><td>There was an error during conversion. See <a data-mention href="files-and-version-production.md#errors-and-solutions">#errors-and-solutions</a> or more information and possible solutions.</td></tr></tbody></table>
+<table><thead><tr><th width="82.8515625" align="center">Step</th><th width="373.08984375">Status</th><th>Status API</th><th>Description</th></tr></thead><tbody><tr><td align="center">1</td><td><code>pending</code></td><td><code>pending</code></td><td>The file is in the queue, but has not yet been picked up by any file worker</td></tr><tr><td align="center">2</td><td><code>processing</code></td><td><code>processing</code></td><td>A worker is processing the file.</td></tr><tr><td align="center">2</td><td><code>pending_produce_internal</code></td><td><code>processing</code></td><td></td></tr><tr><td align="center">2</td><td><code>pending_manual_produce_internal</code></td><td><code>processing</code></td><td></td></tr><tr><td align="center">2</td><td><code>pending_original_produce_internal</code></td><td><code>processing</code></td><td></td></tr><tr><td align="center">2</td><td><code>pending_metadata_internal</code></td><td><code>processing</code></td><td></td></tr><tr><td align="center">3</td><td><code>sync</code></td><td><code>sync</code></td><td><p>Processing of the file in file workers is done. Further information are still calculated for the database.</p><p>Files in this state can be exported.</p></td></tr><tr><td align="center">3</td><td><code>pending_copy_internal</code></td><td><code>sync</code></td><td></td></tr><tr><td align="center">3</td><td><code>pending_move_internal</code></td><td><code>sync</code></td><td></td></tr><tr><td align="center">3</td><td><code>pending_checksum</code></td><td><code>sync</code></td><td>Files in this state can be exported.</td></tr><tr><td align="center">4</td><td><code>done</code></td><td><code>done</code></td><td><p>The file and all children have been successfully converted.</p><p>Files in this state can be exported.</p></td></tr><tr><td align="center">4</td><td><code>error</code></td><td><code>failed</code></td><td>There was an error during conversion. See <a data-mention href="#errors-and-solutions">#errors-and-solutions</a> or more information and possible solutions.</td></tr></tbody></table>
 
 ## File Actions
 
@@ -81,7 +81,7 @@ If originals or versions are in the file queue, this action cannot be performed.
 
 Internal name: `checksum`
 
-Checks the integrity of files that have been copied during a [restore](for-system-administrators/migration/restore.md) process. It parses the file reference which can include a `sha224` or `sha256` checksum that was read from the source instance, and compares it to the checksum of the local file.
+Checks the integrity of files that have been copied during a [restore](../migration/restore.md) process. It parses the file reference which can include a `sha224` or `sha256` checksum that was read from the source instance, and compares it to the checksum of the local file.
 
 ## File Queue
 
@@ -91,7 +91,7 @@ During the background processing of all file jobs, the queue can grow. This is b
 
 ## File Locations
 
-fylr can copy files to the local file system (location: `local`), or display files which are only stored with a URL (location: `remote`), and are then linked using this URL. Files which are on `remote` can be copied to `local` using the actions [`copy_move`](files-and-version-production.md#copymove) or [`copy_move_produce`](files-and-version-production.md#copymove--produce). The location of the file will then be changed. It is not possible to change a file location from `local` to `remote`.
+fylr can copy files to the local file system (location: `local`), or display files which are only stored with a URL (location: `remote`), and are then linked using this URL. Files which are on `remote` can be copied to `local` using the actions [`copy_move`](#copymove) or [`copy_move_produce`](#copymove--produce). The location of the file will then be changed. It is not possible to change a file location from `local` to `remote`.
 
 In the file overview in the `/inspect/files` page, the files can be filtered by different locations:
 
@@ -102,7 +102,7 @@ In the file overview in the `/inspect/files` page, the files can be filtered by 
 * `remote`:
   * show all files which are not stored locally and which are only linked by a remote URL
 * configured local locations:
-  * filter by specific `local` locations, they are defined in the [Location Manager](for-administrators/location-manager.md)
+  * filter by specific `local` locations, they are defined in the [Location Manager](../../for-administrators/location-manager.md)
 
 ## Errors and solutions
 

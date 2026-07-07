@@ -38,7 +38,7 @@ Each tool is a page under `/inspect/<tool>/`. The ones with settings or actions 
 | `datamodel` | objecttypes, masks, fields | |
 | `objects` | object dump — render an object against any datamodel version | |
 | `objecttypes` | objecttype list and per-type stats | |
-| `files` | file-production state, filters and actions, IIIF viewer | [Files and version production](../../files-and-version-production.md) |
+| `files` | file-production state, filters and actions, IIIF viewer | [Files](files.md) |
 | `collections` | the collection tree (paged, searchable) | |
 | `pools`, `tags`, `transitions`, `publish`, `mappings`, `oai-pmh` | per-entity dumps | |
 | `terms` | the suggestion term list | |

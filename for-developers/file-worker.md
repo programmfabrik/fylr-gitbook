@@ -10,7 +10,7 @@ description: >-
 
 When a file is uploaded, fylr does not process it inside the request. The request only stores the bytes and records the work to be done; a pool of background **file workers** then picks the work up and runs it — producing renditions, extracting metadata, copying remote files into storage — until every part of the file is finished.
 
-This page follows one file through that pipeline end to end. It is the technical companion to the vocabulary-level [Files and assets](concepts/files-and-assets.md) concept and the operational [Files and version production](../files-and-version-production.md) page (the `/inspect/files` UI). The building blocks it references have their own pages: the [Exec server](execserver.md) protocol and the [File versions](fileversions/README.md) row model.
+This page follows one file through that pipeline end to end. It is the technical companion to the vocabulary-level [Files and assets](concepts/files-and-assets.md) concept and the operational [Files and version production](../for-system-administrators/inspect/files.md) page (the `/inspect/files` UI). The building blocks it references have their own pages: the [Exec server](execserver.md) protocol and the [File versions](fileversions/README.md) row model.
 
 ## The pipeline at a glance
 
@@ -166,6 +166,6 @@ Not every rendition is pre-produced and stored. A download can ask for a **custo
 ## See also
 
 * [Files and assets](concepts/files-and-assets.md) — the concept: records, files, variants, originals and renditions.
-* [Files and version production](../files-and-version-production.md) — the `/inspect/files` operations view: states, actions, the queue.
+* [Files and version production](../for-system-administrators/inspect/files.md) — the `/inspect/files` operations view: states, actions, the queue.
 * [File versions](fileversions/README.md) — the file-row types and their columns.
 * [Exec server](execserver.md) — the job protocol and the per-action jobs.

@@ -222,7 +222,6 @@
 
 ***
 
-* [Files and version production](files-and-version-production.md)
 
 ## FOR SYSTEM ADMINISTRATORS
 
@@ -249,6 +248,7 @@
   * [SAML config](for-system-administrators/configuration/saml-config.md)
 * [Backups & Restore](for-system-administrators/backup.md)
 * [The /inspect Backend](for-system-administrators/inspect/README.md)
+  * [Files](for-system-administrators/inspect/files.md)
   * [System](for-system-administrators/inspect/system.md)
 * [Migration Tool](for-system-administrators/migration/README.md)
   * [Create payloads (fylr backup)](for-system-administrators/migration/backup.md)

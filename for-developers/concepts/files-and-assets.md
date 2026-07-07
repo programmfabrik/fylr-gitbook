@@ -33,7 +33,7 @@ A **rendition** is a rendering derived from the original. It can be a smaller im
 
 (In fylr, _version_ is not a file term. A version is a [record's](records-and-objecttypes.md) version; the files derived from an original are renditions.)
 
-Which renditions are produced is set by a **produce configuration**: a set of **recipes**, each selected by file class and other file metadata, that defines what to derive from an original. fylr ships a **default produce configuration**; an instance can define its own in its base configuration, and recipes can be set per objecttype and per pool, so different kinds of record produce different renditions. The mechanics — recipe states, the production queue, reproducing renditions — are covered in [Files and version production](../../files-and-version-production.md).
+Which renditions are produced is set by a **produce configuration**: a set of **recipes**, each selected by file class and other file metadata, that defines what to derive from an original. fylr ships a **default produce configuration**; an instance can define its own in its base configuration, and recipes can be set per objecttype and per pool, so different kinds of record produce different renditions. The mechanics — recipe states, the production queue, reproducing renditions — are covered in [Files and version production](../../for-system-administrators/inspect/files.md).
 
 ## Classes
 
