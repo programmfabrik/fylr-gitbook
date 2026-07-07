@@ -56,7 +56,7 @@ fylr:
 
 The default clients in fylr are **public** and thus neither need nor have a secret. A public client must omit `client_secret`.
 
-Alternatively, add the Client ID and Secret pair(s) in the [Base Configuration](for-administrators/readme/user-management/#oauth-service).
+Alternatively, add the Client ID and Secret pair(s) in the [Base Configuration](../../for-administrators/readme/user-management.md#oauth-service).
 
 ## Scopes
 
