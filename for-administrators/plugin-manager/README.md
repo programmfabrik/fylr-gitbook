@@ -22,6 +22,10 @@ For a technical introduction to plugins, please click [here](../../for-developer
 For a overview over all publicly available plugins, please click [here](../../plugins/overview.md).
 {% endhint %}
 
+{% hint style="warning" %}
+From fylr **6.34.0**, the WordPress, Drupal and TYPO3 integrations are no longer shipped as bundled "disk" plugins. They are maintained as separate plugins (`fylr-plugin-wordpress`, `fylr-plugin-drupal`, `fylr-plugin-typo3`) and must be installed as **URL plugins**. Instances that relied on the former `easydb-wordpress-plugin`, `easydb-drupal-plugin` or `easydb-typo3-plugin` have to install the corresponding `fylr-plugin-*` release after updating.
+{% endhint %}
+
 
 ## Working with the Plugin Manager
 

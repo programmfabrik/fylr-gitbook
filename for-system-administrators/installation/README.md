@@ -44,6 +44,10 @@ Please note: We do all of our automated and manual software testing based on Lin
 
 * We are regularly testing fylr with **Opensearch 3** and **PostgreSQL 18** and recommend them with fylr. Customers with problems and earlier versions may be asked to upgrade first.
 
+### Download binaries
+
+From fylr **6.34.0**, the downloadable macOS, Windows and Linux binaries are compiled without cgo: they are **statically linked** and use the pure-Go SQLite driver, so they run on any host of their platform without a C toolchain or extra system libraries. The official **Docker image is unchanged** — it keeps cgo and the C-based SQLite driver — and PostgreSQL deployments are unaffected either way.
+
 ### Troubleshooting
 
 [fylr log messages that can be ignored](../symptom-and-solution/log-messages-that-can-be-ignored.md)

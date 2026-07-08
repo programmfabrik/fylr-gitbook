@@ -4,7 +4,7 @@ description: >-
   the /inspect/migration page in fylr
 ---
 
-# Using the inspect page to migrate
+# Migration
 
 The migration using the `fylr backup` and `fylr restore` commands can also be performed in the inspect page for migrations (open `<fylr url>/inspect/migration/` in the browser). This provides a graphical overview to run these commands.
 
@@ -18,7 +18,7 @@ The backup and restore processes are performed in the background. They run on th
 
 This uses `fylr backup` to create a backup on the **fylr** instance. Not all parameters can be set here. Some parameters are automatically set with a useful default.
 
-See also: [Backup Parameters](backup.md#parameters)
+See also: [Backup Parameters](../migration/backup.md#parameters)
 
 ### Parameter settings
 
@@ -72,6 +72,17 @@ This parameter is available in fylr from version **6.33.0**.
 * If not set, the backup of events is skipped
 * This sets `--include-events`
 
+#### Include Files
+
+{% hint style="info" %}
+This parameter is available in fylr from version **6.34.0**.
+{% endhint %}
+
+* If set, each file's **bytes** are packed into the backup directory (`files/<id>/…`), making the backup self-contained and byte-for-byte — the source instance need not stay reachable for the restore
+* Files kept on the remote (_leave_) are not packed; their real upstream URL is preserved instead
+* Without this option, only the file **URLs** are stored and the bytes are fetched from the source during the restore
+* This sets [`--include-files`](../migration/backup.md#include-files)
+
 #### OAuth2
 
 * Select only if the source instance uses OAuth2
@@ -120,7 +131,7 @@ The following parameters are set in the background:
 
 ### Progress
 
-Click on **Backup** to start the backup process in the background. To see the progress of the backup, select the backup in the overview **List of backups**. This opens a page where you can see the status and the backup log. The generated payloads are listed under the log.
+Click on **Backup** to start the backup process in the background. To see the progress of the backup, select the backup in the overview **List of backups**. This opens a page where you can see the status and the backup log. The generated payloads are listed under the log. When the backup was made with **Include Files**, the packed `files/` directory is shown here too — click into the nested folders to browse the stored file bytes.
 
 You can also access this page directly under `<fylr url>/inspect/migration/<backup name>`, so in this example under `<fylr url>/inspect/migration/example`.
 
@@ -130,7 +141,7 @@ After a backup was finished, it can be restored to a target **fylr** instance.
 
 This uses `fylr restore` to upload the payloads to the **fylr** instance. Not all parameters can be set here. Some parameters are automatically set with a useful default.
 
-See also: [Restore Parameters](restore.md#parameters)
+See also: [Restore Parameters](../migration/restore.md#parameters)
 
 ### Parameter settings
 
@@ -179,6 +190,10 @@ See also: [Restore Parameters](restore.md#parameters)
 * If you are using `rput_leave`, the source version is linked as URL
 * This sets `--upload-versions`
 
+{% hint style="info" %}
+When you restore a backup that was made with **Include Files**, the packed file bytes are uploaded from the local backup directory automatically. _Copy file preview versions_ (`--upload-versions`) cannot be combined with such a backup, because renditions are not packed — the target regenerates them.
+{% endhint %}
+
 #### Rename Versions
 
 {% hint style="info" %}
@@ -191,7 +206,7 @@ This parameter is available in fylr from version **6.33.0**.
 * When a backup is selected, the table is pre-populated from the restore parameters used on the previous run
 * On submit, the rows are serialized into `--rename-versions <cls>.<version>:<new version>,...`
 
-See: [renaming renditions during migration](renaming-renditions-during-migration.md)
+See: [renaming renditions during migration](../migration/renaming-renditions-during-migration.md)
 
 #### Access Token for file URLs
 
@@ -274,7 +289,7 @@ Only use this option if you can trust the remote server!
   * Use this after manually purging the target and manually uploading the data model and base config
   * This sets neither `--purge` nor `--continue`, but `--base-config=-` and `--datamodel=-`
 
-See also: [Best Practice > Restoring with and without purge](best-practice.md#restoring-with-and-without-purge)
+See also: [Best Practice > Restoring with and without purge](../migration/best-practice.md#restoring-with-and-without-purge)
 
 ### Fixed parameters
 

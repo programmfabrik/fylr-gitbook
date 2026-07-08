@@ -43,6 +43,8 @@ The mapping choice matters. Take a plugin that stores a reference to an external
 
 Because terms are written when a record is saved, a change to a plugin's mapping or to the datamodel changes a record's terms only once that record is saved again.
 
+To apply such a change to all current records **without** re-saving them, run a **[term recalculation](../../for-system-administrators/inspect/term-recalculation.md)** from the backend's `/inspect` (also reachable from `/inspect/terms`). It rebuilds the term list for every current record in the background — below normal saves and below a re-index, so the instance stays usable while it works — drops terms no longer carried by any record, and re-indexes the affected records afterwards. It never writes the records themselves, so it creates no new versions and no changelog entries. On update, a fylr release that changes term extraction can request this recalculation automatically.
+
 ## Search contexts
 
 A **search context** sets what a search looks across and which permissions apply. The common context is indexed data records, across the objecttypes marked as part of the main search. Other contexts search pools, collections, events, messages, users, groups or permission grants. Each context returns objects of its own kind, so the result shape depends on the context.

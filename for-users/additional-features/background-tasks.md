@@ -18,6 +18,8 @@ A task operates with regular record permissions. To successfully run a module, t
 
 Open the **Tasks Manager** from the header bar of your fylr instance.
 
+<figure><img src="../../.gitbook/assets/Screenshot 2025-08-22 at 14.19.16.png" alt="the Background Tasks manager in the header bar"><figcaption><p>The Background Tasks manager, opened from the header bar</p></figcaption></figure>
+
 The list shows all background tasks with the columns **Task ID**, **Module Name**, **Description**, **Created At**, **Created By**, **Status**, **Started At**, **Finished At** and **Next Run At**.
 
 For each task, the following actions are available:
@@ -38,7 +40,7 @@ There are three ways to create a background task:
 
 ### **Task Parameters**
 
-The available parameters depend on the selected module. Most modules operate on a **Search**, which defines the target records — configured with the same options as the expert search.
+The available parameters depend on the selected module. Most modules operate on a **Search**, which defines the target records — configured with the same options as the expert search. Enable **Incremental** on the search to run only on records changed since the task's last run — useful for a scheduled task, so it processes new and edited records instead of re-processing everything each time.
 
 ### **Scheduling & Notifications**
 
@@ -56,9 +58,9 @@ With **Use scheduler**, configure recurring runs in the schedule editor. Presets
 
 ### **delete\_objects**
 
-Deletes all records matching the configured **Search**. The **Delete Policy** controls how records that link to the deleted records are handled:
+Deletes — or restores — the records matching the configured **Search**. The **Delete Policy** controls what happens:
 
-<table><thead><tr><th width="151.8046875">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Unlink</strong></td><td>Remove links to deleted records in other records.</td></tr><tr><td><strong>Delete</strong></td><td>Also delete the subordinate or reverse-linked records of the deleted records.</td></tr></tbody></table>
+<table><thead><tr><th width="151.8046875">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Unlink</strong> (<code>setnull</code>)</td><td>Delete the records and set links that point at them in other records to null. The default.</td></tr><tr><td><strong>Delete</strong> (<code>remove</code>)</td><td>Also delete the subordinate or reverse-linked records of the deleted records.</td></tr><tr><td><strong>Purge</strong> (<code>purge</code>)</td><td>Permanently delete the records from the trash — not recoverable.</td></tr><tr><td><strong>Restore</strong> (<code>undelete</code>)</td><td>Restore matched, soft-deleted records from the trash.</td></tr></tbody></table>
 
 {% hint style="warning" %}
 Review the search carefully before scheduling this module — every record matching the search is deleted on every run. Deleted records are moved to the trash and can be restored from there (see [deleting records](../asset-records-management/deleting-records.md)).
