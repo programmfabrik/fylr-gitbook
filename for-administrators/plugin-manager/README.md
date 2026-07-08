@@ -33,8 +33,20 @@ Use the **search** to search for the internal or display **names** of plugins an
 
 <table><thead><tr><th width="192.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Never</td><td>The plugin will not be updated automatically.</td></tr><tr><td>Daily</td><td>The version of the plugin will be checked every 24 hours and if there is a new version available, the plugin will be updated.</td></tr><tr><td>Immediately</td><td>The version of the plugin will be checked every 10 seconds and if there is a new version available, the plugin will be updated.</td></tr></tbody></table>
 
-To **upload** a plugin, click on the **plus** button in the lower left and either upload the **ZIP** file or enter the **URL** to the ZIP file. Please make sure to **enable** the plugin afterwards. To **remove** a plugin, **select** it and click on the **minus** button in the lower left.
+### Managing Plugins
+
+To **upload** a plugin, click on the **plus** button in the lower left and either upload the **ZIP** file or enter the **URL** to the ZIP file. Please make sure to **enable** the plugin afterwards.
+
+To **remove** a plugin, **select** it and click on the **minus** button in the lower left.
 
 {% hint style="info" %}
 Please note, some plugins may come with custom settings. Please check the [base configuration](../readme/plugins.md).
 {% endhint %}
+
+### Network access in restricted setups
+
+Important for e.g. Kubernetes clusters or any other firewalled / egress-controlled setups:
+
+For the plugin manager to install and automatically update a plugin from a URL, fylr must be able to reach that URL. In environments with restricted outbound network access the install/update URL host must be explicitly allowed.
+
+For GitHub Pages install URLs that host is `programmfabrik.github.io`. Without this allowlist entry, the plugin download and its automatic updates fail.

@@ -198,6 +198,10 @@ This URL redirects to the latest release. If this URL is used in the plugin mana
 {% hint style="info" %}
 Please note that fylr can not use any kind of authentication when loading plugins. The plugin URL must be reachable directly.
 
+See also [Network access in restricted setups](/for-administrators/plugin-manager/README.md#network-access-in-restricted-setups)
+{% endhint %}
+
+{% hint style="info" %}
 Using github URLs only works if the repository is public!
 {% endhint %}
 
@@ -273,3 +277,9 @@ After the release was run, the public obscured ZIP URL of the plugin is
 2. replace `<ZIP_HASH_NAME>` with the zip file name which was defined in `release.yaml`
 
 This URL is stable for each release and can be used in the fylr plugin manager for a URL plugin
+
+{% hint style="info" %}
+Please note that fylr can not use any kind of authentication when loading plugins. The plugin URL must be reachable directly.
+
+See also [Network access in restricted setups](/for-administrators/plugin-manager/README.md#network-access-in-restricted-setups)
+{% endhint %}
