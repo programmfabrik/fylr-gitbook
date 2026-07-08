@@ -46,11 +46,17 @@ Define the log level for the server, e.g. to get more or less information when d
 
 ### Level
 
+Each level also includes all the more severe levels above it — `info` for example also logs `warn` and `error` messages. The levels get more verbose from top to bottom.
+
 | OPTION | DESCRIPTION |
 | ------ | ----------- |
-| empty  |             |
-| error  |             |
-| warn   |             |
-| info   |             |
-| debug  |             |
-| trace  |             |
+| empty  | No level is set here. The server uses the log level from its `fylr.yml` / command-line configuration (`info` by default). Leave empty on production systems. |
+| error  | Only errors — something failed and needs attention. |
+| warn   | Warnings and errors, but no regular operational messages. |
+| info   | Normal operational messages plus warnings and errors. This is the usual default. |
+| debug  | Detailed diagnostic messages on top of `info`. Useful when developing plugins or tracking down a problem. |
+| trace  | The most verbose level. Logs very fine-grained internal steps and produces a lot of output — use it only temporarily while diagnosing a specific issue. |
+
+### Response timings
+
+When enabled, the server additionally logs how long it took to answer requests. This is helpful when investigating slow responses, but it adds a log line per request, so leave it off in normal operation.

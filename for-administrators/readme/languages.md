@@ -30,6 +30,8 @@ Select the date, time and number format you want to use in this language.
 
 #### Analyzer Settings
 
+Configure how text in this language is processed for searching. These settings affect how records are indexed and matched.
+
 #### Remove Diacritics
 
 Normalizes text using ICU folding (see [ICU folding token filter](https://docs.opensearch.org/latest/analyzers/token-filters/icu-folding/)) by removing accents and standardizing characters (e.g., case, ligatures, width), enabling more consistent and language-independent matching. This improves search results, especially when users omit accents or use different keyboard layouts.

@@ -10,7 +10,7 @@ description: >-
 
 ### Internal Name
 
-
+A short technical name for this fylr installation. It is used internally in a few places rather than in the regular interface: as the identifier of the installation in **backups**, as the repository name returned by the **OAI-PMH `Identify`** response, and as the label of generated **IIIF manifests**.
 
 ### Title
 
@@ -18,8 +18,7 @@ The title of the fylr installation will be shown in the browser tab.
 
 ### Description
 
-
-
+A short description of this fylr installation. It is used as the HTML meta description of the public start page, so it is what a messenger or social network shows when a link to the fylr website is unfurled into a preview (for example in Slack).
 
 
 ## Appearance
