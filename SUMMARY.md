@@ -220,9 +220,6 @@
 * [IIIF](for-administrators/iiif.md)
 * [OAI/PMH](for-administrators/oai.md)
 
-***
-
-
 ## FOR SYSTEM ADMINISTRATORS
 
 * [Architecture](for-system-administrators/architecture.md)
