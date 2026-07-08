@@ -72,6 +72,17 @@ This parameter is available in fylr from version **6.33.0**.
 * If not set, the backup of events is skipped
 * This sets `--include-events`
 
+#### Include Files
+
+{% hint style="info" %}
+This parameter is available in fylr from version **6.34.0**.
+{% endhint %}
+
+* If set, each file's **bytes** are packed into the backup directory (`files/<id>/…`), making the backup self-contained and byte-for-byte — the source instance need not stay reachable for the restore
+* Files kept on the remote (_leave_) are not packed; their real upstream URL is preserved instead
+* Without this option, only the file **URLs** are stored and the bytes are fetched from the source during the restore
+* This sets [`--include-files`](../migration/backup.md#include-files)
+
 #### OAuth2
 
 * Select only if the source instance uses OAuth2
@@ -120,7 +131,7 @@ The following parameters are set in the background:
 
 ### Progress
 
-Click on **Backup** to start the backup process in the background. To see the progress of the backup, select the backup in the overview **List of backups**. This opens a page where you can see the status and the backup log. The generated payloads are listed under the log.
+Click on **Backup** to start the backup process in the background. To see the progress of the backup, select the backup in the overview **List of backups**. This opens a page where you can see the status and the backup log. The generated payloads are listed under the log. When the backup was made with **Include Files**, the packed `files/` directory is shown here too — click into the nested folders to browse the stored file bytes.
 
 You can also access this page directly under `<fylr url>/inspect/migration/<backup name>`, so in this example under `<fylr url>/inspect/migration/example`.
 
@@ -178,6 +189,10 @@ See also: [Restore Parameters](../migration/restore.md#parameters)
 * Enable this checkbox to not produce local preview versions, but instead copy the source versions (via `put` or `rput`)
 * If you are using `rput_leave`, the source version is linked as URL
 * This sets `--upload-versions`
+
+{% hint style="info" %}
+When you restore a backup that was made with **Include Files**, the packed file bytes are uploaded from the local backup directory automatically. _Copy file preview versions_ (`--upload-versions`) cannot be combined with such a backup, because renditions are not packed — the target regenerates them.
+{% endhint %}
 
 #### Rename Versions
 
