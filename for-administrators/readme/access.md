@@ -50,17 +50,25 @@ If a user tries to login too many times with a wrong password, further login att
 * **Number of attempts with wrong password:** how many attempts does a user get before their login is blocked? Use the value `0` to disable the automatic blocking.
 * **How long to block the login in minutes:** how long to block the users login after the previously set threshold is reached?
 
-## Two-factor authentication
+## Two-Factor Authentication
 
 Require a second factor at login for local accounts (user types _easydb_ and _self-registered_). Available from fylr **6.34.0**; requires a license that includes the two-factor capability.
 
-* **Enabled** — turns 2FA on for the instance. This only makes it _available_; it is not yet required from anyone.
-* **Methods** — select at least one of **Email** (a 6-digit one-time code by mail), **Authenticator app (TOTP)** and **Passkey** (WebAuthn; also enables passwordless "Sign in with passkey"). With more than one method selected, users pick one at login.
-* **Allow password grant** — off by default. The OAuth2 password grant cannot present a second factor, so enforced users are refused; turn this on to keep username/password API clients working (their logins then skip the second factor).
+### **Enabled**
+
+Turns 2FA on for the instance. This only makes it _available_; it is not yet required from anyone.
+
+### Methods
+
+Select at least one of **Email** (a 6-digit one-time code by mail), **Authenticator app (TOTP)** and **Passkey** (WebAuthn; also enables passwordless "Sign in with passkey"). With more than one method selected, users pick one at login.
+
+### Allow Password Grant
+
+Off by default. The OAuth2 password grant cannot present a second factor, so enforced users are refused; turn this on to keep username/password API clients working (their logins then skip the second factor).
 
 2FA is _required_ per group via the **Require two-factor authentication** flag in **Rights Management → Groups**. The `system:root` user and users without an email address (when email is the only method) are never challenged.
 
-See [Enabling Two-Factor Authentication](../../help/tutorials/for-administrators/enabling-two-factor-authentication.md "mention") for the full setup, the login experience and how to avoid lock-outs.
+See [enabling-two-factor-authentication.md](../../help/tutorials/for-administrators/enabling-two-factor-authentication.md "mention") for the full setup, the login experience and how to avoid lock-outs.
 
 ## Registration
 
