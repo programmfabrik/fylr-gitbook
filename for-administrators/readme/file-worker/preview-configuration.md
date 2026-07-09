@@ -40,11 +40,17 @@ Enable this checkbox, if you want to allow the upload of files with extensions n
 
 ## Max. upload file size
 
-Set the maximum file size allowed for all uploads (for example: 500MB, 2GB). This value determines the upper limit on the size of each individual file that can be uploaded to the system. Make sure to consider user needs and system capabilities when configuring this setting.
+The largest size a single uploaded file may have. It applies to every file class that does not set its own limit under [Extensions](#extensions).
+
+Enter the size as a number with a unit suffix — `b`, `k`, `m` or `g` (bytes, KB, MB, GB), for example `500m` or `2g`. Leave it at `0` (the default) for **no limit** — any file size is then accepted.
+
+A file larger than the limit that applies to its class is rejected during upload with a "file too large" error naming the maximum, and nothing is stored.
 
 ## Extensions
 
-For each file class (Audio, Image, Office & Video) the allowed file types can be (de-)activated. Only for activated extensions the upload is allowed and preview versions are generated. The allowed maximum file size for uploads can be set here again and overwrite the value defined above.
+For each file class (Audio, Image, Office and Video) you can (de-)activate the allowed file types: only activated extensions may be uploaded, and versions are generated only for them.
+
+Each class also has its own **Max. upload file size**, in the same `b`/`k`/`m`/`g` format. A non-zero value here applies to that class only and overrides the global limit above. `0` (the default) makes the class fall back to the global limit — so for a class `0` means "use the global setting", whereas the global `0` means "no limit at all".
 
 ## Versions
 
