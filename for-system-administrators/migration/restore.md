@@ -71,7 +71,7 @@ Flags:
     --file-api=""               API used to upload files. Leave empty to not upload files. "put": restore tool uploads files synchronous. "rput": target server loads files from remote URLs. "rput_leave": target server stores remote URLs, no data is copied to storage. "rput" and "rput_leave" are faster, "put" might take long.
     --file-api-access-token="" Use this to pass an access token to fylr backends. This is needed to load files from fylr source instances. It appends the "access_token" query parameter to the remote url of files, and removes the "x-fylr-signature" query parameter.
     --file-version=""           Set to version to use for upload. "original" might take long for "put". Use "preview" for test runs.
-    --upload-versions           Set to true, to not produce local preview versions, but instead upload the source versions. The upload method is used for versions the same way as for the original.
+    --upload-versions           Set to true, to upload the preview versions (renditions) instead of regenerating them on the target, so it keeps byte-identical renditions. For an --include-files=with-versions backup the renditions are uploaded from the backup; otherwise they are fetched from the source, which must stay reachable during the restore. Cannot be combined with an --include-files=original backup (its renditions are not packed).
     --include-deleted-linked    By default, linked fields whose target carries _latest_version_deleted_at are dropped during restore — the target won't be re-imported, so the link would become a deferred 'Purged / Deferred object'. Set this to keep them, e.g. for a partial restore where the deleted targets are imported in a separate run.
     --skip-reindex              If set, skip reindex at the end of the restore.
     --rename-versions=,...      Rename versions before uploading. This affects uploaded rights as well as file versions. The versions need to be given in the notation "<cls>.<version>:<new version>", e.g. "image.preview:640px" would replace the "preview" version of image to "640px". If the "<new version>" is omitted, the version is removed.
@@ -312,13 +312,17 @@ Use `"preview"` for test runs with smaller assets.
 
 ### `--upload-versions`
 
-Set to `true`, to not produce local preview versions, but instead upload/link the source versions.
+Set to `true`, to not regenerate the preview versions (renditions) on the target, but upload/link the source's versions instead, so the target keeps byte-identical renditions.
 
-The upload method `--file-api` is used for versions the same way as for the original file.
+The upload method `--file-api` is used for versions the same way as for the original file. The renditions are fetched from the source, so the **source instance must stay reachable during the restore**.
 
 {% hint style="info" %}
 * If `put`, `rput` or `rput_bulk` is used, the versions are copied from the source instance, but no versions are produced
 * If `rput_leave` or `rput_bulk_leave` is used, the versions are linked by URL, and no files are copied to the target instance and no versions are produced
+{% endhint %}
+
+{% hint style="info" %}
+For a backup made with [`--include-files=with-versions`](backup.md#include-files) the renditions are packed on disk, so `--upload-versions` uploads them from the backup (no source required). For a URL or `--include-files=original` backup they are fetched from the source instead — and for `--include-files=original` this is rejected, because the renditions are not packed. In every case `--upload-versions` is explicit: without it the target regenerates the renditions.
 {% endhint %}
 
 * type: `bool`
