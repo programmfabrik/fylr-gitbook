@@ -7,7 +7,7 @@ description: >-
 
 # Services
 
-E-Mail Notifications
+## E-Mail Notifications
 
 This service sends emails such as welcome emails, collection share emails or emails triggered by workflows (if configured under "Tags & Workflows"). If not enabled, no emails will be send.
 
@@ -76,6 +76,19 @@ Please note, this also applies to files which where uploaded but not yet been sa
 
 ### Settings for Objects
 
+Control how the Janitor cleans up **deleted records** and the **files linked from historic versions** of records.
+
+#### Final deletion after n days
+
+Records that have been deleted are first only marked as deleted and can still be restored. Specify after how many days such a deleted record is **permanently** removed from the database and can no longer be restored. Enter "0" to purge deleted records with every janitor run (every 10 minutes).
+
+#### Removing file links from historic versions
+
+Over time, older versions in a record's change history keep their linked files. These settings free up storage by removing files from old versions:
+
+* **Remove from historic versions after n days** — files are removed from a historic version once it is older than this many days.
+* **Number of most recent historic versions to keep** — files in this many of the most recent versions are always kept, even if they are older than the age above.
+
 ### Allow overwriting in pools and object types
 
 When this checkbox is enabled, the Janitor can be configured directly at the pool or object type. This is dependent on the pool management setting at the object type in the data model configuration.
@@ -115,6 +128,14 @@ Specify after how many days the individual events should be deleted. Enter "0" t
 #### Delete IP Address From Events After n Days
 
 Specify after how many days the IP addresses of users should be deleted from the events. Enter "0" to delete the IP address with every janitor run (every 10 minutes).
+
+
+
+## OpenAPI
+
+fylr describes its API as a machine-readable [OpenAPI](https://www.openapis.org/) specification, served at `/api/v1/system/openapi/spec.json`. It is used to render the API documentation and to feed API tooling and client generators.
+
+Enable this service to make the specification endpoint reachable **without authentication**, so it can be fetched anonymously. If not enabled, the endpoint requires a logged-in user.
 
 
 
