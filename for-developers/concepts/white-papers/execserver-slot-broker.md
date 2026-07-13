@@ -52,6 +52,28 @@ All control traffic is multiplexed over the one socket. A slot's life alternates
 | exec → fylr | `DONE {job_id, receipt}` | Job receipt / error. |
 | both | ping / pong | Liveness, half-open detection. |
 
+The full life of one body-mode job — control frames over the shared websocket, bulk bytes over their own connections, each pinned back to the replica that placed the job:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant F as fylr replica
+    participant X as execserver pod
+
+    Note over F,X: control — one fylr-initiated websocket
+    X-->>F: HELLO {instance_id, services, waitgroups, clients}
+    F->>X: WANT {job_id, service, priority}
+    Note right of X: parked in the want-book until a slot frees
+    X->>F: OFFER {job_id, token}
+    F->>X: JOB {job_id, job + pipe URLs}
+
+    Note over F,X: bulk data — separate HTTP, pinned to THIS replica via<br/>callbackBackendOwnURL, never the load balancer
+    X->>F: GET /pipe/IN — stream stdin into the job
+    X->>F: PUT /pipe/OUT — stream stdout back
+    Note right of X: mid-stream failure aborts, then DONE carries the error
+    X->>F: DONE {job_id, receipt}
+```
+
 ## Job data and streams
 
 The execserver cannot pull _the work itself_: a `file_queue` entry fans out into several exec calls for different services, and an exec call carries streams plus a response consumer inside a fylr worker goroutine. What it pulls is **a taker for a free slot**. The job JSON travels in the `JOB` message; all bulk bytes flow **execserver → fylr**.
