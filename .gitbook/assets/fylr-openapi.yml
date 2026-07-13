@@ -20,6 +20,16 @@ info:
         declared as the security schemes of this document. A request
         without a valid token runs as an anonymous session; endpoints that
         require a user then answer `401`.
+
+        **Caching.** Responses default to `Cache-Control: no-store,
+        no-cache` — most carry data specific to the authenticated user,
+        and the default keeps any browser, shared proxy or CDN from
+        storing and replaying them. On any `GET` request the
+        `cache_seconds` query parameter opts into caching: a value greater
+        than `0` replaces the default with
+        `Cache-Control: max-age=<cache_seconds>, public`. Endpoints whose
+        content is safe to cache (file downloads, IIIF tiles) set their
+        own `Cache-Control` header instead.
 servers:
     - url: /api/v1
 security:
@@ -29974,11 +29984,13 @@ paths:
             description: |
                 Same as `POST /search`, but the `SearchRequest` is passed as a JSON
                 string in the `BODY` query parameter instead of in the request body.
-                This makes the request a plain `GET` that can be cached by the client or
-                by intermediate proxies.
+                This makes the request a plain `GET` that clients and intermediate
+                proxies can cache.
 
-                Combine it with `cache_seconds` to let **fylr** add a `Cache-Control`
-                header to the response.
+                Caching stays an explicit opt-in: without `cache_seconds` the response
+                carries the default `Cache-Control: no-store, no-cache`. Pass
+                `cache_seconds` to let **fylr** answer with
+                `Cache-Control: max-age=<cache_seconds>, public` instead.
             parameters:
                 - name: x-fylr-authorization
                   in: header
@@ -30004,9 +30016,11 @@ paths:
                 - name: cache_seconds
                   in: query
                   description: |
-                    When greater than `0`, **fylr** adds a
-                    `Cache-Control: max-age=<cache_seconds>, public` header to the
-                    response so the result can be cached for that many seconds.
+                    When greater than `0`, **fylr** replaces the default
+                    `Cache-Control: no-store, no-cache` response header with
+                    `Cache-Control: max-age=<cache_seconds>, public`, so the result
+                    can be cached for that many seconds. The parameter works on any
+                    `GET` endpoint, not just `/search`.
                   schema:
                     type: integer
                     minimum: 0
