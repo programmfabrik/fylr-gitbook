@@ -76,7 +76,23 @@ Because reservation, job delivery and receipt all ride the instance-pinned socke
 
 ## Replicas behind one address
 
-One websocket through a load balancer reaches one pod, so the other pods' want-books would never see that fylr. The fix needs no config change: fylr resolves the configured hostname and opens one socket **per DNS A record**, re-resolving periodically to track scale-up/down; the boot-generated `HELLO.instance_id` dedupes connections. In Kubernetes that means pointing the address at a headless service. Single-host deployments see no change at all. (This fan-out is a planned extension; a load-balanced address currently behaves like one instance.)
+Several execserver replicas commonly sit behind one load-balanced address — a Kubernetes `Service`, an external LB — and every fylr is handed that single address. One persistent broker websocket through the balancer reaches exactly one pod, so the other pods' want-books never see that fylr. The system has to spread one fylr's demand across the fleet while only ever addressing the one endpoint the operator published.
+
+{% hint style="warning" %}
+**Rejected: re-addressing the pods.** Two obvious fixes both breach the load balancer. `tokenResponseSendServerIP` (the legacy mechanism this design retires) had the chosen pod stamp its own IP into the token response so fylr could re-address the job straight to that pod. A DNS fan-out — resolving the address to every pod A-record and opening one socket per pod — needs the same per-pod reachability plus a headless service. Both defeat the reason an operator puts a balancer there: to expose one address and keep the pods private. The balancer must remain the only thing fylr addresses.
+{% endhint %}
+
+**Demand-driven connection pool.** Each configured address keeps a small pool — one connection to start. When a job stays parked with no slot after a full retry tick — genuine backpressure, every pod reached so far is busy — fylr opens _one more_ connection to the _same_ address. The balancer round-robins it onto another pod, whose free slots now join the fylr's reach. Growth is rate-limited (at most one new connection every couple of seconds, however many jobs are waiting) and capped. When the burst passes no new backpressure arrives, so the pool stops growing. A literal-IP or single-pod address never hits a "busy with work still queued" moment it can't serve, so it stays at one connection — unchanged behaviour for the common case.
+
+**Knowing when to stop.** Because every pool connection dials the same address, two can land on the same pod. The boot-generated `HELLO.instance_id` makes that visible: when a new connection announces an instance already in the pool, fylr closes the duplicate — so the execserver still counts this fylr once and the claim-share stays correct — and marks the pool "covered": it circled back to a known pod, so growth stops. A periodic re-probe clears that mark so pods added later are found, and a dropped connection simply reconnects through the balancer onto a live pod. The pool tracks the reachable fleet without ever learning a pod's address.
+
+{% hint style="success" %}
+**Only the balancer, only on demand.** No headless service, no per-pod DNS, no downward-API pod IPs. fylr dials exactly the address the operator configured, and fans out across pods only while there is work the pods it already reached cannot absorb. Many fylr servers behind the balancer stay balanced for free — each opens its own pool, and the balancer spreads their connections across pods.
+{% endhint %}
+
+## Heterogeneous fleets
+
+The `HELLO` snapshot lists the services each execserver offers (`services`: service → waitgroup). fylr parks a want only on a connection whose pod announced that service, so a mixed fleet — ffmpeg on specialised hardware behind the same balancer as general workers — routes correctly with no configuration: every want finds a pod that can run it. This also closes a latent gap in the old transport, which had no way to tell that an execserver did not offer a requested service and would fail the job against it; capability is now **declared**, not discovered by failure. The static per-service address filter (a `/job/<service>` path on a configured address) still works for operators who prefer a separate pool per address, but it is no longer required.
 
 ## Multiple fylr servers, one instance
 
