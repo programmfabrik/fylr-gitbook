@@ -67,7 +67,7 @@ sequenceDiagram
     X->>F: OFFER {job_id, token}
     F->>X: JOB {job_id, job + pipe URLs}
 
-    Note over F,X: bulk data — separate HTTP, pinned to THIS replica via<br/>callbackBackendOwnURL, never the load balancer
+    Note over F,X: bulk data — separate HTTP, pinned to THIS replica by<br/>fylr's own address on the broker connection, never the balancer
     X->>F: GET /pipe/IN — stream stdin into the job
     X->>F: PUT /pipe/OUT — stream stdout back
     Note right of X: mid-stream failure aborts, then DONE carries the error
@@ -83,6 +83,8 @@ The execserver cannot pull _the work itself_: a `file_queue` entry fans out into
 {% endhint %}
 
 The body-mode call sites (stdin from the PUT body / stdout to the response body: IIIF tiles, on-demand rendition downloads, XSLT export, datamodel graph, metadata, plugin callbacks) switch to **one-time pipe endpoints** on the fylr backend: the execserver GETs stdin from an in-pipe and PUTs stdout to an out-pipe, each URL served exactly once, the random id being the credential — the same trust model as the other backend callback URLs.
+
+That pipe lives **in memory on the replica that created the job**, so its callback URL is pinned to that replica: fylr fills in its own address _as seen on the broker connection to the execserver running the job_ — the connection's local address — instead of the shared backend host. A load-balanced backend address therefore can't route the GET/PUT to a sibling replica that has no such pipe, and no pod IP is configured: the address is read off the connection. (The other backend callbacks — progress, plugin resources, input fetches — keep the shared URL; they resolve to the shared database, object store and config, so any replica answers them.)
 
 A mid-stream failure becomes: the execserver aborts its stream request and sends `DONE` with the error. The receipt carries the decisive stderr line and a capped stdout prefix, so a structured error a command wrote (plugins report errors that way) survives to the caller; the execserver commits a stream only once the output outgrows a 4000-byte buffer, exactly like the HTTP transport's response buffering, so a command that fails with a small output never masquerades as an empty success.
 
