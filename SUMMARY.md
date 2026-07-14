@@ -105,6 +105,8 @@
 * [License](license-management.md)
 * [Plugins](plugins/README.md)
   * [Plugin Overview](plugins/overview.md)
+* [fylr Supervisor](supervisor/README.md)
+  * [API documentation](supervisor/api-documentation.md)
 
 ## Help
 
