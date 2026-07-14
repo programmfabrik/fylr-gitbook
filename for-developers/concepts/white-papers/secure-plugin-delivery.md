@@ -72,7 +72,7 @@ The **shop resolves**: installing a plugin with missing dependencies offers to i
 | Install | all dependencies installed | `PluginDependencyNotInstalled` |
 | Enable | all dependencies installed **and enabled** | `PluginDependencyNotEnabled` |
 | Disable | no *enabled* plugin depends on it | `PluginRequiredByOthers` |
-| Delete | no *installed* plugin depends on it | `PluginRequiredByOthers` |
+| Delete | no *enabled* plugin depends on it (a disabled dependent is inert; re-enabling it is refused until the dependency is back) | `PluginRequiredByOthers` |
 
 ***
 
