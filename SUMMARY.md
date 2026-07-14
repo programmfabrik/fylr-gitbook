@@ -312,7 +312,7 @@
   * [Search and events](for-developers/concepts/search-and-events.md)
   * [White papers](for-developers/concepts/white-papers/README.md)
     * [Execserver slot broker](for-developers/concepts/white-papers/execserver-slot-broker.md)
-    * [Plugin shop and secure delivery](for-developers/concepts/white-papers/secure-plugin-delivery.md)
+    * [Plugin marketplace and secure delivery](for-developers/concepts/white-papers/secure-plugin-delivery.md)
 * [API](for-developers/api/README.md)
   * [OAuth2](for-developers/api/oauth2.md)
   * [Endpoints](for-developers/api/endpoints/README.md)
