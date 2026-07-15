@@ -2,6 +2,10 @@
 
 Custom renditions let you create additional versions of images with your own settings. You can control the output size, file format, and other export options. When using **Resize/Crop**, you can also define a crop individually for each image before downloading.
 
+{% hint style="info" %}
+Please note, that the custom renditions and crop tool are currently only available to users that can access the original file.
+{% endhint %}
+
 ## Using Custom Renditions
 
 The [Download Manager](../download-and-export/downloading.md) lists all available standard renditions (pre-calculated) and pre-defined custom renditions (calculated on demand).
