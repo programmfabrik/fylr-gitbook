@@ -20,11 +20,11 @@ When downloading, users can configure several **download options**. These option
 Custom version presets are available from fylr **6.34.0**.
 {% endhint %}
 
-Besides the renditions produced for every file (such as the original or a preview), administrators can configure **custom version presets** — named, ready-to-use download formats, for example "Web large (2000px JPEG)" or a square thumbnail with a watermark. Presets are shared by all users that can access the original file and are produced **on demand (**&#x74;he rendition is created the moment you download it).
+Besides the renditions produced for every file (such as the original or a preview), administrators can configure **custom version presets** — named, ready-to-use download formats, for example "Web large (2000px JPEG)" or a square thumbnail with a watermark. Presets are shared by all users that can access the original file and are produced **on demand** (the rendition is created the moment you download it).
 
 When a preset applies to a file, it appears in the **Renditions** list of the download options alongside the standard renditions. Select it like any other rendition; the file is produced on the fly and named after the preset. Presets are set up by administrators in the base configuration under [File Worker → Custom Version Presets](../../for-administrators/readme/file-worker/custom-version-presets.md).
 
-Additionally, if you can access the original file, you can create your own custom versions by clicking on "Custom Rendition". You can control the output size, file format, and other export options. When using **Resize/Crop**, you can also define a crop individually for each image before downloading. More info: [Custom Renditions & Crop Tool](../additional-features/custom-renditions-and-crop-tool.md).
+Additionally, if you have the permission to download the original file, you can create your own custom versions by clicking on "Custom Rendition". You can control the output size, file format, and other export options. When using **Resize/Crop**, you can also define a crop individually for each image before downloading. More info: [Custom Renditions & Crop Tool](../additional-features/custom-renditions-and-crop-tool.md).
 
 ## Downloading of Single Files
 
