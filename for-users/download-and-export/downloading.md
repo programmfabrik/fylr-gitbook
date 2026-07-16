@@ -14,19 +14,21 @@ When downloading, users can configure several **download options**. These option
 
 <table><thead><tr><th width="188.7734375">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Renditions</td><td>All files are grouped in file classes. Select which <strong>rendition(s)</strong> should be downloaded, such as the original file or a specific preview or watermarked version. Only those with appropriate <strong>download permissions</strong> are shown.</td></tr><tr><td>Metadata Mapping</td><td>Choose between <strong>Default</strong>, which applies the metadata mapping configured by the administrator, <strong>Unchanged</strong>, which downloads the file with its original embedded metadata, <strong>Delete</strong>, which removes metadata from the file, or a <strong>specific metadata mapping</strong>.</td></tr><tr><td>File Name</td><td>For <strong>file naming</strong>, choose between the <strong>standard template</strong> configured by the administrator, the <strong>original file name</strong>, or enter a <strong>custom static text</strong>.</td></tr><tr><td>Download as ZIP</td><td>When downloading multiple files, choose to <strong>download the files as a ZIP archive</strong>, which bundles all files into a single compressed file.</td></tr><tr><td>Include File Variants</td><td>If records contain <strong>file variants</strong>, decide whether these variants should be included in the download.</td></tr></tbody></table>
 
-### Custom Version Presets
+### Custom Versions
 
 {% hint style="info" %}
 Custom version presets are available from fylr **6.34.0**.
 {% endhint %}
 
-Besides the renditions produced for every file (such as the original or a preview), administrators can configure **custom version presets** — named, ready-to-use download formats, for example "Web large (2000px JPEG)" or a square thumbnail with a watermark. Presets are shared by all users and produced **on demand**: the rendition is created the moment you download it.
+Besides the renditions produced for every file (such as the original or a preview), administrators can configure **custom version presets** — named, ready-to-use download formats, for example "Web large (2000px JPEG)" or a square thumbnail with a watermark. Presets are shared by all users that can access the original file and are produced **on demand** (the rendition is created the moment you download it).
 
 When a preset applies to a file, it appears in the **Renditions** list of the download options alongside the standard renditions. Select it like any other rendition; the file is produced on the fly and named after the preset. Presets are set up by administrators in the base configuration under [File Worker → Custom Version Presets](../../for-administrators/readme/file-worker/custom-version-presets.md).
 
+Additionally, if you have the permission to download the original file, you can create your own custom versions by clicking on "Custom Rendition". You can control the output size, file format, and other export options. When using **Resize/Crop**, you can also define a crop individually for each image before downloading. More info: [Custom Renditions & Crop Tool](../additional-features/custom-renditions-and-crop-tool.md).
+
 ## Downloading of Single Files
 
-Single files can be downloaded directly from a record, for example from search results (right click on a record), a collection view, or the detail view. The download action opens the download options, allowing you to select the desired rendition, metadata profile, and file name before starting the download.&#x20;
+Single files can be downloaded directly from a record, for example from search results (right click on a record), a collection view, or the detail view. The download action opens the download options, allowing you to select the desired rendition, metadata profile, and file name before starting the download.
 
 ## Downloading of Selections
 
@@ -39,6 +41,3 @@ Downloading a collection allows you to retrieve **all accessible files** contain
 ## Download Message and User Confirmation
 
 fylr supports displaying a **custom message before downloading** for specific users or user groups. This message appears as part of the download process and must be acknowledged before the download can proceed. It can be used to display **copyright notices**, **license terms**, or to ask users to **confirm the intended use** of the downloaded files. This can be configured in the "[Messages](../../for-administrators/messages.md)".
-
-
-

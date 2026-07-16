@@ -78,9 +78,11 @@ This parameter is available in fylr from version **6.33.0**.
 This parameter is available in fylr from version **6.34.0**.
 {% endhint %}
 
-* If set, each file's **bytes** are packed into the backup directory (`files/<id>/…`), making the backup self-contained and byte-for-byte — the source instance need not stay reachable for the restore
-* Files kept on the remote (_leave_) are not packed; their real upstream URL is preserved instead
-* Without this option, only the file **URLs** are stored and the bytes are fetched from the source during the restore
+* A selector controlling how file bytes are stored in the backup:
+  * _URLs only (do not pack)_ — only the file **URLs** are stored; the bytes are fetched from the source during the restore, so the source must stay reachable
+  * _Originals_ — pack each file's **original** bytes into the backup directory (`files/<id>/…`), making the backup self-contained and byte-for-byte; renditions are regenerated on the target during the restore
+  * _Originals + versions_ — also pack the renditions, so that a restore with _Copy file preview versions_ uploads them from the backup byte-identical instead of regenerating them
+* Files kept on the remote (_leave_) are never packed; their real upstream URL is preserved instead
 * This sets [`--include-files`](../migration/backup.md#include-files)
 
 #### OAuth2
@@ -191,7 +193,7 @@ See also: [Restore Parameters](../migration/restore.md#parameters)
 * This sets `--upload-versions`
 
 {% hint style="info" %}
-When you restore a backup that was made with **Include Files**, the packed file bytes are uploaded from the local backup directory automatically. _Copy file preview versions_ (`--upload-versions`) cannot be combined with such a backup, because renditions are not packed — the target regenerates them.
+When you restore a backup that was made with **Include Files**, the packed original bytes are uploaded from the local backup directory automatically. Renditions still follow _Copy file preview versions_: enable it to upload them (from the backup if it was made with _Originals + versions_, otherwise from the source), leave it off to have the target regenerate them. For an _Originals_-only backup _Copy file preview versions_ cannot be used — the renditions are not packed.
 {% endhint %}
 
 #### Rename Versions

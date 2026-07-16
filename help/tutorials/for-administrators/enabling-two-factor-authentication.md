@@ -20,13 +20,13 @@ Two-factor authentication is available from fylr **6.34.0**.
 
 ## Before you start
 
-* **License** – 2FA requires a license that includes the two-factor capability. If the **Two-factor authentication** section in the base configuration is greyed out, your license does not include it — contact Programmfabrik to have the license re-issued. Existing Department and Organization licenses may need to be re-issued to carry the capability. Unlicensed local instances have 2FA available for testing.
+* **License** – 2FA requires a license that includes the two-factor capability. If the **Two-Factor Authentication** section in the base configuration is greyed out, your license does not include it — contact Programmfabrik to have the license re-issued. Existing Department and Organization licenses may need to be re-issued to carry the capability. Unlicensed local instances have 2FA available for testing.
 * **Local accounts only** – only _easydb_ and _self-registered_ users are challenged. SAML / SSO / LDAP users are not.
-* **Mail server (for the email method)** – the email one-time code can only be sent if a mail server is configured. Without it, the email method is not offered. See [Email](../../../for-administrators/readme/email.md "mention").
+* **Mail server (for the email method)** – the email one-time code can only be sent if a mail server is configured. Without it, the email method is not offered. See [email.md](../../../for-administrators/readme/email.md "mention").
 
 ## 1. Enable 2FA in the base configuration
 
-Open the **Base Configuration** and go to **Access → Two-factor authentication**.
+Open the **Base Configuration** and go to **Access → Two-Factor Authentication**.
 
 * Tick **Enabled**.
 * Under **Methods**, select at least one of **Email**, **Authenticator app (TOTP)** and **Passkey**.
@@ -47,7 +47,7 @@ Every user who is a member of at least one group with this flag set must pass a 
 The **Require two-factor authentication** checkbox is disabled until 2FA is enabled in the base configuration (step 1). Enable 2FA there first, then set the flag on the groups.
 {% endhint %}
 
-See [Groups](../../../for-administrators/permissions/groups.md "mention") for how groups and memberships work.
+See [groups.md](../../../for-administrators/permissions/groups.md "mention") for how groups and memberships work.
 
 ## 3. What users experience
 
@@ -87,5 +87,5 @@ The `USER_LOGIN` event records which second factor was used (in its `two_factor`
 
 ## Related pages
 
-* [Access](../../../for-administrators/readme/access.md "mention") — the base-configuration section where 2FA is enabled.
-* [Groups](../../../for-administrators/permissions/groups.md "mention") — where the "Require two-factor authentication" flag is set.
+* [access.md](../../../for-administrators/readme/access.md "mention") — the base-configuration section where 2FA is enabled.
+* [groups.md](../../../for-administrators/permissions/groups.md "mention") — where the "Require two-factor authentication" flag is set.

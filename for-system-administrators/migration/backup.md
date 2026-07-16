@@ -75,6 +75,7 @@ Flags:
     --retry-max-count=10        Number of retries for failed requests with network problems.
     --retry-sleep-between=30    Wait time in seconds between retries for failed requests.
     --pretty                    Output pretty JSON.
+    --include-files=""          How to store file bytes in the backup. Empty (default): store only the file URLs, the restore fetches the bytes from the source (which must stay reachable). "original": pack each non-leave file's original bytes into the backup directory (files/<id-floored-to-1e6>/<id-floored-to-1e3>/<id>-<filename>), so the backup is self-contained and byte-for-byte and the source need not stay reachable; renditions (preview versions) are not packed, the restore regenerates them, so such a backup cannot be restored with --upload-versions. "with-versions": also pack the renditions, so that a restore with --upload-versions uploads them from the backup (byte-identical) instead of regenerating them. Files kept on the remote (leave) are never packed; their upstream URL is preserved.
 ```
 
 
@@ -249,14 +250,18 @@ Use this paired with the `fylr restore` parameter `--include-deleted-linked`
 This parameter is available in fylr from version **6.34.0**.
 {% endhint %}
 
-By default a backup only stores the file **URLs**, and the restore fetches the bytes from the source instance (which therefore has to stay reachable until the restore finishes). Set `--include-files` to pack each file's **bytes** into the backup itself, under a `files/` directory. The restore then uploads them from the local backup, so it no longer depends on the source instance.
+By default a backup only stores the file **URLs**, and the restore fetches the bytes from the source instance (which therefore has to stay reachable until the restore finishes). Set `--include-files` to pack the file **bytes** into the backup itself, under a `files/` directory, so the restore uploads them from the local backup and no longer depends on the source instance. It takes a mode:
 
-Files stored _leave on remote_ are not packed: the backup keeps their real upstream URL (it requests `files_real_url=1` on the `/db` list, which needs the _root_ system right) and the restore keeps them as references. On restore the upload method is chosen per file — packed files are uploaded from the backup, leave-on-remote files stay references — for originals and their renditions alike. Combined with the restore's `--upload-versions`, a leave original's renditions are uploaded from the backup while the original itself stays on the remote.
+* **empty** (default): store only the file URLs (the behaviour described above).
+* **`original`**: pack each file's **original** bytes, but not its renditions (preview versions). On restore the target regenerates the renditions itself, so an `--include-files=original` backup **cannot** be restored with [`--upload-versions`](restore.md#upload-versions) — that option uploads the source's renditions, but they are not in the backup and the source may be gone, so the restore rejects the combination.
+* **`with-versions`**: pack the originals **and** their renditions, so that a restore with [`--upload-versions`](restore.md#upload-versions) uploads the renditions from the backup byte-identical instead of regenerating them. Without `--upload-versions` the target still regenerates them (exactly as for a URL-only backup) — the flag stays explicit. This is the basis for a fully self-contained, byte-for-byte backup.
 
-The backup form under `/inspect/migration` offers this as an **Include Files** toggle, and its backup viewer browses the nested `files/` directories.
+Files stored _leave on remote_ are never packed: the backup keeps their real upstream URL (it requests `files_real_url=1` on the `/db` list, which needs the _root_ system right), and the restore re-creates them as references to that upstream. Their renditions are ordinary local files, so with `with-versions` a leave original's renditions are packed and uploaded from the backup too.
 
-* type: `bool`
-* default: `false`
+The backup form under `/inspect/migration` offers this as an **Include Files** selector, and its backup viewer browses the nested `files/` directories.
+
+* type: `string` (one of `""`, `original`, `with-versions`)
+* default: `""`
 
 
 ### `--include-events`

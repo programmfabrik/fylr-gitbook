@@ -4,7 +4,7 @@
 #
 # - save consistent copy of sql ("dump")
 # - cleanup superfluous docker files
-# - update fylr and postgres (but not major version jump)
+# - update fylr and postgres (but no major version jump)
 
 # requires: docker, docker compose plugin
 

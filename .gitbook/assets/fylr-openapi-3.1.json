@@ -3,7 +3,7 @@
   "info": {
     "title": "FYLR API",
     "version": "1.0.0",
-    "description": "HTTP/JSON API for **fylr**. Most endpoints below live under the\n**`/api/v1`** base path — for example `/api/v1/collection`,\n`/api/v1/search`. The OAuth2 / OpenID Connect endpoints under\n`/api/oauth2` and the discovery document at\n`/.well-known/openid-configuration` are the exceptions; each\noperation lists its own full path.\n\n**Authentication.** Calls are authenticated with an access token.\nPresent it as an `Authorization: Bearer \u003ctoken\u003e` header, or — as\nfallbacks — the `access_token` query parameter or an\n`X-Fylr-Authorization: Bearer \u003ctoken\u003e` header (a workaround for\nSafari, which overwrites `Authorization`). Tokens are issued by the\nOAuth2 token endpoint (`POST /api/oauth2/token`; the default grant\nis the resource-owner password grant). These transports are\ndeclared as the security schemes of this document. A request\nwithout a valid token runs as an anonymous session; endpoints that\nrequire a user then answer `401`.\n"
+    "description": "HTTP/JSON API for **fylr**. Most endpoints below live under the\n**`/api/v1`** base path — for example `/api/v1/collection`,\n`/api/v1/search`. The OAuth2 / OpenID Connect endpoints under\n`/api/oauth2` and the discovery document at\n`/.well-known/openid-configuration` are the exceptions; each\noperation lists its own full path.\n\n**Authentication.** Calls are authenticated with an access token.\nPresent it as an `Authorization: Bearer \u003ctoken\u003e` header, or — as\nfallbacks — the `access_token` query parameter or an\n`X-Fylr-Authorization: Bearer \u003ctoken\u003e` header (a workaround for\nSafari, which overwrites `Authorization`). Tokens are issued by the\nOAuth2 token endpoint (`POST /api/oauth2/token`; the default grant\nis the resource-owner password grant). These transports are\ndeclared as the security schemes of this document. A request\nwithout a valid token runs as an anonymous session; endpoints that\nrequire a user then answer `401`.\n\n**Caching.** Responses default to `Cache-Control: no-store,\nno-cache` — most carry data specific to the authenticated user,\nand the default keeps any browser, shared proxy or CDN from\nstoring and replaying them. On any `GET` request the\n`cache_seconds` query parameter opts into caching: a value greater\nthan `0` replaces the default with\n`Cache-Control: max-age=\u003ccache_seconds\u003e, public`. Endpoints whose\ncontent is safe to cache (file downloads, IIIF tiles) set their\nown `Cache-Control` header instead.\n"
   },
   "servers": [
     {
@@ -31751,7 +31751,7 @@
       },
       "get": {
         "summary": "Search for objects (cacheable).",
-        "description": "Same as `POST /search`, but the `SearchRequest` is passed as a JSON\nstring in the `BODY` query parameter instead of in the request body.\nThis makes the request a plain `GET` that can be cached by the client or\nby intermediate proxies.\n\nCombine it with `cache_seconds` to let **fylr** add a `Cache-Control`\nheader to the response.\n",
+        "description": "Same as `POST /search`, but the `SearchRequest` is passed as a JSON\nstring in the `BODY` query parameter instead of in the request body.\nThis makes the request a plain `GET` that clients and intermediate\nproxies can cache.\n\nCaching stays an explicit opt-in: without `cache_seconds` the response\ncarries the default `Cache-Control: no-store, no-cache`. Pass\n`cache_seconds` to let **fylr** answer with\n`Cache-Control: max-age=\u003ccache_seconds\u003e, public` instead.\n",
         "parameters": [
           {
             "name": "x-fylr-authorization",
@@ -31781,7 +31781,7 @@
           {
             "name": "cache_seconds",
             "in": "query",
-            "description": "When greater than `0`, **fylr** adds a\n`Cache-Control: max-age=\u003ccache_seconds\u003e, public` header to the\nresponse so the result can be cached for that many seconds.\n",
+            "description": "When greater than `0`, **fylr** replaces the default\n`Cache-Control: no-store, no-cache` response header with\n`Cache-Control: max-age=\u003ccache_seconds\u003e, public`, so the result\ncan be cached for that many seconds. The parameter works on any\n`GET` endpoint, not just `/search`.\n",
             "schema": {
               "type": "integer",
               "minimum": 0

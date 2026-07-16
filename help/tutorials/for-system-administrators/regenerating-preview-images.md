@@ -1,5 +1,7 @@
 ---
-description: How to regenerate versions for a particular image.
+description: >-
+  How to regenerate preview versions for one or many assets — for example after
+  changing the preview format.
 ---
 
 # Regenerating preview images
@@ -53,7 +55,17 @@ To produce the new rendition for existing records, follow this list:
 
 If renditions turn out erroneous it's best to produce a new set versions using the action `produce versions` . **This will produce versions for all selected files**.&#x20;
 
+## Changing the preview format
 
+The recipe that generates a preview version also determines its **file format** — for example whether an image preview is produced as PNG or JPEG. To change the format:
+
+1. Open the base configuration and go to **File Worker → [Preview Configuration](../../../for-administrators/readme/file-worker/preview-configuration.md)**.
+2. Edit the version and adjust its recipe options so it is produced in the desired format (for example JPEG instead of PNG), then **save**.
+3. The new format applies to **newly uploaded files only**. Re-generate the files that already exist with a **resync** as described above.
+
+{% hint style="info" %}
+A resync only re-creates versions that are missing or out of date — correct versions are left untouched. If a version is **derived from another** (for example a `small` version produced from the `preview` version), re-generating the source also re-generates everything derived from it. While a file is re-processed its versions update one by one, so for a short moment not all of them are available; the file in the old format is removed as soon as the new one has been produced.
+{% endhint %}
 
 ***
 
@@ -62,3 +74,5 @@ If renditions turn out erroneous it's best to produce a new set versions using t
 Depending on the number of selected files the resync can take some time. To confirm the successful generation of new versions find a record in the Fylr frontend and inspect the versions in the details Info tab.&#x20;
 
 Alternatively inspect the detailed logs in the Fylr console located at the URL `<fylr url>/inspect/system/console` .
+
+You can also watch the outstanding jobs in the **Queue Manager** at `/inspect/system/queues` — select the **`file`** queue.
