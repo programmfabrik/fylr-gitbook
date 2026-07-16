@@ -19,8 +19,6 @@ Messages are a great way to add **individual** text to the application. Typical 
 
 Messages are **always** assigned to **groups** which enables you to define **different** **messages** for **different** **groups**.
 
-
-
 ## Messages
 
 To **create** a new message, click on the **plus** button in the lower **left** and enter the details (see below). By **clicking** on a **message**, you can see and edit the details. To **remove** a message, **click** on the desired **message** and on the **minus** button in the lower **left**.
@@ -33,7 +31,7 @@ All messages are **sorted** **alphabetically** and you can use the filter to **s
 
 Mandatory fields are marked with an asterisk "\*".
 
-<table><thead><tr><th width="200">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Type*</td><td>Defines where/how the message is shown. For a description of the available types, please see below. </td></tr><tr><td>Active From</td><td>Select a date from which the message should be enabled automatically. Before that date, the message is not shown. If no date is set, the message is enabled immediately.</td></tr><tr><td>Active Until</td><td>Select a date when the message should be disabled automatically. After that date, the message is not shown anymore. If no date is set, the message is enabled indefinitely.</td></tr><tr><td>Icon</td><td>Optionally add an icon to your message which will be shown either in the header before the title or on the button before the title. Supported icons: <a href="https://fontawesome.com/v4/icons/">FontAwesome</a>.</td></tr><tr><td>Title*</td><td>Title of the message. Will be shown in the list of messages, the header of the message and on the button.</td></tr><tr><td>Message*</td><td>Actual message. Supports markdown.</td></tr><tr><td>Reference</td><td>Reference of the message. Has to be unique.</td></tr><tr><td>Pools</td><td>Select one or more pools if the message should only be used for specific pools.</td></tr><tr><td>Tag Filter</td><td>Define a tag filter if the message should only be shown for records with specific tags.</td></tr><tr><td>Client ID Filter</td><td>Only relevant, when you're working with multiple clients/frontends and want the message only to appear for specific clients/frontends.</td></tr><tr><td>Link</td><td>Link to the message. Will be shown after saving.</td></tr><tr><td>Created</td><td>Date and time the message was created.</td></tr><tr><td>Last Updated</td><td>Date and time of the last update of the message.</td></tr></tbody></table>
+<table><thead><tr><th width="200">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Type*</td><td>Defines where/how the message is shown. For a description of the available types, please see below.</td></tr><tr><td>Active From</td><td>Select a date from which the message should be enabled automatically. Before that date, the message is not shown. If no date is set, the message is enabled immediately.</td></tr><tr><td>Active Until</td><td>Select a date when the message should be disabled automatically. After that date, the message is not shown anymore. If no date is set, the message is enabled indefinitely.</td></tr><tr><td>Icon</td><td>Optionally add an icon to your message which will be shown either in the header before the title or on the button before the title. Supported icons: <a href="https://fontawesome.com/v4/icons/">FontAwesome</a>.</td></tr><tr><td>Title*</td><td>Title of the message. Will be shown in the list of messages, the header of the message and on the button.</td></tr><tr><td>Message*</td><td>Actual message. Supports markdown.</td></tr><tr><td>Reference</td><td>Reference of the message. Has to be unique.</td></tr><tr><td>Pools</td><td>Select one or more pools if the message should only be used for specific pools.</td></tr><tr><td>Tag Filter</td><td>Define a tag filter if the message should only be shown for records with specific tags.</td></tr><tr><td>Client ID Filter</td><td>Only relevant, when you're working with multiple clients/frontends and want the message only to appear for specific clients/frontends.</td></tr><tr><td>Link</td><td>Link to the message. Will be shown after saving.</td></tr><tr><td>Created</td><td>Date and time the message was created.</td></tr><tr><td>Last Updated</td><td>Date and time of the last update of the message.</td></tr></tbody></table>
 
 ### Confirmation
 
@@ -71,10 +69,39 @@ These **choices** are only **available** for the message type "**Message Before 
 
 It's **necessary** to **select** at least one **group** for the messages to work. **Multiple** groups **can** be **selected**. All **local** groups and **system** groups are **available**.
 
-
-
 ## Types
 
 The message **types** define **where/how** the messages are **shown**:
 
-<table><thead><tr><th width="315">TYPE</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Message After Logging In</td><td>This message is shown after a user logs in. Also available for anonymous users (message is shown directly when opening the application). Depending on the settings in the "Confirmation" tab, the message can simply be closed or have to be accepted to continue to the search. If not accepted, the user will be directed back to the login page.</td></tr><tr><td>Welcome Message in Search</td><td>This message will be shown in the search after a user logged in (or an anonymous user opened the application).</td></tr><tr><td>Permanent Message in Main Menu</td><td>This message creates a link under "Info" in the main menu which opens the message in a popover when clicked.</td></tr><tr><td>Permanent Message in Header</td><td>This message creates a button in the header (next to the user settings and export manager) which opens the message in a popover when clicked.</td></tr><tr><td>Permanent Message on the Login Page</td><td>This message creates a link on the login page which opens the message in a popover when clicked.</td></tr><tr><td>Permanent Message on Self-Registration Page</td><td>This message creates a link on the self-registration page which opens the message in a popover when clicked.</td></tr><tr><td>Message Before Download</td><td>This message is shown when a user downloads a file. Depending on the settings in the "Confirmation" tab, the message can simply be closed or have to be accepted to continue the download. If not accepted, the file will not be downloaded.</td></tr><tr><td>Maintenance Warning</td><td>This message is shown after a user logs in and it also appears as a permanent message in the header. It's supposed to inform the user that a maintenance will be happening soon where they are not able to use the application.</td></tr><tr><td>Maintenance Message</td><td>This message is shown after a user logs in informing them that they're not able to access the system as there is a maintenance currently happening. Only the root user will be able to access the system while this message is active. We recommend to set a date so this message will be activated and deactivated automatically.</td></tr></tbody></table>
+<table><thead><tr><th width="315">TYPE</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Message After Logging In</td><td>This message is shown after a user logs in. Also available for anonymous users (message is shown directly when opening the application). Depending on the settings in the "Confirmation" tab, the message can simply be closed or have to be accepted to continue to the search. If not accepted, the user will be directed back to the login page.</td></tr><tr><td>Welcome Message in Search</td><td><ul><li>This message will be shown in the search after a user logged in (or an anonymous user opened the application).</li><li>See at </li></ul></td></tr><tr><td>Permanent Message in Main Menu</td><td>This message creates a link under "Info" in the main menu which opens the message in a popover when clicked.</td></tr><tr><td>Permanent Message in Header</td><td>This message creates a button in the header (next to the user settings and export manager) which opens the message in a popover when clicked.</td></tr><tr><td>Permanent Message on the Login Page</td><td>This message creates a link on the login page which opens the message in a popover when clicked.</td></tr><tr><td>Permanent Message on Self-Registration Page</td><td>This message creates a link on the self-registration page which opens the message in a popover when clicked.</td></tr><tr><td>Message Before Download</td><td>This message is shown when a user downloads a file. Depending on the settings in the "Confirmation" tab, the message can simply be closed or have to be accepted to continue the download. If not accepted, the file will not be downloaded.</td></tr><tr><td>Maintenance Warning</td><td>This message is shown after a user logs in and it also appears as a permanent message in the header. It's supposed to inform the user that a maintenance will be happening soon where they are not able to use the application.</td></tr><tr><td>Maintenance Message</td><td>This message is shown after a user logs in informing them that they're not able to access the system as there is a maintenance currently happening. Only the root user will be able to access the system while this message is active. We recommend to set a date so this message will be activated and deactivated automatically.</td></tr></tbody></table>
+
+#### Internal routing in Messages of type "Welcome Message in Search"&#x20;
+
+Message type "Welcome Message in Search" is commonly used to create a "landing page" type of user experience for users of different groups.
+
+Using HTML it's possible to render images and link into internal documentation and also directly into fylr pools and search results without requiring a reload of the frontend.
+
+Instead of hardcoding the link:
+
+{% code overflow="wrap" %}
+```
+<a href="https://your.fylr.org/search?ot=asset&p=1,2,4,5,6,10,11">
+```
+{% endcode %}
+
+Skip the URL and let the fylr frontend resolve to your internal URL without reloading
+
+{% code overflow="wrap" %}
+```
+<a href="/search?p=1"> // only a pool
+<a href="/search?ot=asset&p=1,2,10"> // object type in multiple pools
+<a href="/search?ot=asset,media&p=1,2,4,5,6,10,11"> // multiple object types in multiple pools
+```
+{% endcode %}
+
+It's also possible to link into complex searches and custom share links, see the 3dot menu of the search result.
+
+{% hint style="warning" %}
+Markdown link in messages use `target="_blank"`  by default
+{% endhint %}
+
