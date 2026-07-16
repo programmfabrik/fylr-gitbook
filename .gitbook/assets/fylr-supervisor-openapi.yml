@@ -613,6 +613,20 @@ paths:
                   properties:
                     name: { type: string }
                     host: { type: string, description: "Default: <name>.localhost." }
+                encryption_key:
+                  type: string
+                  minLength: 32
+                  maxLength: 32
+                  description: >-
+                    Optional: the SOURCE's fylr.encryptionKey (32 characters,
+                    from the source's fylr.yml). The target instance adopts it
+                    before the restore (running children restart), so
+                    key-encrypted data in a db dump — 2FA/TOTP secrets,
+                    passkeys, storage-location secrets — survives the 1:1
+                    copy. Without it those secrets are unreadable on the copy;
+                    s3 locations matching an assigned storage backend are
+                    re-credentialed by the storage reconcile regardless.
+                    Stored in the control database, never in the backup dir.
       responses:
         "202":
           description: Restore started.
@@ -1222,10 +1236,18 @@ components:
         running_replicas: { type: integer }
         rolling: { type: boolean, description: A rolling restart is in progress. }
         hibernated: { type: boolean }
+        hibernate_after: { type: string, description: 'Per-instance hibernation override: "" = inherit the fleet setting, "off" = never hibernate, or an idle window like "10m".' }
+        effective_hibernate_after: { type: string, description: 'Resolved hibernation window the instance runs with ("off" = never).' }
         deployed_tag: { type: string, description: Release tag set by the deployments API. }
         binary: { type: string, description: Effective fylr binary path. }
         label: { type: string, description: Explicit modebar label ("" = default). }
         effective_label: { type: string }
+        encryption_key_hint:
+          type: string
+          description: >-
+            Fingerprint (first…last 4 chars) of the instance's
+            fylr.encryptionKey — comparable against a source's fylr.yml, the
+            key itself is never returned.
         desired_state: { type: string, enum: [running, stopped] }
         status: { type: string, enum: [stopped, starting, running, hibernated] }
         web_port: { type: integer }
@@ -1290,9 +1312,19 @@ components:
         basic_auth_pass: { type: string }
         root_password: { type: string, description: "Non-empty = change the root password (live or on next boot)." }
         admin_password: { type: string, description: "Non-empty = re-push the customer admin password." }
+        encryption_key:
+          type: string
+          minLength: 32
+          maxLength: 32
+          description: >-
+            Non-empty = replace the instance's fylr.encryptionKey (write-only;
+            the instance rolls). DESTRUCTIVE for data encrypted under the
+            current key (2FA/TOTP secrets, passkeys, storage-location
+            secrets) — meant for adopting a migration source's key.
         replicas: { type: integer, description: Clamped to >= 1. }
         license_id: { type: integer, format: int64, description: "0 = inherit, -1 = none, >0 = that license." }
         label: { type: string }
+        hibernate_after: { type: string, description: 'Hibernation override: "" = inherit the fleet setting, "off" = never hibernate (wakes a hibernated instance), or an idle window >= 30s like "10m". Applies live.' }
         storage_id: { type: integer, format: int64, description: "0 = inherit, -1 = built-in disk, >0 = that backend." }
         extra_storage_ids:
           type: array
