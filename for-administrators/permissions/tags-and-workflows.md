@@ -76,6 +76,8 @@ To **add** a workflow, click on the **plus** on the lower left and on the **minu
 
 The **order** of workflows can be **changed** by using the little **drag handle** in the front row. This is **important** because depending on the **type** of a workflow this can make a **difference**.
 
+### Option
+
 Use the following **options** to set up a workflow:
 
 | OPTION | DESCRIPTION |
@@ -94,6 +96,7 @@ Use the following **options** to set up a workflow:
 | Persistent | Activate if the workflow should not be overwritten by individual tags for pools or object types. |
 
 
+### Type
 
 Choose between the following **types**:
 
@@ -106,6 +109,7 @@ Choose between the following **types**:
 | REJECT & CONTINUE | The action of the configured workflow is triggered and the subsequent workflows are checked. If no "Resolve & Exit" or "Resolve & Continue" is received, the saving of the record will be rejected. |
 
 
+### Action
 
 Choose between the following **actions**:
 
