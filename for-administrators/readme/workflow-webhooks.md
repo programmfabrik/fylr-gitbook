@@ -7,7 +7,13 @@ description: >-
 
 # Workflow Webhooks
 
-A **workflow webhook** is an HTTP endpoint that **fylr** calls from a [workflow](../permissions/tags-and-workflows.md#workflows) (transition) **Webhook** action. Each webhook is defined once here, in the base configuration, and is then referenced **by name** from one or more workflow actions.
+A **workflow webhook** is an HTTP endpoint that **fylr** calls from a workflow (transition) **Webhook** action.
+
+Each webhook is defined once in the [base configuration](#configuration), and can be used in one or more workflow actions.
+
+## Usage
+
+Create a new workflow (or extend an existing) one, and select one of the configured workflows as the **Webhook** action. See [Workflows](../permissions/tags-and-workflows.md#workflows) on how to setup workflows.
 
 When the workflow fires, **fylr** sends an HTTP `POST` with a JSON body containing the affected records to the configured URL. Depending on the action's **callback** setting, the webhook either runs *after* the records are saved (and cannot change them) or *before* they are saved (and may modify them). See [Callback modes](#callback-modes).
 
