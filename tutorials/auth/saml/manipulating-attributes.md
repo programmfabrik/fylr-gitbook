@@ -84,7 +84,7 @@ if ('officialEmail' in entry) {
 
 ### Debugging JavaScript
 
-* JavaScript is runin "Strict Mode".
+* JavaScript is executed in "Strict Mode".
 * Thus attributes cannot be overwritten.
 * After a SAML account tried to login, look into https://yourfylr.example.co&#x6D;**/inspect/system/console/** (login as fylr account "root"). Example output there after successful first login:
 
