@@ -7,7 +7,13 @@ description: >-
 
 # Workflow Webhooks
 
-A **workflow webhook** is an HTTP endpoint that **fylr** calls from a [workflow](../permissions/tags-and-workflows.md#workflows) (transition) **Webhook** action. Each webhook is defined once here, in the base configuration, and is then referenced **by name** from one or more workflow actions.
+A **workflow webhook** is an HTTP endpoint that **fylr** calls from the **webhook** action of a workflow (transition).
+
+Each webhook is defined once in the [base configuration](#configuration), and can be used in one or more workflow actions.
+
+## Usage
+
+See [Workflows](../permissions/tags-and-workflows.md#workflows) on how to setup workflows. Create a new workflow (or extend an existing) one, and select one of the configured workflows as the webhook [**action**](../permissions/tags-and-workflows.md#action).
 
 When the workflow fires, **fylr** sends an HTTP `POST` with a JSON body containing the affected records to the configured URL. Depending on the action's **callback** setting, the webhook either runs *after* the records are saved (and cannot change them) or *before* they are saved (and may modify them). See [Callback modes](#callback-modes).
 
@@ -34,6 +40,17 @@ Optional shared secret. If set, **fylr** signs the request body and sends the si
 * `X-Hub-Signature-256: sha256=<hmac-sha256 of the body>`
 
 Both are keyed with the secret. Leave empty to send no signature.
+
+A receiver verifies (at least) the SHA-256 signature over the **raw request body**:
+
+```python
+import hashlib, hmac
+
+def verify(headers, body: bytes, secret: str) -> bool:
+    got = headers.get("X-Hub-Signature-256", "")
+    want = "sha256=" + hmac.new(secret.encode(), body, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(got, want)
+```
 
 ### Timeout
 
@@ -88,7 +105,7 @@ For both modes **fylr** posts a JSON object:
 }
 ```
 
-* `info` carries the [callback contract](../../for-developers/plugin.md) — the API base URL and, **if Include Access Token is enabled**, an access token for calling back into **fylr**.
+* `info` carries the [callback contract](../../for-developers/plugin/callbacks/contract.md) — the API base URL and, **if Include Access Token is enabled**, an access token for calling back into **fylr**.
 * `objects` are the affected records rendered with the `_all_fields` mask. Each carries a `_callback_context.hash` used to match the record on the way back.
 
 ## Response (`pre_save`)
@@ -103,8 +120,8 @@ A `pre_save` webhook **must** return a JSON object:
 }
 ```
 
-* `objects` — the records to update. Each must carry back the **same** `_callback_context.hash` it was sent with and use the `_all_fields` mask. Only records whose hash matches are updated, and only their **user values, comment, pool, tags and rights** are applied (IDs and other system fields are ignored).
-* `error` *(optional)* — an [API-error envelope](../../for-developers/plugin.md#callbacks). If present, the save is aborted and this error is returned to the client.
+* `objects` — the records to update. Each must carry back the **same** `_callback_context.hash` it was sent with and use the `_all_fields` mask. Only records whose hash matches are updated; a returned record replaces the posted one, so return it as received with only the intended changes — see [db\_pre\_save → the response](../../for-developers/plugin/callbacks/db-pre-save.md#the-response).
+* `error` *(optional)* — an [API-error envelope](../../for-developers/plugin/callbacks/contract.md#errors). If present, the save is aborted and this error is returned to the client.
 * `upload_log` *(optional)* — file-upload log entries.
 
 {% hint style="warning" %}
@@ -113,4 +130,4 @@ A `pre_save` webhook **must** return a JSON object:
 The response must be **valid JSON**. An **empty body** cannot be parsed and fails the save with `Error unmarshal db_pre_save: EOF`. A webhook that has nothing to change must still return `{"objects": []}`, never an empty response.
 {% endhint %}
 
-For the full callback contract — shared with `db_pre_save` plugin callbacks — see [Plugins → Callbacks](../../for-developers/plugin.md).
+For the full callback contract — shared with `db_pre_save` plugin callbacks — see [Plugins → Callbacks](../../for-developers/plugin/callbacks/README.md).
