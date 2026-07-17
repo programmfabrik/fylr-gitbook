@@ -113,7 +113,7 @@ Everything that is not part of the save itself — config, search, files — has
 **Semantics**
 
 * Only the tokens handed to *this* callback (`api_user_access_token`, `plugin_user_access_token`) are accepted on `api_tx_url`. The URL is valid only while the callback runs and is revoked when it returns.
-* Writes join the save's transaction via a savepoint: they become visible to the rest of the save immediately, and they **commit or roll back together with the surrounding save**. If the save fails after your callback returned, your writes are rolled back with it.
+* Writes execute **inside the save's own transaction**: they are immediately visible to the rest of the save and **commit or roll back together with it**. If the save fails after your callback returned, your writes are rolled back with it.
 * `api_tx_url` behaves identically on PostgreSQL and SQLite. Plugins that must run on both backends can simply prefer it for writes from a pre-save callback.
 
 A robust pattern for existing plugins — try the regular API first, fall back to the transaction on a lock error:
