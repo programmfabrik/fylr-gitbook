@@ -41,6 +41,17 @@ Optional shared secret. If set, **fylr** signs the request body and sends the si
 
 Both are keyed with the secret. Leave empty to send no signature.
 
+A receiver verifies (at least) the SHA-256 signature over the **raw request body**:
+
+```python
+import hashlib, hmac
+
+def verify(headers, body: bytes, secret: str) -> bool:
+    got = headers.get("X-Hub-Signature-256", "")
+    want = "sha256=" + hmac.new(secret.encode(), body, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(got, want)
+```
+
 ### Timeout
 
 Request timeout in seconds. `0` (the default) means no explicit timeout. For a `pre_save` webhook this is the time the **save waits** for the webhook to respond, so keep it short.
@@ -94,7 +105,7 @@ For both modes **fylr** posts a JSON object:
 }
 ```
 
-* `info` carries the [callback contract](../../for-developers/plugin.md) — the API base URL and, **if Include Access Token is enabled**, an access token for calling back into **fylr**.
+* `info` carries the [callback contract](../../for-developers/plugin/callbacks/contract.md) — the API base URL and, **if Include Access Token is enabled**, an access token for calling back into **fylr**.
 * `objects` are the affected records rendered with the `_all_fields` mask. Each carries a `_callback_context.hash` used to match the record on the way back.
 
 ## Response (`pre_save`)
@@ -109,8 +120,8 @@ A `pre_save` webhook **must** return a JSON object:
 }
 ```
 
-* `objects` — the records to update. Each must carry back the **same** `_callback_context.hash` it was sent with and use the `_all_fields` mask. Only records whose hash matches are updated, and only their **user values, comment, pool, tags and rights** are applied (IDs and other system fields are ignored).
-* `error` *(optional)* — an [API-error envelope](../../for-developers/plugin.md#callbacks). If present, the save is aborted and this error is returned to the client.
+* `objects` — the records to update. Each must carry back the **same** `_callback_context.hash` it was sent with and use the `_all_fields` mask. Only records whose hash matches are updated; a returned record replaces the posted one, so return it as received with only the intended changes — see [db\_pre\_save → the response](../../for-developers/plugin/callbacks/db-pre-save.md#the-response).
+* `error` *(optional)* — an [API-error envelope](../../for-developers/plugin/callbacks/contract.md#errors). If present, the save is aborted and this error is returned to the client.
 * `upload_log` *(optional)* — file-upload log entries.
 
 {% hint style="warning" %}
@@ -119,4 +130,4 @@ A `pre_save` webhook **must** return a JSON object:
 The response must be **valid JSON**. An **empty body** cannot be parsed and fails the save with `Error unmarshal db_pre_save: EOF`. A webhook that has nothing to change must still return `{"objects": []}`, never an empty response.
 {% endhint %}
 
-For the full callback contract — shared with `db_pre_save` plugin callbacks — see [Plugins → Callbacks](../../for-developers/plugin.md).
+For the full callback contract — shared with `db_pre_save` plugin callbacks — see [Plugins → Callbacks](../../for-developers/plugin/callbacks/README.md).
