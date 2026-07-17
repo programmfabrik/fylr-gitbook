@@ -2,7 +2,7 @@
 description: >-
   Register the collectors that fylr records may be published to. A collector is
   an external target that hosts the publication; fylr only records that a
-  publication exists and links back to the source record.
+  publication exists and links back to the source re
 ---
 
 # Publications
@@ -43,9 +43,9 @@ An image (PNG or JPG) shown for this collector in the frontend, for example next
 
 How a publication of this collector is labelled in the frontend:
 
-| OPTION | EXAMPLE |
-| ------ | ------- |
-| Name | the collector's display name only |
-| Name: Type | display name and type |
-| Name: Type – &lt;DOI/URN&gt; | display name, type and the identifier (default) |
-| Type | the type only |
+| OPTION                  | EXAMPLE                                         |
+| ----------------------- | ----------------------------------------------- |
+| Name                    | the collector's display name only               |
+| Name: Type              | display name and type                           |
+| Name: Type – \<DOI/URN> | display name, type and the identifier (default) |
+| Type                    | the type only                                   |
