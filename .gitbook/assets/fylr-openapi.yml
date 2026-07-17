@@ -15096,6 +15096,14 @@ paths:
                                                                 this instance (e.g. not included in the license). Frontends should
                                                                 render the section greyed out but visible. Computed per request;
                                                                 omitted when false.
+                                                        not_licensed:
+                                                            type: boolean
+                                                            description: |
+                                                                Only on plugin sections. If true, the license mentions this plugin
+                                                                without granting it, so the plugin is force-disabled at runtime.
+                                                                Unlike `unavailable` the configuration stays editable; frontends
+                                                                should only show a notice. Computed per request; omitted when
+                                                                false.
                                     plugin:
                                         type: object
                                         additionalProperties:
@@ -15129,6 +15137,14 @@ paths:
                                                                     this instance (e.g. not included in the license). Frontends should
                                                                     render the section greyed out but visible. Computed per request;
                                                                     omitted when false.
+                                                            not_licensed:
+                                                                type: boolean
+                                                                description: |
+                                                                    Only on plugin sections. If true, the license mentions this plugin
+                                                                    without granting it, so the plugin is force-disabled at runtime.
+                                                                    Unlike `unavailable` the configuration stays editable; frontends
+                                                                    should only show a notice. Computed per request; omitted when
+                                                                    false.
                 "401":
                     description: |
                         No authenticated user. The request must carry a valid access token.
@@ -16724,6 +16740,95 @@ paths:
                                                                                     versions:
                                                                                         items:
                                                                                             oneOf:
+                                                                                                - description: Recipe "officeconverter:preview"
+                                                                                                  properties:
+                                                                                                    custommetadata:
+                                                                                                        properties:
+                                                                                                            extensions:
+                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                                items:
+                                                                                                                    enum:
+                                                                                                                        - csv
+                                                                                                                        - doc
+                                                                                                                        - docx
+                                                                                                                        - epub
+                                                                                                                        - odp
+                                                                                                                        - ods
+                                                                                                                        - odt
+                                                                                                                        - ppsx
+                                                                                                                        - ppt
+                                                                                                                        - pptx
+                                                                                                                        - rtf
+                                                                                                                        - txt
+                                                                                                                        - xls
+                                                                                                                        - xlsx
+                                                                                                                    type: string
+                                                                                                                type: array
+                                                                                                            recipename:
+                                                                                                                description: Recipe to process the custom metadata.
+                                                                                                                enum:
+                                                                                                                    - _metadata:ocr
+                                                                                                                type: string
+                                                                                                        type: object
+                                                                                                    displayname:
+                                                                                                        type: object
+                                                                                                        properties:
+                                                                                                            de-DE:
+                                                                                                                type: string
+                                                                                                            en-US:
+                                                                                                                type: string
+                                                                                                        example:
+                                                                                                            de-DE: Deutscher text
+                                                                                                            en-US: English text
+                                                                                                    extensions:
+                                                                                                        items:
+                                                                                                            enum:
+                                                                                                                - csv
+                                                                                                                - doc
+                                                                                                                - docx
+                                                                                                                - epub
+                                                                                                                - odp
+                                                                                                                - ods
+                                                                                                                - odt
+                                                                                                                - ppsx
+                                                                                                                - ppt
+                                                                                                                - pptx
+                                                                                                                - rtf
+                                                                                                                - txt
+                                                                                                                - xls
+                                                                                                                - xlsx
+                                                                                                            type: string
+                                                                                                        type: array
+                                                                                                    group:
+                                                                                                        type: string
+                                                                                                    name:
+                                                                                                        type: string
+                                                                                                    params:
+                                                                                                        properties:
+                                                                                                            format:
+                                                                                                                description: output format of the thumbnail [select]
+                                                                                                                enum:
+                                                                                                                    - jpg
+                                                                                                                    - png
+                                                                                                                    - webp
+                                                                                                                type: string
+                                                                                                            resize_mode:
+                                                                                                                description: ' [select]'
+                                                                                                                enum:
+                                                                                                                    - ""
+                                                                                                                    - height
+                                                                                                                    - max
+                                                                                                                    - min
+                                                                                                                    - width
+                                                                                                                type: string
+                                                                                                            size:
+                                                                                                                description: set the output size. [int]
+                                                                                                                type: integer
+                                                                                                        type: object
+                                                                                                    recipename:
+                                                                                                        description: This oneOf block is for "officeconverter:preview"
+                                                                                                        type: string
+                                                                                                  type: object
                                                                                                 - description: Recipe "officeconverter:browserthumbs"
                                                                                                   properties:
                                                                                                     custommetadata:
@@ -16900,95 +17005,6 @@ paths:
                                                                                                         type: object
                                                                                                     recipename:
                                                                                                         description: This oneOf block is for "officeconverter:pdf"
-                                                                                                        type: string
-                                                                                                  type: object
-                                                                                                - description: Recipe "officeconverter:preview"
-                                                                                                  properties:
-                                                                                                    custommetadata:
-                                                                                                        properties:
-                                                                                                            extensions:
-                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                                items:
-                                                                                                                    enum:
-                                                                                                                        - csv
-                                                                                                                        - doc
-                                                                                                                        - docx
-                                                                                                                        - epub
-                                                                                                                        - odp
-                                                                                                                        - ods
-                                                                                                                        - odt
-                                                                                                                        - ppsx
-                                                                                                                        - ppt
-                                                                                                                        - pptx
-                                                                                                                        - rtf
-                                                                                                                        - txt
-                                                                                                                        - xls
-                                                                                                                        - xlsx
-                                                                                                                    type: string
-                                                                                                                type: array
-                                                                                                            recipename:
-                                                                                                                description: Recipe to process the custom metadata.
-                                                                                                                enum:
-                                                                                                                    - _metadata:ocr
-                                                                                                                type: string
-                                                                                                        type: object
-                                                                                                    displayname:
-                                                                                                        type: object
-                                                                                                        properties:
-                                                                                                            de-DE:
-                                                                                                                type: string
-                                                                                                            en-US:
-                                                                                                                type: string
-                                                                                                        example:
-                                                                                                            de-DE: Deutscher text
-                                                                                                            en-US: English text
-                                                                                                    extensions:
-                                                                                                        items:
-                                                                                                            enum:
-                                                                                                                - csv
-                                                                                                                - doc
-                                                                                                                - docx
-                                                                                                                - epub
-                                                                                                                - odp
-                                                                                                                - ods
-                                                                                                                - odt
-                                                                                                                - ppsx
-                                                                                                                - ppt
-                                                                                                                - pptx
-                                                                                                                - rtf
-                                                                                                                - txt
-                                                                                                                - xls
-                                                                                                                - xlsx
-                                                                                                            type: string
-                                                                                                        type: array
-                                                                                                    group:
-                                                                                                        type: string
-                                                                                                    name:
-                                                                                                        type: string
-                                                                                                    params:
-                                                                                                        properties:
-                                                                                                            format:
-                                                                                                                description: output format of the thumbnail [select]
-                                                                                                                enum:
-                                                                                                                    - jpg
-                                                                                                                    - png
-                                                                                                                    - webp
-                                                                                                                type: string
-                                                                                                            resize_mode:
-                                                                                                                description: ' [select]'
-                                                                                                                enum:
-                                                                                                                    - ""
-                                                                                                                    - height
-                                                                                                                    - max
-                                                                                                                    - min
-                                                                                                                    - width
-                                                                                                                type: string
-                                                                                                            size:
-                                                                                                                description: set the output size. [int]
-                                                                                                                type: integer
-                                                                                                        type: object
-                                                                                                    recipename:
-                                                                                                        description: This oneOf block is for "officeconverter:preview"
                                                                                                         type: string
                                                                                                   type: object
                                                                                                 - description: Recipe "pdfconverter:pdfpages"
@@ -18672,83 +18688,6 @@ paths:
                                                                                 versions:
                                                                                     items:
                                                                                         oneOf:
-                                                                                            - description: Recipe "audioconverter:snippet"
-                                                                                              properties:
-                                                                                                custommetadata:
-                                                                                                    properties:
-                                                                                                        extensions:
-                                                                                                            description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                            items:
-                                                                                                                enum:
-                                                                                                                    - aac
-                                                                                                                    - aiff
-                                                                                                                    - dts
-                                                                                                                    - flac
-                                                                                                                    - m4a
-                                                                                                                    - mp2
-                                                                                                                    - mp3
-                                                                                                                    - oga
-                                                                                                                    - ogg
-                                                                                                                    - opus
-                                                                                                                    - ra
-                                                                                                                    - wav
-                                                                                                                    - wma
-                                                                                                                type: string
-                                                                                                            type: array
-                                                                                                        recipename:
-                                                                                                            description: Recipe to process the custom metadata.
-                                                                                                            enum:
-                                                                                                                - _metadata:ocr
-                                                                                                            type: string
-                                                                                                    type: object
-                                                                                                displayname:
-                                                                                                    type: object
-                                                                                                    properties:
-                                                                                                        de-DE:
-                                                                                                            type: string
-                                                                                                        en-US:
-                                                                                                            type: string
-                                                                                                    example:
-                                                                                                        de-DE: Deutscher text
-                                                                                                        en-US: English text
-                                                                                                extensions:
-                                                                                                    items:
-                                                                                                        enum:
-                                                                                                            - aac
-                                                                                                            - aiff
-                                                                                                            - dts
-                                                                                                            - flac
-                                                                                                            - m4a
-                                                                                                            - mp2
-                                                                                                            - mp3
-                                                                                                            - oga
-                                                                                                            - ogg
-                                                                                                            - opus
-                                                                                                            - ra
-                                                                                                            - wav
-                                                                                                            - wma
-                                                                                                        type: string
-                                                                                                    type: array
-                                                                                                group:
-                                                                                                    type: string
-                                                                                                name:
-                                                                                                    type: string
-                                                                                                params:
-                                                                                                    properties:
-                                                                                                        end:
-                                                                                                            description: timestamp to end snippet [string]
-                                                                                                            type: string
-                                                                                                        format:
-                                                                                                            description: ' [string]'
-                                                                                                            type: string
-                                                                                                        start:
-                                                                                                            description: timestamp to start snippet [string]
-                                                                                                            type: string
-                                                                                                    type: object
-                                                                                                recipename:
-                                                                                                    description: This oneOf block is for "audioconverter:snippet"
-                                                                                                    type: string
-                                                                                              type: object
                                                                                             - description: Recipe "audioconverter:convert"
                                                                                               properties:
                                                                                                 custommetadata:
@@ -18906,6 +18845,83 @@ paths:
                                                                                                     type: object
                                                                                                 recipename:
                                                                                                     description: This oneOf block is for "audioconverter:preview"
+                                                                                                    type: string
+                                                                                              type: object
+                                                                                            - description: Recipe "audioconverter:snippet"
+                                                                                              properties:
+                                                                                                custommetadata:
+                                                                                                    properties:
+                                                                                                        extensions:
+                                                                                                            description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                            items:
+                                                                                                                enum:
+                                                                                                                    - aac
+                                                                                                                    - aiff
+                                                                                                                    - dts
+                                                                                                                    - flac
+                                                                                                                    - m4a
+                                                                                                                    - mp2
+                                                                                                                    - mp3
+                                                                                                                    - oga
+                                                                                                                    - ogg
+                                                                                                                    - opus
+                                                                                                                    - ra
+                                                                                                                    - wav
+                                                                                                                    - wma
+                                                                                                                type: string
+                                                                                                            type: array
+                                                                                                        recipename:
+                                                                                                            description: Recipe to process the custom metadata.
+                                                                                                            enum:
+                                                                                                                - _metadata:ocr
+                                                                                                            type: string
+                                                                                                    type: object
+                                                                                                displayname:
+                                                                                                    type: object
+                                                                                                    properties:
+                                                                                                        de-DE:
+                                                                                                            type: string
+                                                                                                        en-US:
+                                                                                                            type: string
+                                                                                                    example:
+                                                                                                        de-DE: Deutscher text
+                                                                                                        en-US: English text
+                                                                                                extensions:
+                                                                                                    items:
+                                                                                                        enum:
+                                                                                                            - aac
+                                                                                                            - aiff
+                                                                                                            - dts
+                                                                                                            - flac
+                                                                                                            - m4a
+                                                                                                            - mp2
+                                                                                                            - mp3
+                                                                                                            - oga
+                                                                                                            - ogg
+                                                                                                            - opus
+                                                                                                            - ra
+                                                                                                            - wav
+                                                                                                            - wma
+                                                                                                        type: string
+                                                                                                    type: array
+                                                                                                group:
+                                                                                                    type: string
+                                                                                                name:
+                                                                                                    type: string
+                                                                                                params:
+                                                                                                    properties:
+                                                                                                        end:
+                                                                                                            description: timestamp to end snippet [string]
+                                                                                                            type: string
+                                                                                                        format:
+                                                                                                            description: ' [string]'
+                                                                                                            type: string
+                                                                                                        start:
+                                                                                                            description: timestamp to start snippet [string]
+                                                                                                            type: string
+                                                                                                    type: object
+                                                                                                recipename:
+                                                                                                    description: This oneOf block is for "audioconverter:snippet"
                                                                                                     type: string
                                                                                               type: object
                                                                                     type: array
@@ -19354,6 +19370,76 @@ paths:
                                                                                 versions:
                                                                                     items:
                                                                                         oneOf:
+                                                                                            - description: Recipe "officeconverter:pdf"
+                                                                                              properties:
+                                                                                                custommetadata:
+                                                                                                    properties:
+                                                                                                        extensions:
+                                                                                                            description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                            items:
+                                                                                                                enum:
+                                                                                                                    - csv
+                                                                                                                    - doc
+                                                                                                                    - docx
+                                                                                                                    - epub
+                                                                                                                    - odp
+                                                                                                                    - ods
+                                                                                                                    - odt
+                                                                                                                    - ppsx
+                                                                                                                    - ppt
+                                                                                                                    - pptx
+                                                                                                                    - rtf
+                                                                                                                    - txt
+                                                                                                                    - xls
+                                                                                                                    - xlsx
+                                                                                                                type: string
+                                                                                                            type: array
+                                                                                                        recipename:
+                                                                                                            description: Recipe to process the custom metadata.
+                                                                                                            enum:
+                                                                                                                - _metadata:ocr
+                                                                                                            type: string
+                                                                                                    type: object
+                                                                                                displayname:
+                                                                                                    type: object
+                                                                                                    properties:
+                                                                                                        de-DE:
+                                                                                                            type: string
+                                                                                                        en-US:
+                                                                                                            type: string
+                                                                                                    example:
+                                                                                                        de-DE: Deutscher text
+                                                                                                        en-US: English text
+                                                                                                extensions:
+                                                                                                    items:
+                                                                                                        enum:
+                                                                                                            - csv
+                                                                                                            - doc
+                                                                                                            - docx
+                                                                                                            - epub
+                                                                                                            - odp
+                                                                                                            - ods
+                                                                                                            - odt
+                                                                                                            - ppsx
+                                                                                                            - ppt
+                                                                                                            - pptx
+                                                                                                            - rtf
+                                                                                                            - txt
+                                                                                                            - xls
+                                                                                                            - xlsx
+                                                                                                        type: string
+                                                                                                    type: array
+                                                                                                group:
+                                                                                                    type: string
+                                                                                                name:
+                                                                                                    type: string
+                                                                                                params:
+                                                                                                    properties: {}
+                                                                                                    type: object
+                                                                                                recipename:
+                                                                                                    description: This oneOf block is for "officeconverter:pdf"
+                                                                                                    type: string
+                                                                                              type: object
                                                                                             - description: Recipe "officeconverter:preview"
                                                                                               properties:
                                                                                                 custommetadata:
@@ -19628,76 +19714,6 @@ paths:
                                                                                                     type: object
                                                                                                 recipename:
                                                                                                     description: This oneOf block is for "officeconverter:font"
-                                                                                                    type: string
-                                                                                              type: object
-                                                                                            - description: Recipe "officeconverter:pdf"
-                                                                                              properties:
-                                                                                                custommetadata:
-                                                                                                    properties:
-                                                                                                        extensions:
-                                                                                                            description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                            items:
-                                                                                                                enum:
-                                                                                                                    - csv
-                                                                                                                    - doc
-                                                                                                                    - docx
-                                                                                                                    - epub
-                                                                                                                    - odp
-                                                                                                                    - ods
-                                                                                                                    - odt
-                                                                                                                    - ppsx
-                                                                                                                    - ppt
-                                                                                                                    - pptx
-                                                                                                                    - rtf
-                                                                                                                    - txt
-                                                                                                                    - xls
-                                                                                                                    - xlsx
-                                                                                                                type: string
-                                                                                                            type: array
-                                                                                                        recipename:
-                                                                                                            description: Recipe to process the custom metadata.
-                                                                                                            enum:
-                                                                                                                - _metadata:ocr
-                                                                                                            type: string
-                                                                                                    type: object
-                                                                                                displayname:
-                                                                                                    type: object
-                                                                                                    properties:
-                                                                                                        de-DE:
-                                                                                                            type: string
-                                                                                                        en-US:
-                                                                                                            type: string
-                                                                                                    example:
-                                                                                                        de-DE: Deutscher text
-                                                                                                        en-US: English text
-                                                                                                extensions:
-                                                                                                    items:
-                                                                                                        enum:
-                                                                                                            - csv
-                                                                                                            - doc
-                                                                                                            - docx
-                                                                                                            - epub
-                                                                                                            - odp
-                                                                                                            - ods
-                                                                                                            - odt
-                                                                                                            - ppsx
-                                                                                                            - ppt
-                                                                                                            - pptx
-                                                                                                            - rtf
-                                                                                                            - txt
-                                                                                                            - xls
-                                                                                                            - xlsx
-                                                                                                        type: string
-                                                                                                    type: array
-                                                                                                group:
-                                                                                                    type: string
-                                                                                                name:
-                                                                                                    type: string
-                                                                                                params:
-                                                                                                    properties: {}
-                                                                                                    type: object
-                                                                                                recipename:
-                                                                                                    description: This oneOf block is for "officeconverter:pdf"
                                                                                                     type: string
                                                                                               type: object
                                                                                     type: array
@@ -21257,83 +21273,6 @@ paths:
                                                                                     versions:
                                                                                         items:
                                                                                             oneOf:
-                                                                                                - description: Recipe "audioconverter:snippet"
-                                                                                                  properties:
-                                                                                                    custommetadata:
-                                                                                                        properties:
-                                                                                                            extensions:
-                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                                items:
-                                                                                                                    enum:
-                                                                                                                        - aac
-                                                                                                                        - aiff
-                                                                                                                        - dts
-                                                                                                                        - flac
-                                                                                                                        - m4a
-                                                                                                                        - mp2
-                                                                                                                        - mp3
-                                                                                                                        - oga
-                                                                                                                        - ogg
-                                                                                                                        - opus
-                                                                                                                        - ra
-                                                                                                                        - wav
-                                                                                                                        - wma
-                                                                                                                    type: string
-                                                                                                                type: array
-                                                                                                            recipename:
-                                                                                                                description: Recipe to process the custom metadata.
-                                                                                                                enum:
-                                                                                                                    - _metadata:ocr
-                                                                                                                type: string
-                                                                                                        type: object
-                                                                                                    displayname:
-                                                                                                        type: object
-                                                                                                        properties:
-                                                                                                            de-DE:
-                                                                                                                type: string
-                                                                                                            en-US:
-                                                                                                                type: string
-                                                                                                        example:
-                                                                                                            de-DE: Deutscher text
-                                                                                                            en-US: English text
-                                                                                                    extensions:
-                                                                                                        items:
-                                                                                                            enum:
-                                                                                                                - aac
-                                                                                                                - aiff
-                                                                                                                - dts
-                                                                                                                - flac
-                                                                                                                - m4a
-                                                                                                                - mp2
-                                                                                                                - mp3
-                                                                                                                - oga
-                                                                                                                - ogg
-                                                                                                                - opus
-                                                                                                                - ra
-                                                                                                                - wav
-                                                                                                                - wma
-                                                                                                            type: string
-                                                                                                        type: array
-                                                                                                    group:
-                                                                                                        type: string
-                                                                                                    name:
-                                                                                                        type: string
-                                                                                                    params:
-                                                                                                        properties:
-                                                                                                            end:
-                                                                                                                description: timestamp to end snippet [string]
-                                                                                                                type: string
-                                                                                                            format:
-                                                                                                                description: ' [string]'
-                                                                                                                type: string
-                                                                                                            start:
-                                                                                                                description: timestamp to start snippet [string]
-                                                                                                                type: string
-                                                                                                        type: object
-                                                                                                    recipename:
-                                                                                                        description: This oneOf block is for "audioconverter:snippet"
-                                                                                                        type: string
-                                                                                                  type: object
                                                                                                 - description: Recipe "audioconverter:convert"
                                                                                                   properties:
                                                                                                     custommetadata:
@@ -21493,6 +21432,83 @@ paths:
                                                                                                         description: This oneOf block is for "audioconverter:preview"
                                                                                                         type: string
                                                                                                   type: object
+                                                                                                - description: Recipe "audioconverter:snippet"
+                                                                                                  properties:
+                                                                                                    custommetadata:
+                                                                                                        properties:
+                                                                                                            extensions:
+                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                                items:
+                                                                                                                    enum:
+                                                                                                                        - aac
+                                                                                                                        - aiff
+                                                                                                                        - dts
+                                                                                                                        - flac
+                                                                                                                        - m4a
+                                                                                                                        - mp2
+                                                                                                                        - mp3
+                                                                                                                        - oga
+                                                                                                                        - ogg
+                                                                                                                        - opus
+                                                                                                                        - ra
+                                                                                                                        - wav
+                                                                                                                        - wma
+                                                                                                                    type: string
+                                                                                                                type: array
+                                                                                                            recipename:
+                                                                                                                description: Recipe to process the custom metadata.
+                                                                                                                enum:
+                                                                                                                    - _metadata:ocr
+                                                                                                                type: string
+                                                                                                        type: object
+                                                                                                    displayname:
+                                                                                                        type: object
+                                                                                                        properties:
+                                                                                                            de-DE:
+                                                                                                                type: string
+                                                                                                            en-US:
+                                                                                                                type: string
+                                                                                                        example:
+                                                                                                            de-DE: Deutscher text
+                                                                                                            en-US: English text
+                                                                                                    extensions:
+                                                                                                        items:
+                                                                                                            enum:
+                                                                                                                - aac
+                                                                                                                - aiff
+                                                                                                                - dts
+                                                                                                                - flac
+                                                                                                                - m4a
+                                                                                                                - mp2
+                                                                                                                - mp3
+                                                                                                                - oga
+                                                                                                                - ogg
+                                                                                                                - opus
+                                                                                                                - ra
+                                                                                                                - wav
+                                                                                                                - wma
+                                                                                                            type: string
+                                                                                                        type: array
+                                                                                                    group:
+                                                                                                        type: string
+                                                                                                    name:
+                                                                                                        type: string
+                                                                                                    params:
+                                                                                                        properties:
+                                                                                                            end:
+                                                                                                                description: timestamp to end snippet [string]
+                                                                                                                type: string
+                                                                                                            format:
+                                                                                                                description: ' [string]'
+                                                                                                                type: string
+                                                                                                            start:
+                                                                                                                description: timestamp to start snippet [string]
+                                                                                                                type: string
+                                                                                                        type: object
+                                                                                                    recipename:
+                                                                                                        description: This oneOf block is for "audioconverter:snippet"
+                                                                                                        type: string
+                                                                                                  type: object
                                                                                         type: array
                                                                                     watermark:
                                                                                         description: If set, frontends can use this information to prefer to display a non-watermark version over one with a watermark.
@@ -21552,6 +21568,54 @@ paths:
                                                                                     versions:
                                                                                         items:
                                                                                             oneOf:
+                                                                                                - description: Recipe "imageconverter:vectortosvg"
+                                                                                                  properties:
+                                                                                                    custommetadata:
+                                                                                                        properties:
+                                                                                                            extensions:
+                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                                items:
+                                                                                                                    enum:
+                                                                                                                        - ai
+                                                                                                                        - eps
+                                                                                                                        - wmf
+                                                                                                                    type: string
+                                                                                                                type: array
+                                                                                                            recipename:
+                                                                                                                description: Recipe to process the custom metadata.
+                                                                                                                enum:
+                                                                                                                    - _metadata:ocr
+                                                                                                                type: string
+                                                                                                        type: object
+                                                                                                    displayname:
+                                                                                                        type: object
+                                                                                                        properties:
+                                                                                                            de-DE:
+                                                                                                                type: string
+                                                                                                            en-US:
+                                                                                                                type: string
+                                                                                                        example:
+                                                                                                            de-DE: Deutscher text
+                                                                                                            en-US: English text
+                                                                                                    extensions:
+                                                                                                        items:
+                                                                                                            enum:
+                                                                                                                - ai
+                                                                                                                - eps
+                                                                                                                - wmf
+                                                                                                            type: string
+                                                                                                        type: array
+                                                                                                    group:
+                                                                                                        type: string
+                                                                                                    name:
+                                                                                                        type: string
+                                                                                                    params:
+                                                                                                        properties: {}
+                                                                                                        type: object
+                                                                                                    recipename:
+                                                                                                        description: This oneOf block is for "imageconverter:vectortosvg"
+                                                                                                        type: string
+                                                                                                  type: object
                                                                                                 - description: Recipe "imageconverter:browserthumbs"
                                                                                                   properties:
                                                                                                     custommetadata:
@@ -21842,54 +21906,6 @@ paths:
                                                                                                         description: This oneOf block is for "imageconverter:preview_pool_watermark"
                                                                                                         type: string
                                                                                                   type: object
-                                                                                                - description: Recipe "imageconverter:vectortosvg"
-                                                                                                  properties:
-                                                                                                    custommetadata:
-                                                                                                        properties:
-                                                                                                            extensions:
-                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                                items:
-                                                                                                                    enum:
-                                                                                                                        - ai
-                                                                                                                        - eps
-                                                                                                                        - wmf
-                                                                                                                    type: string
-                                                                                                                type: array
-                                                                                                            recipename:
-                                                                                                                description: Recipe to process the custom metadata.
-                                                                                                                enum:
-                                                                                                                    - _metadata:ocr
-                                                                                                                type: string
-                                                                                                        type: object
-                                                                                                    displayname:
-                                                                                                        type: object
-                                                                                                        properties:
-                                                                                                            de-DE:
-                                                                                                                type: string
-                                                                                                            en-US:
-                                                                                                                type: string
-                                                                                                        example:
-                                                                                                            de-DE: Deutscher text
-                                                                                                            en-US: English text
-                                                                                                    extensions:
-                                                                                                        items:
-                                                                                                            enum:
-                                                                                                                - ai
-                                                                                                                - eps
-                                                                                                                - wmf
-                                                                                                            type: string
-                                                                                                        type: array
-                                                                                                    group:
-                                                                                                        type: string
-                                                                                                    name:
-                                                                                                        type: string
-                                                                                                    params:
-                                                                                                        properties: {}
-                                                                                                        type: object
-                                                                                                    recipename:
-                                                                                                        description: This oneOf block is for "imageconverter:vectortosvg"
-                                                                                                        type: string
-                                                                                                  type: object
                                                                                         type: array
                                                                                     watermark:
                                                                                         description: If set, frontends can use this information to prefer to display a non-watermark version over one with a watermark.
@@ -21939,6 +21955,76 @@ paths:
                                                                                     versions:
                                                                                         items:
                                                                                             oneOf:
+                                                                                                - description: Recipe "officeconverter:pdf"
+                                                                                                  properties:
+                                                                                                    custommetadata:
+                                                                                                        properties:
+                                                                                                            extensions:
+                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                                items:
+                                                                                                                    enum:
+                                                                                                                        - csv
+                                                                                                                        - doc
+                                                                                                                        - docx
+                                                                                                                        - epub
+                                                                                                                        - odp
+                                                                                                                        - ods
+                                                                                                                        - odt
+                                                                                                                        - ppsx
+                                                                                                                        - ppt
+                                                                                                                        - pptx
+                                                                                                                        - rtf
+                                                                                                                        - txt
+                                                                                                                        - xls
+                                                                                                                        - xlsx
+                                                                                                                    type: string
+                                                                                                                type: array
+                                                                                                            recipename:
+                                                                                                                description: Recipe to process the custom metadata.
+                                                                                                                enum:
+                                                                                                                    - _metadata:ocr
+                                                                                                                type: string
+                                                                                                        type: object
+                                                                                                    displayname:
+                                                                                                        type: object
+                                                                                                        properties:
+                                                                                                            de-DE:
+                                                                                                                type: string
+                                                                                                            en-US:
+                                                                                                                type: string
+                                                                                                        example:
+                                                                                                            de-DE: Deutscher text
+                                                                                                            en-US: English text
+                                                                                                    extensions:
+                                                                                                        items:
+                                                                                                            enum:
+                                                                                                                - csv
+                                                                                                                - doc
+                                                                                                                - docx
+                                                                                                                - epub
+                                                                                                                - odp
+                                                                                                                - ods
+                                                                                                                - odt
+                                                                                                                - ppsx
+                                                                                                                - ppt
+                                                                                                                - pptx
+                                                                                                                - rtf
+                                                                                                                - txt
+                                                                                                                - xls
+                                                                                                                - xlsx
+                                                                                                            type: string
+                                                                                                        type: array
+                                                                                                    group:
+                                                                                                        type: string
+                                                                                                    name:
+                                                                                                        type: string
+                                                                                                    params:
+                                                                                                        properties: {}
+                                                                                                        type: object
+                                                                                                    recipename:
+                                                                                                        description: This oneOf block is for "officeconverter:pdf"
+                                                                                                        type: string
+                                                                                                  type: object
                                                                                                 - description: Recipe "officeconverter:preview"
                                                                                                   properties:
                                                                                                     custommetadata:
@@ -22026,6 +22112,85 @@ paths:
                                                                                                         type: object
                                                                                                     recipename:
                                                                                                         description: This oneOf block is for "officeconverter:preview"
+                                                                                                        type: string
+                                                                                                  type: object
+                                                                                                - description: Recipe "pdfconverter:pdfpages"
+                                                                                                  properties:
+                                                                                                    custommetadata:
+                                                                                                        properties:
+                                                                                                            extensions:
+                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
+                                                                                                                items:
+                                                                                                                    enum:
+                                                                                                                        - csv
+                                                                                                                        - doc
+                                                                                                                        - docx
+                                                                                                                        - epub
+                                                                                                                        - indd
+                                                                                                                        - odp
+                                                                                                                        - ods
+                                                                                                                        - odt
+                                                                                                                        - pdf
+                                                                                                                        - ppsx
+                                                                                                                        - ppt
+                                                                                                                        - pptx
+                                                                                                                        - rtf
+                                                                                                                        - txt
+                                                                                                                        - xls
+                                                                                                                        - xlsx
+                                                                                                                    type: string
+                                                                                                                type: array
+                                                                                                            recipename:
+                                                                                                                description: Recipe to process the custom metadata.
+                                                                                                                enum:
+                                                                                                                    - _metadata:ocr
+                                                                                                                type: string
+                                                                                                        type: object
+                                                                                                    displayname:
+                                                                                                        type: object
+                                                                                                        properties:
+                                                                                                            de-DE:
+                                                                                                                type: string
+                                                                                                            en-US:
+                                                                                                                type: string
+                                                                                                        example:
+                                                                                                            de-DE: Deutscher text
+                                                                                                            en-US: English text
+                                                                                                    extensions:
+                                                                                                        items:
+                                                                                                            enum:
+                                                                                                                - csv
+                                                                                                                - doc
+                                                                                                                - docx
+                                                                                                                - epub
+                                                                                                                - indd
+                                                                                                                - odp
+                                                                                                                - ods
+                                                                                                                - odt
+                                                                                                                - pdf
+                                                                                                                - ppsx
+                                                                                                                - ppt
+                                                                                                                - pptx
+                                                                                                                - rtf
+                                                                                                                - txt
+                                                                                                                - xls
+                                                                                                                - xlsx
+                                                                                                            type: string
+                                                                                                        type: array
+                                                                                                    group:
+                                                                                                        type: string
+                                                                                                    name:
+                                                                                                        type: string
+                                                                                                    params:
+                                                                                                        properties:
+                                                                                                            min_size:
+                                                                                                                description: |-
+                                                                                                                    Size in pixels of the shortest side of the page.
+                                                                                                                     [int]
+                                                                                                                type: integer
+                                                                                                        type: object
+                                                                                                    recipename:
+                                                                                                        description: This oneOf block is for "pdfconverter:pdfpages"
                                                                                                         type: string
                                                                                                   type: object
                                                                                                 - description: Recipe "officeconverter:browserthumbs"
@@ -22134,155 +22299,6 @@ paths:
                                                                                                         type: object
                                                                                                     recipename:
                                                                                                         description: This oneOf block is for "officeconverter:font"
-                                                                                                        type: string
-                                                                                                  type: object
-                                                                                                - description: Recipe "officeconverter:pdf"
-                                                                                                  properties:
-                                                                                                    custommetadata:
-                                                                                                        properties:
-                                                                                                            extensions:
-                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                                items:
-                                                                                                                    enum:
-                                                                                                                        - csv
-                                                                                                                        - doc
-                                                                                                                        - docx
-                                                                                                                        - epub
-                                                                                                                        - odp
-                                                                                                                        - ods
-                                                                                                                        - odt
-                                                                                                                        - ppsx
-                                                                                                                        - ppt
-                                                                                                                        - pptx
-                                                                                                                        - rtf
-                                                                                                                        - txt
-                                                                                                                        - xls
-                                                                                                                        - xlsx
-                                                                                                                    type: string
-                                                                                                                type: array
-                                                                                                            recipename:
-                                                                                                                description: Recipe to process the custom metadata.
-                                                                                                                enum:
-                                                                                                                    - _metadata:ocr
-                                                                                                                type: string
-                                                                                                        type: object
-                                                                                                    displayname:
-                                                                                                        type: object
-                                                                                                        properties:
-                                                                                                            de-DE:
-                                                                                                                type: string
-                                                                                                            en-US:
-                                                                                                                type: string
-                                                                                                        example:
-                                                                                                            de-DE: Deutscher text
-                                                                                                            en-US: English text
-                                                                                                    extensions:
-                                                                                                        items:
-                                                                                                            enum:
-                                                                                                                - csv
-                                                                                                                - doc
-                                                                                                                - docx
-                                                                                                                - epub
-                                                                                                                - odp
-                                                                                                                - ods
-                                                                                                                - odt
-                                                                                                                - ppsx
-                                                                                                                - ppt
-                                                                                                                - pptx
-                                                                                                                - rtf
-                                                                                                                - txt
-                                                                                                                - xls
-                                                                                                                - xlsx
-                                                                                                            type: string
-                                                                                                        type: array
-                                                                                                    group:
-                                                                                                        type: string
-                                                                                                    name:
-                                                                                                        type: string
-                                                                                                    params:
-                                                                                                        properties: {}
-                                                                                                        type: object
-                                                                                                    recipename:
-                                                                                                        description: This oneOf block is for "officeconverter:pdf"
-                                                                                                        type: string
-                                                                                                  type: object
-                                                                                                - description: Recipe "pdfconverter:pdfpages"
-                                                                                                  properties:
-                                                                                                    custommetadata:
-                                                                                                        properties:
-                                                                                                            extensions:
-                                                                                                                description: If given, only run the custom metadata if the extension of the version matches.
-                                                                                                                items:
-                                                                                                                    enum:
-                                                                                                                        - csv
-                                                                                                                        - doc
-                                                                                                                        - docx
-                                                                                                                        - epub
-                                                                                                                        - indd
-                                                                                                                        - odp
-                                                                                                                        - ods
-                                                                                                                        - odt
-                                                                                                                        - pdf
-                                                                                                                        - ppsx
-                                                                                                                        - ppt
-                                                                                                                        - pptx
-                                                                                                                        - rtf
-                                                                                                                        - txt
-                                                                                                                        - xls
-                                                                                                                        - xlsx
-                                                                                                                    type: string
-                                                                                                                type: array
-                                                                                                            recipename:
-                                                                                                                description: Recipe to process the custom metadata.
-                                                                                                                enum:
-                                                                                                                    - _metadata:ocr
-                                                                                                                type: string
-                                                                                                        type: object
-                                                                                                    displayname:
-                                                                                                        type: object
-                                                                                                        properties:
-                                                                                                            de-DE:
-                                                                                                                type: string
-                                                                                                            en-US:
-                                                                                                                type: string
-                                                                                                        example:
-                                                                                                            de-DE: Deutscher text
-                                                                                                            en-US: English text
-                                                                                                    extensions:
-                                                                                                        items:
-                                                                                                            enum:
-                                                                                                                - csv
-                                                                                                                - doc
-                                                                                                                - docx
-                                                                                                                - epub
-                                                                                                                - indd
-                                                                                                                - odp
-                                                                                                                - ods
-                                                                                                                - odt
-                                                                                                                - pdf
-                                                                                                                - ppsx
-                                                                                                                - ppt
-                                                                                                                - pptx
-                                                                                                                - rtf
-                                                                                                                - txt
-                                                                                                                - xls
-                                                                                                                - xlsx
-                                                                                                            type: string
-                                                                                                        type: array
-                                                                                                    group:
-                                                                                                        type: string
-                                                                                                    name:
-                                                                                                        type: string
-                                                                                                    params:
-                                                                                                        properties:
-                                                                                                            min_size:
-                                                                                                                description: |-
-                                                                                                                    Size in pixels of the shortest side of the page.
-                                                                                                                     [int]
-                                                                                                                type: integer
-                                                                                                        type: object
-                                                                                                    recipename:
-                                                                                                        description: This oneOf block is for "pdfconverter:pdfpages"
                                                                                                         type: string
                                                                                                   type: object
                                                                                         type: array
@@ -36905,6 +36921,84 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/PluginError'
+    /plugin/marketplace:
+        x-path: /plugin/marketplace
+        description: |
+            The plugin marketplace: a curated catalog of plugins offered for
+            installation. Requires the system right `system.root` or
+            `system.plugin`, like the manage API.
+        get:
+            summary: Read the plugin marketplace catalog.
+            description: |
+                Returns the catalog of plugins offered for installation. The catalog
+                ships with the **fylr** release. Every entry carries the install `url`
+                of its ZIP — install it by passing that URL to `PUT /plugin/manage`
+                with `type: url`. Private and paid plugins are delivered **sealed**
+                (encrypted), so their ZIP is safe to publish; `public` only reflects
+                the source repository's visibility, not whether there is a `url`.
+            responses:
+                "200":
+                    description: The plugin marketplace catalog.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PluginMarketplaceCatalog'
+                "403":
+                    description: |
+                        The user holds neither `system.root` nor `system.plugin`
+                        (`code: SystemRightRequired`).
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ForbiddenError'
+    /plugin/marketplace/{name}/readme:
+        x-path: /plugin/marketplace/{name}/readme
+        description: |
+            The full README of a marketplace plugin — its "more information"
+            documentation, shown in the shop behind a button. Requires the system
+            right `system.root` or `system.plugin`.
+        get:
+            summary: Read a marketplace plugin's README.
+            description: |
+                Returns the `README.md` bundled next to the manifest in the plugin's
+                install ZIP, with its images inlined as data URIs so it renders
+                self-contained. Only the ZIP directory and the README entry are
+                transferred (HTTP range requests), not the whole ZIP. An empty
+                `readme` means the plugin ships no README.
+            parameters:
+                - name: name
+                  in: path
+                  required: true
+                  description: The plugin's internal `name`, as listed in the catalog.
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: The plugin's README.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                required:
+                                    - name
+                                    - readme
+                                properties:
+                                    name:
+                                        type: string
+                                        description: The plugin's internal name.
+                                    readme:
+                                        type: string
+                                        description: |
+                                            The README as Markdown (images inlined as data URIs), or
+                                            an empty string if the plugin ships no README.
+                "403":
+                    description: |
+                        The user holds neither `system.root` nor `system.plugin`
+                        (`code: SystemRightRequired`).
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ForbiddenError'
     /plugin/manage:
         x-path: /plugin/manage
         description: |
@@ -36963,8 +37057,12 @@ paths:
                 "400":
                     description: |
                         A plugin with this name already exists
-                        (`code: PluginDuplicateName`), the instance is read-only
-                        (`code: ReadOnlyMode`), or the payload could not be parsed.
+                        (`code: PluginDuplicateName`), a declared dependency is not
+                        installed (`code: PluginDependencyNotInstalled`) or not
+                        enabled while `enabled` was requested
+                        (`code: PluginDependencyNotEnabled`), the instance is
+                        read-only (`code: ReadOnlyMode`), or the payload could not be
+                        parsed.
                     content:
                         application/json:
                             schema:
@@ -37038,7 +37136,12 @@ paths:
                                 $ref: '#/components/schemas/PluginManageApi'
                 "400":
                     description: |
-                        The body `id` does not match the path `{id}`, the instance is
+                        The body `id` does not match the path `{id}`, a declared
+                        dependency is not installed
+                        (`code: PluginDependencyNotInstalled`) or not enabled while
+                        `enabled` was requested (`code: PluginDependencyNotEnabled`),
+                        the plugin is being disabled while an enabled plugin depends
+                        on it (`code: PluginRequiredByOthers`), the instance is
                         read-only (`code: ReadOnlyMode`), or the payload could not be
                         parsed.
                     content:
@@ -37074,7 +37177,10 @@ paths:
                                 $ref: '#/components/schemas/PluginDeleteAck'
                 "400":
                     description: |
-                        The instance is read-only (`code: ReadOnlyMode`).
+                        An enabled plugin depends on this one
+                        (`code: PluginRequiredByOthers`, dependents have to be
+                        disabled or removed first), or the instance is read-only
+                        (`code: ReadOnlyMode`).
                     content:
                         application/json:
                             schema:
@@ -40035,6 +40141,14 @@ paths:
                                                                     this instance (e.g. not included in the license). Frontends should
                                                                     render the section greyed out but visible. Computed per request;
                                                                     omitted when false.
+                                                            not_licensed:
+                                                                type: boolean
+                                                                description: |
+                                                                    Only on plugin sections. If true, the license mentions this plugin
+                                                                    without granting it, so the plugin is force-disabled at runtime.
+                                                                    Unlike `unavailable` the configuration stays editable; frontends
+                                                                    should only show a notice. Computed per request; omitted when
+                                                                    false.
                 "401":
                     description: |
                         No authenticated user. The request must carry a valid access token.
@@ -43616,9 +43730,10 @@ components:
             type: object
             description: |
                 Error returned by the plugin static-asset, extension-dispatch and
-                management routes when the addressed plugin is unknown, disabled, or
-                conflicts with an existing one. The HTTP status code depends on the
-                `code` (404 for `PluginNotFound`, 400 for the others).
+                management routes when the addressed plugin is unknown, disabled,
+                conflicts with an existing one, or is not licensed. The HTTP status
+                code depends on the `code` (404 for `PluginNotFound`, 403 for
+                `PluginNotLicensed`, 400 for the others).
             required:
                 - code
                 - error
@@ -43639,6 +43754,26 @@ components:
                             (HTTP 400).
                           * `PluginDuplicateName` — a `PUT /plugin/manage` tried to create
                             a plugin whose `name` is already taken (HTTP 400).
+                          * `PluginNotLicensed` — a `PUT`/`POST /plugin/manage` tried to
+                            save a plugin as `enabled` that the license does not grant: a
+                            paid plugin (`licensed`, per the marketplace catalog) needs an
+                            explicit grant, a free one only fails when the license
+                            mentions it without granting it (HTTP 403).
+                          * `PluginDependencyNotInstalled` — a `PUT`/`POST /plugin/manage`
+                            tried to save a plugin whose declared dependencies (manifest
+                            `plugin.dependencies` plus the marketplace catalog entry for the
+                            install URL) are not all installed; `parameters.dependencies`
+                            lists the missing names (HTTP 400).
+                          * `PluginDependencyNotEnabled` — a `PUT`/`POST /plugin/manage`
+                            tried to save a plugin as `enabled` while one of its
+                            dependencies is disabled; `parameters.dependencies` lists
+                            them (HTTP 400).
+                          * `PluginRequiredByOthers` — a `POST` or `DELETE
+                            /plugin/manage/{id}` tried to disable or delete a plugin an
+                            *enabled* plugin depends on; `parameters.dependents` lists the
+                            dependents. Disabled dependents don't block — they are inert,
+                            and re-enabling them is refused until the dependency is back
+                            (HTTP 400).
 
                         Other 400 codes from the server pipeline (request parsing,
                         `ReadOnlyMode` when the instance is read-only, ...) may also
@@ -43647,6 +43782,10 @@ components:
                         - PluginNotFound
                         - PluginDisabled
                         - PluginDuplicateName
+                        - PluginNotLicensed
+                        - PluginDependencyNotInstalled
+                        - PluginDependencyNotEnabled
+                        - PluginRequiredByOthers
                 error:
                     type: string
                     description: Human-readable message, ending with a `Package` / `Code` footer.
@@ -43671,6 +43810,7 @@ components:
                     type: integer
                     enum:
                         - 400
+                        - 403
                         - 404
             example:
                 code: PluginDisabled
@@ -43714,8 +43854,35 @@ components:
                     type: boolean
                     description: |
                         Whether the plugin is enabled. A freshly uploaded plugin is
-                        created disabled (`false`); enable it with an update.
+                        created disabled (`false`); enable it with an update. If the
+                        license mentions the plugin without granting it (see `license`),
+                        enabling it is rejected with `PluginNotLicensed` and the plugin is
+                        kept disabled at runtime.
                     nullable: true
+                license:
+                    type: object
+                    description: |
+                        The license info block for this plugin, present **only** when the
+                        license mentions the plugin by its internal name (possibly as an
+                        empty object `{}`). When this block is present it must carry
+                        `"enabled": true` for the plugin to be allowed; otherwise the
+                        plugin cannot be enabled and is force-disabled at runtime. Plugins
+                        the license does not mention are unrestricted and omit this field.
+                    additionalProperties: true
+                encrypted:
+                    type: boolean
+                    description: |
+                        `true` when the plugin arrived as a sealed (encrypted) package and
+                        was decrypted at install. Read-only: derived from the delivered
+                        artifact, values sent in requests are ignored.
+                licensed:
+                    type: boolean
+                    description: |
+                        `true` when the marketplace catalog marks the plugin as paid: it can be
+                        installed freely, but the instance license must grant it by name
+                        (`"enabled": true` in the license's `plugins` block) before it can
+                        be enabled. Read-only: stamped from the catalog at install, values
+                        sent in requests are ignored.
                 auto_added:
                     type: boolean
                     description: |
@@ -43804,6 +43971,157 @@ components:
                         - true
             example:
                 acknowledged: true
+        PluginMarketplaceCatalog:
+            type: object
+            description: |
+                The plugin marketplace catalog — the list of plugins offered for installation.
+                It is compiled from the bundled default catalog that ships with the
+                **fylr** release (`resources/pluginmarketplace/catalog.json`, source
+                `programmfabrik`) plus any sources the system administrator configures in
+                `fylr.yml` under `plugin.marketplace.sources` (inline entries, or a URL to a
+                document of this shape). Every entry carries the `source` it came from.
+            required:
+                - plugins
+            properties:
+                plugins:
+                    type: array
+                    description: The compiled catalog entries.
+                    items:
+                        type: object
+                        required:
+                            - name
+                            - public
+                            - url
+                            - custom_data_type
+                            - source
+                        properties:
+                            source:
+                                type: string
+                                description: |
+                                    Name of the source this entry came from — the bundled default
+                                    (`programmfabrik`) or a configured `plugin.marketplace.sources` entry.
+                            name:
+                                type: string
+                                description: |
+                                    Internal plugin name (the manifest `name:`). Matches the
+                                    `name` of an installed plugin in the manage API.
+                            name_long:
+                                type: string
+                                description: Long plugin name, usually the repository name.
+                            description_l10n:
+                                type: object
+                                description: |
+                                    The plugin's short "starting point" description shown in the
+                                    marketplace list and detail, as Markdown, keyed by language
+                                    (e.g. `de-DE`, `en-US`). The whole map is served so the frontend
+                                    can render the viewer's language. Sourced from the plugin
+                                    manifest's `plugin.info`. The full write-up is the README, fetched
+                                    on demand from `GET /plugin/marketplace/{name}/readme`.
+                                additionalProperties:
+                                    type: string
+                            category:
+                                type: string
+                                description: |
+                                    Stable slug grouping the entry in the marketplace UI: one of
+                                    `authority`, `geo`, `editor`, `media`, `integration`, `ai`. Empty
+                                    or absent means "other". The frontend localizes it to a section
+                                    heading.
+                            public:
+                                type: boolean
+                                description: |
+                                    Visibility of the plugin's source repository (public or private on
+                                    GitHub). Informational only — it does NOT gate the install `url`;
+                                    every offered plugin carries one.
+                            url:
+                                type: string
+                                description: |
+                                    Download URL of the plugin's install ZIP, suitable as the `url` of a
+                                    `PUT /plugin/manage` install request with `type: url`. Present for
+                                    every offered plugin, including private and paid ones: those are
+                                    delivered **sealed** (encrypted), so the ZIP is safe to publish —
+                                    currently a GitHub Pages URL with a hashed filename. fylr's built-in
+                                    keys, or a source `privateKey`, open a sealed plugin.
+                            repository_url:
+                                type: string
+                                description: URL of the source repository.
+                            documentation_url:
+                                type: string
+                                description: URL of the plugin documentation.
+                            developed_by:
+                                type: string
+                                description: Who develops the plugin.
+                            software_license:
+                                type: object
+                                description: The software license the plugin code is under.
+                                properties:
+                                    name:
+                                        type: string
+                                        description: License name, e.g. `MIT`.
+                                    url:
+                                        type: string
+                                        description: URL describing the license.
+                            licensed:
+                                type: boolean
+                                description: |
+                                    `true` for a paid plugin: it can be installed freely, but the
+                                    instance license must grant it by name before it can be
+                                    enabled. The catalog is the authority on which plugins are
+                                    license-gated.
+                            license_enabled:
+                                type: boolean
+                                description: |
+                                    Only on `licensed` entries: whether the instance license
+                                    currently grants the plugin. Stamped by the server when the
+                                    shop is served, so the client can show up front whether an
+                                    installed plugin could be enabled.
+                            custom_data_type:
+                                type: boolean
+                                description: Whether the plugin provides a custom data type.
+                            dependencies:
+                                type: array
+                                description: |
+                                    Internal names of plugins this plugin requires. Installing
+                                    through the marketplace resolves them (missing ones are offered for
+                                    install first); a direct install is refused with
+                                    `PluginDependencyNotInstalled` while they are missing. Only
+                                    present when the plugin has dependencies.
+                                items:
+                                    type: string
+                            hidden:
+                                type: boolean
+                                description: |
+                                    `true` for entries that exist only as dependency targets
+                                    (library plugins): they resolve and install, but are not
+                                    meant to be browsed in the marketplace list. Omitted when `false`.
+            example:
+                plugins:
+                    - name: server-pdf
+                      name_long: fylr-plugin-server-pdf
+                      description_l10n:
+                        en-US: Server-side HTML-to-PDF rendering for fylr, using a headless Chromium.
+                        de-DE: Serverseitige HTML-zu-PDF-Erzeugung für fylr mit Headless-Chromium.
+                      category: media
+                      public: true
+                      url: https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip
+                      repository_url: https://github.com/programmfabrik/fylr-plugin-server-pdf
+                      developed_by: Programmfabrik GmbH
+                      software_license:
+                        name: MIT
+                        url: https://api.github.com/licenses/mit
+                      custom_data_type: false
+                    - name: obscure-image
+                      name_long: fylr-plugin-obscure-image
+                      description_l10n:
+                        en-US: Pixelate, blur, or blackout regions of an image as a new asset variant.
+                        de-DE: Bildbereiche verpixeln, weichzeichnen oder schwärzen — als neue Asset-Variante.
+                      category: media
+                      public: false
+                      url: https://programmfabrik.github.io/fylr-plugin-obscure-image/fylr-plugin-obscure-image-3f2c0b18-...-latest.zip
+                      licensed: true
+                      license_enabled: false
+                      repository_url: https://github.com/programmfabrik/fylr-plugin-obscure-image
+                      developed_by: Programmfabrik GmbH
+                      custom_data_type: false
         UserPost202:
             allOf:
                 - type: object
@@ -53278,6 +53596,15 @@ components:
                         provide one.
                     allOf:
                         - $ref: '#/components/schemas/LocaValue'
+                dependencies:
+                    type: array
+                    items:
+                        type: string
+                    description: |
+                        Internal names of plugins this plugin requires. Installing is
+                        refused with `PluginDependencyNotInstalled` while any of them is
+                        missing (the marketplace offers to install them first). Successor of the
+                        webfrontend-only `dependencies` list, which is still honoured.
                 webfrontend:
                     type: object
                     description: |

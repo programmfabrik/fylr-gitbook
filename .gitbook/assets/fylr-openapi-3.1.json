@@ -13172,6 +13172,10 @@
                               "unavailable": {
                                 "type": "boolean",
                                 "description": "If true, the feature this section configures is not available on\nthis instance (e.g. not included in the license). Frontends should\nrender the section greyed out but visible. Computed per request;\nomitted when false.\n"
+                              },
+                              "not_licensed": {
+                                "type": "boolean",
+                                "description": "Only on plugin sections. If true, the license mentions this plugin\nwithout granting it, so the plugin is force-disabled at runtime.\nUnlike `unavailable` the configuration stays editable; frontends\nshould only show a notice. Computed per request; omitted when\nfalse.\n"
                               }
                             }
                           }
@@ -13212,6 +13216,10 @@
                                 "unavailable": {
                                   "type": "boolean",
                                   "description": "If true, the feature this section configures is not available on\nthis instance (e.g. not included in the license). Frontends should\nrender the section greyed out but visible. Computed per request;\nomitted when false.\n"
+                                },
+                                "not_licensed": {
+                                  "type": "boolean",
+                                  "description": "Only on plugin sections. If true, the license mentions this plugin\nwithout granting it, so the plugin is force-disabled at runtime.\nUnlike `unavailable` the configuration stays editable; frontends\nshould only show a notice. Computed per request; omitted when\nfalse.\n"
                                 }
                               }
                             }
@@ -15394,6 +15402,123 @@
                                               "items": {
                                                 "oneOf": [
                                                   {
+                                                    "description": "Recipe \"officeconverter:preview\"",
+                                                    "properties": {
+                                                      "custommetadata": {
+                                                        "properties": {
+                                                          "extensions": {
+                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                            "items": {
+                                                              "enum": [
+                                                                "csv",
+                                                                "doc",
+                                                                "docx",
+                                                                "epub",
+                                                                "odp",
+                                                                "ods",
+                                                                "odt",
+                                                                "ppsx",
+                                                                "ppt",
+                                                                "pptx",
+                                                                "rtf",
+                                                                "txt",
+                                                                "xls",
+                                                                "xlsx"
+                                                              ],
+                                                              "type": "string"
+                                                            },
+                                                            "type": "array"
+                                                          },
+                                                          "recipename": {
+                                                            "description": "Recipe to process the custom metadata.",
+                                                            "enum": [
+                                                              "_metadata:ocr"
+                                                            ],
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "displayname": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "de-DE": {
+                                                            "type": "string"
+                                                          },
+                                                          "en-US": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "example": {
+                                                          "de-DE": "Deutscher text",
+                                                          "en-US": "English text"
+                                                        }
+                                                      },
+                                                      "extensions": {
+                                                        "items": {
+                                                          "enum": [
+                                                            "csv",
+                                                            "doc",
+                                                            "docx",
+                                                            "epub",
+                                                            "odp",
+                                                            "ods",
+                                                            "odt",
+                                                            "ppsx",
+                                                            "ppt",
+                                                            "pptx",
+                                                            "rtf",
+                                                            "txt",
+                                                            "xls",
+                                                            "xlsx"
+                                                          ],
+                                                          "type": "string"
+                                                        },
+                                                        "type": "array"
+                                                      },
+                                                      "group": {
+                                                        "type": "string"
+                                                      },
+                                                      "name": {
+                                                        "type": "string"
+                                                      },
+                                                      "params": {
+                                                        "properties": {
+                                                          "format": {
+                                                            "description": "output format of the thumbnail [select]",
+                                                            "enum": [
+                                                              "jpg",
+                                                              "png",
+                                                              "webp"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "resize_mode": {
+                                                            "description": " [select]",
+                                                            "enum": [
+                                                              "",
+                                                              "height",
+                                                              "max",
+                                                              "min",
+                                                              "width"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "size": {
+                                                            "description": "set the output size. [int]",
+                                                            "type": "integer"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "recipename": {
+                                                        "description": "This oneOf block is for \"officeconverter:preview\"",
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "type": "object"
+                                                  },
+                                                  {
                                                     "description": "Recipe \"officeconverter:browserthumbs\"",
                                                     "properties": {
                                                       "custommetadata": {
@@ -15639,123 +15764,6 @@
                                                       },
                                                       "recipename": {
                                                         "description": "This oneOf block is for \"officeconverter:pdf\"",
-                                                        "type": "string"
-                                                      }
-                                                    },
-                                                    "type": "object"
-                                                  },
-                                                  {
-                                                    "description": "Recipe \"officeconverter:preview\"",
-                                                    "properties": {
-                                                      "custommetadata": {
-                                                        "properties": {
-                                                          "extensions": {
-                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                            "items": {
-                                                              "enum": [
-                                                                "csv",
-                                                                "doc",
-                                                                "docx",
-                                                                "epub",
-                                                                "odp",
-                                                                "ods",
-                                                                "odt",
-                                                                "ppsx",
-                                                                "ppt",
-                                                                "pptx",
-                                                                "rtf",
-                                                                "txt",
-                                                                "xls",
-                                                                "xlsx"
-                                                              ],
-                                                              "type": "string"
-                                                            },
-                                                            "type": "array"
-                                                          },
-                                                          "recipename": {
-                                                            "description": "Recipe to process the custom metadata.",
-                                                            "enum": [
-                                                              "_metadata:ocr"
-                                                            ],
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "displayname": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "de-DE": {
-                                                            "type": "string"
-                                                          },
-                                                          "en-US": {
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "example": {
-                                                          "de-DE": "Deutscher text",
-                                                          "en-US": "English text"
-                                                        }
-                                                      },
-                                                      "extensions": {
-                                                        "items": {
-                                                          "enum": [
-                                                            "csv",
-                                                            "doc",
-                                                            "docx",
-                                                            "epub",
-                                                            "odp",
-                                                            "ods",
-                                                            "odt",
-                                                            "ppsx",
-                                                            "ppt",
-                                                            "pptx",
-                                                            "rtf",
-                                                            "txt",
-                                                            "xls",
-                                                            "xlsx"
-                                                          ],
-                                                          "type": "string"
-                                                        },
-                                                        "type": "array"
-                                                      },
-                                                      "group": {
-                                                        "type": "string"
-                                                      },
-                                                      "name": {
-                                                        "type": "string"
-                                                      },
-                                                      "params": {
-                                                        "properties": {
-                                                          "format": {
-                                                            "description": "output format of the thumbnail [select]",
-                                                            "enum": [
-                                                              "jpg",
-                                                              "png",
-                                                              "webp"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "resize_mode": {
-                                                            "description": " [select]",
-                                                            "enum": [
-                                                              "",
-                                                              "height",
-                                                              "max",
-                                                              "min",
-                                                              "width"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "size": {
-                                                            "description": "set the output size. [int]",
-                                                            "type": "integer"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "recipename": {
-                                                        "description": "This oneOf block is for \"officeconverter:preview\"",
                                                         "type": "string"
                                                       }
                                                     },
@@ -18094,109 +18102,6 @@
                                             "items": {
                                               "oneOf": [
                                                 {
-                                                  "description": "Recipe \"audioconverter:snippet\"",
-                                                  "properties": {
-                                                    "custommetadata": {
-                                                      "properties": {
-                                                        "extensions": {
-                                                          "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                          "items": {
-                                                            "enum": [
-                                                              "aac",
-                                                              "aiff",
-                                                              "dts",
-                                                              "flac",
-                                                              "m4a",
-                                                              "mp2",
-                                                              "mp3",
-                                                              "oga",
-                                                              "ogg",
-                                                              "opus",
-                                                              "ra",
-                                                              "wav",
-                                                              "wma"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "type": "array"
-                                                        },
-                                                        "recipename": {
-                                                          "description": "Recipe to process the custom metadata.",
-                                                          "enum": [
-                                                            "_metadata:ocr"
-                                                          ],
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "type": "object"
-                                                    },
-                                                    "displayname": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "de-DE": {
-                                                          "type": "string"
-                                                        },
-                                                        "en-US": {
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "example": {
-                                                        "de-DE": "Deutscher text",
-                                                        "en-US": "English text"
-                                                      }
-                                                    },
-                                                    "extensions": {
-                                                      "items": {
-                                                        "enum": [
-                                                          "aac",
-                                                          "aiff",
-                                                          "dts",
-                                                          "flac",
-                                                          "m4a",
-                                                          "mp2",
-                                                          "mp3",
-                                                          "oga",
-                                                          "ogg",
-                                                          "opus",
-                                                          "ra",
-                                                          "wav",
-                                                          "wma"
-                                                        ],
-                                                        "type": "string"
-                                                      },
-                                                      "type": "array"
-                                                    },
-                                                    "group": {
-                                                      "type": "string"
-                                                    },
-                                                    "name": {
-                                                      "type": "string"
-                                                    },
-                                                    "params": {
-                                                      "properties": {
-                                                        "end": {
-                                                          "description": "timestamp to end snippet [string]",
-                                                          "type": "string"
-                                                        },
-                                                        "format": {
-                                                          "description": " [string]",
-                                                          "type": "string"
-                                                        },
-                                                        "start": {
-                                                          "description": "timestamp to start snippet [string]",
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "type": "object"
-                                                    },
-                                                    "recipename": {
-                                                      "description": "This oneOf block is for \"audioconverter:snippet\"",
-                                                      "type": "string"
-                                                    }
-                                                  },
-                                                  "type": "object"
-                                                },
-                                                {
                                                   "description": "Recipe \"audioconverter:convert\"",
                                                   "properties": {
                                                     "custommetadata": {
@@ -18403,6 +18308,109 @@
                                                     },
                                                     "recipename": {
                                                       "description": "This oneOf block is for \"audioconverter:preview\"",
+                                                      "type": "string"
+                                                    }
+                                                  },
+                                                  "type": "object"
+                                                },
+                                                {
+                                                  "description": "Recipe \"audioconverter:snippet\"",
+                                                  "properties": {
+                                                    "custommetadata": {
+                                                      "properties": {
+                                                        "extensions": {
+                                                          "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                          "items": {
+                                                            "enum": [
+                                                              "aac",
+                                                              "aiff",
+                                                              "dts",
+                                                              "flac",
+                                                              "m4a",
+                                                              "mp2",
+                                                              "mp3",
+                                                              "oga",
+                                                              "ogg",
+                                                              "opus",
+                                                              "ra",
+                                                              "wav",
+                                                              "wma"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "type": "array"
+                                                        },
+                                                        "recipename": {
+                                                          "description": "Recipe to process the custom metadata.",
+                                                          "enum": [
+                                                            "_metadata:ocr"
+                                                          ],
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "displayname": {
+                                                      "type": "object",
+                                                      "properties": {
+                                                        "de-DE": {
+                                                          "type": "string"
+                                                        },
+                                                        "en-US": {
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "example": {
+                                                        "de-DE": "Deutscher text",
+                                                        "en-US": "English text"
+                                                      }
+                                                    },
+                                                    "extensions": {
+                                                      "items": {
+                                                        "enum": [
+                                                          "aac",
+                                                          "aiff",
+                                                          "dts",
+                                                          "flac",
+                                                          "m4a",
+                                                          "mp2",
+                                                          "mp3",
+                                                          "oga",
+                                                          "ogg",
+                                                          "opus",
+                                                          "ra",
+                                                          "wav",
+                                                          "wma"
+                                                        ],
+                                                        "type": "string"
+                                                      },
+                                                      "type": "array"
+                                                    },
+                                                    "group": {
+                                                      "type": "string"
+                                                    },
+                                                    "name": {
+                                                      "type": "string"
+                                                    },
+                                                    "params": {
+                                                      "properties": {
+                                                        "end": {
+                                                          "description": "timestamp to end snippet [string]",
+                                                          "type": "string"
+                                                        },
+                                                        "format": {
+                                                          "description": " [string]",
+                                                          "type": "string"
+                                                        },
+                                                        "start": {
+                                                          "description": "timestamp to start snippet [string]",
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "recipename": {
+                                                      "description": "This oneOf block is for \"audioconverter:snippet\"",
                                                       "type": "string"
                                                     }
                                                   },
@@ -18974,6 +18982,98 @@
                                             "items": {
                                               "oneOf": [
                                                 {
+                                                  "description": "Recipe \"officeconverter:pdf\"",
+                                                  "properties": {
+                                                    "custommetadata": {
+                                                      "properties": {
+                                                        "extensions": {
+                                                          "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                          "items": {
+                                                            "enum": [
+                                                              "csv",
+                                                              "doc",
+                                                              "docx",
+                                                              "epub",
+                                                              "odp",
+                                                              "ods",
+                                                              "odt",
+                                                              "ppsx",
+                                                              "ppt",
+                                                              "pptx",
+                                                              "rtf",
+                                                              "txt",
+                                                              "xls",
+                                                              "xlsx"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "type": "array"
+                                                        },
+                                                        "recipename": {
+                                                          "description": "Recipe to process the custom metadata.",
+                                                          "enum": [
+                                                            "_metadata:ocr"
+                                                          ],
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "displayname": {
+                                                      "type": "object",
+                                                      "properties": {
+                                                        "de-DE": {
+                                                          "type": "string"
+                                                        },
+                                                        "en-US": {
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "example": {
+                                                        "de-DE": "Deutscher text",
+                                                        "en-US": "English text"
+                                                      }
+                                                    },
+                                                    "extensions": {
+                                                      "items": {
+                                                        "enum": [
+                                                          "csv",
+                                                          "doc",
+                                                          "docx",
+                                                          "epub",
+                                                          "odp",
+                                                          "ods",
+                                                          "odt",
+                                                          "ppsx",
+                                                          "ppt",
+                                                          "pptx",
+                                                          "rtf",
+                                                          "txt",
+                                                          "xls",
+                                                          "xlsx"
+                                                        ],
+                                                        "type": "string"
+                                                      },
+                                                      "type": "array"
+                                                    },
+                                                    "group": {
+                                                      "type": "string"
+                                                    },
+                                                    "name": {
+                                                      "type": "string"
+                                                    },
+                                                    "params": {
+                                                      "properties": {},
+                                                      "type": "object"
+                                                    },
+                                                    "recipename": {
+                                                      "description": "This oneOf block is for \"officeconverter:pdf\"",
+                                                      "type": "string"
+                                                    }
+                                                  },
+                                                  "type": "object"
+                                                },
+                                                {
                                                   "description": "Recipe \"officeconverter:preview\"",
                                                   "properties": {
                                                     "custommetadata": {
@@ -19345,98 +19445,6 @@
                                                     },
                                                     "recipename": {
                                                       "description": "This oneOf block is for \"officeconverter:font\"",
-                                                      "type": "string"
-                                                    }
-                                                  },
-                                                  "type": "object"
-                                                },
-                                                {
-                                                  "description": "Recipe \"officeconverter:pdf\"",
-                                                  "properties": {
-                                                    "custommetadata": {
-                                                      "properties": {
-                                                        "extensions": {
-                                                          "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                          "items": {
-                                                            "enum": [
-                                                              "csv",
-                                                              "doc",
-                                                              "docx",
-                                                              "epub",
-                                                              "odp",
-                                                              "ods",
-                                                              "odt",
-                                                              "ppsx",
-                                                              "ppt",
-                                                              "pptx",
-                                                              "rtf",
-                                                              "txt",
-                                                              "xls",
-                                                              "xlsx"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "type": "array"
-                                                        },
-                                                        "recipename": {
-                                                          "description": "Recipe to process the custom metadata.",
-                                                          "enum": [
-                                                            "_metadata:ocr"
-                                                          ],
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "type": "object"
-                                                    },
-                                                    "displayname": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "de-DE": {
-                                                          "type": "string"
-                                                        },
-                                                        "en-US": {
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "example": {
-                                                        "de-DE": "Deutscher text",
-                                                        "en-US": "English text"
-                                                      }
-                                                    },
-                                                    "extensions": {
-                                                      "items": {
-                                                        "enum": [
-                                                          "csv",
-                                                          "doc",
-                                                          "docx",
-                                                          "epub",
-                                                          "odp",
-                                                          "ods",
-                                                          "odt",
-                                                          "ppsx",
-                                                          "ppt",
-                                                          "pptx",
-                                                          "rtf",
-                                                          "txt",
-                                                          "xls",
-                                                          "xlsx"
-                                                        ],
-                                                        "type": "string"
-                                                      },
-                                                      "type": "array"
-                                                    },
-                                                    "group": {
-                                                      "type": "string"
-                                                    },
-                                                    "name": {
-                                                      "type": "string"
-                                                    },
-                                                    "params": {
-                                                      "properties": {},
-                                                      "type": "object"
-                                                    },
-                                                    "recipename": {
-                                                      "description": "This oneOf block is for \"officeconverter:pdf\"",
                                                       "type": "string"
                                                     }
                                                   },
@@ -21620,109 +21628,6 @@
                                               "items": {
                                                 "oneOf": [
                                                   {
-                                                    "description": "Recipe \"audioconverter:snippet\"",
-                                                    "properties": {
-                                                      "custommetadata": {
-                                                        "properties": {
-                                                          "extensions": {
-                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                            "items": {
-                                                              "enum": [
-                                                                "aac",
-                                                                "aiff",
-                                                                "dts",
-                                                                "flac",
-                                                                "m4a",
-                                                                "mp2",
-                                                                "mp3",
-                                                                "oga",
-                                                                "ogg",
-                                                                "opus",
-                                                                "ra",
-                                                                "wav",
-                                                                "wma"
-                                                              ],
-                                                              "type": "string"
-                                                            },
-                                                            "type": "array"
-                                                          },
-                                                          "recipename": {
-                                                            "description": "Recipe to process the custom metadata.",
-                                                            "enum": [
-                                                              "_metadata:ocr"
-                                                            ],
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "displayname": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "de-DE": {
-                                                            "type": "string"
-                                                          },
-                                                          "en-US": {
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "example": {
-                                                          "de-DE": "Deutscher text",
-                                                          "en-US": "English text"
-                                                        }
-                                                      },
-                                                      "extensions": {
-                                                        "items": {
-                                                          "enum": [
-                                                            "aac",
-                                                            "aiff",
-                                                            "dts",
-                                                            "flac",
-                                                            "m4a",
-                                                            "mp2",
-                                                            "mp3",
-                                                            "oga",
-                                                            "ogg",
-                                                            "opus",
-                                                            "ra",
-                                                            "wav",
-                                                            "wma"
-                                                          ],
-                                                          "type": "string"
-                                                        },
-                                                        "type": "array"
-                                                      },
-                                                      "group": {
-                                                        "type": "string"
-                                                      },
-                                                      "name": {
-                                                        "type": "string"
-                                                      },
-                                                      "params": {
-                                                        "properties": {
-                                                          "end": {
-                                                            "description": "timestamp to end snippet [string]",
-                                                            "type": "string"
-                                                          },
-                                                          "format": {
-                                                            "description": " [string]",
-                                                            "type": "string"
-                                                          },
-                                                          "start": {
-                                                            "description": "timestamp to start snippet [string]",
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "recipename": {
-                                                        "description": "This oneOf block is for \"audioconverter:snippet\"",
-                                                        "type": "string"
-                                                      }
-                                                    },
-                                                    "type": "object"
-                                                  },
-                                                  {
                                                     "description": "Recipe \"audioconverter:convert\"",
                                                     "properties": {
                                                       "custommetadata": {
@@ -21933,6 +21838,109 @@
                                                       }
                                                     },
                                                     "type": "object"
+                                                  },
+                                                  {
+                                                    "description": "Recipe \"audioconverter:snippet\"",
+                                                    "properties": {
+                                                      "custommetadata": {
+                                                        "properties": {
+                                                          "extensions": {
+                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                            "items": {
+                                                              "enum": [
+                                                                "aac",
+                                                                "aiff",
+                                                                "dts",
+                                                                "flac",
+                                                                "m4a",
+                                                                "mp2",
+                                                                "mp3",
+                                                                "oga",
+                                                                "ogg",
+                                                                "opus",
+                                                                "ra",
+                                                                "wav",
+                                                                "wma"
+                                                              ],
+                                                              "type": "string"
+                                                            },
+                                                            "type": "array"
+                                                          },
+                                                          "recipename": {
+                                                            "description": "Recipe to process the custom metadata.",
+                                                            "enum": [
+                                                              "_metadata:ocr"
+                                                            ],
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "displayname": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "de-DE": {
+                                                            "type": "string"
+                                                          },
+                                                          "en-US": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "example": {
+                                                          "de-DE": "Deutscher text",
+                                                          "en-US": "English text"
+                                                        }
+                                                      },
+                                                      "extensions": {
+                                                        "items": {
+                                                          "enum": [
+                                                            "aac",
+                                                            "aiff",
+                                                            "dts",
+                                                            "flac",
+                                                            "m4a",
+                                                            "mp2",
+                                                            "mp3",
+                                                            "oga",
+                                                            "ogg",
+                                                            "opus",
+                                                            "ra",
+                                                            "wav",
+                                                            "wma"
+                                                          ],
+                                                          "type": "string"
+                                                        },
+                                                        "type": "array"
+                                                      },
+                                                      "group": {
+                                                        "type": "string"
+                                                      },
+                                                      "name": {
+                                                        "type": "string"
+                                                      },
+                                                      "params": {
+                                                        "properties": {
+                                                          "end": {
+                                                            "description": "timestamp to end snippet [string]",
+                                                            "type": "string"
+                                                          },
+                                                          "format": {
+                                                            "description": " [string]",
+                                                            "type": "string"
+                                                          },
+                                                          "start": {
+                                                            "description": "timestamp to start snippet [string]",
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "recipename": {
+                                                        "description": "This oneOf block is for \"audioconverter:snippet\"",
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "type": "object"
                                                   }
                                                 ]
                                               },
@@ -22007,6 +22015,76 @@
                                             "versions": {
                                               "items": {
                                                 "oneOf": [
+                                                  {
+                                                    "description": "Recipe \"imageconverter:vectortosvg\"",
+                                                    "properties": {
+                                                      "custommetadata": {
+                                                        "properties": {
+                                                          "extensions": {
+                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                            "items": {
+                                                              "enum": [
+                                                                "ai",
+                                                                "eps",
+                                                                "wmf"
+                                                              ],
+                                                              "type": "string"
+                                                            },
+                                                            "type": "array"
+                                                          },
+                                                          "recipename": {
+                                                            "description": "Recipe to process the custom metadata.",
+                                                            "enum": [
+                                                              "_metadata:ocr"
+                                                            ],
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "displayname": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "de-DE": {
+                                                            "type": "string"
+                                                          },
+                                                          "en-US": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "example": {
+                                                          "de-DE": "Deutscher text",
+                                                          "en-US": "English text"
+                                                        }
+                                                      },
+                                                      "extensions": {
+                                                        "items": {
+                                                          "enum": [
+                                                            "ai",
+                                                            "eps",
+                                                            "wmf"
+                                                          ],
+                                                          "type": "string"
+                                                        },
+                                                        "type": "array"
+                                                      },
+                                                      "group": {
+                                                        "type": "string"
+                                                      },
+                                                      "name": {
+                                                        "type": "string"
+                                                      },
+                                                      "params": {
+                                                        "properties": {},
+                                                        "type": "object"
+                                                      },
+                                                      "recipename": {
+                                                        "description": "This oneOf block is for \"imageconverter:vectortosvg\"",
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "type": "object"
+                                                  },
                                                   {
                                                     "description": "Recipe \"imageconverter:browserthumbs\"",
                                                     "properties": {
@@ -22365,76 +22443,6 @@
                                                       }
                                                     },
                                                     "type": "object"
-                                                  },
-                                                  {
-                                                    "description": "Recipe \"imageconverter:vectortosvg\"",
-                                                    "properties": {
-                                                      "custommetadata": {
-                                                        "properties": {
-                                                          "extensions": {
-                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                            "items": {
-                                                              "enum": [
-                                                                "ai",
-                                                                "eps",
-                                                                "wmf"
-                                                              ],
-                                                              "type": "string"
-                                                            },
-                                                            "type": "array"
-                                                          },
-                                                          "recipename": {
-                                                            "description": "Recipe to process the custom metadata.",
-                                                            "enum": [
-                                                              "_metadata:ocr"
-                                                            ],
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "displayname": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "de-DE": {
-                                                            "type": "string"
-                                                          },
-                                                          "en-US": {
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "example": {
-                                                          "de-DE": "Deutscher text",
-                                                          "en-US": "English text"
-                                                        }
-                                                      },
-                                                      "extensions": {
-                                                        "items": {
-                                                          "enum": [
-                                                            "ai",
-                                                            "eps",
-                                                            "wmf"
-                                                          ],
-                                                          "type": "string"
-                                                        },
-                                                        "type": "array"
-                                                      },
-                                                      "group": {
-                                                        "type": "string"
-                                                      },
-                                                      "name": {
-                                                        "type": "string"
-                                                      },
-                                                      "params": {
-                                                        "properties": {},
-                                                        "type": "object"
-                                                      },
-                                                      "recipename": {
-                                                        "description": "This oneOf block is for \"imageconverter:vectortosvg\"",
-                                                        "type": "string"
-                                                      }
-                                                    },
-                                                    "type": "object"
                                                   }
                                                 ]
                                               },
@@ -22499,6 +22507,98 @@
                                             "versions": {
                                               "items": {
                                                 "oneOf": [
+                                                  {
+                                                    "description": "Recipe \"officeconverter:pdf\"",
+                                                    "properties": {
+                                                      "custommetadata": {
+                                                        "properties": {
+                                                          "extensions": {
+                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                            "items": {
+                                                              "enum": [
+                                                                "csv",
+                                                                "doc",
+                                                                "docx",
+                                                                "epub",
+                                                                "odp",
+                                                                "ods",
+                                                                "odt",
+                                                                "ppsx",
+                                                                "ppt",
+                                                                "pptx",
+                                                                "rtf",
+                                                                "txt",
+                                                                "xls",
+                                                                "xlsx"
+                                                              ],
+                                                              "type": "string"
+                                                            },
+                                                            "type": "array"
+                                                          },
+                                                          "recipename": {
+                                                            "description": "Recipe to process the custom metadata.",
+                                                            "enum": [
+                                                              "_metadata:ocr"
+                                                            ],
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "displayname": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "de-DE": {
+                                                            "type": "string"
+                                                          },
+                                                          "en-US": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "example": {
+                                                          "de-DE": "Deutscher text",
+                                                          "en-US": "English text"
+                                                        }
+                                                      },
+                                                      "extensions": {
+                                                        "items": {
+                                                          "enum": [
+                                                            "csv",
+                                                            "doc",
+                                                            "docx",
+                                                            "epub",
+                                                            "odp",
+                                                            "ods",
+                                                            "odt",
+                                                            "ppsx",
+                                                            "ppt",
+                                                            "pptx",
+                                                            "rtf",
+                                                            "txt",
+                                                            "xls",
+                                                            "xlsx"
+                                                          ],
+                                                          "type": "string"
+                                                        },
+                                                        "type": "array"
+                                                      },
+                                                      "group": {
+                                                        "type": "string"
+                                                      },
+                                                      "name": {
+                                                        "type": "string"
+                                                      },
+                                                      "params": {
+                                                        "properties": {},
+                                                        "type": "object"
+                                                      },
+                                                      "recipename": {
+                                                        "description": "This oneOf block is for \"officeconverter:pdf\"",
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "type": "object"
+                                                  },
                                                   {
                                                     "description": "Recipe \"officeconverter:preview\"",
                                                     "properties": {
@@ -22611,6 +22711,107 @@
                                                       },
                                                       "recipename": {
                                                         "description": "This oneOf block is for \"officeconverter:preview\"",
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "type": "object"
+                                                  },
+                                                  {
+                                                    "description": "Recipe \"pdfconverter:pdfpages\"",
+                                                    "properties": {
+                                                      "custommetadata": {
+                                                        "properties": {
+                                                          "extensions": {
+                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                            "items": {
+                                                              "enum": [
+                                                                "csv",
+                                                                "doc",
+                                                                "docx",
+                                                                "epub",
+                                                                "indd",
+                                                                "odp",
+                                                                "ods",
+                                                                "odt",
+                                                                "pdf",
+                                                                "ppsx",
+                                                                "ppt",
+                                                                "pptx",
+                                                                "rtf",
+                                                                "txt",
+                                                                "xls",
+                                                                "xlsx"
+                                                              ],
+                                                              "type": "string"
+                                                            },
+                                                            "type": "array"
+                                                          },
+                                                          "recipename": {
+                                                            "description": "Recipe to process the custom metadata.",
+                                                            "enum": [
+                                                              "_metadata:ocr"
+                                                            ],
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "displayname": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "de-DE": {
+                                                            "type": "string"
+                                                          },
+                                                          "en-US": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "example": {
+                                                          "de-DE": "Deutscher text",
+                                                          "en-US": "English text"
+                                                        }
+                                                      },
+                                                      "extensions": {
+                                                        "items": {
+                                                          "enum": [
+                                                            "csv",
+                                                            "doc",
+                                                            "docx",
+                                                            "epub",
+                                                            "indd",
+                                                            "odp",
+                                                            "ods",
+                                                            "odt",
+                                                            "pdf",
+                                                            "ppsx",
+                                                            "ppt",
+                                                            "pptx",
+                                                            "rtf",
+                                                            "txt",
+                                                            "xls",
+                                                            "xlsx"
+                                                          ],
+                                                          "type": "string"
+                                                        },
+                                                        "type": "array"
+                                                      },
+                                                      "group": {
+                                                        "type": "string"
+                                                      },
+                                                      "name": {
+                                                        "type": "string"
+                                                      },
+                                                      "params": {
+                                                        "properties": {
+                                                          "min_size": {
+                                                            "description": "Size in pixels of the shortest side of the page.\n [int]",
+                                                            "type": "integer"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "recipename": {
+                                                        "description": "This oneOf block is for \"pdfconverter:pdfpages\"",
                                                         "type": "string"
                                                       }
                                                     },
@@ -22770,199 +22971,6 @@
                                                       },
                                                       "recipename": {
                                                         "description": "This oneOf block is for \"officeconverter:font\"",
-                                                        "type": "string"
-                                                      }
-                                                    },
-                                                    "type": "object"
-                                                  },
-                                                  {
-                                                    "description": "Recipe \"officeconverter:pdf\"",
-                                                    "properties": {
-                                                      "custommetadata": {
-                                                        "properties": {
-                                                          "extensions": {
-                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                            "items": {
-                                                              "enum": [
-                                                                "csv",
-                                                                "doc",
-                                                                "docx",
-                                                                "epub",
-                                                                "odp",
-                                                                "ods",
-                                                                "odt",
-                                                                "ppsx",
-                                                                "ppt",
-                                                                "pptx",
-                                                                "rtf",
-                                                                "txt",
-                                                                "xls",
-                                                                "xlsx"
-                                                              ],
-                                                              "type": "string"
-                                                            },
-                                                            "type": "array"
-                                                          },
-                                                          "recipename": {
-                                                            "description": "Recipe to process the custom metadata.",
-                                                            "enum": [
-                                                              "_metadata:ocr"
-                                                            ],
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "displayname": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "de-DE": {
-                                                            "type": "string"
-                                                          },
-                                                          "en-US": {
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "example": {
-                                                          "de-DE": "Deutscher text",
-                                                          "en-US": "English text"
-                                                        }
-                                                      },
-                                                      "extensions": {
-                                                        "items": {
-                                                          "enum": [
-                                                            "csv",
-                                                            "doc",
-                                                            "docx",
-                                                            "epub",
-                                                            "odp",
-                                                            "ods",
-                                                            "odt",
-                                                            "ppsx",
-                                                            "ppt",
-                                                            "pptx",
-                                                            "rtf",
-                                                            "txt",
-                                                            "xls",
-                                                            "xlsx"
-                                                          ],
-                                                          "type": "string"
-                                                        },
-                                                        "type": "array"
-                                                      },
-                                                      "group": {
-                                                        "type": "string"
-                                                      },
-                                                      "name": {
-                                                        "type": "string"
-                                                      },
-                                                      "params": {
-                                                        "properties": {},
-                                                        "type": "object"
-                                                      },
-                                                      "recipename": {
-                                                        "description": "This oneOf block is for \"officeconverter:pdf\"",
-                                                        "type": "string"
-                                                      }
-                                                    },
-                                                    "type": "object"
-                                                  },
-                                                  {
-                                                    "description": "Recipe \"pdfconverter:pdfpages\"",
-                                                    "properties": {
-                                                      "custommetadata": {
-                                                        "properties": {
-                                                          "extensions": {
-                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                            "items": {
-                                                              "enum": [
-                                                                "csv",
-                                                                "doc",
-                                                                "docx",
-                                                                "epub",
-                                                                "indd",
-                                                                "odp",
-                                                                "ods",
-                                                                "odt",
-                                                                "pdf",
-                                                                "ppsx",
-                                                                "ppt",
-                                                                "pptx",
-                                                                "rtf",
-                                                                "txt",
-                                                                "xls",
-                                                                "xlsx"
-                                                              ],
-                                                              "type": "string"
-                                                            },
-                                                            "type": "array"
-                                                          },
-                                                          "recipename": {
-                                                            "description": "Recipe to process the custom metadata.",
-                                                            "enum": [
-                                                              "_metadata:ocr"
-                                                            ],
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "displayname": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "de-DE": {
-                                                            "type": "string"
-                                                          },
-                                                          "en-US": {
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "example": {
-                                                          "de-DE": "Deutscher text",
-                                                          "en-US": "English text"
-                                                        }
-                                                      },
-                                                      "extensions": {
-                                                        "items": {
-                                                          "enum": [
-                                                            "csv",
-                                                            "doc",
-                                                            "docx",
-                                                            "epub",
-                                                            "indd",
-                                                            "odp",
-                                                            "ods",
-                                                            "odt",
-                                                            "pdf",
-                                                            "ppsx",
-                                                            "ppt",
-                                                            "pptx",
-                                                            "rtf",
-                                                            "txt",
-                                                            "xls",
-                                                            "xlsx"
-                                                          ],
-                                                          "type": "string"
-                                                        },
-                                                        "type": "array"
-                                                      },
-                                                      "group": {
-                                                        "type": "string"
-                                                      },
-                                                      "name": {
-                                                        "type": "string"
-                                                      },
-                                                      "params": {
-                                                        "properties": {
-                                                          "min_size": {
-                                                            "description": "Size in pixels of the shortest side of the page.\n [int]",
-                                                            "type": "integer"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "recipename": {
-                                                        "description": "This oneOf block is for \"pdfconverter:pdfpages\"",
                                                         "type": "string"
                                                       }
                                                     },
@@ -38709,6 +38717,91 @@
         }
       }
     },
+    "/plugin/marketplace": {
+      "x-path": "/plugin/marketplace",
+      "description": "The plugin marketplace: a curated catalog of plugins offered for\ninstallation. Requires the system right `system.root` or\n`system.plugin`, like the manage API.\n",
+      "get": {
+        "summary": "Read the plugin marketplace catalog.",
+        "description": "Returns the catalog of plugins offered for installation. The catalog\nships with the **fylr** release. Every entry carries the install `url`\nof its ZIP — install it by passing that URL to `PUT /plugin/manage`\nwith `type: url`. Private and paid plugins are delivered **sealed**\n(encrypted), so their ZIP is safe to publish; `public` only reflects\nthe source repository's visibility, not whether there is a `url`.\n",
+        "responses": {
+          "200": {
+            "description": "The plugin marketplace catalog.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PluginMarketplaceCatalog"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user holds neither `system.root` nor `system.plugin`\n(`code: SystemRightRequired`).\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/marketplace/{name}/readme": {
+      "x-path": "/plugin/marketplace/{name}/readme",
+      "description": "The full README of a marketplace plugin — its \"more information\"\ndocumentation, shown in the shop behind a button. Requires the system\nright `system.root` or `system.plugin`.\n",
+      "get": {
+        "summary": "Read a marketplace plugin's README.",
+        "description": "Returns the `README.md` bundled next to the manifest in the plugin's\ninstall ZIP, with its images inlined as data URIs so it renders\nself-contained. Only the ZIP directory and the README entry are\ntransferred (HTTP range requests), not the whole ZIP. An empty\n`readme` means the plugin ships no README.\n",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "The plugin's internal `name`, as listed in the catalog.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The plugin's README.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "readme"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "The plugin's internal name."
+                    },
+                    "readme": {
+                      "type": "string",
+                      "description": "The README as Markdown (images inlined as data URIs), or\nan empty string if the plugin ships no README.\n"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user holds neither `system.root` nor `system.plugin`\n(`code: SystemRightRequired`).\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/plugin/manage": {
       "x-path": "/plugin/manage",
       "description": "Management API for installed plugins. Every operation requires the\nsystem right `system.root` or `system.plugin`; a request lacking\nboth (including an unauthenticated request) is rejected with\n`code: SystemRightRequired` (403).\n",
@@ -38763,7 +38856,7 @@
             }
           },
           "400": {
-            "description": "A plugin with this name already exists\n(`code: PluginDuplicateName`), the instance is read-only\n(`code: ReadOnlyMode`), or the payload could not be parsed.\n",
+            "description": "A plugin with this name already exists\n(`code: PluginDuplicateName`), a declared dependency is not\ninstalled (`code: PluginDependencyNotInstalled`) or not\nenabled while `enabled` was requested\n(`code: PluginDependencyNotEnabled`), the instance is\nread-only (`code: ReadOnlyMode`), or the payload could not be\nparsed.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -38860,7 +38953,7 @@
             }
           },
           "400": {
-            "description": "The body `id` does not match the path `{id}`, the instance is\nread-only (`code: ReadOnlyMode`), or the payload could not be\nparsed.\n",
+            "description": "The body `id` does not match the path `{id}`, a declared\ndependency is not installed\n(`code: PluginDependencyNotInstalled`) or not enabled while\n`enabled` was requested (`code: PluginDependencyNotEnabled`),\nthe plugin is being disabled while an enabled plugin depends\non it (`code: PluginRequiredByOthers`), the instance is\nread-only (`code: ReadOnlyMode`), or the payload could not be\nparsed.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -38906,7 +38999,7 @@
             }
           },
           "400": {
-            "description": "The instance is read-only (`code: ReadOnlyMode`).\n",
+            "description": "An enabled plugin depends on this one\n(`code: PluginRequiredByOthers`, dependents have to be\ndisabled or removed first), or the instance is read-only\n(`code: ReadOnlyMode`).\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -41799,6 +41892,10 @@
                                 "unavailable": {
                                   "type": "boolean",
                                   "description": "If true, the feature this section configures is not available on\nthis instance (e.g. not included in the license). Frontends should\nrender the section greyed out but visible. Computed per request;\nomitted when false.\n"
+                                },
+                                "not_licensed": {
+                                  "type": "boolean",
+                                  "description": "Only on plugin sections. If true, the license mentions this plugin\nwithout granting it, so the plugin is force-disabled at runtime.\nUnlike `unavailable` the configuration stays editable; frontends\nshould only show a notice. Computed per request; omitted when\nfalse.\n"
                                 }
                               }
                             }
@@ -44248,6 +44345,10 @@
                     "unavailable": {
                       "type": "boolean",
                       "description": "If true, the feature this section configures is not available on\nthis instance (e.g. not included in the license). Frontends should\nrender the section greyed out but visible. Computed per request;\nomitted when false.\n"
+                    },
+                    "not_licensed": {
+                      "type": "boolean",
+                      "description": "Only on plugin sections. If true, the license mentions this plugin\nwithout granting it, so the plugin is force-disabled at runtime.\nUnlike `unavailable` the configuration stays editable; frontends\nshould only show a notice. Computed per request; omitted when\nfalse.\n"
                     }
                   }
                 }
@@ -44288,6 +44389,10 @@
                       "unavailable": {
                         "type": "boolean",
                         "description": "If true, the feature this section configures is not available on\nthis instance (e.g. not included in the license). Frontends should\nrender the section greyed out but visible. Computed per request;\nomitted when false.\n"
+                      },
+                      "not_licensed": {
+                        "type": "boolean",
+                        "description": "Only on plugin sections. If true, the license mentions this plugin\nwithout granting it, so the plugin is force-disabled at runtime.\nUnlike `unavailable` the configuration stays editable; frontends\nshould only show a notice. Computed per request; omitted when\nfalse.\n"
                       }
                     }
                   }
@@ -45988,7 +46093,7 @@
       },
       "PluginError": {
         "type": "object",
-        "description": "Error returned by the plugin static-asset, extension-dispatch and\nmanagement routes when the addressed plugin is unknown, disabled, or\nconflicts with an existing one. The HTTP status code depends on the\n`code` (404 for `PluginNotFound`, 400 for the others).\n",
+        "description": "Error returned by the plugin static-asset, extension-dispatch and\nmanagement routes when the addressed plugin is unknown, disabled,\nconflicts with an existing one, or is not licensed. The HTTP status\ncode depends on the `code` (404 for `PluginNotFound`, 403 for\n`PluginNotLicensed`, 400 for the others).\n",
         "required": [
           "code",
           "error",
@@ -46000,11 +46105,15 @@
         "properties": {
           "code": {
             "type": "string",
-            "description": "Stable, machine-readable error code:\n\n  * `PluginNotFound` — no plugin with the requested name or id\n    exists (HTTP 404).\n  * `PluginDisabled` — the plugin exists but is not enabled, so\n    its static assets and extension routes are not served\n    (HTTP 400).\n  * `PluginDuplicateName` — a `PUT /plugin/manage` tried to create\n    a plugin whose `name` is already taken (HTTP 400).\n\nOther 400 codes from the server pipeline (request parsing,\n`ReadOnlyMode` when the instance is read-only, ...) may also\nsurface on the management routes.\n",
+            "description": "Stable, machine-readable error code:\n\n  * `PluginNotFound` — no plugin with the requested name or id\n    exists (HTTP 404).\n  * `PluginDisabled` — the plugin exists but is not enabled, so\n    its static assets and extension routes are not served\n    (HTTP 400).\n  * `PluginDuplicateName` — a `PUT /plugin/manage` tried to create\n    a plugin whose `name` is already taken (HTTP 400).\n  * `PluginNotLicensed` — a `PUT`/`POST /plugin/manage` tried to\n    save a plugin as `enabled` that the license does not grant: a\n    paid plugin (`licensed`, per the marketplace catalog) needs an\n    explicit grant, a free one only fails when the license\n    mentions it without granting it (HTTP 403).\n  * `PluginDependencyNotInstalled` — a `PUT`/`POST /plugin/manage`\n    tried to save a plugin whose declared dependencies (manifest\n    `plugin.dependencies` plus the marketplace catalog entry for the\n    install URL) are not all installed; `parameters.dependencies`\n    lists the missing names (HTTP 400).\n  * `PluginDependencyNotEnabled` — a `PUT`/`POST /plugin/manage`\n    tried to save a plugin as `enabled` while one of its\n    dependencies is disabled; `parameters.dependencies` lists\n    them (HTTP 400).\n  * `PluginRequiredByOthers` — a `POST` or `DELETE\n    /plugin/manage/{id}` tried to disable or delete a plugin an\n    *enabled* plugin depends on; `parameters.dependents` lists the\n    dependents. Disabled dependents don't block — they are inert,\n    and re-enabling them is refused until the dependency is back\n    (HTTP 400).\n\nOther 400 codes from the server pipeline (request parsing,\n`ReadOnlyMode` when the instance is read-only, ...) may also\nsurface on the management routes.\n",
             "enum": [
               "PluginNotFound",
               "PluginDisabled",
-              "PluginDuplicateName"
+              "PluginDuplicateName",
+              "PluginNotLicensed",
+              "PluginDependencyNotInstalled",
+              "PluginDependencyNotEnabled",
+              "PluginRequiredByOthers"
             ]
           },
           "error": {
@@ -46033,6 +46142,7 @@
             "type": "integer",
             "enum": [
               400,
+              403,
               404
             ]
           }
@@ -46071,7 +46181,20 @@
               "boolean",
               "null"
             ],
-            "description": "Whether the plugin is enabled. A freshly uploaded plugin is\ncreated disabled (`false`); enable it with an update.\n"
+            "description": "Whether the plugin is enabled. A freshly uploaded plugin is\ncreated disabled (`false`); enable it with an update. If the\nlicense mentions the plugin without granting it (see `license`),\nenabling it is rejected with `PluginNotLicensed` and the plugin is\nkept disabled at runtime.\n"
+          },
+          "license": {
+            "type": "object",
+            "description": "The license info block for this plugin, present **only** when the\nlicense mentions the plugin by its internal name (possibly as an\nempty object `{}`). When this block is present it must carry\n`\"enabled\": true` for the plugin to be allowed; otherwise the\nplugin cannot be enabled and is force-disabled at runtime. Plugins\nthe license does not mention are unrestricted and omit this field.\n",
+            "additionalProperties": true
+          },
+          "encrypted": {
+            "type": "boolean",
+            "description": "`true` when the plugin arrived as a sealed (encrypted) package and\nwas decrypted at install. Read-only: derived from the delivered\nartifact, values sent in requests are ignored.\n"
+          },
+          "licensed": {
+            "type": "boolean",
+            "description": "`true` when the marketplace catalog marks the plugin as paid: it can be\ninstalled freely, but the instance license must grant it by name\n(`\"enabled\": true` in the license's `plugins` block) before it can\nbe enabled. Read-only: stamped from the catalog at install, values\nsent in requests are ignored.\n"
           },
           "auto_added": {
             "type": [
@@ -46181,6 +46304,149 @@
         },
         "example": {
           "acknowledged": true
+        }
+      },
+      "PluginMarketplaceCatalog": {
+        "type": "object",
+        "description": "The plugin marketplace catalog — the list of plugins offered for installation.\nIt is compiled from the bundled default catalog that ships with the\n**fylr** release (`resources/pluginmarketplace/catalog.json`, source\n`programmfabrik`) plus any sources the system administrator configures in\n`fylr.yml` under `plugin.marketplace.sources` (inline entries, or a URL to a\ndocument of this shape). Every entry carries the `source` it came from.\n",
+        "required": [
+          "plugins"
+        ],
+        "properties": {
+          "plugins": {
+            "type": "array",
+            "description": "The compiled catalog entries.",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "public",
+                "url",
+                "custom_data_type",
+                "source"
+              ],
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "description": "Name of the source this entry came from — the bundled default\n(`programmfabrik`) or a configured `plugin.marketplace.sources` entry.\n"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Internal plugin name (the manifest `name:`). Matches the\n`name` of an installed plugin in the manage API.\n"
+                },
+                "name_long": {
+                  "type": "string",
+                  "description": "Long plugin name, usually the repository name."
+                },
+                "description_l10n": {
+                  "type": "object",
+                  "description": "The plugin's short \"starting point\" description shown in the\nmarketplace list and detail, as Markdown, keyed by language\n(e.g. `de-DE`, `en-US`). The whole map is served so the frontend\ncan render the viewer's language. Sourced from the plugin\nmanifest's `plugin.info`. The full write-up is the README, fetched\non demand from `GET /plugin/marketplace/{name}/readme`.\n",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "category": {
+                  "type": "string",
+                  "description": "Stable slug grouping the entry in the marketplace UI: one of\n`authority`, `geo`, `editor`, `media`, `integration`, `ai`. Empty\nor absent means \"other\". The frontend localizes it to a section\nheading.\n"
+                },
+                "public": {
+                  "type": "boolean",
+                  "description": "Visibility of the plugin's source repository (public or private on\nGitHub). Informational only — it does NOT gate the install `url`;\nevery offered plugin carries one.\n"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "Download URL of the plugin's install ZIP, suitable as the `url` of a\n`PUT /plugin/manage` install request with `type: url`. Present for\nevery offered plugin, including private and paid ones: those are\ndelivered **sealed** (encrypted), so the ZIP is safe to publish —\ncurrently a GitHub Pages URL with a hashed filename. fylr's built-in\nkeys, or a source `privateKey`, open a sealed plugin.\n"
+                },
+                "repository_url": {
+                  "type": "string",
+                  "description": "URL of the source repository."
+                },
+                "documentation_url": {
+                  "type": "string",
+                  "description": "URL of the plugin documentation."
+                },
+                "developed_by": {
+                  "type": "string",
+                  "description": "Who develops the plugin."
+                },
+                "software_license": {
+                  "type": "object",
+                  "description": "The software license the plugin code is under.",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "License name, e.g. `MIT`."
+                    },
+                    "url": {
+                      "type": "string",
+                      "description": "URL describing the license."
+                    }
+                  }
+                },
+                "licensed": {
+                  "type": "boolean",
+                  "description": "`true` for a paid plugin: it can be installed freely, but the\ninstance license must grant it by name before it can be\nenabled. The catalog is the authority on which plugins are\nlicense-gated.\n"
+                },
+                "license_enabled": {
+                  "type": "boolean",
+                  "description": "Only on `licensed` entries: whether the instance license\ncurrently grants the plugin. Stamped by the server when the\nshop is served, so the client can show up front whether an\ninstalled plugin could be enabled.\n"
+                },
+                "custom_data_type": {
+                  "type": "boolean",
+                  "description": "Whether the plugin provides a custom data type."
+                },
+                "dependencies": {
+                  "type": "array",
+                  "description": "Internal names of plugins this plugin requires. Installing\nthrough the marketplace resolves them (missing ones are offered for\ninstall first); a direct install is refused with\n`PluginDependencyNotInstalled` while they are missing. Only\npresent when the plugin has dependencies.\n",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "hidden": {
+                  "type": "boolean",
+                  "description": "`true` for entries that exist only as dependency targets\n(library plugins): they resolve and install, but are not\nmeant to be browsed in the marketplace list. Omitted when `false`.\n"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "plugins": [
+            {
+              "name": "server-pdf",
+              "name_long": "fylr-plugin-server-pdf",
+              "description_l10n": {
+                "en-US": "Server-side HTML-to-PDF rendering for fylr, using a headless Chromium.",
+                "de-DE": "Serverseitige HTML-zu-PDF-Erzeugung für fylr mit Headless-Chromium."
+              },
+              "category": "media",
+              "public": true,
+              "url": "https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip",
+              "repository_url": "https://github.com/programmfabrik/fylr-plugin-server-pdf",
+              "developed_by": "Programmfabrik GmbH",
+              "software_license": {
+                "name": "MIT",
+                "url": "https://api.github.com/licenses/mit"
+              },
+              "custom_data_type": false
+            },
+            {
+              "name": "obscure-image",
+              "name_long": "fylr-plugin-obscure-image",
+              "description_l10n": {
+                "en-US": "Pixelate, blur, or blackout regions of an image as a new asset variant.",
+                "de-DE": "Bildbereiche verpixeln, weichzeichnen oder schwärzen — als neue Asset-Variante."
+              },
+              "category": "media",
+              "public": false,
+              "url": "https://programmfabrik.github.io/fylr-plugin-obscure-image/fylr-plugin-obscure-image-3f2c0b18-...-latest.zip",
+              "licensed": true,
+              "license_enabled": false,
+              "repository_url": "https://github.com/programmfabrik/fylr-plugin-obscure-image",
+              "developed_by": "Programmfabrik GmbH",
+              "custom_data_type": false
+            }
+          ]
         }
       },
       "UserPost202": {
@@ -50548,7 +50814,7 @@
                   },
                   "share_url": {
                     "type": "string",
-                    "description": "Optional absolute base URL (`http`/`https`) used instead of\nthe server's own external URL when building collection share\nlinks (copy-link buttons and share notification emails) for\nshares that use this preset. The deep-link path is appended\nto it: a `share_url` of `https://media.example.com/awp`\nproduces links like\n`https://media.example.com/awp/collection/<uuid>?...`.\nOnly supported in context `collection`; sending it for an\n`object` preset is rejected with `400 Bad Request`. An empty\nstring clears the URL; if the field is omitted on update,\nthe stored value is kept.\n"
+                    "description": "Optional absolute base URL (`http`/`https`) used instead of\nthe server's own external URL when building collection share\nlinks (copy-link buttons and share notification emails) for\nshares that use this preset. The deep-link path is appended\nto it: a `share_url` of `https://media.example.com/awp`\nproduces links like\n`https://media.example.com/awp/collection/\u003cuuid\u003e?...`.\nOnly supported in context `collection`; sending it for an\n`object` preset is rejected with `400 Bad Request`. An empty\nstring clears the URL; if the field is omitted on update,\nthe stored value is kept.\n"
                   },
                   "rights": {
                     "type": "object",
@@ -54764,6 +55030,13 @@
           "info": {
             "$ref": "#/components/schemas/LocaValue",
             "description": "Localised long description. Defaults to `\"-\"` in the\ninstance default language when the manifest does not\nprovide one.\n"
+          },
+          "dependencies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Internal names of plugins this plugin requires. Installing is\nrefused with `PluginDependencyNotInstalled` while any of them is\nmissing (the marketplace offers to install them first). Successor of the\nwebfrontend-only `dependencies` list, which is still honoured.\n"
           },
           "webfrontend": {
             "type": "object",
