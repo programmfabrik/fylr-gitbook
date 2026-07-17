@@ -31,6 +31,7 @@ Most callbacks run server-side in the file-worker tool chain and frequently need
 | `api_user` | always | The current API user (the `who`). |
 | `plugin_user_access_token` | only if configured | Access token of the configured **plugin user**. Present only if the manifest entry declares a `plugin_user`. If the plugin user resolves to the current API user, it equals `api_user_access_token`. |
 | `plugin_user` | only if configured | The plugin user (the `who`) for `plugin_user_access_token`. |
+| `api_tx_url` | only inside a save transaction | Base URL for the [transactional `/db` surface](#writing-inside-the-save-transaction-api_tx_url): calls back **into the open write transaction** the callback runs in. Present for the `db_pre_save` family, absent for extensions and exports. |
 
 A callback therefore always gets a token for the **current API user**, and *additionally* a token for the **plugin user** when one is configured — never one *or* the other.
 
@@ -58,6 +59,45 @@ const cfg = await fetch(`${info.api_url}/api/v1/config`, {
 {% hint style="warning" %}
 **export — backwards compatibility:** the export payload additionally contains a legacy `api_callback` map (`{ "token", "url" }`) equivalent to `info.api_user_access_token` + `info.api_url`. It is kept so existing export plugins keep working; **new export plugins should use the unified contract fields above.**
 {% endhint %}
+
+## Writing inside the save transaction: `api_tx_url`
+
+{% hint style="info" %}
+`api_tx_url` is available from fylr **6.35.0**.
+{% endhint %}
+
+A `db_pre_save` callback runs **while the save's write transaction is open**. A call to the regular `api_url` therefore arrives on a *separate* database connection:
+
+* it cannot see the uncommitted data of the save it is part of, and
+* on a **single-writer backend (SQLite)** it cannot write at all while the save's transaction holds the write lock — such a write fails with `423 DatabaseLockError`.
+
+For this, callbacks of the `db_pre_save` family (`db_pre_save`, `transition_db_pre_save/<type>`, `webhook_db_pre_save`) additionally receive `info.api_tx_url`: a base URL whose requests are executed **inside the very transaction the callback runs in**. It is a drop-in for `api_url` — append the same `db/…` paths — but deliberately scoped to the transactional `/db` surface:
+
+| Method & path | Purpose |
+| --- | --- |
+| `POST {api_tx_url}/db/<objecttype>` | insert / update objects |
+| `GET {api_tx_url}/db/<objecttype>/<mask>/<id>` | load an object (sees the transaction's uncommitted state) |
+| `DELETE {api_tx_url}/db/<objecttype>` | delete objects |
+
+Everything that is not part of the save itself — config, search, files — has no business inside the transaction; use `api_url` for those.
+
+**Semantics**
+
+* Only the tokens handed to *this* callback (`api_user_access_token`, `plugin_user_access_token`) are accepted on `api_tx_url`. The URL is valid only while the callback runs and is revoked when it returns.
+* Writes join the save's transaction via a savepoint: they become visible to the rest of the save immediately, and they **commit or roll back together with the surrounding save**. If the save fails after your callback returned, your writes are rolled back with it.
+* `api_tx_url` behaves identically on PostgreSQL and SQLite. Plugins that must run on both backends can simply prefer it for writes from a `db_pre_save` callback.
+
+A robust pattern for existing plugins — try the regular API first, fall back to the transaction on a lock error:
+
+```python
+resp_text, statuscode = post_to_api(api_url, 'db/linked_object', token, payload)
+if statuscode == 423:
+    # single-writer backend: the save's transaction holds the write lock —
+    # retry INSIDE that transaction
+    api_tx_url = info.get('api_tx_url')
+    if api_tx_url:
+        resp_text, statuscode = post_to_api(api_tx_url, 'db/linked_object', token, payload)
+```
 
 ## `db_pre_save`, `transition_db_pre_save/<type>`, `webhook_db_pre_save`
 
