@@ -35,13 +35,27 @@ Use the **search** to search for the internal or display **names** of plugins an
 
 ### Managing Plugins
 
-To **upload** a plugin, click on the **plus** button in the lower left and either upload the **ZIP** file or enter the **URL** to the ZIP file. Please make sure to **enable** the plugin afterwards.
+To **install** a plugin, click on the **plus** button in the lower left. From fylr **6.35.0** this opens the **Plugin Marketplace** (see below); uploading your own plugin as a **ZIP** file or from a **URL** is still available there. Please make sure to **enable** the plugin afterwards.
 
 To **remove** a plugin, **select** it and click on the **minus** button in the lower left.
 
 {% hint style="info" %}
 Please note, some plugins may come with custom settings. Please check the [base configuration](../readme/plugins.md).
 {% endhint %}
+
+### Plugin Marketplace
+
+From fylr **6.35.0**, the **plus** button opens the **marketplace** — a curated catalog of installable plugins, grouped by **category**, each with a localized **description** and a **more information** view that shows the plugin's README. **Installing** a plugin from the marketplace also installs any plugins it **depends on**; conversely, a plugin that an enabled plugin depends on can **not** be **disabled** or **deleted** while that dependent plugin is enabled.
+
+**Paid** and **private** plugins are delivered **sealed** (encrypted) and are decrypted by fylr during the install. Whether such a plugin can be **enabled** is decided by your **license** (see below).
+
+{% hint style="info" %}
+The catalog is served by `GET /plugin/marketplace`. Next to Programmfabrik's curated default catalog, a system administrator can configure additional sources in `fylr.yml` (`plugin.marketplace.sources`). For the design behind sealed delivery, see the [white paper](../../for-developers/concepts/white-papers/secure-plugin-delivery.md).
+{% endhint %}
+
+### License-gated plugins
+
+From fylr **6.35.0**, the fylr **license** can determine which plugins an instance may **enable** — see [License management](../../license-management.md). A plugin the license does not permit is flagged in the Plugin Manager with a red **warning triangle** in the *Active* column, its *General* tab shows the license state, and its **Active** toggle is disabled. The plugin's stored configuration is **preserved** and the plugin re-enables by itself once the license grants it again.
 
 ### Network access in restricted setups
 

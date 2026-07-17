@@ -62,6 +62,10 @@ const cfg = await fetch(`${info.api_url}/api/v1/config`, {
 
 ## Writing inside the save transaction: `api_tx_url`
 
+{% hint style="info" %}
+`api_tx_url` is available from fylr **6.35.0**.
+{% endhint %}
+
 A `db_pre_save` callback runs **while the save's write transaction is open**. A call to the regular `api_url` therefore arrives on a *separate* database connection:
 
 * it cannot see the uncommitted data of the save it is part of, and
