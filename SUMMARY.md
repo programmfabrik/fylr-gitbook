@@ -345,6 +345,7 @@
     * [/api/v1/objecttype](for-developers/api/endpoints/api-objecttype.md)
     * [/api/v1/plugin](for-developers/api/endpoints/plugin/README.md)
       * [/manage](for-developers/api/endpoints/plugin/manage.md)
+      * [/marketplace](for-developers/api/endpoints/plugin/marketplace.md)
     * [/api/v1/pool](for-developers/api/endpoints/api-pool.md)
     * [/api/v1/publish](for-developers/api/endpoints/api-publish.md)
     * [/api/v1/right](for-developers/api/endpoints/api-right.md)
