@@ -114,6 +114,8 @@ Everything that is not part of the save itself — config, search, files — has
 
 * Only the tokens handed to *this* callback (`api_user_access_token`, `plugin_user_access_token`) are accepted on `api_tx_url`. The URL is valid only while the callback runs and is revoked when it returns.
 * Writes execute **inside the save's own transaction**: they are immediately visible to the rest of the save and **commit or roll back together with it**. If the save fails after your callback returned, your writes are rolled back with it.
+* **A failed write fails the save as a whole.** When a write request on `api_tx_url` errors, the transaction is marked failed: the save is refused at commit and **nothing** of the request becomes durable — your earlier writes included — even if the callback swallows the error and reports success. Further write requests on the URL are refused immediately, and the save's API client receives the error. Failed *reads* (for example a `404` probe for an object that does not exist) do not have this effect.
+* `await_index` is **not available** on `api_tx_url` (`400`): index jobs written inside the transaction only become visible once the save commits — waiting for them from inside the callback could never finish.
 * `api_tx_url` behaves identically on PostgreSQL and SQLite. Plugins that must run on both backends can simply prefer it for writes from a pre-save callback.
 
 A robust pattern for existing plugins — try the regular API first, fall back to the transaction on a lock error:
@@ -127,6 +129,8 @@ if statuscode == 423:
     if api_tx_url:
         resp_text, statuscode = post_to_api(api_tx_url, 'db/linked_object', token, payload)
 ```
+
+An error from the `api_tx_url` write cannot be papered over — the failed write has already failed the save's transaction. Report it as the callback's [error](#errors) so the API client sees the real cause instead of the generic refused commit.
 
 ## Errors
 
