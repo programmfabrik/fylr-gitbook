@@ -42714,6 +42714,13 @@ components:
                 num_glyphs:
                     type: number
                     format: int
+                projection_type:
+                    type: string
+                    description: |
+                        360° projection of a spherical video or panoramic image, e.g.
+                        `equirectangular`. Compiled from the Spherical Video metadata
+                        (V1 XML or V2 `sv3d`/Matroska `Projection` via ffprobe) for videos
+                        and the XMP GPano tags for images. Absent for flat media.
                 samples_per_pixel:
                     type: number
                     format: int
