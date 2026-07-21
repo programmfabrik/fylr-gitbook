@@ -60,7 +60,7 @@ The full configuration and payload reference is on [Workflow Webhooks](../for-ad
 
 ## Synchronous plugin callbacks
 
-For logic that must run **inside** the save — validate a value, compute a field, block a bad write — a [plugin callback](plugin/callbacks.md) (`db_pre_save`, `transition_db_pre_save`, `export`, …) is the tightest coupling: it runs in the request's transaction, receives the objects, and returns the modified ones. See [Plugin → Callbacks](plugin/callbacks.md).
+For logic that must run **inside** the save — validate a value, compute a field, block a bad write — a [plugin callback](plugin/callbacks/README.md) (`db_pre_save`, `transition_db_pre_save`, `export`, …) is the tightest coupling: it runs in the request's transaction, receives the objects, and returns the modified ones. See [Plugin → Callbacks](plugin/callbacks/README.md).
 
 ## See also
 
