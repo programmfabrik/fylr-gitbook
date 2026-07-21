@@ -102,8 +102,6 @@
 * [License](license-management.md)
 * [Plugins](plugins/README.md)
   * [Plugin Overview](plugins/overview.md)
-* [fylr Supervisor](supervisor/README.md)
-  * [API documentation](supervisor/api-documentation.md)
 
 ## Help
 
@@ -417,3 +415,5 @@
 * [easydb 5](for-developers/changes-easydb5-fylr.md)
 * [Localization](for-developers/localization.md)
 * [Access private Repositories](for-developers/access-private-repositories.md)
+* [fylr Supervisor](for-developers/supervisor/README.md)
+  * [API](for-developers/supervisor/api.md)

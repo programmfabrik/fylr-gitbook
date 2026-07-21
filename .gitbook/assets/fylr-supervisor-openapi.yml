@@ -32,10 +32,12 @@ tags:
     description: >-
       The fleet: create, inspect, edit, delete instances; start/stop,
       hibernate/wake; per-instance logs, metrics and overrides.
-  - name: deployments
+  - name: binaries
     description: >-
-      Run a release or branch build as a throwaway instance: upload a dist
-      archive, get a running instance; re-upload swaps the binary and rolls.
+      A docker-registry-style store of fylr binaries: immutable
+      sha256-identified artifacts, movable names (branches, release tags,
+      aliases like `latest`). Instances follow a name; repointing a name
+      rolls its running followers onto the new artifact.
   - name: backups
     description: >-
       The central backup store. Backup and restore are separate actions: a
@@ -97,6 +99,10 @@ paths:
                   stopped: { type: integer }
                   total_rss_kb: { type: integer, description: Summed resident memory of running instances (KiB). }
                   pg_connections: { type: integer, description: Indicative pooled PostgreSQL connections. }
+                  files_bytes:
+                    type: integer
+                    format: int64
+                    description: Summed file storage (file.filesize) over ALL instances, including stopped and hibernated ones (last persisted content-stats probe).
         "500": { $ref: "#/components/responses/Error" }
   /instances:
     get:
@@ -116,8 +122,7 @@ paths:
       summary: Create an instance
       description: >-
         Creates an instance and — unless `desired_state` is `stopped` —
-        provisions its database and starts it. The customer administrator
-        (`system:admin`) is activated automatically once the child is ready.
+        provisions its database and starts it.
       requestBody:
         required: true
         content:
@@ -152,8 +157,7 @@ paths:
         where possible; fields the child bakes in at startup (host, basic
         auth, replicas, license, label) trigger a gentle rolling restart, so
         the instance keeps serving. A non-empty `root_password` is applied
-        live (or on the next boot when stopped); a non-empty `admin_password`
-        re-pushes the customer admin.
+        live (or on the next boot when stopped).
       parameters:
         - $ref: "#/components/parameters/instanceId"
       requestBody:
@@ -390,86 +394,122 @@ paths:
         "400": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
         "500": { $ref: "#/components/responses/Error" }
-  /instances/{id}/activate:
-    post:
-      tags: [instances]
-      summary: Re-apply the customer admin
+  /binaries:
+    get:
+      tags: [binaries]
+      summary: List the binary store
       description: >-
-        Force-pushes the customer administrator's desired state (login
-        enabled, password, full admin rights minus `system.root`) — the
-        manual drift repair. Runs asynchronously.
-      parameters:
-        - $ref: "#/components/parameters/instanceId"
+        Every stored artifact with its names and followers, plus the
+        supervisor's own platform — CI preflights `os`/`arch` here to decide
+        which binary to push.
       responses:
-        "202":
-          description: Activation started.
+        "200":
+          description: The store.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  activating: { type: integer, description: The instance id. }
-        "404": { $ref: "#/components/responses/Error" }
-        "409": { $ref: "#/components/responses/Error" }
-  /deployments/{name}:
+                  os: { type: string, description: The supervisor's GOOS — uploads must match. }
+                  arch: { type: string, description: The supervisor's GOARCH — uploads must match. }
+                  default_binary:
+                    type: string
+                    description: The fleet default name (setting); "" = legacy binary path setting / the supervisor executable.
+                  binaries:
+                    type: array
+                    items: { $ref: "#/components/schemas/Binary" }
+        "500": { $ref: "#/components/responses/Error" }
+  /binaries/{name}:
     put:
-      tags: [deployments]
-      summary: Create or update a deployment
+      tags: [binaries]
+      summary: Push a binary / repoint a name
       description: >-
-        Uploads a fylr build and runs it as an instance. The first PUT
-        creates and starts a fresh instance; later PUTs swap the binary,
-        record the tag and roll the instance. The archive is a `make dist`
-        `.tar.gz`/`.zip` (top-level `fylr` binary) or a bare linux binary
-        (which then runs without bundled plugins). Maximum upload 2 GiB.
+        Registers the request body — a BARE fylr binary, no archive (`curl -T
+        fylr`) — under the name and rolls every running follower. The binary
+        is validated via its Go build info: it must be a fylr build for the
+        supervisor's platform, anything else is rejected with 422. Content is
+        stored sha256-addressed and deduped; re-pushing known content only
+        refreshes its timestamp. With `?sha256=` and an empty body the name is
+        repointed at an already-stored artifact instead (rollback, or
+        aliasing without re-uploading). Maximum upload 2 GiB.
       parameters:
         - name: name
           in: path
           required: true
-          description: Deployment name; slugified to a DNS label (lowercase, `[a-z0-9-]`, max 40 chars).
+          description: "Binary name: a branch, release tag, alias or instance host (`[a-zA-Z0-9._/-]`, max 100 chars)."
+          schema: { type: string }
+        - name: sha256
+          in: query
+          description: Repoint mode — point the name at this stored artifact, no upload.
+          schema: { type: string }
+        - name: managed
+          in: query
+          description: >-
+            `true` keeps a standing instance for this name — the name IS the
+            instance's public host, so it must be host-shaped
+            (`main.branch.fylr.io`, every dot-label with a letter; `v6.35.0`
+            is rejected — push `v6-35-0.branch.fylr.io`). Created on the
+            first push (random admin password returned once), rolled on
+            every later one. `false` releases the flag (the instance stays);
+            omitted = unchanged. When the `managed_master_id` setting names
+            an instance, a NEWLY created standing instance is seeded as a
+            copy of that master (database and files, visible as a `seed-…`
+            entry in the backup catalog); it keeps its own admin password.
+          schema: { type: boolean }
+        - name: version
+          in: query
+          description: Informational version label stored on first push (e.g. `git describe`).
+          schema: { type: string }
+        - name: source
+          in: query
+          description: Informational origin label stored on first push (e.g. `ci-apitest`, `release`).
           schema: { type: string }
       requestBody:
-        required: true
+        required: false
         content:
-          multipart/form-data:
-            schema:
-              type: object
-              required: [archive]
-              properties:
-                archive:
-                  type: string
-                  format: binary
-                  description: dist archive or bare linux fylr binary.
-                tag:
-                  type: string
-                  description: Informational release tag.
-                host:
-                  type: string
-                  description: Instance host (first deploy only; defaults to the deployment zone).
+          application/octet-stream:
+            schema: { type: string, format: binary }
       responses:
         "200":
-          description: Deployment result.
+          description: Push result.
           content:
             application/json:
               schema:
                 type: object
                 properties:
                   name: { type: string }
-                  tag: { type: string }
-                  action: { type: string, enum: [created, updated] }
-                  host: { type: string }
-                  url: { type: string }
-                  admin_password:
-                    type: string
-                    description: Random admin password — returned once on the first deploy only.
+                  action: { type: string, enum: [created, updated, unchanged] }
+                  sha256: { type: string }
+                  os: { type: string }
+                  arch: { type: string }
+                  version: { type: string }
+                  size: { type: integer }
                   rolling:
-                    type: boolean
-                    description: Update only — whether a rolling restart started.
+                    type: array
+                    items: { type: string }
+                    description: Instances rolling onto the new artifact.
+                  instance:
+                    type: object
+                    description: >-
+                      managed=true only — standing-instance result: carries
+                      `root_password` once when the instance was just created
+                      unseeded, `seeding_from` when a master copy was kicked
+                      off (credentials are then the master's), or `conflict`
+                      when the derived instance name is taken by a foreign
+                      instance.
         "400": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
         "500": { $ref: "#/components/responses/Error" }
     delete:
-      tags: [deployments]
-      summary: Delete a deployment
-      description: Full teardown — children, database, instance row and unpacked binaries.
+      tags: [binaries]
+      summary: Delete a binary name
+      description: >-
+        Removes the name. A managed name takes its standing instance
+        (children, database, row) with it — the full deployment teardown.
+        The artifact and its file are removed once no name points at them
+        anymore. Refused (409) while a foreign instance follows the name or
+        it is the fleet default_binary.
       parameters:
         - name: name
           in: path
@@ -484,8 +524,10 @@ paths:
                 type: object
                 properties:
                   deleted: { type: string }
-        "400": { $ref: "#/components/responses/Error" }
+                  instance_deleted: { type: string, description: Managed names only — the torn-down instance. }
+                  binary_removed: { type: boolean }
         "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
         "500": { $ref: "#/components/responses/Error" }
   /backups:
     get:
@@ -831,10 +873,14 @@ paths:
     get:
       tags: [certificates]
       summary: List certificates
-      description: One row per instance host, plus uploaded certificates without an instance.
+      description: >-
+        The actual certificates: every manual upload (wildcards included) with
+        the number of instances it serves, plus the issued ACME certificates
+        still in use. Per-instance certificate status is on the instance
+        itself (`cert_source`/`cert_host`/`cert_not_after`).
       responses:
         "200":
-          description: Certificate state per host.
+          description: The certificates.
           content:
             application/json:
               schema:
@@ -847,15 +893,47 @@ paths:
                     type: string
                     description: The router_tls setting (empty = TLS off).
         "500": { $ref: "#/components/responses/Error" }
+  /certs/inspect:
+    post:
+      tags: [certificates]
+      summary: Inspect a PEM certificate
+      description: >-
+        Returns the hosts (SAN DNS names, CN fallback) and expiry of a PEM
+        certificate without storing anything — the UI prefills the upload
+        form's host field from it.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [cert_pem]
+              properties:
+                cert_pem: { type: string }
+      responses:
+        "200":
+          description: Parsed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hosts:
+                    type: array
+                    items: { type: string }
+                  not_after: { type: string, description: Certificate expiry (RFC3339). }
+        "400": { $ref: "#/components/responses/Error" }
   /certs/{host}:
     put:
       tags: [certificates]
       summary: Store a manual certificate
       description: >-
         Stores a PEM certificate + key for a host and applies it live (the
-        affected running instance rolls, since its external URL scheme may
-        flip to https). Hosts without a manual certificate use on-demand ACME
-        when enabled.
+        affected running instances roll, since their external URL scheme may
+        flip to https). The host may be a wildcard (`*.fylr.io`) covering one
+        label, TLS-style; an exact-host certificate wins over a covering
+        wildcard. Hosts without a manual certificate use on-demand ACME when
+        enabled — a covering wildcard takes the host out of ACME issuance.
       parameters:
         - $ref: "#/components/parameters/certHost"
       requestBody:
@@ -1022,6 +1100,13 @@ paths:
           required: false
           description: Minimum level.
           schema: { type: string, enum: [debug, info, warn, error], default: info }
+        - name: instance
+          in: query
+          required: false
+          description: >-
+            Only entries of this instance (exact match on the instance
+            column — every instance-scoped supervisor log line carries it).
+          schema: { type: string }
         - name: limit
           in: query
           required: false
@@ -1043,6 +1128,7 @@ paths:
                         level: { type: string }
                         message: { type: string }
                         fields: { type: string, description: '"key=value" rendering of structured fields.' }
+                        instance: { type: string, description: Instance the entry belongs to ("" = fleet-level). }
         "500": { $ref: "#/components/responses/Error" }
   /cluster/opensearch:
     get:
@@ -1221,6 +1307,35 @@ components:
         error:
           type: string
           description: Human-readable error message.
+    Binary:
+      type: object
+      description: One immutable artifact in the binary store.
+      properties:
+        id: { type: integer, format: int64 }
+        sha256: { type: string }
+        os: { type: string }
+        arch: { type: string }
+        version: { type: string, description: Caller-provided version label (informational). }
+        vcs_revision: { type: string, description: Git commit from the Go build info, when stamped. }
+        vcs_time: { type: string }
+        size: { type: integer }
+        source: { type: string, description: 'Caller-provided origin label (e.g. "ci-apitest", "release").' }
+        names:
+          type: array
+          description: The names pointing at this artifact.
+          items:
+            type: object
+            properties:
+              name: { type: string }
+              binary_id: { type: integer, format: int64 }
+              managed: { type: integer, description: 1 = a standing instance is kept for this name (its host = the name). }
+              updated_at: { type: string }
+        used_by:
+          type: array
+          items: { type: string }
+          description: Instances following one of the names.
+        created_at: { type: string }
+        last_pushed_at: { type: string, description: Refreshed on every (deduped) re-push. }
     Instance:
       type: object
       description: >-
@@ -1238,8 +1353,11 @@ components:
         hibernated: { type: boolean }
         hibernate_after: { type: string, description: 'Per-instance hibernation override: "" = inherit the fleet setting, "off" = never hibernate, or an idle window like "10m".' }
         effective_hibernate_after: { type: string, description: 'Resolved hibernation window the instance runs with ("off" = never).' }
-        deployed_tag: { type: string, description: Release tag set by the deployments API. }
+        binary_name: { type: string, description: 'Registry name this instance follows ("" = the fleet default_binary setting).' }
         binary: { type: string, description: Effective fylr binary path. }
+        cert_source: { type: string, enum: [manual, acme, none], description: How the router serves TLS for this host. }
+        cert_host: { type: string, description: The covering certificate (may be a wildcard), manual only. }
+        cert_not_after: { type: string, description: Expiry of the covering certificate, manual only. }
         label: { type: string, description: Explicit modebar label ("" = default). }
         effective_label: { type: string }
         encryption_key_hint:
@@ -1261,6 +1379,14 @@ components:
         queued_files: { type: integer, description: file_queue backlog. }
         not_indexed: { type: integer, description: index_queue backlog. }
         busy_age_sec: { type: integer, description: Age of the queue probe. }
+        object_count:
+          type: integer
+          format: int64
+          description: Latest-version, non-deleted objects (periodic DB probe, refreshed every few minutes while running; stopped and hibernated instances keep the last persisted value).
+        files_bytes:
+          type: integer
+          format: int64
+          description: Sum of file.filesize — originals plus produced renditions (periodic DB probe; stopped and hibernated instances keep the last persisted value).
         db_dsn: { type: string, description: Password-redacted database DSN. }
         frontend_url: { type: string }
         inspect_url: { type: string }
@@ -1271,7 +1397,7 @@ components:
         license_id:
           type: integer
           format: int64
-          description: "Stored selection: 0 = inherit the fleet default, -1 = none, >0 = that license."
+          description: "Stored selection: 0 = inherit the fleet default, -1 = instance configured (the supervisor bakes nothing, the instance's own stored license applies — a db restore selects this), >0 = that fleet license."
         effective_license_id: { type: integer, format: int64 }
         effective_license_name: { type: string }
         storage_id:
@@ -1284,6 +1410,23 @@ components:
           type: array
           items: { type: integer, format: int64 }
           description: Additional backends attached as locations without being the default.
+        plugin_urls:
+          type: array
+          items: { type: string }
+          description: >-
+            The child's fylr.plugin.urls — url-type plugins it downloads and
+            keeps registered. A db-engine restore fills this from the source's
+            url plugins (captured at backup time) so the dump's plugin rows
+            survive the child's plugin sync.
+        users_can_login:
+          type: boolean
+          description: >-
+            Live license login gate of the running child (single-instance GET
+            only; absent while stopped/hibernated or on older children).
+            false = no license in service — fylr rejects every login except
+            root. Probed from the child because a license stored inside the
+            instance (e.g. kept by a db restore) shadows the baked fleet
+            license.
         created_at: { type: string }
         updated_at: { type: string }
     CreateInstance:
@@ -1298,11 +1441,15 @@ components:
         basic_auth_user: { type: string }
         basic_auth_pass: { type: string }
         root_password: { type: string, description: Applied on the first boot. }
-        admin_password: { type: string, description: Customer admin password (default admin). }
         replicas: { type: integer, default: 1 }
         desired_state: { type: string, enum: [running, stopped], default: running }
-        license_id: { type: integer, format: int64, description: "0 = inherit fleet default." }
+        license_id: { type: integer, format: int64, description: "0 = inherit fleet default, -1 = instance configured, >0 = that fleet license." }
         storage_id: { type: integer, format: int64, description: "0 = inherit, -1 = built-in disk, >0 = backend (must be writable)." }
+        binary_name: { type: string, description: 'Registry name to follow (must exist); "" = the fleet default_binary.' }
+        plugin_urls:
+          type: array
+          items: { type: string }
+          description: url-type plugins for the child's fylr.plugin.urls.
     EditInstance:
       type: object
       description: All fields optional — absent fields stay unchanged.
@@ -1311,7 +1458,6 @@ components:
         basic_auth_user: { type: string }
         basic_auth_pass: { type: string }
         root_password: { type: string, description: "Non-empty = change the root password (live or on next boot)." }
-        admin_password: { type: string, description: "Non-empty = re-push the customer admin password." }
         encryption_key:
           type: string
           minLength: 32
@@ -1322,13 +1468,18 @@ components:
             current key (2FA/TOTP secrets, passkeys, storage-location
             secrets) — meant for adopting a migration source's key.
         replicas: { type: integer, description: Clamped to >= 1. }
-        license_id: { type: integer, format: int64, description: "0 = inherit, -1 = none, >0 = that license." }
+        license_id: { type: integer, format: int64, description: "0 = inherit, -1 = instance configured, >0 = that fleet license." }
+        binary_name: { type: string, description: 'Repin to a registry name (must exist; the instance rolls); "" = follow the fleet default_binary again.' }
         label: { type: string }
         hibernate_after: { type: string, description: 'Hibernation override: "" = inherit the fleet setting, "off" = never hibernate (wakes a hibernated instance), or an idle window >= 30s like "10m". Applies live.' }
         storage_id: { type: integer, format: int64, description: "0 = inherit, -1 = built-in disk, >0 = that backend." }
         extra_storage_ids:
           type: array
           items: { type: integer, format: int64 }
+        plugin_urls:
+          type: array
+          items: { type: string }
+          description: Replace the child's fylr.plugin.urls (the instance rolls).
     Limits:
       type: object
       description: Router-enforced request limits. 0 = unlimited; burst 0 = same as rate.
@@ -1455,21 +1606,23 @@ components:
             finished_at: { type: string }
     Cert:
       type: object
+      description: One actual certificate — a manual upload or an issued ACME cert in use.
       properties:
-        host: { type: string }
-        instance: { type: string, description: Instance name; empty for uploads without an instance. }
-        source: { type: string, enum: [manual, acme, none] }
+        host: { type: string, description: Certificate identity — the uploaded host (may be a wildcard) or the ACME host. }
+        source: { type: string, enum: [manual, acme] }
         not_after: { type: string }
-        https: { type: boolean, description: The router serves TLS for this host right now. }
+        serves: { type: integer, description: Instances this certificate currently serves (wildcards serve many). }
     Settings:
       type: object
       description: >-
         Flat string map. Keys: listen, router, router_tls, data_dir,
-        port_range, binary, execserver_cpus, hibernate_after,
+        port_range, binary, default_binary, execserver_cpus, hibernate_after,
         postgres_admin_dsn, basic_auth_user, management_host,
-        default_license_id, default_storage_id, backup_dir,
-        opensearch_addresses, opensearch_user, acme_enabled, acme_email,
-        acme_ca, acme_eab_key_id — plus the write-only keys basic_auth_pass,
-        plugin_dir, opensearch_pass, acme_eab_hmac_key (accepted on PUT,
-        never returned).
+        default_license_id, default_storage_id, managed_master_id,
+        backup_dir, opensearch_addresses, opensearch_user, acme_enabled,
+        acme_email, acme_ca, acme_eab_key_id — plus the write-only keys
+        basic_auth_pass, plugin_dir, opensearch_pass, acme_eab_hmac_key
+        (accepted on PUT, never returned). managed_master_id names the
+        instance newly created managed branch instances are seeded from
+        (""/"0" = start empty).
       additionalProperties: { type: string }
