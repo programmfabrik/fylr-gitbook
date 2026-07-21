@@ -44973,6 +44973,10 @@
             "type": "number",
             "format": "int"
           },
+          "projection_type": {
+            "type": "string",
+            "description": "360\u00b0 projection of a spherical video or panoramic image, e.g.\n`equirectangular`. Compiled from the Spherical Video metadata\n(V1 XML or V2 `sv3d`/Matroska `Projection` via ffprobe) for videos\nand the XMP GPano tags for images. Absent for flat media.\n"
+          },
           "samples_per_pixel": {
             "type": "number",
             "format": "int",
