@@ -126,7 +126,7 @@ The parent/child model is on the `File` row (`id_parent`, `id_source`, `is_origi
 
 * **Auto-generated versions** are created by the *sync* action from the produce configuration. Each carries a `produce_hash` (version name + the exec's hash). That hash makes syncing **idempotent**: a child that already matches is not re-produced, and a child whose hash is no longer wanted is deleted. Versions can chain — a watermarked preview is produced from the plain preview, not from the original.
 * **Manual versions** are uploaded with a `version_name` onto an original (not allowed while that original auto-produces versions).
-* A **modified original** (`/eas/produce`) is a *new original* (`is_original = true`) derived from another, carrying the rotate/crop/format options — a "produced original".
+* A **modified original** (`/eas/produce`) is a *new original* (`is_original = true`) derived from another, carrying the rotate/crop/format options — from 6.35.0 also the trim/mute/scale/color options of a video parent — a "produced original".
 
 ## 6. Metadata extraction
 

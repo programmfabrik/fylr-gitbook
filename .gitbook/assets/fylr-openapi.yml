@@ -24747,11 +24747,15 @@ paths:
     /eas/produce:
         x-path: /eas/produce
         description: |
-            This endpoint is used to produce a new version of the file. It allows to crop and rotate images. The new file gets a new id. The `produce_version` setting from the parent is inherited.
+            This endpoint is used to produce a new version of the file. It allows to crop and rotate images, and to trim, crop, rotate, scale, mute and color-correct videos. The new file gets a new id. The `produce_version` setting from the parent is inherited.
+
+            The file is produced asynchronously: the response returns the new file in
+            `pending` state, poll its status until it reaches `done` (or `failed`).
 
             Differs from easydb 5: easydb 5 accepts a `description` field
             (optional l10n) in the produce body; **fylr** ignores it — the
-            request only reads `eas_parent_id`, `format` and `transform`.
+            request only reads `eas_parent_id`, `format`, `transform`, `trim`,
+            `mute`, `color` and `height`.
         post:
             parameters:
                 - name: obj_uuid
@@ -24784,9 +24788,15 @@ paths:
                                         - bmp
                                         - gif
                                         - psd
+                                        - webp
+                                        - mp4
+                                        - mov
+                                        - m4v
                                     description: |
                                         The target format of the produced file. Defaults to the
-                                        extension of the file parent.
+                                        extension of the file parent. The supported formats depend
+                                        on the class of the parent: image parents accept the image
+                                        formats, video parents accept `mp4`, `mov` and `m4v`.
                                 transform:
                                     type: object
                                     description: |
@@ -24815,6 +24825,7 @@ paths:
                                                 degrees are -360 to 360. For degrees other than multiple of
                                                 90, the background is set to transparent unless the format
                                                 doesn't support it in which case the background is black.
+                                                Videos can only be rotated in steps of 90 degrees.
                                         crop:
                                             type: object
                                             description: |
@@ -24822,7 +24833,8 @@ paths:
                                                 given width and height. If the cropped rectangle intersects
                                                 with the dimensions of the image, the intersection is used.
                                                 If it is outside the image, an image with 1x1 pixel is
-                                                produced.
+                                                produced. For videos, width and height are rounded down to
+                                                even values (a codec requirement).
                                             properties:
                                                 top:
                                                     type: number
@@ -24836,6 +24848,99 @@ paths:
                                                 height:
                                                     type: number
                                                     format: int
+                                trim:
+                                    type: object
+                                    description: |
+                                        Video parents only: keep the given time range and drop the
+                                        rest. `start` and `end` are seconds on the source timeline,
+                                        `0` (or omitted) keeps from the beginning / until the end.
+                                    properties:
+                                        start:
+                                            type: number
+                                            format: float
+                                        end:
+                                            type: number
+                                            format: float
+                                mute:
+                                    type: boolean
+                                    description: |
+                                        Video parents only: drop all audio streams.
+                                color:
+                                    type: object
+                                    description: |
+                                        Video parents only: color correction with the classic
+                                        grading controls, applied after the transformations in the
+                                        order white balance, tone curve, saturation/hue, vibrance.
+                                        Every property is neutral at `0` and omitted properties
+                                        keep the source value. Unless noted otherwise the range is
+                                        `-100` to `100`.
+                                    properties:
+                                        temperature:
+                                            type: number
+                                            format: float
+                                            description: |
+                                                White balance temperature, positive values are warmer
+                                                (more red), negative cooler (more blue).
+                                        tint:
+                                            type: number
+                                            format: float
+                                            description: |
+                                                White balance tint, positive values shift towards
+                                                magenta, negative towards green.
+                                        exposure:
+                                            type: number
+                                            format: float
+                                            description: |
+                                                Exposure in EV stops, `-5` to `5`. Each stop doubles or
+                                                halves the image values.
+                                        contrast:
+                                            type: number
+                                            format: float
+                                            description: |
+                                                Contrast around the middle gray.
+                                        highlights:
+                                            type: number
+                                            format: float
+                                            description: |
+                                                Brighten or recover the upper midtones.
+                                        shadows:
+                                            type: number
+                                            format: float
+                                            description: |
+                                                Lift or deepen the lower midtones.
+                                        whites:
+                                            type: number
+                                            format: float
+                                            description: |
+                                                Raise or lower the white point region.
+                                        blacks:
+                                            type: number
+                                            format: float
+                                            description: |
+                                                Raise or lower the black point region.
+                                        saturation:
+                                            type: number
+                                            format: float
+                                            description: |
+                                                Uniform saturation, `-100` produces grayscale, `100`
+                                                doubles the saturation.
+                                        vibrance:
+                                            type: number
+                                            format: float
+                                            description: |
+                                                Saturation that protects already saturated colors
+                                                (ffmpeg `vibrance` filter).
+                                        hue:
+                                            type: number
+                                            format: float
+                                            description: |
+                                                Hue rotation in degrees, `-180` to `180`.
+                                height:
+                                    type: number
+                                    format: int
+                                    description: |
+                                        Scale the produced file to this height in pixels, keeping the
+                                        aspect ratio. `0` (or omitted) keeps the source height.
             responses:
                 "200":
                     description: |
