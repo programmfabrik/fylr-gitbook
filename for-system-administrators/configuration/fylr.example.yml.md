@@ -754,6 +754,12 @@ fylr:
       #   loginAllowRedirects+:  [...]                          # appends to it
       #   loginAllowRedirects-:  ["http://localhost:*"]         # removes a baked-in entry
       #
+      # Matching origins are also trusted for credentialed CORS: they are
+      # reflected in Access-Control-Allow-Origin together with
+      # Access-Control-Allow-Credentials, like the fylr.externalURL origin
+      # and the redirect-URI origins of registered OAuth2 clients. Other
+      # origins only get the credential-less "Access-Control-Allow-Origin: *".
+      #
       # Intended for setups where every webOnly frontend is operator-controlled
       # (e.g. per-branch staging hosts that share a central fylr).
       loginAllowRedirects: []
