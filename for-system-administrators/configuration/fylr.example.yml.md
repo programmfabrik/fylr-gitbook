@@ -297,19 +297,6 @@ fylr:
               # optional endpoint suffix (default to core.windows.net)
               endpoint_suffix: "core.windows.net"
 
-  # DEPRECATED, will be removed in next version
-  # files are stored in S3. Buckets are created by FYLR automatically
-  s3:
-    endpoint: "127.0.0.1:9000"
-    accessKeyID: "minio"
-    secretAccessKey: "minio123"
-    bucketLocation: "us-east-1"
-    bucketName: fylr-census-dev
-    ssl: false
-    # allowPurge controls if a purge also purges the storage
-    # or not. Defaults to false
-    allowPurge: false
-
   plugin:
     # load plugins at startup. the loader crawls the given directories
     # and loads given files for plugin config files, ending in ".yml".
