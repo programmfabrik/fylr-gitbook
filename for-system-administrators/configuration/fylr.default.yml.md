@@ -54,8 +54,6 @@ fylr:
   execserver:
     addresses:
       - http://localhost:8083/?pretty=true
-    parallel: 18
-    parallelHigh: 10
     pluginJobTimeoutSec: 2400
     connectTimeoutSec: 120
     callbackBackendInternalURL: "http://localhost:8081"
@@ -155,16 +153,27 @@ fylr:
       addr: :8083
       jobRemovalPolicy: "done"
       janitorFileAge: "24h"
-      waitgroups:
-        # video / office conversion
-        slow:
-          processes: 2
-        # convert / image
-        medium:
-          processes: 6
-        # plugins / metadata etc.
-        fast:
-          processes: 10
+      # Concurrency is auto-balanced (#80133): all services share one CPU
+      # pool and are classified light/heavy by their measured runtime —
+      # heavy jobs (long conversions) never occupy the last fastReserve
+      # slots, so short interactive work always finds a slot. Configuring an
+      # explicit "waitgroups" block (plus per-service "waitgroup" keys)
+      # disables auto-balancing and restores manually sized pools.
+      #
+      # These keys are left UNSET here on purpose: their code defaults are
+      # applied in auto-balance mode, and leaving them out means a config
+      # that keeps an explicit waitgroups block does not trip the
+      # "ignoring cpus / fastReserve / ..." warning (they only count as
+      # "configured" when the customer sets them). See fylr.example.yml.
+      #   cpus: 0            # pool size, 0 = number of CPUs
+      #   fastReserve: 0     # slots reserved for light jobs, 0 = max(1, cpus/4)
+      #   heavyThreshold: 10s
+      #   unknownShare: 0.5  # pool share for services without enough samples yet
+
+      # graceful shutdown (#80136): running jobs may finish for this long,
+      # stragglers are interrupted with a "stopped, retry later" receipt.
+      # Applies in both auto-balance and explicit-waitgroups mode; the code
+      # default is 20s when unset.
 
       # common environment to be used for all program exec
       env:
@@ -216,34 +225,21 @@ fylr:
 
       services:
         # this service allows to execute arbitrary binaries
-        exec:
-          waitgroup: fast
+        exec: {}
         # plugin support
-        node:
-          waitgroup: fast
-        python3:
-          waitgroup: fast
-        xslt:
-          waitgroup: fast
+        node: {}
+        python3: {}
+        xslt: {}
         # file conversion support, also used by video thumbmnail which
         # is calling "fylr convert" which then calls ffmpeg
-        convert:
-          waitgroup: medium
-        ocr:
-          waitgroup: slow
-        ffmpeg:
-          waitgroup: slow
-        inkscape:
-          waitgroup: slow
-        soffice:
-          waitgroup: slow
-        pdf2pages:
-          waitgroup: slow
-        iiif:
-          waitgroup: fast
-        dot:
-          waitgroup: fast
-        metadata:
-          waitgroup: fast
+        convert: {}
+        ocr: {}
+        ffmpeg: {}
+        inkscape: {}
+        soffice: {}
+        pdf2pages: {}
+        iiif: {}
+        dot: {}
+        metadata: {}
 ```
 {% endcode %}

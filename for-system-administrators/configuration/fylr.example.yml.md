@@ -182,8 +182,8 @@ fylr:
     dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
 
     # https://golang.org/pkg/database/sql/#DB.SetMaxOpenConns default: 100 At
-    # least: 4 + execserver.parallel + execserver.parallelHigh +
-    # elastic.parallel. Two of these connections will be dedicated to a separate
+    # least: 4 + elastic.parallel (the file dispatcher sizes itself, see
+    # #80119). Two of these connections will be dedicated to a separate
     # connection pool managing the sequences. The recommended setting for this
     # is 100. It is not recommended to set it to 0 (unlimited), as this can
     # possibly open too many connections for the OS to handle. Also, since each
@@ -394,11 +394,13 @@ fylr:
   # Client configuration of execserver is used
   # for syncing of files, metadata generation and plugin execution
   execserver:
-    # number of parallel file workers, default to 2, set to 0 to disable.
-    parallel: 2
-    # number of parallel file workers only taking high priority tasks. Currently
-    # producing of all standard versions is a high priority task.
-    parallelHigh: 2
+    # NOTE: "parallel" is deprecated (#80133) — the file dispatcher sizes its
+    # own concurrency from the connected execserver pool (see the "backend"
+    # section below) and the execserver auto-balances its slots. Only
+    # "parallel: 0" still has an effect: it disables file processing (the
+    # file dispatcher) on this fylr, e.g. for API-only nodes. "parallelHigh"
+    # is ignored.
+    # parallel: 0
     # addresses of the execserver. they are tried in round robin.
     # if a server reports to be busy, the next server is tried.
     # if the server URL contains a /job/{service} path it is only used for the given service
@@ -413,6 +415,16 @@ fylr:
     # used for plugin installation (loaded from the backend into the execserver)
     # and progress updates.
     callbackBackendInternalURL: "http://localhost:8081"
+    # callbackBackendOwnURL is an OPTIONAL override for the execpipe callback
+    # host. Those stdin/stdout endpoints keep their stream in memory on the
+    # replica that created the job, so behind a load-balanced
+    # callbackBackendInternalURL the callback must return to that exact replica.
+    # fylr normally handles this automatically: it pins the pipe callback to its
+    # own source address on the broker connection to the execserver (no pod IP
+    # to configure). Set this only for topologies where that auto-detected
+    # address is not reachable from the execserver (e.g. NAT between them); it
+    # then replaces the pinned host. Leave empty otherwise.
+    # callbackBackendOwnURL: ""
     # callbackApiInternalURL will be presented to execserver plugin jobs. This
     # can be used by plugins to call back into the API.
     callbackApiInternalURL: "http://localhost:8080"
@@ -776,11 +788,6 @@ fylr:
       # if omitted no server is started
       addr: :8083
 
-      # tokenResponseSendServerIP is the IP which can be used by
-      # a client to send a job to. This IP is sent back to the client
-      # in the token response
-      tokenResponseSendServerIP: ""
-
       # Mandatory path to a directory the execserver - can work in. The
       # execserver will create a sub-directory per job and leave the space to
       # the worker. After the work is done, the sub-directory is removed. At
@@ -802,13 +809,30 @@ fylr:
       # is used to parse this value. Minimum duration is one minute. Defaults to "24h".
       janitorFileAge: "24h"
 
-      waitgroups:
-        a:
-          processes: 4
-        b:
-          processes: 2
-        c:
-          processes: 4
+      # Concurrency is auto-balanced by default (#80133): all services share
+      # one CPU pool and are classified light/heavy by their measured
+      # runtime. Heavy jobs (long conversions) never occupy the last
+      # fastReserve slots, so short interactive work always finds a slot.
+      cpus: 0            # pool size, 0 = number of CPUs
+      fastReserve: 0     # slots reserved for light jobs, 0 = max(1, cpus/4)
+      heavyThreshold: 10s
+      unknownShare: 0.5  # pool share for services not measured yet
+
+      # Graceful shutdown: on SIGTERM/Ctrl-C running jobs may finish for this
+      # long; jobs still running are interrupted with a "stopped, retry
+      # later" receipt — clients requeue them instead of reporting failures.
+      drainTimeoutSec: 20
+
+      # Configuring an explicit waitgroups block disables auto-balancing (the
+      # keys above are then ignored) and restores manually sized pools; every
+      # service below then needs its waitgroup key uncommented too. Deprecated.
+      # waitgroups:
+      #   a:
+      #     processes: 4
+      #   b:
+      #     processes: 2
+      #   c:
+      #     processes: 4
       # env can be set for all programs started by the execserver
       # this is overwritten by the env set for the specific command and by the
       # os environment
@@ -832,17 +856,17 @@ fylr:
 
       services:
         node:
-          waitgroup: b
+          # waitgroup: b
           commands:
             node:
               prog: "node"
         python3:
-          waitgroup: b
+          # waitgroup: b
           commands:
             python3:
               prog: "python3"
         convert:
-          waitgroup: a
+          # waitgroup: a
           commands:
             fylr_convert:
               prog: "fylr"
@@ -882,7 +906,7 @@ fylr:
                 # %_exec.binDir% is replaced with the directory the binary is in
                 - "metadata"
         ffmpeg:
-          waitgroup: a
+          # waitgroup: a
           commands:
             ffmpeg:
               prog: ffmpeg
@@ -925,7 +949,7 @@ fylr:
                 - "-v"
                 regex: "ffmpegthumbnailer version: 2\\..*"
         soffice:
-          waitgroup: c
+          # waitgroup: c
           commands:
             soffice:
               prog: soffice
@@ -959,7 +983,7 @@ fylr:
                 - "metadata"
 
         metadata:
-          waitgroup: a
+          # waitgroup: a
           commands:
             fylr_metadata:
               env:
@@ -975,7 +999,7 @@ fylr:
                   - "-version"
                 regex: "ffprobe version 4[\\.0-9]+ Copyright"
         pdf2pages:
-          waitgroup: a
+          # waitgroup: a
           commands:
             fylr_pdf2pages:
               # fylr_* utils use other programs to do their job. These
@@ -997,12 +1021,12 @@ fylr:
               args:
                 - "metadata"
         xslt:
-          waitgroup: a
+          # waitgroup: a
           commands:
             saxon:
               prog: "saxon"
         iiif:
-          waitgroup: a
+          # waitgroup: a
           commands:
             convert:
               prog: convert
