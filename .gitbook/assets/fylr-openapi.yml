@@ -47811,18 +47811,10 @@ components:
             type: object
             description: |
                 A **session** descriptor — returned by `GET /api/v1/user/session`.
-                Carries the access token, the authenticated user and their groups,
-                the system rights they hold, available authentication methods, and
-                instance-wide defaults the front end needs to render correctly.
-            required:
-                - access_token
+                Carries the authenticated user and their groups, the system rights
+                they hold, available authentication methods, and instance-wide
+                defaults the front end needs to render correctly.
             properties:
-                access_token:
-                    type: string
-                    description: |
-                        The session's access token. Use it as the `Bearer` token (or in
-                        the `x-fylr-authorization` / `Authorization` header) for
-                        subsequent requests.
                 user:
                     $ref: '#/components/schemas/UserApi'
                 groups:

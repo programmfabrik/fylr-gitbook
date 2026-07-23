@@ -49804,15 +49804,8 @@
       },
       "SessionApi": {
         "type": "object",
-        "description": "A **session** descriptor — returned by `GET /api/v1/user/session`.\nCarries the access token, the authenticated user and their groups,\nthe system rights they hold, available authentication methods, and\ninstance-wide defaults the front end needs to render correctly.\n",
-        "required": [
-          "access_token"
-        ],
+        "description": "A **session** descriptor — returned by `GET /api/v1/user/session`.\nCarries the authenticated user and their groups, the system rights\nthey hold, available authentication methods, and instance-wide\ndefaults the front end needs to render correctly.\n",
         "properties": {
-          "access_token": {
-            "type": "string",
-            "description": "The session's access token. Use it as the `Bearer` token (or in\nthe `x-fylr-authorization` / `Authorization` header) for\nsubsequent requests.\n"
-          },
           "user": {
             "$ref": "#/components/schemas/UserApi"
           },
