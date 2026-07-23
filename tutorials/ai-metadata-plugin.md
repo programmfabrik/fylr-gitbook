@@ -252,6 +252,18 @@ Reference this variable in another prompt:
 
 Now during configuration of a prompt a user can control the amount of words used in the LLMs response.
 
+
+
+The variables used by an AI mapping can be configured in three places; when set, they take precedence in this order:
+
+1. Rights Management > Object type > recipe param config
+2. Metadata Mapping > recipe param config
+3. Fileworker > Custom Metadata > AI Metadata recipe > recipe param config
+
+<br>
+
+
+
 {% hint style="info" %}
 Those are examples with the goal to showcase the setup of the variable system in the ai-metadata plugin.
 
