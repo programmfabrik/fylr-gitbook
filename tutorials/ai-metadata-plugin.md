@@ -32,8 +32,6 @@ While installing enabling the plugin is the default behavior. You can enable or 
 
 <figure><img src="../.gitbook/assets/Screenshot 2025-08-20 at 15.27.19.png" alt="" width="343"><figcaption><p>An ongoing ZIP installation of the ai-metadata plugin</p></figcaption></figure>
 
-
-
 Install the plugin by release URL to always get the latest updates, after contacting support you will receive an installation URL instead of a ZIP.
 
 {% hint style="info" %}
@@ -46,7 +44,7 @@ After installing and activating the plugin, select it in the plugin list.
 
 Configure the plugin in the "General Tab" by adding an API Key
 
-<table><thead><tr><th width="240.87109375">Setting</th><th>Description</th></tr></thead><tbody><tr><td><strong>Extended protocol</strong></td><td>Additional debug context in FILE_METADATA events</td></tr><tr><td><strong>API Type</strong></td><td>OPEN_AI / AZURE: choose Azure if you want to connect to your own LLM URL.</td></tr><tr><td><strong>Base URL</strong> </td><td><p>OPEN_AI:</p><p>Leave empty if using API Type OPEN_AI (default fallback)</p><p></p><p>AZURE / others:</p><ul><li>example: <code>https://{{ressource}}.openai.azure.com</code></li><li>Could be any Endpoint compliant with the <a href="https://developers.openai.com/api/reference/chat-completions/overview">Chat Completions API</a></li></ul></td></tr><tr><td><strong>API Key (Required)</strong></td><td>Enter your API key. Without API Key, requests will be denied. </td></tr><tr><td><strong>API Version</strong> (only with API Type AZURE)</td><td>Use the current version of your LLM (<strong>Azure-REST-API-Version</strong>, a date string e.g. <code>2026-02-01</code> oder <code>2026-01-01-preview</code> )</td></tr><tr><td><strong>Model (Deployment Name)</strong></td><td><p></p><p>Free entry: input your deployment name. <strong>Required with API Type AZURE.</strong></p></td></tr><tr><td><strong>Model (List)</strong></td><td>Select from the list of OpenAI models</td></tr><tr><td><strong>Used image size</strong></td><td>Controls the resolution of images sent to the LLM. The default of 600px is sufficient for most use cases.</td></tr><tr><td><strong>Instructions for the AI</strong></td><td><p>Describe the AI’s general style, role, and behavior here. These instructions apply to all answers, for example tone, perspective, or fixed phrasing rules. Do not enter the actual question here.</p><p><strong>Note:</strong> does currently not work with API Type AZURE</p></td></tr></tbody></table>
+<table><thead><tr><th width="240.87109375">Setting</th><th>Description</th></tr></thead><tbody><tr><td><strong>Extended protocol</strong></td><td>Additional debug context in FILE_METADATA events</td></tr><tr><td><strong>API Type</strong></td><td>OPEN_AI / AZURE: choose Azure if you want to connect to your own LLM URL.</td></tr><tr><td><strong>Base URL</strong></td><td><p>OPEN_AI:</p><p>Leave empty if using API Type OPEN_AI (default fallback)</p><p>AZURE / others:</p><ul><li>example: <code>https://{{ressource}}.openai.azure.com</code></li><li>Could be any Endpoint compliant with the <a href="https://developers.openai.com/api/reference/chat-completions/overview">Chat Completions API</a></li></ul></td></tr><tr><td><strong>API Key (Required)</strong></td><td>Enter your API key. Without API Key, requests will be denied.</td></tr><tr><td><strong>API Version</strong> (only with API Type AZURE)</td><td>Use the current version of your LLM (<strong>Azure-REST-API-Version</strong>, a date string e.g. <code>2026-02-01</code> oder <code>2026-01-01-preview</code> )</td></tr><tr><td><strong>Model (Deployment Name)</strong></td><td>Free entry: input your deployment name. <strong>Required with API Type AZURE.</strong></td></tr><tr><td><strong>Model (List)</strong></td><td>Select from the list of OpenAI models</td></tr><tr><td><strong>Used image size</strong></td><td>Controls the resolution of images sent to the LLM. The default of 600px is sufficient for most use cases.</td></tr><tr><td><strong>Instructions for the AI</strong></td><td><p>Describe the AI’s general style, role, and behavior here. These instructions apply to all answers, for example tone, perspective, or fixed phrasing rules. Do not enter the actual question here.</p><p><strong>Note:</strong> does currently not work with API Type AZURE</p></td></tr></tbody></table>
 
 {% hint style="warning" %}
 **It's currently not possible to save more than one LLM configuration.**
@@ -78,7 +76,7 @@ If it doesn't, edit your datamodel accordingly and continue afterwards.
   * maps to [#single-line-and-multiline-text-multilingual](../for-administrators/tools/csv-importer/examples/all-data-types.md#single-line-and-multiline-text-multilingual "mention") in a nested field.
 * _Boolean_
   * maps to Boolean field
-* _Date (ISO 8601)_&#x20;
+* _Date (ISO 8601)_
   * maps to [#date-date--time](../for-administrators/tools/csv-importer/examples/all-data-types.md#date-date--time "mention")
 
 #### Examples
@@ -137,7 +135,29 @@ In the next view, see the prompt results arranged into your fields. After saving
 
 If not satisfied with the results, after updating your prompts with closer alignment to your requirements, restart the import process or continue reading to apply the mapping with a background task.
 
-***
+
+
+### Applying AI metadata as defaults when creating objects
+
+Set an AI metadata mapping as the default import profile in _Rights Management > Object types_
+
+* set the **XMP/IPTC/EXIF Import Profile** input to your AI metadata mapping
+
+In the [file-worker](../for-administrators/readme/file-worker/ "mention") section for Custom Metadata, select the **AI Metadata** Recipe:&#x20;
+
+1. select the the file extensions to run the AI mapping on
+2. if existing, input values for your variables (see  [#customizable-variables-in-prompts](ai-metadata-plugin.md#customizable-variables-in-prompts "mention"))
+
+Options:
+
+* **Include versions:** By default the recipe runs on the original only, and it accepts image formats only (jpg, png, tif, …). For non-image original files (PDF, video) give the model an readable version instead. Leave off for normal images.
+* **Run only when necessary:**
+  * **Off (default):** the recipe runs automatically in the normal metadata step (e.g. on upload).&#x20;
+  * **On:** it becomes request-only - run only when metadata is explicitly re-requested via "Resync with metadata (incl. request only)" (usage in /inspect/files (see [regenerating-preview-images.md](../help/tutorials/for-system-administrators/regenerating-preview-images.md "mention") or in [#usage-with-background-tasks](ai-metadata-plugin.md#usage-with-background-tasks "mention")); there is currently no dedicated UI trigger.
+
+
+
+
 
 ## Usage with Background Tasks
 
@@ -189,15 +209,13 @@ If the found records have no values in their fields yet, the **Override Values**
 
 After the created tasks next scheduled job has finished (now or later, depending on the amount of records to be mapped), confirm the changes made in the tasks log and the record itself.
 
-
-
 ### Customizable variables in prompts
 
 Create customizable variables used in your prompts to be filled later during usage.
 
 Configuration of a variable:
 
-* **Name (string):**&#x20;
+* **Name (string):**
   * the name of your variable, will be visible later during usage. **No empty space characters allowed.**
   * Use the variable in your prompts by referencing it using the this syntax: `%variables.NAME%`
 * **Description (string):** will be used as a label to your variables input
@@ -226,7 +244,7 @@ Configuration of a variable:
 
 **Setup:**
 
-<figure><img src="../.gitbook/assets/Screenshot 2026-05-13 at 16.40.16.png" alt=""><figcaption><p>Example Setup of a variable controlling the length of a LLM response </p></figcaption></figure>
+<figure><img src="../.gitbook/assets/Screenshot 2026-05-13 at 16.40.16.png" alt=""><figcaption><p>Example Setup of a variable controlling the length of a LLM response</p></figcaption></figure>
 
 Reference this variable in another prompt:
 
@@ -235,7 +253,7 @@ Reference this variable in another prompt:
 Now during configuration of a prompt a user can control the amount of words used in the LLMs response.
 
 {% hint style="info" %}
-Those are examples with the goal to showcase the setup of the variable system in the ai-metadata plugin.&#x20;
+Those are examples with the goal to showcase the setup of the variable system in the ai-metadata plugin.
 
 The LLMs responses are only as good as the prompts provided.
 {% endhint %}
