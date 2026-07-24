@@ -13,7 +13,9 @@ SQLite-backed instances work without PostgreSQL and are meant for tests and tiny
 
 ## Bootstrap configuration
 
-The supervisor's YAML holds **only** the control-DB connection; the shared OpenSearch can be inherited by every child from the same file. Everything else is a runtime setting in the control database (see the [settings reference](settings.md)):
+The supervisor's YAML holds **only** the control-DB connection; the shared OpenSearch can be inherited by every child from the same file. Everything else is a runtime setting in the control database (see the [settings reference](settings.md)).
+
+fylr always loads its **embedded default configuration** first (`fylr.default.yml` — logger, services, produce pipeline, …); a configuration file is applied on top of it. The `+` suffix on a key (`fylr+:`) means *merge my keys into the default block*. A plain `fylr:` key would **replace** the entire default `fylr` section — dropping every default under it — so a supervisor (or instance) configuration should practically always use the merge form:
 
 ```yaml
 # supervisor.yml

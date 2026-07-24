@@ -28,6 +28,32 @@ flowchart LR
 * **Router** — a reverse proxy mapping the request `Host` to a healthy replica of the owning instance, with sticky sessions, [TLS](router.md#tls-certificates), per-IP and per-instance [rate limits](router.md#rate-limits) and an [abuse shield](router.md#abuse-shield) in front of everything.
 * **Shared services** — one PostgreSQL cluster, one OpenSearch and (by default) one shared execserver serve the whole fleet; each is surfaced on its own [infrastructure page](infrastructure.md).
 
+## Quick start
+
+```yaml
+# supervisor.yml — note the merge key: `fylr+:` merges INTO fylr's embedded
+# default configuration; a plain `fylr:` would replace the whole block
+fylr+:
+  elastic:
+    addresses: ["http://localhost:9200"]   # inherited by every child instance
+  supervisor:
+    db:
+      driver: sqlite3
+      dsn: /srv/fylr/control.db
+```
+
+```sh
+fylr supervisor -c supervisor.yml
+```
+
+Then secure the management API **before anything else** — without credentials it is open:
+
+```sh
+curl -X PUT localhost:8090/api/settings     -d '{"basic_auth_user": "admin", "basic_auth_pass": "a-strong-password"}'
+```
+
+(or in the UI: **Settings → General → UI access**; the setting applies live). Open `http://localhost:8090/` for the dashboard and continue with [Installation](installation.md) for PostgreSQL provisioning, systemd and DNS.
+
 ## Chapters
 
 * [Installation](installation.md) — bootstrap a machine, systemd, first boot
