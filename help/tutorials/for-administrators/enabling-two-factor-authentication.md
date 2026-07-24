@@ -85,6 +85,10 @@ This is the part to plan for before you enforce 2FA on real accounts.
 
 The `USER_LOGIN` event records which second factor was used (in its `two_factor` field), so you can verify in the event log that 2FA is actually taking effect.
 
+{% hint style="info" %}
+Choosing a method: the one-time email code depends on timely mail delivery — some mail systems apply greylisting or other delays that can hold up the code past the login window. If that's a concern, prefer the authenticator app (TOTP) or passkey as the primary method, with email only as a fallback.
+{% endhint %}
+
 ## Related pages
 
 * [access.md](../../../for-administrators/readme/access.md "mention") — the base-configuration section where 2FA is enabled.
