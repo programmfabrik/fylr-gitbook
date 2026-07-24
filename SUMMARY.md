@@ -274,6 +274,20 @@
   * [Purge objects](for-system-administrators/symptom-and-solution/purge-objects.md)
 * [PostgreSQL versions](for-system-administrators/postgresql-versions.md)
 
+## SUPERVISOR
+
+* [Supervisor](supervisor/README.md)
+  * [Installation](supervisor/installation.md)
+  * [Instances](supervisor/instances.md)
+  * [Storage](supervisor/storage.md)
+  * [Backups & copies](supervisor/backups.md)
+  * [Router, TLS & protection](supervisor/router.md)
+  * [Binaries & managed instances](supervisor/binaries.md)
+  * [Licenses](supervisor/licenses.md)
+  * [Infrastructure pages](supervisor/infrastructure.md)
+  * [Settings reference](supervisor/settings.md)
+  * [Management API](supervisor/api.md)
+
 ## Tutorials
 
 * [Project Workflow](tutorials/project-workflow.md)
