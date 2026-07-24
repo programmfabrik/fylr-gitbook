@@ -276,17 +276,17 @@
 
 ## SUPERVISOR
 
-* [Supervisor](supervisor/README.md)
-  * [Installation](supervisor/installation.md)
-  * [Instances](supervisor/instances.md)
-  * [Storage](supervisor/storage.md)
-  * [Backups & copies](supervisor/backups.md)
-  * [Router, TLS & protection](supervisor/router.md)
-  * [Binaries & managed instances](supervisor/binaries.md)
-  * [Licenses](supervisor/licenses.md)
-  * [Infrastructure pages](supervisor/infrastructure.md)
-  * [Settings reference](supervisor/settings.md)
-  * [Management API](supervisor/api.md)
+* [Introduction](supervisor/README.md)
+* [Installation](supervisor/installation.md)
+* [Instances](supervisor/instances.md)
+* [Storage](supervisor/storage.md)
+* [Backups & copies](supervisor/backups.md)
+* [Router, TLS & protection](supervisor/router.md)
+* [Binaries & managed instances](supervisor/binaries.md)
+* [Licenses](supervisor/licenses.md)
+* [Infrastructure pages](supervisor/infrastructure.md)
+* [Settings reference](supervisor/settings.md)
+* [Management API](supervisor/api.md)
 
 ## Tutorials
 

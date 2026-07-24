@@ -1,4 +1,4 @@
-# Supervisor
+# Introduction
 
 The fylr supervisor turns one machine into a managed fleet of fylr instances. One `fylr supervisor` process provisions each instance's PostgreSQL database, spawns and supervises ordinary `fylr server` child processes, routes public traffic to them by hostname, and serves a web UI plus a JSON management API.
 
@@ -8,12 +8,19 @@ The fylr server code is untouched: children are unmodified fylr servers, spawned
 
 ## Architecture
 
-```
-minimal supervisor.yml (bootstrap) ─▶ control DB (desired state) ─▶ reconcile loop ─▶ child fylr processes
-                                            ▲                            │
-                                  web UI + JSON API ────────────────────┼─▶ Host router  (Host → instance)
-                                                                         ├─▶ provisioner  (CREATE DATABASE + child self-init)
-                                                                         └─▶ shared execserver (one, serves all instances)
+```mermaid
+flowchart LR
+    yml["minimal supervisor.yml<br/>(bootstrap: control-DB connection)"] --> ctl[("control DB<br/>desired state + settings")]
+    ui["web UI + JSON API"] --> ctl
+    ctl --> rec["reconcile loop"]
+    rec --> prov["provisioner<br/>CREATE DATABASE"]
+    rec --> ch["child fylr instances<br/>(replicas, rolling restarts)"]
+    prov --> pg[("PostgreSQL")]
+    ch --> pg
+    ch --> os[("OpenSearch")]
+    ch --> ex["shared execserver"]
+    inet(("internet")) --> router["Host router<br/>TLS · rate limits · abuse shield"]
+    router --> ch
 ```
 
 * **Control database** — SQLite by default. It holds the *desired* state of the fleet and every supervisor setting; runtime state (PIDs, ports, live status) lives in memory. Only the control-DB connection itself is configured in the YAML file — everything else is edited at runtime through the Settings page or `PUT /api/settings`, and applies live without a supervisor restart.
