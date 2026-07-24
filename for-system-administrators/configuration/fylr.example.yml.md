@@ -767,6 +767,29 @@ fylr:
       #   - http://*.fylr.dev
       #   - http://dev.internal:*
 
+      # frameAncestors extends the origins allowed to embed fylr documents in
+      # a frame (iframe) beyond same-origin. With the empty default, every
+      # response carries "X-Frame-Options: SAMEORIGIN" and the equivalent
+      # "Content-Security-Policy: frame-ancestors 'self'": fylr may frame
+      # itself (its login uses same-origin iframes), other sites may not.
+      #
+      # Each entry is a CSP source of the form scheme://host[:port]; the
+      # leftmost host label may be "*" (matches one subdomain label) and the
+      # port may be "*" (matches any port). Entries are added to the
+      # frame-ancestors list, and X-Frame-Options is then omitted — it cannot
+      # express an allow-list, and every current browser prefers
+      # frame-ancestors anyway.
+      #
+      # Note browsers validate the WHOLE ancestor chain: when a portal embeds
+      # fylr cross-origin, even fylr's own internal same-origin iframes see
+      # the portal as an ancestor. So listing the portal origin here is
+      # required (and sufficient) for fylr to work inside its iframe,
+      # including the login.
+      frameAncestors: []
+      # frameAncestors:
+      #   - https://portal.example.com
+      #   - https://*.portal-customers.example
+
     # service execserver executes binaries and used by FYLR
     # to generate previews, execute plugins and to get metadata
     # of files.
