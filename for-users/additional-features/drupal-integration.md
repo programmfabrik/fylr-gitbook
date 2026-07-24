@@ -13,3 +13,5 @@ Once both parts are set up, editors can pull assets from fylr while creating or 
 3. Log in to fylr. The fylr file picker opens.
 4. Select one or more assets and confirm the transfer to Drupal.
 5. The selected files are sent to Drupal and attached to the content.
+
+<figure><img src="../../.gitbook/assets/Bildschirmfoto 2026-07-24 um 10.41.22.png" alt=""><figcaption></figcaption></figure>
