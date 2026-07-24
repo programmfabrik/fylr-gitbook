@@ -535,8 +535,10 @@ fylr:
       # Browser security headers (Referrer-Policy, X-Frame-Options /
       # frame-ancestors) are stamped on this listener's responses too — the
       # api serves browser documents (/api/page/* login pages, inline file
-      # downloads). The framing allow-list is configured ONCE, instance-wide,
-      # under webapp.frameAncestors below.
+      # downloads) — and the origins trusted for credentialed CORS on this
+      # listener come from the webapp section as well. Both browser-policy
+      # lists are configured ONCE, instance-wide: webapp.frameAncestors and
+      # webapp.loginAllowRedirects below.
 
       # for tls support ("addr" only), provide a cert and key file
       tls:
@@ -589,9 +591,11 @@ fylr:
 
       # Browser security headers (Referrer-Policy, X-Frame-Options /
       # frame-ancestors) are stamped on this listener's responses too — the
-      # backend port serves the /inspect pages directly. The framing
-      # allow-list is configured ONCE, instance-wide, under
-      # webapp.frameAncestors below.
+      # backend port serves the /inspect pages directly — and the origins
+      # trusted for credentialed CORS on this listener come from the webapp
+      # section as well. Both browser-policy lists are configured ONCE,
+      # instance-wide: webapp.frameAncestors and webapp.loginAllowRedirects
+      # below.
       # for tls support ("addr" only), provide a cert and key file
       tls:
         certFile: ""
@@ -771,6 +775,10 @@ fylr:
       # and the redirect-URI origins of registered OAuth2 clients. Other
       # origins only get the credential-less "Access-Control-Allow-Origin: *".
       #
+      # SCOPE: like frameAncestors below, this list applies INSTANCE-WIDE —
+      # the CORS headers of the webapp, api and backend listeners alike
+      # honour it, not just the webapp's.
+      #
       # Intended for setups where every webOnly frontend is operator-controlled
       # (e.g. per-branch staging hosts that share a central fylr).
       loginAllowRedirects: []
@@ -787,11 +795,12 @@ fylr:
       #
       # SCOPE: although the key sits under webapp — next to its sibling
       # loginAllowRedirects, the other browser-policy list — it applies
-      # INSTANCE-WIDE, i.e. also to the responses of the api listener
-      # (/api/page/* login pages, inline file downloads) and the backend
-      # listener (/inspect). Framing policy must be uniform: a portal
-      # embedding the webapp also embeds the login documents served by the
-      # api, so a per-service split would only create broken states.
+      # INSTANCE-WIDE, to the webapp, api and backend listeners alike: the
+      # api serves browser documents too (/api/page/* login pages, inline
+      # file downloads), the backend serves /inspect. Framing policy must
+      # be uniform: a portal embedding the webapp also embeds the login
+      # documents served by the api, so a per-service split would only
+      # create broken states.
       #
       # Each entry is a CSP source of the form scheme://host[:port]; the
       # leftmost host label may be "*" (matches one subdomain label) and the
