@@ -532,6 +532,12 @@ fylr:
       # if omitted, this server is not started.
       addr: ":8080"
 
+      # Browser security headers (Referrer-Policy, X-Frame-Options /
+      # frame-ancestors) are stamped on this listener's responses too — the
+      # api serves browser documents (/api/page/* login pages, inline file
+      # downloads). The framing allow-list is configured ONCE, instance-wide,
+      # under webapp.frameAncestors below.
+
       # for tls support ("addr" only), provide a cert and key file
       tls:
         certFile: ""
@@ -580,6 +586,12 @@ fylr:
       # address of the server listener
       # if omitted, this server is not started
       addr: :8081
+
+      # Browser security headers (Referrer-Policy, X-Frame-Options /
+      # frame-ancestors) are stamped on this listener's responses too — the
+      # backend port serves the /inspect pages directly. The framing
+      # allow-list is configured ONCE, instance-wide, under
+      # webapp.frameAncestors below.
       # for tls support ("addr" only), provide a cert and key file
       tls:
         certFile: ""
@@ -772,6 +784,14 @@ fylr:
       # response carries "X-Frame-Options: SAMEORIGIN" and the equivalent
       # "Content-Security-Policy: frame-ancestors 'self'": fylr may frame
       # itself (its login uses same-origin iframes), other sites may not.
+      #
+      # SCOPE: although the key sits under webapp — next to its sibling
+      # loginAllowRedirects, the other browser-policy list — it applies
+      # INSTANCE-WIDE, i.e. also to the responses of the api listener
+      # (/api/page/* login pages, inline file downloads) and the backend
+      # listener (/inspect). Framing policy must be uniform: a portal
+      # embedding the webapp also embeds the login documents served by the
+      # api, so a per-service split would only create broken states.
       #
       # Each entry is a CSP source of the form scheme://host[:port]; the
       # leftmost host label may be "*" (matches one subdomain label) and the
