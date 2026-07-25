@@ -24782,6 +24782,7 @@ paths:
                                         - jpg
                                         - jpeg
                                         - jp2
+                                        - heic
                                         - png
                                         - tif
                                         - tiff
@@ -24794,9 +24795,13 @@ paths:
                                         - m4v
                                     description: |
                                         The target format of the produced file. Defaults to the
-                                        extension of the file parent. The supported formats depend
-                                        on the class of the parent: image parents accept the image
-                                        formats, video parents accept `mp4`, `mov` and `m4v`.
+                                        extension of the file parent. If that extension cannot be
+                                        produced (for example `jfif`, which can be read but not
+                                        written), the default output format of the produce recipe
+                                        is used (`jpg` for images, `mp4` for videos). The supported
+                                        formats depend on the class of the parent: image parents
+                                        accept the image formats, video parents accept `mp4`, `mov`
+                                        and `m4v`.
                                 transform:
                                     type: object
                                     description: |
@@ -25571,14 +25576,19 @@ paths:
                         - jpg
                         - jpeg
                         - jp2
+                        - heic
                         - png
                         - tif
                         - tiff
                         - bmp
                         - gif
                         - psd
+                        - webp
                   description: |
-                    The target format of the produced file. Defaults to the extension of the file parent.
+                    The target format of the produced file. Defaults to the extension of the
+                    file parent. If that extension cannot be produced (for example `jfif`,
+                    which can be read but not written), the default output format of the
+                    produce recipe is used (`jpg`).
                 - name: size
                   in: query
                   schema:
