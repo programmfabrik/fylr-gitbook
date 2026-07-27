@@ -1,6 +1,10 @@
 # Management API
 
-Everything the UI does goes through the JSON management API under `/api` on the management listener. With `basic_auth_user`/`basic_auth_pass` set, every request needs HTTP basic auth. Errors come back as `{"error": "…"}` with a meaningful status code; asynchronous work (backups, restores, copies) answers `202` and is polled through its list endpoint.
+Everything the UI does goes through the JSON management API under `/api` on the management listener. Every request needs a credential — an API token, HTTP basic auth or a session cookie ([management access](access.md)); only `GET /api/healthz` and `POST /api/login` are open. Errors come back as `{"error": "…"}` with a meaningful status code; asynchronous work (backups, restores, copies) answers `202` and is polled through its list endpoint.
+
+```sh
+curl -H 'Authorization: Bearer svt_…' localhost:8090/api/instances
+```
 
 Two companion references:
 
@@ -14,6 +18,24 @@ Two companion references:
 | GET | `/api/healthz` | Liveness probe |
 | GET | `/api/fleet` | Fleet summary (dashboard header) |
 | GET | `/api/logs` | The supervisor's own log, filterable (`q`, `level`, `date`, `instance`, `limit`) |
+
+## Access
+
+Users, sessions and API tokens — see [Management access](access.md).
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| POST | `/api/login` | Log in (`name`, `password`, `otp` when two-factor is armed); sets the session cookie |
+| POST | `/api/logout` | End the session |
+| GET | `/api/session` | Who this request authenticates as, and how |
+| POST | `/api/session/password` | Change the caller's own password (`old_password`, `new_password`) |
+| POST | `/api/session/totp` · `/totp/confirm` | Begin and confirm the caller's authenticator enrollment |
+| DELETE | `/api/session/totp` | Disable the caller's second factor |
+| GET/POST | `/api/users` | List / create management users |
+| PATCH | `/api/users/{id}` | Edit (`email`, `active`, `password`, `must_change_password`, `totp_reset`) |
+| DELETE | `/api/users/{id}` | Delete; refused for the last active user |
+| GET/POST | `/api/tokens` | List / mint API tokens — the secret is returned once |
+| DELETE | `/api/tokens/{id}` | Revoke a token |
 
 ## Settings
 

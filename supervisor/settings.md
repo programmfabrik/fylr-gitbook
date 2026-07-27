@@ -24,10 +24,10 @@ Flat keys, one value each, as sent to `PUT /api/settings`. On first boot each mi
 | `listen` | `:8090` | Management listener (API + UI). Rebinds live. |
 | `router` | `:8091` | Public host-routing listener (HTTP). Empty disables routing. |
 | `router_tls` | *(empty)* | Public TLS listener, e.g. `:443`. Empty disables TLS. |
-| `management_host` | *(empty)* | Serve the management UI through the public router under this host (forced HTTPS; refused unless basic auth is set). |
-| `basic_auth_user` | *(empty)* | HTTP basic-auth user for the management API + UI. Empty = open. |
-| `basic_auth_pass` | *(empty)* | The matching password (write-only in the API). |
+| `management_host` | *(empty)* | Serve the management UI through the public router under this host (forced HTTPS). |
 | `trusted_proxies` | *(empty)* | Comma-separated IPs/CIDRs whose `x-real-ip` / `x-forwarded-for` the router believes. Empty = the connection peer is the client. |
+
+Who may use that listener is not a setting: management users, their two-factor and the API tokens live in their own tables and are managed under **Access** — see [Management access](access.md). The former `basic_auth_user` / `basic_auth_pass` keys are retired; an existing credential is adopted as the first user at boot.
 
 ### Provisioning
 

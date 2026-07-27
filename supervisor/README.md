@@ -46,17 +46,12 @@ fylr+:
 fylr supervisor -c supervisor.yml
 ```
 
-Then secure the management API **before anything else** — without credentials it is open:
-
-```sh
-curl -X PUT localhost:8090/api/settings     -d '{"basic_auth_user": "admin", "basic_auth_pass": "a-strong-password"}'
-```
-
-(or in the UI: **Settings → General → UI access**; the setting applies live). Open `http://localhost:8090/` for the dashboard and continue with [Installation](installation.md) for PostgreSQL provisioning, systemd and DNS.
+Open `http://localhost:8090/` for the dashboard and log in as `root` / `admin` — the seeded account, which asks for a new password right away ([management access](access.md)). Continue with [Installation](installation.md) for PostgreSQL provisioning, systemd and DNS.
 
 ## Chapters
 
 * [Installation](installation.md) — bootstrap a machine, systemd, first boot
+* [Management access](access.md) — users, two-factor, API tokens
 * [Instances](instances.md) — create, copy, operate, hibernate
 * [Storage](storage.md) — disk and S3 locations, fleet default, per-instance override
 * [Backups & copies](backups.md) — the backup store, restores, instance copies

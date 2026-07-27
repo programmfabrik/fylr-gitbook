@@ -62,4 +62,6 @@ Deploying a new supervisor binary is a plain binary swap plus `systemctl restart
 
 ## Management access
 
-The management listener serves the UI and API, guarded by HTTP basic auth once `basic_auth_user`/`basic_auth_pass` are set (recommended — without them the API is open). The UI can additionally be served through the public router under a dedicated hostname (`management_host` setting, forced HTTPS), and the router answers it on `supervisor.<zone>` for every DNS zone the fleet serves — the `supervisor` host label is reserved for this.
+The management listener serves the UI and API. Both are always authenticated, against management users in the control database: the first boot seeds `root` / `admin` and forces a password change at the first login — see [Management access](access.md) for users, two-factor and API tokens.
+
+The UI can additionally be served through the public router under a dedicated hostname (`management_host` setting, forced HTTPS), and the router answers it on `supervisor.<zone>` for every DNS zone the fleet serves — the `supervisor` host label is reserved for this. On those public hosts failed logins feed the [abuse shield](router.md#abuse-shield).

@@ -278,6 +278,7 @@
 
 * [Introduction](supervisor/README.md)
 * [Installation](supervisor/installation.md)
+* [Management access](supervisor/access.md)
 * [Instances](supervisor/instances.md)
 * [Storage](supervisor/storage.md)
 * [Backups & copies](supervisor/backups.md)
