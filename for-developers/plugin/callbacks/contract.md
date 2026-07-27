@@ -39,6 +39,10 @@ A callback always gets a token for the **current API user**, and *additionally* 
 **These tokens are unbound and short-lived.** fylr binds a browser session token to the browser via the `fylr-browser-id` cookie, so a plugin replaying such a token server-side — without that cookie — would be rejected by session binding. For a browser-bound session fylr therefore mints a fresh, **session-binding-free** token for the callback; tokens of regular API clients are already unbound and are passed through. Freshly minted tokens are revoked once the callback returns — treat them as valid only for the duration of the callback and do not persist them.
 {% endhint %}
 
+{% hint style="info" %}
+**From version 6.35.0: groups restricted to an IP range are evaluated at the triggering client's address.** A group can be made visible only from certain IP ranges. A callback connects from the fylr server itself, so the token it uses would otherwise be judged by the *server's* address. The address of the client whose API call triggered the callback therefore travels with the callback token: a plugin acting on `api_user_access_token` sees exactly the groups — and thus the permissions — that the triggering user has, and a `plugin_user` token is evaluated at that same address. The pin lasts only as long as the callback may run; requests a client sends to the API directly are evaluated against the address they arrive from, as before.
+{% endhint %}
+
 ## The plugin user
 
 By default a callback acts as the user who triggered the API call — with that user's permissions. When a callback needs its *own*, well-defined set of permissions (for example to write objects the triggering user cannot), the manifest entry declares a **plugin user**:
