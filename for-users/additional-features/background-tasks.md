@@ -84,9 +84,13 @@ Sets or removes **Tags** on all records matching the **Search** — useful for b
 
 ### **consolidate\_objects**
 
-Merges duplicate records: all references to the **Source records** are re-linked to the **Target record**.
+Merges duplicate records: all references to the **Source records** are replaced by references to the **Target record**.
 
-<table><thead><tr><th width="246.59375">PARAMETER</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Source Secords</strong></td><td>Select the record(s) that should be replaced.</td></tr><tr><td><strong>Target Record</strong></td><td>Select the record that should replace the other selected record(s).</td></tr><tr><td><strong>Dry Run</strong></td><td>Only report in the task log what would change, without modifying any records.</td></tr><tr><td><strong>Delete Source Records</strong></td><td>Delete the source records after re-linking.</td></tr></tbody></table>
+{% hint style="info" %}
+This background task can also be started from within a record. For example, go to "Lists" > "Keywords" > edit the keyword you want to replace > open the 3-dot-menu > "Replace by Another Record".
+{% endhint %}
+
+<table><thead><tr><th width="246.59375">PARAMETER</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Source Records</strong></td><td>Select the record(s) that should be replaced.</td></tr><tr><td><strong>Target Record</strong></td><td>Select the record that should replace the other selected record(s).</td></tr><tr><td><strong>Dry Run</strong></td><td>Only report in the task log what would change, without modifying any records.</td></tr><tr><td><strong>Delete Source Records</strong></td><td>Delete the source records after re-linking.</td></tr></tbody></table>
 
 {% hint style="info" %}
 Start with a **dry run** and check the task log before running the consolidation for real.
