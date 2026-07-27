@@ -34258,13 +34258,16 @@ paths:
                         the current objecttypes / masks: unknown column reference,
                         duplicate names, a `max_table_id` / `max_column_id` smaller
                         than the stored value, or a `version` / `based_on_version`
-                        that is not the expected next version. A column type change
-                        that cannot be migrated because the column already holds data
-                        is rejected with code `TypeChangeUnsupported`. A deleted
-                        objecttype that still holds objects is rejected with code
-                        `ObjecttypeNotEmpty` (`parameters.stats` names them). May also
-                        return code `ReadOnlyMode` when the instance is in read-only
-                        mode.
+                        that is not the expected next version. Type changes are
+                        validated against the committed datamodel, so a save applies
+                        the same checks as the commit: changing a committed column to
+                        a type without an implemented conversion path is rejected
+                        with code `TypeChangeUnsupported`, regardless of whether the
+                        column holds data. Columns not committed yet can still take
+                        any type. A deleted objecttype that still holds objects is
+                        rejected with code `ObjecttypeNotEmpty` (`parameters.stats`
+                        names them). May also return code `ReadOnlyMode` when the
+                        instance is in read-only mode.
                     content:
                         application/json:
                             schema:
@@ -34382,12 +34385,14 @@ paths:
                                 $ref: '#/components/schemas/SchemaCommit202'
                 "400":
                     description: |
-                        The HEAD datamodel is inconsistent and cannot be committed: a
-                        column type change that cannot be migrated because the column
-                        already holds data is rejected with code
-                        `TypeChangeUnsupported`, and a deleted objecttype that still
-                        holds objects is rejected with code `ObjecttypeNotEmpty`
-                        (`parameters.stats` names them). May also return code
+                        The HEAD datamodel is inconsistent and cannot be committed:
+                        changing a committed column to a type without an implemented
+                        conversion path is rejected with code `TypeChangeUnsupported`,
+                        regardless of whether the column holds data, and a deleted
+                        objecttype that still holds objects is rejected with code
+                        `ObjecttypeNotEmpty` (`parameters.stats` names them). The same
+                        checks already run when saving HEAD, so a HEAD that saved
+                        without errors also commits without them. May also return code
                         `ReadOnlyMode` when the instance is in read-only mode.
                     content:
                         application/json:
@@ -52734,9 +52739,11 @@ components:
                             does not exist on the linked objecttype.
                           * `UnknownColumnType` — a column requests a type unknown to
                             this fylr release (or to the loaded plugins).
-                          * `TypeChangeUnsupported` — an existing column's type
+                          * `TypeChangeUnsupported` — a committed column's type
                             cannot be changed to the requested one — the conversion
-                            path isn't implemented.
+                            path isn't implemented. Enforced on both the HEAD write
+                            and the commit, regardless of whether the column holds
+                            data.
                           * `InvalidMaskMode` — a mask declares an unknown `mode`
                             value.
                           * `InheritanceNotSupported` — a mask attempts to inherit
