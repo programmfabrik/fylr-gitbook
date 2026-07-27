@@ -2,41 +2,6 @@
 
 import sys, os, datetime, json, re, http.client, urllib.parse, tempfile, subprocess
 
-# Category and area emoji used to give the generated release notes a light
-# "chip" design: an at-a-glance count row plus emoji-tagged headers.
-CATEGORY_EMOJI = {'Important': '⚠️', 'New': '✨', 'Improved': '⬆️', 'Fixed': '🔧'}
-AREA_EMOJI = {'Server': '🖥️', 'Plugins': '🔌', 'Frontend': '🎨'}
-
-def decorate_release_body(body):
-    """Count the top-level items per category and prefix the category (### New,
-    …) and area (## Server, …) headers with an emoji. Returns (counts, body)."""
-    counts = {c: 0 for c in CATEGORY_EMOJI}
-    cat = None
-    for line in body.splitlines():
-        m = re.match(r'^### (Important|New|Improved|Fixed)\s*$', line)
-        if m:
-            cat = m.group(1)
-            continue
-        if line.startswith('### '):
-            cat = None
-            continue
-        if cat and re.match(r'^\* \*\*', line):
-            counts[cat] += 1
-    body = re.sub(r'^### (Important|New|Improved|Fixed)\s*$',
-                  lambda m: '### {} {}'.format(CATEGORY_EMOJI[m.group(1)], m.group(1)),
-                  body, flags=re.M)
-    for area, emoji in AREA_EMOJI.items():
-        body = re.sub(r'^## {}\s*$'.format(re.escape(area)),
-                      '## {} {}'.format(emoji, area), body, flags=re.M)
-    return counts, body
-
-def chip_row(counts):
-    """Render the '**At a glance:** `⚠️ N Important` · …' pill row, dropping
-    categories with no items. Empty string when nothing was counted."""
-    chips = ['`{} {} {}`'.format(CATEGORY_EMOJI[c], counts[c], c)
-             for c in ('Important', 'New', 'Improved', 'Fixed') if counts[c]]
-    return '**At a glance:** ' + ' · '.join(chips) if chips else ''
-
 class Github:
     def __init__(self, token):
         self.token = token
@@ -164,11 +129,7 @@ for rel in gh.get_releases():
         md.add_raw('* [{}]({})\n'.format(asset['name'], fs.get_url(a_name)))
     md.add_raw('\n')
 
-    counts, body = decorate_release_body(rel['body'])
-    chips = chip_row(counts)
-    if chips:
-        md.add_raw(chips + '\n\n')
-    md.add_raw(body)
+    md.add_raw(rel['body'])
     md.write(fn)
 
 # releases summaries
