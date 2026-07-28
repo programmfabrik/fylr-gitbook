@@ -16,13 +16,13 @@ Please note: We do all of our automated and manual software testing based on Lin
 * Uses docker-compose.
 * 3rd party tools for thumbnails are pre-packaged.
 * If unsure, use this method when installing yourself.
-* We offer maintenance contracts and hosting contracts for this variant. Contact us at e.g. support@programmfabrik.de.
+* We offer maintenance contracts and hosting contracts for this variant. Contact us at e.g. [support@programmfabrik.de](mailto:support@programmfabrik.de).
 
 ## Windows
 
 * Instructions and Requirements: [Windows](windows.md)
 * We provide a list of 3rd party tools for thumbnails but not the tools themselves.
-* Some of our partners offer maintenance contracts for this variant. Ask us for more at support@programmfabrik.de.
+* Some of our partners offer maintenance contracts for this variant. Ask us for more at [support@programmfabrik.de](mailto:support@programmfabrik.de).
 
 ## Kubernetes
 
