@@ -22,7 +22,7 @@ Please note: We do all of our automated and manual software testing based on Lin
 
 * Instructions and Requirements: [Windows](windows.md)
 * We provide a list of 3rd party tools for thumbnails but not the tools themselves.
-* Some of our partners offer maintenance contracts for this variant.
+* Some of our partners offer maintenance contracts for this variant. Ask us for more at support@programmfabrik.de.
 
 ## Kubernetes
 
