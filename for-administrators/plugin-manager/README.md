@@ -31,7 +31,15 @@ From fylr **6.34.0**, the WordPress, Drupal and TYPO3 integrations are no longer
 
 Use the **search** to search for the internal or display **names** of plugins and click on a plugin so see all **details**. There, you can also **disable** or **enable** plugins, as well as **upload** a new version or define **automatic updates**:
 
-<table><thead><tr><th width="192.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Never</td><td>The plugin will not be updated automatically.</td></tr><tr><td>Daily</td><td>The version of the plugin will be checked every 24 hours and if there is a new version available, the plugin will be updated.</td></tr><tr><td>Immediately</td><td>The version of the plugin will be checked every 10 seconds and if there is a new version available, the plugin will be updated.</td></tr></tbody></table>
+<table><thead><tr><th width="192.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Never</td><td>The plugin will not be updated automatically.</td></tr><tr><td>Daily</td><td>The version of the plugin will be checked once a day and if there is a new version available, the plugin will be updated.</td></tr><tr><td>Immediately</td><td>The version of the plugin will be checked every 10 seconds and if there is a new version available, the plugin will be updated.</td></tr></tbody></table>
+
+A **failed** update attempt (unreachable URL, broken download, invalid ZIP) leaves the **installed** version running untouched. From fylr **6.35.0** such an attempt is **retried** every **10 seconds** — with every update policy, so a repaired release is picked up within seconds instead of at the next daily check — and no longer leaves files behind: the broken download is **removed** again, as is the **previous** plugin ZIP after a successful update.
+
+### Plugin timestamps
+
+The *General* tab of a plugin shows three timestamps. From fylr **6.35.0** they have a fixed meaning:
+
+<table><thead><tr><th width="192.5">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Created At</td><td>When the plugin was installed.</td></tr><tr><td>Updated At</td><td>When the stored plugin <strong>content</strong> last changed: set at install and whenever a new version is stored. Saving <strong>settings</strong> only (<em>Active</em>, the update policy) does <strong>not</strong> change it.</td></tr><tr><td>Last Checked At</td><td>When fylr last <strong>completed</strong> a check of the plugin source for updates. A failed update attempt does not change it.</td></tr></tbody></table>
 
 ### Managing Plugins
 

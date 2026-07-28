@@ -49081,17 +49081,17 @@
           "last_checked_at": {
             "type": "string",
             "format": "date-time",
-            "description": "When **fylr** last checked the plugin source for updates."
+            "description": "When **fylr** last completed a check of the plugin source for updates. A failed update attempt does not move it."
           },
           "created_at": {
             "type": "string",
             "format": "date-time",
-            "description": "Creation timestamp."
+            "description": "When the plugin was installed."
           },
           "updated_at": {
             "type": "string",
             "format": "date-time",
-            "description": "Last-update timestamp."
+            "description": "When the stored plugin content (the zip and its manifest) last changed: set at install and whenever a new version is stored. A settings-only save (enable/disable, `update_policy`) does not touch it."
           }
         },
         "example": {
