@@ -182,8 +182,8 @@ fylr:
     dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
 
     # https://golang.org/pkg/database/sql/#DB.SetMaxOpenConns default: 100 At
-    # least: 4 + execserver.parallel + execserver.parallelHigh +
-    # elastic.parallel. Two of these connections will be dedicated to a separate
+    # least: 4 + elastic.parallel (the file dispatcher sizes itself, see
+    # #80119). Two of these connections will be dedicated to a separate
     # connection pool managing the sequences. The recommended setting for this
     # is 100. It is not recommended to set it to 0 (unlimited), as this can
     # possibly open too many connections for the OS to handle. Also, since each
@@ -297,19 +297,6 @@ fylr:
               # optional endpoint suffix (default to core.windows.net)
               endpoint_suffix: "core.windows.net"
 
-  # DEPRECATED, will be removed in next version
-  # files are stored in S3. Buckets are created by FYLR automatically
-  s3:
-    endpoint: "127.0.0.1:9000"
-    accessKeyID: "minio"
-    secretAccessKey: "minio123"
-    bucketLocation: "us-east-1"
-    bucketName: fylr-census-dev
-    ssl: false
-    # allowPurge controls if a purge also purges the storage
-    # or not. Defaults to false
-    allowPurge: false
-
   plugin:
     # load plugins at startup. the loader crawls the given directories
     # and loads given files for plugin config files, ending in ".yml".
@@ -394,11 +381,13 @@ fylr:
   # Client configuration of execserver is used
   # for syncing of files, metadata generation and plugin execution
   execserver:
-    # number of parallel file workers, default to 2, set to 0 to disable.
-    parallel: 2
-    # number of parallel file workers only taking high priority tasks. Currently
-    # producing of all standard versions is a high priority task.
-    parallelHigh: 2
+    # NOTE: "parallel" is deprecated (#80133) — the file dispatcher sizes its
+    # own concurrency from the connected execserver pool (see the "backend"
+    # section below) and the execserver auto-balances its slots. Only
+    # "parallel: 0" still has an effect: it disables file processing (the
+    # file dispatcher) on this fylr, e.g. for API-only nodes. "parallelHigh"
+    # is ignored.
+    # parallel: 0
     # addresses of the execserver. they are tried in round robin.
     # if a server reports to be busy, the next server is tried.
     # if the server URL contains a /job/{service} path it is only used for the given service
@@ -413,6 +402,16 @@ fylr:
     # used for plugin installation (loaded from the backend into the execserver)
     # and progress updates.
     callbackBackendInternalURL: "http://localhost:8081"
+    # callbackBackendOwnURL is an OPTIONAL override for the execpipe callback
+    # host. Those stdin/stdout endpoints keep their stream in memory on the
+    # replica that created the job, so behind a load-balanced
+    # callbackBackendInternalURL the callback must return to that exact replica.
+    # fylr normally handles this automatically: it pins the pipe callback to its
+    # own source address on the broker connection to the execserver (no pod IP
+    # to configure). Set this only for topologies where that auto-detected
+    # address is not reachable from the execserver (e.g. NAT between them); it
+    # then replaces the pinned host. Leave empty otherwise.
+    # callbackBackendOwnURL: ""
     # callbackApiInternalURL will be presented to execserver plugin jobs. This
     # can be used by plugins to call back into the API.
     callbackApiInternalURL: "http://localhost:8080"
@@ -533,6 +532,14 @@ fylr:
       # if omitted, this server is not started.
       addr: ":8080"
 
+      # Browser security headers (Referrer-Policy, X-Frame-Options /
+      # frame-ancestors) are stamped on this listener's responses too — the
+      # api serves browser documents (/api/page/* login pages, inline file
+      # downloads) — and the origins trusted for credentialed CORS on this
+      # listener come from the webapp section as well. Both browser-policy
+      # lists are configured ONCE, instance-wide: webapp.frameAncestors and
+      # webapp.loginAllowRedirects below.
+
       # for tls support ("addr" only), provide a cert and key file
       tls:
         certFile: ""
@@ -581,6 +588,14 @@ fylr:
       # address of the server listener
       # if omitted, this server is not started
       addr: :8081
+
+      # Browser security headers (Referrer-Policy, X-Frame-Options /
+      # frame-ancestors) are stamped on this listener's responses too — the
+      # backend port serves the /inspect pages directly — and the origins
+      # trusted for credentialed CORS on this listener come from the webapp
+      # section as well. Both browser-policy lists are configured ONCE,
+      # instance-wide: webapp.frameAncestors and webapp.loginAllowRedirects
+      # below.
       # for tls support ("addr" only), provide a cert and key file
       tls:
         certFile: ""
@@ -754,6 +769,16 @@ fylr:
       #   loginAllowRedirects+:  [...]                          # appends to it
       #   loginAllowRedirects-:  ["http://localhost:*"]         # removes a baked-in entry
       #
+      # Matching origins are also trusted for credentialed CORS: they are
+      # reflected in Access-Control-Allow-Origin together with
+      # Access-Control-Allow-Credentials, like the fylr.externalURL origin
+      # and the redirect-URI origins of registered OAuth2 clients. Other
+      # origins only get the credential-less "Access-Control-Allow-Origin: *".
+      #
+      # SCOPE: like frameAncestors below, this list applies INSTANCE-WIDE —
+      # the CORS headers of the webapp, api and backend listeners alike
+      # honour it, not just the webapp's.
+      #
       # Intended for setups where every webOnly frontend is operator-controlled
       # (e.g. per-branch staging hosts that share a central fylr).
       loginAllowRedirects: []
@@ -762,6 +787,38 @@ fylr:
       #   - http://*.fylr.dev
       #   - http://dev.internal:*
 
+      # frameAncestors extends the origins allowed to embed fylr documents in
+      # a frame (iframe) beyond same-origin. With the empty default, every
+      # response carries "X-Frame-Options: SAMEORIGIN" and the equivalent
+      # "Content-Security-Policy: frame-ancestors 'self'": fylr may frame
+      # itself (its login uses same-origin iframes), other sites may not.
+      #
+      # SCOPE: although the key sits under webapp — next to its sibling
+      # loginAllowRedirects, the other browser-policy list — it applies
+      # INSTANCE-WIDE, to the webapp, api and backend listeners alike: the
+      # api serves browser documents too (/api/page/* login pages, inline
+      # file downloads), the backend serves /inspect. Framing policy must
+      # be uniform: a portal embedding the webapp also embeds the login
+      # documents served by the api, so a per-service split would only
+      # create broken states.
+      #
+      # Each entry is a CSP source of the form scheme://host[:port]; the
+      # leftmost host label may be "*" (matches one subdomain label) and the
+      # port may be "*" (matches any port). Entries are added to the
+      # frame-ancestors list, and X-Frame-Options is then omitted — it cannot
+      # express an allow-list, and every current browser prefers
+      # frame-ancestors anyway.
+      #
+      # Note browsers validate the WHOLE ancestor chain: when a portal embeds
+      # fylr cross-origin, even fylr's own internal same-origin iframes see
+      # the portal as an ancestor. So listing the portal origin here is
+      # required (and sufficient) for fylr to work inside its iframe,
+      # including the login.
+      frameAncestors: []
+      # frameAncestors:
+      #   - https://portal.example.com
+      #   - https://*.portal-customers.example
+
     # service execserver executes binaries and used by FYLR
     # to generate previews, execute plugins and to get metadata
     # of files.
@@ -769,11 +826,6 @@ fylr:
       # addr of the execserver listener
       # if omitted no server is started
       addr: :8083
-
-      # tokenResponseSendServerIP is the IP which can be used by
-      # a client to send a job to. This IP is sent back to the client
-      # in the token response
-      tokenResponseSendServerIP: ""
 
       # Mandatory path to a directory the execserver - can work in. The
       # execserver will create a sub-directory per job and leave the space to
@@ -796,13 +848,30 @@ fylr:
       # is used to parse this value. Minimum duration is one minute. Defaults to "24h".
       janitorFileAge: "24h"
 
-      waitgroups:
-        a:
-          processes: 4
-        b:
-          processes: 2
-        c:
-          processes: 4
+      # Concurrency is auto-balanced by default (#80133): all services share
+      # one CPU pool and are classified light/heavy by their measured
+      # runtime. Heavy jobs (long conversions) never occupy the last
+      # fastReserve slots, so short interactive work always finds a slot.
+      cpus: 0            # pool size, 0 = number of CPUs
+      fastReserve: 0     # slots reserved for light jobs, 0 = max(1, cpus/4)
+      heavyThreshold: 10s
+      unknownShare: 0.5  # pool share for services not measured yet
+
+      # Graceful shutdown: on SIGTERM/Ctrl-C running jobs may finish for this
+      # long; jobs still running are interrupted with a "stopped, retry
+      # later" receipt — clients requeue them instead of reporting failures.
+      drainTimeoutSec: 20
+
+      # Configuring an explicit waitgroups block disables auto-balancing (the
+      # keys above are then ignored) and restores manually sized pools; every
+      # service below then needs its waitgroup key uncommented too. Deprecated.
+      # waitgroups:
+      #   a:
+      #     processes: 4
+      #   b:
+      #     processes: 2
+      #   c:
+      #     processes: 4
       # env can be set for all programs started by the execserver
       # this is overwritten by the env set for the specific command and by the
       # os environment
@@ -826,17 +895,17 @@ fylr:
 
       services:
         node:
-          waitgroup: b
+          # waitgroup: b
           commands:
             node:
               prog: "node"
         python3:
-          waitgroup: b
+          # waitgroup: b
           commands:
             python3:
               prog: "python3"
         convert:
-          waitgroup: a
+          # waitgroup: a
           commands:
             fylr_convert:
               prog: "fylr"
@@ -876,7 +945,7 @@ fylr:
                 # %_exec.binDir% is replaced with the directory the binary is in
                 - "metadata"
         ffmpeg:
-          waitgroup: a
+          # waitgroup: a
           commands:
             ffmpeg:
               prog: ffmpeg
@@ -919,7 +988,7 @@ fylr:
                 - "-v"
                 regex: "ffmpegthumbnailer version: 2\\..*"
         soffice:
-          waitgroup: c
+          # waitgroup: c
           commands:
             soffice:
               prog: soffice
@@ -953,7 +1022,7 @@ fylr:
                 - "metadata"
 
         metadata:
-          waitgroup: a
+          # waitgroup: a
           commands:
             fylr_metadata:
               env:
@@ -969,7 +1038,7 @@ fylr:
                   - "-version"
                 regex: "ffprobe version 4[\\.0-9]+ Copyright"
         pdf2pages:
-          waitgroup: a
+          # waitgroup: a
           commands:
             fylr_pdf2pages:
               # fylr_* utils use other programs to do their job. These
@@ -991,12 +1060,12 @@ fylr:
               args:
                 - "metadata"
         xslt:
-          waitgroup: a
+          # waitgroup: a
           commands:
             saxon:
               prog: "saxon"
         iiif:
-          waitgroup: a
+          # waitgroup: a
           commands:
             convert:
               prog: convert

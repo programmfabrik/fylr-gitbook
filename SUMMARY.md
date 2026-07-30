@@ -274,6 +274,21 @@
   * [Purge objects](for-system-administrators/symptom-and-solution/purge-objects.md)
 * [PostgreSQL versions](for-system-administrators/postgresql-versions.md)
 
+## SUPERVISOR
+
+* [Introduction](supervisor/README.md)
+* [Installation](supervisor/installation.md)
+* [Management access](supervisor/access.md)
+* [Instances](supervisor/instances.md)
+* [Storage](supervisor/storage.md)
+* [Backups & copies](supervisor/backups.md)
+* [Router, TLS & protection](supervisor/router.md)
+* [Binaries & managed instances](supervisor/binaries.md)
+* [Licenses](supervisor/licenses.md)
+* [Infrastructure pages](supervisor/infrastructure.md)
+* [Settings reference](supervisor/settings.md)
+* [Management API](supervisor/api.md)
+
 ## Tutorials
 
 * [Project Workflow](tutorials/project-workflow.md)
@@ -345,6 +360,7 @@
     * [/api/v1/objecttype](for-developers/api/endpoints/api-objecttype.md)
     * [/api/v1/plugin](for-developers/api/endpoints/plugin/README.md)
       * [/manage](for-developers/api/endpoints/plugin/manage.md)
+      * [/marketplace](for-developers/api/endpoints/plugin/marketplace.md)
     * [/api/v1/pool](for-developers/api/endpoints/api-pool.md)
     * [/api/v1/publish](for-developers/api/endpoints/api-publish.md)
     * [/api/v1/right](for-developers/api/endpoints/api-right.md)
