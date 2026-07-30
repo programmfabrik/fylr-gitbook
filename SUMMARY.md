@@ -102,7 +102,7 @@
 * [License](license-management.md)
 * [Plugins](plugins/README.md)
   * [Plugin Overview](plugins/overview.md)
-  * [From disk plugins to the marketplace](plugins/disk-to-marketplace.md)
+  * [Disk to URL plugin migration](plugins/disk-to-url-migration.md)
 
 ## Help
 
