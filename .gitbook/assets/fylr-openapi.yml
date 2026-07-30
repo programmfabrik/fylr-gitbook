@@ -44680,6 +44680,11 @@ components:
                         `equirectangular`. Compiled from the Spherical Video metadata
                         (V1 XML or V2 `sv3d`/Matroska `Projection` via ffprobe) for videos
                         and the XMP GPano tags for images. Absent for flat media.
+
+                        Produced versions keep the marker: the production re-adds the
+                        Spherical Video V1 box to MP4 renditions and the XMP GPano tags to
+                        image renditions (even with `strip`), as long as the conversion
+                        keeps the full equirectangular frame (no crop, rotate or mirror).
                 samples_per_pixel:
                     type: number
                     format: int
