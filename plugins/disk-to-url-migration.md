@@ -89,13 +89,11 @@ The Drupal, TYPO3 and WordPress connectors become **licensed plugins**: enabling
 
 A plugin's configuration is stored under its **internal name**. Where the name is unchanged, it carries over untouched. Where the successor has a **new name**, it starts unconfigured (`fylr-plugin-easydb4migration` is the exception noted in the table) — so **note the old plugin's configuration before you upgrade** and transfer the values afterwards.
 
-### Mask splitters and custom data types
+### If you use the barcode plugins
 
-**Custom data types** are addressed via the plugin that delivers them — that is why every custom data type above keeps its name. Columns using them keep working; nothing changes in the data model.
+Everything else a plugin contributes to your data model — custom data types, mask splitters — survives the migration untouched: columns and masks keep working, renames or not. The one exception are the **barcode plugins**.
 
-**Mask splitters** are addressed by the splitter itself, not by the plugin name, so the renames do not affect any mask: the splitters of `editor-field-visibility`, `fylr-plugin-display-field-values` and `fylr-plugin-custom-mask-splitter-detail-linked` keep working, with their options.
-
-The exception is the **barcode plugins**, which are [removed](disk-to-url-migration.md#plugins-that-will-be-removed): their replacement **Scancode Display** delivers the splitter under a different identity. Masks containing the old barcode splitter show it as an *unknown splitter* — a marked block that still renders the fields inside it and survives saving the mask, so nothing is lost. Install `fylr-plugin-scancode-display`, then edit the mask and put the Scancode splitter in the block's place, with the same options. The same *unknown splitter* block appears for any splitter whose plugin is currently absent; installing the plugin makes those masks render normally again.
+Their replacement, **Scancode Display**, brings its own barcode splitter, and masks do not switch to it by themselves. After the upgrade, a mask that contained the barcode splitter shows a marked *unknown splitter* block in its place; the fields inside it still render, and nothing is lost by saving the mask. To get the barcodes back: install `fylr-plugin-scancode-display`, edit the affected masks, and replace the block with the Scancode splitter, using the same options.
 
 ### Plugins that will be removed
 
@@ -103,7 +101,7 @@ These plugins have no successor and will be removed at the upgrade:
 
 | Plugin | Why |
 | --- | --- |
-| `easydb-barcode-display`, `easydb-barcode-display-pdf-plugin` | continued as one plugin, `fylr-plugin-scancode-display` — a different plugin rather than a drop-in successor: install it and re-point the masks, see [above](disk-to-url-migration.md#mask-splitters-and-custom-data-types) |
+| `easydb-barcode-display`, `easydb-barcode-display-pdf-plugin` | continued as one plugin, `fylr-plugin-scancode-display` — a different plugin rather than a drop-in successor: install it and re-point the masks, see [above](disk-to-url-migration.md#if-you-use-the-barcode-plugins) |
 | `easydb-hotfolder-plugin` | the hotfolder is part of fylr |
 | `easydb-ldap-plugin` | LDAP login is part of fylr |
 | `oai` | OAI-PMH is part of fylr |
