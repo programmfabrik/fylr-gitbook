@@ -46,35 +46,35 @@ The names in the table are the **internal plugin names**, as shown in the plugin
 | Plugin today | Will become | What to check |
 | --- | --- | --- |
 | `basemigration` | `fylr-plugin-basemigration` | new name |
-| `custom-data-type-cerlthesaurus` | `custom-data-type-cerlthesaurus` | unchanged |
-| `custom-data-type-dante` | `custom-data-type-dante` | unchanged |
-| `custom-data-type-gazetteer` | `custom-data-type-gazetteer` | unchanged |
-| `custom-data-type-geonames` | `custom-data-type-geonames` | unchanged |
-| `custom-data-type-georef` | `custom-data-type-georef` | unchanged |
-| `custom-data-type-getty` | `custom-data-type-getty` | unchanged |
-| `custom-data-type-gn250` | `custom-data-type-gn250` | unchanged |
-| `custom-data-type-gnd` | `custom-data-type-gnd` | unchanged |
-| `custom-data-type-goobi` | `custom-data-type-goobi` | unchanged |
-| `custom-data-type-gvk` | `custom-data-type-gvk` | unchanged — the same custom type, delivered by its successor repository `fylr-plugin-custom-data-type-k10plus` |
-| `custom-data-type-html-editor` | `custom-data-type-html-editor` | unchanged |
-| `custom-data-type-iconclass` | `custom-data-type-iconclass` | unchanged |
-| `custom-data-type-iucn` | `custom-data-type-iucn` | unchanged |
-| `custom-data-type-link` | `custom-data-type-link` | unchanged — delivered by `fylr-plugin-custom-data-type-weblink` |
-| `custom-data-type-location` | `custom-data-type-location` | unchanged |
-| `custom-data-type-nomisma` | `custom-data-type-nomisma` | unchanged |
-| `custom-data-type-tnadiscovery` | `custom-data-type-tnadiscovery` | unchanged |
-| `custom-mask-splitter-detail-linked` | `fylr-plugin-custom-mask-splitter-detail-linked` | new name |
-| `easydb-coin-viewer-plugin` | `fylr-plugin-coin-viewer` | new name |
+| `custom-data-type-cerlthesaurus` | [`custom-data-type-cerlthesaurus`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-cerlthesaurus) | unchanged |
+| `custom-data-type-dante` | [`custom-data-type-dante`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-dante) | unchanged |
+| `custom-data-type-gazetteer` | [`custom-data-type-gazetteer`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gazetteer) | unchanged |
+| `custom-data-type-geonames` | [`custom-data-type-geonames`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-geonames) | unchanged |
+| `custom-data-type-georef` | [`custom-data-type-georef`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-georef) | unchanged |
+| `custom-data-type-getty` | [`custom-data-type-getty`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-getty) | unchanged |
+| `custom-data-type-gn250` | [`custom-data-type-gn250`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250) | unchanged |
+| `custom-data-type-gnd` | [`custom-data-type-gnd`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gnd) | unchanged |
+| `custom-data-type-goobi` | [`custom-data-type-goobi`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-goobi) | unchanged |
+| `custom-data-type-gvk` | [`custom-data-type-gvk`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-k10plus) | unchanged — the same custom type, delivered by its successor repository `fylr-plugin-custom-data-type-k10plus` |
+| `custom-data-type-html-editor` | [`custom-data-type-html-editor`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-html-editor) | unchanged |
+| `custom-data-type-iconclass` | [`custom-data-type-iconclass`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass) | unchanged |
+| `custom-data-type-iucn` | [`custom-data-type-iucn`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-iucn) | unchanged |
+| `custom-data-type-link` | [`custom-data-type-link`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-weblink) | unchanged — delivered by `fylr-plugin-custom-data-type-weblink` |
+| `custom-data-type-location` | [`custom-data-type-location`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-location) | unchanged |
+| `custom-data-type-nomisma` | [`custom-data-type-nomisma`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-nomisma) | unchanged |
+| `custom-data-type-tnadiscovery` | [`custom-data-type-tnadiscovery`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-tnadiscovery) | unchanged |
+| `custom-mask-splitter-detail-linked` | [`fylr-plugin-custom-mask-splitter-detail-linked`](https://github.com/programmfabrik/fylr-plugin-custom-mask-splitter-detail-linked) | new name |
+| `easydb-coin-viewer-plugin` | [`fylr-plugin-coin-viewer`](https://github.com/programmfabrik/fylr-plugin-coin-viewer) | new name |
 | `easydb-connector-plugin` | `fylr-plugin-connector` | new name |
-| `easydb-detail-map-plugin` | `fylr-plugin-detail-map` | new name |
-| `easydb-display-field-values` | `fylr-plugin-display-field-values` | new name |
+| `easydb-detail-map-plugin` | [`fylr-plugin-detail-map`](https://github.com/programmfabrik/fylr-plugin-detail-map) | new name |
+| `easydb-display-field-values` | [`fylr-plugin-display-field-values`](https://github.com/programmfabrik/fylr-plugin-display-field-values) | new name |
 | `easydb-drupal-plugin` | `fylr-plugin-drupal` | new name, **licensed plugin** |
 | `easydb-easydb4migration-plugin` | `fylr-plugin-easydb4migration` | new name; the configuration (section `easydb4migration`) carries over, but the new system right `plugin.fylr-plugin-easydb4migration.migration` has to be granted to the users who run migrations |
-| `easydb-editor-field-visibility` | `editor-field-visibility` | new name; masks using its mask splitter are **not** affected, but the plugin's own configuration starts empty |
-| `easydb-editor-tagfilter-defaults-plugin` | `fylr-plugin-editor-tagfilter-defaults` | new name |
-| `easydb-export-transport-ftp-plugin` | `easydb-export-transport-ftp-plugin` | unchanged — delivered by `fylr-plugin-export-transport-ftp` |
-| `easydb-orcid-plugin` | `fylr-plugin-orcid` | new name |
-| `easydb-presentation-pptx-plugin` | `presentation-pptx` | new name |
+| `easydb-editor-field-visibility` | [`editor-field-visibility`](https://github.com/programmfabrik/fylr-plugin-editor-field-visibility) | new name; masks using its mask splitter are **not** affected, but the plugin's own configuration starts empty |
+| `easydb-editor-tagfilter-defaults-plugin` | [`fylr-plugin-editor-tagfilter-defaults`](https://github.com/programmfabrik/fylr-plugin-editor-tagfilter-defaults) | new name |
+| `easydb-export-transport-ftp-plugin` | [`easydb-export-transport-ftp-plugin`](https://github.com/programmfabrik/fylr-plugin-export-transport-ftp) | unchanged — delivered by `fylr-plugin-export-transport-ftp` |
+| `easydb-orcid-plugin` | [`fylr-plugin-orcid`](https://github.com/programmfabrik/fylr-plugin-orcid) | new name |
+| `easydb-presentation-pptx-plugin` | [`presentation-pptx`](https://github.com/programmfabrik/fylr-plugin-presentation-pptx) | new name |
 | `pdf-creator` | `fylr-plugin-pdf-creator` | new name |
 | `easydb-typo3-plugin` | `fylr-plugin-typo3` | new name, **licensed plugin** |
 | `easydb-wordpress-plugin` | `fylr-plugin-wordpress` | new name, **licensed plugin** |
@@ -93,7 +93,7 @@ A plugin's configuration is stored under its **internal name**. Where the name i
 
 Everything else a plugin contributes to your data model — custom data types, mask splitters — survives the migration untouched: columns and masks keep working, renames or not. The one exception are the **barcode plugins**.
 
-Their replacement, **Scancode Display**, brings its own barcode splitter, and masks do not switch to it by themselves. After the upgrade, a mask that contained the barcode splitter shows a marked *unknown splitter* block in its place; the fields inside it still render, and nothing is lost by saving the mask. To get the barcodes back: install `fylr-plugin-scancode-display`, edit the affected masks, and replace the block with the Scancode splitter, using the same options.
+Their replacement, **Scancode Display**, brings its own barcode splitter, and masks do not switch to it by themselves. After the upgrade, a mask that contained the barcode splitter shows a marked *unknown splitter* block in its place; the fields inside it still render, and nothing is lost by saving the mask. To get the barcodes back: install [`fylr-plugin-scancode-display`](https://github.com/programmfabrik/fylr-plugin-scancode-display), edit the affected masks, and replace the block with the Scancode splitter, using the same options.
 
 ### Plugins that will be removed
 
@@ -101,7 +101,7 @@ These plugins have no successor and will be removed at the upgrade:
 
 | Plugin | Why |
 | --- | --- |
-| `easydb-barcode-display`, `easydb-barcode-display-pdf-plugin` | continued as one plugin, `fylr-plugin-scancode-display` — a different plugin rather than a drop-in successor: install it and re-point the masks, see [above](disk-to-url-migration.md#if-you-use-the-barcode-plugins) |
+| [`easydb-barcode-display`](https://github.com/programmfabrik/easydb-barcode-display-plugin), [`easydb-barcode-display-pdf-plugin`](https://github.com/programmfabrik/easydb-barcode-display-pdf-plugin) | continued as one plugin, [`fylr-plugin-scancode-display`](https://github.com/programmfabrik/fylr-plugin-scancode-display) — a different plugin rather than a drop-in successor: install it and re-point the masks, see [above](disk-to-url-migration.md#if-you-use-the-barcode-plugins) |
 | `easydb-hotfolder-plugin` | the hotfolder is part of fylr |
 | `easydb-ldap-plugin` | LDAP login is part of fylr |
 | `oai` | OAI-PMH is part of fylr |
@@ -110,7 +110,7 @@ These plugins have no successor and will be removed at the upgrade:
 | `easydb-hijri-gregorian-converter` | a project-specific mask splitter for Hijri dates; available again on request |
 | `easydb-plugin-zooniverse-import` | a project-specific import |
 | `easydb-remote-plugin`, `server` | easydb5 infrastructure with no function in fylr |
-| `example-plugin` | the developer example, continued as `fylr-plugin-example` |
+| `example-plugin` | the developer example, continued as [`fylr-plugin-example`](https://github.com/programmfabrik/fylr-plugin-example) |
 
 If you actively use one of these, talk to us before upgrading.
 
