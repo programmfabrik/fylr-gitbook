@@ -38882,7 +38882,10 @@ paths:
             summary: Read the plugin marketplace catalog.
             description: |
                 Returns the catalog of plugins offered for installation. The catalog
-                ships with the **fylr** release. Every entry carries the install `url`
+                is pulled from Programmfabrik's published catalog sheet at request time
+                and cached with a refresh window, so the offer can change without a
+                **fylr** release.
+                Every entry carries the install `url`
                 of its ZIP — install it by passing that URL to `PUT /plugin/manage`
                 with `type: url`. Private and paid plugins are delivered **sealed**
                 (encrypted), so their ZIP is safe to publish; `public` only reflects
@@ -38902,6 +38905,15 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/SystemRightRequiredError'
+                "503":
+                    description: |
+                        The marketplace is temporarily unavailable: the default catalog
+                        could not be loaded and no cached copy exists yet
+                        (`code: PluginMarketplaceUnavailable`).
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PluginMarketplaceUnavailableError'
     /plugin/marketplace/{name}/readme:
         x-path: /plugin/marketplace/{name}/readme
         description: |
@@ -38950,6 +38962,80 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/SystemRightRequiredError'
+                "503":
+                    description: |
+                        The marketplace is temporarily unavailable: the default catalog
+                        could not be loaded and no cached copy exists yet
+                        (`code: PluginMarketplaceUnavailable`).
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PluginMarketplaceUnavailableError'
+    /plugin/marketplace/{name}/install:
+        x-path: /plugin/marketplace/{name}/install
+        description: |
+            Install a marketplace plugin by its catalog name. Requires the system
+            right `system.root` or `system.plugin`.
+        post:
+            summary: Install a marketplace plugin by name, dependencies first.
+            description: |
+                Installs the named catalog entry. The install URL is resolved on the
+                server — private entries are served without their `url`, so this is the
+                only way to install them — and missing dependencies are resolved from
+                the catalog (hidden library entries included) and installed first,
+                dependency-first. A paid (`licensed`) plugin lands installed but
+                **disabled**: enabling it needs the instance license to grant it by
+                name. A failure mid-chain keeps the dependencies installed so far.
+            parameters:
+                - name: name
+                  in: path
+                  required: true
+                  description: The plugin's internal `name`, as listed in the catalog.
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: |
+                        Every plugin this request installed, in install order (dependencies
+                        first, the named entry last). Same entry shape as the manage API.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PluginManageApi'
+                "400":
+                    description: |
+                        The catalog cannot resolve a dependency of the named entry
+                        (`code: PluginDependencyNotInstalled`), or the entry carries no
+                        install URL.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PluginDependencyNotInstalledError'
+                "403":
+                    description: |
+                        The user holds neither `system.root` nor `system.plugin`
+                        (`code: SystemRightRequired`).
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SystemRightRequiredError'
+                "404":
+                    description: |
+                        The catalog offers no entry of that name
+                        (`code: PluginNotFound`).
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PluginNotFoundError'
+                "503":
+                    description: |
+                        The marketplace is temporarily unavailable: the default catalog
+                        could not be loaded and no cached copy exists yet
+                        (`code: PluginMarketplaceUnavailable`).
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PluginMarketplaceUnavailableError'
     /plugin/manage:
         x-path: /plugin/manage
         description: |
@@ -45486,8 +45572,18 @@ components:
                 url:
                     type: string
                     description: |
-                        Source URL the plugin is fetched from when `type` is `url`.
+                        Source URL the plugin is fetched from when `type` is `url`. For a
+                        plugin the marketplace catalog marks as **private**, the manage API
+                        responses withhold it (`null`, `url_hidden: true`) — private release
+                        URLs never reach the client. A `null` url in a save keeps the stored
+                        one.
                     nullable: true
+                url_hidden:
+                    type: boolean
+                    description: |
+                        The stored `url` was withheld from this response: the marketplace
+                        catalog marks the plugin's repository as private. Response only,
+                        absent otherwise.
                 type:
                     type: string
                     description: |
@@ -45571,8 +45667,8 @@ components:
             type: object
             description: |
                 The plugin marketplace catalog — the list of plugins offered for installation.
-                It is compiled from the bundled default catalog that ships with the
-                **fylr** release (`resources/pluginmarketplace/catalog.json`, source
+                It is compiled from Programmfabrik's catalog (a published CSV sheet pulled
+                at request time and cached, source
                 `programmfabrik`) plus any sources the system administrator configures in
                 `fylr.yml` under `plugin.marketplace.sources` (inline entries, or a URL to a
                 document of this shape). Every entry carries the `source` it came from.
@@ -45587,7 +45683,6 @@ components:
                         required:
                             - name
                             - public
-                            - url
                             - custom_data_type
                             - source
                         properties:
@@ -45626,17 +45721,24 @@ components:
                                 type: boolean
                                 description: |
                                     Visibility of the plugin's source repository (public or private on
-                                    GitHub). Informational only — it does NOT gate the install `url`;
-                                    every offered plugin carries one.
+                                    GitHub). A non-public entry is served without its install `url` —
+                                    install it by name via `POST /plugin/marketplace/{name}/install`.
                             url:
                                 type: string
                                 description: |
                                     Download URL of the plugin's install ZIP, suitable as the `url` of a
-                                    `PUT /plugin/manage` install request with `type: url`. Present for
-                                    every offered plugin, including private and paid ones: those are
-                                    delivered **sealed** (encrypted), so the ZIP is safe to publish —
-                                    currently a GitHub Pages URL with a hashed filename. fylr's built-in
-                                    keys, or a source `privateKey`, open a sealed plugin.
+                                    `PUT /plugin/manage` install request with `type: url`. Served only
+                                    for `public` entries: private release URLs stay on the server, and
+                                    the install goes through `POST /plugin/marketplace/{name}/install`
+                                    instead. Paid plugins are delivered **sealed** (encrypted); fylr's
+                                    built-in keys, or a source `privateKey`, open a sealed plugin.
+                            installable:
+                                type: boolean
+                                description: |
+                                    The entry can be installed — it carries an install URL, served or
+                                    withheld. Absent (`false`) for an entry a configured source offers
+                                    without a URL. Stamped when the catalog is served, never part of a
+                                    source document.
                             repository_url:
                                 type: string
                                 description: URL of the source repository.
@@ -49803,6 +49905,56 @@ components:
                     enum:
                         - 404
                     description: The HTTP status code, repeated here. Always `404`.
+        PluginMarketplaceUnavailableError:
+            type: object
+            description: |
+                Error returned with `code` `PluginMarketplaceUnavailable` (HTTP `503`).
+            required:
+                - code
+                - error
+                - package
+                - parameters
+                - realm
+                - statuscode
+            properties:
+                code:
+                    type: string
+                    description: |
+                        Stable, machine-readable error code:
+
+                          * `PluginMarketplaceUnavailable` — the marketplace catalog could
+                            not be loaded and no cached copy exists yet: the shop is
+                            temporarily unavailable, try again later (HTTP 503).
+                    enum:
+                        - PluginMarketplaceUnavailable
+                error:
+                    type: string
+                    description: |
+                        Human-readable message, localized to the caller's preferred language.
+                        If no translation exists for this error key, the untranslated message
+                        is returned with a `Package` / `Code` footer appended.
+                package:
+                    type: string
+                    enum:
+                        - api
+                    description: |
+                        Internal origin marker for **fylr** support; not part of the API
+                        contract. Branch on `code`, not `package`.
+                parameters:
+                    type: object
+                    additionalProperties: true
+                    description: |
+                        Machine-readable details. Carries no error-specific keys.
+                realm:
+                    type: string
+                    enum:
+                        - api
+                    description: The realm the error originates from. Always `api`.
+                statuscode:
+                    type: integer
+                    enum:
+                        - 503
+                    description: The HTTP status code, repeated here. Always `503`.
         PluginNotLicensedError:
             type: object
             description: |

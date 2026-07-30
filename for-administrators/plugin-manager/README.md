@@ -58,7 +58,7 @@ From fylr **6.35.0**, the **plus** button opens the **marketplace** — a curate
 **Paid** and **private** plugins are delivered **sealed** (encrypted) and are decrypted by fylr during the install. Whether such a plugin can be **enabled** is decided by your **license** (see below).
 
 {% hint style="info" %}
-The catalog is served by `GET /plugin/marketplace`. Next to Programmfabrik's curated default catalog, a system administrator can configure additional sources in `fylr.yml` (`plugin.marketplace.sources`). For the design behind sealed delivery, see the [white paper](../../for-developers/concepts/white-papers/secure-plugin-delivery.md).
+The catalog is served by `GET /plugin/marketplace`. Programmfabrik's curated catalog is **pulled from a published catalog sheet** at request time and cached, so the offer can change without a fylr update; a system administrator can configure additional sources in `fylr.yml` (`plugin.marketplace.sources`). Should the catalog be unreachable before fylr ever loaded it, the marketplace reports itself as **temporarily unavailable** — try again a little later. For the design behind sealed delivery, see the [white paper](../../for-developers/concepts/white-papers/secure-plugin-delivery.md).
 {% endhint %}
 
 ### License-gated plugins
