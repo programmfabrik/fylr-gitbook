@@ -1,6 +1,6 @@
 # Management API
 
-Everything the UI does goes through the JSON management API under `/api` on the management listener. Every request needs a credential — an API token, HTTP basic auth or a session cookie ([management access](access.md)); only `GET /api/healthz` and `POST /api/login` are open. Errors come back as `{"error": "…"}` with a meaningful status code; asynchronous work (backups, restores, copies) answers `202` and is polled through its list endpoint.
+Everything the UI does goes through the JSON management API under `/api` on the management listener. Every request needs a credential — an API token or a session cookie ([management access](access.md)); only `GET /api/healthz` and `POST /api/login` are open. Errors come back as `{"error": "…"}` with a meaningful status code; asynchronous work (backups, restores, copies) answers `202` and is polled through its list endpoint.
 
 ```sh
 curl -H 'Authorization: Bearer svt_…' localhost:8090/api/instances

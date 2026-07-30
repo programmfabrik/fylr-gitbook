@@ -10,17 +10,14 @@ There is exactly **one role**: every management user is an administrator of the 
 
 On first boot the supervisor seeds the user `root` with the password `admin` and **forces a password change on the first login**. Until that change is done, the session can do nothing but read its own identity, set the new password and log out.
 
-Upgrading a supervisor that used the retired `basic_auth_user` / `basic_auth_pass` settings is seamless: that credential is adopted as the first user with its password unchanged and no forced change, and the two settings are cleared. Scripts and CI jobs that send it as HTTP basic auth keep working.
+Upgrading a supervisor that used the retired `basic_auth_user` / `basic_auth_pass` settings keeps the operator's login working: that credential is adopted as the first user with its password unchanged and no forced change, and the two settings are cleared. Scripts and CI jobs authenticate with API tokens.
 
-## Three ways to authenticate
+## Two ways to authenticate
 
 | Credential | Who uses it | Two-factor |
 | --- | --- | --- |
 | Session cookie, from `POST /api/login` | People, through the UI | Enforced |
 | `Authorization: Bearer svt_…` API token | Machines: CI, monitoring, scripts | Not applicable |
-| HTTP basic auth against the same user table | Existing tooling, during migration | Not enforced |
-
-Basic auth is the transition path so `curl` habits and older automation keep working. It deliberately does **not** enforce two-factor, so automation that must not be interrupted by a second factor should move to an API token.
 
 Only `GET /api/healthz` and `POST /api/login` are reachable without a credential. The UI itself is served unauthenticated because it renders its own login page; every `/api` route behind it is not.
 
@@ -30,7 +27,7 @@ Only `GET /api/healthz` and `POST /api/login` are reachable without a credential
 
 * **Creating** a user sets an initial password, and the form offers a password change at that user's first login — leave it ticked and the person who creates an account never needs to know the password that person ends up with. (Over the API the flag is opt-in: `must_change_password`.)
 * **Resetting** someone's password forces a change at their next login unless the caller explicitly says otherwise — an admin-set password is a handover credential, not a permanent one.
-* **Deactivating** a user cuts every credential immediately, including basic auth. It is the reversible alternative to deleting.
+* **Deactivating** a user cuts every credential immediately — sessions end, logins are refused. It is the reversible alternative to deleting.
 * Both deactivating and deleting are refused for the **last remaining active user**, so a fleet cannot lock itself out with one wrong click.
 * Passwords must be at least 8 characters. That is the whole password policy — the audience is small and technical.
 
