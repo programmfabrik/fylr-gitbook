@@ -1,47 +1,48 @@
 ---
 description: >-
-  With fylr 6.35 the distribution no longer ships plugins on disk. Plugins that
-  are installed today are migrated to their marketplace successors automatically
-  at the upgrade. What changes, what to check, and what is still to come.
+  fylr 6.35 will no longer ship plugins on disk. The plugins that are installed
+  and enabled in your instance will be migrated to their successors in the
+  plugin marketplace at the upgrade. What will change, and what to do before it.
 ---
 
 # From disk plugins to the marketplace
 
-Until now, a fylr installation carried a set of plugins **on disk**: they came inside the fylr distribution (the docker image), were listed by path in `fylr.yml`, and appeared in the plugin manager as type `disk` — impossible to remove, only to disable. Their versions were tied to the fylr release: a plugin fix required a fylr release, and a plugin that no longer had a purpose stayed forever.
+Today a fylr installation carries a set of plugins **on disk**: they arrive inside the fylr distribution, are listed by path in `fylr.yml`, and appear in the plugin manager as type `disk` — impossible to remove, only to disable. Their versions are tied to the fylr release: a plugin fix needs a fylr release, and a plugin that has lost its purpose stays forever.
 
-With **fylr 6.35** this ends. fylr ships **no plugins on disk** any more. Plugins are discovered in the **plugin marketplace** inside the plugin manager and installed from their own release — with their own version, their own release notes and their own update cycle, independent of the fylr release train.
+**fylr 6.35 will end that.** fylr will no longer ship plugins on disk. Plugins will be found in the **plugin marketplace** inside the plugin manager and installed from their own release — with their own version, their own release notes and their own update cycle, independent of the fylr release train.
 
 {% hint style="info" %}
-This page describes what happens when you upgrade an installation to fylr 6.35. The plugin mapping below reflects the current plan; the final mapping ships with the release.
+fylr 6.35 has not been released yet. This page describes what will happen when you upgrade an installation to it. The plugin mapping below reflects the current plan; the final mapping will ship with the release.
 {% endhint %}
 
-## What the upgrade does
+## What the upgrade will do
 
-The upgrade migrates your installation for you. There is nothing to prepare in `fylr.yml`, and no plugin needs to be re-installed by hand:
+The upgrade will migrate your installation for you. Nothing has to be prepared in `fylr.yml`, and no plugin has to be re-installed by hand:
 
-* Every plugin that came from the fylr distribution and is **installed** in your instance is converted from a `disk` plugin into a **`url` plugin** pointing at its successor's release. The plugin keeps its enabled/disabled state, and its configuration if it keeps its name (see [below](disk-to-marketplace.md#configuration-and-renamed-plugins)).
-* Plugins **you** installed from your own directories — the `plugin.paths` you added yourself, see [Load Custom Plugins](../for-system-administrators/configuration/custom-plugin.md) — are **not touched**. Loading a plugin from disk stays a supported way to run your own plugins.
-* Plugins from the distribution that have **no successor** are removed. They are either obsolete, or their function is now part of fylr itself. See [the second table](disk-to-marketplace.md#plugins-that-are-removed).
-* Shortly after the restart each migrated plugin **downloads its own release** and then keeps itself up to date, following the update policy shown in the plugin manager.
+* Every plugin that came from the fylr distribution and is **installed and enabled** in your instance will be converted from a `disk` plugin into a **`url` plugin** pointing at its successor's release. It will stay enabled, and keep its configuration if it keeps its name (see [below](disk-to-marketplace.md#configuration-and-renamed-plugins)).
+* A distribution plugin that is **disabled** at the time of the upgrade will not be carried over: only what is in use will be migrated. **If you want to keep a disabled plugin, enable it before you upgrade** — you can disable it again afterwards.
+* Plugins **you** installed from your own directories — the `plugin.paths` you added yourself, see [Load Custom Plugins](../for-system-administrators/configuration/custom-plugin.md) — will **not be touched**. Loading a plugin from disk stays a supported way to run your own plugins.
+* Distribution plugins that have **no successor** will be removed. They are either obsolete, or their function is part of fylr itself by now. See [the second table](disk-to-marketplace.md#plugins-that-will-be-removed).
+* Shortly after the restart, each migrated plugin will **download its own release** and from then on keep itself up to date, following the update policy shown in the plugin manager.
 
 {% hint style="warning" %}
-**Your fylr instance needs outbound HTTPS access** for this — a migrated plugin is only functional once its release has been downloaded once. If your installation reaches the internet through a proxy or a firewall allowlist, make sure these hosts are reachable **before** the upgrade:
+**Your fylr instance will need outbound HTTPS access** for this — a migrated plugin becomes functional once its release has been downloaded. If your installation reaches the internet through a proxy or a firewall allowlist, make sure these hosts are reachable **before** the upgrade:
 
 * `github.com` and GitHub's asset hosts (`*.githubusercontent.com`) — the plugin releases
 * `programmfabrik.github.io` — releases published as GitHub Pages
 * `docs.google.com` — the marketplace catalog
 
-fylr keeps retrying, so a plugin appears as soon as the connection works; an installation with no internet access at all is covered under [Still to come](disk-to-marketplace.md#still-to-come).
+An installation that has no internet access at all can install its plugins [from a ZIP](disk-to-marketplace.md#installations-without-internet-access) instead.
 {% endhint %}
 
-## How plugins migrate
+## How plugins will migrate
 
-Names in the table are the **internal plugin names**, as shown in the plugin manager.
+The names in the table are the **internal plugin names**, as shown in the plugin manager.
 
-| Plugin today | Becomes | What to check |
+| Plugin today | Will become | What to check |
 | --- | --- | --- |
-| `easydb-barcode-display` | `fylr-scancode-display` | The two barcode plugins are **merged** into one plugin; it needs `fylr-plugin-pdf-creator`, which fylr installs alongside it |
-| `easydb-barcode-display-pdf-plugin` | `fylr-scancode-display` | see above — after the upgrade there is one plugin instead of two |
+| `easydb-barcode-display` | `fylr-scancode-display` | The two barcode plugins will be **merged** into one; it needs `fylr-plugin-pdf-creator`, which fylr will install alongside it |
+| `easydb-barcode-display-pdf-plugin` | `fylr-scancode-display` | see above — after the upgrade there will be one plugin instead of two |
 | `basemigration` | `fylr-plugin-basemigration` | new name |
 | `custom-data-type-cerlthesaurus` | `custom-data-type-cerlthesaurus` | unchanged |
 | `custom-data-type-dante` | `custom-data-type-dante` | unchanged |
@@ -52,7 +53,7 @@ Names in the table are the **internal plugin names**, as shown in the plugin man
 | `custom-data-type-gn250` | `custom-data-type-gn250` | unchanged |
 | `custom-data-type-gnd` | `custom-data-type-gnd` | unchanged |
 | `custom-data-type-goobi` | `custom-data-type-goobi` | unchanged |
-| `custom-data-type-gvk` | `custom-data-type-gvk` | unchanged — the same custom type, now delivered by its successor repository `fylr-plugin-custom-data-type-k10plus` |
+| `custom-data-type-gvk` | `custom-data-type-gvk` | unchanged — the same custom type, delivered by its successor repository `fylr-plugin-custom-data-type-k10plus` |
 | `custom-data-type-html-editor` | `custom-data-type-html-editor` | unchanged |
 | `custom-data-type-iconclass` | `custom-data-type-iconclass` | unchanged |
 | `custom-data-type-iucn` | `custom-data-type-iucn` | unchanged |
@@ -66,32 +67,30 @@ Names in the table are the **internal plugin names**, as shown in the plugin man
 | `easydb-detail-map-plugin` | `fylr-plugin-detail-map` | new name |
 | `easydb-display-field-values` | `fylr-plugin-display-field-values` | new name |
 | `easydb-drupal-plugin` | `fylr-plugin-drupal` | new name, **licensed plugin** |
-| `easydb-easydb4migration-plugin` | `fylr-plugin-easydb4migration` | new name; the configuration (section `easydb4migration`) carries over, but the new system right `plugin.fylr-plugin-easydb4migration.migration` has to be granted to the users who run migrations |
+| `easydb-easydb4migration-plugin` | `fylr-plugin-easydb4migration` | new name; the configuration (section `easydb4migration`) will carry over, but the new system right `plugin.fylr-plugin-easydb4migration.migration` has to be granted to the users who run migrations |
 | `easydb-editor-field-visibility` | `editor-field-visibility` | new name — **masks and configurations that reference the old name have to be updated** |
 | `easydb-editor-tagfilter-defaults-plugin` | `fylr-plugin-editor-tagfilter-defaults` | new name |
-| `easydb-export-transport-ftp-plugin` | `easydb-export-transport-ftp-plugin` | unchanged — now delivered by `fylr-plugin-export-transport-ftp` |
+| `easydb-export-transport-ftp-plugin` | `easydb-export-transport-ftp-plugin` | unchanged — delivered by `fylr-plugin-export-transport-ftp` |
 | `easydb-orcid-plugin` | `fylr-plugin-orcid` | new name |
 | `easydb-presentation-pptx-plugin` | `presentation-pptx` | new name |
 | `pdf-creator` | `fylr-plugin-pdf-creator` | new name |
 | `easydb-typo3-plugin` | `fylr-plugin-typo3` | new name, **licensed plugin** |
 | `easydb-wordpress-plugin` | `fylr-plugin-wordpress` | new name, **licensed plugin** |
 
-The custom data types `cerlthesaurus`, `dante`, `geonames`, `georef`, `getty`, `gn250`, `gnd`, `gvk`, `iconclass` and `nomisma` share a library plugin, `commons-library`. fylr installs it alongside them; it does nothing on its own and needs no configuration.
-
-**Licensed plugins** (the Drupal, TYPO3 and WordPress connectors) stay installed and keep working under a license that grants them — which is the case for every license that contains them today. Without such a grant a licensed plugin can be installed, but not enabled. See [License](../license-management.md).
+The custom data types `cerlthesaurus`, `dante`, `geonames`, `georef`, `getty`, `gn250`, `gnd`, `gvk`, `iconclass` and `nomisma` share a library plugin, `commons-library`. fylr will install it alongside them; it does nothing on its own and needs no configuration.
 
 ### Configuration and renamed plugins
 
-A plugin's configuration is stored under its **internal name**. Where the name is unchanged in the table above, the configuration is carried over untouched and there is nothing to do.
+A plugin's configuration is stored under its **internal name**. Where the name is unchanged in the table above, the configuration carries over untouched and there is nothing to do.
 
-Where the successor has a **new name**, its configuration starts empty — with the exception noted in the table (`fylr-plugin-easydb4migration` deliberately keeps its configuration section). Two things follow:
+Where the successor has a **new name**, its configuration starts empty — with the exception noted in the table (`fylr-plugin-easydb4migration` deliberately keeps its configuration section). Two things follow from that:
 
 * Configure the successor after the upgrade. It is worth **writing down or exporting the old plugin's configuration before you upgrade**, so you can transfer the values.
-* Where the plugin's name appears in the **data model** — a custom mask splitter chosen in a mask, for example `editor-field-visibility` — the mask has to be pointed at the new plugin by hand.
+* Where a plugin's name appears in the **data model** — a custom mask splitter chosen in a mask, for example `editor-field-visibility` — the mask has to be pointed at the new plugin by hand.
 
-### Plugins that are removed
+### Plugins that will be removed
 
-These plugins have no successor and are removed at the upgrade:
+These plugins have no successor and will be removed at the upgrade:
 
 | Plugin | Why |
 | --- | --- |
@@ -111,20 +110,26 @@ If you actively use one of these, talk to us before upgrading.
 
 Open the **plugin manager** and check that:
 
-* every plugin you use is listed, enabled, and shows a version and a build date — that is the proof its release was downloaded;
+* every plugin you use is listed, enabled, and shows a version and a build date — that is the proof that its release was downloaded;
 * the renamed plugins from the table are configured;
 * masks that use a custom mask splitter or a custom data type still render as expected.
 
-The plugin manager now also has the **marketplace**: the catalog of plugins you can install, with their descriptions and dependencies. Installing from it is one click — no download link to request, no ZIP to upload. The catalog is maintained by Programmfabrik and updates itself, so a new plugin becomes available without a fylr release.
+## The marketplace
 
-Beyond that catalog, an organisation can add **its own marketplace sources** in `fylr.yml`, so plugins developed in-house or by a partner appear in the same list. The mechanics are described in [Plugin marketplace and secure delivery](../for-developers/concepts/white-papers/secure-plugin-delivery.md).
+The plugin manager also offers the **marketplace**: the catalog of plugins you can install, with their descriptions, their licensing and the other plugins they need. Installing is one click — no download link to request, no ZIP to upload, and dependencies come along automatically. Programmfabrik maintains the catalog and it refreshes itself, so a new plugin becomes available without a fylr release.
 
-## Still to come
+Beyond that catalog, an organisation can add **its own sources** in `fylr.yml`, so plugins developed in-house or by a partner appear in the same list, attributed to where they came from. The marketplace can also be **switched off** in the configuration, for installations where plugins are chosen centrally and administrators should not be offered a catalog.
 
-The following is planned on top of the 6.35 changes. It is **not available yet** — this section is here so you can plan with it, and it will be updated as the pieces ship.
+**Plugins that cost money** — among the migrated ones the Drupal, TYPO3 and WordPress connectors — are marked as such in the marketplace and in the plugin manager. Anybody can install them, but enabling one requires a fylr license that includes it, which is the case for every license that contains it today. Their download is protected, so there is no secret link to keep and to pass around. See [License](../license-management.md).
 
-* **Installations without internet access.** After the migration a plugin is fetched from its release URL. For instances that cannot reach the internet at all, the plugin manager will offer the same plugin as a **ZIP upload**: you download the package once on a machine that has access and hand it to fylr, which then uses the uploaded package instead of the URL.
-* **fylr notices that it is offline.** Instead of quietly retrying, fylr will recognise that it cannot reach the outside world and mark the affected plugins accordingly, so the cause is visible at a glance.
-* **A "warning" state per plugin.** The plugin manager will show a plugin whose release cannot be reached — or that is otherwise not in working order — in a dedicated warning state, and offer to **fix it right there**, for example by switching that plugin from its URL to an uploaded ZIP.
-* **Encrypted delivery for paid plugins.** Paid plugins will be published as **sealed packages**: the download is encrypted for your installation and is opened by fylr at install time, so a package is worthless to anyone else and its URL can be published openly. The API will hand out those encrypted URLs; the plugin's source is no longer carried by a link that must be kept secret. The design is documented in [Plugin marketplace and secure delivery](../for-developers/concepts/white-papers/secure-plugin-delivery.md).
-* **Turning the marketplace off.** A switch in `fylr.yml` for installations that do not want the catalog offered in the plugin manager at all — for example because plugin selection is governed centrally.
+## When a plugin has a problem
+
+A plugin whose release cannot be reached — a download that fails, a source that is unavailable — is shown in the plugin manager with a **warning**, so a plugin that needs attention is visible at a glance instead of quietly staying behind. fylr also recognises when it has no internet access at all and marks the affected plugins accordingly, instead of presenting each of them as an individual failure.
+
+From that warning, the plugin manager offers to **fix the plugin on the spot**: it can be installed from a ZIP instead of from its URL, without touching its configuration.
+
+## Installations without internet access
+
+An instance that cannot reach the internet — by policy, or because it runs in a closed network — installs its plugins **from a ZIP**: download the plugin package once on a machine that does have access, then hand that package to fylr in the plugin manager. fylr uses the uploaded package instead of the URL, and the plugin keeps the configuration it already has.
+
+That is also how a plugin reaches such an instance after the migration described above: the migrated plugins point at a release URL, and wherever that URL cannot be reached, the ZIP takes its place.
