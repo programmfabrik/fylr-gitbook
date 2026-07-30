@@ -1,8 +1,7 @@
 ---
 description: >-
-  fylr 6.35 will no longer ship plugins on disk. The plugins that are installed
-  and enabled in your instance will be migrated to their successors in the
-  plugin marketplace at the upgrade. What will change, and what to do before it.
+  What the fylr 6.35 upgrade will do with the plugins installed in your
+  instance, and what to check before and after it.
 ---
 
 # From disk plugins to the marketplace
@@ -10,9 +9,9 @@ description: >-
 {% hint style="info" %}
 **The essentials**
 
-* The plugins that fylr delivers on disk today will be **installed from their own release** instead. The upgrade converts them for you, keeping them enabled and — where the name stays the same — configured.
-* A distribution plugin that is **switched off** at that moment is **not carried over**: it disappears, together with its configuration. Switch on what should survive **before** you upgrade.
-* An instance that **cannot reach the internet** needs one manual step afterwards: those plugins have to be installed from a ZIP, because the migrated ones are fetched from a release URL.
+* The plugins that fylr delivers on disk today will be **installed from their own release** instead. The upgrade converts the enabled ones that have a successor for you — they stay enabled and, where the name stays the same, configured. The few without a successor are [removed](disk-to-marketplace.md#plugins-that-will-be-removed).
+* A distribution plugin that is **switched off** at that moment is removed instead of converted. To keep it without a later re-install, **switch it on before you upgrade** — you can switch it off again afterwards.
+* An instance that **cannot reach the internet** needs one manual step afterwards: the plugins have to be installed from a ZIP, because the converted ones fetch their release from a URL.
 {% endhint %}
 
 Today a fylr installation carries a set of plugins **on disk**: they arrive inside the fylr distribution, are listed by path in `fylr.yml`, and appear in the plugin manager as type `disk` — impossible to remove, only to disable. Their versions are tied to the fylr release: a plugin fix needs a fylr release, and a plugin that has lost its purpose stays forever.
@@ -27,8 +26,8 @@ fylr 6.35 has not been released yet. This page describes what will happen when y
 
 The upgrade will migrate your installation for you. Nothing has to be prepared in `fylr.yml`, and no plugin has to be re-installed by hand:
 
-* Every plugin that came from the fylr distribution and is **installed and enabled** in your instance will be converted from a `disk` plugin into a **`url` plugin** pointing at its successor's release. It will stay enabled, and keep its configuration if it keeps its name (see [below](disk-to-marketplace.md#configuration-and-renamed-plugins)).
-* A distribution plugin that is **disabled** at the time of the upgrade will not be carried over: only what is in use will be migrated. **If you want to keep a disabled plugin, enable it before you upgrade** — you can disable it again afterwards.
+* Every plugin that came from the fylr distribution, is **installed and enabled** in your instance and **has a successor** in the table below will be converted from a `disk` plugin into a **`url` plugin** pointing at the successor's release. It will stay enabled, and keep its configuration if it keeps its name (see [below](disk-to-marketplace.md#configuration-and-renamed-plugins)).
+* A distribution plugin that is **disabled** at the time of the upgrade will not be carried over: only what is in use will be migrated. **If you want to keep a disabled plugin, enable it before you upgrade** — you can disable it again afterwards. Its stored configuration is not lost either way: fylr keeps it, and installing a plugin of the same name later — from the marketplace, for example — picks it up again.
 * Plugins **you** installed from your own directories — the `plugin.paths` you added yourself, see [Load Custom Plugins](../for-system-administrators/configuration/custom-plugin.md) — will **not be touched**. Loading a plugin from disk stays a supported way to run your own plugins.
 * Distribution plugins that have **no successor** will be removed. They are either obsolete, or their function is part of fylr itself by now. See [the second table](disk-to-marketplace.md#plugins-that-will-be-removed).
 * Shortly after the restart, each migrated plugin will **download its own release** and from then on keep itself up to date, following the update policy shown in the plugin manager.
