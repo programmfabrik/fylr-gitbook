@@ -27689,7 +27689,7 @@
     },
     "/eas/produce": {
       "x-path": "/eas/produce",
-      "description": "This endpoint is used to produce a new version of the file. It allows to crop and rotate images, and to trim, crop, rotate, scale, mute and color-correct videos. The new file gets a new id. The `produce_version` setting from the parent is inherited.\n\nThe file is produced asynchronously: the response returns the new file in\n`pending` state, poll its status until it reaches `done` (or `failed`).\n\nDiffers from easydb 5: easydb 5 accepts a `description` field\n(optional l10n) in the produce body; **fylr** ignores it — the\nrequest only reads `eas_parent_id`, `format`, `transform`, `trim`,\n`mute`, `color` and `height`.\n",
+      "description": "This endpoint is used to produce a new version of the file. It allows to crop and rotate images, and to trim, crop, rotate, scale, mute and color-correct videos. The new file gets a new id. The `produce_version` setting from the parent is inherited.\n\nThe file is produced asynchronously: the response returns the new file in\n`pending` state, poll its status until it reaches `done` (or `failed`).\n\nDiffers from easydb 5: easydb 5 accepts a `description` field\n(optional l10n) in the produce body; **fylr** ignores it — the\nrequest only reads `eas_parent_id`, `format`, `transform`, `trim`,\n`mute`, `color`, `height`, `colorspace` and `colorprofile` (the\nlatter two are fylr-only, since 6.35).\n",
       "post": {
         "parameters": [
           {
@@ -27775,6 +27775,21 @@
                         }
                       }
                     }
+                  },
+                  "colorspace": {
+                    "type": "string",
+                    "enum": [
+                      "",
+                      "rgb",
+                      "sRGB",
+                      "cmyk",
+                      "gray"
+                    ],
+                    "description": "Image parents only: target color space. Empty (or omitted)\napplies no color space conversion of its own. `rgb` and\n`sRGB` are fulfilled by the color profile (the explicit\n`colorprofile` or the built-in sRGB default); `cmyk` and\n`gray` convert without embedding a profile unless an\nexplicit matching `colorprofile` is given. Values outside\nthe enum are rejected with `RecipeParamUnsupportedValue`.\n"
+                  },
+                  "colorprofile": {
+                    "type": "string",
+                    "description": "Image parents only: name of the ICC color profile for the\nproduced file — a built-in profile (for example\n`eciRGB_v2`) or a profile uploaded in the base\nconfiguration. The profile is converted to and embedded in\nthe produced file and wins over `colorspace`. Empty (or\nomitted) uses the default sRGB profile\n(`sRGB_IEC61966-2-1_black_scaled`); `-` embeds no profile.\nUnknown names are rejected with\n`RecipeParamUnsupportedValue`.\n"
                   },
                   "trim": {
                     "type": "object",
@@ -27878,7 +27893,7 @@
             }
           },
           "400": {
-            "description": "The produce request could not be processed — typical reasons are\n`EasNoParentID` (no / zero `eas_parent_id`), `ProduceOriginalOnly`\n(the parent is not an original), `ProduceExtensionNotSupported`\nand `ProduceFormatNotSupported`. `ReadOnlyMode` is returned if\nthe instance is read-only. An `eas_parent_id` that does not\nmatch any stored file surfaces as a generic `400` error\n(`ServerGeneric`), not a `404`.\n",
+            "description": "The produce request could not be processed — typical reasons are\n`EasNoParentID` (no / zero `eas_parent_id`), `ProduceOriginalOnly`\n(the parent is not an original), `ProduceExtensionNotSupported`,\n`ProduceFormatNotSupported` and `RecipeParamUnsupportedValue`\n(unknown `colorspace` / `colorprofile`). `ReadOnlyMode` is\nreturned if the instance is read-only. An `eas_parent_id` that\ndoes not match any stored file surfaces as a generic `400` error\n(`ServerGeneric`), not a `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -27894,6 +27909,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/ProduceFormatNotSupportedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/RecipeParamUnsupportedValueError"
                     },
                     {
                       "$ref": "#/components/schemas/ReadOnlyModeError"
@@ -63893,6 +63911,57 @@
             }
           }
         ]
+      },
+      "RecipeParamUnsupportedValueError": {
+        "type": "object",
+        "description": "Error returned with `code` `RecipeParamUnsupportedValue` (HTTP `400`).\n",
+        "required": [
+          "code",
+          "error",
+          "package",
+          "parameters",
+          "realm",
+          "statuscode"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Stable, machine-readable error code:\n\n  * `RecipeParamUnsupportedValue` — a produce recipe parameter\n    received a value that is not among the recipe's options (for\n    example an unknown `colorprofile` or `colorspace` in\n    `POST /eas/produce`). `parameters` carries the parameter name\n    (`Param`), its type (`Type`) and the rejected value (`Value`).\n",
+            "enum": [
+              "RecipeParamUnsupportedValue"
+            ]
+          },
+          "error": {
+            "type": "string",
+            "description": "Human-readable message, localized to the caller's preferred language.\nIf no translation exists for this error key, the untranslated message\nis returned with a `Package` / `Code` footer appended.\n"
+          },
+          "package": {
+            "type": "string",
+            "enum": [
+              "baseconfig"
+            ],
+            "description": "Internal origin marker for **fylr** support; not part of the API\ncontract. Branch on `code`, not `package`.\n"
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Machine-readable details; `realm` and `statuscode` are repeated here.\n"
+          },
+          "realm": {
+            "type": "string",
+            "enum": [
+              "api"
+            ],
+            "description": "The realm the error originates from. Always `api`."
+          },
+          "statuscode": {
+            "type": "integer",
+            "enum": [
+              400
+            ],
+            "description": "The HTTP status code, repeated here. Always `400`."
+          }
+        }
       }
     }
   }

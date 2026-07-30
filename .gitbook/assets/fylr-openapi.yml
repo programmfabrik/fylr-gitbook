@@ -26219,7 +26219,8 @@ paths:
             Differs from easydb 5: easydb 5 accepts a `description` field
             (optional l10n) in the produce body; **fylr** ignores it — the
             request only reads `eas_parent_id`, `format`, `transform`, `trim`,
-            `mute`, `color` and `height`.
+            `mute`, `color`, `height`, `colorspace` and `colorprofile` (the
+            latter two are fylr-only, since 6.35).
         post:
             parameters:
                 - name: obj_uuid
@@ -26317,6 +26318,34 @@ paths:
                                                 height:
                                                     type: number
                                                     format: int
+                                colorspace:
+                                    type: string
+                                    enum:
+                                        - ""
+                                        - rgb
+                                        - sRGB
+                                        - cmyk
+                                        - gray
+                                    description: |
+                                        Image parents only: target color space. Empty (or omitted)
+                                        applies no color space conversion of its own. `rgb` and
+                                        `sRGB` are fulfilled by the color profile (the explicit
+                                        `colorprofile` or the built-in sRGB default); `cmyk` and
+                                        `gray` convert without embedding a profile unless an
+                                        explicit matching `colorprofile` is given. Values outside
+                                        the enum are rejected with `RecipeParamUnsupportedValue`.
+                                colorprofile:
+                                    type: string
+                                    description: |
+                                        Image parents only: name of the ICC color profile for the
+                                        produced file — a built-in profile (for example
+                                        `eciRGB_v2`) or a profile uploaded in the base
+                                        configuration. The profile is converted to and embedded in
+                                        the produced file and wins over `colorspace`. Empty (or
+                                        omitted) uses the default sRGB profile
+                                        (`sRGB_IEC61966-2-1_black_scaled`); `-` embeds no profile.
+                                        Unknown names are rejected with
+                                        `RecipeParamUnsupportedValue`.
                                 trim:
                                     type: object
                                     description: |
@@ -26424,10 +26453,11 @@ paths:
                     description: |
                         The produce request could not be processed — typical reasons are
                         `EasNoParentID` (no / zero `eas_parent_id`), `ProduceOriginalOnly`
-                        (the parent is not an original), `ProduceExtensionNotSupported`
-                        and `ProduceFormatNotSupported`. `ReadOnlyMode` is returned if
-                        the instance is read-only. An `eas_parent_id` that does not
-                        match any stored file surfaces as a generic `400` error
+                        (the parent is not an original), `ProduceExtensionNotSupported`,
+                        `ProduceFormatNotSupported` and `RecipeParamUnsupportedValue`
+                        (unknown `colorspace` / `colorprofile`). `ReadOnlyMode` is
+                        returned if the instance is read-only. An `eas_parent_id` that
+                        does not match any stored file surfaces as a generic `400` error
                         (`ServerGeneric`), not a `404`.
                     content:
                         application/json:
@@ -26437,6 +26467,7 @@ paths:
                                     - $ref: '#/components/schemas/ProduceOriginalOnlyError'
                                     - $ref: '#/components/schemas/ProduceExtensionNotSupportedError'
                                     - $ref: '#/components/schemas/ProduceFormatNotSupportedError'
+                                    - $ref: '#/components/schemas/RecipeParamUnsupportedValueError'
                                     - $ref: '#/components/schemas/ReadOnlyModeError'
                                     - $ref: '#/components/schemas/ServerGenericError'
                 "403":
@@ -50471,6 +50502,58 @@ components:
                     statuscode: 400
                 realm: api
                 statuscode: 400
+        RecipeParamUnsupportedValueError:
+            type: object
+            description: |
+                Error returned with `code` `RecipeParamUnsupportedValue` (HTTP `400`).
+            required:
+                - code
+                - error
+                - package
+                - parameters
+                - realm
+                - statuscode
+            properties:
+                code:
+                    type: string
+                    description: |
+                        Stable, machine-readable error code:
+
+                          * `RecipeParamUnsupportedValue` — a produce recipe parameter
+                            received a value that is not among the recipe's options (for
+                            example an unknown `colorprofile` or `colorspace` in
+                            `POST /eas/produce`). `parameters` carries the parameter name
+                            (`Param`), its type (`Type`) and the rejected value (`Value`).
+                    enum:
+                        - RecipeParamUnsupportedValue
+                error:
+                    type: string
+                    description: |
+                        Human-readable message, localized to the caller's preferred language.
+                        If no translation exists for this error key, the untranslated message
+                        is returned with a `Package` / `Code` footer appended.
+                package:
+                    type: string
+                    enum:
+                        - baseconfig
+                    description: |
+                        Internal origin marker for **fylr** support; not part of the API
+                        contract. Branch on `code`, not `package`.
+                parameters:
+                    type: object
+                    additionalProperties: true
+                    description: |
+                        Machine-readable details; `realm` and `statuscode` are repeated here.
+                realm:
+                    type: string
+                    enum:
+                        - api
+                    description: The realm the error originates from. Always `api`.
+                statuscode:
+                    type: integer
+                    enum:
+                        - 400
+                    description: The HTTP status code, repeated here. Always `400`.
         ReindexInProgressError:
             type: object
             description: |
