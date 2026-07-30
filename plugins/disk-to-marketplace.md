@@ -49,7 +49,7 @@ The names in the table are the **internal plugin names**, as shown in the plugin
 
 | Plugin today | Will become | What to check |
 | --- | --- | --- |
-| `easydb-barcode-display` | `fylr-scancode-display` | The two barcode plugins will be **merged** into one; it needs `fylr-plugin-pdf-creator`, which fylr will install alongside it |
+| `easydb-barcode-display` | `fylr-scancode-display` | The two barcode plugins will be **merged** into one; it needs `fylr-plugin-pdf-creator`, which fylr will install alongside it. **Masks using the barcode mask splitter need to be edited**, see [below](disk-to-marketplace.md#mask-splitters-and-custom-data-types) |
 | `easydb-barcode-display-pdf-plugin` | `fylr-scancode-display` | see above — after the upgrade there will be one plugin instead of two |
 | `basemigration` | `fylr-plugin-basemigration` | new name |
 | `custom-data-type-cerlthesaurus` | `custom-data-type-cerlthesaurus` | unchanged |
@@ -76,7 +76,7 @@ The names in the table are the **internal plugin names**, as shown in the plugin
 | `easydb-display-field-values` | `fylr-plugin-display-field-values` | new name |
 | `easydb-drupal-plugin` | `fylr-plugin-drupal` | new name, **licensed plugin** |
 | `easydb-easydb4migration-plugin` | `fylr-plugin-easydb4migration` | new name; the configuration (section `easydb4migration`) will carry over, but the new system right `plugin.fylr-plugin-easydb4migration.migration` has to be granted to the users who run migrations |
-| `easydb-editor-field-visibility` | `editor-field-visibility` | new name — **masks and configurations that reference the old name have to be updated** |
+| `easydb-editor-field-visibility` | `editor-field-visibility` | new name; masks using its mask splitter are **not** affected, but the plugin's own configuration starts empty |
 | `easydb-editor-tagfilter-defaults-plugin` | `fylr-plugin-editor-tagfilter-defaults` | new name |
 | `easydb-export-transport-ftp-plugin` | `easydb-export-transport-ftp-plugin` | unchanged — delivered by `fylr-plugin-export-transport-ftp` |
 | `easydb-orcid-plugin` | `fylr-plugin-orcid` | new name |
@@ -94,7 +94,19 @@ A plugin's configuration is stored under its **internal name**. Where the name i
 Where the successor has a **new name**, its configuration starts empty — with the exception noted in the table (`fylr-plugin-easydb4migration` deliberately keeps its configuration section). Two things follow from that:
 
 * Configure the successor after the upgrade. It is worth **writing down or exporting the old plugin's configuration before you upgrade**, so you can transfer the values.
-* Where a plugin's name appears in the **data model** — a custom mask splitter chosen in a mask, for example `editor-field-visibility` — the mask has to be pointed at the new plugin by hand.
+* A plugin's own configuration is the only thing a rename affects — what a plugin contributes to your **data model** follows different rules, described next.
+
+### Mask splitters and custom data types
+
+Two things a plugin adds can be referenced from the data model itself, and they behave differently from the plugin's configuration:
+
+**Custom data types** are referenced by the plugin they come from. That is why every custom data type in the table above keeps its name, even where its repository was renamed — the columns using it keep working, untouched, and nothing has to be changed in the data model.
+
+**Mask splitters** are referenced by the splitter, not by the plugin that delivers it. Renaming a plugin therefore does not affect any mask: the splitters of `editor-field-visibility`, `fylr-plugin-display-field-values` and `fylr-plugin-custom-mask-splitter-detail-linked` continue to work after the upgrade, with their options, although all three plugins change their name.
+
+The exception is the **barcode plugin**: its successor `fylr-scancode-display` delivers the splitter under a new identity. Masks that contain the old barcode splitter will show it as an unknown splitter — a marked block that still renders the fields inside it, and that keeps its reference when the mask is saved, so nothing is lost. To restore the output, edit the mask, remove that block and add the Scancode mask splitter in its place, with the same options.
+
+The same appearance is what you see for any splitter whose plugin is missing, for example when the plugin has been removed at the upgrade, or while an instance without internet access has not installed its plugins yet. Installing a plugin that delivers the splitter again makes those masks render normally.
 
 ### Plugins that will be removed
 
