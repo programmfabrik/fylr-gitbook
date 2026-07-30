@@ -12,6 +12,7 @@ description: >-
 * The plugins that fylr ships on disk today will become **url plugins**, installed from their own releases. The upgrade converts every enabled plugin that has a successor; the [few without one](disk-to-url-migration.md#plugins-that-will-be-removed) are removed.
 * A distribution plugin that is **switched off** at that moment is removed instead of converted. Switch it on before you upgrade if it should stay — off again afterwards is fine.
 * If your fylr **cannot reach the internet**, the plugin manager will mark the plugins it could not download and offer to **install them as ZIP** — your browser fetches the release and hands it to fylr.
+* If you use the **Drupal, TYPO3 or WordPress** connector, you **must obtain an updated fylr license** that enables it — without that grant the plugin cannot be enabled after the upgrade. Contact Programmfabrik **before** you upgrade.
 {% endhint %}
 
 Until now, every fylr release shipped a fixed set of plugins inside the distribution: type `disk`, listed by path in `fylr.yml`, impossible to remove, and updated only by the next fylr release. From **fylr 6.35** on, fylr ships no plugins. Each plugin comes from its own release instead — with its own version, its own release notes and its own update cycle.
@@ -80,7 +81,9 @@ The names in the table are the **internal plugin names**, as shown in the plugin
 
 The custom data types `cerlthesaurus`, `dante`, `geonames`, `georef`, `getty`, `gn250`, `gnd`, `gvk`, `iconclass` and `nomisma` share a library plugin, `commons-library`, which fylr installs alongside them; it does nothing on its own and needs no configuration.
 
-The **licensed plugins** — the Drupal, TYPO3 and WordPress connectors — keep working under a license that grants them, which is the case for every license that contains them today.
+{% hint style="warning" %}
+The Drupal, TYPO3 and WordPress connectors become **licensed plugins**: enabling one requires a fylr license that grants it by name. If you use one of these connectors, you **must obtain an updated license** from Programmfabrik that enables it — do this **before you upgrade**, or the plugin will be installed but cannot be enabled.
+{% endhint %}
 
 ### Configuration and renamed plugins
 
