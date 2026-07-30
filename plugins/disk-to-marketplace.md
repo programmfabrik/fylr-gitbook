@@ -7,6 +7,14 @@ description: >-
 
 # From disk plugins to the marketplace
 
+{% hint style="info" %}
+**The essentials**
+
+* The plugins that fylr delivers on disk today will be **installed from their own release** instead. The upgrade converts them for you, keeping them enabled and — where the name stays the same — configured.
+* A distribution plugin that is **switched off** at that moment is **not carried over**: it disappears, together with its configuration. Switch on what should survive **before** you upgrade.
+* An instance that **cannot reach the internet** needs one manual step afterwards: those plugins have to be installed from a ZIP, because the migrated ones are fetched from a release URL.
+{% endhint %}
+
 Today a fylr installation carries a set of plugins **on disk**: they arrive inside the fylr distribution, are listed by path in `fylr.yml`, and appear in the plugin manager as type `disk` — impossible to remove, only to disable. Their versions are tied to the fylr release: a plugin fix needs a fylr release, and a plugin that has lost its purpose stays forever.
 
 **fylr 6.35 will end that.** fylr will no longer ship plugins on disk. Plugins will be found in the **plugin marketplace** inside the plugin manager and installed from their own release — with their own version, their own release notes and their own update cycle, independent of the fylr release train.
