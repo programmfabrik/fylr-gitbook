@@ -42,6 +42,7 @@ Who may use that listener is not a setting: management users, their two-factor a
 | `managed_master_id` | *(empty)* | Instance (by id) whose database and files seed every newly created managed branch instance. |
 | `managed_storage_id` | *(empty)* | Storage location stamped onto new managed instances (creation-time only). |
 | `managed_execserver` | *(empty = shared)* | Execserver preset stamped onto new managed instances (creation-time only): empty/`shared` or `own`. |
+| `managed_log_level` | *(empty = fylr default)* | Log level (`fylr.logger.level`) baked into the config of newly created instances (creation-time only): empty, `trace`, `debug`, `info`, `warn` or `error`. |
 
 ### Shared OpenSearch
 

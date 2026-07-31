@@ -9,15 +9,15 @@ An instance is one fylr tenant: its own PostgreSQL database (or SQLite file), it
 The two decisions at create time:
 
 * **Copy from instance** — seeds the new instance as a **full copy** of an existing one: database and all files. The consent line under the select shows the source's object count, file count and file bytes before you commit. Sources whose files live on the machine's disk are hard-linked (instant, no extra space); sources keeping files on an S3 location are copied through their API, so the bytes are stored again locally. The copy runs with the source's encryption key, root password and license, and appears as a `seed-…` entry on the [Backups page](backups.md) with full logs. A disk-headroom preflight refuses copies the machine cannot hold.
-* **Storage** — where new originals, renditions and backups land: the machine's **disk** location or a configured S3 location, inherited from the fleet default unless overridden. New locations can be added right from the dialog. See [Storage](storage.md).
+* **Storage** — where new originals, renditions and backups land: the machine's **disk** location or a configured S3 location, inherited from the fleet default unless overridden. Locations themselves are created and edited in one place, on the [Storage](storage.md) page.
 
-Everything else — database backend (PostgreSQL for production, SQLite for tiny tests), replica count, followed [binary](binaries.md), execserver, host — has sensible defaults. The instance starts serving right after creation.
+Everything else — database backend (PostgreSQL for production, SQLite for tiny tests), replica count, followed [binary](binaries.md), execserver, log level, host — has sensible defaults (the log level starts on the fleet preset from [Settings](settings.md)). The instance starts serving right after creation.
 
 ## The instance page
 
 <figure><img src="../.gitbook/assets/supervisor/sv-instance-detail.png" alt=""><figcaption><p>Instance detail: status tiles, charts, endpoints — and one-click root access to frontend and /inspect</p></figcaption></figure>
 
-Operation lives on the detail page: start/stop, hibernate, **Frontend (root) ↗** and **Inspect (root) ↗** (one-time root logins minted by the supervisor — no password juggling), plus tabs for the admin and system-admin views and the instance's parsed server log. Setup lives in the editor (Edit button): host, access credentials, license, storage, email server and rate-limit overrides — fleet-inherited concerns default to "inherit".
+Operation lives on the detail page: start/stop, hibernate, **Frontend (root) ↗** and **Inspect (root) ↗** (one-time root logins minted by the supervisor — no password juggling), plus tabs for the admin and system-admin views and the instance's parsed server log. Setup lives in the editor (Edit button): host, access credentials, license, storage, log level, email server and rate-limit overrides — fleet-inherited concerns default to "inherit".
 
 Edits that a child bakes in at startup (host, basic auth, replica count) apply through a **zero-downtime rolling restart**: new replicas come up and are confirmed serving before the old ones retire. Rate limits and storage assignments apply live.
 
@@ -32,3 +32,5 @@ Idle instances are stopped to free memory and woken by the next request for thei
 ## Logs
 
 Every instance's server log is parsed into a filterable table (level, day, full-text) with the client IP as its own column — request lines carry the real client address as seen by the router, so "who is hammering this instance" is one click (the IP filters the log). The supervisor's own log has a per-instance column too, so one instance's slice of supervisor events (wakes, rolls, storage pushes) is equally filterable.
+
+The fleet-wide **Log** page reads the same table over any source: all sources merged newest-first (with a Source column naming who wrote each line), the supervisor alone, the shared execserver, or a single instance. How much an instance writes is its **log level** — `fylr.logger.level` in the generated config, per instance, with a fleet preset for newly created ones in [Settings](settings.md); changing it rolls the instance.
