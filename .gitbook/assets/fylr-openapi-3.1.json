@@ -15048,6 +15048,153 @@
                                               "items": {
                                                 "oneOf": [
                                                   {
+                                                    "description": "Recipe \"imageconverter:preview_pool_watermark\"",
+                                                    "properties": {
+                                                      "custommetadata": {
+                                                        "properties": {
+                                                          "extensions": {
+                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                            "items": {
+                                                              "enum": [
+                                                                "ai",
+                                                                "arw",
+                                                                "bmp",
+                                                                "cr2",
+                                                                "cr3",
+                                                                "crw",
+                                                                "dng",
+                                                                "eps",
+                                                                "gif",
+                                                                "heic",
+                                                                "ico",
+                                                                "jfif",
+                                                                "jp2",
+                                                                "jpeg",
+                                                                "jpg",
+                                                                "nef",
+                                                                "pcd",
+                                                                "png",
+                                                                "ppm",
+                                                                "psd",
+                                                                "raf",
+                                                                "rw2",
+                                                                "svg",
+                                                                "tif",
+                                                                "tiff",
+                                                                "webp",
+                                                                "wmf"
+                                                              ],
+                                                              "type": "string"
+                                                            },
+                                                            "type": "array"
+                                                          },
+                                                          "recipename": {
+                                                            "description": "Recipe to process the custom metadata.",
+                                                            "enum": [
+                                                              "_metadata:ocr"
+                                                            ],
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "displayname": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "de-DE": {
+                                                            "type": "string"
+                                                          },
+                                                          "en-US": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "example": {
+                                                          "de-DE": "Deutscher text",
+                                                          "en-US": "English text"
+                                                        }
+                                                      },
+                                                      "extensions": {
+                                                        "items": {
+                                                          "enum": [
+                                                            "ai",
+                                                            "arw",
+                                                            "bmp",
+                                                            "cr2",
+                                                            "cr3",
+                                                            "crw",
+                                                            "dng",
+                                                            "eps",
+                                                            "gif",
+                                                            "heic",
+                                                            "ico",
+                                                            "jfif",
+                                                            "jp2",
+                                                            "jpeg",
+                                                            "jpg",
+                                                            "nef",
+                                                            "pcd",
+                                                            "png",
+                                                            "ppm",
+                                                            "psd",
+                                                            "raf",
+                                                            "rw2",
+                                                            "svg",
+                                                            "tif",
+                                                            "tiff",
+                                                            "webp",
+                                                            "wmf"
+                                                          ],
+                                                          "type": "string"
+                                                        },
+                                                        "type": "array"
+                                                      },
+                                                      "group": {
+                                                        "type": "string"
+                                                      },
+                                                      "name": {
+                                                        "type": "string"
+                                                      },
+                                                      "params": {
+                                                        "properties": {
+                                                          "format": {
+                                                            "description": "output format of the thumbnail [select]",
+                                                            "enum": [
+                                                              "jpg",
+                                                              "png",
+                                                              "webp"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "resize_mode": {
+                                                            "description": " [select]",
+                                                            "enum": [
+                                                              "",
+                                                              "height",
+                                                              "max",
+                                                              "min",
+                                                              "width"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "size": {
+                                                            "description": "set the output size. [int]",
+                                                            "type": "integer"
+                                                          },
+                                                          "size_minimum": {
+                                                            "description": "Only produce version if source size (largest dimension, either `width` or `height`) is greater or equal `size_minimum`. [int]",
+                                                            "type": "integer"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "recipename": {
+                                                        "description": "This oneOf block is for \"imageconverter:preview_pool_watermark\"",
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "type": "object"
+                                                  },
+                                                  {
                                                     "description": "Recipe \"imageconverter:vectortosvg\"",
                                                     "properties": {
                                                       "custommetadata": {
@@ -15328,153 +15475,6 @@
                                                       }
                                                     },
                                                     "type": "object"
-                                                  },
-                                                  {
-                                                    "description": "Recipe \"imageconverter:preview_pool_watermark\"",
-                                                    "properties": {
-                                                      "custommetadata": {
-                                                        "properties": {
-                                                          "extensions": {
-                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                            "items": {
-                                                              "enum": [
-                                                                "ai",
-                                                                "arw",
-                                                                "bmp",
-                                                                "cr2",
-                                                                "cr3",
-                                                                "crw",
-                                                                "dng",
-                                                                "eps",
-                                                                "gif",
-                                                                "heic",
-                                                                "ico",
-                                                                "jfif",
-                                                                "jp2",
-                                                                "jpeg",
-                                                                "jpg",
-                                                                "nef",
-                                                                "pcd",
-                                                                "png",
-                                                                "ppm",
-                                                                "psd",
-                                                                "raf",
-                                                                "rw2",
-                                                                "svg",
-                                                                "tif",
-                                                                "tiff",
-                                                                "webp",
-                                                                "wmf"
-                                                              ],
-                                                              "type": "string"
-                                                            },
-                                                            "type": "array"
-                                                          },
-                                                          "recipename": {
-                                                            "description": "Recipe to process the custom metadata.",
-                                                            "enum": [
-                                                              "_metadata:ocr"
-                                                            ],
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "displayname": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "de-DE": {
-                                                            "type": "string"
-                                                          },
-                                                          "en-US": {
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "example": {
-                                                          "de-DE": "Deutscher text",
-                                                          "en-US": "English text"
-                                                        }
-                                                      },
-                                                      "extensions": {
-                                                        "items": {
-                                                          "enum": [
-                                                            "ai",
-                                                            "arw",
-                                                            "bmp",
-                                                            "cr2",
-                                                            "cr3",
-                                                            "crw",
-                                                            "dng",
-                                                            "eps",
-                                                            "gif",
-                                                            "heic",
-                                                            "ico",
-                                                            "jfif",
-                                                            "jp2",
-                                                            "jpeg",
-                                                            "jpg",
-                                                            "nef",
-                                                            "pcd",
-                                                            "png",
-                                                            "ppm",
-                                                            "psd",
-                                                            "raf",
-                                                            "rw2",
-                                                            "svg",
-                                                            "tif",
-                                                            "tiff",
-                                                            "webp",
-                                                            "wmf"
-                                                          ],
-                                                          "type": "string"
-                                                        },
-                                                        "type": "array"
-                                                      },
-                                                      "group": {
-                                                        "type": "string"
-                                                      },
-                                                      "name": {
-                                                        "type": "string"
-                                                      },
-                                                      "params": {
-                                                        "properties": {
-                                                          "format": {
-                                                            "description": "output format of the thumbnail [select]",
-                                                            "enum": [
-                                                              "jpg",
-                                                              "png",
-                                                              "webp"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "resize_mode": {
-                                                            "description": " [select]",
-                                                            "enum": [
-                                                              "",
-                                                              "height",
-                                                              "max",
-                                                              "min",
-                                                              "width"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "size": {
-                                                            "description": "set the output size. [int]",
-                                                            "type": "integer"
-                                                          },
-                                                          "size_minimum": {
-                                                            "description": "Only produce version if source size (largest dimension, either `width` or `height`) is greater or equal `size_minimum`. [int]",
-                                                            "type": "integer"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "recipename": {
-                                                        "description": "This oneOf block is for \"imageconverter:preview_pool_watermark\"",
-                                                        "type": "string"
-                                                      }
-                                                    },
-                                                    "type": "object"
                                                   }
                                                 ]
                                               },
@@ -15539,98 +15539,6 @@
                                             "versions": {
                                               "items": {
                                                 "oneOf": [
-                                                  {
-                                                    "description": "Recipe \"officeconverter:pdf\"",
-                                                    "properties": {
-                                                      "custommetadata": {
-                                                        "properties": {
-                                                          "extensions": {
-                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                            "items": {
-                                                              "enum": [
-                                                                "csv",
-                                                                "doc",
-                                                                "docx",
-                                                                "epub",
-                                                                "odp",
-                                                                "ods",
-                                                                "odt",
-                                                                "ppsx",
-                                                                "ppt",
-                                                                "pptx",
-                                                                "rtf",
-                                                                "txt",
-                                                                "xls",
-                                                                "xlsx"
-                                                              ],
-                                                              "type": "string"
-                                                            },
-                                                            "type": "array"
-                                                          },
-                                                          "recipename": {
-                                                            "description": "Recipe to process the custom metadata.",
-                                                            "enum": [
-                                                              "_metadata:ocr"
-                                                            ],
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "displayname": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "de-DE": {
-                                                            "type": "string"
-                                                          },
-                                                          "en-US": {
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "example": {
-                                                          "de-DE": "Deutscher text",
-                                                          "en-US": "English text"
-                                                        }
-                                                      },
-                                                      "extensions": {
-                                                        "items": {
-                                                          "enum": [
-                                                            "csv",
-                                                            "doc",
-                                                            "docx",
-                                                            "epub",
-                                                            "odp",
-                                                            "ods",
-                                                            "odt",
-                                                            "ppsx",
-                                                            "ppt",
-                                                            "pptx",
-                                                            "rtf",
-                                                            "txt",
-                                                            "xls",
-                                                            "xlsx"
-                                                          ],
-                                                          "type": "string"
-                                                        },
-                                                        "type": "array"
-                                                      },
-                                                      "group": {
-                                                        "type": "string"
-                                                      },
-                                                      "name": {
-                                                        "type": "string"
-                                                      },
-                                                      "params": {
-                                                        "properties": {},
-                                                        "type": "object"
-                                                      },
-                                                      "recipename": {
-                                                        "description": "This oneOf block is for \"officeconverter:pdf\"",
-                                                        "type": "string"
-                                                      }
-                                                    },
-                                                    "type": "object"
-                                                  },
                                                   {
                                                     "description": "Recipe \"officeconverter:preview\"",
                                                     "properties": {
@@ -16007,6 +15915,98 @@
                                                       }
                                                     },
                                                     "type": "object"
+                                                  },
+                                                  {
+                                                    "description": "Recipe \"officeconverter:pdf\"",
+                                                    "properties": {
+                                                      "custommetadata": {
+                                                        "properties": {
+                                                          "extensions": {
+                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                            "items": {
+                                                              "enum": [
+                                                                "csv",
+                                                                "doc",
+                                                                "docx",
+                                                                "epub",
+                                                                "odp",
+                                                                "ods",
+                                                                "odt",
+                                                                "ppsx",
+                                                                "ppt",
+                                                                "pptx",
+                                                                "rtf",
+                                                                "txt",
+                                                                "xls",
+                                                                "xlsx"
+                                                              ],
+                                                              "type": "string"
+                                                            },
+                                                            "type": "array"
+                                                          },
+                                                          "recipename": {
+                                                            "description": "Recipe to process the custom metadata.",
+                                                            "enum": [
+                                                              "_metadata:ocr"
+                                                            ],
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "displayname": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "de-DE": {
+                                                            "type": "string"
+                                                          },
+                                                          "en-US": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "example": {
+                                                          "de-DE": "Deutscher text",
+                                                          "en-US": "English text"
+                                                        }
+                                                      },
+                                                      "extensions": {
+                                                        "items": {
+                                                          "enum": [
+                                                            "csv",
+                                                            "doc",
+                                                            "docx",
+                                                            "epub",
+                                                            "odp",
+                                                            "ods",
+                                                            "odt",
+                                                            "ppsx",
+                                                            "ppt",
+                                                            "pptx",
+                                                            "rtf",
+                                                            "txt",
+                                                            "xls",
+                                                            "xlsx"
+                                                          ],
+                                                          "type": "string"
+                                                        },
+                                                        "type": "array"
+                                                      },
+                                                      "group": {
+                                                        "type": "string"
+                                                      },
+                                                      "name": {
+                                                        "type": "string"
+                                                      },
+                                                      "params": {
+                                                        "properties": {},
+                                                        "type": "object"
+                                                      },
+                                                      "recipename": {
+                                                        "description": "This oneOf block is for \"officeconverter:pdf\"",
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "type": "object"
                                                   }
                                                 ]
                                               },
@@ -16178,7 +16178,7 @@
                                                       "params": {
                                                         "properties": {
                                                           "ffmpeg_params": {
-                                                            "description": "Additional ffmpeg options for the video production, default is: -codec:v libx264 -profile:v high -level 4.1 -preset slow -crf 18 -pix_fmt yuv420p -codec:a aac -b:a 128k -ac 2 -movflags +faststart [string]",
+                                                            "description": "Additional ffmpeg options for the video production, default is: -codec:v libx264 -profile:v high -level 4.1 -preset fast -crf 20 -pix_fmt yuv420p -codec:a aac -b:a 128k -ac 2 -movflags +faststart [string]",
                                                             "type": "string"
                                                           },
                                                           "height": {
@@ -18256,6 +18256,120 @@
                                             "items": {
                                               "oneOf": [
                                                 {
+                                                  "description": "Recipe \"audioconverter:preview\"",
+                                                  "properties": {
+                                                    "custommetadata": {
+                                                      "properties": {
+                                                        "extensions": {
+                                                          "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                          "items": {
+                                                            "enum": [
+                                                              "aac",
+                                                              "aiff",
+                                                              "dts",
+                                                              "flac",
+                                                              "m4a",
+                                                              "mp2",
+                                                              "mp3",
+                                                              "oga",
+                                                              "ogg",
+                                                              "opus",
+                                                              "ra",
+                                                              "wav",
+                                                              "wma"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "type": "array"
+                                                        },
+                                                        "recipename": {
+                                                          "description": "Recipe to process the custom metadata.",
+                                                          "enum": [
+                                                            "_metadata:ocr"
+                                                          ],
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "displayname": {
+                                                      "type": "object",
+                                                      "properties": {
+                                                        "de-DE": {
+                                                          "type": "string"
+                                                        },
+                                                        "en-US": {
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "example": {
+                                                        "de-DE": "Deutscher text",
+                                                        "en-US": "English text"
+                                                      }
+                                                    },
+                                                    "extensions": {
+                                                      "items": {
+                                                        "enum": [
+                                                          "aac",
+                                                          "aiff",
+                                                          "dts",
+                                                          "flac",
+                                                          "m4a",
+                                                          "mp2",
+                                                          "mp3",
+                                                          "oga",
+                                                          "ogg",
+                                                          "opus",
+                                                          "ra",
+                                                          "wav",
+                                                          "wma"
+                                                        ],
+                                                        "type": "string"
+                                                      },
+                                                      "type": "array"
+                                                    },
+                                                    "group": {
+                                                      "type": "string"
+                                                    },
+                                                    "name": {
+                                                      "type": "string"
+                                                    },
+                                                    "params": {
+                                                      "properties": {
+                                                        "format": {
+                                                          "description": "output format of the thumbnail [select]",
+                                                          "enum": [
+                                                            "jpg",
+                                                            "png"
+                                                          ],
+                                                          "type": "string"
+                                                        },
+                                                        "resize_mode": {
+                                                          "description": " [select]",
+                                                          "enum": [
+                                                            "",
+                                                            "height",
+                                                            "max",
+                                                            "min",
+                                                            "width"
+                                                          ],
+                                                          "type": "string"
+                                                        },
+                                                        "size": {
+                                                          "description": "set the output size. [int]",
+                                                          "type": "integer"
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "recipename": {
+                                                      "description": "This oneOf block is for \"audioconverter:preview\"",
+                                                      "type": "string"
+                                                    }
+                                                  },
+                                                  "type": "object"
+                                                },
+                                                {
                                                   "description": "Recipe \"audioconverter:snippet\"",
                                                   "properties": {
                                                     "custommetadata": {
@@ -18455,120 +18569,6 @@
                                                     }
                                                   },
                                                   "type": "object"
-                                                },
-                                                {
-                                                  "description": "Recipe \"audioconverter:preview\"",
-                                                  "properties": {
-                                                    "custommetadata": {
-                                                      "properties": {
-                                                        "extensions": {
-                                                          "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                          "items": {
-                                                            "enum": [
-                                                              "aac",
-                                                              "aiff",
-                                                              "dts",
-                                                              "flac",
-                                                              "m4a",
-                                                              "mp2",
-                                                              "mp3",
-                                                              "oga",
-                                                              "ogg",
-                                                              "opus",
-                                                              "ra",
-                                                              "wav",
-                                                              "wma"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "type": "array"
-                                                        },
-                                                        "recipename": {
-                                                          "description": "Recipe to process the custom metadata.",
-                                                          "enum": [
-                                                            "_metadata:ocr"
-                                                          ],
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "type": "object"
-                                                    },
-                                                    "displayname": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "de-DE": {
-                                                          "type": "string"
-                                                        },
-                                                        "en-US": {
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "example": {
-                                                        "de-DE": "Deutscher text",
-                                                        "en-US": "English text"
-                                                      }
-                                                    },
-                                                    "extensions": {
-                                                      "items": {
-                                                        "enum": [
-                                                          "aac",
-                                                          "aiff",
-                                                          "dts",
-                                                          "flac",
-                                                          "m4a",
-                                                          "mp2",
-                                                          "mp3",
-                                                          "oga",
-                                                          "ogg",
-                                                          "opus",
-                                                          "ra",
-                                                          "wav",
-                                                          "wma"
-                                                        ],
-                                                        "type": "string"
-                                                      },
-                                                      "type": "array"
-                                                    },
-                                                    "group": {
-                                                      "type": "string"
-                                                    },
-                                                    "name": {
-                                                      "type": "string"
-                                                    },
-                                                    "params": {
-                                                      "properties": {
-                                                        "format": {
-                                                          "description": "output format of the thumbnail [select]",
-                                                          "enum": [
-                                                            "jpg",
-                                                            "png"
-                                                          ],
-                                                          "type": "string"
-                                                        },
-                                                        "resize_mode": {
-                                                          "description": " [select]",
-                                                          "enum": [
-                                                            "",
-                                                            "height",
-                                                            "max",
-                                                            "min",
-                                                            "width"
-                                                          ],
-                                                          "type": "string"
-                                                        },
-                                                        "size": {
-                                                          "description": "set the output size. [int]",
-                                                          "type": "integer"
-                                                        }
-                                                      },
-                                                      "type": "object"
-                                                    },
-                                                    "recipename": {
-                                                      "description": "This oneOf block is for \"audioconverter:preview\"",
-                                                      "type": "string"
-                                                    }
-                                                  },
-                                                  "type": "object"
                                                 }
                                               ]
                                             },
@@ -18643,153 +18643,6 @@
                                           "versions": {
                                             "items": {
                                               "oneOf": [
-                                                {
-                                                  "description": "Recipe \"imageconverter:preview_pool_watermark\"",
-                                                  "properties": {
-                                                    "custommetadata": {
-                                                      "properties": {
-                                                        "extensions": {
-                                                          "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                          "items": {
-                                                            "enum": [
-                                                              "ai",
-                                                              "arw",
-                                                              "bmp",
-                                                              "cr2",
-                                                              "cr3",
-                                                              "crw",
-                                                              "dng",
-                                                              "eps",
-                                                              "gif",
-                                                              "heic",
-                                                              "ico",
-                                                              "jfif",
-                                                              "jp2",
-                                                              "jpeg",
-                                                              "jpg",
-                                                              "nef",
-                                                              "pcd",
-                                                              "png",
-                                                              "ppm",
-                                                              "psd",
-                                                              "raf",
-                                                              "rw2",
-                                                              "svg",
-                                                              "tif",
-                                                              "tiff",
-                                                              "webp",
-                                                              "wmf"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "type": "array"
-                                                        },
-                                                        "recipename": {
-                                                          "description": "Recipe to process the custom metadata.",
-                                                          "enum": [
-                                                            "_metadata:ocr"
-                                                          ],
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "type": "object"
-                                                    },
-                                                    "displayname": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "de-DE": {
-                                                          "type": "string"
-                                                        },
-                                                        "en-US": {
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "example": {
-                                                        "de-DE": "Deutscher text",
-                                                        "en-US": "English text"
-                                                      }
-                                                    },
-                                                    "extensions": {
-                                                      "items": {
-                                                        "enum": [
-                                                          "ai",
-                                                          "arw",
-                                                          "bmp",
-                                                          "cr2",
-                                                          "cr3",
-                                                          "crw",
-                                                          "dng",
-                                                          "eps",
-                                                          "gif",
-                                                          "heic",
-                                                          "ico",
-                                                          "jfif",
-                                                          "jp2",
-                                                          "jpeg",
-                                                          "jpg",
-                                                          "nef",
-                                                          "pcd",
-                                                          "png",
-                                                          "ppm",
-                                                          "psd",
-                                                          "raf",
-                                                          "rw2",
-                                                          "svg",
-                                                          "tif",
-                                                          "tiff",
-                                                          "webp",
-                                                          "wmf"
-                                                        ],
-                                                        "type": "string"
-                                                      },
-                                                      "type": "array"
-                                                    },
-                                                    "group": {
-                                                      "type": "string"
-                                                    },
-                                                    "name": {
-                                                      "type": "string"
-                                                    },
-                                                    "params": {
-                                                      "properties": {
-                                                        "format": {
-                                                          "description": "output format of the thumbnail [select]",
-                                                          "enum": [
-                                                            "jpg",
-                                                            "png",
-                                                            "webp"
-                                                          ],
-                                                          "type": "string"
-                                                        },
-                                                        "resize_mode": {
-                                                          "description": " [select]",
-                                                          "enum": [
-                                                            "",
-                                                            "height",
-                                                            "max",
-                                                            "min",
-                                                            "width"
-                                                          ],
-                                                          "type": "string"
-                                                        },
-                                                        "size": {
-                                                          "description": "set the output size. [int]",
-                                                          "type": "integer"
-                                                        },
-                                                        "size_minimum": {
-                                                          "description": "Only produce version if source size (largest dimension, either `width` or `height`) is greater or equal `size_minimum`. [int]",
-                                                          "type": "integer"
-                                                        }
-                                                      },
-                                                      "type": "object"
-                                                    },
-                                                    "recipename": {
-                                                      "description": "This oneOf block is for \"imageconverter:preview_pool_watermark\"",
-                                                      "type": "string"
-                                                    }
-                                                  },
-                                                  "type": "object"
-                                                },
                                                 {
                                                   "description": "Recipe \"imageconverter:vectortosvg\"",
                                                   "properties": {
@@ -19067,6 +18920,153 @@
                                                     },
                                                     "recipename": {
                                                       "description": "This oneOf block is for \"imageconverter:browserthumbs\"",
+                                                      "type": "string"
+                                                    }
+                                                  },
+                                                  "type": "object"
+                                                },
+                                                {
+                                                  "description": "Recipe \"imageconverter:preview_pool_watermark\"",
+                                                  "properties": {
+                                                    "custommetadata": {
+                                                      "properties": {
+                                                        "extensions": {
+                                                          "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                          "items": {
+                                                            "enum": [
+                                                              "ai",
+                                                              "arw",
+                                                              "bmp",
+                                                              "cr2",
+                                                              "cr3",
+                                                              "crw",
+                                                              "dng",
+                                                              "eps",
+                                                              "gif",
+                                                              "heic",
+                                                              "ico",
+                                                              "jfif",
+                                                              "jp2",
+                                                              "jpeg",
+                                                              "jpg",
+                                                              "nef",
+                                                              "pcd",
+                                                              "png",
+                                                              "ppm",
+                                                              "psd",
+                                                              "raf",
+                                                              "rw2",
+                                                              "svg",
+                                                              "tif",
+                                                              "tiff",
+                                                              "webp",
+                                                              "wmf"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "type": "array"
+                                                        },
+                                                        "recipename": {
+                                                          "description": "Recipe to process the custom metadata.",
+                                                          "enum": [
+                                                            "_metadata:ocr"
+                                                          ],
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "displayname": {
+                                                      "type": "object",
+                                                      "properties": {
+                                                        "de-DE": {
+                                                          "type": "string"
+                                                        },
+                                                        "en-US": {
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "example": {
+                                                        "de-DE": "Deutscher text",
+                                                        "en-US": "English text"
+                                                      }
+                                                    },
+                                                    "extensions": {
+                                                      "items": {
+                                                        "enum": [
+                                                          "ai",
+                                                          "arw",
+                                                          "bmp",
+                                                          "cr2",
+                                                          "cr3",
+                                                          "crw",
+                                                          "dng",
+                                                          "eps",
+                                                          "gif",
+                                                          "heic",
+                                                          "ico",
+                                                          "jfif",
+                                                          "jp2",
+                                                          "jpeg",
+                                                          "jpg",
+                                                          "nef",
+                                                          "pcd",
+                                                          "png",
+                                                          "ppm",
+                                                          "psd",
+                                                          "raf",
+                                                          "rw2",
+                                                          "svg",
+                                                          "tif",
+                                                          "tiff",
+                                                          "webp",
+                                                          "wmf"
+                                                        ],
+                                                        "type": "string"
+                                                      },
+                                                      "type": "array"
+                                                    },
+                                                    "group": {
+                                                      "type": "string"
+                                                    },
+                                                    "name": {
+                                                      "type": "string"
+                                                    },
+                                                    "params": {
+                                                      "properties": {
+                                                        "format": {
+                                                          "description": "output format of the thumbnail [select]",
+                                                          "enum": [
+                                                            "jpg",
+                                                            "png",
+                                                            "webp"
+                                                          ],
+                                                          "type": "string"
+                                                        },
+                                                        "resize_mode": {
+                                                          "description": " [select]",
+                                                          "enum": [
+                                                            "",
+                                                            "height",
+                                                            "max",
+                                                            "min",
+                                                            "width"
+                                                          ],
+                                                          "type": "string"
+                                                        },
+                                                        "size": {
+                                                          "description": "set the output size. [int]",
+                                                          "type": "integer"
+                                                        },
+                                                        "size_minimum": {
+                                                          "description": "Only produce version if source size (largest dimension, either `width` or `height`) is greater or equal `size_minimum`. [int]",
+                                                          "type": "integer"
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "recipename": {
+                                                      "description": "This oneOf block is for \"imageconverter:preview_pool_watermark\"",
                                                       "type": "string"
                                                     }
                                                   },
@@ -19422,6 +19422,88 @@
                                                   "type": "object"
                                                 },
                                                 {
+                                                  "description": "Recipe \"officeconverter:browserthumbs\"",
+                                                  "properties": {
+                                                    "custommetadata": {
+                                                      "properties": {
+                                                        "extensions": {
+                                                          "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                          "items": {
+                                                            "enum": [
+                                                              "indd",
+                                                              "pdf"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "type": "array"
+                                                        },
+                                                        "recipename": {
+                                                          "description": "Recipe to process the custom metadata.",
+                                                          "enum": [
+                                                            "_metadata:ocr"
+                                                          ],
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "displayname": {
+                                                      "type": "object",
+                                                      "properties": {
+                                                        "de-DE": {
+                                                          "type": "string"
+                                                        },
+                                                        "en-US": {
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "example": {
+                                                        "de-DE": "Deutscher text",
+                                                        "en-US": "English text"
+                                                      }
+                                                    },
+                                                    "extensions": {
+                                                      "items": {
+                                                        "enum": [
+                                                          "indd",
+                                                          "pdf"
+                                                        ],
+                                                        "type": "string"
+                                                      },
+                                                      "type": "array"
+                                                    },
+                                                    "group": {
+                                                      "type": "string"
+                                                    },
+                                                    "name": {
+                                                      "type": "string"
+                                                    },
+                                                    "params": {
+                                                      "properties": {
+                                                        "format": {
+                                                          "description": "output format of the thumbnail [select]",
+                                                          "enum": [
+                                                            "jpg",
+                                                            "png",
+                                                            "webp"
+                                                          ],
+                                                          "type": "string"
+                                                        },
+                                                        "size": {
+                                                          "description": "set the output size. [int]",
+                                                          "type": "integer"
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "recipename": {
+                                                      "description": "This oneOf block is for \"officeconverter:browserthumbs\"",
+                                                      "type": "string"
+                                                    }
+                                                  },
+                                                  "type": "object"
+                                                },
+                                                {
                                                   "description": "Recipe \"pdfconverter:pdfpages\"",
                                                   "properties": {
                                                     "custommetadata": {
@@ -19521,88 +19603,6 @@
                                                     }
                                                   },
                                                   "type": "object"
-                                                },
-                                                {
-                                                  "description": "Recipe \"officeconverter:browserthumbs\"",
-                                                  "properties": {
-                                                    "custommetadata": {
-                                                      "properties": {
-                                                        "extensions": {
-                                                          "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                          "items": {
-                                                            "enum": [
-                                                              "indd",
-                                                              "pdf"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "type": "array"
-                                                        },
-                                                        "recipename": {
-                                                          "description": "Recipe to process the custom metadata.",
-                                                          "enum": [
-                                                            "_metadata:ocr"
-                                                          ],
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "type": "object"
-                                                    },
-                                                    "displayname": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "de-DE": {
-                                                          "type": "string"
-                                                        },
-                                                        "en-US": {
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "example": {
-                                                        "de-DE": "Deutscher text",
-                                                        "en-US": "English text"
-                                                      }
-                                                    },
-                                                    "extensions": {
-                                                      "items": {
-                                                        "enum": [
-                                                          "indd",
-                                                          "pdf"
-                                                        ],
-                                                        "type": "string"
-                                                      },
-                                                      "type": "array"
-                                                    },
-                                                    "group": {
-                                                      "type": "string"
-                                                    },
-                                                    "name": {
-                                                      "type": "string"
-                                                    },
-                                                    "params": {
-                                                      "properties": {
-                                                        "format": {
-                                                          "description": "output format of the thumbnail [select]",
-                                                          "enum": [
-                                                            "jpg",
-                                                            "png",
-                                                            "webp"
-                                                          ],
-                                                          "type": "string"
-                                                        },
-                                                        "size": {
-                                                          "description": "set the output size. [int]",
-                                                          "type": "integer"
-                                                        }
-                                                      },
-                                                      "type": "object"
-                                                    },
-                                                    "recipename": {
-                                                      "description": "This oneOf block is for \"officeconverter:browserthumbs\"",
-                                                      "type": "string"
-                                                    }
-                                                  },
-                                                  "type": "object"
                                                 }
                                               ]
                                             },
@@ -19672,6 +19672,133 @@
                                           "versions": {
                                             "items": {
                                               "oneOf": [
+                                                {
+                                                  "description": "Recipe \"videoconverter:resize\"",
+                                                  "properties": {
+                                                    "custommetadata": {
+                                                      "properties": {
+                                                        "extensions": {
+                                                          "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                          "items": {
+                                                            "enum": [
+                                                              "3gp",
+                                                              "asf",
+                                                              "avi",
+                                                              "flv",
+                                                              "hevc",
+                                                              "m2v",
+                                                              "m4v",
+                                                              "mjpeg",
+                                                              "mkv",
+                                                              "mov",
+                                                              "mp4",
+                                                              "mpeg",
+                                                              "mpg",
+                                                              "mts",
+                                                              "mxf",
+                                                              "ogv",
+                                                              "rm",
+                                                              "swf",
+                                                              "ts",
+                                                              "vob",
+                                                              "webm",
+                                                              "wmv",
+                                                              "wtv"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "type": "array"
+                                                        },
+                                                        "recipename": {
+                                                          "description": "Recipe to process the custom metadata.",
+                                                          "enum": [
+                                                            "_metadata:ocr"
+                                                          ],
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "displayname": {
+                                                      "type": "object",
+                                                      "properties": {
+                                                        "de-DE": {
+                                                          "type": "string"
+                                                        },
+                                                        "en-US": {
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "example": {
+                                                        "de-DE": "Deutscher text",
+                                                        "en-US": "English text"
+                                                      }
+                                                    },
+                                                    "extensions": {
+                                                      "items": {
+                                                        "enum": [
+                                                          "3gp",
+                                                          "asf",
+                                                          "avi",
+                                                          "flv",
+                                                          "hevc",
+                                                          "m2v",
+                                                          "m4v",
+                                                          "mjpeg",
+                                                          "mkv",
+                                                          "mov",
+                                                          "mp4",
+                                                          "mpeg",
+                                                          "mpg",
+                                                          "mts",
+                                                          "mxf",
+                                                          "ogv",
+                                                          "rm",
+                                                          "swf",
+                                                          "ts",
+                                                          "vob",
+                                                          "webm",
+                                                          "wmv",
+                                                          "wtv"
+                                                        ],
+                                                        "type": "string"
+                                                      },
+                                                      "type": "array"
+                                                    },
+                                                    "group": {
+                                                      "type": "string"
+                                                    },
+                                                    "name": {
+                                                      "type": "string"
+                                                    },
+                                                    "params": {
+                                                      "properties": {
+                                                        "ffmpeg_params": {
+                                                          "description": "Additional ffmpeg options for the video production, default is: -codec:v libx264 -profile:v high -level 4.1 -preset fast -crf 20 -pix_fmt yuv420p -codec:a aac -b:a 128k -ac 2 -movflags +faststart [string]",
+                                                          "type": "string"
+                                                        },
+                                                        "height": {
+                                                          "description": "set the output height [int]",
+                                                          "type": "integer"
+                                                        },
+                                                        "height_minimum": {
+                                                          "description": "only produce version if source height is greater or equal height_minimum [int]",
+                                                          "type": "integer"
+                                                        },
+                                                        "timeout": {
+                                                          "description": "maximum duration to encode the video, e.g. \"1m\" or \"1h\" [string]",
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "recipename": {
+                                                      "description": "This oneOf block is for \"videoconverter:resize\"",
+                                                      "type": "string"
+                                                    }
+                                                  },
+                                                  "type": "object"
+                                                },
                                                 {
                                                   "description": "Recipe \"videoconverter:thumbnail\"",
                                                   "properties": {
@@ -19798,133 +19925,6 @@
                                                     },
                                                     "recipename": {
                                                       "description": "This oneOf block is for \"videoconverter:thumbnail\"",
-                                                      "type": "string"
-                                                    }
-                                                  },
-                                                  "type": "object"
-                                                },
-                                                {
-                                                  "description": "Recipe \"videoconverter:resize\"",
-                                                  "properties": {
-                                                    "custommetadata": {
-                                                      "properties": {
-                                                        "extensions": {
-                                                          "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                          "items": {
-                                                            "enum": [
-                                                              "3gp",
-                                                              "asf",
-                                                              "avi",
-                                                              "flv",
-                                                              "hevc",
-                                                              "m2v",
-                                                              "m4v",
-                                                              "mjpeg",
-                                                              "mkv",
-                                                              "mov",
-                                                              "mp4",
-                                                              "mpeg",
-                                                              "mpg",
-                                                              "mts",
-                                                              "mxf",
-                                                              "ogv",
-                                                              "rm",
-                                                              "swf",
-                                                              "ts",
-                                                              "vob",
-                                                              "webm",
-                                                              "wmv",
-                                                              "wtv"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "type": "array"
-                                                        },
-                                                        "recipename": {
-                                                          "description": "Recipe to process the custom metadata.",
-                                                          "enum": [
-                                                            "_metadata:ocr"
-                                                          ],
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "type": "object"
-                                                    },
-                                                    "displayname": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "de-DE": {
-                                                          "type": "string"
-                                                        },
-                                                        "en-US": {
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "example": {
-                                                        "de-DE": "Deutscher text",
-                                                        "en-US": "English text"
-                                                      }
-                                                    },
-                                                    "extensions": {
-                                                      "items": {
-                                                        "enum": [
-                                                          "3gp",
-                                                          "asf",
-                                                          "avi",
-                                                          "flv",
-                                                          "hevc",
-                                                          "m2v",
-                                                          "m4v",
-                                                          "mjpeg",
-                                                          "mkv",
-                                                          "mov",
-                                                          "mp4",
-                                                          "mpeg",
-                                                          "mpg",
-                                                          "mts",
-                                                          "mxf",
-                                                          "ogv",
-                                                          "rm",
-                                                          "swf",
-                                                          "ts",
-                                                          "vob",
-                                                          "webm",
-                                                          "wmv",
-                                                          "wtv"
-                                                        ],
-                                                        "type": "string"
-                                                      },
-                                                      "type": "array"
-                                                    },
-                                                    "group": {
-                                                      "type": "string"
-                                                    },
-                                                    "name": {
-                                                      "type": "string"
-                                                    },
-                                                    "params": {
-                                                      "properties": {
-                                                        "ffmpeg_params": {
-                                                          "description": "Additional ffmpeg options for the video production, default is: -codec:v libx264 -profile:v high -level 4.1 -preset slow -crf 18 -pix_fmt yuv420p -codec:a aac -b:a 128k -ac 2 -movflags +faststart [string]",
-                                                          "type": "string"
-                                                        },
-                                                        "height": {
-                                                          "description": "set the output height [int]",
-                                                          "type": "integer"
-                                                        },
-                                                        "height_minimum": {
-                                                          "description": "only produce version if source height is greater or equal height_minimum [int]",
-                                                          "type": "integer"
-                                                        },
-                                                        "timeout": {
-                                                          "description": "maximum duration to encode the video, e.g. \"1m\" or \"1h\" [string]",
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "type": "object"
-                                                    },
-                                                    "recipename": {
-                                                      "description": "This oneOf block is for \"videoconverter:resize\"",
                                                       "type": "string"
                                                     }
                                                   },
@@ -22186,218 +22186,6 @@
                                               "items": {
                                                 "oneOf": [
                                                   {
-                                                    "description": "Recipe \"imageconverter:browserthumbs\"",
-                                                    "properties": {
-                                                      "custommetadata": {
-                                                        "properties": {
-                                                          "extensions": {
-                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                            "items": {
-                                                              "enum": [
-                                                                "ai",
-                                                                "arw",
-                                                                "avif",
-                                                                "bmp",
-                                                                "cr2",
-                                                                "cr3",
-                                                                "crw",
-                                                                "dng",
-                                                                "eps",
-                                                                "gif",
-                                                                "heic",
-                                                                "ico",
-                                                                "jfif",
-                                                                "jp2",
-                                                                "jpeg",
-                                                                "jpg",
-                                                                "nef",
-                                                                "pcd",
-                                                                "png",
-                                                                "ppm",
-                                                                "psd",
-                                                                "raf",
-                                                                "rw2",
-                                                                "svg",
-                                                                "tif",
-                                                                "tiff",
-                                                                "webp",
-                                                                "wmf"
-                                                              ],
-                                                              "type": "string"
-                                                            },
-                                                            "type": "array"
-                                                          },
-                                                          "recipename": {
-                                                            "description": "Recipe to process the custom metadata.",
-                                                            "enum": [
-                                                              "_metadata:ocr"
-                                                            ],
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "displayname": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "de-DE": {
-                                                            "type": "string"
-                                                          },
-                                                          "en-US": {
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "example": {
-                                                          "de-DE": "Deutscher text",
-                                                          "en-US": "English text"
-                                                        }
-                                                      },
-                                                      "extensions": {
-                                                        "items": {
-                                                          "enum": [
-                                                            "ai",
-                                                            "arw",
-                                                            "avif",
-                                                            "bmp",
-                                                            "cr2",
-                                                            "cr3",
-                                                            "crw",
-                                                            "dng",
-                                                            "eps",
-                                                            "gif",
-                                                            "heic",
-                                                            "ico",
-                                                            "jfif",
-                                                            "jp2",
-                                                            "jpeg",
-                                                            "jpg",
-                                                            "nef",
-                                                            "pcd",
-                                                            "png",
-                                                            "ppm",
-                                                            "psd",
-                                                            "raf",
-                                                            "rw2",
-                                                            "svg",
-                                                            "tif",
-                                                            "tiff",
-                                                            "webp",
-                                                            "wmf"
-                                                          ],
-                                                          "type": "string"
-                                                        },
-                                                        "type": "array"
-                                                      },
-                                                      "group": {
-                                                        "type": "string"
-                                                      },
-                                                      "name": {
-                                                        "type": "string"
-                                                      },
-                                                      "params": {
-                                                        "properties": {
-                                                          "background": {
-                                                            "description": "For background color, defaults to black (if no Alpha channel is available). [select]",
-                                                            "enum": [
-                                                              "",
-                                                              "black",
-                                                              "white"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "clip": {
-                                                            "description": "When converting TIFF to PNG use embedded clipping path to remove background. [bool]",
-                                                            "type": "boolean"
-                                                          },
-                                                          "colorprofile": {
-                                                            "description": " [select]",
-                                                            "enum": [
-                                                              "",
-                                                              "-",
-                                                              "ACESCG Linear",
-                                                              "AdobeRGB1998",
-                                                              "DCI(P3) RGB",
-                                                              "Display P3",
-                                                              "Generic CMYK Profile",
-                                                              "Generic Gray Gamma 2.2 Profile",
-                                                              "Generic Gray Profile",
-                                                              "Generic Lab Profile",
-                                                              "Generic RGB Profile",
-                                                              "Generic XYZ Profile",
-                                                              "ISOcoated_v2_eci",
-                                                              "ITU-2020",
-                                                              "ITU-709",
-                                                              "ROMM RGB",
-                                                              "eciRGB_v2",
-                                                              "sRGB Profile",
-                                                              "sRGB_IEC61966-2-1_black_scaled"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "colorspace": {
-                                                            "description": " [select]",
-                                                            "enum": [
-                                                              "",
-                                                              "cmyk",
-                                                              "srgb"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "dpi": {
-                                                            "description": "DPI width x height. [int]",
-                                                            "type": "integer"
-                                                          },
-                                                          "enlarge": {
-                                                            "description": "Enlarge output if the original is smaller than the requested size [bool]",
-                                                            "type": "boolean"
-                                                          },
-                                                          "format": {
-                                                            "description": "Output format of the thumbnail. [select]",
-                                                            "enum": [
-                                                              "jpg",
-                                                              "png",
-                                                              "webp"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "jpegquality": {
-                                                            "description": "JPEG quality: 1 (worst) to 100 (best). Use 0 to not explicitely set quality. [int]",
-                                                            "type": "integer"
-                                                          },
-                                                          "resize_mode": {
-                                                            "description": " [select]",
-                                                            "enum": [
-                                                              "",
-                                                              "height",
-                                                              "max",
-                                                              "min",
-                                                              "width"
-                                                            ],
-                                                            "type": "string"
-                                                          },
-                                                          "size": {
-                                                            "description": "Set the output size. Use 0 to keep the original size. [int]",
-                                                            "type": "integer"
-                                                          },
-                                                          "size_minimum": {
-                                                            "description": "Only produce version if source size (largest dimension, either `width` or `height`) is greater or equal `size_minimum`. [int]",
-                                                            "type": "integer"
-                                                          },
-                                                          "strip": {
-                                                            "description": "Strip metadata from thumbnail. [bool]",
-                                                            "type": "boolean"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "recipename": {
-                                                        "description": "This oneOf block is for \"imageconverter:browserthumbs\"",
-                                                        "type": "string"
-                                                      }
-                                                    },
-                                                    "type": "object"
-                                                  },
-                                                  {
                                                     "description": "Recipe \"imageconverter:preview_pool_watermark\"",
                                                     "properties": {
                                                       "custommetadata": {
@@ -22613,6 +22401,218 @@
                                                       }
                                                     },
                                                     "type": "object"
+                                                  },
+                                                  {
+                                                    "description": "Recipe \"imageconverter:browserthumbs\"",
+                                                    "properties": {
+                                                      "custommetadata": {
+                                                        "properties": {
+                                                          "extensions": {
+                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                            "items": {
+                                                              "enum": [
+                                                                "ai",
+                                                                "arw",
+                                                                "avif",
+                                                                "bmp",
+                                                                "cr2",
+                                                                "cr3",
+                                                                "crw",
+                                                                "dng",
+                                                                "eps",
+                                                                "gif",
+                                                                "heic",
+                                                                "ico",
+                                                                "jfif",
+                                                                "jp2",
+                                                                "jpeg",
+                                                                "jpg",
+                                                                "nef",
+                                                                "pcd",
+                                                                "png",
+                                                                "ppm",
+                                                                "psd",
+                                                                "raf",
+                                                                "rw2",
+                                                                "svg",
+                                                                "tif",
+                                                                "tiff",
+                                                                "webp",
+                                                                "wmf"
+                                                              ],
+                                                              "type": "string"
+                                                            },
+                                                            "type": "array"
+                                                          },
+                                                          "recipename": {
+                                                            "description": "Recipe to process the custom metadata.",
+                                                            "enum": [
+                                                              "_metadata:ocr"
+                                                            ],
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "displayname": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "de-DE": {
+                                                            "type": "string"
+                                                          },
+                                                          "en-US": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "example": {
+                                                          "de-DE": "Deutscher text",
+                                                          "en-US": "English text"
+                                                        }
+                                                      },
+                                                      "extensions": {
+                                                        "items": {
+                                                          "enum": [
+                                                            "ai",
+                                                            "arw",
+                                                            "avif",
+                                                            "bmp",
+                                                            "cr2",
+                                                            "cr3",
+                                                            "crw",
+                                                            "dng",
+                                                            "eps",
+                                                            "gif",
+                                                            "heic",
+                                                            "ico",
+                                                            "jfif",
+                                                            "jp2",
+                                                            "jpeg",
+                                                            "jpg",
+                                                            "nef",
+                                                            "pcd",
+                                                            "png",
+                                                            "ppm",
+                                                            "psd",
+                                                            "raf",
+                                                            "rw2",
+                                                            "svg",
+                                                            "tif",
+                                                            "tiff",
+                                                            "webp",
+                                                            "wmf"
+                                                          ],
+                                                          "type": "string"
+                                                        },
+                                                        "type": "array"
+                                                      },
+                                                      "group": {
+                                                        "type": "string"
+                                                      },
+                                                      "name": {
+                                                        "type": "string"
+                                                      },
+                                                      "params": {
+                                                        "properties": {
+                                                          "background": {
+                                                            "description": "For background color, defaults to black (if no Alpha channel is available). [select]",
+                                                            "enum": [
+                                                              "",
+                                                              "black",
+                                                              "white"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "clip": {
+                                                            "description": "When converting TIFF to PNG use embedded clipping path to remove background. [bool]",
+                                                            "type": "boolean"
+                                                          },
+                                                          "colorprofile": {
+                                                            "description": " [select]",
+                                                            "enum": [
+                                                              "",
+                                                              "-",
+                                                              "ACESCG Linear",
+                                                              "AdobeRGB1998",
+                                                              "DCI(P3) RGB",
+                                                              "Display P3",
+                                                              "Generic CMYK Profile",
+                                                              "Generic Gray Gamma 2.2 Profile",
+                                                              "Generic Gray Profile",
+                                                              "Generic Lab Profile",
+                                                              "Generic RGB Profile",
+                                                              "Generic XYZ Profile",
+                                                              "ISOcoated_v2_eci",
+                                                              "ITU-2020",
+                                                              "ITU-709",
+                                                              "ROMM RGB",
+                                                              "eciRGB_v2",
+                                                              "sRGB Profile",
+                                                              "sRGB_IEC61966-2-1_black_scaled"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "colorspace": {
+                                                            "description": " [select]",
+                                                            "enum": [
+                                                              "",
+                                                              "cmyk",
+                                                              "srgb"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "dpi": {
+                                                            "description": "DPI width x height. [int]",
+                                                            "type": "integer"
+                                                          },
+                                                          "enlarge": {
+                                                            "description": "Enlarge output if the original is smaller than the requested size [bool]",
+                                                            "type": "boolean"
+                                                          },
+                                                          "format": {
+                                                            "description": "Output format of the thumbnail. [select]",
+                                                            "enum": [
+                                                              "jpg",
+                                                              "png",
+                                                              "webp"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "jpegquality": {
+                                                            "description": "JPEG quality: 1 (worst) to 100 (best). Use 0 to not explicitely set quality. [int]",
+                                                            "type": "integer"
+                                                          },
+                                                          "resize_mode": {
+                                                            "description": " [select]",
+                                                            "enum": [
+                                                              "",
+                                                              "height",
+                                                              "max",
+                                                              "min",
+                                                              "width"
+                                                            ],
+                                                            "type": "string"
+                                                          },
+                                                          "size": {
+                                                            "description": "Set the output size. Use 0 to keep the original size. [int]",
+                                                            "type": "integer"
+                                                          },
+                                                          "size_minimum": {
+                                                            "description": "Only produce version if source size (largest dimension, either `width` or `height`) is greater or equal `size_minimum`. [int]",
+                                                            "type": "integer"
+                                                          },
+                                                          "strip": {
+                                                            "description": "Strip metadata from thumbnail. [bool]",
+                                                            "type": "boolean"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "recipename": {
+                                                        "description": "This oneOf block is for \"imageconverter:browserthumbs\"",
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "type": "object"
                                                   }
                                                 ]
                                               },
@@ -22677,6 +22677,107 @@
                                             "versions": {
                                               "items": {
                                                 "oneOf": [
+                                                  {
+                                                    "description": "Recipe \"pdfconverter:pdfpages\"",
+                                                    "properties": {
+                                                      "custommetadata": {
+                                                        "properties": {
+                                                          "extensions": {
+                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
+                                                            "items": {
+                                                              "enum": [
+                                                                "csv",
+                                                                "doc",
+                                                                "docx",
+                                                                "epub",
+                                                                "indd",
+                                                                "odp",
+                                                                "ods",
+                                                                "odt",
+                                                                "pdf",
+                                                                "ppsx",
+                                                                "ppt",
+                                                                "pptx",
+                                                                "rtf",
+                                                                "txt",
+                                                                "xls",
+                                                                "xlsx"
+                                                              ],
+                                                              "type": "string"
+                                                            },
+                                                            "type": "array"
+                                                          },
+                                                          "recipename": {
+                                                            "description": "Recipe to process the custom metadata.",
+                                                            "enum": [
+                                                              "_metadata:ocr"
+                                                            ],
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "displayname": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "de-DE": {
+                                                            "type": "string"
+                                                          },
+                                                          "en-US": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "example": {
+                                                          "de-DE": "Deutscher text",
+                                                          "en-US": "English text"
+                                                        }
+                                                      },
+                                                      "extensions": {
+                                                        "items": {
+                                                          "enum": [
+                                                            "csv",
+                                                            "doc",
+                                                            "docx",
+                                                            "epub",
+                                                            "indd",
+                                                            "odp",
+                                                            "ods",
+                                                            "odt",
+                                                            "pdf",
+                                                            "ppsx",
+                                                            "ppt",
+                                                            "pptx",
+                                                            "rtf",
+                                                            "txt",
+                                                            "xls",
+                                                            "xlsx"
+                                                          ],
+                                                          "type": "string"
+                                                        },
+                                                        "type": "array"
+                                                      },
+                                                      "group": {
+                                                        "type": "string"
+                                                      },
+                                                      "name": {
+                                                        "type": "string"
+                                                      },
+                                                      "params": {
+                                                        "properties": {
+                                                          "min_size": {
+                                                            "description": "Size in pixels of the shortest side of the page.\n [int]",
+                                                            "type": "integer"
+                                                          }
+                                                        },
+                                                        "type": "object"
+                                                      },
+                                                      "recipename": {
+                                                        "description": "This oneOf block is for \"pdfconverter:pdfpages\"",
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "type": "object"
+                                                  },
                                                   {
                                                     "description": "Recipe \"officeconverter:pdf\"",
                                                     "properties": {
@@ -22881,107 +22982,6 @@
                                                       },
                                                       "recipename": {
                                                         "description": "This oneOf block is for \"officeconverter:preview\"",
-                                                        "type": "string"
-                                                      }
-                                                    },
-                                                    "type": "object"
-                                                  },
-                                                  {
-                                                    "description": "Recipe \"pdfconverter:pdfpages\"",
-                                                    "properties": {
-                                                      "custommetadata": {
-                                                        "properties": {
-                                                          "extensions": {
-                                                            "description": "If given, only run the custom metadata if the extension of the version matches.",
-                                                            "items": {
-                                                              "enum": [
-                                                                "csv",
-                                                                "doc",
-                                                                "docx",
-                                                                "epub",
-                                                                "indd",
-                                                                "odp",
-                                                                "ods",
-                                                                "odt",
-                                                                "pdf",
-                                                                "ppsx",
-                                                                "ppt",
-                                                                "pptx",
-                                                                "rtf",
-                                                                "txt",
-                                                                "xls",
-                                                                "xlsx"
-                                                              ],
-                                                              "type": "string"
-                                                            },
-                                                            "type": "array"
-                                                          },
-                                                          "recipename": {
-                                                            "description": "Recipe to process the custom metadata.",
-                                                            "enum": [
-                                                              "_metadata:ocr"
-                                                            ],
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "displayname": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "de-DE": {
-                                                            "type": "string"
-                                                          },
-                                                          "en-US": {
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "example": {
-                                                          "de-DE": "Deutscher text",
-                                                          "en-US": "English text"
-                                                        }
-                                                      },
-                                                      "extensions": {
-                                                        "items": {
-                                                          "enum": [
-                                                            "csv",
-                                                            "doc",
-                                                            "docx",
-                                                            "epub",
-                                                            "indd",
-                                                            "odp",
-                                                            "ods",
-                                                            "odt",
-                                                            "pdf",
-                                                            "ppsx",
-                                                            "ppt",
-                                                            "pptx",
-                                                            "rtf",
-                                                            "txt",
-                                                            "xls",
-                                                            "xlsx"
-                                                          ],
-                                                          "type": "string"
-                                                        },
-                                                        "type": "array"
-                                                      },
-                                                      "group": {
-                                                        "type": "string"
-                                                      },
-                                                      "name": {
-                                                        "type": "string"
-                                                      },
-                                                      "params": {
-                                                        "properties": {
-                                                          "min_size": {
-                                                            "description": "Size in pixels of the shortest side of the page.\n [int]",
-                                                            "type": "integer"
-                                                          }
-                                                        },
-                                                        "type": "object"
-                                                      },
-                                                      "recipename": {
-                                                        "description": "This oneOf block is for \"pdfconverter:pdfpages\"",
                                                         "type": "string"
                                                       }
                                                     },
@@ -23316,7 +23316,7 @@
                                                       "params": {
                                                         "properties": {
                                                           "ffmpeg_params": {
-                                                            "description": "Additional ffmpeg options for the video production, default is: -codec:v libx264 -profile:v high -level 4.1 -preset slow -crf 18 -pix_fmt yuv420p -codec:a aac -b:a 128k -ac 2 -movflags +faststart [string]",
+                                                            "description": "Additional ffmpeg options for the video production, default is: -codec:v libx264 -profile:v high -level 4.1 -preset fast -crf 20 -pix_fmt yuv420p -codec:a aac -b:a 128k -ac 2 -movflags +faststart [string]",
                                                             "type": "string"
                                                           },
                                                           "height": {
@@ -25875,7 +25875,7 @@
     },
     "/eas/produce": {
       "x-path": "/eas/produce",
-      "description": "This endpoint is used to produce a new version of the file. It allows to crop and rotate images. The new file gets a new id. The `produce_version` setting from the parent is inherited.\n\nDiffers from easydb 5: easydb 5 accepts a `description` field\n(optional l10n) in the produce body; **fylr** ignores it — the\nrequest only reads `eas_parent_id`, `format` and `transform`.\n",
+      "description": "This endpoint is used to produce a new version of the file. It allows to crop and rotate images. The new file gets a new id. The `produce_version` setting from the parent is inherited.\n\nDiffers from easydb 5: easydb 5 accepts a `description` field\n(optional l10n) in the produce body; **fylr** ignores it — the\nrequest only reads `eas_parent_id`, `format`, `transform`,\n`colorspace` and `colorprofile` (the latter two are fylr-only,\nsince 6.34.2).\n",
       "post": {
         "parameters": [
           {
@@ -25905,6 +25905,7 @@
                       "jpg",
                       "jpeg",
                       "jp2",
+                      "heic",
                       "png",
                       "tif",
                       "tiff",
@@ -25912,7 +25913,7 @@
                       "gif",
                       "psd"
                     ],
-                    "description": "The target format of the produced file. Defaults to the\nextension of the file parent.\n"
+                    "description": "The target format of the produced file. Defaults to the\nextension of the file parent. If that extension cannot be\nproduced (for example `jfif`, which can be read but not\nwritten), the default output format of the produce recipe\nis used (`jpg`).\n"
                   },
                   "transform": {
                     "type": "object",
@@ -25956,6 +25957,21 @@
                         }
                       }
                     }
+                  },
+                  "colorspace": {
+                    "type": "string",
+                    "enum": [
+                      "",
+                      "rgb",
+                      "sRGB",
+                      "cmyk",
+                      "gray"
+                    ],
+                    "description": "Image parents only: target color space. Empty (or omitted)\napplies no color space conversion of its own. `rgb` and\n`sRGB` are fulfilled by the color profile (the explicit\n`colorprofile` or the built-in sRGB default); `cmyk` and\n`gray` convert without embedding a profile unless an\nexplicit matching `colorprofile` is given. Values outside\nthe enum are rejected with `RecipeParamUnsupportedValue`.\n"
+                  },
+                  "colorprofile": {
+                    "type": "string",
+                    "description": "Image parents only: name of the ICC color profile for the\nproduced file — a built-in profile (for example\n`eciRGB_v2`) or a profile uploaded in the base\nconfiguration. The profile is converted to and embedded in\nthe produced file and wins over `colorspace`. Empty (or\nomitted) uses the default sRGB profile\n(`sRGB_IEC61966-2-1_black_scaled`); `-` embeds no profile.\nUnknown names are rejected with\n`RecipeParamUnsupportedValue`.\n"
                   }
                 }
               }
@@ -25975,7 +25991,7 @@
             }
           },
           "400": {
-            "description": "The produce request could not be processed — typical reasons are\n`EasNoParentID` (no / zero `eas_parent_id`), `ProduceOriginalOnly`\n(the parent is not an original), `ProduceExtensionNotSupported`\nand `ProduceFormatNotSupported`. `ReadOnlyMode` is returned if\nthe instance is read-only. An `eas_parent_id` that does not\nmatch any stored file surfaces as a generic `400` error\n(`ServerGeneric`), not a `404`.\n",
+            "description": "The produce request could not be processed — typical reasons are\n`EasNoParentID` (no / zero `eas_parent_id`), `ProduceOriginalOnly`\n(the parent is not an original), `ProduceExtensionNotSupported`,\n`ProduceFormatNotSupported` and `RecipeParamUnsupportedValue`\n(unknown `colorspace` / `colorprofile`). `ReadOnlyMode` is\nreturned if the instance is read-only. An `eas_parent_id` that\ndoes not match any stored file surfaces as a generic `400` error\n(`ServerGeneric`), not a `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -26770,15 +26786,17 @@
                 "jpg",
                 "jpeg",
                 "jp2",
+                "heic",
                 "png",
                 "tif",
                 "tiff",
                 "bmp",
                 "gif",
-                "psd"
+                "psd",
+                "webp"
               ]
             },
-            "description": "The target format of the produced file. Defaults to the extension of the file parent.\n"
+            "description": "The target format of the produced file. Defaults to the extension of the\nfile parent. If that extension cannot be produced (for example `jfif`,\nwhich can be read but not written), the default output format of the\nproduce recipe is used (`jpg`).\n"
           },
           {
             "name": "size",
@@ -27016,7 +27034,7 @@
     },
     "/eas/download/{fileId}/{hash}/{version}/{zippath+}": {
       "x-path": "/eas/download",
-      "description": "The download endpoint is used to deliver binary file data. It delivers data for original files as well as renditions. These URL to the files should be taken from the responses of `/api/db` or `/api/search`.\nIf a `zippath` is given, the specified file or directory is returned. In case of an directory, descriptive JSON is returned for the directory.\n\nThe ZIP is read on demand — **fylr** never unpacks it, and no\nversion has to be produced first. Append the path inside the ZIP to\nthe download URL the file rendering already gives you; a file\nextension such as `.unpack.zip` has no meaning here.\n\nReading into a ZIP requires the file to be stored in a **fylr**\nstorage location. Both filesystem and S3 locations work — the ZIP\ncentral directory is read with range requests. Files that were left\nat their original URL (`leave_on_remote`) never reached a storage\nlocation and are rejected with a generic `400` error.\n\nHolding either `asset_show` or `asset_download` on the file is\nenough, so a viewer that may display an asset but not download it\ncan still read into the ZIP. `Range` requests are supported for a\nfile inside the ZIP.\n",
+      "description": "The download endpoint is used to deliver binary file data. It delivers data for original files as well as renditions. These URL to the files should be taken from the responses of `/api/db` or `/api/search`.\nIf a `zippath` is given, the specified file or directory is returned. In case of an directory, descriptive JSON is returned for the directory.\n\nThe ZIP is read on demand — **fylr** never unpacks it, and no\nversion has to be produced first. Append the path inside the ZIP to\nthe download URL the file rendering already gives you; a file\nextension such as `.unpack.zip` has no meaning here.\n\nReading into a ZIP requires the file to be stored in a **fylr**\nstorage location. Both filesystem and S3 locations work — the ZIP\ncentral directory is read with range requests. Files that were left\nat their original URL (`leave_on_remote`) never reached a storage\nlocation and are rejected with a generic `400`.\n\nHolding either `asset_show` or `asset_download` on the file is\nenough, so a viewer that may display an asset but not download it\ncan still read into the ZIP. `Range` requests are supported for a\nfile inside the ZIP.\n",
       "get": {
         "parameters": [
           {
@@ -27078,7 +27096,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Path of a file or directory inside a `zip` file, appended to the\ndownload URL of the ZIP itself. A path to a file delivers that file\nwith its own mimetype, a path to a directory delivers a `JSON`\nlisting of that directory. A trailing `/` on the download URL lists\nthe ZIP's root.\n\nThe ZIP is read on demand, so no version has to be produced and the\nZIP's file extension is irrelevant. The file must be stored in a\n**fylr** storage location though — filesystem and S3 both work, but\na file left at its original URL (`leave_on_remote`) is rejected with\na generic `400` error.\n"
+            "description": "Path of a file or directory inside a `zip` file, appended to the\ndownload URL of the ZIP itself. A path to a file delivers that file\nwith its own mimetype, a path to a directory delivers a `JSON`\nlisting of that directory. A trailing `/` on the download URL lists\nthe ZIP's root.\n\nThe ZIP is read on demand, so no version has to be produced and the\nZIP's file extension is irrelevant. The file must be stored in a\n**fylr** storage location though — filesystem and S3 both work, but\na file left at its original URL (`leave_on_remote`) is rejected with\na generic `400`.\n"
           }
         ],
         "responses": {
@@ -27219,7 +27237,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Path of a file or directory inside a `zip` file, appended to the\ndownload URL of the ZIP itself. A path to a file delivers that file\nwith its own mimetype, a path to a directory delivers a `JSON`\nlisting of that directory. A trailing `/` on the download URL lists\nthe ZIP's root.\n\nThe ZIP is read on demand, so no version has to be produced and the\nZIP's file extension is irrelevant. The file must be stored in a\n**fylr** storage location though — filesystem and S3 both work, but\na file left at its original URL (`leave_on_remote`) is rejected with\na generic `400` error.\n"
+            "description": "Path of a file or directory inside a `zip` file, appended to the\ndownload URL of the ZIP itself. A path to a file delivers that file\nwith its own mimetype, a path to a directory delivers a `JSON`\nlisting of that directory. A trailing `/` on the download URL lists\nthe ZIP's root.\n\nThe ZIP is read on demand, so no version has to be produced and the\nZIP's file extension is irrelevant. The file must be stored in a\n**fylr** storage location though — filesystem and S3 both work, but\na file left at its original URL (`leave_on_remote`) is rejected with\na generic `400`.\n"
           }
         ],
         "responses": {
@@ -32131,9 +32149,6 @@
                     },
                     {
                       "$ref": "#/components/schemas/ReindexInProgressError"
-                    },
-                    {
-                      "$ref": "#/components/schemas/IndexErrorWaitForReindexError"
                     }
                   ]
                 }
@@ -32244,9 +32259,6 @@
                     },
                     {
                       "$ref": "#/components/schemas/ReindexInProgressError"
-                    },
-                    {
-                      "$ref": "#/components/schemas/IndexErrorWaitForReindexError"
                     }
                   ]
                 }
@@ -32363,9 +32375,6 @@
                     },
                     {
                       "$ref": "#/components/schemas/ReindexInProgressError"
-                    },
-                    {
-                      "$ref": "#/components/schemas/IndexErrorWaitForReindexError"
                     }
                   ]
                 }
@@ -32518,9 +32527,6 @@
                     },
                     {
                       "$ref": "#/components/schemas/ReindexInProgressError"
-                    },
-                    {
-                      "$ref": "#/components/schemas/IndexErrorWaitForReindexError"
                     }
                   ]
                 }
@@ -39878,7 +39884,7 @@
             }
           },
           "404": {
-            "description": "No plugin with this name (`code: PluginNotFound`, JSON\n`PluginError` body). When the plugin exists and is enabled but\nhas no extension matching `{path}`, the handler instead returns\na plain-text `404 page not found` with no JSON body.\n",
+            "description": "No plugin with this name (`code: PluginNotFound`, standard\nJSON error body). When the plugin exists and is enabled but\nhas no extension matching `{path}`, the handler instead returns\na plain-text `404 page not found` with no JSON body.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -50229,57 +50235,6 @@
           "statuscode": 400
         }
       },
-      "IndexErrorWaitForReindexError": {
-        "type": "object",
-        "description": "Error returned with `code` `IndexErrorWaitForReindex` (HTTP `400`).\n",
-        "required": [
-          "code",
-          "error",
-          "package",
-          "parameters",
-          "realm",
-          "statuscode"
-        ],
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "Stable, machine-readable error code:\n\n  * `IndexErrorWaitForReindex` — language settings have changed; wait\n    for the re-index to complete.\n",
-            "enum": [
-              "IndexErrorWaitForReindex"
-            ]
-          },
-          "error": {
-            "type": "string",
-            "description": "Human-readable message, localized to the caller's preferred language.\nIf no translation exists for this error key, the untranslated message\nis returned with a `Package` / `Code` footer appended.\n"
-          },
-          "package": {
-            "type": "string",
-            "enum": [
-              "search"
-            ],
-            "description": "Internal origin marker for **fylr** support; not part of the API\ncontract. Branch on `code`, not `package`.\n"
-          },
-          "parameters": {
-            "type": "object",
-            "additionalProperties": true,
-            "description": "Machine-readable details; `realm` and `statuscode` are repeated here.\n"
-          },
-          "realm": {
-            "type": "string",
-            "enum": [
-              "api"
-            ],
-            "description": "The realm the error originates from. Always `api`."
-          },
-          "statuscode": {
-            "type": "integer",
-            "enum": [
-              400
-            ],
-            "description": "The HTTP status code, repeated here. Always `400`."
-          }
-        }
-      },
       "InheritanceNotSupportedError": {
         "type": "object",
         "description": "Error returned with `code` `InheritanceNotSupported` (HTTP `400`).\n",
@@ -52091,6 +52046,57 @@
           },
           "realm": "api",
           "statuscode": 400
+        }
+      },
+      "RecipeParamUnsupportedValueError": {
+        "type": "object",
+        "description": "Error returned with `code` `RecipeParamUnsupportedValue` (HTTP `400`).\n",
+        "required": [
+          "code",
+          "error",
+          "package",
+          "parameters",
+          "realm",
+          "statuscode"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Stable, machine-readable error code:\n\n  * `RecipeParamUnsupportedValue` — a produce recipe parameter\n    received a value that is not among the recipe's options (for\n    example an unknown `colorprofile` or `colorspace` in\n    `POST /eas/produce`). `parameters` carries the parameter name\n    (`Param`), its type (`Type`) and the rejected value (`Value`).\n",
+            "enum": [
+              "RecipeParamUnsupportedValue"
+            ]
+          },
+          "error": {
+            "type": "string",
+            "description": "Human-readable message, localized to the caller's preferred language.\nIf no translation exists for this error key, the untranslated message\nis returned with a `Package` / `Code` footer appended.\n"
+          },
+          "package": {
+            "type": "string",
+            "enum": [
+              "baseconfig"
+            ],
+            "description": "Internal origin marker for **fylr** support; not part of the API\ncontract. Branch on `code`, not `package`.\n"
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Machine-readable details; `realm` and `statuscode` are repeated here.\n"
+          },
+          "realm": {
+            "type": "string",
+            "enum": [
+              "api"
+            ],
+            "description": "The realm the error originates from. Always `api`."
+          },
+          "statuscode": {
+            "type": "integer",
+            "enum": [
+              400
+            ],
+            "description": "The HTTP status code, repeated here. Always `400`."
+          }
         }
       },
       "ReindexInProgressError": {
