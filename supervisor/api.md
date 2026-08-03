@@ -17,8 +17,7 @@ Two companion references:
 | --- | --- | --- |
 | GET | `/api/healthz` | Liveness probe |
 | GET | `/api/fleet` | Fleet summary (dashboard header) |
-| GET | `/api/logs` | The supervisor's own log, filterable (`q`, `level`, `date`, `instance`, `limit`) |
-| GET | `/api/logs/all` | Every log on the machine merged (supervisor, instances, execserver), same filters; entries carry a `source` |
+| GET | `/api/logs` | Every log on the machine — supervisor, instances, execserver — newest first; `source` narrows to one writer, plus `q`, `level`, `date`, `instance`, `limit` |
 
 ## Access
 

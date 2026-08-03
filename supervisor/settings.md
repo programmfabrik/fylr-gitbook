@@ -43,6 +43,8 @@ Who may use that listener is not a setting: management users, their two-factor a
 | `managed_storage_id` | *(empty)* | Storage location stamped onto new managed instances (creation-time only). |
 | `managed_execserver` | *(empty = shared)* | Execserver preset stamped onto new managed instances (creation-time only): empty/`shared` or `own`. |
 | `managed_log_level` | *(empty = fylr default)* | Log level (`fylr.logger.level`) baked into the config of newly created instances (creation-time only): empty, `trace`, `debug`, `info`, `warn` or `error`. |
+| `log_ingest_level` | *(empty = everything)* | What the log ingester stores from the fleet's log files: empty (everything the children write — their own log level decides that), a level as a floor, or `off` to stop ingesting (the files stay, the UI tails them). |
+| `log_keep_per_source` | `50000` | Rows kept per source (supervisor, execserver, each instance): a chatty instance ages out its own history, nobody else's. |
 
 ### Shared OpenSearch
 
