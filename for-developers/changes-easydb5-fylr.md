@@ -24,8 +24,8 @@ The fylr server is written in [Go](https://go.dev) (easydb 5 was written in C++,
 flowchart LR
     subgraph ez5 ["easydb 5"]
         direction TB
-        C5(["Browser / API client"]) --> AP["Apache<br/>frontend + API proxy"]
-        C5 -->|"asset links,<br/>served from disk"| DSK[("asset partitions<br/>on disk")]
+        C5(["Browser / API client"]) --> AP["Apache<br/>frontend + API proxy<br/>+ asset delivery"]
+        AP -->|"asset links,<br/>served from disk"| DSK[("asset partitions<br/>on disk")]
         AP --> SRV["easydb server<br/>C++ / Python"]
         SRV --> EAS["easydb asset server<br/>(EAS, separate service)"]
         EAS --> DSK
