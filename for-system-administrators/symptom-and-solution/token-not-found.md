@@ -1,5 +1,9 @@
 # Token not found
 
+{% hint style="info" %}
+Applies to fylr **up to 6.34.x**. Since fylr 6.35 the token handshake no longer exists — jobs ride the [slot broker](../../for-developers/execserver.md) websocket, and this error cannot occur. If a 6.35 fylr runs against an older execserver, exec services fail differently (`Service unknown …/token/…`): upgrade the execserver together with fylr.
+{% endhint %}
+
 ## Symptoms
 
 * File versions (previews as well as large versions like `huge` and `full`) sporadically fail to produce. Metadata extraction may fail as well.
