@@ -42,6 +42,7 @@ flowchart LR
         BE6 <--> EX6["execserver"]
         EX6 --> T6["media tools<br/>vips · ImageMagick · FFmpeg<br/>ExifTool · LibreOffice · …"]
     end
+    ez5 ~~~ fy
 ```
 
 * Runs natively on Linux, Windows and macOS.
@@ -70,16 +71,16 @@ flowchart LR
     end
     subgraph fydb ["fylr"]
         direction TB
-        DM["datamodel commit =<br/>ordinary rows in fixed tables"] --> OBJ["object<br/>one row per object version"]
-        OBJ --> VAL["value<br/>one row per field value"]
+        DM["datamodel commit =<br/>ordinary rows in the fixed<br/>datamodel tables"] ~~~ OBJ["object<br/>one row per object version"]
+        VAL["value<br/>one row per stored field value"] -->|references| OBJ
     end
+    ez5db ~~~ fydb
 ```
 
-* All objects are stored as generic rows in a fixed set of tables — an `object` row per object version, referencing one `value` row per field. Datamodel commits therefore write ordinary rows instead of running DDL, which makes them much lighter. It also lays the groundwork for pool-specific datamodel features (the first one, pool-specific standard masks, exists already).
-* Schema updates are **not** reflected in the SQL schema anymore. The number of database tables in fylr is fixed and does not change with the user datamodel. In easydb 5, every datamodel commit created, changed or dropped tables.
+* All objects are stored as generic rows in a fixed set of tables: an `object` row per object version, and `value` rows — one per stored field value — referencing it. The number of database tables is fixed and does not change with the user datamodel; a datamodel commit writes ordinary rows instead of running DDL. In easydb 5, every datamodel commit created, changed or dropped tables.
 * Object history is stored in the same tables — historic versions are ordinary rows next to the current one. easydb 5 kept history in separate `:history` shadow tables filled by database triggers.
 * The datamodel, localizations, and mappings are stored in the database as well — fylr no longer keeps any of them as files on disk.
-* Custom data (including external UUIDs) is stored space-efficiently: each datum is stored once and referenced, instead of being copied into every cell as in easydb 5. As a consequence, the custom data type updater refreshes the shared datum instead of rewriting every object that uses it.
+* Custom data (including external UUIDs) is stored once and referenced, instead of being copied into every cell as in easydb 5. As a consequence, the custom data type updater refreshes the shared datum instead of rewriting every object that uses it.
 
 ### File storage
 
@@ -87,14 +88,14 @@ fylr stores file metadata in the database. Assets and previews can be stored on 
 
 Asset links are no longer served by Apache directly from disk — they are served through fylr and are therefore subject to rights management.
 
-Files can also be *referenced* at a remote URL instead of being copied in (`rput` with `leave_on_remote`); referenced originals can still produce renditions.
+Files can also be *referenced* at a remote URL instead of being copied in (`rput` with `leave=true`); referenced originals can still produce renditions.
 
 ### Search and indexing
 
-* fylr uses OpenSearch as its primary search index, but also supports Elasticsearch (as easydb 5 did). Note that GeoJSON search requires OpenSearch or a licensed Elasticsearch.
+* fylr uses OpenSearch as its primary search index, but also supports Elasticsearch (as easydb 5 did). Note that GeoJSON search requires an OpenSearch index plus the `geo_support` capability in the fylr license; Elasticsearch does not provide geo support in fylr.
 * Events are indexed as well and can be searched through `/api/v1/search` (search type `event`, requires the system right `system.api.event[get]`). easydb 5 answered event queries from SQL only.
-* "Suggest" is backed by a term splitter in the database, updated on every object save — the periodic suggest index rebuilds of easydb 5 are gone. (A reindex does not recalculate the term tables; that is a separate, on-demand operation.)
-* Rights generation happens during normal object loading rather than in a separate database pass per objecttype after the search, so `generate_rights: true` no longer carries the large extra cost it did in easydb 5.
+* "Suggest" is backed by a term list in the database, updated on every object save — the periodic suggest index rebuilds of easydb 5 are gone. (A reindex does not recalculate the term list — see [Term recalculation](../for-system-administrators/inspect/term-recalculation.md).)
+* Rights generation happens during normal object loading rather than in a separate database pass per objecttype after the search, so `generate_rights: true` no longer carries the extra cost it had in easydb 5.
 
 ### File worker chain and the execserver
 
@@ -111,13 +112,15 @@ The file worker chain (formerly the easydb asset server) has been redesigned —
 
 * The web frontend is the same as in easydb 5, with a new design.
 * Frontend plugins are compatible with easydb 5. Server plugins must be adapted — see [Plugin](plugin.md).
-* All plugin callbacks run through the execserver, so plugins can be written in any programming language. Server-side callbacks call back into the API with short-lived tokens minted per call. Hybrid plugins that serve easydb 5 and fylr from one codebase with shared Python code are possible (two manifests over the same sources).
+* All plugin callbacks run through the execserver, so plugins can be written in any programming language. Server-side callbacks receive a token to call back into the API: browser-bound session tokens are replaced by short-lived unbound tokens that are revoked after the callback; tokens of regular API clients are passed through — see [the callback contract](plugin/callbacks/contract.md). Hybrid plugins that serve easydb 5 and fylr from one codebase with shared Python code are possible (two manifests over the same sources).
 * Plugins can be enabled and disabled in the base config, and can be installed directly from the frontend.
-* Some plugins have moved into the core: OAI-PMH, [WebDAV](webdav.md), the hotfolder, and LDAP authentication. WebDAV now supports both read and write and is served by fylr directly — in easydb 5 it was an Apache `mod_dav` share used only to drop files into the hotfolder. (`COPY` is not supported and returns 405.)
+* Some plugins have moved into the core: OAI-PMH, the hotfolder, and LDAP authentication. [WebDAV](webdav.md) — in easydb 5 an Apache `mod_dav` share used only to drop files into the hotfolder — is now served by fylr directly and supports both read and write; `COPY` is not supported and returns 405.
 
 ### Authentication
 
-Authentication has been rebuilt from scratch on top of [OAuth 2.0](api/oauth2.md), including OpenID Connect discovery (`/.well-known/openid-configuration`). The old `/api/v1/session` endpoint has been removed — see [API changes](changes-easydb5-fylr.md#api-v1-session) below.
+Authentication has been rebuilt from scratch on top of [OAuth 2.0](api/oauth2.md) — for connecting software this is the biggest break with easydb 5. The easydb 5 login flow (fetch a session token via `GET /api/v1/session`, then `POST /api/v1/session/authenticate` with login and password, then pass `token=` with every request) **no longer works**: `/api/v1/session` is gone. Every API client must instead obtain an OAuth 2.0 access token — via the authorization code, password, or client credentials grant — and send it as `Authorization: Bearer <token>` (or `?access_token=`). See [OAuth 2.0](api/oauth2.md) for the flows and [API changes](changes-easydb5-fylr.md#api-v1-session) below.
+
+fylr also acts as an OAuth 2.0 / OpenID Connect *provider* for third-party software (discovery under `/.well-known/openid-configuration`). Logging fylr in against an external identity provider is supported via SAML and LDAP; there is no OIDC client.
 
 ### Export
 
@@ -129,8 +132,10 @@ Capabilities in fylr that have no equivalent in easydb 5:
 
 * **IIIF support** built in (Presentation API 3.0; Image API 3.0 since fylr 6.34, 2.0 before). The tiler is configurable via the execserver — you can, for example, switch everything to JP2 or layered TIFFs. The integrated image zoom is mapped to the IIIF endpoint.
 * **Polyhierarchies** are supported — see [Hierarchies and polyhierarchies](concepts/hierarchies-and-polyhierarchies.md).
+* **Field inheritance in hierarchies**: unset fields can inherit their value from the parent object, configured per mask field; the search/db output formats `long_inheritance` and `full_inheritance` include the inherited values.
 * **Automatic numbering**, e.g. for building archival tectonics.
 * **Inspect** (`/inspect`): a bare-metal database view of the structures and data in fylr, including a visual backup tool — see [The /inspect backend](../for-system-administrators/inspect/README.md).
+* The **supervisor**: run and manage a fleet of fylr instances from one binary — see [Supervisor](../supervisor/README.md).
 
 ## Upgrading from easydb 5
 
@@ -138,23 +143,24 @@ Upgrading from easydb 5 to fylr requires a complete backup and restore. The `fyl
 
 ```mermaid
 flowchart LR
-    EZ["easydb 5<br/>(or fylr) instance"] -->|"fylr backup<br/>reads via the API"| PL["payloads<br/>JSON manifests + assets"]
+    EZ["easydb 5<br/>(or fylr) instance"] -->|"fylr backup<br/>reads via the API"| PL["payloads<br/>manifest + JSON payloads<br/>(files referenced by URL)"]
     PL -->|"fylr restore<br/>writes via the API"| FY["fylr instance"]
     FY --> RI["reindex"]
 ```
+
+Files are not copied into the backup by default — they are referenced by URL and fetched from the source instance during the restore, so the source must stay reachable until the restore has finished. `--include-files` (since fylr 6.34) packs them into the backup instead.
 
 The API has gained several extensions that are useful for migrations:
 
 * UUIDs, system object IDs, and object IDs can be set externally (`_uuid`, `_system_object_id`, `_id` — settable while the object is version 1, immutable afterwards).
 * Linked objects can be "deferred" — a promise that a linked object will be migrated later. The link lookup sets `_allow_defer: true` and must address the target by `_system_object_id` or `_uuid`; the link resolves automatically once the target is saved.
 * `system.root` can set `_create_user` on objects (see [/api/v1/db](changes-easydb5-fylr.md#api-v1-db)).
-* `skip_constraints` relaxes save-time checks: unique-key violations are tagged instead of rejected, and objects may be saved without a pool (see [/api/v1/db](changes-easydb5-fylr.md#api-v1-db)). Before fylr 6.27.0 this parameter was called `skipConstraints`.
-* Further save parameters for bulk imports: `skip_index`, and `skip_plugins` / `skip_events` (both require `system.root`).
-* easydb 5 password hashes survive the migration: `fylr backup` converts them into fylr's hash formats, so users keep their passwords.
+* `skip_constraints` relaxes save-time checks — see [/api/v1/db](changes-easydb5-fylr.md#api-v1-db) for the details and the further bulk-import parameters (`skip_index`, `skip_plugins`, `skip_events`).
+* easydb 5 password hashes can be carried over — `fylr backup` converts them into fylr's hash formats. This is opt-in on both ends: the easydb 5 source must be configured to output password hashes, and `fylr restore` needs `--include-password` (default off) — see [fylr restore](../for-system-administrators/migration/restore.md).
 
 ## API changes
 
-Most of the API is unchanged in fylr. In most cases, API clients — including the easydb web frontend — work as before. The differences are listed below.
+Once a client has switched its login to [OAuth 2.0](changes-easydb5-fylr.md#authentication), most of the API is unchanged: API clients — including the easydb web frontend — generally work as before. The differences are listed below.
 
 {% hint style="info" %}
 Calling a removed endpoint such as `/api/v1/session` returns HTTP **400** with the API error `UnknownEndpointMethod` — not a 404.
@@ -177,11 +183,11 @@ Calling a removed endpoint such as `/api/v1/session` returns HTTP **400** with t
 
 * The `extensions` parameter of the `asset_upload` right is gone. Only `classes` can be configured; all extensions that the produce config assigns to a class are then allowed for upload.
 * `collection.BAG_CREATE[inherit_owner]` is not supported. `inherit_owner` is always assumed: a new sub-collection without an owner inherits the parent's owner.
-* The output of `_generated_rights` includes more rights than in easydb 5: `read`, `write`, `delete`, `acl`, `change_owner`, `unlink`, plus `owner` (easydb 5 reported only `read`, `write`, `delete`, `unlink`).
+* The output of `_generated_rights` includes more rights than in easydb 5: fylr reports `read`, `write`, `delete`, `acl`, `change_owner`, `unlink`, plus `owner`. easydb 5 reported `write`, `delete`, `acl`, `change_owner`, `unlink` on objects (never `read`) and only `read`, `write`, `delete`, `unlink` on `/db_info`.
 
 ### `_standard` rendering
 
-fylr does not store `_standard` with the object data — it is rendered from the current object values and the mask configuration. (For search output it is prerendered at index time and cached per object version and mask; `/api/v1/db` always renders it fresh.) Differences to easydb 5:
+fylr does not store `_standard` with the object data — it is rendered from the current object values and the mask configuration. (For search output it is prerendered when the object is indexed, so after mask or config changes search results can show the previous rendering until a reindex; `/api/v1/db` always renders it fresh.) Differences to easydb 5:
 
 * If `_standard.1` has no data, the fallback `#<system-object-id>` is used, even if `_standard.2` or `_standard.3` is set. easydb 5 would not set `_standard.1` in that case.
 * When rendering linked objects, the linked object's `_standard.1` text is merged into the level configured on the link field; for the file and geo standards, the linked object's same-numbered level is merged into the parent's level.
@@ -191,7 +197,7 @@ fylr does not store `_standard` with the object data — it is rendered from the
 
 ### /api/v1/collection
 
-* Deep links have changed: for type **collection**, login and password are swapped compared to easydb 5 (the secret is the login, the collection UUID is the password); **email** users log in with email & user UUID instead of email & ACL UUID.
+* Deep links have changed: for type **collection**, the secret is now the login and the collection UUID is the password (reversed from easydb 5); **email** users log in with email & user UUID instead of email & ACL UUID.
 
 ### /api/v1/config
 
@@ -248,7 +254,8 @@ Additional support:
 
 Exports are generated on the fly (see [Export](changes-easydb5-fylr.md#export) above). Details:
 
-* `POST /export/<id>/stop` exists as in easydb 5 — but it was a no-op in fylr before 6.27.0. Since 6.27.0 it stops the running export, which then ends in status `failed`.
+* `POST /export/<id>/stop` works as in easydb 5; the stopped export ends in status `failed`. (It was a no-op in fylr before 6.27.0.)
+* The XML mapping value `easydb_flat` is still accepted as an alias but produces the standard easydb XML — a different structure than easydb 5's dump of its internal tables.
 * In asset export attributes, `JSON` and `EASParentId` have no effect.
 * New URL parameter `format` on `GET /export/<id>`: `long` (default) returns all of the export's events in `_log`, `standard` returns only the last run's `EXPORT_*` events, `short` omits `_log`. `_log` is now sorted ascending.
 * CSV: the subfield separator changed from `#` to `.`.
@@ -260,13 +267,23 @@ Exports are generated on the fly (see [Export](changes-easydb5-fylr.md#export) a
 
 ### /api/v1/group
 
-* `_ipv4_subnet_filter` was renamed to `_ip_subnet_filter`; IPv6 is now supported. Unparseable entries are silently ignored.
+* `_ipv4_subnet_filter` was renamed to `_ip_subnet_filter`; IPv6 is now supported. Saving a group with an unparseable filter entry is rejected (`InvalidSubnetFilter`).
+* New: `_ip_subnet_filter_exclude` inverts the filter — matching networks are excluded instead of required.
+
+### /api/v1/l10n
+
+* Writing the datamodel localization (`POST /l10n/user/HEAD`) no longer requires a system right (easydb 5 required `system.datamodel` at level `development`).
+* easydb 5's `POST /l10n/user/CURRENT` path is gone; fylr only exposes `HEAD`.
 
 ### /api/v1/mask
 
 * `format=xml` is no longer supported (it was the easydb 5 default); responses are always JSON. New: `format=long` embeds each field's underlying `column` definition.
 * The synthesized `_all_fields` mask can be fetched via `GET /mask/<version>/_all_fields`. It sets the text standard on the *first* text-type field, and the file standard (`standard_eas`, plus `standard_geo`) on the first files field.
-* In object output, the system fields `_acl`, `_tags`, `_owner`, and `_published` are omitted if the mask configures them not to be shown. `_collections` is always included.
+* In object output, the system fields `_acl`, `_tags`, `_owner`, and `_published` are omitted when the mask hides them. `_collections` is always included.
+
+### /api/v1/message
+
+* The message kind field was renamed from `type` (values such as `eula`) to `webfrontend_type`, and the body from `message_html` to `message`.
 
 ### /api/v1/objects
 
@@ -275,16 +292,20 @@ Exports are generated on the fly (see [Export](changes-easydb5-fylr.md#export) a
 ### /api/v1/objecttype
 
 * New top-level attribute `_filename_replacements`: lists the available replacements for files (output only).
-* New top-level attribute `_compiled_tags`; its entries carry `_origin`, showing where each tag comes from.
+* New top-level attribute `_compiled_tags`; its entries carry `_origin`, showing where each tag comes from (`tags`, `ot:<id>:<name>`, or `tags-filled` for disabled filler entries).
 * New: `GET /objecttype/<id>/stats`.
 
 ### /api/v1/pool
 
-* `_compiled_tags` has a new attribute `_origin`, which shows the origin of each tag (`tags`, `objecttype:…`, `pool:…`).
+* `_compiled_tags` has a new attribute `_origin`, which shows the origin of each tag (`tags`, `objecttype:<id>:<name>`, `pool:<id>`, or `tags-filled` for disabled filler entries).
 
-### /api/v1/right/preset
+### /api/v1/publish
 
-* New: a single preset can be fetched by ID.
+* easydb 5 documents this endpoint as insert-only; fylr additionally updates the existing row when a descriptor's `_id` is set.
+
+### /api/v1/right/{context}/presets
+
+* New: a single preset can be fetched by ID — `GET /right/<context>/presets/<id>`.
 
 ### /api/v1/schema
 
@@ -297,8 +318,8 @@ Exports are generated on the fly (see [Export](changes-easydb5-fylr.md#export) a
 * `include_deleted` is a new switch that also searches deleted objects.
 * `changelog_range` accepts `query` to set the type of the comment search.
 * New search type `event`: searches events (requires the system right `system.api.event[get]`). The keys of an event's `info` block are searchable and aggregatable via `event.info_key`; the `info` values themselves are not indexed.
-* Removed: `class_version_extension` and `class_version_filesize`; also the asset-level date fields `date_created` and `date_inserted` — each file field offers the new daterange field `best_date` instead, next to `date_uploaded`.
-* `technical_metadata.create_date` replaces the easydb 5 asset field `date_created`; `technical_metadata.date_time_original` is new.
+* Removed: `class_version_extension`, `class_version_filesize`, and the asset-level date fields `date_created` and `date_inserted`. The capture date now lives in `technical_metadata.create_date` (plus the new `technical_metadata.date_time_original`), and each file field offers the derived daterange `best_date` next to `date_uploaded`.
+* The search type `pool_management` was removed.
 * `_linked._asset` supports the same fields as regular file fields, and `_linked._asset` fields (such as date fields) are available in regular aggregations.
 * Aggregation type `asset` was removed. Use type `term` with `_linked._asset.` as the field name prefix.
 * `search.highlight` was removed.
@@ -312,11 +333,11 @@ Exports are generated on the fly (see [Export](changes-easydb5-fylr.md#export) a
 * `format` was removed from the `date_range` aggregation.
 * New sort fields `_standard_parent` and `_standard_parents`.
 * New geo support: search element types `geo_bounding_box` and `geo_shape`, and aggregation types `geo_bounds`, `geotile_grid` and `geohash_grid`.
-* New top-level parameters: `timezone`, `generate_rights`, `best_mask_filter`, `file_url_expire`.
+* New top-level parameters: `timezone` and `file_url_expire`.
 
 ### /api/v1/session
 
-This endpoint was **removed**. Use [OAuth 2.0](api/oauth2.md) and `/api/v1/user/session` instead.
+This endpoint was **removed** — the easydb 5 login flow (`GET /session` + `POST /session/authenticate` + `token=`) does not work against fylr. Clients log in via [OAuth 2.0](api/oauth2.md) and send the access token as `Authorization: Bearer` (or `?access_token=`); `GET /api/v1/user/session` returns the session for a token. See [Authentication](changes-easydb5-fylr.md#authentication).
 
 ### /api/v1/settings
 
@@ -326,13 +347,23 @@ This endpoint was **removed**. Use [OAuth 2.0](api/oauth2.md) and `/api/v1/user/
 
 New endpoint offering:
 
-* `POST /purgeall`: purge all data and start over (accepts `set_password`). Requires `allowpurge` in both `fylr.yml` and the base config, and the actual root user.
-* `POST /reindex`: initiate a reindex (accepts `blockFrontend`).
+* `POST /purgeall`: purge all data and start over; `set_password` sets the root password of the wiped instance. Requires `allowpurge` in both `fylr.yml` and the base config, and the actual root user.
+* `POST /reindex`: initiate a reindex; `blockFrontend=1` blocks the frontend while it runs. Unlike easydb 5's `settings/reindex` (root only, plus an enable flag), this endpoint performs no rights check.
 * `POST /sendmail` and `/sendmail/test`.
 * `PUT /backup/new`, `GET|DELETE /backup/<id>`, `GET /backup/<id>/download`, `GET /backup/list`: backups, performed in the background (require the `system.backup` right).
 * `GET /errortest`: store a test error.
 * `GET /status`: status information about the server.
 * `GET /openapi/spec.json`: the OpenAPI spec, plus storage location and share-link management routes.
+
+### /api/v1/tags
+
+* Authentication and rights failures return 401/403 (easydb 5 returned 400 for both).
+* Delete confirmations work via `delete_policy` and the `TagsInUse` error; easydb 5's `collection_rights_policy` parameter is gone.
+
+### /api/v1/transitions
+
+* Both `GET` and `POST` now require the system right `system.tagmanager` (easydb 5 allowed `GET` for any session and gated only the save).
+* Failures return 401/403 (easydb 5 returned 400).
 
 ### /api/v1/user
 
@@ -351,7 +382,7 @@ OAI-PMH moved from a plugin into the core.
 * XSLT is applied once to the combined easydb XML of all records in the response, not to individual records.
 * The easydb XML elements are no longer prefixed with `easydb:`. Instead, `xmlns` is set on the top-level easydb XML element.
 * Collection sets are now reported in each record's header. Set names have changed: `tagfilter:<name>` became `tagset:<name>`, `objecttype_pool:<ot>:pool:<ids>` became `objecttype:<ot>:pool:<ids>`. The collection sets reported for each record are **not** filtered by the user's rights.
-* Non-spec `limit` URL parameter (default 100, capped by the base config and at 10000).
+* Non-spec `limit` URL parameter. It defaults to the base config's `records_limit` and may override it, up to a hard cap of 10000.
 
 ### Custom data type updater
 
