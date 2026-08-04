@@ -414,6 +414,6 @@
   * [Plugin Conventions and Standards](for-developers/plugin/conventions.md)
   * [Packaging and Release](for-developers/plugin/release.md)
 * [Collection Pin Code](for-developers/collection_pin_code.md)
-* [easydb 5](for-developers/changes-easydb5-fylr.md)
+* [Changes from easydb 5](for-developers/changes-easydb5-fylr.md)
 * [Localization](for-developers/localization.md)
 * [Access private Repositories](for-developers/access-private-repositories.md)
