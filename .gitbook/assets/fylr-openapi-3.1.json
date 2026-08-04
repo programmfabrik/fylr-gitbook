@@ -42178,6 +42178,78 @@
         }
       }
     },
+    "/plugin/manage/{id}/readme": {
+      "x-path": "/plugin/manage",
+      "description": "The README of an installed plugin — the `README.md` the plugin ships\nnext to its `manifest.yml`, shown by the plugin manager as the\nplugin's README tab. Requires the system right `system.root` or\n`system.plugin`.\n",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": "Numeric id of the plugin."
+        }
+      ],
+      "get": {
+        "summary": "Read an installed plugin's README.",
+        "description": "Returns the `README.md` bundled next to the plugin's `manifest.yml`,\nread on demand from the plugin source (plugin directory, stored ZIP,\nor install URL via HTTP range requests) — the potentially large\nREADME never rides along in the plugin listing. Whether a plugin\nships one is exposed as `manifest.has_readme` in the listing. An\nempty `readme` means the plugin ships no README or its source is\ntemporarily unreachable.\n",
+        "responses": {
+          "200": {
+            "description": "The plugin's README.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "name",
+                    "readme"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "description": "Numeric id of the plugin."
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The plugin's internal name."
+                    },
+                    "readme": {
+                      "type": "string",
+                      "description": "The README as Markdown (images inlined as data URIs\nby the plugin build), or an empty string if the\nplugin ships no README.\n"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user holds neither `system.root` nor `system.plugin`\n(`code: SystemRightRequired`).\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemRightRequiredError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No plugin with this id (`code: PluginNotFound`).\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PluginNotFoundError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/xmlmapping/list": {
       "x-path": "/xmlmapping",
       "description": "Manage XML import/export **mappings** — transformations between\nfylr objects and external XML formats (METS/MODS, LIDO, custom\nprofiles, ...). A mapping pairs an XML profile with field-level\nbindings; profiles describe the structure of the external XML.\n",
@@ -62415,6 +62487,10 @@
             "type": "object",
             "description": "Free-form metadata the plugin contributes to the front-end\n(e.g. which routes / panels it registers). Shape is\nplugin-specific.\n",
             "additionalProperties": true
+          },
+          "has_readme": {
+            "type": "boolean",
+            "description": "The plugin ships a `README.md` next to its `manifest.yml` — its\ndocs, shown by the plugin manager as the README tab. Stamped by\nthe server when the plugin content is read (install/update/load),\nnot a manifest key; the content is served on demand by\n`GET /plugin/manage/{id}/readme`. Absent means `false`.\n"
           },
           "custom": {
             "type": "object",

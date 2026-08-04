@@ -41,6 +41,10 @@ The *General* tab of a plugin shows three timestamps. From fylr **6.35.0** they 
 
 <table><thead><tr><th width="192.5">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Created At</td><td>When the plugin was installed.</td></tr><tr><td>Updated At</td><td>When the stored plugin <strong>content</strong> last changed: set at install and whenever a new version is stored. Saving <strong>settings</strong> only (<em>Active</em>, the update policy) does <strong>not</strong> change it.</td></tr><tr><td>Last Checked At</td><td>When fylr last <strong>completed</strong> a check of the plugin source for updates. A failed update attempt does not change it.</td></tr></tbody></table>
 
+### Plugin README tab
+
+From fylr **6.35.0**, a plugin that ships a `README.md` next to its `manifest.yml` gets a **README** tab in the Plugin Manager showing the plugin's documentation — the same file the [Plugin Marketplace](#plugin-marketplace) shows as **more information** before installing. Plugins built with `fylr-build-plugin` bundle their repository README automatically. fylr detects the file when it reads the plugin content, so the tab appears from install or the plugin's next update.
+
 ### Managing Plugins
 
 To **install** a plugin, click on the **plus** button in the lower left. From fylr **6.35.0** this opens the **Plugin Marketplace** (see below); uploading your own plugin as a **ZIP** file or from a **URL** is still available there. Please make sure to **enable** the plugin afterwards.

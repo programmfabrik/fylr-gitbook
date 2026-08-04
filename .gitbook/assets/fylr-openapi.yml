@@ -39248,6 +39248,71 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/SystemRightRequiredError'
+    /plugin/manage/{id}/readme:
+        x-path: /plugin/manage
+        description: |
+            The README of an installed plugin — the `README.md` the plugin ships
+            next to its `manifest.yml`, shown by the plugin manager as the
+            plugin's README tab. Requires the system right `system.root` or
+            `system.plugin`.
+        parameters:
+            - name: id
+              in: path
+              required: true
+              schema:
+                type: integer
+                format: int64
+              description: Numeric id of the plugin.
+        get:
+            summary: Read an installed plugin's README.
+            description: |
+                Returns the `README.md` bundled next to the plugin's `manifest.yml`,
+                read on demand from the plugin source (plugin directory, stored ZIP,
+                or install URL via HTTP range requests) — the potentially large
+                README never rides along in the plugin listing. Whether a plugin
+                ships one is exposed as `manifest.has_readme` in the listing. An
+                empty `readme` means the plugin ships no README or its source is
+                temporarily unreachable.
+            responses:
+                "200":
+                    description: The plugin's README.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                required:
+                                    - id
+                                    - name
+                                    - readme
+                                properties:
+                                    id:
+                                        type: integer
+                                        format: int64
+                                        description: Numeric id of the plugin.
+                                    name:
+                                        type: string
+                                        description: The plugin's internal name.
+                                    readme:
+                                        type: string
+                                        description: |
+                                            The README as Markdown (images inlined as data URIs
+                                            by the plugin build), or an empty string if the
+                                            plugin ships no README.
+                "403":
+                    description: |
+                        The user holds neither `system.root` nor `system.plugin`
+                        (`code: SystemRightRequired`).
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SystemRightRequiredError'
+                "404":
+                    description: |
+                        No plugin with this id (`code: PluginNotFound`).
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PluginNotFoundError'
     /xmlmapping/list:
         x-path: /xmlmapping
         description: |
@@ -58591,6 +58656,14 @@ components:
                         (e.g. which routes / panels it registers). Shape is
                         plugin-specific.
                     additionalProperties: true
+                has_readme:
+                    type: boolean
+                    description: |
+                        The plugin ships a `README.md` next to its `manifest.yml` — its
+                        docs, shown by the plugin manager as the README tab. Stamped by
+                        the server when the plugin content is read (install/update/load),
+                        not a manifest key; the content is served on demand by
+                        `GET /plugin/manage/{id}/readme`. Absent means `false`.
                 custom:
                     type: object
                     description: |
