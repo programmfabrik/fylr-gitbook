@@ -1,7 +1,7 @@
 # Drupal Integration
 
 {% hint style="info" %}
-Please note that the Drupal Integration is realized through a paid plugin. To obtain the plugin and its release URL, please contact our support.
+Please note that the Drupal Integration is realized through a paid plugin. To obtain the plugin and its release URL, please contact our support. For administrators: [How to integrate fylr with Drupal](../../for-administrators/plugin-manager/drupal.md).
 {% endhint %}
 
 The Drupal integration lets editors pick assets in fylr and transfer them into a Drupal site, without downloading and re-uploading them by hand. In Drupal, they appear in the media library and can be used from there as usual. Media files can be sent from fylr, and updates can be synchronized. There is no support for deleting media. Currently, only image formats are supported.
