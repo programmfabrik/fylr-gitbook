@@ -9,7 +9,9 @@ description: >-
 {% hint style="info" %}
 **The essentials**
 
-* The plugins that fylr ships on disk today will become **url plugins**, installed from their own releases. The upgrade converts every enabled plugin that has a successor; the [few without one](disk-to-url-migration.md#plugins-that-will-be-removed) are removed.
+* This page is only about the plugins **fylr shipped on disk**, inside the distribution. A plugin you installed yourself from the marketplace — `fylr-plugin-sequence`, `server-pdf`, `ai-metadata` and everything else in the [plugin overview](overview.md) — is already a url plugin and is **not affected**: it is not listed here, and the upgrade does not touch it.
+* The shipped plugins become **url plugins**, installed from their own releases. The upgrade converts every enabled plugin that has a successor; the [few without one](disk-to-url-migration.md#plugins-that-will-be-removed) are removed.
+* Your **configuration and permissions move with a plugin**, including where the plugin is renamed. There is nothing to write down before the upgrade.
 * A distribution plugin that is **switched off** at that moment is removed instead of converted. Switch it on before you upgrade if it should stay — off again afterwards is fine.
 * If your fylr **cannot reach the internet**, the plugin manager will mark the plugins it could not download and offer to **install them as ZIP** — your browser fetches the release and hands it to fylr.
 * If you use the **Drupal, TYPO3 or WordPress** connector, you **must obtain an updated fylr license** that enables it — without that grant the plugin cannot be enabled after the upgrade. Contact Programmfabrik **before** you upgrade.
@@ -29,9 +31,9 @@ fylr 6.35 has not been released yet — this page describes the upcoming upgrade
 
 ## What the upgrade will do
 
-* Every **enabled** plugin from the distribution that has a successor in the table below becomes a **url plugin** pointing at the successor's release — enabled as before, and configured as before if the name is unchanged.
+* Every **enabled** plugin from the distribution that has a successor in the table below becomes a **url plugin** pointing at the successor's release — enabled as before, and configured as before. Where a plugin is renamed, its configuration, its granted system rights and any export that uses it are moved to the new name by the upgrade.
 * **Disabled** distribution plugins are removed. Their stored configuration is kept and applies again if a plugin of the same name is installed later.
-* Plugins **you** installed from your own directories are not touched.
+* Plugins **you** installed from your own directories are not touched. The upgrade recognises a distribution plugin by its name **and** by its location inside the fylr Docker image (`/fylr/files/plugins/easydb/`); a plugin loaded from any other directory is left exactly as it is.
 * Distribution plugins with **no successor** are removed — they are obsolete, or their function is part of fylr itself by now. See [the second table](disk-to-url-migration.md#plugins-that-will-be-removed).
 * After the restart, each converted plugin downloads its release once and keeps itself up to date from then on.
 
@@ -45,7 +47,7 @@ The names in the table are the **internal plugin names**, as shown in the plugin
 
 | Plugin today | Will become | What to check |
 | --- | --- | --- |
-| `basemigration` | `fylr-plugin-basemigration` | new name |
+| `basemigration` | [`fylr-plugin-basemigration`](https://github.com/programmfabrik/fylr-plugin-basemigration) | new name |
 | `custom-data-type-cerlthesaurus` | [`custom-data-type-cerlthesaurus`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-cerlthesaurus) | unchanged |
 | `custom-data-type-dante` | [`custom-data-type-dante`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-dante) | unchanged |
 | `custom-data-type-gazetteer` | [`custom-data-type-gazetteer`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gazetteer) | unchanged |
@@ -55,7 +57,7 @@ The names in the table are the **internal plugin names**, as shown in the plugin
 | `custom-data-type-gn250` | [`custom-data-type-gn250`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250) | unchanged |
 | `custom-data-type-gnd` | [`custom-data-type-gnd`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gnd) | unchanged |
 | `custom-data-type-goobi` | [`custom-data-type-goobi`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-goobi) | unchanged |
-| `custom-data-type-gvk` | [`custom-data-type-gvk`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-k10plus) | unchanged — the same custom type, delivered by its successor repository `fylr-plugin-custom-data-type-k10plus` |
+| `custom-data-type-gvk` | [`custom-data-type-gvk`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-k10plus) | unchanged — the same custom type, delivered by the repository `fylr-plugin-custom-data-type-k10plus` |
 | `custom-data-type-html-editor` | [`custom-data-type-html-editor`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-html-editor) | unchanged |
 | `custom-data-type-iconclass` | [`custom-data-type-iconclass`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass) | unchanged |
 | `custom-data-type-iucn` | [`custom-data-type-iucn`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-iucn) | unchanged |
@@ -63,21 +65,23 @@ The names in the table are the **internal plugin names**, as shown in the plugin
 | `custom-data-type-location` | [`custom-data-type-location`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-location) | unchanged |
 | `custom-data-type-nomisma` | [`custom-data-type-nomisma`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-nomisma) | unchanged |
 | `custom-data-type-tnadiscovery` | [`custom-data-type-tnadiscovery`](https://github.com/programmfabrik/fylr-plugin-custom-data-type-tnadiscovery) | unchanged |
-| `custom-mask-splitter-detail-linked` | [`fylr-plugin-custom-mask-splitter-detail-linked`](https://github.com/programmfabrik/fylr-plugin-custom-mask-splitter-detail-linked) | new name |
+| `easydb-barcode-display` | [`fylr-scancode-display`](https://github.com/programmfabrik/fylr-plugin-scancode-display) | new name — the successor is a different plugin: your masks and PDF templates are re-pointed to it automatically, see [below](disk-to-url-migration.md#the-barcode-plugins) |
 | `easydb-coin-viewer-plugin` | [`fylr-plugin-coin-viewer`](https://github.com/programmfabrik/fylr-plugin-coin-viewer) | new name |
-| `easydb-connector-plugin` | `fylr-plugin-connector` | new name |
+| `easydb-connector-plugin` | [`fylr-plugin-connector`](https://github.com/programmfabrik/fylr-plugin-connector) | new name |
+| `easydb-custom-mask-splitter-detail-linked-plugin` | [`fylr-plugin-custom-mask-splitter-detail-linked`](https://github.com/programmfabrik/fylr-plugin-custom-mask-splitter-detail-linked) | new name |
 | `easydb-detail-map-plugin` | [`fylr-plugin-detail-map`](https://github.com/programmfabrik/fylr-plugin-detail-map) | new name |
 | `easydb-display-field-values` | [`fylr-plugin-display-field-values`](https://github.com/programmfabrik/fylr-plugin-display-field-values) | new name |
-| `easydb-drupal-plugin` | `fylr-plugin-drupal` | new name, **licensed plugin** |
-| `easydb-easydb4migration-plugin` | `fylr-plugin-easydb4migration` | new name; the configuration (section `easydb4migration`) carries over, but the new system right `plugin.fylr-plugin-easydb4migration.migration` has to be granted to the users who run migrations |
-| `easydb-editor-field-visibility` | [`editor-field-visibility`](https://github.com/programmfabrik/fylr-plugin-editor-field-visibility) | new name; masks using its mask splitter are **not** affected, but the plugin's own configuration starts empty |
+| `easydb-drupal-plugin` | [`fylr-plugin-drupal`](https://github.com/programmfabrik/fylr-plugin-drupal) | new name, **licensed plugin** |
+| `easydb-easydb4migration-plugin` | [`fylr-plugin-easydb4migration`](https://github.com/programmfabrik/fylr-plugin-easydb4migration) | new name |
+| `easydb-editor-field-visibility` | [`editor-field-visibility`](https://github.com/programmfabrik/fylr-plugin-editor-field-visibility) | new name |
 | `easydb-editor-tagfilter-defaults-plugin` | [`fylr-plugin-editor-tagfilter-defaults`](https://github.com/programmfabrik/fylr-plugin-editor-tagfilter-defaults) | new name |
-| `easydb-export-transport-ftp-plugin` | [`easydb-export-transport-ftp-plugin`](https://github.com/programmfabrik/fylr-plugin-export-transport-ftp) | unchanged — delivered by `fylr-plugin-export-transport-ftp` |
+| `easydb-export-transport-ftp-plugin` | [`easydb-export-transport-ftp-plugin`](https://github.com/programmfabrik/fylr-plugin-export-transport-ftp) | unchanged — delivered by `fylr-plugin-export-transport-ftp`; saved export transports keep working |
+| `easydb-hijri-gregorian-converter` | [`fylr-plugin-hijri-gregorian-converter`](https://github.com/programmfabrik/fylr-plugin-hijri-gregorian-converter) | new name — ported to fylr; masks using its splitter keep working |
 | `easydb-orcid-plugin` | [`fylr-plugin-orcid`](https://github.com/programmfabrik/fylr-plugin-orcid) | new name |
 | `easydb-presentation-pptx-plugin` | [`presentation-pptx`](https://github.com/programmfabrik/fylr-plugin-presentation-pptx) | new name |
-| `pdf-creator` | `fylr-plugin-pdf-creator` | new name |
-| `easydb-typo3-plugin` | `fylr-plugin-typo3` | new name, **licensed plugin** |
-| `easydb-wordpress-plugin` | `fylr-plugin-wordpress` | new name, **licensed plugin** |
+| `easydb-typo3-plugin` | [`fylr-plugin-typo3`](https://github.com/programmfabrik/fylr-plugin-typo3) | new name, **licensed plugin** |
+| `easydb-wordpress-plugin` | [`fylr-plugin-wordpress`](https://github.com/programmfabrik/fylr-plugin-wordpress) | new name, **licensed plugin** |
+| `pdf-creator` | [`pdf-creator`](https://github.com/programmfabrik/fylr-plugin-pdf-creator) | unchanged |
 
 The custom data types `cerlthesaurus`, `dante`, `geonames`, `georef`, `getty`, `gn250`, `gnd`, `gvk`, `iconclass` and `nomisma` share a library plugin, `commons-library`, which fylr installs alongside them; it does nothing on its own and needs no configuration.
 
@@ -87,32 +91,34 @@ The Drupal, TYPO3 and WordPress connectors become **licensed plugins**: enabling
 
 ### Configuration and renamed plugins
 
-A plugin's configuration is stored under its **internal name**. Where the name is unchanged, it carries over untouched. Where the successor has a **new name**, it starts unconfigured (`fylr-plugin-easydb4migration` is the exception noted in the table) — so **note the old plugin's configuration before you upgrade** and transfer the values afterwards.
+A plugin's configuration is stored under its **internal name**, and so are the system rights it defines. Where a plugin is renamed, the upgrade moves both to the new name, together with any export that produces or transports through that plugin. Nothing has to be written down beforehand and nothing has to be re-entered afterwards.
 
-### If you use the barcode plugins
+A plugin that is **not** converted — switched off, or loaded from your own directory — keeps its configuration under the old name, so nothing is lost there either.
 
-Everything else a plugin contributes to your data model — custom data types, mask splitters — survives the migration untouched: columns and masks keep working, renames or not. The one exception are the **barcode plugins**.
+### The barcode plugins
 
-Their replacement, **Scancode Display**, brings its own barcode splitter, and masks do not switch to it by themselves. After the upgrade, a mask that contained the barcode splitter shows a marked *unknown splitter* block in its place; the fields inside it still render, and nothing is lost by saving the mask. To get the barcodes back: install [`fylr-plugin-scancode-display`](https://github.com/programmfabrik/fylr-plugin-scancode-display), edit the affected masks, and replace the block with the Scancode splitter, using the same options.
+Everything a plugin contributes to your data model — custom data types, mask splitters, PDF Creator elements — survives the migration, renames or not. The barcode plugins are the only case where the successor is a genuinely **different** plugin: **Scancode Display** registers its mask splitter and its PDF Creator element under new names.
+
+The upgrade rewrites both for you: masks that used the barcode splitter now use the Scancode splitter, and PDF Creator templates containing a barcode element now contain a Scancode element. There is nothing to edit by hand, and `easydb-barcode-display-pdf-plugin` disappears because Scancode Display already contains that PDF element.
 
 ### Plugins that will be removed
 
-These plugins have no successor and will be removed at the upgrade:
+These plugins have no successor and are removed at the upgrade:
 
 | Plugin | Why |
 | --- | --- |
-| [`easydb-barcode-display`](https://github.com/programmfabrik/easydb-barcode-display-plugin), [`easydb-barcode-display-pdf-plugin`](https://github.com/programmfabrik/easydb-barcode-display-pdf-plugin) | continued as one plugin, [`fylr-plugin-scancode-display`](https://github.com/programmfabrik/fylr-plugin-scancode-display) — a different plugin rather than a drop-in successor: install it and re-point the masks, see [above](disk-to-url-migration.md#if-you-use-the-barcode-plugins) |
-| `easydb-hotfolder-plugin` | the hotfolder is part of fylr |
-| `easydb-ldap-plugin` | LDAP login is part of fylr |
-| `oai` | OAI-PMH is part of fylr |
-| `easydb-auto-keyworder-plugin` | obsolete; automatic keywording is now the licensed **ai-metadata** plugin, which is configured differently and is not a drop-in replacement |
+| `easydb-barcode-display-pdf-plugin` | absorbed: [`fylr-plugin-scancode-display`](https://github.com/programmfabrik/fylr-plugin-scancode-display) already contains this PDF Creator element, and the upgrade re-points your templates to it |
 | `easydb-falconio-plugin` | the Falcon.io service no longer exists |
-| `easydb-hijri-gregorian-converter` | a project-specific mask splitter for Hijri dates; available again on request |
+| `easydb-remote-plugin`, `server` | easydb5 infrastructure with no function in fylr. **`server` is the easydb5 "Server Status" page — not the [PDF Server](https://github.com/programmfabrik/fylr-plugin-server-pdf) (`server-pdf`), which is a marketplace plugin, is required by PDF Creator and is not affected by this migration** |
+| `easydb-auto-keyworder-plugin` | obsolete; automatic keywording is now the licensed **ai-metadata** plugin, which is configured differently and is not a drop-in replacement |
 | `easydb-plugin-zooniverse-import` | a project-specific import |
-| `easydb-remote-plugin`, `server` | easydb5 infrastructure with no function in fylr |
 | `example-plugin` | the developer example, continued as [`fylr-plugin-example`](https://github.com/programmfabrik/fylr-plugin-example) |
 
 If you actively use one of these, talk to us before upgrading.
+
+{% hint style="info" %}
+The plugins **`oai`, `easydb-ldap-plugin` and `easydb-sso-plugin`** are not in this list because fylr already ignores them: OAI-PMH, LDAP login and SSO have been part of fylr itself for some time, and the plugin loader skips these three by name. They are not installed today and nothing changes for them at the upgrade.
+{% endhint %}
 
 ## After the upgrade
 
