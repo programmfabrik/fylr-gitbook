@@ -134,7 +134,7 @@ These plugins have no successor and are removed at the upgrade:
 | --- | --- |
 | `easydb-barcode-display-pdf-plugin` | absorbed: [`fylr-plugin-scancode-display`](https://github.com/programmfabrik/fylr-plugin-scancode-display) already contains this PDF Creator element, and the upgrade re-points your templates to it |
 | `easydb-falconio-plugin` | the Falcon.io service no longer exists |
-| `easydb-remote-plugin`, `server` | easydb5 infrastructure with no function in fylr. **`server` is the easydb5 "Server Status" page — not the [PDF Server](https://github.com/programmfabrik/fylr-plugin-server-pdf) (`server-pdf`), which is a marketplace plugin, is required by PDF Creator and is not affected by this migration** |
+| `easydb-remote-plugin`, `server` | easydb5 infrastructure with no function in fylr. **`server` is the easydb5 "Server Status" page — not the [PDF Server](https://github.com/programmfabrik/fylr-plugin-server-pdf) (`server-pdf`), which is a separate marketplace plugin and is not affected by this migration. PDF Creator no longer needs it: it renders PDFs itself** |
 | `easydb-auto-keyworder-plugin` | obsolete; automatic keywording is now the licensed **ai-metadata** plugin, which is configured differently and is not a drop-in replacement |
 | `easydb-plugin-zooniverse-import` | a project-specific import |
 | `easydb-hotfolder-plugin` | the hotfolder is part of fylr itself |
