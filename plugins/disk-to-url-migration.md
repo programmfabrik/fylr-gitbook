@@ -35,7 +35,7 @@ fylr 6.35 has not been released yet — this page describes the upcoming upgrade
 * **Disabled** distribution plugins are removed. Their stored configuration is kept and applies again if a plugin of the same name is installed later.
 * Plugins **you** installed from your own directories are not touched. The upgrade recognises a distribution plugin by its name **and** by its location inside the fylr Docker image (`/fylr/files/plugins/easydb/`); a plugin loaded from any other directory is left exactly as it is.
 * Distribution plugins with **no successor** are removed — they are obsolete, or their function is part of fylr itself by now. See [the second table](disk-to-url-migration.md#plugins-that-will-be-removed).
-* After the restart, each converted plugin downloads its release once and keeps itself up to date from then on.
+* After the restart, each converted plugin downloads its release once and keeps itself up to date from then on. It is installed from exactly the release the plugin manager offers for a fresh installation — a migrated plugin and a newly installed one are the same package.
 
 {% hint style="warning" %}
 The downloads need **outbound HTTPS** to `github.com`, `*.githubusercontent.com` and `programmfabrik.github.io`. If your instance cannot reach these hosts, see [Installations without internet access](disk-to-url-migration.md#installations-without-internet-access).
@@ -83,13 +83,38 @@ The names in the table are the **internal plugin names**, as shown in the plugin
 | `easydb-wordpress-plugin` | [`fylr-plugin-wordpress`](https://github.com/programmfabrik/fylr-plugin-wordpress) | new name, **licensed plugin** |
 | `pdf-creator` | [`pdf-creator`](https://github.com/programmfabrik/fylr-plugin-pdf-creator) | unchanged |
 
-The custom data types `cerlthesaurus`, `dante`, `geonames`, `georef`, `getty`, `gn250`, `gnd`, `gvk`, `iconclass` and `nomisma` share a library plugin, `commons-library`, which fylr installs alongside them; it does nothing on its own and needs no configuration.
+The custom data types `cerlthesaurus`, `dante`, `geonames`, `georef`, `getty`, `gn250`, `gnd`, `goobi`, `gvk`, `iconclass`, `nomisma` and `tnadiscovery` share a library plugin, `commons-library`, which fylr installs alongside them; it does nothing on its own and needs no configuration.
 
 {% hint style="warning" %}
 The Drupal, TYPO3 and WordPress connectors become **licensed plugins**: enabling one requires a fylr license that grants it by name. If you use one of these connectors, you **must obtain an updated license** from Programmfabrik that enables it — do this **before you upgrade**, or the plugin will be installed but cannot be enabled.
 {% endhint %}
 
-### Configuration and renamed plugins
+### The renamed plugins
+
+Sixteen plugins change their internal name. This is the list to hold against the plugin manager afterwards — everything else keeps the name it has today.
+
+| Today | After the upgrade |
+| --- | --- |
+| `basemigration` | `fylr-plugin-basemigration` |
+| `easydb-barcode-display` | `fylr-scancode-display` |
+| `easydb-coin-viewer-plugin` | `fylr-plugin-coin-viewer` |
+| `easydb-connector-plugin` | `fylr-plugin-connector` |
+| `easydb-custom-mask-splitter-detail-linked-plugin` | `fylr-plugin-custom-mask-splitter-detail-linked` |
+| `easydb-detail-map-plugin` | `fylr-plugin-detail-map` |
+| `easydb-display-field-values` | `fylr-plugin-display-field-values` |
+| `easydb-drupal-plugin` | `fylr-plugin-drupal` |
+| `easydb-easydb4migration-plugin` | `fylr-plugin-easydb4migration` |
+| `easydb-editor-field-visibility` | `editor-field-visibility` |
+| `easydb-editor-tagfilter-defaults-plugin` | `fylr-plugin-editor-tagfilter-defaults` |
+| `easydb-hijri-gregorian-converter` | `fylr-plugin-hijri-gregorian-converter` |
+| `easydb-orcid-plugin` | `fylr-plugin-orcid` |
+| `easydb-presentation-pptx-plugin` | `presentation-pptx` |
+| `easydb-typo3-plugin` | `fylr-plugin-typo3` |
+| `easydb-wordpress-plugin` | `fylr-plugin-wordpress` |
+
+You do not have to do anything with this list before upgrading — it is here so a changed name in the plugin manager is recognisable rather than alarming.
+
+### Configuration, rights and exports
 
 A plugin's configuration is stored under its **internal name**, and so are the system rights it defines. Where a plugin is renamed, the upgrade moves both to the new name, together with any export that produces or transports through that plugin. Nothing has to be written down beforehand and nothing has to be re-entered afterwards.
 
@@ -112,7 +137,11 @@ These plugins have no successor and are removed at the upgrade:
 | `easydb-remote-plugin`, `server` | easydb5 infrastructure with no function in fylr. **`server` is the easydb5 "Server Status" page — not the [PDF Server](https://github.com/programmfabrik/fylr-plugin-server-pdf) (`server-pdf`), which is a marketplace plugin, is required by PDF Creator and is not affected by this migration** |
 | `easydb-auto-keyworder-plugin` | obsolete; automatic keywording is now the licensed **ai-metadata** plugin, which is configured differently and is not a drop-in replacement |
 | `easydb-plugin-zooniverse-import` | a project-specific import |
+| `easydb-hotfolder-plugin` | the hotfolder is part of fylr itself |
+| `webhook-plugin` | no fylr successor |
 | `example-plugin` | the developer example, continued as [`fylr-plugin-example`](https://github.com/programmfabrik/fylr-plugin-example) |
+
+The last two are in the list for completeness: the fylr distribution has not loaded them for a long time, so most instances do not have them at all. If yours does — from an easydb5 migration, or a path you added yourself — it is removed like the rest.
 
 If you actively use one of these, talk to us before upgrading.
 
