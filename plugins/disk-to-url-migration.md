@@ -126,6 +126,41 @@ Everything a plugin contributes to your data model — custom data types, mask s
 
 The upgrade rewrites both for you: masks that used the barcode splitter now use the Scancode splitter, and PDF Creator templates containing a barcode element now contain a Scancode element. There is nothing to edit by hand, and `easydb-barcode-display-pdf-plugin` disappears because Scancode Display already contains that PDF element.
 
+### PDF Creator and the PDF Server
+
+Where PDF Creator renders changes with the upgrade, and it is worth knowing which
+of the two plugins you have.
+
+**The shipped `pdf-creator`** — the one this page is about — does not render PDFs
+itself. It sends the HTML to whatever is configured in the base configuration
+under `pdf_creator.fylr_url`, and if that is empty it looks for the
+[PDF Server](https://github.com/programmfabrik/fylr-plugin-server-pdf)
+(`server-pdf`) plugin and uses that. This is why many instances have `server-pdf`
+installed at all.
+
+**Its successor renders PDFs itself.** From version 1.1.0 the marketplace plugin
+carries its own renderer and calls it directly. Two things follow:
+
+* `server-pdf` is no longer used. It is **not** removed by the upgrade — the
+  migration only touches plugins fylr shipped, and `server-pdf` was always
+  installed by an administrator — so it stays until you uninstall it. You can, unless
+  something of your own posts to its `html2pdf` endpoint, which remains a public
+  API.
+* `pdf_creator.fylr_url` is no longer used either — it is not a setting of the new
+  plugin. If you pointed PDF Creator at an **external** rendering service, that
+  service is no longer contacted after the upgrade; rendering happens on your own
+  exec server instead. The fylr distribution ships the required Chromium, so
+  nothing needs installing; a custom exec server may need `SERVER_PDF_CHROME`.
+
+{% hint style="info" %}
+**This is not tied to 6.35.** If you already installed **PDF Creator from the
+marketplace**, the change happened when that plugin updated to 1.1.0 — the
+marketplace plugin updates on its own policy, independently of your fylr version.
+The upgrade path described above applies to instances still running the
+**shipped, on-disk** `pdf-creator`, which is converted to the marketplace plugin
+by the migration.
+{% endhint %}
+
 ### Plugins that will be removed
 
 These plugins have no successor and are removed at the upgrade:
@@ -134,7 +169,7 @@ These plugins have no successor and are removed at the upgrade:
 | --- | --- |
 | `easydb-barcode-display-pdf-plugin` | absorbed: [`fylr-plugin-scancode-display`](https://github.com/programmfabrik/fylr-plugin-scancode-display) already contains this PDF Creator element, and the upgrade re-points your templates to it |
 | `easydb-falconio-plugin` | the Falcon.io service no longer exists |
-| `easydb-remote-plugin`, `server` | easydb5 infrastructure with no function in fylr. **`server` is the easydb5 "Server Status" page — not the [PDF Server](https://github.com/programmfabrik/fylr-plugin-server-pdf) (`server-pdf`), which is a separate marketplace plugin and is not affected by this migration. PDF Creator no longer needs it: it renders PDFs itself, so if you installed `server-pdf` only for PDF Creator you can uninstall it after the upgrade — keep it only if something of your own calls its `html2pdf` endpoint directly** |
+| `easydb-remote-plugin`, `server` | easydb5 infrastructure with no function in fylr. **`server` is the easydb5 "Server Status" page — not the [PDF Server](https://github.com/programmfabrik/fylr-plugin-server-pdf) (`server-pdf`), which is a separate marketplace plugin and is not removed by this migration — see [PDF Creator and the PDF Server](disk-to-url-migration.md#pdf-creator-and-the-pdf-server)** |
 | `easydb-auto-keyworder-plugin` | obsolete; automatic keywording is now the licensed **ai-metadata** plugin, which is configured differently and is not a drop-in replacement |
 | `easydb-plugin-zooniverse-import` | a project-specific import |
 | `easydb-hotfolder-plugin` | the hotfolder is part of fylr itself |
