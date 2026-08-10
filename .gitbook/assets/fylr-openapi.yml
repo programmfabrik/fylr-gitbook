@@ -58956,7 +58956,11 @@ components:
                     description: Sort the field numerically rather than as text.
                 number_groups:
                     type: array
-                    description: Number group boundaries used for numeric grouping.
+                    description: >-
+                        Number group boundaries used for numeric grouping. Objects sort
+                        by the group their value falls into, further criteria then order
+                        them within that group. Objects without a value form a group of
+                        their own after the last one, so with `asc` they sort last.
                     items:
                         type: integer
                         format: int64
@@ -59046,7 +59050,10 @@ components:
                     description: Collect the full path for hierarchical fields.
                 mode:
                     type: string
-                    description: How to pick a value when the field has several values.
+                    description: >-
+                        How to pick a value when the field has several values. The
+                        aggregating modes `min`, `max`, `avg` and `sum` report nothing
+                        for an object that has no value at all, they do not report `0`.
                 language:
                     type: string
                     description: For localized fields, the language to collect.
