@@ -35202,11 +35202,11 @@ paths:
                 Allows clients to log user events into the event stream. Any
                 authenticated user may write event types in the **FRONTEND** and
                 **PLUGIN** groups (e.g. `SEARCH`, `DETAIL_VIEW`, `FRONTEND_ERROR`).
-                Writing event types in the system groups (`ADMIN`, `DOWNLOAD`,
-                `EXPORT`, `INDEX`, `LOGIN_LOGOUT`, `SYSTEM`, `UPLOAD`) requires
+                Writing event types in any other group (`ADMIN`, `DOWNLOAD`, `EXPORT`,
+                `INDEX`, `LOGIN_LOGOUT`, `SYSTEM`, `TASK`, `UPLOAD`) requires
                 `system.root` together with `skip_constraints=true` (see the
-                `skip_constraints` parameter); any other type — including the
-                `TASK` group — is always rejected with `code: EventTypeNotAllowed`.
+                `skip_constraints` parameter); a type unknown to the server is always
+                rejected with `code: EventTypeNotAllowed`.
                 Unlike the other event write operations, `POST /event` is permitted
                 while the instance is in read-only mode.
 
@@ -35215,7 +35215,7 @@ paths:
                 / `system.log.detail_view`) is enabled. fylr allows the whole FRONTEND
                 group (`SEARCH`, `DETAIL_VIEW`, `FRONTEND_ERROR`,
                 `ASSET_DOWNLOAD_CONFIRMATION_MESSAGE`) and the PLUGIN group with no
-                base-config gate, plus the system groups via `system.root` +
+                base-config gate, plus all other known groups via `system.root` +
                 `skip_constraints`.
             parameters:
                 - name: background
@@ -35231,8 +35231,9 @@ paths:
                   schema:
                     type: boolean
                   description: |
-                    If `true`, the system event groups (`ADMIN`, `DOWNLOAD`, `EXPORT`,
-                    `INDEX`, `LOGIN_LOGOUT`, `SYSTEM`, `UPLOAD`) may also be written —
+                    If `true`, all other known event groups (`ADMIN`, `DOWNLOAD`,
+                    `EXPORT`, `INDEX`, `LOGIN_LOGOUT`, `SYSTEM`, `TASK`, `UPLOAD`)
+                    may also be written —
                     not just the FRONTEND/PLUGIN user types — and a top-level `user`
                     object is accepted on the event. Requires `system.root`; a non-root
                     caller that sets it receives a `400 ServerGeneric` error.
@@ -35254,8 +35255,9 @@ paths:
                 "400":
                     description: |
                         The request could not be processed. Possible `code` values:
-                        `EventTypeNotAllowed` (the payload's `type` is not a FRONTEND/PLUGIN
-                        user type and was not unlocked with root + `skip_constraints`),
+                        `EventTypeNotAllowed` (the payload's `type` is unknown, or is not a
+                        FRONTEND/PLUGIN user type and was not unlocked with root +
+                        `skip_constraints`),
                         `ServerGeneric` (invalid JSON body, an unparseable query filter
                         such as `id`/`sort`, a non-root caller passing `skip_constraints`,
                         or an event carrying a `user`/`user_id` without `skip_constraints`),
@@ -35447,8 +35449,9 @@ paths:
                 "400":
                     description: |
                         The request could not be processed. Possible `code` values:
-                        `EventTypeNotAllowed` (the payload's `type` is not a FRONTEND/PLUGIN
-                        user type and was not unlocked with root + `skip_constraints`),
+                        `EventTypeNotAllowed` (the payload's `type` is unknown, or is not a
+                        FRONTEND/PLUGIN user type and was not unlocked with root +
+                        `skip_constraints`),
                         `ServerGeneric` (invalid JSON body, an unparseable query filter
                         such as `id`/`sort`, a non-root caller passing `skip_constraints`,
                         or an event carrying a `user`/`user_id` without `skip_constraints`),
@@ -35652,9 +35655,9 @@ paths:
             description: |
                 Writes the supplied array of events. Useful for batch tooling. As with
                 `POST /event`, any authenticated user may write FRONTEND/PLUGIN event
-                types; the system event groups require `system.root` with
-                `skip_constraints=true`, and any other type (including `TASK`) is
-                rejected with `code: EventTypeNotAllowed`. Unlike `POST /event`, this
+                types; all other known event groups require `system.root` with
+                `skip_constraints=true`, and a type unknown to the server is rejected
+                with `code: EventTypeNotAllowed`. Unlike `POST /event`, this
                 bulk operation is rejected with `400 ReadOnlyMode` while the instance
                 is in read-only mode.
             parameters:
@@ -35671,8 +35674,9 @@ paths:
                   schema:
                     type: boolean
                   description: |
-                    If `true`, the system event groups (`ADMIN`, `DOWNLOAD`, `EXPORT`,
-                    `INDEX`, `LOGIN_LOGOUT`, `SYSTEM`, `UPLOAD`) may also be written —
+                    If `true`, all other known event groups (`ADMIN`, `DOWNLOAD`,
+                    `EXPORT`, `INDEX`, `LOGIN_LOGOUT`, `SYSTEM`, `TASK`, `UPLOAD`)
+                    may also be written —
                     not just the FRONTEND/PLUGIN user types — and a top-level `user`
                     object is accepted on each event. Requires `system.root`; a non-root
                     caller that sets it receives a `400 ServerGeneric` error.
@@ -35696,8 +35700,9 @@ paths:
                 "400":
                     description: |
                         The request could not be processed. Possible `code` values:
-                        `EventTypeNotAllowed` (the payload's `type` is not a FRONTEND/PLUGIN
-                        user type and was not unlocked with root + `skip_constraints`),
+                        `EventTypeNotAllowed` (the payload's `type` is unknown, or is not a
+                        FRONTEND/PLUGIN user type and was not unlocked with root +
+                        `skip_constraints`),
                         `ServerGeneric` (invalid JSON body, an unparseable query filter
                         such as `id`/`sort`, a non-root caller passing `skip_constraints`,
                         or an event carrying a `user`/`user_id` without `skip_constraints`),
@@ -35779,8 +35784,9 @@ paths:
                 "400":
                     description: |
                         The request could not be processed. Possible `code` values:
-                        `EventTypeNotAllowed` (the payload's `type` is not a FRONTEND/PLUGIN
-                        user type and was not unlocked with root + `skip_constraints`),
+                        `EventTypeNotAllowed` (the payload's `type` is unknown, or is not a
+                        FRONTEND/PLUGIN user type and was not unlocked with root +
+                        `skip_constraints`),
                         `ServerGeneric` (invalid JSON body, an unparseable query filter
                         such as `id`/`sort`, a non-root caller passing `skip_constraints`,
                         or an event carrying a `user`/`user_id` without `skip_constraints`),
@@ -45051,8 +45057,9 @@ components:
 
                           * `EventTypeNotAllowed` — the `type` in the payload is not one of
                             the user-event types that may be written through the API (i.e. it
-                            is not a FRONTEND/PLUGIN type and `skip_constraints` was not set
-                            by a root caller). `parameters.type` carries the offending value.
+                            is unknown to the server, or it is not a FRONTEND/PLUGIN type and
+                            `skip_constraints` was not set by a root caller).
+                            `parameters.type` carries the offending value.
                     enum:
                         - EventTypeNotAllowed
                 error:
