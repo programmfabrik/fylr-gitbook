@@ -27188,6 +27188,22 @@ paths:
                     type: number
                     format: int
                   description: DPI of the target image. Values <= 0 are ignored. This sets XResolution, YResolution and ResolutionUnit.
+                - name: disposition
+                  in: query
+                  schema:
+                    type: string
+                    enum:
+                        - attachment
+                  description: |
+                    Answer with `Content-Disposition: attachment`, so the browser
+                    saves the file instead of displaying it inline.
+                - name: filename
+                  in: query
+                  schema:
+                    type: string
+                  description: |
+                    Filename to send in `Content-Disposition`. Defaults to the
+                    original filename of the file.
             responses:
                 "200":
                     description: |
@@ -27206,6 +27222,26 @@ paths:
                                 type: string
                                 format: binary
                                 description: The binary data of the file.
+                "308":
+                    description: |
+                        The file is stored in an `s3` location configured with
+                        `allow_redirect`, and the client is sent to a signed url of
+                        that storage instead of receiving the bytes from **fylr**. The
+                        url expires after one hour and carries the same
+                        `Content-Disposition` a direct delivery would have sent.
+                        A delivery that writes metadata into the file on the fly is
+                        never redirected.
+                    headers:
+                        Location:
+                            description: The signed storage url the client is sent to.
+                            schema:
+                                type: string
+                        X-Fylr-Storage-Location:
+                            description: |
+                                The numeric ID of the storage location the file is
+                                redirected to.
+                            schema:
+                                type: string
                 "403":
                     description: |
                         Access to the file is denied (`code` `InsufficientRights`):
@@ -27279,6 +27315,15 @@ paths:
                                 Indicates the storage location of the file.
                                 * If stored locally: contains the numeric ID of the storage location.
                                 * If stored remotely: contains the string `remote`.
+                            schema:
+                                type: string
+                "308":
+                    description: |
+                        The file is stored in a location configured with
+                        `allow_redirect`, see the `GET` of this path.
+                    headers:
+                        Location:
+                            description: The signed storage url the client is sent to.
                             schema:
                                 type: string
                 "403":
@@ -54970,9 +55015,14 @@ components:
                 allow_redirect:
                     type: boolean
                     description: |
-                        Whether file downloads from this location may use HTTP
-                        `Location:` redirects (for remote buckets with their own URL
-                        signers).
+                        Whether downloads from this location answer with `308` and a
+                        `Location:` header pointing at a signed storage url, instead of
+                        being copied through **fylr**. Only `kind` `s3` can do this, where
+                        the signed url also carries the `Content-Disposition` **fylr**
+                        would have sent, so the client still receives the right filename.
+                        On the other kinds the option has no effect: a `file` url
+                        addresses the internal backend listener and cannot be reached by a
+                        client, and an `azure` SAS cannot carry the filename.
                 read_only:
                     type: boolean
                     description: |
