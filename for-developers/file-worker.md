@@ -128,6 +128,15 @@ The parent/child model is on the `File` row (`id_parent`, `id_source`, `is_origi
 * **Manual versions** are uploaded with a `version_name` onto an original (not allowed while that original auto-produces versions).
 * A **modified original** (`/eas/produce`) is a *new original* (`is_original = true`) derived from another, carrying the rotate/crop/format options — from 6.35.0 also the trim/mute/scale/color options of a video parent — a "produced original".
 
+### The `pages` version: many images in one version
+
+A `pages` version is a single version whose file is a **`pages.zip`** holding many images plus an `info.json` that indexes them. Documents (PDF, INDD, and the office formats through their PDF version) have had one for a while; **from 6.35.0 a video has one too**, holding up to 100 frames spaced at least half a second apart, each in every configured size, plus tiled **contact sheets** that carry all of them — the frame strip a player scrubs along. Both are produced by the same recipe step, `fylr convert --format pages.zip` (which replaces the former `fylr pdf2pages` command — a custom recipe calling it has to be changed).
+
+Because it is an ordinary version, nothing about rights or URL signing is special:
+
+* `GET /api/v1/eas` returns the zip's `info.json` in the version's metadata, so a client gets the page/frame list without downloading the zip: every page lists one entry per configured size with its `path` inside the zip and its technical metadata (dimensions, mime type, blurhash), a video frame additionally its `time` in seconds, and each contact sheet its `path` and grid (`columns`, `rows`, `tile_height`) to cut the tiles from.
+* A single entry is served straight out of the zip by appending its path to the download URL: `/api/v1/eas/download/<file_id>/<hash>/<version>/<path-inside-zip>`, range requests included. Build these URLs from the ones the API returns so they keep their signature and `obj_uuid` query parameters — a relative reference (as in a WebVTT thumbnail track) drops them and breaks share links and guest access.
+
 ## 6. Metadata extraction
 
 Metadata is itself a recipe (`_metadata:_read`), run by the **metadata** action. It shells out to **ExifTool**, writing an `fylr_metadata.json` that fylr merges into the `File` row's `metadata` and `technical_metadata` columns; `filesize`, `hash` and `mimetype` are taken from the parsed technical metadata.
@@ -138,7 +147,7 @@ The read also produces the file's **full-text** (OCR text and embedded textual m
 
 ## 7. The execserver
 
-The external tools — `magick`/`libvips` (images and the `fylr convert` command), LibreOffice (`soffice`), `ffmpeg`, ExifTool, the OCR engine, the PDF-to-pages and IIIF converters — do not run in the fylr process. They run on the **execserver**, which fylr drives over a fylr-initiated websocket, the *slot broker* (before 6.35: a two-step token handshake): jobs are pushed onto free slots the moment they open. Concurrency is auto-balanced over one CPU pool by default (an explicit `waitgroups` block restores manually sized per-service pools), and the execserver can run standalone and be scaled to several load-balanced instances. The protocol and the per-action jobs are documented on the [Exec server](execserver.md) page and, for scaling, [Scaling the execserver](../for-system-administrators/installation/scaling-the-execserver.md).
+The external tools — `magick`/`libvips` (images and the `fylr convert` command), LibreOffice (`soffice`), `ffmpeg`, ExifTool, the OCR engine, the pages.zip and IIIF converters — do not run in the fylr process. They run on the **execserver**, which fylr drives over a fylr-initiated websocket, the *slot broker* (before 6.35: a two-step token handshake): jobs are pushed onto free slots the moment they open. Concurrency is auto-balanced over one CPU pool by default (an explicit `waitgroups` block restores manually sized per-service pools), and the execserver can run standalone and be scaled to several load-balanced instances. The protocol and the per-action jobs are documented on the [Exec server](execserver.md) page and, for scaling, [Scaling the execserver](../for-system-administrators/installation/scaling-the-execserver.md).
 
 ## 8. Storage and the produce cache
 
