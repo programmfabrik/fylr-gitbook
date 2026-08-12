@@ -273,6 +273,7 @@
   * [blurred preview images only](for-system-administrators/symptom-and-solution/blurred-preview-images-only.md)
   * [Log messages that can be ignored](for-system-administrators/symptom-and-solution/log-messages-that-can-be-ignored.md)
   * [too many clients are connected](for-system-administrators/symptom-and-solution/too-many-clients-are-connected.md)
+  * [too many S3 connections](for-system-administrators/symptom-and-solution/too-many-s3-connections.md)
   * [too many nested clauses](for-system-administrators/symptom-and-solution/too-many-nested-clauses.md)
   * [context canceled](for-system-administrators/symptom-and-solution/context-canceled.md)
   * [Token not found](for-system-administrators/symptom-and-solution/token-not-found.md)
