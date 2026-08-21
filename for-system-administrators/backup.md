@@ -66,6 +66,8 @@ Now you have all data for a restore on the new server.
 1. install fylr on the new server, as described in our [installation instructions](installation/linux-docker-compose.md#installation), _<mark style="background-color:yellow;">**but only start postgresql:**</mark>_
 
 ```
+rm -rf postgres/pgdata/ # if postgres is not fresh and if there is no other db than this fylr
+
 docker-compose up -d postgresql
 ```
 
