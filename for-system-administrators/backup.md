@@ -66,7 +66,7 @@ Now you have all data for a restore on the new server.
 1. install fylr on the new server, as described in our [installation instructions](installation/linux-docker-compose.md#installation), _<mark style="background-color:yellow;">**but only start postgresql:**</mark>_
 
 ```
-rm -rf postgres/pgdata/ # if postgres is not fresh and if there is no other db than this fylr
+rm -rf postgres/pgdata/ # if postgres isn't fresh and if there's no other db than this fylr
 
 docker-compose up -d postgresql
 ```
@@ -84,8 +84,13 @@ docker exec -it postgresql pg_restore -U fylr -v -d fylr /mnt/fylr.pg_dump
 3. start fylr and the indexer(OpenSearch) on the new server:
 
 ```
+rm -rf indexer/* # in the likely case that you need a re-index
+
 docker-compose up -d
 ```
 
-4. You may need to force a re-index in the indexer: surf to `/inspect/system/` on the new server, so e.g. `https://new-server.example.com/inspect/system/` and click a Reindex button.
+4. You may need to force a re-index in the indexer: \
+   surf to `/inspect/system/` on the new server, so e.g.\
+   &#x20;`https://new-server.example.com/inspect/system/` , watch the index queue\
+   and click a Reindex button if the index queue remains empty.
 5. Copy the assets files from the backup to the new server.
