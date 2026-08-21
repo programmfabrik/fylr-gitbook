@@ -69,7 +69,7 @@ Now you have all data for a restore on the new server.
 docker-compose up -d postgresql
 ```
 
-Make sure that the postgresql DB and elasticsearch indices are empty from previous attempts on the new server so that there is no collision of data. (for example delete all in `/srv/fylr/indexer/`)
+Make sure that the postgresql DB and indexer(typically OpenSearch) indices are empty from previous attempts on the new server so that there is no collision of data. (for example delete all in `/srv/fylr/indexer/`)
 
 For postgreSQL, this may include deleting the database and creating the database `fylr`.
 
@@ -79,10 +79,11 @@ For postgreSQL, this may include deleting the database and creating the database
 docker exec -it postgresql pg_restore -U fylr -v -d fylr /mnt/fylr.pg_dump
 ```
 
-3. start fylr and elasticsearch on the new server:
+3. start fylr and the indexer(OpenSearch) on the new server:
 
 ```
 docker-compose up -d
 ```
 
-4. You may need to force a re-index in Elasticsearch: surf to `/inspect/system/` on the new server, so e.g. `https://new-server.example.com/inspect/system/` and click a Reindex button.
+4. You may need to force a re-index in the indexer: surf to `/inspect/system/` on the new server, so e.g. `https://new-server.example.com/inspect/system/` and click a Reindex button.
+5. Copy the assets files from the backup to the new server.
