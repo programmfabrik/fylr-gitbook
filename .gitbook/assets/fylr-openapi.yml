@@ -43361,6 +43361,23 @@ paths:
                   required: false
                   schema:
                     type: integer
+                - name: order
+                  in: query
+                  required: false
+                  description: |
+                    Sort order of the page. `version` sorts by the number of versions of
+                    an object, most versions first with `version DESC`. Available from
+                    fylr 6.35.0.
+                  schema:
+                    type: string
+                    default: version DESC
+                    enum:
+                        - system_object_id ASC
+                        - system_object_id DESC
+                        - id ASC
+                        - id DESC
+                        - version ASC
+                        - version DESC
                 - name: Accept
                   in: header
                   required: true
