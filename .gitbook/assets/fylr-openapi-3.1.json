@@ -46383,7 +46383,7 @@
             "description": "Sort order of the page. `version` sorts by the number of versions of\nan object, most versions first with `version DESC`. Available from\nfylr 6.35.0.\n",
             "schema": {
               "type": "string",
-              "default": "version DESC",
+              "default": "system_object_id DESC",
               "enum": [
                 "system_object_id ASC",
                 "system_object_id DESC",

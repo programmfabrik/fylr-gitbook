@@ -21,7 +21,7 @@ The JSON view (used by monitoring) reports the reindex ids, the current / render
 
 `/inspect/objects/` lists the objecttypes with their record counts; picking one opens that objecttype's **object list**, a paged table of its records with id, system object id, version, pool and standard info.
 
-The **Order** select sorts that table. Besides system object id and internal id, **from version 6.35.0** it sorts by **version count**: "Version ↑" puts the records with the most versions first — how you spot records that collect versions unexpectedly — and that is also the order the list opens in. The version number on a record's latest row is its number of versions, so no separate count is involved.
+The **Order** select sorts that table; the list opens with the newest records first. Besides system object id and internal id, **from version 6.35.0** it sorts by **version count**: "Version ↑" puts the records with the most versions first — how you spot records that collect versions unexpectedly. The version number on a record's latest row is its number of versions, so no separate count is involved; on a large objecttype that order reads all its records, so give the page a moment.
 
 ## See also
 

@@ -43370,7 +43370,7 @@ paths:
                     fylr 6.35.0.
                   schema:
                     type: string
-                    default: version DESC
+                    default: system_object_id DESC
                     enum:
                         - system_object_id ASC
                         - system_object_id DESC
