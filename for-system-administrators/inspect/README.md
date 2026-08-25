@@ -52,7 +52,7 @@ Each tool is a page under `/inspect/<tool>/`. The ones with settings or actions 
 | `users`, `groups`, `rights`, `presets`         | the ACL model        |
 | `tokens`                                       | issued OAuth tokens  |
 | `saml-sessions`                                | active SAML sessions |
-| `events`, `messages`, `notifications`, `tasks` | per-entity dumps     |
+| `events`, `messages`, `notifications`, `tasks` | per-entity dumps. **From version 6.35.0** an event that carries the job receipt of a produce or metadata run shows it under **Run** — the shell-quoted command line with a copy button, the arguments one per row, and stdout and stderr — and a task log links the event of each metadata recipe run as `event #<id>`. |
 
 ### System & maintenance
 
