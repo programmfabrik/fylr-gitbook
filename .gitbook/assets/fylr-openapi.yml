@@ -42374,10 +42374,17 @@ paths:
             checkbox (`keep_login=1`); a successful login — including a passed
             two-factor challenge — then additionally sets the persistent,
             HttpOnly `fylr-keep-login` browser cookie. A later request to this
-            endpoint without credentials silently re-authorizes the cookie's
-            user (no login form, a fresh authorization response;
-            `authenticated.method` of such a session reports `keep_login`). The
-            lifetime slides on each use; `/logout` revokes the server-side
+            endpoint without a `login`/`password` parameter silently
+            re-authorizes the cookie's user (no login form, a fresh
+            authorization response; `authenticated.method` of such a session
+            reports `keep_login`). A present `login` parameter — even empty,
+            which is how the web frontend forwards a share link's `?login`
+            flag — skips the silent re-login and renders the login form
+            instead; the keep-login session itself stays valid. Exception:
+            when the `state` redirect points at a `/collection/<uuid>` share
+            target and the keep-login session's user may read that collection,
+            the silent re-login proceeds — an authenticated reader already
+            satisfies the flag. The lifetime slides on each use; `/logout` revokes the server-side
             session and expires the cookie. When the option is `off`,
             `keep_login=1` is ignored and existing cookies are dropped.
 
@@ -42519,7 +42526,15 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: User login (for password methods).
+                  description: |
+                    User login (for password methods). Presence of the parameter —
+                    even with an empty value (the share-link `?login` flag) —
+                    suppresses the guest auto-login and the silent keep-login
+                    re-login, forcing the login form. Exception: when the `state`
+                    redirect points at a `/collection/<uuid>` share target and the
+                    keep-login session's user may read that collection, the silent
+                    keep-login proceeds — an authenticated reader already satisfies
+                    the flag.
                 - name: password
                   in: query
                   schema:
