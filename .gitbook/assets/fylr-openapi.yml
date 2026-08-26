@@ -34121,6 +34121,14 @@ paths:
             existing OAuth2 tokens are invalidated. Requires the
             `system.user.change_password` system right (or `system.root`).
 
+            Only users that log in with a fylr-managed password can use it: `system`
+            (the root user), `easydb` and `easydb_self_register`. For every other
+            user type the password fylr stores is not what authenticates them —
+            `ldap` and `sso` credentials live in the external directory or identity
+            provider, an `email` user only ever follows a collection share link —
+            and the request is answered with `400`
+            `UnableToSetPasswordForUserType`.
+
             Differs from easydb 5: changing the password is here a `/user`
             operation; in easydb 5 it is `POST /api/v1/session/change_password`.
         post:
@@ -34129,9 +34137,12 @@ paths:
                 Changes the **authenticated user's** password. The current password
                 (`password`) must be supplied and is verified; it is always the
                 authenticated user's own password that is changed. Requires the
-                `system.user.change_password` system right (or `system.root`). The new
-                password must satisfy the configured complexity rules. On success, the
-                user's existing OAuth2 tokens are invalidated.
+                `system.user.change_password` system right (or `system.root`), and a
+                user type that logs in with a fylr-managed password (`system`,
+                `easydb`, `easydb_self_register`); any other type is answered with
+                `400` `UnableToSetPasswordForUserType`. The new password must satisfy
+                the configured complexity rules. On success, the user's existing
+                OAuth2 tokens are invalidated.
 
                 The request body is form-encoded (`application/x-www-form-urlencoded`)
                 or sent as a JSON object; the fields below are read with `FormValue`.
