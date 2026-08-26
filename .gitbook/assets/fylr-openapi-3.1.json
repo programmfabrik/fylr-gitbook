@@ -45283,9 +45283,10 @@
           "url": "/api"
         }
       ],
-      "description": "OAuth2 / OpenID Connect **authorization endpoint** (RFC 6749 §3.1).\nThis is where the browser web-app logs a user in. It authenticates\nthe end user — by password (`auth_method=easydb`, the default; also\n`ldap`, `email`, `collection`), anonymously (`anonymous`, when guest\nlogin is enabled), via SAML, or with an action code — and returns an\nauthorization response (an authorization `code`, `token` or\n`id_token`) by redirecting back to the client's `redirect_uri`.\n\nServed at `/api/oauth2/auth` — **not** under `/api/v1`. No prior\naccess token is required.\n\n**Stay logged in:** opt-in per base config *Login* →\n`keep_login` (`off` by default, or a session lifetime of 7 or 30\ndays). When enabled, the login form offers a \"Stay logged in\"\ncheckbox (`keep_login=1`); a successful login — including a passed\ntwo-factor challenge — then additionally sets the persistent,\nHttpOnly `fylr-keep-login` browser cookie. A later request to this\nendpoint without a `login`/`password` parameter silently\nre-authorizes the cookie's user (no login form, a fresh\nauthorization response; `authenticated.method` of such a session\nreports `keep_login`). A present `login` parameter — even empty,\nwhich is how the web frontend forwards a share link's `?login`\nflag — skips the silent re-login and renders the login form\ninstead; the keep-login session itself stays valid. Exception:\nwhen the `state` redirect points at a `/collection/<uuid>` share\ntarget and the keep-login session's user may read that collection,\nthe silent re-login proceeds — an authenticated reader already\nsatisfies the flag. The lifetime slides on each use; `/logout` revokes the server-side\nsession and expires the cookie. When the option is `off`,\n`keep_login=1` is ignored and existing cookies are dropped.\n\n**Session binding (anti-hijacking):** an access/refresh token issued\nto the browser here is bound to the browser's long-lived, HttpOnly\n`fylr-browser-id` cookie, and the keep-login cookie above is bound the\nsame way. That cookie must then accompany the `Authorization: Bearer`\ntoken on every API request; a token — or a keep-login cookie —\npresented from a different browser, i.e. without the matching cookie,\nis rejected as invalid (`InvalidToken`), so a stolen bearer token on\nits own cannot be replayed. Binding is silent and always on. A login\nwhose token is consumed on a **different origin** than this **fylr** —\na third-party OAuth client (a cross-origin `redirect_uri`) or a\ncross-server *webOnly* frontend (a cross-origin `state` redirect) — is\nissued **unbound** instead, since that origin's requests would not\ncarry the cookie.\n",
+      "description": "OAuth2 **authorization endpoint** (RFC 6749 §3.1).\nThis is where the browser web-app logs a user in. It authenticates\nthe end user — by password (`auth_method=easydb`, the default; also\n`ldap`, `email`, `collection`), anonymously (`anonymous`, when guest\nlogin is enabled), via SAML, or with an action code — and returns an\nauthorization `code` by redirecting back to the client's\n`redirect_uri`.\n\nServed at `/api/oauth2/auth` — **not** under `/api/v1`. No prior\naccess token is required.\n",
       "get": {
         "summary": "Begin an authorization request (interactive login).",
+        "description": "**Stay logged in:** opt-in per base config *Login* →\n`keep_login` (`off` by default, or a session lifetime of 7 or 30\ndays). When enabled, the login form offers a \"Stay logged in\"\ncheckbox (`keep_login=1`); a successful login — including a passed\ntwo-factor challenge — then additionally sets the persistent,\nHttpOnly `fylr-keep-login` browser cookie. A later request to this\nendpoint without a `login`/`password` parameter silently\nre-authorizes the cookie's user (no login form, a fresh\nauthorization response; `authenticated.method` of such a session\nreports `keep_login`). A present `login` parameter — even empty,\nwhich is how the web frontend forwards a share link's `?login`\nflag — skips the silent re-login and renders the login form\ninstead; the keep-login session itself stays valid. Exception:\nwhen the `state` redirect points at a `/collection/\u003cuuid\u003e` share\ntarget and the keep-login session's user may read that collection,\nthe silent re-login proceeds — an authenticated reader already\nsatisfies the flag. The lifetime slides on each use; `/logout`\nrevokes the server-side session and expires the cookie. When the\noption is `off`, `keep_login=1` is ignored and existing cookies\nare dropped.\n\n**Session binding (anti-hijacking):** an access/refresh token issued\nto the browser here is bound to the browser's long-lived, HttpOnly\n`fylr-browser-id` cookie, and the keep-login cookie above is bound\nthe same way. That cookie must then accompany the\n`Authorization: Bearer` token on every API request; a token — or a\nkeep-login cookie — presented from a different browser, i.e. without\nthe matching cookie, is rejected as invalid (`InvalidToken`), so a\nstolen bearer token on its own cannot be replayed. Binding is silent\nand always on. A login whose token is consumed on a **different\norigin** than this **fylr** — a third-party OAuth client (a\ncross-origin `redirect_uri`) or a cross-server *webOnly* frontend (a\ncross-origin `state` redirect) — is issued **unbound** instead,\nsince that origin's requests would not carry the cookie.\n",
         "security": [
           {}
         ],
@@ -45306,12 +45307,10 @@
             "schema": {
               "type": "string",
               "enum": [
-                "code",
-                "token",
-                "id_token"
+                "code"
               ]
             },
-            "description": "The OAuth2/OIDC response type. Combined types such as\n`code id_token` are also supported.\n"
+            "description": "The OAuth2 response type. Only `code` is supported; any other\nvalue is rejected with a fylr `OAuth2ResponseTypeNotAllowed`\nerror (the deprecated implicit `token` / OIDC `id_token` types\nare not offered).\n"
           },
           {
             "name": "redirect_uri",
@@ -45328,7 +45327,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Space-separated scopes, within the client's allowed set (a\nclient that configures none may use all of `read`, `write`,\n`openid`, `offline`). Their effect in fylr:\n\n  * `openid` — also issue an OpenID Connect `id_token` (an\n    RS256 JWT) alongside the access token. (The\n    `/api/oauth2/userinfo` endpoint itself accepts any valid\n    access token and is not gated on this scope.)\n  * `offline` — request a refresh token. A refresh token is\n    issued (for the authorization-code and password grants)\n    only when this scope is granted, and granting it also\n    applies the configured refresh-token expiration override.\n    fylr accepts both `offline` and the OIDC-standard\n    `offline_access` for this.\n  * `read`, `write` — capability labels only; they are **not**\n    consulted to authorize API calls. Actual API authorization\n    uses fylr's per-user/per-pool ACL rights, which are\n    independent of these OAuth2 scopes despite the matching\n    names.\n"
+            "description": "Space-separated scopes, within the client's allowed set (a\nclient that configures none may use all of `read`, `write`,\n`offline`). Their effect in fylr:\n\n  * `openid` — not an allowed scope: fylr is not an OpenID\n    Provider and issues no `id_token`; requesting it fails\n    with `invalid_scope`. User information is served by\n    `/api/oauth2/userinfo`, which accepts any valid access\n    token and is not gated on a scope.\n  * `offline` — request a refresh token. A refresh token is\n    issued only when this scope is granted, and granting it\n    also applies the configured refresh-token expiration\n    override. Only the literal `offline` is recognised (the\n    OIDC-style `offline_access` is not an allowed scope).\n  * `read`, `write` — capability labels only; they are **not**\n    consulted to authorize API calls. Actual API authorization\n    uses fylr's per-user/per-pool ACL rights, which are\n    independent of these OAuth2 scopes despite the matching\n    names. A token granted `read` without `write` (or neither)\n    is just as writable as any other token today. A future\n    release may start enforcing `read`-without-`write` as a\n    read-only token, so request the scopes you actually intend\n    (the fylr web frontend requests `read write offline`).\n\nOmitting the `scope` parameter grants no scopes: the token\nworks for every API call its user may make (no refresh token\nwithout `offline`, though).\n"
           },
           {
             "name": "state",
@@ -45381,7 +45380,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "User login (for password methods). Presence of the parameter —\neven with an empty value (the share-link `?login` flag) —\nsuppresses the guest auto-login and the silent keep-login\nre-login, forcing the login form. Exception: when the `state`\nredirect points at a `/collection/<uuid>` share target and the\nkeep-login session's user may read that collection, the silent\nkeep-login proceeds — an authenticated reader already satisfies\nthe flag."
+            "description": "User login (for password methods). Presence of the parameter —\neven with an empty value (the share-link `?login` flag) —\nsuppresses the guest auto-login and the silent keep-login\nre-login, forcing the login form. Exception: when the `state`\nredirect points at a `/collection/\u003cuuid\u003e` share target and the\nkeep-login session's user may read that collection, the silent\nkeep-login proceeds — an authenticated reader already satisfies\nthe flag.\n"
           },
           {
             "name": "password",
@@ -45393,8 +45392,8 @@
           }
         ],
         "responses": {
-          "302": {
-            "description": "Redirect to the client `redirect_uri` carrying the\nauthorization `code`, `token` or `id_token` (per\n`response_type`). May instead redirect (`303`) to an\ninterstitial page: two-factor authentication for enforced\nusers — `/api/page/twoFactor` (enter the email / authenticator\ncode), `/api/page/twoFactorChoose` (method picker),\n`/api/page/twoFactorSetup` or `/api/page/twoFactorSetupPasskey`\n(first-time enrollment) — or `/api/page/setPassword` (forced\npassword change) or `/api/page/showMessage` (pending tasks).\nAfter a passed challenge the page redirects back here with\n`auth_method=action_code` to complete the original request\nwithout re-entering the password.\n"
+          "303": {
+            "description": "Redirect to the client `redirect_uri` carrying the\nauthorization `code` (and the echoed `state`). May instead\nredirect to an\ninterstitial page: two-factor authentication for enforced\nusers — `/api/page/twoFactor` (enter the email / authenticator\ncode), `/api/page/twoFactorChoose` (method picker),\n`/api/page/twoFactorSetup` or `/api/page/twoFactorSetupPasskey`\n(first-time enrollment) — or `/api/page/setPassword` (forced\npassword change) or `/api/page/showMessage` (pending tasks).\nAfter a passed challenge the page redirects back here with\n`auth_method=action_code` to complete the original request\nwithout re-entering the password.\n"
           },
           "200": {
             "description": "The HTML login form, rendered when credentials are absent or\ninvalid (with a generic `server.oauth2.LoginFailed` message).\n",
@@ -45410,7 +45409,7 @@
       },
       "post": {
         "summary": "Submit the login form / authorization request.",
-        "description": "Same as `GET`, but the parameters are sent as an\n`application/x-www-form-urlencoded` body — used when the login\nform is submitted.\n",
+        "description": "Same as `GET`, but the parameters are sent as an\n`application/x-www-form-urlencoded` body — used when the login\nform is submitted. The keep-login and session-binding notes on\n`GET` apply here as well.\n",
         "security": [
           {}
         ],
@@ -45475,7 +45474,7 @@
           }
         },
         "responses": {
-          "302": {
+          "303": {
             "description": "Redirect to `redirect_uri` with the authorization result."
           },
           "200": {
@@ -45498,10 +45497,10 @@
           "url": "/api"
         }
       ],
-      "description": "OAuth2 **token endpoint** (RFC 6749 §3.2). Exchanges an\nauthorization code, resource-owner password credentials, client\ncredentials, or a refresh token for an access token (and, for the\n`openid` scope, an `id_token`). Access tokens are bearer tokens; the\nlifetime is 24 hours by default and can be overridden by the base\nconfig (`oauth2` access-token expiration).\n\nA token minted here is bound to the `fylr-browser-id` cookie when the\nrequest carries one (see the *Session binding* note on the\nauthorization endpoint); the password and client-credentials grants\nnormally send no cookie and so receive **unbound** tokens that work\nwithout it.\n\nServed at `/api/oauth2/token` — **not** under `/api/v1`.\n",
+      "description": "OAuth2 **token endpoint** (RFC 6749 §3.2). Exchanges an\nauthorization code, resource-owner password credentials, client\ncredentials, or a refresh token for an access token. Access tokens\nare bearer tokens; the lifetime is 24 hours by default and can be\noverridden by the base config (`oauth2` access-token expiration).\n\nServed at `/api/oauth2/token` — **not** under `/api/v1`.\n",
       "post": {
         "summary": "Issue an access token.",
-        "description": "`application/x-www-form-urlencoded` request. Confidential clients\nauthenticate with `client_id`/`client_secret` (form fields or HTTP\nBasic); public clients send only `client_id`. For the resource-owner\npassword grant fylr validates `username`/`password` against the\neasydb, collection, email, then LDAP login methods in turn.\n\n**Two-factor authentication:** the password grant cannot present a\nsecond factor, so for users who are required to use 2FA it is\nrefused with `invalid_grant` (indistinguishable from a wrong\npassword) — unless the base config deliberately allows it\n(*Two-factor authentication* → *Allow password grant*).\n`system:root` is always exempt.\n",
+        "description": "`application/x-www-form-urlencoded` request. Confidential clients\nauthenticate with `client_id`/`client_secret` (form fields or HTTP\nBasic); public clients send only `client_id`. Requested scopes must\nbe within the client's allowed set (`invalid_scope` otherwise). For\nthe resource-owner password grant fylr validates\n`username`/`password` against the easydb, collection, email, then\nLDAP login methods in turn.\n\nA replayed authorization code is rejected with `invalid_grant` and\nadditionally revokes the access and refresh token that were issued\nwhen the code was first redeemed (RFC 6749 §4.1.2).\n\n**Two-factor authentication:** the password grant cannot present a\nsecond factor, so for users who are required to use 2FA it is\nrefused with `invalid_grant` — unless the base config deliberately\nallows it (*Two-factor authentication* → *Allow password grant*).\n`system:root` is always exempt.\n\n**Session binding:** a token minted here is bound to the\n`fylr-browser-id` cookie when the request carries one (see the\n*Session binding* note on the authorization endpoint's `GET`); the\npassword and client-credentials grants normally send no cookie and\nso receive **unbound** tokens that work without it.\n",
         "security": [
           {}
         ],
@@ -45521,8 +45520,7 @@
                       "authorization_code",
                       "password",
                       "client_credentials",
-                      "refresh_token",
-                      "implicit"
+                      "refresh_token"
                     ]
                   },
                   "code": {
@@ -45547,7 +45545,7 @@
                   },
                   "scope": {
                     "type": "string",
-                    "description": "Space-separated scopes."
+                    "description": "Space-separated scopes, within the client's allowed\nset (see the `scope` parameter of `GET\n/api/oauth2/auth` for the recognised scopes and their\neffect). Omit to request no scopes — the token then\nworks for every API call its user may make, but no\nrefresh token is issued (that needs `offline`).\n"
                   },
                   "client_id": {
                     "type": "string"
@@ -45590,10 +45588,6 @@
                     },
                     "scope": {
                       "type": "string"
-                    },
-                    "id_token": {
-                      "type": "string",
-                      "description": "JWT id_token (RS256), present for the `openid` scope."
                     }
                   }
                 },
@@ -45601,13 +45595,13 @@
                   "access_token": "8a1b2c3d…",
                   "token_type": "bearer",
                   "expires_in": 86400,
-                  "scope": "read write openid offline"
+                  "scope": "read write offline"
                 }
               }
             }
           },
           "400": {
-            "description": "RFC 6749 error response (`invalid_request`, `invalid_grant`,\n`unsupported_grant_type`, `invalid_client`, ...). fylr's\ninternal error is appended to `error_description`.\n",
+            "description": "RFC 6749 error response (`invalid_request`, `invalid_grant`,\n`invalid_scope`, ...; `invalid_client` is returned with status\n`401` and a `WWW-Authenticate` challenge). For the password\ngrant, fylr's internal login error is appended to\n`error_description`.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -45634,7 +45628,7 @@
           "url": "/api"
         }
       ],
-      "description": "OAuth2 **token revocation** endpoint (RFC 7009). Revokes an access\nor refresh token; the web-app uses it to log out, and a\n`USER_LOGOUT` audit event is written for the token's user. Per\nRFC 7009 it returns `200` even for an unknown token.\n\nServed at `/api/oauth2/revoke` — **not** under `/api/v1`.\n",
+      "description": "OAuth2 **token revocation** endpoint (RFC 7009). Revokes an access\nor refresh token; the web-app uses it to log out, and a\n`USER_LOGOUT` audit event is written for the token's user. Per\nRFC 7009 it returns `200` even for an unknown token.\n\nThe client the token was issued to must authenticate (`client_id`,\nplus `client_secret` for confidential clients — form fields or HTTP\nBasic); a token belonging to a different client is left untouched\n(still `200`). Revoking a refresh token also revokes the access\ntoken issued alongside it.\n\nServed at `/api/oauth2/revoke` — **not** under `/api/v1`.\n",
       "post": {
         "summary": "Revoke a token (logout).",
         "security": [
@@ -45686,7 +45680,7 @@
           "url": "/api"
         }
       ],
-      "description": "OAuth2 **token introspection** endpoint (RFC 7662). Returns the\nactive state and metadata of a token. The caller must be an\nauthorized client.\n\nServed at `/api/oauth2/introspect` — **not** under `/api/v1`.\n",
+      "description": "OAuth2 **token introspection** endpoint (RFC 7662). Returns the\nactive state and metadata of a token. The caller must authenticate:\neither as a fylr user (an `Authorization: Bearer` access token, like\n`/userinfo`), or as a **confidential** OAuth2 client presenting its\nsecret (`client_id`/`client_secret` form fields or HTTP Basic). A\npublic client's identity alone is not accepted\n(`401 invalid_client`), so the endpoint is not an open token-status\noracle.\n\nServed at `/api/oauth2/introspect` — **not** under `/api/v1`.\n",
       "post": {
         "summary": "Introspect a token.",
         "security": [
@@ -45711,6 +45705,13 @@
                       "access_token",
                       "refresh_token"
                     ]
+                  },
+                  "client_id": {
+                    "type": "string",
+                    "description": "Confidential-client authentication (with\n`client_secret`), when no user bearer token is\npresented.\n"
+                  },
+                  "client_secret": {
+                    "type": "string"
                   }
                 }
               }
@@ -45734,8 +45735,13 @@
                     "client_id": {
                       "type": "string"
                     },
+                    "username": {
+                      "type": "string",
+                      "description": "The login name of the token's user."
+                    },
                     "sub": {
-                      "type": "string"
+                      "type": "integer",
+                      "description": "The fylr user id of the token's user."
                     },
                     "exp": {
                       "type": "integer"
@@ -45743,15 +45749,30 @@
                     "iat": {
                       "type": "integer"
                     },
+                    "iss": {
+                      "type": "string",
+                      "description": "The instance's external URL."
+                    },
+                    "aud": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
                     "token_type": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "Bearer"
+                      ]
                     }
                   }
                 },
                 "example": {
                   "active": true,
-                  "scope": "read write",
-                  "sub": "root"
+                  "scope": "read write offline",
+                  "client_id": "fylr-web-frontend",
+                  "username": "root",
+                  "sub": 1
                 }
               }
             }
@@ -45815,7 +45836,7 @@
           "url": "/"
         }
       ],
-      "description": "OpenID Connect **discovery document** (provider metadata). A public,\nunauthenticated document advertising fylr's OAuth2 / OpenID Connect\nissuer and endpoints so that OIDC clients can configure themselves.\n\nServed at the server root (`/.well-known/openid-configuration`) —\n**not** under `/api/v1`. The endpoint URLs it returns are absolute,\nbuilt from the instance's configured external URL\n(`fylr.externalURL`), and point at `/api/oauth2/*`.\n\nThe route is not method-restricted: any HTTP method returns the same\nmetadata document with status `200`.\n",
+      "description": "**Discovery document** (provider metadata, OpenID Connect discovery\nformat). A public, unauthenticated document advertising fylr's OAuth2\nendpoints so that clients can configure themselves.\n\nfylr is an OAuth2 authorization server, not an OpenID Provider: no\n`id_token` is issued (the `openid` scope is accepted but has no\neffect), and user information is served by the `userinfo` endpoint\nagainst the access token.\n\nServed at the server root (`/.well-known/openid-configuration`) —\n**not** under `/api/v1`. The endpoint URLs it returns are absolute,\nbuilt from the instance's configured external URL\n(`fylr.externalURL`), and point at `/api/oauth2/*`.\n\nThe route is not method-restricted: any HTTP method returns the same\nmetadata document with status `200`.\n",
       "get": {
         "summary": "Fetch the OpenID Connect provider metadata.",
         "security": [
@@ -45894,13 +45915,6 @@
                       },
                       "description": "Always `[\"S256\"]`."
                     },
-                    "id_token_signing_alg_values_supported": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "description": "Always `[\"RS256\"]`."
-                    },
                     "subject_types_supported": {
                       "type": "array",
                       "items": {
@@ -45918,25 +45932,17 @@
                   "revocation_endpoint": "https://demo.fylr.dev/api/oauth2/revoke",
                   "userinfo_endpoint": "https://demo.fylr.dev/api/oauth2/userinfo",
                   "response_types_supported": [
-                    "id_token",
-                    "code",
-                    "token",
-                    "id_token token",
-                    "code id_token",
-                    "code token",
-                    "code id_token token"
+                    "code"
                   ],
                   "grant_types_supported": [
-                    "implicit",
-                    "refresh_token",
                     "authorization_code",
                     "password",
-                    "client_credentials"
+                    "client_credentials",
+                    "refresh_token"
                   ],
                   "scopes_supported": [
                     "read",
                     "write",
-                    "openid",
                     "offline"
                   ],
                   "claims_supported": [
@@ -45946,9 +45952,6 @@
                   ],
                   "code_challenge_methods_supported": [
                     "S256"
-                  ],
-                  "id_token_signing_alg_values_supported": [
-                    "RS256"
                   ],
                   "subject_types_supported": [
                     "public"

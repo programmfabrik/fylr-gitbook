@@ -1,10 +1,18 @@
 ---
-description: fylr uses OAuth2 and OpenID Connect for authentication.
+description: fylr uses OAuth2 for authentication.
 ---
 
 # OAuth2
 
-User authentication in a fylr instance is done by obtaining an **Access Token** through one of the implemented OAuth2 flows. fylr is also an **OpenID Connect (OIDC)** provider: requesting the `openid` scope additionally returns an `id_token`, and the instance exposes a [UserInfo endpoint](#openid-connect) and an [OIDC discovery document](#openid-connect).
+User authentication in a fylr instance is done by obtaining an **Access Token** through one of the implemented OAuth2 flows. fylr is an OAuth2 **authorization server** — it is **not** an OpenID Connect provider: no `id_token` is issued. It still exposes a [UserInfo endpoint](#discovery-and-userinfo) and a [discovery document](#discovery-and-userinfo) for endpoint configuration.
+
+{% hint style="warning" %}
+**Changed in fylr 6.35.0**: fylr's OAuth2 server is now its own implementation (previously a library). The wire format, endpoints and grants are unchanged, but:
+
+* The upgrade **logs everyone out once** — all stored access, refresh and "stay logged in" tokens are deleted. Scripts simply fetch a fresh token on their next run.
+* The `openid` scope is **no longer accepted**: a request carrying it fails with `invalid_scope`. Earlier versions minted an `id_token` alongside the access token; that is gone — remove the scope from client configurations and scripts that still send it.
+* `offline_access` (the OIDC-style alias for `offline`) is no longer accepted either — use the literal `offline`.
+{% endhint %}
 
 {% hint style="info" %}
 The exact request and response of every endpoint below — `/api/oauth2/auth`, `/api/oauth2/token`, `/api/oauth2/revoke`, `/api/oauth2/introspect`, `/api/oauth2/userinfo` — is also available as interactive reference panels under [API → Endpoints → /api/oauth2](endpoints/api-oauth2.md).
@@ -60,15 +68,16 @@ Alternatively, add the Client ID and Secret pair(s) in the [Base Configuration](
 
 ## Scopes
 
-fylr understands four scopes, passed as a **space-separated** list in the `scope` parameter (e.g. `openid offline`):
+fylr understands three scopes, passed as a **space-separated** list in the `scope` parameter (e.g. `read write offline`):
 
 | Scope | Meaning |
 | --- | --- |
-| `offline` | Requests a **refresh token** (the OIDC alias `offline_access` works too). Without it no refresh token is issued. Only the Authorization Code and Password grants can return one. |
-| `openid` | Marks an [OpenID Connect](#openid-connect) request: the token response then also contains an `id_token`. |
-| `read`, `write` | Accepted labels only — they do **not** govern API access. What a user may do is decided by fylr's per-user / per-pool **ACL rights**, not by the token scope. |
+| `offline` | Requests a **refresh token**. Without it no refresh token is issued. Only the literal `offline` is recognised — the OIDC-style `offline_access` is rejected. |
+| `read`, `write` | Accepted labels only — they do **not** govern API access. What a user may do is decided by fylr's per-user / per-pool **ACL rights**, not by the token scope. A token granted `read` without `write` (or neither) is just as writable as any other token today; a future release may start enforcing `read`-without-`write` as a read-only token, so request the scopes you actually intend (the fylr web frontend requests `read write offline`). |
 
-A client with no `scopes` configured may request any of the four; a scope outside the client's allowed set is rejected. The `scope` value in the token response **echoes the scopes that were granted** (for example `read write openid offline`), it is not a fixed value.
+The `openid` scope is **rejected** with `invalid_scope` since fylr 6.35.0 — fylr is not an OpenID Provider.
+
+A client with no `scopes` configured may request any of the three; a scope outside the client's allowed set is rejected. Omitting the `scope` parameter grants no scopes — the token then works for every API call its user may make, but no refresh token is issued. The `scope` value in the token response **echoes the scopes that were granted** (for example `read write offline`), it is not a fixed value.
 
 ## OAuth2 Flows
 
@@ -97,7 +106,7 @@ sequenceDiagram
     Browser->>fylr: login + password
     fylr->>App: Step 2 — GET callback?state&code
     App->>fylr: Step 3 — POST /api/oauth2/token (code, client_id, secret)
-    fylr-->>App: access_token (+ refresh_token, id_token)
+    fylr-->>App: access_token (+ refresh_token)
 ```
 
 #### **Step 1**: client calls fylr
@@ -111,7 +120,7 @@ sequenceDiagram
 | `response_type`<mark style="color:red;">\*</mark> | string | fixed value: `"code"` |
 | `client_id`<mark style="color:red;">\*</mark> | string | **Client ID**, e.g. `"my-client"` |
 | `state`<mark style="color:red;">\*</mark> | string | Client state string (min. 8 characters), e.g. `"Authorization_Code_Grant_Login"` |
-| `scope` | string | Space-separated [scopes](#scopes). Include `offline` to receive a refresh token, `openid` to receive an `id_token`. |
+| `scope` | string | Space-separated [scopes](#scopes). Include `offline` to receive a refresh token. |
 | `auth_method` | string | Login method (see [auth\_method](#auth_method) below). Defaults to `auto`. |
 | `redirect_uri` | string | Callback URL; must match a `redirectURIs` entry of the client. Required if the client has more than one. |
 
@@ -177,10 +186,9 @@ fylr returns a JSON object:
 | --- | --- |
 | `access_token` | **Access Token** |
 | `token_type` | `"bearer"` |
-| `scope` | The granted scopes, e.g. `"read write openid offline"` |
+| `scope` | The granted scopes, e.g. `"read write offline"` |
 | `expires_in` | Seconds until the **Access Token** expires |
 | `refresh_token` | **Refresh Token** — only when the `offline` scope was granted |
-| `id_token` | OpenID Connect **ID Token** (RS256 JWT) — only when the `openid` scope was granted |
 {% endtab %}
 
 {% tab title="400 Error" %}
@@ -239,7 +247,7 @@ Log directly into fylr with a user **login** and **password**.
 
 {% tabs %}
 {% tab title="200 OK" %}
-Same response as the Authorization Code Grant: `access_token`, `token_type` (`"bearer"`), `scope`, `expires_in`, plus `refresh_token` (with `offline`) and `id_token` (with `openid`).
+Same response as the Authorization Code Grant: `access_token`, `token_type` (`"bearer"`), `scope`, `expires_in`, plus `refresh_token` (with `offline`).
 {% endtab %}
 
 {% tab title="400 Error" %}
@@ -297,17 +305,17 @@ As of 6.33.0 the client-credentials grant returns a token for the **anonymous us
 | `client_id`<mark style="color:red;">\*</mark> | string | **Client ID** |
 | `client_secret` | string | **Client Secret** — omit for public clients |
 
-The response contains `access_token`, `token_type` (`"bearer"`), `scope` and `expires_in`. This grant does not return a refresh token.
+The response contains `access_token`, `token_type` (`"bearer"`), `scope` and `expires_in`; when the `offline` scope was granted it also contains a `refresh_token` (new in 6.35.0 — earlier versions never returned one on this grant).
 
-## OpenID Connect
+## Discovery and UserInfo
 
-fylr is also an **OpenID Connect** provider. Request the `openid` scope (alongside `offline` etc.) and the token response additionally contains an **`id_token`** — a JWT signed with `RS256`.
+fylr is **not** an OpenID Connect provider — no `id_token` is issued, and the `openid` scope is rejected. Two endpoints associated with OIDC nevertheless exist, because they are useful plain-OAuth2 facilities:
 
-**Discovery document** — a public, unauthenticated metadata document served at the server root (not under `/api`):
+**Discovery document** — a public, unauthenticated metadata document served at the server root (not under `/api`), under the path OIDC clients conventionally probe:
 
 <mark style="color:blue;">`GET`</mark> `fylr-instance/.well-known/openid-configuration`
 
-It advertises the issuer and the absolute URLs of the authorization, token, introspection, revocation and userinfo endpoints, plus the supported response types, grant types, scopes and claims — so an OIDC client can configure itself automatically. See the [discovery reference panel](endpoints/api-well-known.md).
+It advertises the issuer and the absolute URLs of the authorization, token, introspection, revocation and userinfo endpoints, plus the supported response types (`code`), grant types, scopes and claims — OAuth2 endpoint discovery in the sense of RFC 8414, so a client can configure itself automatically. It carries no id-token signing metadata. See the [discovery reference panel](endpoints/api-well-known.md).
 
 **UserInfo endpoint** — returns claims about the user identified by the bearer access token:
 
