@@ -27451,7 +27451,7 @@ paths:
                                         mod_time:
                                             type: string
                                             format: datetime
-                                            description: The modification time of the file, omitted for directories.
+                                            description: The modification time of the entry in UTC, read from the timestamp stored in the ZIP. Omitted for entries the ZIP holds no timestamp for, which includes directories that exist only as a path prefix of their contents.
                                         is_dir:
                                             type: boolean
                                             description: Indicates if the entry is a file or directory.
