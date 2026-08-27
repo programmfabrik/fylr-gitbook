@@ -17,7 +17,7 @@ Two names are used throughout: the **produce plugin** is the piece installed in 
 
 fylr's official example plugin, [fylr-plugin-example](https://github.com/programmfabrik/fylr-plugin-example), carries working produce recipes and is the reference to compare against whenever something below does not match what you see. The [Further reading](#further-reading) section says which files to look at.
 
-Everything else is set up in the base configuration under [File worker > Preview configuration](#3-open-the-renditions-editor)
+Everything else is set up in the base configuration under [File worker > Preview configuration](#id-3.-open-the-renditions-editor)
 
 ## What lives where
 
@@ -116,9 +116,9 @@ Note the asymmetry: on **save** an unsupported extension is rejected, while on *
 
 Upload a matching file. The new version should appear on the asset.
 
-If it does not, look for a **`FILE_PRODUCE_ERROR` event**. It carries the job receipt: the full command line, stdout and stderr. For a conversion service the usual causes are, in order of likelihood:
+If it does not, look for a [`FILE_PRODUCE_ERROR`](/for-administrators/events/event-type-reference.md#file_produce_error) event. It carries the job receipt: the full command line, stdout and stderr. For a conversion service the usual causes are, in order of likelihood:
 
-1. the endpoint is not reachable *from the execserver* (see step 2)
+1. the endpoint is not reachable *from the execserver* (see [step 2](#id-2.-check-reachability-from-the-execserver-not-from-your-machine))
 2. the service answered 4xx or 5xx and the recipe did not turn that into a non-zero exit, so the error page gets stored as the rendition and the version exists but is garbage
 3. the service returned a different format than the version's file extension claims
 
