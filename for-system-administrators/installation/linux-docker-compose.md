@@ -182,15 +182,15 @@ and in `local_limits.conf`:
 [Journal]
 # do not fill the entire disk. Needs SystemMaxFileSize to not be 0
 SystemKeepFree=10G
-# keep for ...
-MaxRetentionSec=2month
 # rotate files after ...
 MaxFileSec=1day
 
 # Generous other limits, so not much can be lost:
 
-# Increase SystemMaxUse if you have lots of space in /var/log/journal.
+# Increase SystemMaxUse/MaxRetentionSec if you have lots of space in /var/log/journal.
 SystemMaxUse=10G
+# keep for ...
+MaxRetentionSec=2month
 # NOTE: SystemMaxFileSize=0 does NOT mean "unlimited":
 # instead it rotates every ~0.5 MB and also disables the SystemKeepFree
 # check (that check only runs once a file grows past 512 KiB).
