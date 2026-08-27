@@ -187,13 +187,11 @@ MaxRetentionSec=2month
 # rotate files after ...
 MaxFileSec=1day
 
-# no other limits, but hardcoded maximum file size is 4G
-SystemMaxUse=0
-SystemMaxFileSize=0
-SystemMaxFiles=0
-# no rate limits
-RateLimitIntervalSec=0
-RateLimitBurst=0
+# Generous other limits, so not much can be lost. 
+# Increase SystemMaxUse if you have lots of space.
+SystemMaxUse=10G
+SystemMaxFileSize=100M
+SystemMaxFiles=7000
 ```
 
 Load the changes:
