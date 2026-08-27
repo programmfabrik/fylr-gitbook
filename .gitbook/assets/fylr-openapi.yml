@@ -45023,6 +45023,29 @@ components:
                             format: float64
                         unit:
                             type: string
+                vector:
+                    type: object
+                    description: |
+                        How much drawing a page description carries, counted for EPS and AI
+                        files. A produce config gates the SVG version on it: artwork that
+                        Illustrator's transparency flattener has shattered into hundreds of
+                        embedded images converts to a faithful vector rendition that no browser
+                        can open, so for such a file the version is never scheduled. The counts
+                        are deliberately coarse — what they separate is ordinary artwork from
+                        flattener output, and that difference is two orders of magnitude.
+                        Available from version 6.35.0.
+                    properties:
+                        images:
+                            type: number
+                            format: int
+                            description: |
+                                Embedded rasters in the file.
+                        shadings:
+                            type: number
+                            format: int
+                            description: |
+                                Gradient and mesh constructs, which a renderer expands into many
+                                discrete bands.
         file_version:
             type: object
             properties:
