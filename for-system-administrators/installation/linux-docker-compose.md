@@ -189,7 +189,7 @@ MaxFileSec=1day
 
 # Generous other limits, so not much can be lost:
 
-# Increase SystemMaxUse if you have lots of space.
+# Increase SystemMaxUse if you have lots of space in /var/log/journal.
 SystemMaxUse=10G
 # NOTE: SystemMaxFileSize=0 does NOT mean "unlimited":
 # instead it rotates every ~0.5 MB and also disables the SystemKeepFree
