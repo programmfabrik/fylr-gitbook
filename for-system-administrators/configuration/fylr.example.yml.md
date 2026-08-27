@@ -92,6 +92,42 @@ fylr:
   debug:
     # Skip term creation
     skipTerms: false
+    # pluginProbeTimeoutSec / pluginDownloadTimeoutSec cap a WHOLE plugin
+    # source operation, which the debug.http transport timeouts cannot: a
+    # source that answers headers and then trickles the body, and the
+    # probe's retry loop. Meant for the apitests (see url_source_simulate)
+    # — 0 or unset = defaults: probe 60, download 900 seconds.
+    pluginProbeTimeoutSec: 0
+    pluginDownloadTimeoutSec: 0
+    # http tunes fylr's outbound http client, used app-wide (plugin source
+    # fetches, webhooks, execserver callbacks, emails, backups, ...; only
+    # eas/rput keeps its own SSRF-guarding client). Connect, TLS handshake
+    # and the wait for response headers are bounded so a stalled remote
+    # cannot hang fylr. 0 or unset = defaults: dial 10, TLS handshake 10,
+    # response header 30 seconds.
+    http:
+      dialTimeoutSec: 0
+      tlsHandshakeTimeoutSec: 0
+      responseHeaderTimeoutSec: 0
+      # disableHttp2 turns off http/2 for this client (successor of
+      # debug.disableHttp2Client, which is still honored). Default: http/2 on.
+      disableHttp2: false
+      # urls treats requests whose url matches (RE2, unanchored) specially;
+      # the first matching rule wins. A rule either SIMULATES a broken
+      # source (TEST-ONLY; the url is never dialed): simulate "timeout"
+      # hangs until the fetch budget expires like a black-holed connection,
+      # "refused" fails immediately, "status" answers with the given HTTP
+      # status — or it fine-tunes the client for the matched urls with the
+      # same knobs as above (dialTimeoutSec, tlsHandshakeTimeoutSec,
+      # responseHeaderTimeoutSec, disableHttp2; 0/unset = inherit). Default
+      # is no rules. Entries look like:
+      #   - match: "^http://sim-plugin-status\\.invalid/"
+      #     simulate: status
+      #     status: 503
+      #   - match: "^https://github\\.com/"
+      #     disableHttp2: true
+      #     responseHeaderTimeoutSec: 60
+      urls: []
     # Don't announce plugins bundle on /api/plugin
     noPluginsBundle: false
     # Simulate local status
@@ -135,6 +171,11 @@ fylr:
     # you are experiencing difficulties connecting to certain web servers for
     # file upload. E.g. with "stream error".
     disableHttp2Client: false
+    # label marks this instance as a non-production one. The web frontend shows
+    # it as a banner above the application and names it in "about fylr". Empty
+    # (the default) means no banner. Instances run by a fylr supervisor get this
+    # stamped automatically with the deployed binary's name and version.
+    label: ""
 
   # optional, set environment. This can be used to set FYLR_CMD_* inside the fylr.yml
   env:
@@ -306,6 +347,12 @@ fylr:
       - ../../../fylr-plugins/fylr_example
     urls:
       - https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/download/v0.1.2/fylr-plugin-formula-columns.zip
+    # marketplace configures the in-app plugin marketplace. Set enabled to
+    # false to remove it from the plugin manager; fylr then never fetches
+    # the plugin catalog (for air-gapped installations, or when plugins are
+    # chosen centrally).
+    marketplace:
+      enabled: true
     # default defines the generic default for new plugins. Plugins are new when they are inserted into the database.
     default:
       enabled: false
@@ -319,6 +366,23 @@ fylr:
         enabled: false
         # update_policy: automatic, always, never, defaults to automatic
         update: "never"
+
+    # marketplace configures the plugin shop (GET /plugin/marketplace).
+    # Programmfabrik's curated catalog is built into fylr and pulled at
+    # request time (cached), so the offer can change without a fylr release.
+    marketplace:
+      # sources offer additional catalogs on top of the built-in one, each
+      # either inline or a URL to a JSON document of the same shape. An
+      # optional privateKey (base64 X25519) opens sealed plugins the source
+      # offers.
+      # sources:
+      #   - name: "my-company"
+      #     url: "https://plugins.example.com/catalog.json"
+      #   - name: "local"
+      #     inline:
+      #       plugins:
+      #         - name: "my-plugin"
+      #           url: "https://example.com/my-plugin.zip"
 
   # Set to true to allow /api/settings/purge. dont use on production systems!
   allowpurge: true
@@ -396,7 +460,10 @@ fylr:
       - http://localhost:8083/?pretty=true
     # the maximum a callback is allowed to run
     pluginJobTimeoutSec: 2400
-    # the maximum the server will wait until a worker gets a job
+    # the maximum the server will wait until a worker gets a job. It only
+    # covers the wait for a free slot: when none of the addresses above is
+    # reachable at all, the job is requeued at once instead. fylr starts and
+    # serves without execservers and connects them as they come up.
     connectTimeoutSec: 120
     # callbackBackendInternalURL will be included in execserver jobs, this is
     # used for plugin installation (loaded from the backend into the execserver)
@@ -756,9 +823,10 @@ fylr:
       # http://localhost:8080 and http://localhost:54321, but never
       # http://localhost.evil.com.
       #
-      # The baked-in default config ships with "https://*.web.fylr.dev" so
-      # programmfabrik-hosted frontend branches can be tested against
-      # customer fylrs via the cross-server feature, plus
+      # The baked-in default config ships with "https://*.web.fylr.dev"
+      # and "https://*.web.fylr.io" so programmfabrik-hosted frontend
+      # branches can be tested against customer fylrs via the
+      # cross-server feature, plus
       # "http://localhost:*" and "https://localhost:*" so frontend
       # developers can point a local dev server at any port. Customer
       # overlays (fylr+: …) interact with the baked-in entries following
