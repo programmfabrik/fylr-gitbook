@@ -417,6 +417,7 @@
     * [Collection upload](for-developers/plugin/callbacks/collection-upload.md)
     * [export](for-developers/plugin/callbacks/export.md)
     * [export\_transport](for-developers/plugin/callbacks/export-transport.md)
+  * [File Version Produce Plugin](for-developers/plugin/setup-produce-plugin.md)
   * [Plugin Conventions and Standards](for-developers/plugin/conventions.md)
   * [Packaging and Release](for-developers/plugin/release.md)
 * [Collection Pin Code](for-developers/collection_pin_code.md)
