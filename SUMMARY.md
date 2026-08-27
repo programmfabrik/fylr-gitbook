@@ -272,6 +272,7 @@
   * [Token not found](for-system-administrators/symptom-and-solution/token-not-found.md)
   * [ContainerConfig error](for-system-administrators/symptom-and-solution/containerconfig-error.md)
   * [Purge objects](for-system-administrators/symptom-and-solution/purge-objects.md)
+  * [No location configured](for-system-administrators/symptom-and-solution/no-location-configured.md)
 * [PostgreSQL versions](for-system-administrators/postgresql-versions.md)
 
 ## SUPERVISOR
