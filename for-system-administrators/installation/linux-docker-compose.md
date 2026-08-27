@@ -195,7 +195,7 @@ SystemMaxUse=10G
 # instead it rotates every ~0.5 MB and also disables the SystemKeepFree
 # check (that check only runs once a file grows past 512 KiB).
 SystemMaxFileSize=100M
-# More than ~ 7200 files would be written but then ignored when showing logs.
+# More than 7168 files would be written but then ignored when showing logs.
 SystemMaxFiles=7000
 # rate limits: upstream defaults. per unit and per priority class; the kernel
 # is exempt. effective burst is scaled up by log2(available space).
