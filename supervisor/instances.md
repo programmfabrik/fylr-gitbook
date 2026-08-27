@@ -2,6 +2,8 @@
 
 An instance is one fylr tenant: its own PostgreSQL database (or SQLite file), its own OpenSearch indices, its own files, reachable under its own hostname through the router. The dashboard lists the fleet with live status, memory, CPU and content statistics; the per-instance page adds charts, endpoints and a log viewer.
 
+_From version 6.35.0_ what the list is showing is part of the address: the domain filter, the search, the column filters, the sort and the page all live in the URL (`#/?group=web.example.com&sort=used&dir=desc`), as do an instance's open tab and a log's source, level and day. A reload comes back to the same view, and the address bar is a link to it — useful when a question is about one particular slice of the fleet.
+
 ## Creating an instance
 
 <figure><img src="../.gitbook/assets/supervisor/sv-new-instance.png" alt=""><figcaption><p>Creating an instance: copy from an existing one — with the consent line spelling out what will be copied — and choose its storage</p></figcaption></figure>
@@ -17,7 +19,7 @@ Everything else — database backend (PostgreSQL for production, SQLite for tiny
 
 <figure><img src="../.gitbook/assets/supervisor/sv-instance-detail.png" alt=""><figcaption><p>Instance detail: status tiles, charts, endpoints — and one-click root access to frontend and /inspect</p></figcaption></figure>
 
-Operation lives on the detail page: start/stop, hibernate, **Frontend (root) ↗** and **Inspect (root) ↗** (one-time root logins minted by the supervisor — no password juggling), plus tabs for the admin and system-admin views and the instance's parsed server log. Setup lives in the editor (Edit button): host, access credentials, license, storage, log level, email server and rate-limit overrides — fleet-inherited concerns default to "inherit".
+Operation lives on the detail page: start/stop, hibernate, **Frontend (root) ↗** and **Inspect (root) ↗** (one-time root logins minted by the supervisor — no password juggling), plus tabs for the admin and system-admin views and the instance's parsed server log. _From version 6.35.0_, an instance whose host is web-only (see [Router, TLS & protection](router.md)) offers a single **Frontend (webOnly) ↗** instead: that host's entry page is the cross-server frontend, so a root session inside the instance is not what one goes there for. Setup lives in the editor (Edit button): host, access credentials, license, storage, log level, email server and rate-limit overrides — fleet-inherited concerns default to "inherit".
 
 Edits that a child bakes in at startup (host, basic auth, replica count) apply through a **zero-downtime rolling restart**: new replicas come up and are confirmed serving before the old ones retire. Rate limits and storage assignments apply live.
 

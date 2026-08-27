@@ -6,7 +6,7 @@ The router is the public face of the fleet: it maps the request `Host` to a heal
 
 TLS is opt-in: without a `router_tls` listener everything stays plain HTTP (the localhost playground setup). With one, certificates come from two sources:
 
-* **ACME** — obtained on demand at the first HTTPS request for an instance host and renewed automatically; state lives in the control DB. Any ACME directory works (Let's Encrypt production/staging, ZeroSSL, Buypass, a custom internal CA), including External Account Binding.
+* **ACME** — obtained as soon as an instance takes the host (created, restored, pushed by CI, renamed) and renewed automatically; state lives in the control DB. Any ACME directory works (Let's Encrypt production/staging, ZeroSSL, Buypass, a custom internal CA), including External Account Binding. _From version 6.35.0_ the certificate is issued at that point rather than in front of the first visitor, who would otherwise wait out the whole ACME exchange — ten seconds or so of a blank tab, below HTTP, where no page can be shown. Issuance still falls back to on demand at the first HTTPS request, so a host whose DNS is not pointing here yet is served as soon as it is.
 * **Manual upload** — PEM certificate + key per host, wildcards included. Manual certificates win over ACME.
 
 HTTP requests to a host with a certificate are redirected to HTTPS; hosts without one keep serving plain HTTP. Certificate changes roll the affected instances gently, since the child's external URL scheme changes.
