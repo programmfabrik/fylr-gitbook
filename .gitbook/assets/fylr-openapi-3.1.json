@@ -39552,7 +39552,7 @@
       "description": "Read, write and subscribe to **events**. fylr writes events for many\nserver-side mutations (object insert/update, collection changes,\nfile deletes, email sends, ...). This endpoint exposes the event log.\n",
       "post": {
         "summary": "Write a single user event.",
-        "description": "Allows clients to log user events into the event stream. Any\nauthenticated user may write event types in the **FRONTEND** and\n**PLUGIN** groups (e.g. `SEARCH`, `DETAIL_VIEW`, `FRONTEND_ERROR`).\nWriting event types in the system groups (`ADMIN`, `DOWNLOAD`,\n`EXPORT`, `INDEX`, `LOGIN_LOGOUT`, `SYSTEM`, `UPLOAD`) requires\n`system.root` together with `skip_constraints=true` (see the\n`skip_constraints` parameter); any other type — including the\n`TASK` group — is always rejected with `code: EventTypeNotAllowed`.\nUnlike the other event write operations, `POST /event` is permitted\nwhile the instance is in read-only mode.\n\nDiffers from easydb 5: easydb 5 lets a client insert only `SEARCH` and\n`DETAIL_VIEW`, and only when the matching base config (`system.log.search`\n/ `system.log.detail_view`) is enabled. fylr allows the whole FRONTEND\ngroup (`SEARCH`, `DETAIL_VIEW`, `FRONTEND_ERROR`,\n`ASSET_DOWNLOAD_CONFIRMATION_MESSAGE`) and the PLUGIN group with no\nbase-config gate, plus the system groups via `system.root` +\n`skip_constraints`.\n",
+        "description": "Allows clients to log user events into the event stream. Any\nauthenticated user may write event types in the **FRONTEND** and\n**PLUGIN** groups (e.g. `SEARCH`, `DETAIL_VIEW`, `FRONTEND_ERROR`).\nWriting event types in any other group (`ADMIN`, `DOWNLOAD`, `EXPORT`,\n`INDEX`, `LOGIN_LOGOUT`, `SYSTEM`, `TASK`, `UPLOAD`) requires\n`system.root` together with `skip_constraints=true` (see the\n`skip_constraints` parameter); a type unknown to the server is always\nrejected with `code: EventTypeNotAllowed`.\nUnlike the other event write operations, `POST /event` is permitted\nwhile the instance is in read-only mode.\n\nDiffers from easydb 5: easydb 5 lets a client insert only `SEARCH` and\n`DETAIL_VIEW`, and only when the matching base config (`system.log.search`\n/ `system.log.detail_view`) is enabled. fylr allows the whole FRONTEND\ngroup (`SEARCH`, `DETAIL_VIEW`, `FRONTEND_ERROR`,\n`ASSET_DOWNLOAD_CONFIRMATION_MESSAGE`) and the PLUGIN group with no\nbase-config gate, plus all other known groups via `system.root` +\n`skip_constraints`.\n",
         "parameters": [
           {
             "name": "background",
@@ -39568,7 +39568,7 @@
             "schema": {
               "type": "boolean"
             },
-            "description": "If `true`, the system event groups (`ADMIN`, `DOWNLOAD`, `EXPORT`,\n`INDEX`, `LOGIN_LOGOUT`, `SYSTEM`, `UPLOAD`) may also be written —\nnot just the FRONTEND/PLUGIN user types — and a top-level `user`\nobject is accepted on the event. Requires `system.root`; a non-root\ncaller that sets it receives a `400 ServerGeneric` error.\n"
+            "description": "If `true`, all other known event groups (`ADMIN`, `DOWNLOAD`,\n`EXPORT`, `INDEX`, `LOGIN_LOGOUT`, `SYSTEM`, `TASK`, `UPLOAD`)\nmay also be written —\nnot just the FRONTEND/PLUGIN user types — and a top-level `user`\nobject is accepted on the event. Requires `system.root`; a non-root\ncaller that sets it receives a `400 ServerGeneric` error.\n"
           }
         ],
         "requestBody": {
@@ -39593,7 +39593,7 @@
             }
           },
           "400": {
-            "description": "The request could not be processed. Possible `code` values:\n`EventTypeNotAllowed` (the payload's `type` is not a FRONTEND/PLUGIN\nuser type and was not unlocked with root + `skip_constraints`),\n`ServerGeneric` (invalid JSON body, an unparseable query filter\nsuch as `id`/`sort`, a non-root caller passing `skip_constraints`,\nor an event carrying a `user`/`user_id` without `skip_constraints`),\nor `ReadOnlyMode` (the instance is in read-only mode; affects the\nwrite/delete operations only, not `POST /event`).\n",
+            "description": "The request could not be processed. Possible `code` values:\n`EventTypeNotAllowed` (the payload's `type` is unknown, or is not a\nFRONTEND/PLUGIN user type and was not unlocked with root +\n`skip_constraints`),\n`ServerGeneric` (invalid JSON body, an unparseable query filter\nsuch as `id`/`sort`, a non-root caller passing `skip_constraints`,\nor an event carrying a `user`/`user_id` without `skip_constraints`),\nor `ReadOnlyMode` (the instance is in read-only mode; affects the\nwrite/delete operations only, not `POST /event`).\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -39812,7 +39812,7 @@
             }
           },
           "400": {
-            "description": "The request could not be processed. Possible `code` values:\n`EventTypeNotAllowed` (the payload's `type` is not a FRONTEND/PLUGIN\nuser type and was not unlocked with root + `skip_constraints`),\n`ServerGeneric` (invalid JSON body, an unparseable query filter\nsuch as `id`/`sort`, a non-root caller passing `skip_constraints`,\nor an event carrying a `user`/`user_id` without `skip_constraints`),\nor `ReadOnlyMode` (the instance is in read-only mode; affects the\nwrite/delete operations only, not `POST /event`).\n",
+            "description": "The request could not be processed. Possible `code` values:\n`EventTypeNotAllowed` (the payload's `type` is unknown, or is not a\nFRONTEND/PLUGIN user type and was not unlocked with root +\n`skip_constraints`),\n`ServerGeneric` (invalid JSON body, an unparseable query filter\nsuch as `id`/`sort`, a non-root caller passing `skip_constraints`,\nor an event carrying a `user`/`user_id` without `skip_constraints`),\nor `ReadOnlyMode` (the instance is in read-only mode; affects the\nwrite/delete operations only, not `POST /event`).\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -40046,7 +40046,7 @@
       },
       "post": {
         "summary": "Bulk-write events.",
-        "description": "Writes the supplied array of events. Useful for batch tooling. As with\n`POST /event`, any authenticated user may write FRONTEND/PLUGIN event\ntypes; the system event groups require `system.root` with\n`skip_constraints=true`, and any other type (including `TASK`) is\nrejected with `code: EventTypeNotAllowed`. Unlike `POST /event`, this\nbulk operation is rejected with `400 ReadOnlyMode` while the instance\nis in read-only mode.\n",
+        "description": "Writes the supplied array of events. Useful for batch tooling. As with\n`POST /event`, any authenticated user may write FRONTEND/PLUGIN event\ntypes; all other known event groups require `system.root` with\n`skip_constraints=true`, and a type unknown to the server is rejected\nwith `code: EventTypeNotAllowed`. Unlike `POST /event`, this\nbulk operation is rejected with `400 ReadOnlyMode` while the instance\nis in read-only mode.\n",
         "parameters": [
           {
             "name": "background",
@@ -40062,7 +40062,7 @@
             "schema": {
               "type": "boolean"
             },
-            "description": "If `true`, the system event groups (`ADMIN`, `DOWNLOAD`, `EXPORT`,\n`INDEX`, `LOGIN_LOGOUT`, `SYSTEM`, `UPLOAD`) may also be written —\nnot just the FRONTEND/PLUGIN user types — and a top-level `user`\nobject is accepted on each event. Requires `system.root`; a non-root\ncaller that sets it receives a `400 ServerGeneric` error.\n"
+            "description": "If `true`, all other known event groups (`ADMIN`, `DOWNLOAD`,\n`EXPORT`, `INDEX`, `LOGIN_LOGOUT`, `SYSTEM`, `TASK`, `UPLOAD`)\nmay also be written —\nnot just the FRONTEND/PLUGIN user types — and a top-level `user`\nobject is accepted on each event. Requires `system.root`; a non-root\ncaller that sets it receives a `400 ServerGeneric` error.\n"
           }
         ],
         "requestBody": {
@@ -40090,7 +40090,7 @@
             }
           },
           "400": {
-            "description": "The request could not be processed. Possible `code` values:\n`EventTypeNotAllowed` (the payload's `type` is not a FRONTEND/PLUGIN\nuser type and was not unlocked with root + `skip_constraints`),\n`ServerGeneric` (invalid JSON body, an unparseable query filter\nsuch as `id`/`sort`, a non-root caller passing `skip_constraints`,\nor an event carrying a `user`/`user_id` without `skip_constraints`),\nor `ReadOnlyMode` (the instance is in read-only mode; affects the\nwrite/delete operations only, not `POST /event`).\n",
+            "description": "The request could not be processed. Possible `code` values:\n`EventTypeNotAllowed` (the payload's `type` is unknown, or is not a\nFRONTEND/PLUGIN user type and was not unlocked with root +\n`skip_constraints`),\n`ServerGeneric` (invalid JSON body, an unparseable query filter\nsuch as `id`/`sort`, a non-root caller passing `skip_constraints`,\nor an event carrying a `user`/`user_id` without `skip_constraints`),\nor `ReadOnlyMode` (the instance is in read-only mode; affects the\nwrite/delete operations only, not `POST /event`).\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -40198,7 +40198,7 @@
             }
           },
           "400": {
-            "description": "The request could not be processed. Possible `code` values:\n`EventTypeNotAllowed` (the payload's `type` is not a FRONTEND/PLUGIN\nuser type and was not unlocked with root + `skip_constraints`),\n`ServerGeneric` (invalid JSON body, an unparseable query filter\nsuch as `id`/`sort`, a non-root caller passing `skip_constraints`,\nor an event carrying a `user`/`user_id` without `skip_constraints`),\nor `ReadOnlyMode` (the instance is in read-only mode; affects the\nwrite/delete operations only, not `POST /event`).\n",
+            "description": "The request could not be processed. Possible `code` values:\n`EventTypeNotAllowed` (the payload's `type` is unknown, or is not a\nFRONTEND/PLUGIN user type and was not unlocked with root +\n`skip_constraints`),\n`ServerGeneric` (invalid JSON body, an unparseable query filter\nsuch as `id`/`sort`, a non-root caller passing `skip_constraints`,\nor an event carrying a `user`/`user_id` without `skip_constraints`),\nor `ReadOnlyMode` (the instance is in read-only mode; affects the\nwrite/delete operations only, not `POST /event`).\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -50564,7 +50564,7 @@
         "properties": {
           "code": {
             "type": "string",
-            "description": "Stable, machine-readable error code:\n\n  * `EventTypeNotAllowed` — the `type` in the payload is not one of\n    the user-event types that may be written through the API (i.e. it\n    is not a FRONTEND/PLUGIN type and `skip_constraints` was not set\n    by a root caller). `parameters.type` carries the offending value.\n",
+            "description": "Stable, machine-readable error code:\n\n  * `EventTypeNotAllowed` — the `type` in the payload is not one of\n    the user-event types that may be written through the API (i.e. it\n    is unknown to the server, or it is not a FRONTEND/PLUGIN type and\n    `skip_constraints` was not set by a root caller).\n    `parameters.type` carries the offending value.\n",
             "enum": [
               "EventTypeNotAllowed"
             ]

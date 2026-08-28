@@ -22,12 +22,17 @@ chown 1000 plugins
 fylr:
 [...]
   plugin:
-    # load plugins at startup. the loader crawls the given directories
-    # and loads given files for plugin config files, ending in ".yml".
-    # "*" and "?" are allowed as placeholders, unmatched directories or
-    # files are silently skipped.
+    # load plugins at startup. each entry is a literal directory, searched
+    # recursively for "manifest.yml" files — one plugin per manifest.
+    # a directory that does not exist is logged as a warning and skipped.
     paths:
       - "/fylr/files/plugins/custom"
       - [...other directory...]
 ```
+
+{% hint style="info" %}
+Plugin paths are **literal directory names** — placeholders such as `*` and `?` are not supported. Every directory is searched recursively and each `manifest.yml` found becomes one plugin; the search does not descend further into a plugin once its manifest is found. Directories whose name begins with `.` are skipped.
+
+Two plugins with the **same name in their manifest** cannot be loaded together, no matter which directories they come from — fylr stops with an error naming the plugin.
+{% endhint %}
 

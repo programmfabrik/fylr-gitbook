@@ -180,7 +180,7 @@ If you want to go back to a fresh state between two test runs:
 * We downloaded the newest portable archive (at the time `ImageMagick-7.1.2-26-portable-Q16-HDRI-x64.7z`) from [https://imagemagick.org/script/download.php#windows](https://imagemagick.org/script/download.php#windows)
 * We put `magick.exe` from the download into `C:\fylr\utils`. It is the only ImageMagick binary fylr needs; compositing etc. run as subcommands of `magick.exe`. (`convert.exe` and `composite.exe` are not used by fylr and are no longer part of current ImageMagick anyway.)
 
-**Use a current ImageMagick, and fylr v6.34.0 or newer.** Two version traps around ImageMagick:
+**Use a current ImageMagick, and fylr v6.34.0 or newer.** Version traps around ImageMagick:
 
 * Current ImageMagick no longer accepts the deprecated `magick convert` command form. fylr up to v6.33 called ImageMagick that way, so previews fail with ``NoDecodeDelegateForThisImageFormat `convert'``. fylr v6.34.0 and newer calls `magick` in the modern form, which works with old and new ImageMagick 7.
 * ImageMagick Windows builds from before mid-2024 embed a libheif older than 1.18, which cannot decode HEIC photos taken by newer iPhones (iOS 18 and later): previews fail with `Too many auxiliary image references`. To check what your magick.exe embeds, run the following — the version in parentheses is the libheif version and must be 1.18 or newer:
@@ -189,6 +189,8 @@ If you want to go back to a fresh state between two test runs:
 C:\fylr\utils> .\magick.exe -list format | findstr /i heic
      HEIC  HEIC      rw+   High Efficiency Image Format (1.22.2)
 ```
+
+* **Writing** HEIC (a custom rendition, crop-tool file variant or produce request with `format=heic`, available since fylr 6.34.2) additionally needs a libheif with an HEVC encoder (x265). The official fylr docker image ships the `libheif-plugin-x265` package. On Windows the embedded libheif of the ImageMagick build must be able to encode HEVC: if reading HEIC works but producing a HEIC fails, the embedded libheif lacks the encoder.
 
 Hint from the [download page](https://imagemagick.org/script/download.php#windows):
 

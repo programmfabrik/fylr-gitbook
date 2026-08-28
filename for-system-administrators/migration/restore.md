@@ -283,6 +283,8 @@ Method used to upload files.
 `rput`, `rput_leave`, `rput_bulk` and `rput_leave_bulk` are faster, `put` might take long.
 {% endhint %}
 
+A file that the **source** instance itself only references at a remote URL (left there via `leave_on_remote`) is always restored as a reference, whatever method is chosen — the source flag is additive to the run method. All other files follow the chosen method (since fylr 6.34.2; 6.34.0 and 6.34.1 routed every file by its source flag alone).
+
 {% hint style="warning" %}
 By default no files or URLs are uploaded. You have to specify one of the file upload methods to transfer any files.
 {% endhint %}

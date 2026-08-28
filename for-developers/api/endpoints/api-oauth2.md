@@ -4,6 +4,12 @@ OAuth2 **authorization endpoint** (RFC 6749 §3.1). This is where the browser we
 
 Served at `/api/oauth2/auth` — **not** under `/api/v1`. No prior access token is required.
 
+### Session binding (anti-hijacking)
+
+Since fylr 6.34.0, an access/refresh token issued to the browser via this endpoint is bound to the browser's long-lived, HttpOnly `fylr-browser-id` cookie (a "Stay logged in" cookie is bound the same way). That cookie must then accompany the `Authorization: Bearer` token on every API request; a token presented from a different browser — i.e. without the matching cookie — is rejected as invalid (`InvalidToken`), so a stolen bearer token on its own cannot be replayed. Binding is silent and always on.
+
+**API clients are not affected:** a token obtained at `/oauth2/token` via the password or client-credentials grant is issued **unbound** when the request carries no `fylr-browser-id` cookie — such integrations keep working unchanged. A login whose token is consumed on a different origin than the fylr itself — a third-party OAuth client (a cross-origin `redirect_uri`) or a cross-server *webOnly* frontend — is likewise issued an unbound token, since that origin's requests would not carry the cookie.
+
 ### `GET /oauth2/auth` — Begin an authorization request (interactive login).
 
 {% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/oauth2/auth" method="get" %}

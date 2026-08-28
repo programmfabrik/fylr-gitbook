@@ -8,7 +8,9 @@ description: >-
 
 ## Introduction to Plugins
 
-Some **plugins** will be shipped with **every** release by **default** (type "disk") and can't be removed (only disabled). Others can be **uploaded** as a **ZIP** or via an **URL**. Some plugins are **available** for **all** customers, others were only **developed** for specific **customers**.
+Plugins are **installed** from the **marketplace**, **uploaded** as a **ZIP** or added via an **URL**. Some plugins are **available** for **all** customers, others were only **developed** for specific **customers**.
+
+Up to fylr 6.34, a set of plugins was shipped with **every** release (type "disk") and could not be removed, only disabled. **fylr 6.35 will no longer ship plugins on disk**: the plugins installed in an instance will be migrated to url plugins at the upgrade — see [Disk to URL plugin migration](../../plugins/disk-to-url-migration.md). Loading **your own** plugins from a directory stays supported, see [Load Custom Plugins](../../for-system-administrators/configuration/custom-plugin.md).
 
 {% hint style="info" %}
 Please refer to the official [Programmfabrik GmbH GitHub](https://github.com/orgs/programmfabrik/repositories?q=plugin) account for all Open Source plugins that were either developed by us or our partners. Download links and documentation for each plugin can be found there.
