@@ -71,11 +71,12 @@ fylr:
   # licenseFile (default: none). Path to license file. This is used as default
   # if nothing is set in the baseconfig. This setting is mutually exclusive with
   # fylr.license.
-  licenseFile: "license.json"
+  # licenseFile: "license.json"
 
   # license: Inline JSON of license.  This is used as default if nothing is set
-  # in the baseconfig. This setting is mutually exclusive with fylr.licenseFile.
-  license: "<JSON>"
+  # in the baseconfig. This setting is mutually exclusive with fylr.licenseFile
+  # above, so only one of the two can be set at a time.
+  # license: "<JSON>"
 
   # encryptionKey is used to AES-encrypt sensitive information before writing it
   # to the database. It must be 32 bytes long. The encryptionKey must be
@@ -92,6 +93,42 @@ fylr:
   debug:
     # Skip term creation
     skipTerms: false
+    # pluginProbeTimeoutSec / pluginDownloadTimeoutSec cap a WHOLE plugin
+    # source operation, which the debug.http transport timeouts cannot: a
+    # source that answers headers and then trickles the body, and the
+    # probe's retry loop. Meant for the apitests (see url_source_simulate)
+    # — 0 or unset = defaults: probe 60, download 900 seconds.
+    pluginProbeTimeoutSec: 0
+    pluginDownloadTimeoutSec: 0
+    # http tunes fylr's outbound http client, used app-wide (plugin source
+    # fetches, webhooks, execserver callbacks, emails, backups, ...; only
+    # eas/rput keeps its own SSRF-guarding client). Connect, TLS handshake
+    # and the wait for response headers are bounded so a stalled remote
+    # cannot hang fylr. 0 or unset = defaults: dial 10, TLS handshake 10,
+    # response header 30 seconds.
+    http:
+      dialTimeoutSec: 0
+      tlsHandshakeTimeoutSec: 0
+      responseHeaderTimeoutSec: 0
+      # disableHttp2 turns off http/2 for this client (successor of
+      # debug.disableHttp2Client, which is still honored). Default: http/2 on.
+      disableHttp2: false
+      # urls treats requests whose url matches (RE2, unanchored) specially;
+      # the first matching rule wins. A rule either SIMULATES a broken
+      # source (TEST-ONLY; the url is never dialed): simulate "timeout"
+      # hangs until the fetch budget expires like a black-holed connection,
+      # "refused" fails immediately, "status" answers with the given HTTP
+      # status — or it fine-tunes the client for the matched urls with the
+      # same knobs as above (dialTimeoutSec, tlsHandshakeTimeoutSec,
+      # responseHeaderTimeoutSec, disableHttp2; 0/unset = inherit). Default
+      # is no rules. Entries look like:
+      #   - match: "^http://sim-plugin-status\\.invalid/"
+      #     simulate: status
+      #     status: 503
+      #   - match: "^https://github\\.com/"
+      #     disableHttp2: true
+      #     responseHeaderTimeoutSec: 60
+      urls: []
     # Don't announce plugins bundle on /api/plugin
     noPluginsBundle: false
     # Simulate local status
@@ -131,10 +168,16 @@ fylr:
     # disableOpenapiDocsCache can be set to not cache OpenAPI specs. This is useful
     # when writing documentation.
     disableOpenapiDocsCache: true
-    # disableHttp2Client disables HTTP2 for client connections. Set this to true if
-    # you are experiencing difficulties connecting to certain web servers for
-    # file upload. E.g. with "stream error".
-    disableHttp2Client: false
+    # disableHttp2Client disables HTTP2 for client connections. Set this to true
+    # if you are experiencing difficulties connecting to certain web servers for
+    # file upload. E.g. with "stream error". DEPRECATED, use the successor
+    # debug.http.disableHttp2 above (this one is still honored).
+    # disableHttp2Client: false
+    # label marks this instance as a non-production one. The web frontend shows
+    # it as a banner above the application and names it in "about fylr". Empty
+    # (the default) means no banner. Instances run by a fylr supervisor get this
+    # stamped automatically with the deployed binary's name and version.
+    label: ""
 
   # optional, set environment. This can be used to set FYLR_CMD_* inside the fylr.yml
   env:
@@ -182,8 +225,8 @@ fylr:
     dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
 
     # https://golang.org/pkg/database/sql/#DB.SetMaxOpenConns default: 100 At
-    # least: 4 + execserver.parallel + execserver.parallelHigh +
-    # elastic.parallel. Two of these connections will be dedicated to a separate
+    # least: 4 + elastic.parallel (the file dispatcher sizes itself, see
+    # #80119). Two of these connections will be dedicated to a separate
     # connection pool managing the sequences. The recommended setting for this
     # is 100. It is not recommended to set it to 0 (unlimited), as this can
     # possibly open too many connections for the OS to handle. Also, since each
@@ -297,19 +340,6 @@ fylr:
               # optional endpoint suffix (default to core.windows.net)
               endpoint_suffix: "core.windows.net"
 
-  # DEPRECATED, will be removed in next version
-  # files are stored in S3. Buckets are created by FYLR automatically
-  s3:
-    endpoint: "127.0.0.1:9000"
-    accessKeyID: "minio"
-    secretAccessKey: "minio123"
-    bucketLocation: "us-east-1"
-    bucketName: fylr-census-dev
-    ssl: false
-    # allowPurge controls if a purge also purges the storage
-    # or not. Defaults to false
-    allowPurge: false
-
   plugin:
     # load plugins at startup. the loader crawls the given directories
     # and loads given files for plugin config files, ending in ".yml".
@@ -319,6 +349,26 @@ fylr:
       - ../../../fylr-plugins/fylr_example
     urls:
       - https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/download/v0.1.2/fylr-plugin-formula-columns.zip
+    # marketplace configures the in-app plugin marketplace (the plugin shop,
+    # GET /plugin/marketplace). Programmfabrik's curated catalog is built
+    # into fylr and pulled at request time (cached), so the offer can change
+    # without a fylr release. Set enabled to false to remove the marketplace
+    # from the plugin manager; fylr then never fetches the plugin catalog
+    # (for air-gapped installations, or when plugins are chosen centrally).
+    marketplace:
+      enabled: true
+      # sources offer additional catalogs on top of the built-in one, each
+      # either inline or a URL to a JSON document of the same shape. An
+      # optional privateKey (base64 X25519) opens sealed plugins the source
+      # offers.
+      # sources:
+      #   - name: "my-company"
+      #     url: "https://plugins.example.com/catalog.json"
+      #   - name: "local"
+      #     inline:
+      #       plugins:
+      #         - name: "my-plugin"
+      #           url: "https://example.com/my-plugin.zip"
     # default defines the generic default for new plugins. Plugins are new when they are inserted into the database.
     default:
       enabled: false
@@ -331,7 +381,7 @@ fylr:
         # enable, set to false to disable the plugin, defaults to true
         enabled: false
         # update_policy: automatic, always, never, defaults to automatic
-        update: "never"
+        update_policy: "never"
 
   # Set to true to allow /api/settings/purge. dont use on production systems!
   allowpurge: true
@@ -394,11 +444,13 @@ fylr:
   # Client configuration of execserver is used
   # for syncing of files, metadata generation and plugin execution
   execserver:
-    # number of parallel file workers, default to 2, set to 0 to disable.
-    parallel: 2
-    # number of parallel file workers only taking high priority tasks. Currently
-    # producing of all standard versions is a high priority task.
-    parallelHigh: 2
+    # NOTE: "parallel" is deprecated (#80133) — the file dispatcher sizes its
+    # own concurrency from the connected execserver pool (see the "backend"
+    # section below) and the execserver auto-balances its slots. Only
+    # "parallel: 0" still has an effect: it disables file processing (the
+    # file dispatcher) on this fylr, e.g. for API-only nodes. "parallelHigh"
+    # is ignored.
+    # parallel: 0
     # addresses of the execserver. they are tried in round robin.
     # if a server reports to be busy, the next server is tried.
     # if the server URL contains a /job/{service} path it is only used for the given service
@@ -407,15 +459,37 @@ fylr:
       - http://localhost:8083/?pretty=true
     # the maximum a callback is allowed to run
     pluginJobTimeoutSec: 2400
-    # the maximum the server will wait until a worker gets a job
+    # the maximum the server will wait until a worker gets a job. It only
+    # covers the wait for a free slot: when none of the addresses above is
+    # reachable at all, the job is requeued at once instead. fylr starts and
+    # serves without execservers and connects them as they come up.
     connectTimeoutSec: 120
-    # callbackBackendInternalURL will be included in execserver jobs, this is
-    # used for plugin installation (loaded from the backend into the execserver)
-    # and progress updates.
-    callbackBackendInternalURL: "http://localhost:8081"
-    # callbackApiInternalURL will be presented to execserver plugin jobs. This
-    # can be used by plugins to call back into the API.
-    callbackApiInternalURL: "http://localhost:8080"
+    # WHERE AN EXECSERVER REACHES THIS FYLR
+    #
+    # An execserver running a job calls back for the plugin zip, file blobs,
+    # progress, the job's stdin/stdout pipes and the plugin TX surface behind
+    # api_tx_url. The last two must reach THIS process — their stream and their
+    # open write transaction live in its memory — so the address can never be a
+    # load balancer in front of several fylr replicas.
+    #
+    # fylr works it out on its own and none of the keys below need to be set:
+    # the port and scheme come from its own listeners, and the host from the
+    # address the kernel would send from towards a configured execserver (the
+    # same address the execserver sees the broker connection come from, which
+    # it verifies at connect time and reports in /inspect).
+    #
+    # callbackBackendInternalURL overrides scheme and port for the backend
+    # callbacks — for a proxy in front of the listener. The host is still this
+    # fylr's own, so a Kubernetes Service name here has no effect.
+    # callbackBackendInternalURL: "http://localhost:8081"
+    #
+    # callbackApiInternalURL does the same for the API base handed to plugins.
+    # callbackApiInternalURL: "http://localhost:8080"
+    #
+    # callbackBackendOwnURL is the escape hatch: taken verbatim, port included,
+    # and nothing overrides it. Set it where fylr cannot name the address an
+    # execserver reaches it on — NAT between the two, with a forwarded port.
+    # callbackBackendOwnURL: ""
 
 
   # eas (External Asset Store) settings.
@@ -533,6 +607,14 @@ fylr:
       # if omitted, this server is not started.
       addr: ":8080"
 
+      # Browser security headers (Referrer-Policy, X-Frame-Options /
+      # frame-ancestors) are stamped on this listener's responses too — the
+      # api serves browser documents (/api/page/* login pages, inline file
+      # downloads) — and the origins trusted for credentialed CORS on this
+      # listener come from the webapp section as well. Both browser-policy
+      # lists are configured ONCE, instance-wide: webapp.frameAncestors and
+      # webapp.loginAllowRedirects below.
+
       # for tls support ("addr" only), provide a cert and key file
       tls:
         certFile: ""
@@ -581,6 +663,14 @@ fylr:
       # address of the server listener
       # if omitted, this server is not started
       addr: :8081
+
+      # Browser security headers (Referrer-Policy, X-Frame-Options /
+      # frame-ancestors) are stamped on this listener's responses too — the
+      # backend port serves the /inspect pages directly — and the origins
+      # trusted for credentialed CORS on this listener come from the webapp
+      # section as well. Both browser-policy lists are configured ONCE,
+      # instance-wide: webapp.frameAncestors and webapp.loginAllowRedirects
+      # below.
       # for tls support ("addr" only), provide a cert and key file
       tls:
         certFile: ""
@@ -672,7 +762,7 @@ fylr:
         # for server to server communication to exchange the auth code for a
         # token defaults to fylr.externalURL
         # Needs to be set to the port of fylr.services.api.addr
-        internalURL: "http://localhost:8080/"
+        internalURL: "http://localhost:8080"
 
       # The reverse proxy can be used to redirect requests to the api
       # and the backend and also for custom servers behind fylr.
@@ -741,9 +831,10 @@ fylr:
       # http://localhost:8080 and http://localhost:54321, but never
       # http://localhost.evil.com.
       #
-      # The baked-in default config ships with "https://*.web.fylr.dev" so
-      # programmfabrik-hosted frontend branches can be tested against
-      # customer fylrs via the cross-server feature, plus
+      # The baked-in default config ships with "https://*.web.fylr.dev"
+      # and "https://*.web.fylr.io" so programmfabrik-hosted frontend
+      # branches can be tested against customer fylrs via the
+      # cross-server feature, plus
       # "http://localhost:*" and "https://localhost:*" so frontend
       # developers can point a local dev server at any port. Customer
       # overlays (fylr+: …) interact with the baked-in entries following
@@ -754,6 +845,16 @@ fylr:
       #   loginAllowRedirects+:  [...]                          # appends to it
       #   loginAllowRedirects-:  ["http://localhost:*"]         # removes a baked-in entry
       #
+      # Matching origins are also trusted for credentialed CORS: they are
+      # reflected in Access-Control-Allow-Origin together with
+      # Access-Control-Allow-Credentials, like the fylr.externalURL origin
+      # and the redirect-URI origins of registered OAuth2 clients. Other
+      # origins only get the credential-less "Access-Control-Allow-Origin: *".
+      #
+      # SCOPE: like frameAncestors below, this list applies INSTANCE-WIDE —
+      # the CORS headers of the webapp, api and backend listeners alike
+      # honour it, not just the webapp's.
+      #
       # Intended for setups where every webOnly frontend is operator-controlled
       # (e.g. per-branch staging hosts that share a central fylr).
       loginAllowRedirects: []
@@ -762,6 +863,38 @@ fylr:
       #   - http://*.fylr.dev
       #   - http://dev.internal:*
 
+      # frameAncestors extends the origins allowed to embed fylr documents in
+      # a frame (iframe) beyond same-origin. With the empty default, every
+      # response carries "X-Frame-Options: SAMEORIGIN" and the equivalent
+      # "Content-Security-Policy: frame-ancestors 'self'": fylr may frame
+      # itself (its login uses same-origin iframes), other sites may not.
+      #
+      # SCOPE: although the key sits under webapp — next to its sibling
+      # loginAllowRedirects, the other browser-policy list — it applies
+      # INSTANCE-WIDE, to the webapp, api and backend listeners alike: the
+      # api serves browser documents too (/api/page/* login pages, inline
+      # file downloads), the backend serves /inspect. Framing policy must
+      # be uniform: a portal embedding the webapp also embeds the login
+      # documents served by the api, so a per-service split would only
+      # create broken states.
+      #
+      # Each entry is a CSP source of the form scheme://host[:port]; the
+      # leftmost host label may be "*" (matches one subdomain label) and the
+      # port may be "*" (matches any port). Entries are added to the
+      # frame-ancestors list, and X-Frame-Options is then omitted — it cannot
+      # express an allow-list, and every current browser prefers
+      # frame-ancestors anyway.
+      #
+      # Note browsers validate the WHOLE ancestor chain: when a portal embeds
+      # fylr cross-origin, even fylr's own internal same-origin iframes see
+      # the portal as an ancestor. So listing the portal origin here is
+      # required (and sufficient) for fylr to work inside its iframe,
+      # including the login.
+      frameAncestors: []
+      # frameAncestors:
+      #   - https://portal.example.com
+      #   - https://*.portal-customers.example
+
     # service execserver executes binaries and used by FYLR
     # to generate previews, execute plugins and to get metadata
     # of files.
@@ -769,11 +902,6 @@ fylr:
       # addr of the execserver listener
       # if omitted no server is started
       addr: :8083
-
-      # tokenResponseSendServerIP is the IP which can be used by
-      # a client to send a job to. This IP is sent back to the client
-      # in the token response
-      tokenResponseSendServerIP: ""
 
       # Mandatory path to a directory the execserver - can work in. The
       # execserver will create a sub-directory per job and leave the space to
@@ -796,13 +924,46 @@ fylr:
       # is used to parse this value. Minimum duration is one minute. Defaults to "24h".
       janitorFileAge: "24h"
 
-      waitgroups:
-        a:
-          processes: 4
-        b:
-          processes: 2
-        c:
-          processes: 4
+      # Concurrency is auto-balanced by default (#80133): all services share
+      # one CPU pool and are classified light/heavy by their measured
+      # runtime. Heavy jobs (long conversions) never occupy the last
+      # fastReserve slots, so short interactive work always finds a slot.
+      cpus: 0            # pool size, 0 = number of CPUs
+      fastReserve: 0     # slots reserved for light jobs, 0 = max(1, cpus/4)
+      heavyThreshold: 10s
+      unknownShare: 0.5  # pool share for services not measured yet
+
+      # Graceful shutdown: on SIGTERM/Ctrl-C running jobs may finish for this
+      # long; jobs still running are interrupted with a "stopped, retry
+      # later" receipt — clients requeue them instead of reporting failures.
+      #
+      # The listener answers two health endpoints, and behind a load balancer
+      # they must be used for different things:
+      #
+      #   /readyz   readiness. 200 while this execserver takes work, 503 from
+      #             the moment it drains. Point the load balancer (a
+      #             Kubernetes readinessProbe) here, so a terminating pod
+      #             leaves the endpoints before it exits — otherwise a fylr
+      #             still opens fresh connections to it and the jobs it is
+      #             granted come straight back as "stopped, retry later".
+      #   /healthz  liveness. 200 as long as the process runs, draining
+      #             included. A livenessProbe on a draining pod would restart
+      #             the container and cut this grace window short.
+      #
+      # Give the pod a terminationGracePeriodSeconds comfortably above
+      # drainTimeoutSec, or the drain is killed halfway through.
+      drainTimeoutSec: 20
+
+      # Configuring an explicit waitgroups block disables auto-balancing (the
+      # keys above are then ignored) and restores manually sized pools; every
+      # service below then needs its waitgroup key uncommented too. Deprecated.
+      # waitgroups:
+      #   a:
+      #     processes: 4
+      #   b:
+      #     processes: 2
+      #   c:
+      #     processes: 4
       # env can be set for all programs started by the execserver
       # this is overwritten by the env set for the specific command and by the
       # os environment
@@ -826,17 +987,17 @@ fylr:
 
       services:
         node:
-          waitgroup: b
+          # waitgroup: b
           commands:
             node:
               prog: "node"
         python3:
-          waitgroup: b
+          # waitgroup: b
           commands:
             python3:
               prog: "python3"
         convert:
-          waitgroup: a
+          # waitgroup: a
           commands:
             fylr_convert:
               prog: "fylr"
@@ -876,7 +1037,7 @@ fylr:
                 # %_exec.binDir% is replaced with the directory the binary is in
                 - "metadata"
         ffmpeg:
-          waitgroup: a
+          # waitgroup: a
           commands:
             ffmpeg:
               prog: ffmpeg
@@ -919,7 +1080,7 @@ fylr:
                 - "-v"
                 regex: "ffmpegthumbnailer version: 2\\..*"
         soffice:
-          waitgroup: c
+          # waitgroup: c
           commands:
             soffice:
               prog: soffice
@@ -953,7 +1114,7 @@ fylr:
                 - "metadata"
 
         metadata:
-          waitgroup: a
+          # waitgroup: a
           commands:
             fylr_metadata:
               env:
@@ -969,7 +1130,7 @@ fylr:
                   - "-version"
                 regex: "ffprobe version 4[\\.0-9]+ Copyright"
         pdf2pages:
-          waitgroup: a
+          # waitgroup: a
           commands:
             fylr_pdf2pages:
               # fylr_* utils use other programs to do their job. These
@@ -991,12 +1152,12 @@ fylr:
               args:
                 - "metadata"
         xslt:
-          waitgroup: a
+          # waitgroup: a
           commands:
             saxon:
               prog: "saxon"
         iiif:
-          waitgroup: a
+          # waitgroup: a
           commands:
             convert:
               prog: convert

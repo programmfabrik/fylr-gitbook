@@ -7,7 +7,7 @@ Replace both polling loops with a fylr-initiated websocket per execserver instan
 | One `SELECT` per second per file worker, even when idle. One `GET /token` per second per waiting job, against _every_ configured execserver, for up to `connectTimeoutSec`. Slot handshake breaks behind load balancers. | Zero execserver requests while idle. One message per state change. The execserver picks exactly one taker per free slot — by priority, across all connected fylr servers. No instance-affinity problems left to patch. |
 
 {% hint style="info" %}
-Design document, July 2026, implemented starting with fylr 6.34. Tracked internally as ticket #80119. A few details below are marked where the implementation refined the original proposal.
+Design document, July 2026, shipped in fylr 6.35 as the only execserver transport. Tracked internally as ticket #80119 (with auto-balance #80133 and graceful drain #80136). A few details below are marked where the implementation refined the original proposal.
 {% endhint %}
 
 ## Problem
@@ -93,7 +93,7 @@ A mid-stream failure becomes: the execserver aborts its stream request and sends
 Because reservation, job delivery and receipt all ride the instance-pinned socket, and streams flow in the guaranteed direction, no fylr → execserver request needs instance affinity any more:
 
 * The token machinery — 10 s TTL, cleanup goroutine, `Token not found` / wrong-service errors
-* `tokenResponseSendServerIP` and `TokenResponse.ServiceURL` (after deprecation, see migration)
+* `tokenResponseSendServerIP` and `TokenResponse.ServiceURL`
 * The `Connection: close` re-balance hack
 * The 1 s busy-retry loop against every execserver address
 * The "Token not found" incident class — structurally, instead of mitigated
@@ -141,10 +141,9 @@ Claimed-but-parked items stay cheap (a goroutine, a book entry, a claimed row). 
 | `OFFER` never answered (conn drop) | Offer timeout → next candidate. |
 | Two `OFFER`s for one job race | First wins; the loser gets `DECLINE` immediately. |
 | No slot within `connectTimeoutSec` | Unchanged: requeue with `start_after` +1 min — just silent while waiting instead of polling. |
-| Old execserver (no `/broker`) | fylr falls back to polling for that address. |
-| Old fylr, new execserver | Legacy `GET /token` still served; it returns 503 while the want-book is non-empty, so legacy clients cannot steal slots from parked jobs. |
+| Version mismatch (old execserver or old fylr) | No shared transport — the peer without the broker exchanges no jobs. There is no fallback; execserver and fylr are upgraded together (see *Migration*). |
 
-Every failure collapses onto two primitives: connection lifetime, and — during migration, for the legacy path — the existing token TTL.
+Every failure collapses onto one primitive: connection lifetime.
 
 ## Companion fix: the file dispatcher
 
@@ -156,17 +155,27 @@ The original proposal added Postgres LISTEN/NOTIFY and a 15–30 s fallback poll
 
 `fylr.execserver.parallel` sized a static pool of file workers, each carrying one queue item synchronously — including _blocking_ inside the slot wait. The knob therefore conflated two unrelated bounds, and `parallelHigh` existed only because a fully-blocked pool starves interactive work. The broker dissolves both, so the keys are gone:
 
-* **Exec-bound concurrency derives from the pool itself.** The `HELLO` snapshot carries each execserver's waitgroups, process counts and connected-client count, so fylr computes admission from actual capacity. The execserver's `waitgroups.processes` — which already exists, and lives where the CPUs are — is the _single_ source of truth for exec concurrency. No execserver connected → nothing exec-bound is claimed at all (previously: workers claimed, failed, requeued).
+* **Exec-bound concurrency derives from the pool itself.** The `HELLO` snapshot carries each execserver's waitgroups, process counts and connected-client count, so fylr computes admission from actual capacity. With an explicit `waitgroups` block its `processes` counts are the source of truth; with none, the execserver auto-balances a single CPU pool (see *Auto-balance* below). Either way it lives where the CPUs are. No execserver connected → nothing exec-bound is claimed at all (previously: workers claimed, failed, requeued).
 * **Local-bound actions size themselves off the machine.** A semaphore derived from `NumCPU` bounds them with no configuration.
 * **Priority lanes are subsumed.** Parked wants don't occupy workers, so a high-priority job simply registers a higher-priority `WANT` and takes the next slot.
 
 What remains in fylr.yml: `addresses`, the callback URLs, and the timeouts.
 
+## Auto-balance
+
+With no `waitgroups` block configured (the default from 6.35), the execserver runs **one CPU pool** and classifies each service _light_, _heavy_ or _unknown_ from its measured runtime: a service whose mean exceeds `heavyThreshold` is heavy, and heavy jobs may never occupy the last `fastReserve` slots, so a burst of long conversions can never starve short interactive work (metadata, plugins, IIIF). A service without enough samples yet is capped at `unknownShare` of the pool until its first jobs classify it. The learned per-service profile — an EMA of wall time — is snapshotted to the execserver's workdir and restored on start, so the classification survives restarts; a snapshot taken on different hardware (`GOOS`/`GOARCH` or a changed pool size) is discarded. An explicit `waitgroups` block turns all of this off and restores manually sized pools.
+
+## Graceful drain
+
+On `SIGTERM` / `Ctrl-C` the execserver **drains**: it stops granting new slots, announces zero capacity in its `HELLO`, and lets running jobs finish for up to `drainTimeoutSec` (default 20 s). A job still running at the deadline is interrupted and answered with a retryable `503 ExecStopped` receipt, which the client requeues transparently — so a rolling restart behind a load balancer never fails a user's request, it only delays it. Draining applies in both auto-balance and explicit-`waitgroups` mode.
+
 ## Migration
 
-1. **(done)** Execserver: `/broker` endpoint, want-book, job-over-ws. fylr: broker client with per-address fallback to polling. Mixed fleets degrade gracefully in both directions.
-2. **(done)** Body-mode call sites converted to pipe endpoints; the legacy token path exists only for old peers.
-3. **(next major release)** Delete the legacy token path, `tokenResponseSendServerIP`, and the `parallel` / `parallelHigh` keys.
+fylr 6.35 ships the broker as the **only** transport. The phased rollout the original proposal sketched — a broker with a polling fallback, then a later removal — was collapsed into one release:
+
+* The `/broker` endpoint, want-book and job-over-websocket replace the token handshake, and every body-mode call site uses the pipe endpoints.
+* The legacy `GET /token` / `PUT /job` path, `tokenResponseSendServerIP` / `TokenResponse.ServiceURL`, the `Connection: close` re-balance hack and the `parallel` / `parallelHigh` keys are **removed**, not deprecated.
+* There is no mixed-version fallback: an execserver and the fylr servers that use it are **upgraded together**. A schema migration (198) ships with the release.
 
 ## Future extension: queue position
 
