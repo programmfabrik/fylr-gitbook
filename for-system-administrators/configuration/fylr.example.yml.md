@@ -465,23 +465,32 @@ fylr:
     # reachable at all, the job is requeued at once instead. fylr starts and
     # serves without execservers and connects them as they come up.
     connectTimeoutSec: 120
-    # callbackBackendInternalURL will be included in execserver jobs, this is
-    # used for plugin installation (loaded from the backend into the execserver)
-    # and progress updates.
-    callbackBackendInternalURL: "http://localhost:8081"
-    # callbackBackendOwnURL is an OPTIONAL override for the execpipe callback
-    # host. Those stdin/stdout endpoints keep their stream in memory on the
-    # replica that created the job, so behind a load-balanced
-    # callbackBackendInternalURL the callback must return to that exact replica.
-    # fylr normally handles this automatically: it pins the pipe callback to its
-    # own source address on the broker connection to the execserver (no pod IP
-    # to configure). Set this only for topologies where that auto-detected
-    # address is not reachable from the execserver (e.g. NAT between them); it
-    # then replaces the pinned host. Leave empty otherwise.
+    # WHERE AN EXECSERVER REACHES THIS FYLR
+    #
+    # An execserver running a job calls back for the plugin zip, file blobs,
+    # progress, the job's stdin/stdout pipes and the plugin TX surface behind
+    # api_tx_url. The last two must reach THIS process — their stream and their
+    # open write transaction live in its memory — so the address can never be a
+    # load balancer in front of several fylr replicas.
+    #
+    # fylr works it out on its own and none of the keys below need to be set:
+    # the port and scheme come from its own listeners, and the host from the
+    # address the kernel would send from towards a configured execserver (the
+    # same address the execserver sees the broker connection come from, which
+    # it verifies at connect time and reports in /inspect).
+    #
+    # callbackBackendInternalURL overrides scheme and port for the backend
+    # callbacks — for a proxy in front of the listener. The host is still this
+    # fylr's own, so a Kubernetes Service name here has no effect.
+    # callbackBackendInternalURL: "http://localhost:8081"
+    #
+    # callbackApiInternalURL does the same for the API base handed to plugins.
+    # callbackApiInternalURL: "http://localhost:8080"
+    #
+    # callbackBackendOwnURL is the escape hatch: taken verbatim, port included,
+    # and nothing overrides it. Set it where fylr cannot name the address an
+    # execserver reaches it on — NAT between the two, with a forwarded port.
     # callbackBackendOwnURL: ""
-    # callbackApiInternalURL will be presented to execserver plugin jobs. This
-    # can be used by plugins to call back into the API.
-    callbackApiInternalURL: "http://localhost:8080"
 
 
   # eas (External Asset Store) settings.
@@ -928,6 +937,22 @@ fylr:
       # Graceful shutdown: on SIGTERM/Ctrl-C running jobs may finish for this
       # long; jobs still running are interrupted with a "stopped, retry
       # later" receipt — clients requeue them instead of reporting failures.
+      #
+      # The listener answers two health endpoints, and behind a load balancer
+      # they must be used for different things:
+      #
+      #   /readyz   readiness. 200 while this execserver takes work, 503 from
+      #             the moment it drains. Point the load balancer (a
+      #             Kubernetes readinessProbe) here, so a terminating pod
+      #             leaves the endpoints before it exits — otherwise a fylr
+      #             still opens fresh connections to it and the jobs it is
+      #             granted come straight back as "stopped, retry later".
+      #   /healthz  liveness. 200 as long as the process runs, draining
+      #             included. A livenessProbe on a draining pod would restart
+      #             the container and cut this grace window short.
+      #
+      # Give the pod a terminationGracePeriodSeconds comfortably above
+      # drainTimeoutSec, or the drain is killed halfway through.
       drainTimeoutSec: 20
 
       # Configuring an explicit waitgroups block disables auto-balancing (the
