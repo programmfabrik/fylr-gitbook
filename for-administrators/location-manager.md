@@ -20,12 +20,18 @@ _Already existing_ files are still used in all locations, not only the default l
 
 <figure><img src="../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
 
+## Connection status
+
+fylr tests the connection to each storage location and shows the result in the **Status** column of the list, and in the location's detail form. `connected` is the working state. `error` means the location could not be reached, and the message shown next to it is the reason the storage reported — a bucket that does not exist, credentials that are refused, a directory that cannot be created. The same status and message are shown for every location under `/inspect/system/locations/`.
+
+**From version 6.35.0**, a location that is not `connected` is retried in the background, every 5 to 30 seconds, for as long as it stays unreachable, and fylr writes a line to its log when the location recovers. A location that was simply not available yet when fylr started — an S3 bucket, or the user fylr authenticates as, being created moments after the instance — therefore turns `connected` on its own. Before 6.35.0 such a location stayed in `error` until the instance was restarted or somebody saved the location again, and every file written to it failed in the meantime.
+
 ## Details
 
 | OPTION            | DESCRIPTION                                                                                                                                                                                                                                                               |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ID                | an unique number for each location                                                                                                                                                                                                                                        |
-| Status            | fylr tests the connection to the storage location and displays the result here                                                                                                                                                                                            |
+| Status            | the connection state of the storage location, see [#connection-status](location-manager.md#connection-status)                                                                                                                                                             |
 | Prefix            | an optional path preceding each file, for example to separate from other data                                                                                                                                                                                             |
 | Allow Purge       | when purging this fylr instance, shall the files also be deleted?                                                                                                                                                                                                         |
 | Allow Redirect    | whether to hide S3 URLs behind fylr's own URL                                                                                                                                                                                                                             |

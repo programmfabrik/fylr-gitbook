@@ -59419,11 +59419,11 @@
               "error",
               "closed"
             ],
-            "description": "Read-only connection state — `connected`, `not accessible`,\n`error`, `closed`.\n"
+            "description": "Read-only connection state — `connected`, `not accessible`,\n`error`, `closed`. It is the live state, not a verdict from the\nstart: a location that cannot be reached is retried in the\nbackground, so one that reads `error` can reach `connected`\nwithout the instance being restarted or the location being saved\nagain.\n"
           },
           "status_msg": {
             "type": "string",
-            "description": "Read-only diagnostic message attached to a non-`connected`\n`status` — usually the underlying error from the driver.\n"
+            "description": "Read-only diagnostic message attached to a non-`connected`\n`status` — usually the underlying error from the driver. Empty\nonce the location connects.\n"
           }
         }
       },

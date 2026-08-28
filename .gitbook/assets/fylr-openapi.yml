@@ -55237,12 +55237,17 @@ components:
                         - closed
                     description: |
                         Read-only connection state — `connected`, `not accessible`,
-                        `error`, `closed`.
+                        `error`, `closed`. It is the live state, not a verdict from the
+                        start: a location that cannot be reached is retried in the
+                        background, so one that reads `error` can reach `connected`
+                        without the instance being restarted or the location being saved
+                        again.
                 status_msg:
                     type: string
                     description: |
                         Read-only diagnostic message attached to a non-`connected`
-                        `status` — usually the underlying error from the driver.
+                        `status` — usually the underlying error from the driver. Empty
+                        once the location connects.
         TransitionApi:
             type: object
             description: |
