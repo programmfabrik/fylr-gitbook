@@ -42,6 +42,25 @@ X-Fylr-Authorization: Bearer <access_token>
 
 An access token is valid for **24 hours** (86400 seconds) by default; the lifetime is configurable in the base configuration.
 
+### When a token is rejected
+
+From **fylr 6.35.0** on, a rejected access token is answered with HTTP **`401`** and the error code **`InvalidToken`** on every endpoint — including `GET /api/v1/user/session` and the web frontend's `POST /oauth2/refresh`, which answered `400` before.
+
+A token is rejected when it is unknown, expired, revoked, bound to a different browser than the one presenting it, or belongs to a user who may no longer log in — archived, disabled, or outside their login validity window.
+
+Two different `401`s exist, and the `code` tells them apart:
+
+| `code` | what happened | what the client should do |
+| --- | --- | --- |
+| `UserRequired` | the request carried no access token at all | authenticate, then retry |
+| `InvalidToken` | the token the request carried was rejected | the session is over: discard the token and log in again |
+
+An `InvalidToken` does not become valid by being sent again, and refreshing it does not help — a refresh whose token is rejected is itself answered `401` `InvalidToken`. A client that answers this error with a retry or another refresh produces nothing but load.
+
+Before 6.35.0 the answer depended on the endpoint: `400` `InvalidToken` from `/api/v1/user/session` and `/oauth2/refresh`, `401` `UserRequired` from everything else. A client that has to work against both versions should treat status `401` **or** code `InvalidToken` as the end of the session.
+
+Endpoints that serve callers without a user are not affected — deep links under `/api/v1/objects` and signed asset downloads under `/api/v1/eas/download` answer a request carrying a dead token exactly as they always did, because the token is irrelevant to them.
+
 ## Configuring Client ID and Secret
 
 The descriptions of the OAuth2 flows below use `my-client` and `my-secret` as placeholders for configured Client IDs and Client Secrets. Replace these with the OAuth2 client information of your fylr instance.

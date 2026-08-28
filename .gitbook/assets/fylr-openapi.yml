@@ -19,7 +19,14 @@ info:
         is the resource-owner password grant). These transports are
         declared as the security schemes of this document. A request
         without a valid token runs as an anonymous session; endpoints that
-        require a user then answer `401`.
+        require a user then answer `401`. The `code` says which of the two
+        cases it is: a request that carried **no** token is answered with
+        `UserRequired`, a request whose token was **rejected** — unknown,
+        expired, revoked, or bound to a different browser — with
+        `InvalidToken`. A rejected token is `401` on every endpoint, so the
+        status alone is enough for a client to end the session; the token
+        will not become valid by being sent again, and refreshing it fails
+        the same way.
 
         **Caching.** Responses default to `Cache-Control: no-store,
         no-cache` — most carry data specific to the authenticated user,
@@ -33800,11 +33807,15 @@ paths:
                                     - $ref: '#/components/schemas/UserEmailMalformedError'
                 "401":
                     description: |
-                        No authenticated user. The request must carry a valid access token.
+                        No authenticated user. The request must carry a valid access
+                        token. The `code` is `UserRequired` when no token was presented
+                        and `InvalidToken` when the token was rejected.
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/UserRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/UserRequiredError'
+                                    - $ref: '#/components/schemas/InvalidTokenError'
                 "403":
                     description: |
                         The authenticated user is not allowed to perform the operation.
@@ -33923,11 +33934,15 @@ paths:
                                     - $ref: '#/components/schemas/UserEmailMalformedError'
                 "401":
                     description: |
-                        No authenticated user. The request must carry a valid access token.
+                        No authenticated user. The request must carry a valid access
+                        token. The `code` is `UserRequired` when no token was presented
+                        and `InvalidToken` when the token was rejected.
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/UserRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/UserRequiredError'
+                                    - $ref: '#/components/schemas/InvalidTokenError'
                 "403":
                     description: |
                         The authenticated user is not allowed to perform the operation.
@@ -34041,11 +34056,15 @@ paths:
                                     $ref: '#/components/schemas/UserApi'
                 "401":
                     description: |
-                        No authenticated user. The request must carry a valid access token.
+                        No authenticated user. The request must carry a valid access
+                        token. The `code` is `UserRequired` when no token was presented
+                        and `InvalidToken` when the token was rejected.
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/UserRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/UserRequiredError'
+                                    - $ref: '#/components/schemas/InvalidTokenError'
                 "403":
                     description: |
                         The authenticated user is not allowed to perform the operation.
@@ -34087,16 +34106,16 @@ paths:
             groups, system rights, the resolved configuration (defaults and base
             config) and the instance settings.
             Requires an authenticated session, no specific system right; a request
-            with no (or an invalid) token is answered with `400` `InvalidToken`.
+            with no (or an invalid) token is answered with `401` `InvalidToken`.
         get:
             summary: Information about the current session.
             description: |
                 Returns the authenticated user, their groups, system rights, the
                 resolved configuration (defaults and base config) and the instance
                 settings. Does not require any specific system right beyond being
-                authenticated. Unlike the other `/user` operations, an
-                unauthenticated request is rejected with `400` `InvalidToken` rather
-                than `401`.
+                authenticated. Unlike the other `/user` operations, which answer
+                `UserRequired` when no token was presented at all, an
+                unauthenticated request is always rejected with `InvalidToken`.
             responses:
                 "200":
                     description: The current session.
@@ -34104,14 +34123,14 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/SessionApi'
-                "400":
+                "401":
                     description: |
                         No authenticated user — the request carried no token or an
                         invalid one. The `code` is `InvalidToken`.
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
+                                $ref: '#/components/schemas/InvalidTokenError'
     /user/change_password:
         x-path: /user
         description: |
@@ -34205,11 +34224,15 @@ paths:
                                     - $ref: '#/components/schemas/UserEmailMalformedError'
                 "401":
                     description: |
-                        No authenticated user. The request must carry a valid access token.
+                        No authenticated user. The request must carry a valid access
+                        token. The `code` is `UserRequired` when no token was presented
+                        and `InvalidToken` when the token was rejected.
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/UserRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/UserRequiredError'
+                                    - $ref: '#/components/schemas/InvalidTokenError'
                 "403":
                     description: |
                         The authenticated user is not allowed to perform the operation.
@@ -34306,11 +34329,15 @@ paths:
                                     - $ref: '#/components/schemas/UserEmailMalformedError'
                 "401":
                     description: |
-                        No authenticated user. The request must carry a valid access token.
+                        No authenticated user. The request must carry a valid access
+                        token. The `code` is `UserRequired` when no token was presented
+                        and `InvalidToken` when the token was rejected.
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/UserRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/UserRequiredError'
+                                    - $ref: '#/components/schemas/InvalidTokenError'
                 "403":
                     description: |
                         The authenticated user is not allowed to perform the operation.
@@ -34442,11 +34469,15 @@ paths:
                                     - $ref: '#/components/schemas/UserEmailMalformedError'
                 "401":
                     description: |
-                        No authenticated user. The request must carry a valid access token.
+                        No authenticated user. The request must carry a valid access
+                        token. The `code` is `UserRequired` when no token was presented
+                        and `InvalidToken` when the token was rejected.
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/UserRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/UserRequiredError'
+                                    - $ref: '#/components/schemas/InvalidTokenError'
                 "403":
                     description: |
                         The authenticated user is not allowed to perform the operation.
@@ -42943,14 +42974,14 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/UserInfo'
-                "400":
+                "401":
                     description: |
                         No valid user could be resolved from the token. Code
                         `InvalidToken` (`realm: api`).
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Error'
+                                $ref: '#/components/schemas/InvalidTokenError'
         post:
             summary: Get claims for the access-token user (form POST).
             responses:
@@ -49164,6 +49195,65 @@ components:
                     statuscode: 403
                 realm: api
                 statuscode: 403
+        InvalidTokenError:
+            type: object
+            description: |
+                Error returned with `code` `InvalidToken` (HTTP `401`).
+            required:
+                - code
+                - error
+                - package
+                - parameters
+                - realm
+                - statuscode
+            properties:
+                code:
+                    type: string
+                    description: |
+                        Stable, machine-readable error code:
+
+                          * `InvalidToken` — the access token the request carried was
+                            rejected: unknown, expired, revoked, or bound to a different
+                            browser. Refreshing it does not help; the session is over.
+                    enum:
+                        - InvalidToken
+                error:
+                    type: string
+                    description: |
+                        Human-readable message, localized to the caller's preferred language.
+                        If no translation exists for this error key, the untranslated message
+                        is returned with a `Package` / `Code` footer appended.
+                package:
+                    type: string
+                    enum:
+                        - ferrors
+                    description: |
+                        Internal origin marker for **fylr** support; not part of the API
+                        contract. Branch on `code`, not `package`.
+                parameters:
+                    type: object
+                    additionalProperties: true
+                    description: |
+                        Machine-readable details; `realm` and `statuscode` are repeated here.
+                realm:
+                    type: string
+                    enum:
+                        - api
+                    description: The realm the error originates from. Always `api`.
+                statuscode:
+                    type: integer
+                    enum:
+                        - 401
+                    description: The HTTP status code, repeated here. Always `401`.
+            example:
+                code: InvalidToken
+                error: 'Invalid token: "abcd…"'
+                package: ferrors
+                parameters:
+                    realm: api
+                    statuscode: 401
+                realm: api
+                statuscode: 401
         LookupFoundTooManyError:
             type: object
             description: |
@@ -53025,7 +53115,8 @@ components:
                     description: |
                         Stable, machine-readable error code:
 
-                          * `UserRequired` — the request did not carry a valid access token.
+                          * `UserRequired` — the request carried no access token. A token
+                            that was presented and rejected is `InvalidToken` instead.
                     enum:
                         - UserRequired
                 error:

@@ -3,7 +3,7 @@
   "info": {
     "title": "FYLR API",
     "version": "1.0.0",
-    "description": "HTTP/JSON API for **fylr**. Most endpoints below live under the\n**`/api/v1`** base path — for example `/api/v1/collection`,\n`/api/v1/search`. The OAuth2 / OpenID Connect endpoints under\n`/api/oauth2` and the discovery document at\n`/.well-known/openid-configuration` are the exceptions; each\noperation lists its own full path.\n\n**Authentication.** Calls are authenticated with an access token.\nPresent it as an `Authorization: Bearer \u003ctoken\u003e` header, or — as\nfallbacks — the `access_token` query parameter or an\n`X-Fylr-Authorization: Bearer \u003ctoken\u003e` header (a workaround for\nSafari, which overwrites `Authorization`). Tokens are issued by the\nOAuth2 token endpoint (`POST /api/oauth2/token`; the default grant\nis the resource-owner password grant). These transports are\ndeclared as the security schemes of this document. A request\nwithout a valid token runs as an anonymous session; endpoints that\nrequire a user then answer `401`.\n\n**Caching.** Responses default to `Cache-Control: no-store,\nno-cache` — most carry data specific to the authenticated user,\nand the default keeps any browser, shared proxy or CDN from\nstoring and replaying them. On any `GET` request the\n`cache_seconds` query parameter opts into caching: a value greater\nthan `0` replaces the default with\n`Cache-Control: max-age=\u003ccache_seconds\u003e, public`. Endpoints whose\ncontent is safe to cache (file downloads, IIIF tiles) set their\nown `Cache-Control` header instead.\n"
+    "description": "HTTP/JSON API for **fylr**. Most endpoints below live under the\n**`/api/v1`** base path — for example `/api/v1/collection`,\n`/api/v1/search`. The OAuth2 / OpenID Connect endpoints under\n`/api/oauth2` and the discovery document at\n`/.well-known/openid-configuration` are the exceptions; each\noperation lists its own full path.\n\n**Authentication.** Calls are authenticated with an access token.\nPresent it as an `Authorization: Bearer \u003ctoken\u003e` header, or — as\nfallbacks — the `access_token` query parameter or an\n`X-Fylr-Authorization: Bearer \u003ctoken\u003e` header (a workaround for\nSafari, which overwrites `Authorization`). Tokens are issued by the\nOAuth2 token endpoint (`POST /api/oauth2/token`; the default grant\nis the resource-owner password grant). These transports are\ndeclared as the security schemes of this document. A request\nwithout a valid token runs as an anonymous session; endpoints that\nrequire a user then answer `401`. The `code` says which of the two\ncases it is: a request that carried **no** token is answered with\n`UserRequired`, a request whose token was **rejected** — unknown,\nexpired, revoked, or bound to a different browser — with\n`InvalidToken`. A rejected token is `401` on every endpoint, so the\nstatus alone is enough for a client to end the session; the token\nwill not become valid by being sent again, and refreshing it fails\nthe same way.\n\n**Caching.** Responses default to `Cache-Control: no-store,\nno-cache` — most carry data specific to the authenticated user,\nand the default keeps any browser, shared proxy or CDN from\nstoring and replaying them. On any `GET` request the\n`cache_seconds` query parameter opts into caching: a value greater\nthan `0` replaces the default with\n`Cache-Control: max-age=\u003ccache_seconds\u003e, public`. Endpoints whose\ncontent is safe to cache (file downloads, IIIF tiles) set their\nown `Cache-Control` header instead.\n"
   },
   "servers": [
     {
@@ -36483,11 +36483,18 @@
             }
           },
           "401": {
-            "description": "No authenticated user. The request must carry a valid access token.\n",
+            "description": "No authenticated user. The request must carry a valid access\ntoken. The `code` is `UserRequired` when no token was presented\nand `InvalidToken` when the token was rejected.\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserRequiredError"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/InvalidTokenError"
+                    }
+                  ]
                 }
               }
             }
@@ -36645,11 +36652,18 @@
             }
           },
           "401": {
-            "description": "No authenticated user. The request must carry a valid access token.\n",
+            "description": "No authenticated user. The request must carry a valid access\ntoken. The `code` is `UserRequired` when no token was presented\nand `InvalidToken` when the token was rejected.\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserRequiredError"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/InvalidTokenError"
+                    }
+                  ]
                 }
               }
             }
@@ -36767,11 +36781,18 @@
             }
           },
           "401": {
-            "description": "No authenticated user. The request must carry a valid access token.\n",
+            "description": "No authenticated user. The request must carry a valid access\ntoken. The `code` is `UserRequired` when no token was presented\nand `InvalidToken` when the token was rejected.\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserRequiredError"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/InvalidTokenError"
+                    }
+                  ]
                 }
               }
             }
@@ -36798,10 +36819,10 @@
     },
     "/user/session": {
       "x-path": "/user",
-      "description": "Report the current session. Returns the authenticated user, their\ngroups, system rights, the resolved configuration (defaults and base\nconfig) and the instance settings.\nRequires an authenticated session, no specific system right; a request\nwith no (or an invalid) token is answered with `400` `InvalidToken`.\n",
+      "description": "Report the current session. Returns the authenticated user, their\ngroups, system rights, the resolved configuration (defaults and base\nconfig) and the instance settings.\nRequires an authenticated session, no specific system right; a request\nwith no (or an invalid) token is answered with `401` `InvalidToken`.\n",
       "get": {
         "summary": "Information about the current session.",
-        "description": "Returns the authenticated user, their groups, system rights, the\nresolved configuration (defaults and base config) and the instance\nsettings. Does not require any specific system right beyond being\nauthenticated. Unlike the other `/user` operations, an\nunauthenticated request is rejected with `400` `InvalidToken` rather\nthan `401`.\n",
+        "description": "Returns the authenticated user, their groups, system rights, the\nresolved configuration (defaults and base config) and the instance\nsettings. Does not require any specific system right beyond being\nauthenticated. Unlike the other `/user` operations, which answer\n`UserRequired` when no token was presented at all, an\nunauthenticated request is always rejected with `InvalidToken`.\n",
         "responses": {
           "200": {
             "description": "The current session.",
@@ -36813,12 +36834,12 @@
               }
             }
           },
-          "400": {
+          "401": {
             "description": "No authenticated user — the request carried no token or an\ninvalid one. The `code` is `InvalidToken`.\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/InvalidTokenError"
                 }
               }
             }
@@ -36938,11 +36959,18 @@
             }
           },
           "401": {
-            "description": "No authenticated user. The request must carry a valid access token.\n",
+            "description": "No authenticated user. The request must carry a valid access\ntoken. The `code` is `UserRequired` when no token was presented\nand `InvalidToken` when the token was rejected.\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserRequiredError"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/InvalidTokenError"
+                    }
+                  ]
                 }
               }
             }
@@ -37064,11 +37092,18 @@
             }
           },
           "401": {
-            "description": "No authenticated user. The request must carry a valid access token.\n",
+            "description": "No authenticated user. The request must carry a valid access\ntoken. The `code` is `UserRequired` when no token was presented\nand `InvalidToken` when the token was rejected.\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserRequiredError"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/InvalidTokenError"
+                    }
+                  ]
                 }
               }
             }
@@ -37210,11 +37245,18 @@
             }
           },
           "401": {
-            "description": "No authenticated user. The request must carry a valid access token.\n",
+            "description": "No authenticated user. The request must carry a valid access\ntoken. The `code` is `UserRequired` when no token was presented\nand `InvalidToken` when the token was rejected.\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserRequiredError"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/InvalidTokenError"
+                    }
+                  ]
                 }
               }
             }
@@ -45801,12 +45843,12 @@
               }
             }
           },
-          "400": {
+          "401": {
             "description": "No valid user could be resolved from the token. Code\n`InvalidToken` (`realm: api`).\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/InvalidTokenError"
                 }
               }
             }
@@ -52944,6 +52986,68 @@
           }
         }
       },
+      "InvalidTokenError": {
+        "type": "object",
+        "description": "Error returned with `code` `InvalidToken` (HTTP `401`).\n",
+        "required": [
+          "code",
+          "error",
+          "package",
+          "parameters",
+          "realm",
+          "statuscode"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Stable, machine-readable error code:\n\n  * `InvalidToken` — the access token the request carried was\n    rejected: unknown, expired, revoked, or bound to a different\n    browser. Refreshing it does not help; the session is over.\n",
+            "enum": [
+              "InvalidToken"
+            ]
+          },
+          "error": {
+            "type": "string",
+            "description": "Human-readable message, localized to the caller's preferred language.\nIf no translation exists for this error key, the untranslated message\nis returned with a `Package` / `Code` footer appended.\n"
+          },
+          "package": {
+            "type": "string",
+            "enum": [
+              "ferrors"
+            ],
+            "description": "Internal origin marker for **fylr** support; not part of the API\ncontract. Branch on `code`, not `package`.\n"
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Machine-readable details; `realm` and `statuscode` are repeated here.\n"
+          },
+          "realm": {
+            "type": "string",
+            "enum": [
+              "api"
+            ],
+            "description": "The realm the error originates from. Always `api`."
+          },
+          "statuscode": {
+            "type": "integer",
+            "enum": [
+              401
+            ],
+            "description": "The HTTP status code, repeated here. Always `401`."
+          }
+        },
+        "example": {
+          "code": "InvalidToken",
+          "error": "Invalid token: \"abcd…\"",
+          "package": "ferrors",
+          "parameters": {
+            "realm": "api",
+            "statuscode": 401
+          },
+          "realm": "api",
+          "statuscode": 401
+        }
+      },
       "LookupFoundTooManyError": {
         "type": "object",
         "description": "Error returned with `code` `LookupFoundTooMany` (HTTP `400`).\n",
@@ -57148,7 +57252,7 @@
         "properties": {
           "code": {
             "type": "string",
-            "description": "Stable, machine-readable error code:\n\n  * `UserRequired` — the request did not carry a valid access token.\n",
+            "description": "Stable, machine-readable error code:\n\n  * `UserRequired` — the request carried no access token. A token\n    that was presented and rejected is `InvalidToken` instead.\n",
             "enum": [
               "UserRequired"
             ]
