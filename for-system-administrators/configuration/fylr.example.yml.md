@@ -71,11 +71,12 @@ fylr:
   # licenseFile (default: none). Path to license file. This is used as default
   # if nothing is set in the baseconfig. This setting is mutually exclusive with
   # fylr.license.
-  licenseFile: "license.json"
+  # licenseFile: "license.json"
 
   # license: Inline JSON of license.  This is used as default if nothing is set
-  # in the baseconfig. This setting is mutually exclusive with fylr.licenseFile.
-  license: "<JSON>"
+  # in the baseconfig. This setting is mutually exclusive with fylr.licenseFile
+  # above, so only one of the two can be set at a time.
+  # license: "<JSON>"
 
   # encryptionKey is used to AES-encrypt sensitive information before writing it
   # to the database. It must be 32 bytes long. The encryptionKey must be
@@ -167,10 +168,11 @@ fylr:
     # disableOpenapiDocsCache can be set to not cache OpenAPI specs. This is useful
     # when writing documentation.
     disableOpenapiDocsCache: true
-    # disableHttp2Client disables HTTP2 for client connections. Set this to true if
-    # you are experiencing difficulties connecting to certain web servers for
-    # file upload. E.g. with "stream error".
-    disableHttp2Client: false
+    # disableHttp2Client disables HTTP2 for client connections. Set this to true
+    # if you are experiencing difficulties connecting to certain web servers for
+    # file upload. E.g. with "stream error". DEPRECATED, use the successor
+    # debug.http.disableHttp2 above (this one is still honored).
+    # disableHttp2Client: false
     # label marks this instance as a non-production one. The web frontend shows
     # it as a banner above the application and names it in "about fylr". Empty
     # (the default) means no banner. Instances run by a fylr supervisor get this
@@ -347,30 +349,14 @@ fylr:
       - ../../../fylr-plugins/fylr_example
     urls:
       - https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/download/v0.1.2/fylr-plugin-formula-columns.zip
-    # marketplace configures the in-app plugin marketplace. Set enabled to
-    # false to remove it from the plugin manager; fylr then never fetches
-    # the plugin catalog (for air-gapped installations, or when plugins are
-    # chosen centrally).
+    # marketplace configures the in-app plugin marketplace (the plugin shop,
+    # GET /plugin/marketplace). Programmfabrik's curated catalog is built
+    # into fylr and pulled at request time (cached), so the offer can change
+    # without a fylr release. Set enabled to false to remove the marketplace
+    # from the plugin manager; fylr then never fetches the plugin catalog
+    # (for air-gapped installations, or when plugins are chosen centrally).
     marketplace:
       enabled: true
-    # default defines the generic default for new plugins. Plugins are new when they are inserted into the database.
-    default:
-      enabled: false
-      update_policy: "automatic"
-    # defaults is a map setting defaults for the plugin registration.
-    # This is configured as map with the plugin name as key.
-    defaults:
-      # default for fylr_example plugin
-      fylr_example:
-        # enable, set to false to disable the plugin, defaults to true
-        enabled: false
-        # update_policy: automatic, always, never, defaults to automatic
-        update: "never"
-
-    # marketplace configures the plugin shop (GET /plugin/marketplace).
-    # Programmfabrik's curated catalog is built into fylr and pulled at
-    # request time (cached), so the offer can change without a fylr release.
-    marketplace:
       # sources offer additional catalogs on top of the built-in one, each
       # either inline or a URL to a JSON document of the same shape. An
       # optional privateKey (base64 X25519) opens sealed plugins the source
@@ -383,6 +369,19 @@ fylr:
       #       plugins:
       #         - name: "my-plugin"
       #           url: "https://example.com/my-plugin.zip"
+    # default defines the generic default for new plugins. Plugins are new when they are inserted into the database.
+    default:
+      enabled: false
+      update_policy: "automatic"
+    # defaults is a map setting defaults for the plugin registration.
+    # This is configured as map with the plugin name as key.
+    defaults:
+      # default for fylr_example plugin
+      fylr_example:
+        # enable, set to false to disable the plugin, defaults to true
+        enabled: false
+        # update_policy: automatic, always, never, defaults to automatic
+        update_policy: "never"
 
   # Set to true to allow /api/settings/purge. dont use on production systems!
   allowpurge: true
@@ -763,7 +762,7 @@ fylr:
         # for server to server communication to exchange the auth code for a
         # token defaults to fylr.externalURL
         # Needs to be set to the port of fylr.services.api.addr
-        internalURL: "http://localhost:8080/"
+        internalURL: "http://localhost:8080"
 
       # The reverse proxy can be used to redirect requests to the api
       # and the backend and also for custom servers behind fylr.

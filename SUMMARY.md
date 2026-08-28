@@ -234,6 +234,7 @@
   * [Kubernetes](for-system-administrators/installation/helm.md)
   * [Scaling the execserver](for-system-administrators/installation/scaling-the-execserver.md)
 * [Configuration](for-system-administrators/configuration/README.md)
+  * [Checking the configuration](for-system-administrators/configuration/check.md)
   * [fylr.example.yml](for-system-administrators/configuration/fylr.example.yml.md)
   * [fylr.default.yml](for-system-administrators/configuration/fylr.default.yml.md)
   * [performance tuning](for-system-administrators/configuration/performance-tuning.md)
