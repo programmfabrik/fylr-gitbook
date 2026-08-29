@@ -23,6 +23,8 @@ Operation lives on the detail page: start/stop, hibernate, **Frontend (root) ↗
 
 Edits that a child bakes in at startup (host, basic auth, replica count) apply through a **zero-downtime rolling restart**: new replicas come up and are confirmed serving before the old ones retire. Rate limits and storage assignments apply live.
 
+A host may only be claimed once across the fleet, whether it arrives by creating an instance, editing one or restoring a backup into one. Two instances answering for the same name would leave the router choosing between them per request.
+
 ## Replicas
 
 An instance can run several replica processes over the same database and indices, load-balanced round-robin with sticky sessions. Rolling restarts walk the replicas one by one, so a fleet upgrade never takes an instance down.

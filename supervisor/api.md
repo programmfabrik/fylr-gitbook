@@ -29,7 +29,7 @@ Users, sessions and API tokens — see [Management access](access.md).
 | POST | `/api/logout` | End the session |
 | GET | `/api/session` | Who this request authenticates as, and how |
 | POST | `/api/session/password` | Change the caller's own password (`old_password`, `new_password`) |
-| POST | `/api/session/totp` · `/totp/confirm` | Begin and confirm the caller's authenticator enrollment |
+| POST | `/api/session/totp` · `/totp/confirm` | Begin and confirm the caller's authenticator enrollment (`password`, plus `otp` when a factor is already armed) |
 | DELETE | `/api/session/totp` | Disable the caller's second factor |
 | GET/POST | `/api/users` | List / create management users |
 | PATCH | `/api/users/{id}` | Edit (`email`, `active`, `password`, `must_change_password`, `totp_reset`) |

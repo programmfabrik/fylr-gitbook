@@ -35,6 +35,8 @@ Only `GET /api/healthz` and `POST /api/login` are reachable without a credential
 
 Each user enables TOTP for themselves through the **account button in the top-right corner**: scan the QR code with an authenticator app, confirm one generated code, and the factor is armed. Logging in then asks for the code after name and password.
 
+Replacing a factor that is already armed — moving to a new phone — asks for the password **and a current code**, the same proof as switching the factor off. The fresh secret is stored unarmed until it is confirmed, so without that rule an enrollment somebody started and walked away from would leave the account with no second factor.
+
 An administrator cannot read another user's secret, but can reset it (`totp_reset`), which disables the factor so the user can enroll again — the path for a lost phone.
 
 ## API tokens
