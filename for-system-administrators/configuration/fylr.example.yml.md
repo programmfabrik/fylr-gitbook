@@ -66,6 +66,32 @@ fylr:
   # a reverse proxy source matching in fylr.services.webapp.reverseProxy.custom.
   externalURL: "http://localhost"
 
+  # trustProxyHeaders (default: false) — is fylr reached ONLY through a proxy?
+  #
+  # A proxy in front of fylr names the real client in "x-real-ip" (or
+  # "x-forwarded-for"), because from fylr's side every request would otherwise
+  # come from the proxy. Those headers are only worth something when such a
+  # proxy is really there: from a caller that reaches fylr directly they are
+  # the caller's own input.
+  #
+  # Off (the default), the connection's peer is the client and those headers
+  # are ignored. Turn it on when fylr is reachable only through a proxy — then
+  # the identity the proxy forwards is used.
+  #
+  # This is not cosmetic. The client IP decides which IP-subnet-filtered groups
+  # a user is in (those carry system rights), how failed logins are counted
+  # towards the lockout, and which address the audit log records. Leaving it on
+  # while fylr is ALSO reachable directly lets any caller pick its own address,
+  # so answer it for the way fylr is actually reached — and keep the port shut
+  # to everything but the proxy.
+  #
+  # Loopback is believed either way, so a proxy on this same host and fylr's
+  # own webapp -> api hop keep working with the setting off.
+  #
+  # If a request arrives with one of those headers while this is off, fylr logs
+  # a warning naming the peer it came from, once an hour — that is what a proxy
+  # in front of a fylr with the setting off looks like from the inside.
+
   # The license file can also be uploaded into the fylr webfrontend as root.
 
   # licenseFile (default: none). Path to license file. This is used as default

@@ -14,6 +14,13 @@ fylr:
   name: "fylr"
   externalURL: "http://localhost"
 
+  # Does something in front of fylr set the client identity ("x-real-ip" /
+  # "x-forwarded-for")? Off means the connection's peer is the client and
+  # those headers are ignored, so a caller reaching fylr directly cannot name
+  # itself. Loopback is believed either way — only fylr itself and a proxy on
+  # this host can reach it from there. See fylr.example.yml.
+  trustProxyHeaders: false
+
   logger:
     format: "console"
     level: "info"
