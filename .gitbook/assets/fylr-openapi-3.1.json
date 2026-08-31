@@ -57913,7 +57913,7 @@
           },
           "_automatic_auth": {
             "$ref": "#/components/schemas/AutomaticAuthApi",
-            "description": "Automatic-auth descriptor (one-time token, expiry, etc.)."
+            "description": "Present only inside a user's group list: says the membership is\nrule-based rather than assigned by hand. Never set on a group read\nfrom `/api/v1/group`.\n"
           }
         }
       },
@@ -58088,7 +58088,7 @@
             "items": {
               "$ref": "#/components/schemas/GroupApi"
             },
-            "description": "Groups this user belongs to. On write, the array may carry full\ngroup payloads or just `{_id: N}` references.\n"
+            "description": "Groups this user belongs to — the same list `GET /user/session`\ndelivers as `groups`, in the same order: the system groups implied\nby the user's `type` first, then the groups assigned in the\ndatabase, then the groups that claim the user through an\n`_auth_method_group_maps.system` rule.\n\nEverything the user was not assigned by hand carries\n`_automatic_auth` (see `AutomaticAuthApi`); an entry without it is\nan explicit membership. Note that this is the *assigned* list, not\nthe list in effect for a given request: a group with\n`_ip_subnet_filter` is listed here regardless of the caller's IP,\nwhile `/user/session` only reports it when the session's IP\nmatches.\n\nOn write, the array may carry full group payloads or just\n`{_id: N}` references. Entries marked `_automatic_auth.type:\nsystem` are ignored — there is no membership to store for them.\n"
           },
           "_password": {
             "type": "string",
@@ -58180,7 +58180,7 @@
             "items": {
               "$ref": "#/components/schemas/GroupApi"
             },
-            "description": "Groups the authenticated user belongs to."
+            "description": "Groups the authenticated user belongs to, in the order the group\ncompiler produced them: the system groups implied by the user's\n`type` first, then the groups assigned in the database, then the\ngroups that claim the user through an\n`_auth_method_group_maps.system` rule. Memberships the user was\nnot assigned by hand carry `_automatic_auth`.\n\nThis is the same list and shape as `_groups` on `UserApi`, with\none difference: it is compiled against the request, so a group\nwith an `_ip_subnet_filter` only appears when the session's IP\nmatches the filter.\n"
           },
           "config": {
             "type": "object",
@@ -60919,19 +60919,19 @@
       },
       "AutomaticAuthApi": {
         "type": "object",
-        "description": "**Automatic-auth** descriptor — when set on a group, marks the\ngroup as one whose members can be granted a short-lived session\nthrough fylr's automatic-auth flow (action-code / email-link).\nCarries the auth method that issued the binding and a timestamp.\n",
+        "description": "**Automatic-auth** descriptor — set on a group inside a user's group\nlist to say that the user did **not** get this membership assigned by\nhand: it follows from a rule. Its absence means the membership was\nassigned explicitly and is editable.\n\nThree kinds of implicit membership carry it, told apart by `type`:\n\n* `implicit` — membership follows from the user's own `type`, so the\n  group is one of the built-in system groups (`system::all` holds\n  every user, `system::ldap` every LDAP user, ...).\n* `system` — the group claims the user through an\n  `_auth_method_group_maps.system` rule (see `AuthGroupRuleApi`),\n  i.e. \"everybody in this system group is also in me\". Such a group\n  is an ordinary one, of `type: easydb`.\n* `ldap` / `sso` — the membership was mapped from the identity\n  provider at login and is rewritten on every login.\n\nEntries marked `implicit` or `system` are ignored on write: there is\nnothing to store for them. Send them back unchanged (or leave them\nout).\n",
         "required": [
           "type"
         ],
         "properties": {
           "type": {
             "type": "string",
-            "description": "Auth method that granted the automatic-auth binding. One of\n`easydb`, `anonymous`, `collection`, `email`, `action_code`,\n`auto` (and any auth method a plugin contributes).\n"
+            "description": "How the user got into the group: `implicit` when it follows from\nthe user's type, `system` when a group rule claims them, `ldap` /\n`sso` when it was mapped from the identity provider at login.\n"
           },
           "timestamp": {
             "type": "string",
             "format": "date-time",
-            "description": "When the binding was issued. Set server-side."
+            "description": "When the membership was established — the login for `ldap` / `sso`,\nthe creation of the group for `implicit` and `system`. Set\nserver-side.\n"
           }
         }
       },

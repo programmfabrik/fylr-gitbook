@@ -53716,7 +53716,10 @@ components:
                     format: date-time
                     description: UTC time the group was last updated.
                 _automatic_auth:
-                    description: Automatic-auth descriptor (one-time token, expiry, etc.).
+                    description: |
+                        Present only inside a user's group list: says the membership is
+                        rule-based rather than assigned by hand. Never set on a group read
+                        from `/api/v1/group`.
                     allOf:
                         - $ref: '#/components/schemas/AutomaticAuthApi'
         UserApi:
@@ -53882,8 +53885,23 @@ components:
                     items:
                         $ref: '#/components/schemas/GroupApi'
                     description: |
-                        Groups this user belongs to. On write, the array may carry full
-                        group payloads or just `{_id: N}` references.
+                        Groups this user belongs to — the same list `GET /user/session`
+                        delivers as `groups`, in the same order: the system groups implied
+                        by the user's `type` first, then the groups assigned in the
+                        database, then the groups that claim the user through an
+                        `_auth_method_group_maps.system` rule.
+
+                        Everything the user was not assigned by hand carries
+                        `_automatic_auth` (see `AutomaticAuthApi`); an entry without it is
+                        an explicit membership. Note that this is the *assigned* list, not
+                        the list in effect for a given request: a group with
+                        `_ip_subnet_filter` is listed here regardless of the caller's IP,
+                        while `/user/session` only reports it when the session's IP
+                        matches.
+
+                        On write, the array may carry full group payloads or just
+                        `{_id: N}` references. Entries marked `_automatic_auth.type:
+                        system` are ignored — there is no membership to store for them.
                 _password:
                     type: string
                     maxLength: 100
@@ -53983,7 +54001,18 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/GroupApi'
-                    description: Groups the authenticated user belongs to.
+                    description: |
+                        Groups the authenticated user belongs to, in the order the group
+                        compiler produced them: the system groups implied by the user's
+                        `type` first, then the groups assigned in the database, then the
+                        groups that claim the user through an
+                        `_auth_method_group_maps.system` rule. Memberships the user was
+                        not assigned by hand carry `_automatic_auth`.
+
+                        This is the same list and shape as `_groups` on `UserApi`, with
+                        one difference: it is compiled against the request, so a group
+                        with an `_ip_subnet_filter` only appears when the session's IP
+                        matches the filter.
                 config:
                     type: object
                     additionalProperties: true
@@ -56907,23 +56936,42 @@ components:
         AutomaticAuthApi:
             type: object
             description: |
-                **Automatic-auth** descriptor — when set on a group, marks the
-                group as one whose members can be granted a short-lived session
-                through fylr's automatic-auth flow (action-code / email-link).
-                Carries the auth method that issued the binding and a timestamp.
+                **Automatic-auth** descriptor — set on a group inside a user's group
+                list to say that the user did **not** get this membership assigned by
+                hand: it follows from a rule. Its absence means the membership was
+                assigned explicitly and is editable.
+
+                Three kinds of implicit membership carry it, told apart by `type`:
+
+                * `implicit` — membership follows from the user's own `type`, so the
+                  group is one of the built-in system groups (`system::all` holds
+                  every user, `system::ldap` every LDAP user, ...).
+                * `system` — the group claims the user through an
+                  `_auth_method_group_maps.system` rule (see `AuthGroupRuleApi`),
+                  i.e. "everybody in this system group is also in me". Such a group
+                  is an ordinary one, of `type: easydb`.
+                * `ldap` / `sso` — the membership was mapped from the identity
+                  provider at login and is rewritten on every login.
+
+                Entries marked `implicit` or `system` are ignored on write: there is
+                nothing to store for them. Send them back unchanged (or leave them
+                out).
             required:
                 - type
             properties:
                 type:
                     type: string
                     description: |
-                        Auth method that granted the automatic-auth binding. One of
-                        `easydb`, `anonymous`, `collection`, `email`, `action_code`,
-                        `auto` (and any auth method a plugin contributes).
+                        How the user got into the group: `implicit` when it follows from
+                        the user's type, `system` when a group rule claims them, `ldap` /
+                        `sso` when it was mapped from the identity provider at login.
                 timestamp:
                     type: string
                     format: date-time
-                    description: When the binding was issued. Set server-side.
+                    description: |
+                        When the membership was established — the login for `ldap` / `sso`,
+                        the creation of the group for `implicit` and `system`. Set
+                        server-side.
         AuthMethodGroupMapsApi:
             type: object
             description: |
