@@ -36,7 +36,7 @@ Individual hooks add more keys — for example the transition action's `info` ob
 A callback always gets a token for the **current API user**, and *additionally* a token for the **plugin user** when one is configured — never one *or* the other.
 
 {% hint style="info" %}
-**These tokens are unbound and short-lived.** fylr binds a browser session token to the browser via the `fylr-browser-id` cookie, so a plugin replaying such a token server-side — without that cookie — would be rejected by session binding. For a browser-bound session fylr therefore mints a fresh, **session-binding-free** token for the callback; tokens of regular API clients are already unbound and are passed through. Freshly minted tokens are revoked once the callback returns — treat them as valid only for the duration of the callback and do not persist them.
+**These tokens are unbound and short-lived.** fylr binds a browser session token to the browser via the `fylr-browser-id` cookie, so a plugin replaying such a token server-side — without that cookie — would be rejected by session binding. fylr therefore mints a fresh, **session-binding-free** token for the callback. **From version 6.35.0 it does so for every caller** — the token a callback receives is never the caller's own, whether that caller is a browser session or an API client whose token would already be unbound. The token is revoked once the callback returns, so treat it as valid only for the duration of the callback and do not persist it.
 {% endhint %}
 
 {% hint style="info" %}
