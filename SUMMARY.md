@@ -424,3 +424,5 @@
 * [Changes from easydb 5](for-developers/changes-easydb5-fylr.md)
 * [Localization](for-developers/localization.md)
 * [Access private Repositories](for-developers/access-private-repositories.md)
+* [fylr Supervisor](for-developers/supervisor/README.md)
+  * [API](for-developers/supervisor/api.md)
