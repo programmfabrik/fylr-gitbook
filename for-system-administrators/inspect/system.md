@@ -46,6 +46,9 @@ slot, what finished and what failed, with throughput and bytes moved. The page
 streams over a websocket and updates itself; the same data is served as JSON at
 `/inspect/system/topology/data`.
 
+<figure><img src="../../.gitbook/assets/topology-fleet.png" alt="The topology page of a fylr installation with three servers, two execservers and a load balancer"><figcaption><p>Three fylr servers sharing two execservers, reached through one load-balanced address. The counters across the top are installation-wide; the lists below are the jobs running, finished and failed right now.</p></figcaption></figure>
+
+
 It is the page to open when the installation has more than one moving part:
 
 * **Is every execserver actually connected?** An execserver that fylr cannot reach receives no work at all in 6.35 — there is no polling fallback that would eventually pick the job up.
