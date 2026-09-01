@@ -65,8 +65,9 @@ A callback has to reach the **exact** fylr process that created the job: the
 job's stdin/stdout pipe lives in that process's memory, and so does the open
 write transaction behind a plugin's `api_tx_url`. A balanced address in one of
 the callback settings was never a working configuration; from 6.35 it fails
-visibly at connect time — the [fleet topology page](../inspect/system.md)
-reports it — instead of landing on a sibling replica later, inside a job.
+visibly at connect time — the
+[fleet topology page](../inspect/system.md#fleet-topology) reports it — instead
+of landing on a sibling replica later, inside a job.
 {% endhint %}
 
 ## 3. Decide how concurrency is sized
@@ -174,5 +175,5 @@ terminationGracePeriodSeconds: 45
 
 * The startup log carries the `execserver: auto-balance on …` line, or the waitgroup warnings above.
 * `/inspect/system/execserver/` lists the connected fylr servers, the balancer's caps — pool size, fast reserve, heavy threshold, and what is in flight against each of them — and per service its learned class and its mean runtime. It is where you check that the balancer's beliefs match the machine.
-* `/inspect/system/topology` shows the whole installation on one page: every fylr, every execserver, the load balancer when there is one, and the jobs moving between them — including a callback address that would not come back to the right replica.
+* [`/inspect/system/topology/`](../inspect/system.md#fleet-topology) shows the whole installation on one page: every fylr, every execserver, the load balancer when there is one, and the jobs moving between them — including a callback address that would not come back to the right replica.
 * `/metrics` carries `fylr_execserver_jobs_done`, `fylr_execserver_jobs_failed` and `fylr_execserver_jobs_running`, labelled by service, for the long-term view.
