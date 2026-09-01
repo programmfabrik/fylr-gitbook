@@ -25188,8 +25188,16 @@ paths:
                 - name: file_url_expire
                   in: query
                   description: |
-                    Number of days the signed file URLs contained in the response stay
-                    valid. If omitted, the expiry configured for the instance is used.
+                    Number of days the signed file URLs contained in the response stay valid. A
+                    signed URL is accepted by `/eas/download` on its own, without a session, until
+                    it expires — which is what saves the download the per-record rights check.
+
+                    If omitted, `system.file_url_expire.default_days` applies. The value is capped
+                    at `system.file_url_expire.max_days`; a caller holding the `system.root` right
+                    is **not** capped, since the cap exists to stop a regular user minting a
+                    long-lived URL for a file they may only see today, and does not apply to a
+                    caller who may read every file anyway. This is what lets `fylr backup` store
+                    URLs its restore can still fetch weeks later.
                   schema:
                     type: string
                 - name: skip_reverse_nested
@@ -25740,8 +25748,16 @@ paths:
                 - name: file_url_expire
                   in: query
                   description: |
-                    Number of days the signed file URLs contained in the response stay
-                    valid. If omitted, the expiry configured for the instance is used.
+                    Number of days the signed file URLs contained in the response stay valid. A
+                    signed URL is accepted by `/eas/download` on its own, without a session, until
+                    it expires — which is what saves the download the per-record rights check.
+
+                    If omitted, `system.file_url_expire.default_days` applies. The value is capped
+                    at `system.file_url_expire.max_days`; a caller holding the `system.root` right
+                    is **not** capped, since the cap exists to stop a regular user minting a
+                    long-lived URL for a file they may only see today, and does not apply to a
+                    caller who may read every file anyway. This is what lets `fylr backup` store
+                    URLs its restore can still fetch weeks later.
                   schema:
                     type: string
                 - name: skip_reverse_nested
@@ -25904,8 +25920,16 @@ paths:
                 - name: file_url_expire
                   in: query
                   description: |
-                    Number of days the signed file URLs contained in the response stay
-                    valid. If omitted, the expiry configured for the instance is used.
+                    Number of days the signed file URLs contained in the response stay valid. A
+                    signed URL is accepted by `/eas/download` on its own, without a session, until
+                    it expires — which is what saves the download the per-record rights check.
+
+                    If omitted, `system.file_url_expire.default_days` applies. The value is capped
+                    at `system.file_url_expire.max_days`; a caller holding the `system.root` right
+                    is **not** capped, since the cap exists to stop a regular user minting a
+                    long-lived URL for a file they may only see today, and does not apply to a
+                    caller who may read every file anyway. This is what lets `fylr backup` store
+                    URLs its restore can still fetch weeks later.
                   schema:
                     type: string
                 - name: skip_reverse_nested

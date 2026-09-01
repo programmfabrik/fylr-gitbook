@@ -26593,7 +26593,7 @@
           {
             "name": "file_url_expire",
             "in": "query",
-            "description": "Number of days the signed file URLs contained in the response stay\nvalid. If omitted, the expiry configured for the instance is used.\n",
+            "description": "Number of days the signed file URLs contained in the response stay valid. A\nsigned URL is accepted by `/eas/download` on its own, without a session, until\nit expires — which is what saves the download the per-record rights check.\n\nIf omitted, `system.file_url_expire.default_days` applies. The value is capped\nat `system.file_url_expire.max_days`; a caller holding the `system.root` right\nis **not** capped, since the cap exists to stop a regular user minting a\nlong-lived URL for a file they may only see today, and does not apply to a\ncaller who may read every file anyway. This is what lets `fylr backup` store\nURLs its restore can still fetch weeks later.\n",
             "schema": {
               "type": "string"
             }
@@ -27123,7 +27123,7 @@
           {
             "name": "file_url_expire",
             "in": "query",
-            "description": "Number of days the signed file URLs contained in the response stay\nvalid. If omitted, the expiry configured for the instance is used.\n",
+            "description": "Number of days the signed file URLs contained in the response stay valid. A\nsigned URL is accepted by `/eas/download` on its own, without a session, until\nit expires — which is what saves the download the per-record rights check.\n\nIf omitted, `system.file_url_expire.default_days` applies. The value is capped\nat `system.file_url_expire.max_days`; a caller holding the `system.root` right\nis **not** capped, since the cap exists to stop a regular user minting a\nlong-lived URL for a file they may only see today, and does not apply to a\ncaller who may read every file anyway. This is what lets `fylr backup` store\nURLs its restore can still fetch weeks later.\n",
             "schema": {
               "type": "string"
             }
@@ -27308,7 +27308,7 @@
           {
             "name": "file_url_expire",
             "in": "query",
-            "description": "Number of days the signed file URLs contained in the response stay\nvalid. If omitted, the expiry configured for the instance is used.\n",
+            "description": "Number of days the signed file URLs contained in the response stay valid. A\nsigned URL is accepted by `/eas/download` on its own, without a session, until\nit expires — which is what saves the download the per-record rights check.\n\nIf omitted, `system.file_url_expire.default_days` applies. The value is capped\nat `system.file_url_expire.max_days`; a caller holding the `system.root` right\nis **not** capped, since the cap exists to stop a regular user minting a\nlong-lived URL for a file they may only see today, and does not apply to a\ncaller who may read every file anyway. This is what lets `fylr backup` store\nURLs its restore can still fetch weeks later.\n",
             "schema": {
               "type": "string"
             }
