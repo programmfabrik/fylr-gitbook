@@ -30,7 +30,8 @@ The dashboard also links the read-only runtime views:
 | --- | --- |
 | `system/janitor/` | the clean-up janitor's state — file deletion, trash draining, idle-user archiving |
 | `system/queues/` | the file and index job queues |
-| `system/execserver/` | the connected execservers and their services |
+| `system/execserver/` | the connected execservers, their services and — in auto-balance mode — the learned class and mean runtime per service |
+| `system/topology/` | from 6.35: the whole installation on one live page — every fylr server, every execserver, the load balancer when there is one, and the jobs moving between them ([details](../../for-developers/execserver.md#fleet-topology)) |
 | `system/locations/` | the storage locations and their status |
 | `system/backups/` | the on-disk backups |
 | `system/console/` (+ `/stream`) | a live server-log console |

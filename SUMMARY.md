@@ -240,6 +240,7 @@
   * [From Source (bare metal)](for-system-administrators/installation/from-source.md)
   * [Kubernetes](for-system-administrators/installation/helm.md)
   * [Scaling the execserver](for-system-administrators/installation/scaling-the-execserver.md)
+  * [Updating the execserver to 6.35](for-system-administrators/installation/updating-the-execserver-to-6.35.md)
 * [Configuration](for-system-administrators/configuration/README.md)
   * [Checking the configuration](for-system-administrators/configuration/check.md)
   * [fylr.example.yml](for-system-administrators/configuration/fylr.example.yml.md)

@@ -13,7 +13,7 @@ Since fylr 6.35, fylr drives each execserver over a single **fylr-initiated webs
 For job data the execserver is stateless: it fetches its inputs via URLs, streams results back and keeps nothing between jobs.
 
 {% hint style="warning" %}
-The broker is the **only** transport as of fylr 6.35. The legacy `GET /token` / `PUT /job` handshake and the `tokenResponseSendServerIP` setting are removed — an execserver without a broker connection receives no work, so **execserver and fylr must be upgraded together**. On fylr up to 6.34.x, load-balanced setups instead needed `tokenResponseSendServerIP` (see [Token not found](../symptom-and-solution/token-not-found.md)).
+The broker is the **only** transport as of fylr 6.35. The legacy `GET /token` / `PUT /job` handshake and the `tokenResponseSendServerIP` setting are removed — an execserver without a broker connection receives no work, so **execserver and fylr must be upgraded together**. On fylr up to 6.34.x, load-balanced setups instead needed `tokenResponseSendServerIP` (see [Token not found](../symptom-and-solution/token-not-found.md)). What to change in an existing installation is on [Updating the execserver to 6.35](updating-the-execserver-to-6.35.md).
 {% endhint %}
 
 There are two supported ways to run multiple instances:

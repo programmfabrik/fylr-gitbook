@@ -27,10 +27,10 @@ fylr+:
 ```
 
 * `elastic.parallel` — 4 parallel fylr jobs feed the indexer with changed and new data. fylr compiles the documents for the indexer; depending on the data model and data this can be more CPU-consuming than the indexing itself.
-* `execserver` concurrency is **auto-balanced**: you no longer size a pool per service. All services draw from one CPU pool, and the balancer keeps short interactive jobs (metadata, plugins, IIIF) responsive by reserving `fastReserve` slots that long conversions (ffmpeg, LibreOffice, ImageMagick) cannot take. The balancer learns each service's runtime and persists that profile across restarts.
+* `execserver` concurrency is **auto-balanced**: you no longer size a pool per service. All services draw from one CPU pool, and the balancer keeps short interactive jobs (metadata, plugins, IIIF) responsive by reserving `fastReserve` slots that long conversions (ffmpeg, LibreOffice, ImageMagick) cannot take. The balancer learns each service's runtime and persists that profile across restarts, provided a `tempDir` is configured.
 
 {% hint style="info" %}
-**Upgrading from before 6.35.** The `execserver.parallel` / `execserver.parallelHigh` keys and the default per-service `waitgroup` assignments are gone. An existing explicit `waitgroups` block still works and turns auto-balancing off (see below); a config that keeps it now needs a `waitgroup:` on every service, because the default mapping no longer exists.
+**Upgrading from before 6.35.** The `execserver.parallel` / `execserver.parallelHigh` keys and the default per-service `waitgroup` assignments are gone. An existing explicit `waitgroups` block still works and turns auto-balancing off (see below), but it now has to name a `waitgroup:` for every service itself: a service that names none is not rejected — it lands on a shared `auto` pool the size of the CPU count, with a warning in the log. [Updating the execserver to 6.35](../installation/updating-the-execserver-to-6.35.md) walks through the whole change.
 {% endhint %}
 
 ### Other things you can change:
