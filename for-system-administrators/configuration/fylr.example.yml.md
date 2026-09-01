@@ -91,6 +91,7 @@ fylr:
   # If a request arrives with one of those headers while this is off, fylr logs
   # a warning naming the peer it came from, once an hour — that is what a proxy
   # in front of a fylr with the setting off looks like from the inside.
+  trustProxyHeaders: false
 
   # The license file can also be uploaded into the fylr webfrontend as root.
 
@@ -199,6 +200,18 @@ fylr:
     # file upload. E.g. with "stream error". DEPRECATED, use the successor
     # debug.http.disableHttp2 above (this one is still honored).
     # disableHttp2Client: false
+    # twoFactorTestCodes puts the currently valid authenticator code into an
+    # X-Fylr-Totp-Code header on the 2FA setup and verify pages, so an
+    # automated test can complete the TOTP flow (the counterpart of the
+    # X-Fylr-Two-Factor-Code header on the OTP mail). TEST-ONLY: with this on,
+    # anyone who can load the page can pass the second factor.
+    twoFactorTestCodes: false
+    # fileQueueStaleAfterSec overrides how long a claimed file_queue item may
+    # go without a heartbeat from its dispatcher before it counts as orphaned:
+    # another fylr requeues it, and /inspect reports it as stalled. 0 or unset
+    # = the default of 900 (15 minutes). Meant for the topology apitests, which
+    # shrink it to see that killing a fylr does not strand its claimed jobs.
+    fileQueueStaleAfterSec: 0
     # label marks this instance as a non-production one. The web frontend shows
     # it as a banner above the application and names it in "about fylr". Empty
     # (the default) means no banner. Instances run by a fylr supervisor get this
@@ -333,9 +346,20 @@ fylr:
           # setting and should be used for development purposes only.
           # Default is the safe false.
           allow_redirect: false
+          # read_only (any kind) lets fylr read what is already in the location
+          # but never write or delete there: uploads and purges into it fail
+          # with LocationReadOnly. For an archive or a mounted share that must
+          # stay untouched. Default false.
+          read_only: false
           config:
             file:
               dir: "_files"
+              # remote_url_prefix maps remote URLs back onto this location:
+              # /inspect/files, run with the option
+              # "map_to_local_file_storage", treats a file whose remote URL
+              # starts with this prefix as already lying in this location
+              # instead of fetching it again. Default empty (no mapping).
+              remote_url_prefix: ""
         mys3:
           kind: s3
           prefix: "apitest/"
@@ -352,6 +376,13 @@ fylr:
               secretkey: "minioadmin"
               region: "us-east-1"
               ssl: false
+              # pathstyle addresses the bucket as <endpoint>/<bucket>/<key>
+              # instead of the virtual-host form <bucket>.<endpoint>/<key>.
+              # Defaults to TRUE (also for locations configured before this
+              # key existed), which is what minio, ceph radosgw and most
+              # S3-compatible servers want. Set it to false for providers that
+              # require virtual-host addressing, e.g. AWS S3 itself.
+              pathstyle: true
         myazure:
           kind: azure
           allow_purge: true
@@ -622,6 +653,23 @@ fylr:
     # (e.g. thousands of tiny polygons) RDP cannot reach the target and the
     # result is the minimal-vertex form, which may still exceed it.
     standardMaxVertices: 100
+
+  # twoFactor configures two-factor authentication. Whether 2FA is demanded at
+  # all, and which methods are offered, belongs to the base config and is set
+  # per instance through the API / frontend — only the timing of the emailed
+  # one-time code is fixed here, in fylr.yml.
+  twoFactor:
+    # otpLifetimeSec is how long an emailed one-time code stays valid.
+    # Defaults to 3600 (one hour), deliberately generous: mail relays can
+    # delay externally addressed mail by many minutes, and a code that expires
+    # before it arrives locks the user out of a login they answered correctly.
+    otpLifetimeSec: 3600
+    # maxVerifyAttempts is how many wrong guesses of an emailed code are
+    # allowed before it is invalidated and the user is sent back to the login
+    # form for a fresh one. This is what bounds guessing a 6-digit code over
+    # its lifetime, so raise it only together with a shorter otpLifetimeSec.
+    # Defaults to 3.
+    maxVerifyAttempts: 3
 
 
   # services which will be started. It is possible to configure a standalone
@@ -1192,5 +1240,25 @@ fylr:
               args:
                 - "iiif"
 
+
+  # supervisor configures the multi-instance supervisor (the "fylr
+  # supervisor" subcommand). "fylr server" ignores this section.
+  #
+  # db is the ONLY supervisor setting in fylr.yml. Everything else — the
+  # management and router listeners, the data directory, the port range for
+  # the instances, the child binary, the Postgres admin DSN, the UI
+  # credentials — lives in that database and is edited through the
+  # supervisor UI, so a running fleet can be reconfigured without touching a
+  # config file. The instances it starts inherit the fylr.* sections above
+  # and get their own name / externalURL / db each.
+  #
+  # It defaults to SQLite in "supervisor.db" in the working directory (with
+  # logs.db next to it). The control plane is low-write and single-writer,
+  # so SQLite is the intended setup; point it at PostgreSQL (driver / dsn as
+  # in fylr.db above) only to keep the control state in a central database.
+  # supervisor:
+  #   db:
+  #     driver: sqlite3
+  #     dsn: supervisor.db
 ```
 {% endcode %}
