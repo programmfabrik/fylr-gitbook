@@ -44954,6 +44954,15 @@ components:
         technical_metadata:
             type: object
             properties:
+                alpha:
+                    type: boolean
+                    description: |
+                        Whether the image carries an alpha channel. Only present when it does, so
+                        an opaque image has no key rather than a false one. It is what separates
+                        a logo freed in a drawing program from the same logo on a white plate,
+                        and nothing else here says so: the channel count is a TIFF tag and the
+                        colour space names the colour channels only.
+                        Available from version 6.35.0.
                 aspect_ratio:
                     type: number
                     format: float64
