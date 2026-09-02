@@ -12,7 +12,13 @@ Typical uses are combining several fields into one display value, calculating a 
 
 ## Enabling the plugin
 
-`formula-columns` ships with every release. Make sure it is enabled in the [Plugin Manager](../README.md). Once enabled, a new option group **"Formula Columns"** appears in the column settings of the data model.
+`formula-columns` is not part of the fylr distribution and is not offered in the marketplace. Install it in the [Plugin Manager](../README.md) as a **url** plugin from its release:
+
+```
+https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/latest/download/fylr-plugin-formula-columns.zip
+```
+
+Once it is installed and **enabled**, a new option group **"Formula Columns"** appears in the column settings of the data model.
 
 ## Configuring a formula
 
