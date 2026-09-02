@@ -11,10 +11,9 @@ Plugins extend fylr's default feature set. Some are developed by Programmfabrik,
 ## Where to start
 
 * [**Plugin Overview**](overview.md) — what is on offer: the marketplace catalog, and the plugins that are installed by URL instead.
-* [**Plugin Manager**](../for-administrators/plugin-manager/README.md) — installing, enabling, configuring and updating plugins in your instance, and the marketplace that installs them.
+* [**Plugin Manager**](../for-administrators/plugin-manager/README.md) — the screen: installing, enabling, configuring and updating plugins in your instance, and the marketplace that installs them.
+* [**Individual plugins**](individual.md) — the plugins that have their own page here, and where the documentation for all the others lives.
 * [**Disk to URL plugin migration**](disk-to-url-migration.md) — fylr 6.35 stops shipping plugins on disk. What the upgrade does with the plugins you have, and what to do before it.
-
-Individual plugins with their own documentation are listed under the Plugin Manager.
 
 ## For developers
 

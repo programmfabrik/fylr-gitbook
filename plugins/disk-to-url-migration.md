@@ -198,7 +198,7 @@ A further set of easydb plugins has **no successor either**, but fylr **stopped 
 | --- | --- |
 | `server` | the easydb5 "Server Status" page. **Not** the [PDF Server](https://github.com/programmfabrik/fylr-plugin-server-pdf) (`server-pdf`), which is a different plugin — see [PDF Creator and the PDF Server](disk-to-url-migration.md#pdf-creator-and-the-pdf-server) |
 | `easydb-auto-keyworder-plugin` | obsolete; automatic keywording is now the licensed **ai-metadata** plugin, which is configured differently and is not a drop-in replacement |
-| `easydb-plugin-zooniverse-import` | a project-specific import |
+| `easydb-plugin-zooniverse-import` | not shipped by fylr; continued as [`fylr-plugin-zooniverse-import`](https://github.com/programmfabrik/fylr-plugin-zooniverse-import), which is installed by URL — see [Zooniverse](../for-administrators/plugin-manager/zooniverse.md) |
 | `easydb-hotfolder-plugin` | the hotfolder is part of fylr itself |
 | `webhook-plugin` | no fylr successor |
 | `example-plugin` | the developer example, continued as [`fylr-plugin-example`](https://github.com/programmfabrik/fylr-plugin-example) |

@@ -112,13 +112,15 @@ The sections below are the categories the marketplace groups by.
 
 ## Not in the marketplace
 
-These plugins are not offered in the shop — they are specific to one customer, or a developer example. They install like any other **url** plugin: take the release URL from the repository's README and enter it in the plugin manager under **plus → URL**. They are not curated, so check the repository before you rely on one.
+The rest of the `fylr-plugin-*` repositories that ship a plugin — a manifest and a release — but are not offered in the shop. Most are specific to one customer; one is the developer example. They install like any other **url** plugin: take the release URL from the repository's README and enter it in the plugin manager under **plus → URL**. Nobody curates them, so read the repository before relying on one.
 
 | Plugin | What it does | Repository |
 | --- | --- | --- |
 | `collection-csv-import` | Imports a CSV file into a collection, server side. | [fylr-plugin-collection-csv-import](https://github.com/programmfabrik/fylr-plugin-collection-csv-import) |
+| `core-mapping` | Configures a core mapping (Visitenkarte) and publishes it as JSON. | [fylr-plugin-core-mapping](https://github.com/programmfabrik/fylr-plugin-core-mapping) |
 | `custom-vzg-validationhub` | Sends data to the validation centre of the [VZG](https://www.gbv.de/informationen/Verbundzentrale) for content validation. | [fylr-plugin-custom-vzg-validationhub](https://github.com/programmfabrik/fylr-plugin-custom-vzg-validationhub) |
 | `default-values-from-pool` | Per-pool default values for fields, configured in the base configuration and applied from the data model. | [fylr-plugin-default-values-from-pool](https://github.com/programmfabrik/fylr-plugin-default-values-from-pool) |
+| `custom-data-type-vis` | Custom data type connecting records to the VIS Suite records-management system. | [fylr-plugin-custom-data-type-vis](https://github.com/programmfabrik/fylr-plugin-custom-data-type-vis) |
 | `edit-info-updater` | Updates an "Edited by" and an "Edit date" field whenever a watched field or tag changes. | [fylr-plugin-edit-info-updater](https://github.com/programmfabrik/fylr-plugin-edit-info-updater) |
 | `find-duplicate-field-values` | Mask splitter on a text field that says in the editor whether the same value already exists in the user's visibility range. | [fylr-plugin-find-duplicate-field-values](https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values) |
 | `fjc` | Stores the settings of the Attention-developed fylr Java classes. | [fylr-plugin-fjc](https://github.com/programmfabrik/fylr-plugin-fjc) |
@@ -135,9 +137,12 @@ These plugins are not offered in the shop — they are specific to one customer,
 | `fylr-plugin-numeric-id-auto-incrementer` | Fills numeric ID fields automatically when a record is saved. | [fylr-plugin-numeric-id-auto-incrementer](https://github.com/programmfabrik/fylr-plugin-numeric-id-auto-incrementer) |
 | `fylr-plugin-tray-link-manager` | Creates and manages the tray links in the app header. | [fylr-plugin-tray-link-manager](https://github.com/programmfabrik/fylr-plugin-tray-link-manager) |
 | `fylr-plugin-ubhd-3d-viewer` | 3D viewer of Heidelberg University Library, based on 3DHOP, three.js and Relight. | [fylr-plugin-ubhd-3d-viewer](https://github.com/programmfabrik/fylr-plugin-ubhd-3d-viewer) |
+| `example-licensed` | The developer example for a **licensed** plugin: how a paid plugin declares its licence requirement. | [fylr-plugin-example-licensed](https://github.com/programmfabrik/fylr-plugin-example-licensed) |
+| `fylr-plugin-zooniverse-import` | Imports CSV exports from [Zooniverse](https://www.zooniverse.org/) into existing records. Documented under [Zooniverse](../for-administrators/plugin-manager/zooniverse.md). | [fylr-plugin-zooniverse-import](https://github.com/programmfabrik/fylr-plugin-zooniverse-import) |
 | `fylr_example` | The developer example: one plugin demonstrating extensions, callbacks and frontend snippets. Not for production use. | [fylr-plugin-example](https://github.com/programmfabrik/fylr-plugin-example) |
 | `monitoring-endpoint` | Adds a monitoring endpoint at `GET /api/v1/plugin/base/monitoring/monitoring`. | [fylr-plugin-monitoring](https://github.com/programmfabrik/fylr-plugin-monitoring) |
 | `pdf-creator-custom-value` | Lets a PDF Creator template compute values with custom JavaScript. | [fylr-plugin-pdf-creator-custom-value](https://github.com/programmfabrik/fylr-plugin-pdf-creator-custom-value) |
+| `slack-notification` | Pushes notifications to a Slack webhook. | [fylr-plugin-slack-notification](https://github.com/programmfabrik/fylr-plugin-slack-notification) |
 | `signaturegenerator` | Generates signatures automatically from predefined patterns. | [fylr-plugin-signature-generator](https://github.com/programmfabrik/fylr-plugin-signature-generator) |
 | `user-logo` | Uses a user's own image as the logo in the frontend and in PDF Creator. | [fylr-plugin-user-logo](https://github.com/programmfabrik/fylr-plugin-user-logo) |
 
@@ -153,6 +158,8 @@ Two entries that used to be on this page are worth naming here:
 * **`easydb-barcode-display`** and **`easydb-barcode-display-pdf-plugin`** are succeeded by [`fylr-scancode-display`](https://github.com/programmfabrik/fylr-plugin-scancode-display), which contains both the mask splitter and the PDF Creator element.
 
 The plugins in the easydb5 repositories (`easydb-*`) are not fylr plugins. Where a fylr successor exists it is listed above, under the successor's name.
+
+Left out of both lists, deliberately: repositories with no plugin in them yet, ones that have never cut a release, and `fylr-plugin-server-pdf`, whose repository is archived.
 
 ## Writing your own
 
