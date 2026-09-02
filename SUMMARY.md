@@ -113,6 +113,7 @@
     * [Connector](for-administrators/plugin-manager/connector.md)
     * [Drupal](for-administrators/plugin-manager/drupal.md)
     * [Formula Columns](for-administrators/plugin-manager/formula-columns/README.md)
+      * [Examples](for-administrators/plugin-manager/formula-columns/examples/README.md)
       * [Set the object UUID on first save](for-administrators/plugin-manager/formula-columns/examples/set-uuid-on-first-save.md)
       * [Combine fields into one value](for-administrators/plugin-manager/formula-columns/examples/combine-fields.md)
       * [Calculate a value from other fields](for-administrators/plugin-manager/formula-columns/examples/calculate-from-fields.md)
