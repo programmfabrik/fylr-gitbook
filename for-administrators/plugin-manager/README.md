@@ -25,7 +25,9 @@ For a overview over all publicly available plugins, please click [here](../../pl
 {% endhint %}
 
 {% hint style="warning" %}
-From fylr **6.34.0**, the WordPress, Drupal and TYPO3 integrations are no longer shipped as bundled "disk" plugins. They are maintained as separate plugins (`fylr-plugin-wordpress`, `fylr-plugin-drupal`, `fylr-plugin-typo3`) and must be installed as **URL plugins**. Instances that relied on the former `easydb-wordpress-plugin`, `easydb-drupal-plugin` or `easydb-typo3-plugin` have to install the corresponding `fylr-plugin-*` release after updating.
+From fylr **6.34.0**, the WordPress, Drupal and TYPO3 integrations are no longer shipped as bundled "disk" plugins. They are maintained as separate plugins (`fylr-plugin-wordpress`, `fylr-plugin-drupal`, `fylr-plugin-typo3`) and are installed from the marketplace. Instances that relied on the former `easydb-wordpress-plugin`, `easydb-drupal-plugin` or `easydb-typo3-plugin` have to install the corresponding `fylr-plugin-*` plugin after updating — the [disk to URL migration](../../plugins/disk-to-url-migration.md) does it for an instance coming from 6.33 or earlier.
+
+All three are **licensed** plugins: they install freely, but your fylr license has to grant them by name before they can be enabled. If you use one of these connectors, obtain an updated license from Programmfabrik **before** you upgrade.
 {% endhint %}
 
 
@@ -33,7 +35,9 @@ From fylr **6.34.0**, the WordPress, Drupal and TYPO3 integrations are no longer
 
 Use the **search** to search for the internal or display **names** of plugins and click on a plugin so see all **details**. There, you can also **disable** or **enable** plugins, as well as **upload** a new version or define **automatic updates**:
 
-<table><thead><tr><th width="192.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Never</td><td>The plugin will not be updated automatically.</td></tr><tr><td>Daily</td><td>The version of the plugin will be checked once a day and if there is a new version available, the plugin will be updated.</td></tr><tr><td>Immediately</td><td>The version of the plugin will be checked every 10 seconds and if there is a new version available, the plugin will be updated.</td></tr></tbody></table>
+<table><thead><tr><th width="192.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>automatic (daily)</td><td>The plugin source is checked once a day; a new version is installed when one is found. This is the default for a plugin installed from a URL.</td></tr><tr><td>always (development)</td><td>The source is checked every 10 seconds. Meant for developing a plugin, not for production.</td></tr><tr><td>never</td><td>The plugin is not updated automatically. Its source is still probed, so a broken URL is still reported — but a new version is not installed.</td></tr></tbody></table>
+
+A **ZIP** plugin has no update policy: it is the bytes you uploaded, so the setting is fixed to *never* and the dropdown is disabled. Replacing it means uploading a newer ZIP.
 
 A **failed** update attempt (unreachable URL, broken download, invalid ZIP) leaves the **installed** version running untouched. From fylr **6.35.0** such an attempt is **retried** every **10 seconds** — with every update policy, so a repaired release is picked up within seconds instead of at the next daily check — and no longer leaves files behind: the broken download is **removed** again, as is the **previous** plugin ZIP after a successful update.
 
@@ -75,6 +79,8 @@ From fylr **6.35.0**, the fylr **license** can determine which plugins an instan
 
 Important for e.g. Kubernetes clusters or any other firewalled / egress-controlled setups:
 
-For the plugin manager to install and automatically update a plugin from a URL, fylr must be able to reach that URL. In environments with restricted outbound network access the install/update URL host must be explicitly allowed.
+For the plugin manager to install and automatically update a plugin from a URL, fylr must be able to reach that URL. In environments with restricted outbound network access, every host below has to be allowed explicitly — each one fails on its own:
 
-For GitHub Pages install URLs that host is `programmfabrik.github.io`. Without this allowlist entry, the plugin download and its automatic updates fail.
+<table><thead><tr><th width="290">HOST</th><th>NEEDED FOR</th></tr></thead><tbody><tr><td><code>docs.google.com</code></td><td>The <strong>marketplace catalog</strong>, which fylr reads from a published sheet when the shop is opened. Without it the marketplace reports itself as temporarily unavailable — plugins already installed keep working and updating.</td></tr><tr><td><code>programmfabrik.github.io</code></td><td>The install ZIP of every <strong>paid or private</strong> plugin, which is served from GitHub Pages.</td></tr><tr><td><code>github.com</code> and <code>*.githubusercontent.com</code></td><td>The install ZIP of every plugin published as a <strong>GitHub release</strong>. The <code>releases/latest/download/…</code> URL redirects to a <code>githubusercontent.com</code> host, so allowing <code>github.com</code> alone is not enough.</td></tr></tbody></table>
+
+Without the relevant entry the plugin download and its automatic updates fail; the plugin manager marks the plugin with a warning triangle and says why. A plugin that could never be downloaded at all can still be installed through the browser — see [Installations without internet access](../../plugins/disk-to-url-migration.md#installations-without-internet-access).
