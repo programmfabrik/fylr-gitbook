@@ -7,9 +7,13 @@ description: >-
 
 # Plugin Overview
 
+This page lists the plugins Programmfabrik offers, so you can see what exists without a running fylr in front of you.
+
 {% hint style="info" %}
-**The list that counts is in your instance.** From fylr **6.35.0** the plugin manager's **plus** button opens the [marketplace](../for-administrators/plugin-manager/README.md#plugin-marketplace), which fylr pulls from Programmfabrik's published catalog when you open it. It is always current, it shows each plugin's version and release date, and it installs with one click — including anything a plugin depends on. This page is a snapshot of that catalog for reading offline, plus a list of plugins that exist but are not offered in the shop.
+**In a running instance, install from the marketplace instead of from this page.** From fylr **6.35.0** the plugin manager's **plus** button opens the [marketplace](../for-administrators/plugin-manager/README.md#plugin-marketplace). It reads Programmfabrik's published catalog each time you open it, shows each plugin's version and release date, and installs a plugin together with whatever it depends on. This page is a copy of that catalog, so it can be behind.
 {% endhint %}
+
+Not every plugin is in the marketplace. Those are listed [further down](overview.md#not-in-the-marketplace) and are installed by URL.
 
 The name in the first column is the plugin's **internal name** — what the plugin manager, the API, the base configuration and the log lines call it. It is not always the repository name.
 
@@ -149,3 +153,7 @@ Two entries that used to be on this page are worth naming here:
 * **`easydb-barcode-display`** and **`easydb-barcode-display-pdf-plugin`** are succeeded by [`fylr-scancode-display`](https://github.com/programmfabrik/fylr-plugin-scancode-display), which contains both the mask splitter and the PDF Creator element.
 
 The plugins in the easydb5 repositories (`easydb-*`) are not fylr plugins. Where a fylr successor exists it is listed above, under the successor's name.
+
+## Writing your own
+
+Nothing here has to come from Programmfabrik. A plugin is a `manifest.yml` and a tree of files, and it can add API endpoints, callbacks into fylr's own saves and exports, custom data types, mask splitters and frontend code. See the [developer documentation](../for-developers/plugin.md), and [Load Custom Plugins](../for-system-administrators/configuration/custom-plugin.md) for running one from a directory while you write it.

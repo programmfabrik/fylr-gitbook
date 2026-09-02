@@ -391,9 +391,8 @@ fylr+:
 
 ### chrome
 
-**Optional**. Only needed for the plugin called `server-pdf` in the plugin manager. this plugin is not packaged with fylr by default. We mention it here to show the config under Windows as an example.
+**Optional**. Needed only to render PDFs — the **PDF Creator** plugin (`pdf-creator`), installed from the plugin manager. The Linux distribution brings its own Chromium; under Windows you supply the browser.
 
-* If you have at least version 1.1.0 of the plugin: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/tag/v1.1.0](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/tag/v1.1.0) it is ready for fylr under Windows.
 * Install the browser **Chrome**
 * configure the location of chrome in `fylr.yml`:
 
@@ -403,7 +402,9 @@ fylr+:
     SERVER_PDF_CHROME: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
 ```
 
-To update the plugin automatically, use this URL: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip)
+{% hint style="info" %}
+Up to fylr 6.34 the Windows `fylr.yml` installed the **PDF Server** (`server-pdf`) for this, and it did the rendering. PDF Creator renders the PDF itself from version 1.1.0, so 6.35 no longer installs `server-pdf` — and switches it off where both are enabled, because the two declare the same custom events. See [PDF Creator and the PDF Server](../../plugins/disk-to-url-migration.md#pdf-creator-and-the-pdf-server).
+{% endhint %}
 
 ## Configure the tools in fylr.yml
 
