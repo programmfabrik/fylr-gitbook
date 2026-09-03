@@ -38,8 +38,9 @@ With no record open, the assistant is a search — and, when tools are enabled, 
 
 * The request goes to the **search assistant** model first, which turns it into a retrieval query: a descriptive phrase in the data languages for the vector side, single words for the word side. The pane shows what it searched for.
 * It searches **where you are**: in the search app, the objecttypes of that search; in the lists, every objecttype, with the hits grouped under their objecttype.
-* The hits come back as the ordinary record cards. A click opens the record; **Show in search** hands the whole result set to the search app.
+* The hits come back as the ordinary record cards, the first few of them: the pane is narrow, so a long answer says how many more there are and **Show in search** hands the whole set — exactly those records — to the search app.
 * A request that names a number — *"find me five pictures"* — is answered with that many, best first, rather than with the one that survives the cut.
+* A request that names no subject — *"the five newest records"* — is a listing, not a similarity search, and costs no embedding call.
 * If the request needs more than finding — collecting, sharing, opening — the assistant calls [tools](#tools).
 
 The prompt is cleared when the question goes off, and the empty box offers what usually comes next as a greyed-out suggestion; space or → takes it.
@@ -50,7 +51,8 @@ A tool is something the assistant may do in fylr. fylr hands out the catalogue, 
 
 | Tool | | |
 | --- | --- | --- |
-| `search_objects` | reads | Finds records: the hybrid search behind one call. |
+| `search_objects` | reads | Finds records: the hybrid search behind one call. It also lists — "the five newest records" is a sort, not a search, so it is answered with one. |
+| `find_similar` | reads | The records whose picture looks like another record's. It compares the pictures, so it finds what no description mentions. |
 | `get_objects` | reads | Reads records by id — their texts and the ids of their files. |
 | `find_user` | reads | Looks a user up by email or login. |
 | `create_collection` | **changes** | Creates a collection under the user's own top level. |

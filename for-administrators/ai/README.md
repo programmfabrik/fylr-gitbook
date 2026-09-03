@@ -18,12 +18,16 @@ flowchart TD
     M --> IDX
     MAP --> O["Record"]
     O --> IDX["Index<br/>the record's fulltext"]
-    IDX --> E["Embedding job<br/>one vector per record"]
+    IDX --> E["Embedding job<br/>the record's subject"]
+    IDX --> P["Picture job<br/>the image itself"]
     E --> V[("object_embedding")]
+    P --> V
     V --> S
+    V --> SIM
 
     subgraph Finding
         S["Semantic element<br/>query + terms"] --> H["Hybrid retrieval<br/>k-NN ⊕ fulltext, rank fusion"]
+        SIM["Similar element<br/>a record, a file or a phrase"] --> KNN["k-NN over the pictures"]
     end
 
     subgraph "AI assistant"
@@ -34,14 +38,17 @@ flowchart TD
     end
 
     H --> RES(["Records found"])
+    KNN --> RES
     TOOLS --> API["fylr API, in the user's session"]
     ED --> O
 
     Q["ai_queue"] -.->|bulk lane| T
     Q -.->|bulk lane| E
+    Q -.->|bulk lane| P
     LOG[("ai_request — every call, its tokens, its user")]
     T -.-> LOG
     E -.-> LOG
+    P -.-> LOG
     C -.-> LOG
 ```
 
@@ -61,7 +68,7 @@ flowchart TD
 Only what a configured feature needs, and only to the provider configured for it:
 
 * **Tagging** sends one rendition of the file — a preview, not the original, unless the pool policy allows it — and the prompts.
-* **Embeddings** send the text a record is embedded from.
+* **Embeddings** send the text a record is embedded from, and — when a picture model is set — one rendition of the picture it shows.
 * **The assistant** sends the conversation, the marked fields with their current values, and the files the pool policy permits.
 
 The tools the assistant may call are executed by fylr, not by the provider: the model asks for a tool, fylr runs it in the user's session and hands back the result. A provider never receives credentials, and never reaches the API directly.

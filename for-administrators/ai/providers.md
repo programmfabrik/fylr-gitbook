@@ -32,6 +32,8 @@ Providers live in the **AI configuration** app (black menu → **AI configuratio
 
 Anthropic has no embedding model, so an instance that runs everything on Claude still needs a second provider — OpenAI or a local Ollama — for the vectors.
 
+For the **picture** vectors it needs a third. No vendor here serves a joint image/text model on its own endpoint, so an `openai`-type provider carries a **Base URL** pointing at one that does — Jina's endpoint for `jina-clip-v2`, or a CLIP server of your own — and the CLIP models appear in its catalogue. See [The picture, too](semantic-search.md#the-picture-too).
+
 The `dummy` type is built into fylr and talks to nothing. It answers deterministically, which is what the automated tests use; it is not meant for production.
 
 ## Where a model is chosen
