@@ -15,7 +15,7 @@ Two lanes:
 
 `/inspect/system/ai-queue/` shows the queue: the running dispatcher, the counts by status, the newest jobs, and the stored vectors. Over the API, `GET /api/v1/ai/queue` lists jobs with their status, and a single job can be cancelled or retried.
 
-An indexing run that finds records whose text changed queues their embeddings automatically. Turning embeddings on for the first time therefore means: save the settings, rebuild the index, and let the queue work through it.
+An indexing run that finds records whose text changed queues their embeddings automatically. Turning semantic search on for the first time therefore means: save the settings, rebuild the index, and let the queue work through it.
 
 ## The log
 

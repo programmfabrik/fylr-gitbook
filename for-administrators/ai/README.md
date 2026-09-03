@@ -49,7 +49,7 @@ flowchart TD
 
 <table data-header-hidden><thead><tr><th width="230"></th><th></th></tr></thead><tbody>
 <tr><td><a href="providers.md">AI Providers</a></td><td>Who fylr may talk to, and with which models.</td></tr>
-<tr><td><a href="configuration.md">AI Configuration</a></td><td>The instance-wide settings: embeddings, semantic search, the search assistant, and the request log.</td></tr>
+<tr><td><a href="configuration.md">AI Configuration</a></td><td>The instance-wide settings: semantic search, the search assistant, and the request log.</td></tr>
 <tr><td><a href="tagging.md">Tagging files</a></td><td>What the AI writes about an uploaded file, and how it reaches your fields.</td></tr>
 <tr><td><a href="semantic-search.md">Semantic and hybrid search</a></td><td>Finding records by meaning instead of by words — and by both at once.</td></tr>
 <tr><td><a href="assistant.md">The AI assistant</a></td><td>The chat pane: filling fields in the editor, searching, and acting through tools.</td></tr>

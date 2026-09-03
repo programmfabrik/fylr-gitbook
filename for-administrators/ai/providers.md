@@ -39,7 +39,9 @@ The `dummy` type is built into fylr and talks to nothing. It answers determinist
 A provider being enabled does not mean it is used. Every feature names its model explicitly:
 
 * **Tagging** — the `ai_tagging` block in the base config, or a pool's / objecttype's `custom_data`.
-* **Embeddings and the search assistant** — the [AI configuration](configuration.md) settings.
+* **Semantic search and the search assistant** — the [AI configuration](configuration.md) settings.
 * **The chat in the editor** — the pool's or objecttype's `ai_config`, which lists the models permitted for the records there.
+
+Each of those, the embedding model excepted, takes a list rather than a single model: fylr tries them in order and steps over a provider that is out of credit or rate limited. See [A model may be a chain](configuration.md#a-model-may-be-a-chain).
 
 That way a pool can be allowed to use an expensive model while the rest of the instance is not.
