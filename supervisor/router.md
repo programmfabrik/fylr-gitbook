@@ -13,6 +13,19 @@ HTTP requests to a host with a certificate are redirected to HTTPS; hosts withou
 
 <figure><img src="../.gitbook/assets/supervisor/sv-certificates.png" alt=""><figcaption><p>The Certificates page: TLS listener, ACME configuration and per-host certificate state</p></figcaption></figure>
 
+## Routes to a neighbouring service
+
+_From version 6.35.0._ The router can be the front door for a service on the same machine that is not a fylr instance. The `router_routes` setting takes one `host = upstream` line per route:
+
+```
+crm.example.org  = http://127.0.0.1:10100
+portal.example.org = http://127.0.0.1:10100
+```
+
+Upstreams must be loopback or private addresses — the router forwards to a neighbour on the box, it is not a general-purpose proxy. A routed host is matched after the abuse shield and the ban gate and before any instance is looked up, and it is forwarded with the same client identity the fleet uses, so the routed service is behind the same TLS certificate, the same rate limits and the same per-IP bans as the instances. It is also counted as a served host for certificate issuance, so ACME obtains a certificate for it like for any instance host.
+
+A host can be a route or an instance host, not both: creating or editing an instance on a routed host is refused. Routes are edited on the Settings page under _Routes_ and take effect immediately, without a restart.
+
 ## Rate limits
 
 Two independent levels, each a fleet default with per-instance overrides, both applied live:

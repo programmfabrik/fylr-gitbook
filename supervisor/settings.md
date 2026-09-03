@@ -24,6 +24,7 @@ Flat keys, one value each, as sent to `PUT /api/settings`. On first boot each mi
 | `listen` | `:8090` | Management listener (API + UI). Rebinds live. |
 | `router` | `:8091` | Public host-routing listener (HTTP). Empty disables routing. |
 | `router_tls` | *(empty)* | Public TLS listener, e.g. `:443`. Empty disables TLS. |
+| `router_routes` | *(empty)* | _From version 6.35.0._ `host = upstream` lines (one per line) handing a host to a neighbouring service on the same machine instead of an instance. Upstreams must be loopback or private addresses. |
 | `management_host` | *(empty)* | Serve the management UI through the public router under this host (forced HTTPS). |
 | `trusted_proxies` | *(empty)* | Comma-separated IPs/CIDRs whose `x-real-ip` / `x-forwarded-for` the router believes. Empty = the connection peer is the client. |
 
@@ -34,7 +35,7 @@ Who may use that listener is not a setting: management users, their two-factor a
 | Key | Default | Meaning |
 | --- | --- | --- |
 | `data_dir` | `instances` | Root directory holding each instance's files, configs and logs. |
-| `port_range` | `20000-21000` | Loopback ports leased to child replicas and the shared execserver. |
+| `port_range` | `20000-21000` | Loopback ports leased to child replicas and the shared execserver. _From version 6.35.0_ they are bound on `127.0.0.1` only, so a child is reachable through the router and not directly from the network. |
 | `postgres_admin_dsn` | *(empty)* | Keyword-form DSN of a role that can `CREATE DATABASE`; required for PostgreSQL instances. |
 | `default_binary` | `<default>` | Registry name instances without an own selection follow; repointing it is the fleet upgrade. |
 | `binary_keep_days` | `30` | Registry GC: unreferenced artifacts older than this are removed. `0` = off. |
