@@ -80,7 +80,32 @@ Each recipe brings its own extension options. Enable all extensions you want the
 
 Each recipe brings its own recipe options.
 
-<table><thead><tr><th width="150">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>format</td><td>Output format of the version — for example <code>jpg</code> or <code>png</code> for images. For audio conversion (from version 6.35.0): <code>m4a</code> (AAC in an MP4 container, the default), <code>mp3</code>, or <code>aac</code> (a raw ADTS stream, which cannot carry cover art).</td></tr><tr><td>bitrate</td><td>For audio conversion (from version 6.35.0): the audio bitrate in kbit/s (128–320). Leave empty to use the encoder's default.</td></tr><tr><td>size</td><td>Target size in pixels, interpreted according to <code>resize_mode</code>. <code>0</code> keeps the original size (the image is only re-encoded).</td></tr><tr><td>size_minimum</td><td>Only generate this version if the source is at least this many pixels. This prevents upscaling and lets the larger versions (huge, full, zoom) be skipped for smaller originals.</td></tr><tr><td>resize_mode</td><td><ul><li><strong>max:</strong> Maximum length allowed for either the width or the height. The image is resized so its longest side equals size.</li><li><strong>min:</strong> Minimum length required for either the width or the height. The image is resized so its shortest side equals size.</li><li><strong>width:</strong> Sets the exact width of the image. The height is automatically adjusted to preserve the aspect ratio.</li><li><strong>height:</strong> Sets the exact height of the image. The width is automatically adjusted to preserve the aspect ratio.</li></ul></td></tr><tr><td>jpegquality</td><td>JPEG quality from 1 to 100. The default versions use 80.</td></tr><tr><td>strip</td><td>Remove embedded metadata (EXIF, color profile, …) from the generated image.</td></tr><tr><td>clip</td><td>Honor an embedded clipping path and preserve transparency when converting.</td></tr><tr><td>height / height_minimum</td><td>For video: the target height in pixels (for example 360, 720, 1080). <code>height_minimum</code> skips the version for smaller source videos.</td></tr></tbody></table>
+<table><thead><tr><th width="150">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>format</td><td>Output format of the version — for example <code>jpg</code> or <code>png</code> for images. For audio conversion (from version 6.35.0): <code>m4a</code> (AAC in an MP4 container, the default), <code>mp3</code>, or <code>aac</code> (a raw ADTS stream, which cannot carry cover art).</td></tr><tr><td>bitrate</td><td>For audio conversion (from version 6.35.0): the audio bitrate in kbit/s (128–320). Leave empty to use the encoder's default.</td></tr><tr><td>size</td><td>Target size in pixels, interpreted according to <code>resize_mode</code>. <code>0</code> keeps the original size (the image is only re-encoded).</td></tr><tr><td>size_minimum</td><td>Only generate this version if the source is at least this many pixels. This prevents upscaling and lets the larger versions (huge, full, zoom) be skipped for smaller originals.</td></tr><tr><td>resize_mode</td><td><ul><li><strong>max:</strong> Maximum length allowed for either the width or the height. The image is resized so its longest side equals size.</li><li><strong>min:</strong> Minimum length required for either the width or the height. The image is resized so its shortest side equals size.</li><li><strong>width:</strong> Sets the exact width of the image. The height is automatically adjusted to preserve the aspect ratio.</li><li><strong>height:</strong> Sets the exact height of the image. The width is automatically adjusted to preserve the aspect ratio.</li></ul></td></tr><tr><td>jpegquality</td><td>JPEG quality from 1 to 100. The default versions use 80.</td></tr><tr><td>strip</td><td>Remove embedded metadata (EXIF, color profile, …) from the generated image.</td></tr><tr><td>clip</td><td>Cut the background away along the image's clipping path and preserve the transparency, when the version is written as PNG. See <a href="#clipping-paths">Clipping paths</a> below.</td></tr><tr><td>height / height_minimum</td><td>For video: the target height in pixels (for example 360, 720, 1080). <code>height_minimum</code> skips the version for smaller source videos.</td></tr></tbody></table>
+
+### Clipping paths
+
+An image can carry Photoshop paths, and one of them can be *designated* as the
+clipping path — the outline the background is cut away along. The `clip` recipe
+option honors that designation: a file that carries paths but designates none
+of them is converted whole. Which path is used is decided by the name recorded
+with it, not by taking the first one, so a name with an umlaut in it finds its
+path whether the file was written on macOS or on Windows. A clipping path saved
+without a name means the first path.
+
+TIFF, JPEG and PSD carry this metadata. For a JPEG the clipping path is
+reported but not applied to the default versions, because those are JPEG and
+have no transparency to cut a background out of — a
+[custom version preset](custom-version-presets.md) that writes PNG does clip
+it.
+
+The name of the clipping path is reported in the technical metadata as
+`clipping_path_name`.
+
+{% hint style="info" %}
+Files already in an instance keep the clipping they were produced with. They
+pick up a change here when their metadata is read again — for example by
+[regenerating their preview images](../../../help/tutorials/for-system-administrators/regenerating-preview-images.md).
+{% endhint %}
 
 ### Version Settings
 

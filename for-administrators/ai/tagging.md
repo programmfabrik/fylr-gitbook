@@ -37,6 +37,7 @@ Tagging is configured with the `ai_tagging` block, resolved from the most specif
 <table data-header-hidden><thead><tr><th width="230"></th><th></th></tr></thead><tbody>
 <tr><td><code>enabled</code></td><td>Whether files are tagged on save.</td></tr>
 <tr><td><code>provider</code></td><td>The provider, optionally with its model: <code>claude</code> or <code>claude/claude-opus-4-8</code>.</td></tr>
+<tr><td><code>models</code></td><td>Several models, comma separated, tried in that order: <code>claude/claude-opus-4-8, openai/gpt-4.1</code>. A provider that is out of credit or rate limited is stepped over rather than losing the file's description — see <a href="configuration.md#a-model-may-be-a-chain">A model may be a chain</a>. Set, it replaces <code>provider</code>.</td></tr>
 <tr><td><code>keyword_count</code> / <code>category_count</code></td><td>How many keywords and categories to ask for.</td></tr>
 <tr><td><code>system_prompt</code>, <code>title_prompt</code>, <code>description_prompt</code>, <code>keywords_prompt</code>, <code>categories_prompt</code></td><td>What to ask for. Empty falls back to fylr's own prompts, which ask for factual, archival descriptions and forbid invention.</td></tr>
 </tbody></table>

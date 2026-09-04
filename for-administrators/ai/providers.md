@@ -32,6 +32,8 @@ Providers live in the **AI configuration** app (black menu → **AI configuratio
 
 Anthropic has no embedding model, so an instance that runs everything on Claude still needs a second provider — OpenAI or a local Ollama — for the vectors.
 
+For the **picture** vectors it needs a third. No vendor here serves a joint image/text model on its own endpoint, so an `openai`-type provider carries a **Base URL** pointing at one that does — Jina's endpoint for `jina-clip-v2`, or a CLIP server of your own — and the CLIP models appear in its catalogue. See [The picture, too](semantic-search.md#the-picture-too).
+
 The `dummy` type is built into fylr and talks to nothing. It answers deterministically, which is what the automated tests use; it is not meant for production.
 
 ## Where a model is chosen
@@ -39,7 +41,9 @@ The `dummy` type is built into fylr and talks to nothing. It answers determinist
 A provider being enabled does not mean it is used. Every feature names its model explicitly:
 
 * **Tagging** — the `ai_tagging` block in the base config, or a pool's / objecttype's `custom_data`.
-* **Embeddings and the search assistant** — the [AI configuration](configuration.md) settings.
+* **Semantic search and the search assistant** — the [AI configuration](configuration.md) settings.
 * **The chat in the editor** — the pool's or objecttype's `ai_config`, which lists the models permitted for the records there.
+
+Each of those, the embedding model excepted, takes a list rather than a single model: fylr tries them in order and steps over a provider that is out of credit or rate limited. See [A model may be a chain](configuration.md#a-model-may-be-a-chain).
 
 That way a pool can be allowed to use an expensive model while the rest of the instance is not.

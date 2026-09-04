@@ -66,6 +66,10 @@ base_config:
 
 `base_config` names a parameter of type `user` in the plugin's own base-config additions, as `<section>.<parameter>`. The administrator selects the acting user there in the base configuration. At run time fylr issues an unbound token for that user and passes it as `plugin_user_access_token` / `plugin_user`. If no user is configured, or the configured user is the calling user, the plugin user falls back to the current API user (both tokens are then equal).
 
+`base_config` is the only key of a callback's `plugin_user`. A block without it is ignored — the callback then receives `api_user_access_token` only, no `plugin_user` / `plugin_user_access_token`. The same goes for a block that carries other keys instead, such as the `optional: true` found in some older manifests: unknown manifest keys are dropped silently. Check for this when a callback unexpectedly runs as the triggering user.
+
+The [custom data type updater](../../customdata.md#updates) declares its plugin user differently: `custom_types.<type>.update.plugin_user.reference` names a fixed user by its `reference` (for example `system:root`) instead of a base-config parameter.
+
 The plugin user is supported on `db_pre_save` step callbacks, `transition_db_pre_save`, collection-upload `objects` callbacks, `export` callbacks and [extensions](../extensions.md).
 
 ## Calling back into the API

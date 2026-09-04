@@ -41,6 +41,19 @@ This is useful for subfields whose values would otherwise flood the suggest inde
 
 Custom Data Types can be updated by a background service provided by FYLR. This background service collects all expired custom data and asks a script of the plugin to provide any updates on that data as needed. The updates happen periodically and the Custom Data Type can provide an expiration date for each record.
 
+The update script is declared under `custom_types.<type>.update` in the plugin's `manifest.yml` and receives the [callback contract](plugin/callbacks/contract.md) fields to call back into the API. A scheduled run has no acting user, so `api_user_access_token` is present only when the run is started from a request. To give the script a user of its own, `update.plugin_user.reference` names a fixed user by its `reference` — for example `system:root` — and the script receives `plugin_user` and `plugin_user_access_token` for that user:
+
+```yaml
+custom_types:
+  example:
+    update:
+      plugin_user:
+        reference: system:root   # the user's `reference`; easydb and system users only
+      exec: { … }
+```
+
+A reference that matches no user is logged as a warning and the run continues without a plugin user.
+
 
 
 
