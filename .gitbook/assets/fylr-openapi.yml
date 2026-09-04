@@ -31741,9 +31741,25 @@ paths:
                                                     type: object
                                 tools:
                                     type: array
-                                    description: names of the tools the model may ask for
+                                    description: |
+                                        The tools the model may ask for. An entry is either the
+                                        name of a tool in this server's catalogue, or a whole
+                                        definition the caller brings with it — its own, which
+                                        this server neither runs nor knows about.
                                     items:
-                                        type: string
+                                        oneOf:
+                                            - type: string
+                                              description: the name of a tool in GET /ai/tools
+                                            - type: object
+                                              required: [name, schema]
+                                              properties:
+                                                  name:
+                                                      type: string
+                                                  description:
+                                                      type: string
+                                                  schema:
+                                                      type: object
+                                                      description: JSON Schema of the tool's input
                                 assets:
                                     type: array
                                     description: the record's files to send along
@@ -31883,9 +31899,6 @@ paths:
                                                 write:
                                                     type: boolean
                                                     description: the tool changes something, so a caller should confirm it first
-                                                client:
-                                                    type: boolean
-                                                    description: the tool moves the window rather than the data; the browser runs it, and the server refuses it
     /ai/tools/{name}:
         description: |
             Run one tool. It runs in the calling user's session — their rights,

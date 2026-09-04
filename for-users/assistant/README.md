@@ -33,6 +33,10 @@ Ask what you can narrow by and it reads the filters of the result: which keyword
 
 Asking it to drop a filter drops it. A filter left over from an earlier question is mentioned rather than silently applied.
 
+## Cards, list or table
+
+The records are drawn as cards by default. Ask for a list or a table and the view changes — the table has selectable columns, like the one you would pick from the toolbar yourself.
+
 ## More like this
 
 A record's 3-dot menu offers **Find similar pictures**: the records whose picture looks like the one you are looking at, compared picture to picture. Nothing written about them plays any part, which is why it finds things a description never mentions.

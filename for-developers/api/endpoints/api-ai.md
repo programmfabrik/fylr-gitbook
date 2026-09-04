@@ -12,6 +12,8 @@ Two things are worth knowing before the reference.
 
 **fylr does not run the model's tools.** It answers with the model's `tool_calls` and the caller runs each one through `POST /ai/tools/{name}`. That call happens **in the caller's own session**, so a tool sees exactly what that user may see. The model never touches the API and never holds a credential.
 
+**The catalogue is what this server can do, and nothing else.** A frontend has tools of its own — opening a record in its editor, ticking a box in its filter tree, switching its view — and fylr has no way to run any of them. They are not in the catalogue, because a server that listed them would be telling you fylr can do things it cannot. A caller brings its own with the request that uses them; see [Tools of your own](#tools-of-your-own).
+
 ## The loop
 
 ```
@@ -29,14 +31,13 @@ The caller decides what to do between the steps: ask the user before running a t
 
 ## The tools
 
-`GET /ai/tools` hands out the catalogue with a JSON Schema per tool. Two flags decide how a caller treats one:
+`GET /ai/tools` hands out the catalogue with a JSON Schema per tool. One flag decides how a caller treats one:
 
 <table data-header-hidden><thead><tr><th width="120"></th><th></th></tr></thead><tbody>
 <tr><td><code>write</code></td><td>The tool changes something. fylr checks the rights regardless — the flag is there so a caller can ask the user first, not as the security boundary.</td></tr>
-<tr><td><code>client</code></td><td>The tool moves the window rather than the data: opening a record, switching the view, putting a search into the search bar. The browser runs it; the server refuses it.</td></tr>
 </tbody></table>
 
-What the catalogue holds today:
+What the catalogue holds:
 
 | Tool | | |
 | --- | --- | --- |
@@ -49,20 +50,41 @@ What the catalogue holds today:
 | `create_collection` | **changes** | A collection under the user's own top level. |
 | `add_to_collection` | **changes** | Puts records into one. |
 | `share_collection` | **changes** | Shares one, with a notification mail. |
-| `search_in_app` | window | Puts a search into the search bar and runs it. |
-| `apply_facet` / `clear_filters` | window | Ticks and unticks the filter tree. |
-| `list_facets` | window | What the result on screen is made of, and how much of it. |
-| `set_sort` | window | Orders it by relevance or by age. |
-| `switch_view` | window | Moves to the main search or to the lists. |
-| `open_object` / `show_collection` | window | Shows one record or one collection. |
-| `ask_user` | window | Asks which of two readings of a request to act on. |
-| `look_closer` | window | Asks for a larger rendition of the record's files and answers again. |
 
-The window tools are the assistant's own; a different caller implements the ones it has a window for and leaves the rest out of `tools`.
+## Tools of your own
+
+An entry of `tools` in a completion request is either the **name** of a tool
+above, or a **whole definition** you bring with you:
+
+```json
+{
+  "tools": [
+    "search_objects",
+    "count_objects",
+    {
+      "name": "open_record",
+      "description": "Open one record in the editor.",
+      "schema": {
+        "type": "object",
+        "required": ["system_object_id"],
+        "properties": { "system_object_id": { "type": "integer" } }
+      }
+    }
+  ]
+}
+```
+
+fylr passes a definition straight to the model and hands the call back in
+`tool_calls`. It neither runs it nor knows what it does, which is the point:
+your application's tools are yours, and they do not become part of what fylr
+claims to offer every other caller.
+
+The fylr web frontend does exactly this — its eleven window tools live in the
+frontend, not here.
 
 ## What a tool answers with
 
-A tool that changes the screen answers with the screen: `records_on_screen`, and `active_filters` listing everything still narrowing it. That is deliberate — a model that is only told "done" will describe what it meant to do, and a number it cannot check is a number it will invent.
+A tool that changes the screen should answer with the screen: how many records are showing, and what is still narrowing them. That is worth copying — a model told only "done" will describe what it meant to do, and a number it cannot check is a number it will invent. The web frontend's window tools answer with `records_on_screen` and `active_filters` for that reason.
 
 ## Endpoints
 
