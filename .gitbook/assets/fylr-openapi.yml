@@ -31672,6 +31672,374 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/InsufficientRightsError'
+    /ai/complete:
+        description: |
+            One completion, with the tools the assistant may ask for. This is the
+            call behind the assistant pane: **fylr** composes nothing — the caller
+            sends the system framing, the conversation and the list of tools — and
+            **fylr** adds the model, the provider credentials, the record's files
+            when it is allowed to, and the audit row.
+        post:
+            summary: Ask a model to complete, with tools.
+            description: |
+                `purpose` selects the policy that applies. `search` uses the search
+                assistant model from the AI settings and carries no files.
+                `field_prompt` uses the pool's or objecttype's `ai_config`: the
+                permitted models, how many files may go along, and which renditions
+                of them.
+
+                `tools` names the tools of `GET /ai/tools` the model may ask for.
+                **fylr** does not run them: it returns the model's `tool_calls`, and
+                the caller runs each through `POST /ai/tools/{name}` and sends the
+                result back in the next message. A tool call therefore always runs
+                in the caller's own session, with their rights.
+
+                `assets` are the record's files to send. Which classes and which
+                produced versions may be sent is the policy's to decide, and the
+                instance's AI settings decide it for a class the policy does not
+                mention. The original is never sent unless the policy allows it,
+                and **fylr** never produces a rendition in order to feed a model.
+
+                Every call writes an `ai_request` row: the model, the tokens in and
+                out, the user, the subject and the status.
+            tags:
+                - ai
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - purpose
+                                - messages
+                            properties:
+                                purpose:
+                                    type: string
+                                    enum: [search, field_prompt, tagging]
+                                    description: which policy applies to this call
+                                model:
+                                    type: string
+                                    description: "`<provider>/<model>`; a model the policy permits. Omitted takes the policy's first."
+                                system:
+                                    type: string
+                                    description: the system framing, sent verbatim
+                                messages:
+                                    type: array
+                                    description: the conversation so far
+                                    items:
+                                        type: object
+                                        properties:
+                                            role:
+                                                type: string
+                                                enum: [user, assistant]
+                                            content:
+                                                type: array
+                                                items:
+                                                    type: object
+                                tools:
+                                    type: array
+                                    description: names of the tools the model may ask for
+                                    items:
+                                        type: string
+                                assets:
+                                    type: array
+                                    description: the record's files to send along
+                                    items:
+                                        type: object
+                                        properties:
+                                            eas_id:
+                                                type: integer
+                                            version:
+                                                type: string
+                                                description: a produced version to prefer, when the policy lists it
+                                objecttype:
+                                    type: string
+                                pool_id:
+                                    type: integer
+                                meta:
+                                    type: object
+                                    description: recorded with the audit row
+            responses:
+                "200":
+                    description: the model's answer
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    text:
+                                        type: string
+                                    tool_calls:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                id:
+                                                    type: string
+                                                name:
+                                                    type: string
+                                                input:
+                                                    type: object
+                                    model:
+                                        type: string
+                                        description: the model that actually answered, which is not the first of a chain when that one was unavailable
+                                    input_tokens:
+                                        type: integer
+                                    output_tokens:
+                                        type: integer
+                                    assets:
+                                        type: array
+                                        description: which file went as which version, and how many bytes
+                                        items:
+                                            type: object
+                "400":
+                    description: the request names a model, a purpose or a file the policy does not permit
+                "403":
+                    description: AI is not enabled for these records
+    /ai/config:
+        description: |
+            What the assistant may do here: the models the pool or objecttype
+            permits, whether semantic search is on and with which models.
+        get:
+            summary: The AI policy that applies.
+            tags:
+                - ai
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: objecttype
+                  in: query
+                  schema:
+                      type: string
+                - name: pool_id
+                  in: query
+                  schema:
+                      type: integer
+            responses:
+                "200":
+                    description: the policy, and the instance-wide semantic search settings
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    enabled:
+                                        type: boolean
+                                    models:
+                                        type: array
+                                        items:
+                                            type: object
+                                    max_files:
+                                        type: integer
+                                    semantic_search:
+                                        type: object
+                                        properties:
+                                            enabled:
+                                                type: boolean
+                                            model:
+                                                type: string
+                                            image_model:
+                                                type: string
+                                            assistant_model:
+                                                type: string
+                                            languages:
+                                                type: array
+                                                items:
+                                                    type: string
+    /ai/tools:
+        description: |
+            The catalogue of tools a model may ask for. It is the instance's, not a
+            fixed list: the objecttypes a tool may name are this instance's, so a
+            model cannot invent one.
+        get:
+            summary: The tools the assistant may use.
+            tags:
+                - ai
+            security:
+                - bearerAuth: []
+            responses:
+                "200":
+                    description: the catalogue
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    tools:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                name:
+                                                    type: string
+                                                description:
+                                                    type: string
+                                                schema:
+                                                    type: object
+                                                    description: JSON Schema of the tool's input
+                                                write:
+                                                    type: boolean
+                                                    description: the tool changes something, so a caller should confirm it first
+                                                client:
+                                                    type: boolean
+                                                    description: the tool moves the window rather than the data; the browser runs it, and the server refuses it
+    /ai/tools/{name}:
+        description: |
+            Run one tool. It runs in the calling user's session — their rights,
+            their masks, their audit trail — so a tool cannot reach anything the
+            user could not reach themselves.
+        post:
+            summary: Run one tool of the catalogue.
+            tags:
+                - ai
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: name
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            description: the tool's input, as its schema in `GET /ai/tools` describes
+            responses:
+                "200":
+                    description: what the tool answered
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    result:
+                                        type: object
+                "400":
+                    description: the input does not fit the tool's schema
+                "404":
+                    description: no such tool, or a tool the browser runs
+    /ai/tag:
+        description: |
+            Tag one file now, instead of waiting for the file worker to do it when
+            the record is saved.
+        post:
+            summary: Tag one file.
+            tags:
+                - ai
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: force
+                  in: query
+                  description: tag it again even though a result is already stored
+                  schema:
+                      type: boolean
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                file_id:
+                                    type: integer
+            responses:
+                "200":
+                    description: what was written into the file's `ai` metadata group
+    /system/ai/settings:
+        description: |
+            The instance-wide AI settings: semantic search and what it is embedded
+            with, the search assistant, and which file classes a model may be shown.
+            Needs the `system.root` right.
+        get:
+            summary: Read the AI settings.
+            tags:
+                - ai
+            security:
+                - bearerAuth: []
+            responses:
+                "200":
+                    description: the settings, with the models on offer
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    settings:
+                                        type: object
+                                    embedding_models:
+                                        type: array
+                                        items:
+                                            type: object
+        put:
+            summary: Write the AI settings.
+            description: |
+                The answer says whether the change invalidates the stored vectors
+                and the index mapping. When `requires_reindex` is true the vectors
+                are rebuilt on the next index run, and until then the semantic
+                search works with what is still there.
+            tags:
+                - ai
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                semantic_search:
+                                    type: object
+                                    properties:
+                                        enabled:
+                                            type: boolean
+                                        model:
+                                            type: string
+                                        image_model:
+                                            type: string
+                                            description: a joint image/text model, which embeds the picture a record shows
+                                        languages:
+                                            type: array
+                                            items:
+                                                type: string
+                                        k:
+                                            type: integer
+                                        min_score:
+                                            type: number
+                                        assistant_model:
+                                            type: string
+                                            description: one model, or several comma separated and tried in order
+                                assets:
+                                    type: object
+                                    properties:
+                                        classes:
+                                            type: array
+                                            items:
+                                                type: string
+                                        versions:
+                                            type: object
+                                            description: the produced versions to try per class, in order
+            responses:
+                "200":
+                    description: the settings as stored, and whether a reindex is needed
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    settings:
+                                        type: object
+                                    requires_reindex:
+                                        type: boolean
+                "400":
+                    description: a model that cannot embed, or a text model named as the picture model
     /search:
         description: |
             Run searches over the indexed objects, or over a different domain selected
