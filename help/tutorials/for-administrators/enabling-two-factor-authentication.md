@@ -60,6 +60,10 @@ The first time an enforced user logs in, fylr guides them through what is needed
 With more than one method enabled, the user picks one at first login; later logins go straight to the last-used method, with a **"use a different method"** link to switch. Wrong email/TOTP codes are limited (3 attempts by default) before the user has to start the login over.
 
 {% hint style="info" %}
+Both numbers are set in `fylr.yml`, not in the base configuration: `fylr.twoFactor.maxVerifyAttempts` (default 3) is how many wrong codes are accepted before the login starts over, and `fylr.twoFactor.otpLifetimeSec` (default 3600) is how long an emailed code stays valid. The lifetime is deliberately generous — a mail relay that delays externally addressed mail by several minutes must not expire the code before it arrives. See [fylr.example.yml.md](../../../for-system-administrators/configuration/fylr.example.yml.md "mention").
+{% endhint %}
+
+{% hint style="info" %}
 **Passwordless sign-in:** when the passkey method is enabled, the login form also offers **"Sign in with passkey"** — no username or password. Because a passkey combines possession (the device) with biometrics, this counts as a full two-factor login.
 {% endhint %}
 

@@ -15,7 +15,9 @@ Plugins extend fylr through a **callback system** that runs plugin programs in t
 * **Frontend snippets** — JavaScript / CSS loaded into the web frontend.
 * **Base-config additions** — extra configuration parameters (for example a plugin user).
 
-fylr must be told to load a plugin in **`fylr.yml`** — either an individual plugin or a directory of plugins. Plugins may be packed into a [`.zip` file](plugin/release.md); fylr serves the resources from within the ZIP, unpacking files on the fly.
+A finished plugin is delivered as a [`.zip` file](plugin/release.md) and installed in the [Plugin Manager](../for-administrators/plugin-manager/README.md) — from the marketplace, from a release URL, or by uploading the ZIP. fylr serves the resources from within the ZIP, unpacking files on the fly.
+
+While you are **writing** one, point `plugin.paths` in **`fylr.yml`** at the directory you build into and fylr loads it from there — see [Load Custom Plugins](../for-system-administrators/configuration/custom-plugin.md). From fylr 6.35 that is what `plugin.paths` is for: the distribution itself no longer ships plugins on disk.
 
 ## How it fits together
 

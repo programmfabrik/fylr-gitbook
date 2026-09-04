@@ -8,13 +8,17 @@ description: Integrate data from Zooniverse and use it in fylr.
 Please note: this plugin is licensed as a separate module. If in doubt, please check your license agreement.
 {% endhint %}
 
+{% hint style="warning" %}
+**From fylr 6.35 this plugin is installed by URL.** It is not part of the fylr distribution and it is not offered in the plugin marketplace — it is a project-specific import. Install it in the [Plugin Manager](README.md) as a **url** plugin from `https://github.com/programmfabrik/easydb-plugin-zooniverse-import/releases/latest/download/easydb-plugin-zooniverse-import.zip`. An instance upgrading from an easydb5 installation that still carries it on disk loses it at the upgrade — see [Disk to URL plugin migration](../../plugins/disk-to-url-migration.md#plugins-that-will-be-removed).
+{% endhint %}
+
 ## About
 
 [Zooniverse](https://www.zooniverse.org/) is a platform for people-powered research. This research is made possible by volunteers — more than a million people around the world who come together to assist professional researchers. It offers a CSV export of data, which then can be imported to fylr.
 
 ## Adding the Plugin
 
-First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](README.md). If not, add the plugin. To license and get the plugin, please get in touch with Programmfabrik GmbH.
+First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](README.md). If not, add it as a **url** plugin with the release URL above. To license the plugin, please get in touch with Programmfabrik GmbH.
 
 ## Data Model
 

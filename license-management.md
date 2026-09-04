@@ -50,6 +50,14 @@ Based on the fylr license contract the enabled capabilities are defined in the f
 * Mobile App connectivity
 * Limit access to Read-Only
 
+### Plugin capabilities
+
+From fylr **6.35.0**, the license can also determine which **plugins** an instance is allowed to **enable**, through a plugin capability map in the license:
+
+* A plugin the license **names and grants** can be enabled normally.
+* A plugin the license **names without granting** it is **force-disabled** at runtime, and enabling it over the API or the [Plugin Manager](for-administrators/plugin-manager/README.md) is refused (`PluginNotLicensed`). Its stored `enabled` flag and configuration are **preserved**, so the plugin re-enables by itself once the license grants it again.
+* Plugins the license does **not name at all** stay **unrestricted**.
+
 ## License
 
 The cryptographically signed license contains:

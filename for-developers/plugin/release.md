@@ -195,6 +195,10 @@ https://github.com/programmfabrik/fylr-plugin-example/releases/latest/download/f
 
 This URL redirects to the latest release. If this URL is used in the plugin manager, fylr will detect changes in the ZIP file and automatically update the plugin.
 
+{% hint style="warning" %}
+**Name the release asset after the repository.** `<repository>.zip` is the canonical name: `fylr-build-plugin` produces exactly that and takes no override, and the marketplace catalog builds each entry's install URL from the repository name. A release that publishes the ZIP under any other name is not reachable at the URL the catalog will hand out. If a plugin's asset name has to change, keep publishing the old name alongside the new one — instances that stored the old URL update from it.
+{% endhint %}
+
 {% hint style="info" %}
 Please note that fylr can not use any kind of authentication when loading plugins. The plugin URL must be reachable directly.
 
