@@ -262,6 +262,7 @@
   * [Term Recalculation](for-system-administrators/inspect/term-recalculation.md)
   * [SQL Query](for-system-administrators/inspect/sql-query.md)
   * [API Documentation](for-system-administrators/inspect/api-documentation.md)
+  * [Datamodel](for-system-administrators/inspect/datamodel.md)
   * [Objects](for-system-administrators/inspect/objects.md)
   * [Collections](for-system-administrators/inspect/collections.md)
   * [License](for-system-administrators/inspect/license.md)

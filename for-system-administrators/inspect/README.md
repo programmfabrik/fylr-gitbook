@@ -35,7 +35,7 @@ Each tool is a page under `/inspect/<tool>/`. The ones with settings or actions 
 | Tool                                                             | Shows                                                        | Page                          |
 | ---------------------------------------------------------------- | ------------------------------------------------------------ | ----------------------------- |
 | `config`                                                         | the compiled base config                                     |                               |
-| `datamodel`                                                      | objecttypes, masks, fields                                   |                               |
+| `datamodel`                                                      | objecttypes, masks, fields; **from version 6.35.0** a model explorer that draws them and what links them | [Datamodel](datamodel.md)     |
 | `objects`                                                        | object dump — render an object against any datamodel version | [Objects](objects.md)         |
 | `objecttypes`                                                    | objecttype list and per-type stats                           |                               |
 | `files`                                                          | file-production state, filters and actions, IIIF viewer      | [Files](files.md)             |
