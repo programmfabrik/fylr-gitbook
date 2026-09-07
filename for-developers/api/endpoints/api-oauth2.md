@@ -10,6 +10,10 @@ Since fylr 6.34.0, an access/refresh token issued to the browser via this endpoi
 
 **API clients are not affected:** a token obtained at `/oauth2/token` via the password or client-credentials grant is issued **unbound** when the request carries no `fylr-browser-id` cookie — such integrations keep working unchanged. A login whose token is consumed on a different origin than the fylr itself — a third-party OAuth client (a cross-origin `redirect_uri`) or a cross-server *webOnly* frontend — is likewise issued an unbound token, since that origin's requests would not carry the cookie.
 
+**The refresh is bound too.** Since fylr 6.34.4, `/oauth2/refresh` requires the cookie the session was bound to. Without it the refresh is rejected with `InvalidToken` instead of returning a new pair — a session that has lost its binding ends there rather than being renewed into an endless retry loop. Unbound sessions are unaffected, and a refresh presented together with the right cookie works as before. A client that meets `InvalidToken` should therefore discard the session and start a new login, not retry.
+
+**A cross-site login does not re-identify the browser.** The `fylr-browser-id` cookie is `SameSite=Lax` and does not accompany a cross-site top-level POST — the assertion an [external identity provider](../../../tutorials/auth/) posts to `/api/saml/acs` is exactly that. Since fylr 6.34.4 such a request never mints a new browser id: the browser keeps the identity it already had, and the sessions bound to it survive the login. The same-site steps that follow the assertion carry the browser's own cookie and establish the identity for a browser that has none yet.
+
 ### `GET /oauth2/auth` — Begin an authorization request (interactive login).
 
 {% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/oauth2/auth" method="get" %}

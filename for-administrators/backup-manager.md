@@ -32,6 +32,17 @@ Typically, we, the developer, restore such a copy, to analyze your problem. Just
 Please note, that these backups cannot be restored in the FYLR frontend.
 {% endhint %}
 
+The `postgres` and `sqlite3` copies are gzipped plain SQL: unpack them and feed
+them to the client of the target database, into an **empty** database.
+
+```
+gunzip -c fylr-backup-postgres-<instance>-<date>.sql.gz | psql -v ON_ERROR_STOP=1 <database>
+```
+
+`ON_ERROR_STOP=1` is worth the habit: without it `psql` reports a failing
+statement and carries on, so a restore that lost part of its data still looks
+like it succeeded. The dump is written to run through cleanly under it.
+
 If you restore a copy in the postgres format, the postgres user needs superuser privileges. This is unusual but O.K. because this is part of debugging and development, not production use.\
 \
 For a full backup in production, that can be restored in case of emergency, please [follow this routine](../for-system-administrators/backup.md).
