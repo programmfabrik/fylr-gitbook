@@ -33,13 +33,13 @@ fylr 6.35 has not been released yet — this page describes the upgrade it will 
 
 * Every **enabled** plugin from the distribution that has a successor in the table below becomes a **url plugin** pointing at the successor's release — enabled as before, and configured as before. Where a plugin is renamed, its configuration, its granted system rights and any export that uses it are moved to the new name by the upgrade.
 * **Disabled** distribution plugins are removed. Their stored configuration is kept and applies again if a plugin of the same name is installed later.
-* Plugins **you** installed from your own directories are not touched. The upgrade recognises a distribution plugin by its name **and** by its location inside the fylr Docker image (`/fylr/files/plugins/easydb/`); a plugin loaded from any other directory is left exactly as it is, and goes on loading from that directory.
+* A plugin **you** maintain yourself under one of the distribution's names is converted as well. The upgrade recognises a distribution plugin by its **name**, wherever it is loaded from — so your own copy of, say, `easydb-orcid-plugin` in your own directory becomes the published `fylr-plugin-orcid` release. If you want to keep running your own build of it, install that again as a ZIP or from your directory after the upgrade. A plugin whose name is not in the table below is never touched.
 * Where you had **already installed the successor yourself** from the marketplace, the distribution plugin is left alone rather than renamed onto it — two plugins cannot share a name. The old row is then dropped like any other distribution plugin, and its configuration stays under the old name. Nothing is lost, but the settings you want are the ones under the new name.
 * Distribution plugins with **no successor** are removed — they are obsolete, or their function is part of fylr itself by now. See [the second table](disk-to-url-migration.md#plugins-that-will-be-removed).
 * After the restart, each converted plugin downloads its release once and keeps itself up to date from then on. It is installed from exactly the release the plugin manager offers for a fresh installation — a migrated plugin and a newly installed one are the same package.
 
 {% hint style="info" %}
-**A converted plugin is inactive until its release has been downloaded.** A url plugin whose ZIP has not arrived cannot run, so fylr holds it off and the plugin manager shows it as **not installed**. This is a runtime state, not a change to your settings: the stored *Active* flag stays as you had it, and the plugin starts by itself as soon as the download succeeds. fylr fetches the releases at the first start after the upgrade, so that start takes noticeably longer than usual — a plugin still in this state afterwards is one whose download did not work.
+**A converted plugin is inactive until its release has been downloaded.** A url plugin whose ZIP has not arrived cannot run, so fylr holds it off and the plugin manager shows it as **not installed**. This is a runtime state, not a change to your settings: the stored *Active* flag stays as you had it, and the plugin starts by itself as soon as the download succeeds. fylr does **not** wait for the downloads while it starts — the instance comes up as usual and fetches the releases in the background — so shortly after the first start some converted plugins are still marked *not installed*. One still in that state minutes later is one whose download did not work.
 {% endhint %}
 
 {% hint style="warning" %}
@@ -47,7 +47,7 @@ The downloads need **outbound HTTPS** to `github.com`, `*.githubusercontent.com`
 {% endhint %}
 
 {% hint style="info" %}
-**Only a Docker installation is converted.** The upgrade matches the distribution's own install location inside the fylr Docker image, `/fylr/files/plugins/easydb/`. The downloadable **binary archives** (Windows, macOS, Linux) shipped the same plugins in an `easydb-plugins` folder beside the binary, at a path that does not match — and 6.35 ships no such folder, so once the installation directory is replaced those plugins are simply gone and their entries are dropped rather than converted. On such an installation, note which plugins you use **before** upgrading and install them again from the marketplace afterwards; the mapping below tells you what each one is called now.
+**Docker and the downloadable archives are both converted.** The upgrade matches a distribution plugin by name, wherever it was installed from, so the **binary archives** (Windows, macOS, Linux) — which shipped the same plugins in an `easydb-plugins` folder beside the binary — are migrated the same way as a Docker installation. 6.35 ships no such folder any more; the plugins that used to live there come from their own releases from now on.
 {% endhint %}
 
 ## How plugins will migrate
@@ -135,7 +135,7 @@ Everything a plugin contributes to your data model — custom data types, mask s
 
 The upgrade rewrites both for you: masks that used the barcode splitter now use the Scancode splitter, and PDF Creator templates containing a barcode element now contain a Scancode element. There is nothing to edit by hand, and `easydb-barcode-display-pdf-plugin` disappears because Scancode Display already contains that PDF element.
 
-**Scancode Display requires PDF Creator.** It carries the PDF element, so it declares `pdf-creator` as a dependency and cannot be enabled without it. If you used the barcode plugins but had the shipped `pdf-creator` switched **off**, switch it on before you upgrade — otherwise Scancode Display arrives with an unmet dependency while your masks have already been rewritten to its splitter, and you have to install PDF Creator from the marketplace to get them rendering again.
+**Scancode Display requires PDF Creator.** It carries the PDF element, so it declares `pdf-creator` as a dependency and cannot be enabled without it. Nothing to do before you upgrade: where the barcode plugin is converted, the upgrade makes sure PDF Creator is installed and **switches it on**, including on an instance that had it switched off — otherwise Scancode Display would arrive unable to load while your masks had already been rewritten to its splitter. If you deliberately ran the barcodes without PDF Creator, this is the one place the upgrade turns a plugin on for you.
 
 ### PDF Creator and the PDF Server
 
