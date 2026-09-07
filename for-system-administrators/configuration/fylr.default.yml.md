@@ -144,8 +144,8 @@ fylr:
         api: "bind"
         backend: "http://localhost:8081"
       # baked-in so programmfabrik-hosted frontend branches at
-      # *.web.fylr.dev and *.web.fylr.io (the supervisor fleet)
-      # can be tested against customer fylrs via the cross-server
+      # *.web.fylr.dev and *.web.fylr.io can be tested
+      # against customer fylrs via the cross-server
       # feature. localhost on any port covers frontend developers
       # running a local dev server. Customer configs replace this
       # list by default; use loginAllowRedirects+: to extend it or

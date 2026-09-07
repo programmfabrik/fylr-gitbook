@@ -214,8 +214,8 @@ fylr:
     fileQueueStaleAfterSec: 0
     # label marks this instance as a non-production one. The web frontend shows
     # it as a banner above the application and names it in "about fylr". Empty
-    # (the default) means no banner. Instances run by a fylr supervisor get this
-    # stamped automatically with the deployed binary's name and version.
+    # (the default) means no banner. A deployment that manages instances
+    # automatically typically stamps the binary's name and version here.
     label: ""
 
   # optional, set environment. This can be used to set FYLR_CMD_* inside the fylr.yml
@@ -400,9 +400,8 @@ fylr:
   plugin:
     # load plugins at startup. the loader crawls the given directories
     # and loads given files for plugin config files, ending in ".yml".
-    # Missing paths are logged as errors and skipped.
+    # Missing paths are logged as warnings and skipped.
     paths:
-      - ../../../easydb-plugins
       - ../../../fylr-plugins/fylr_example
     urls:
       - https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/download/v0.1.2/fylr-plugin-formula-columns.zip
@@ -1239,26 +1238,5 @@ fylr:
               prog: "fylr"
               args:
                 - "iiif"
-
-
-  # supervisor configures the multi-instance supervisor (the "fylr
-  # supervisor" subcommand). "fylr server" ignores this section.
-  #
-  # db is the ONLY supervisor setting in fylr.yml. Everything else — the
-  # management and router listeners, the data directory, the port range for
-  # the instances, the child binary, the Postgres admin DSN, the UI
-  # credentials — lives in that database and is edited through the
-  # supervisor UI, so a running fleet can be reconfigured without touching a
-  # config file. The instances it starts inherit the fylr.* sections above
-  # and get their own name / externalURL / db each.
-  #
-  # It defaults to SQLite in "supervisor.db" in the working directory (with
-  # logs.db next to it). The control plane is low-write and single-writer,
-  # so SQLite is the intended setup; point it at PostgreSQL (driver / dsn as
-  # in fylr.db above) only to keep the control state in a central database.
-  # supervisor:
-  #   db:
-  #     driver: sqlite3
-  #     dsn: supervisor.db
 ```
 {% endcode %}
