@@ -104,7 +104,7 @@ Some names that look like they should exist do not: there is no `_updated` (use 
   **To write a link**, send the target with its `_system_object_id` (or `_uuid`), or a `lookup:_id` object inside the objecttype block — the lookup accepts `_system_object_id`, `_uuid`, or a custom column such as a `reference` field. `_allow_defer` (accept a target that will only be imported later) works with `_system_object_id` and `_uuid` lookups only, not with user-defined fields.
 * **Nested table** — an array of row objects. Each row carries its own fields and a `_uuid` (rows are matched by `_uuid` on update, not by an id).
 * **Localized text** (`text_l10n`, `text_l10n_oneline`) — a plain map keyed by language, e.g. `{ "de-DE": "…", "en-US": "…" }`; empty renders as `{}`.
-* **`_standard`** — a compact, mask-independent, localized projection of the record used for display, sorting and indexing (and embedded inside linked values). It holds up to three text/HTML slots (`"1"`, `"2"`, `"3"`, each `{ "text": {lang:…}, "html": {lang:…} }`), an `"eas"` map of display files, and a `"geo"` block.
+* **`_standard`** — a compact, mask-dependent, localized projection of the record used for display, sorting and indexing (and embedded inside linked values). It holds up to three text/HTML slots (`"1"`, `"2"`, `"3"`, each `{ "text": {lang:…}, "html": {lang:…} }`), an `"eas"` map of display files, and a `"geo"` block.
 
 ## See also
 
@@ -112,3 +112,17 @@ Some names that look like they should exist do not: there is no `_updated` (use 
 * [Files and assets](concepts/files-and-assets.md) — how file fields serialize.
 * [System Data Types](system-data-types/) — the field references for `user`, `group`, `pool`, `collection`, `message`, `publish`, `event`.
 * [`/api/v1/db`](api/endpoints/api-db.md) — the endpoint that reads and writes records.
+
+### Recursive standards from fylr 6.35.0
+
+Standards follow the links selected by the masks through the required records.
+A self-referencing mask can render a long chain of different records; recursion
+stops when a record repeats. A repeated mask alone does not end the chain.
+The explicit merge depth for ordinary field values remains separate from
+standard rendering.
+
+A record's standard is consistent when read alone or together with other
+records, and in live and cached output. Changes to contributing linked records
+refresh the affected search documents, including distant and reverse links.
+Upgrading from an earlier version automatically starts a full blocking reindex
+to replace the existing cached standards and search documents.

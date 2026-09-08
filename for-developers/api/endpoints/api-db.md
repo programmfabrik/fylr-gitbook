@@ -11,6 +11,8 @@ Every object is shaped by a _mask_ of its object type. The mask selects which fi
 
 These operations are documented generically here. When the instance has object types defined, the sections below additionally describe each object type concretely, with its real masks and field schemas. If only this generic overview is shown, no object types have been defined yet.
 
+From **fylr 6.35.0**, [base fields only group edits](../base-fields-only.md) can change tags or pools without a common mask.
+
 ### `POST /db/{objecttype}` — Create or update objects of any object type.
 
 {% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/db/{objecttype}" method="post" %}

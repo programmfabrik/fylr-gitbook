@@ -25200,6 +25200,63 @@ paths:
                     URLs its restore can still fetch weeks later.
                   schema:
                     type: string
+                - name: base_fields_only
+                  in: query
+                  description: |
+                    If set, the save runs in "base fields only" mode: no `_mask` is sent
+                    and only the base fields `_pool` and `_tags` may change. Because no
+                    mask-governed field is touched, the save does not require the `mask`
+                    permission — the `write` permission on each object is enough. Use
+                    this to change the tags or the pool of records the user may edit
+                    only through **different** masks, where a regular group edit with a
+                    single mask is rejected.
+
+                    The policy of the masks still applies, without one being named: a
+                    `_tags` change needs at least one mask of the objecttype the user
+                    may use that allows editing tags and is not a display-only mask (an
+                    objecttype maskfilter); `_all_fields` counts for whoever may use it.
+                    Otherwise the save is rejected like the masked group edit. A `_pool` change is governed by the pool `link`
+                    and `unlink` permissions as usual. Reverse objects follow a pool
+                    change only when `reverse_pool_changed_mode` asks for it — no mask
+                    is named whose policy could decide it — and that save loads the
+                    records to find them.
+
+                    This mode requires the group-edit form of the request body: one
+                    object per entry carrying an `_id` array, plus at least one of
+                    `_tags` (with an optional `_tags:group_mode`) or `_pool`; a
+                    `_comment` for the new versions is allowed. A payload that carries
+                    a `_mask`, `_acl`, `_owner`, a parent change or any data field is
+                    rejected, as is the single-object form and a payload with neither
+                    `_tags` nor `_pool`; a data field is rejected with the
+                    `FieldNotAllowed` error. Not combinable with the `collection`
+                    parameter. The response renders the stored objects in the requested
+                    `format`; the record is not loaded for the save itself, so a bulk
+                    caller that does not need the rendered objects avoids that load with
+                    `format=short`.
+
+                    The plugin callbacks configured for `db_pre_save` are not invoked in
+                    this mode — no field data can change, and the save deliberately does
+                    not load the objects' field values.
+
+                    Transitions run normally, including the `db_pre_save` callbacks a
+                    transition action triggers (a plugin action, or a webhook action with
+                    the `pre_save` callback). Those receive `"base_fields_only": true` in
+                    their `info`, and are sent only the fields this mode can change
+                    (`_id`, `_version`, `_pool` and the system data of the object) rather
+                    than the record. The `_standard` they see, like the one the
+                    `OBJECT_UPDATE` event records, is the current version's from the
+                    object cache; a record the index has not cached yet shows the
+                    `#<id>` placeholder. A callback that answers with a field value or a
+                    parent change is rejected with an error instead of having its answer
+                    silently dropped.
+
+                    Differs from easydb 5: the response is the regular array of stored
+                    objects (easydb 5 answered group edits and "base fields only" saves
+                    with an empty body), and **fylr** requires the group-edit `_id`
+                    array form.
+                  schema:
+                    type: string
+                    format: boolean
                 - name: skip_reverse_nested
                   in: query
                   description: |

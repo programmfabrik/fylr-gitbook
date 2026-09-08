@@ -352,6 +352,7 @@
     * [/api/v1/config](for-developers/api/endpoints/config/README.md)
       * [/list](for-developers/api/endpoints/config/list.md)
     * [/api/v1/db](for-developers/api/endpoints/api-db.md)
+    * [Base fields only group edits](for-developers/api/base-fields-only.md)
     * [/api/v1/db\_info](for-developers/api/endpoints/api-db_info.md)
     * [/api/v1/eas](for-developers/api/endpoints/eas/README.md)
       * [/download](for-developers/api/endpoints/eas/download.md)
