@@ -2,6 +2,8 @@
 
 Manage **exports** — long-running jobs that bundle objects and their files into a downloadable archive (TAR.GZ or ZIP). All `/export` endpoints require an authenticated user (a valid access token, sent as `Authorization: Bearer`, `X-Fylr-Authorization: Bearer`, or the `access_token` query parameter); there is no dedicated system right for the feature. Exports are user-scoped: each export records the `user_id` that saved it, and the handlers permit access only to that owner or to a `system.root` user.
 
+Since fylr 6.35, while the Janitor is enabled, downloads expire after `system.config.janitor.exports.download_expire_days` days without a run (default: `1`). Clearing this setting restores the default; `0` makes idle downloads eligible on the next pass. Unscheduled exports can expire after `system.config.janitor.exports.export_expire_days` days without a run; the default is `null` (disabled), and `0` makes idle exports eligible on the next pass. The age is measured from the latest run's start, including failed and empty runs, or creation if never run. Starting another run renews retention. Reading or downloading existing output does not. Scheduled, pending, and processing exports are kept. See [Janitor settings](../../../for-administrators/readme/services.md#settings-for-exports-and-downloads).
+
 ### `GET /export` — List the authenticated user's exports.
 
 {% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/export" method="get" %}

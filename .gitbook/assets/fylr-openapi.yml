@@ -43912,6 +43912,15 @@ paths:
                     type: string
                     enum:
                         - application/json
+                - name: run
+                  in: query
+                  description: |
+                    Run one janitor batch. `exports_delete` removes expired downloads and
+                    exports. `file_cleanup` runs historic file unlinking, object purging,
+                    export cleanup and unused-file deletion in the worker's order, returning
+                    an `Events` array. Other selectors return a single `Event`.
+                  schema:
+                    type: string
             responses:
                 "200":
                     description: The whitelisted janitor dump.
@@ -43920,6 +43929,11 @@ paths:
                             schema:
                                 type: object
                                 properties:
+                                    Events:
+                                        type: array
+                                        description: Events from an ordered file cleanup pass.
+                                        items:
+                                            type: object
                                     Event:
                                         type: object
                                         description: The selected janitor event.
@@ -55008,7 +55022,18 @@ components:
                 _last_run_at:
                     type: string
                     format: date-time
-                    description: UTC time the most recent production run started.
+                    description: |
+                        UTC time the most recent production run started, including failed and
+                        empty runs. While the janitor is enabled, downloads expire after
+                        `system.config.janitor.exports.download_expire_days` days without a run (default: `1`).
+                        An empty download setting restores the one-day default. Unscheduled exports
+                        can expire after `system.config.janitor.exports.export_expire_days` days; this setting
+                        defaults to `null` (disabled). Setting either period to `0` makes idle jobs
+                        eligible on the next janitor pass. Exports never run use their creation time.
+                        Scheduled exports and pending or processing jobs are kept. Rerunning resets
+                        the retention period; viewing or downloading existing output does not.
+                        Expiry removes the export and its file references; unused file storage is
+                        reclaimed according to the separate file cleanup policy.
                 _last_relevant_object_count:
                     type: integer
                     description: |

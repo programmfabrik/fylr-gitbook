@@ -46889,6 +46889,14 @@
                 "application/json"
               ]
             }
+          },
+          {
+            "name": "run",
+            "in": "query",
+            "description": "Run one janitor batch. `exports_delete` removes expired downloads and\nexports. `file_cleanup` runs historic file unlinking, object purging,\nexport cleanup and unused-file deletion in the worker's order, returning\nan `Events` array. Other selectors return a single `Event`.\n",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -46899,6 +46907,13 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "Events": {
+                      "type": "array",
+                      "description": "Events from an ordered file cleanup pass.",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
                     "Event": {
                       "type": "object",
                       "description": "The selected janitor event."
@@ -59099,7 +59114,7 @@
           "_last_run_at": {
             "type": "string",
             "format": "date-time",
-            "description": "UTC time the most recent production run started."
+            "description": "UTC time the most recent production run started, including failed and\nempty runs. While the janitor is enabled, downloads expire after\n`system.config.janitor.exports.download_expire_days` days without a run (default: `1`).\nAn empty download setting restores the one-day default. Unscheduled exports\ncan expire after `system.config.janitor.exports.export_expire_days` days; this setting\ndefaults to `null` (disabled). Setting either period to `0` makes idle jobs\neligible on the next janitor pass. Exports never run use their creation time.\nScheduled exports and pending or processing jobs are kept. Rerunning resets\nthe retention period; viewing or downloading existing output does not.\nExpiry removes the export and its file references; unused file storage is\nreclaimed according to the separate file cleanup policy.\n"
           },
           "_last_relevant_object_count": {
             "type": "integer",
