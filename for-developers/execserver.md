@@ -58,6 +58,16 @@ An address that fronts a fleet is recognised from the connection itself: fylr's 
 
 By default the execserver **auto-balances** concurrency: all services share one CPU pool sized to the host, and each service is classified light or heavy by its measured runtime, so long conversions never occupy the last `fastReserve` slots and short interactive jobs (metadata, plugins, IIIF) stay responsive. Configuring an explicit `waitgroups` block restores manually sized pools. See [performance tuning](../for-system-administrators/configuration/performance-tuning.md) for the settings and [Updating the execserver to 6.35](../for-system-administrators/installation/updating-the-execserver-to-6.35.md) for the migration.
 
+## Execution limits from 6.35.0
+
+Recipe execs accept `timeout` as a duration string, for example `"30m"` or `"12h"`. It is the wall-clock ceiling for that execution; progress does not extend it. An explicit `"0"` removes the recipe ceiling. The legacy `timeout_sec` field remains supported, and an explicit `timeout` takes precedence. Invalid duration strings are rejected. On-demand downloads, XSLT exports and IIIF tiles preserve an explicit recipe timeout; their fallback ceilings apply only when the recipe supplies none. The shipped long-running video encodes have a 12-hour ceiling.
+
+Stall supervision is separate from the wall-clock ceiling. A command counts as making progress when it transfers bytes, writes stdout or stderr, grows files in its work directory, or consumes process-group CPU time. The default stall window is ten minutes. A recipe can override it with `stallTimeout: "20m"`, inherit the execserver default by omitting it, or disable it for that exec with `stallTimeout: "0"`. The server default is documented under `fylr.services.execserver.stallTimeoutSec` in the [example configuration](../for-system-administrators/configuration/fylr.example.yml.md).
+
+Memory supervision checks resident memory across each command's process group and across running jobs. Auto-balancing uses measured per-service footprints when deciding whether another job fits. The limits are derived automatically from machine or container memory; the calculation and sampling limits are documented in the [example configuration](../for-system-administrators/configuration/fylr.example.yml.md). `/inspect/system/execserver` shows memory budgets and learned footprints. Active job work directories are protected from age-based janitor cleanup.
+
+Job receipts distinguish a wall-clock timeout (`TimedOut`), a stall (`Stalled`), a memory abort (`OutOfMemory`), and an operational interruption (`Stopped`). `PeakMemory` reports the highest sampled process-group resident memory in bytes. Cancelling an execution also cancels its associated transfers.
+
 ## File Queue
 
 ### Action: "metadata"
