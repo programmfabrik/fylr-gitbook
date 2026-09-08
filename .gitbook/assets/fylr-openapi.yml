@@ -25547,10 +25547,13 @@ paths:
                   description: |
                     Decides what happens to objects and links affected by the deletion.
                       * `remove`: also delete objects that link to a deleted object.
-                      * `setnull`: keep the linking objects but clear their link.
+                      * `setnull`: keep the linking objects but clear their link. For
+                        bidirectional relations, the reciprocal link is removed as well.
                       * `create_collection`: collect the affected objects in a new
                         collection instead of deleting them.
-                      * `undelete`: restore previously deleted objects.
+                      * `undelete`: restore previously deleted objects. Links explicitly
+                        removed during deletion remain removed, including both sides of
+                        bidirectional relations.
                       * `purge`: permanently remove objects from the trash.
                     When omitted, **fylr** answers with a `202` response describing the
                     choices instead of deleting anything.
