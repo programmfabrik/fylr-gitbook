@@ -26872,7 +26872,7 @@
           {
             "name": "delete_policy",
             "in": "query",
-            "description": "Decides what happens to objects and links affected by the deletion.\n  * `remove`: also delete objects that link to a deleted object.\n  * `setnull`: keep the linking objects but clear their link.\n  * `create_collection`: collect the affected objects in a new\n    collection instead of deleting them.\n  * `undelete`: restore previously deleted objects.\n  * `purge`: permanently remove objects from the trash.\nWhen omitted, **fylr** answers with a `202` response describing the\nchoices instead of deleting anything.\n",
+            "description": "Decides what happens to objects and links affected by the deletion.\n  * `remove`: also delete objects that link to a deleted object.\n  * `setnull`: keep the linking objects but clear their link. For\n    bidirectional relations, the reciprocal link is removed as well.\n  * `create_collection`: collect the affected objects in a new\n    collection instead of deleting them.\n  * `undelete`: restore previously deleted objects. Links explicitly\n    removed during deletion remain removed, including both sides of\n    bidirectional relations.\n  * `purge`: permanently remove objects from the trash.\nWhen omitted, **fylr** answers with a `202` response describing the\nchoices instead of deleting anything.\n",
             "schema": {
               "type": "string",
               "enum": [
