@@ -46893,9 +46893,18 @@
           {
             "name": "run",
             "in": "query",
-            "description": "Run one janitor batch. `exports_delete` removes expired downloads and\nexports. `file_cleanup` runs historic file unlinking, object purging,\nexport cleanup and unused-file deletion in the worker's order, returning\nan `Events` array. Other selectors return a single `Event`.\n",
+            "description": "Run one janitor batch. `exports_delete` removes expired downloads and\nexports. `terms_delete` removes terms no object links to anymore,\n`custom_data_delete` removes custom data entries no value refers to\nanymore. `file_cleanup` runs historic file unlinking, object purging,\nexport cleanup and unused-file deletion in the worker's order, returning\nan `Events` array. Other selectors return a single `Event`.\n",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "run_time",
+            "in": "query",
+            "description": "RFC 3339 instant the batch treats as now. Every age gate compares\nagainst it and the event's `run_time` echoes it. Lets a test see an\nage-gated janitor delete without waiting for the retention to pass.\nOnly for `run`; the scheduled janitor keeps the clock.\n",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
             }
           }
         ],

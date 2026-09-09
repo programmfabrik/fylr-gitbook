@@ -43919,11 +43919,23 @@ paths:
                   in: query
                   description: |
                     Run one janitor batch. `exports_delete` removes expired downloads and
-                    exports. `file_cleanup` runs historic file unlinking, object purging,
+                    exports. `terms_delete` removes terms no object links to anymore,
+                    `custom_data_delete` removes custom data entries no value refers to
+                    anymore. `file_cleanup` runs historic file unlinking, object purging,
                     export cleanup and unused-file deletion in the worker's order, returning
                     an `Events` array. Other selectors return a single `Event`.
                   schema:
                     type: string
+                - name: run_time
+                  in: query
+                  description: |
+                    RFC 3339 instant the batch treats as now. Every age gate compares
+                    against it and the event's `run_time` echoes it. Lets a test see an
+                    age-gated janitor delete without waiting for the retention to pass.
+                    Only for `run`; the scheduled janitor keeps the clock.
+                  schema:
+                    type: string
+                    format: date-time
             responses:
                 "200":
                     description: The whitelisted janitor dump.
