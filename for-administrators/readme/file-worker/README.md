@@ -30,7 +30,9 @@ For each class you decide which file extensions may be uploaded at all, and whic
 
 A **version** is one rendition of an original — for example a 250 px thumbnail or a 1000 px preview. Each version is produced by a **recipe**: a named conversion routine (for example `imageconverter:browserthumbs` resizes an image, `officeconverter:pdf` turns a document into a PDF). The recipe's **options** — output format, size, quality and so on — are what turn the original into that specific version. The recipes and their options are documented on the [Preview Configuration](preview-configuration.md) page.
 
-Some versions are **derived from another version** instead of from the original: the watermarked preview is built from the `preview` version, and previews of vector files (ai, eps, wmf) are built from a generated `svg`. This *source version* chaining means that re-generating a source version also re-generates everything built on top of it.
+Some versions are **derived from another version** instead of from the original: the watermarked preview is built from the `preview` version, and previews of wmf files are built from a generated `svg`. This *source version* chaining means that re-generating a source version also re-generates everything built on top of it.
+
+Up to version 6.34 the previews of ai and eps files were built from that `svg` as well. From version 6.35.0 they are rendered from the original instead, and the `svg` version is only produced for a drawing simple enough to make a usable one. A file handling configuration saved before 6.35.0 still carries the old wiring; the update rewrites it, and the configuration then shows ai and eps sourced from the original.
 
 ### Standard, rights-management and watermark versions
 

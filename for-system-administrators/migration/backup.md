@@ -75,6 +75,7 @@ Flags:
     --retry-max-count=10        Number of retries for failed requests with network problems.
     --retry-sleep-between=30    Wait time in seconds between retries for failed requests.
     --pretty                    Output pretty JSON.
+    --file-url-expire-days=365  How many days the file urls stored in the backup stay valid. The source signs every file url it renders for the backup, and the restore hands those urls to the target, which fetches the bytes from them. The signature is what authorizes that fetch, so the backup is only restorable while it holds. The horizon is baked in when the backup is taken and cannot be extended afterwards — a backup whose urls expired has to be taken again. Set 0 to store unsigned urls, which only restore when the source grants the target access to the files by other means.
     --include-files=""          How to store file bytes in the backup. Empty (default): store only the file URLs, the restore fetches the bytes from the source (which must stay reachable). "original": pack each non-leave file's original bytes into the backup directory (files/<id-floored-to-1e6>/<id-floored-to-1e3>/<id>-<filename>), so the backup is self-contained and byte-for-byte and the source need not stay reachable; renditions (preview versions) are not packed, the restore regenerates them, so such a backup cannot be restored with --upload-versions. "with-versions": also pack the renditions, so that a restore with --upload-versions uploads them from the backup (byte-identical) instead of regenerating them. Files kept on the remote (leave) are never packed; their upstream URL is preserved.
 ```
 
@@ -242,6 +243,28 @@ Use this paired with the `fylr restore` parameter `--include-deleted-linked`
 
 * type: `bool`
 * default: `false`
+
+
+### `--file-url-expire-days`
+
+{% hint style="info" %}
+This parameter is available in fylr from version **6.35.0**.
+{% endhint %}
+
+A backup that stores file **URLs** (the default — see [`--include-files`](#include-files)) relies on those URLs still being served when the restore runs: the target fetches the bytes from them without a session of its own, and what authorizes that fetch is the **signature** the source puts in the URL.
+
+That signature normally lasts `system.file_url_expire.default_days` — one day by default — which is far shorter than the useful life of a backup. `fylr backup` therefore asks the source for a horizon of its own, **365 days by default**. The `system.file_url_expire.max_days` cap does not apply to a caller holding the `system.root` system right, so this needs no configuration change on the source instance.
+
+Set `0` to store unsigned URLs. A restore can then only fetch them if the source grants the target access to the files some other way.
+
+{% hint style="warning" %}
+The horizon is fixed when the backup runs and **cannot be extended afterwards**. Once it has passed, the source no longer serves the URLs and [`fylr restore`](restore.md) refuses the backup before it touches the target. The remedy is a new backup — or one taken with [`--include-files`](#include-files), whose bytes never expire.
+{% endhint %}
+
+Files whose bytes are packed into the backup by `--include-files` carry no URL and are unaffected. So are the files fylr stores for a user picture, a pool watermark, custom data on a group or objecttype, and base config values: those are never signed, and the backup packs their bytes regardless of this setting.
+
+* type: `int` (days)
+* default: `365`
 
 
 ### `--include-files`

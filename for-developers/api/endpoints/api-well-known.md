@@ -1,6 +1,6 @@
 # /.well-known
 
-OpenID Connect **discovery document** (provider metadata). A public, unauthenticated document advertising fylr's OAuth2 / OpenID Connect issuer and endpoints so that OIDC clients can configure themselves.
+OAuth2 **endpoint discovery document** (RFC 8414 server metadata). A public, unauthenticated document advertising fylr's OAuth2 issuer and endpoints so that clients can configure themselves. fylr is **not** an OpenID Connect provider — the document is served under the path OIDC clients conventionally probe, but carries no id-token signing metadata.
 
 Served at the server root (`/.well-known/openid-configuration`) — **not** under `/api/v1`. The endpoint URLs it returns are absolute, built from the instance's configured external URL (`fylr.externalURL`), and point at `/api/oauth2/*`.
 

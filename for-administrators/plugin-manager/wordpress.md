@@ -30,7 +30,7 @@ With the WordPress plugin for fylr, which is included in fylr 6.29, the followin
 
 Make sure to use the newest version of the plugin. E.g. in fylr 6.29, an old version of the plugin is included that has since been updated independently from fylr. To get the newest version:
 
-Go to Administration - Plugin-Manager - select the easydb-wordpress-plugin (type **disk**)
+Go to Administration - Plugin Manager - select `fylr-plugin-wordpress` (called `easydb-wordpress-plugin` up to fylr 6.34, when it was a **disk** plugin)
 
 Click the minus ( `-` )button as shown below:
 

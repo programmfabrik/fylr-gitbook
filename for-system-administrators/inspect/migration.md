@@ -210,15 +210,17 @@ This parameter is available in fylr from version **6.33.0**.
 
 See: [renaming renditions during migration](../migration/renaming-renditions-during-migration.md)
 
-#### Access Token for file URLs
+#### File URL Validity (days)
 
-This is only needed if the source instance of the backup is a **fylr** and there are files that should be uploaded to the target instance. **fylr** requires all requests to be authenticated. So during the restore process the file URLs need to be accessed in the source fylr, but this will fail if there is no authentication.
+{% hint style="info" %}
+This field is available in fylr from version **6.35.0**. It replaces **Access Token for file URLs**, which is removed together with the `--file-api-access-token` parameter behind it.
+{% endhint %}
 
-During the backup, **fylr** adds a signature parameter to the file URLs (`x-fylr-signature`) which can be used to authenticate the request. But this signature is temporary and expires after a fixed time which is configured in the source instance. If you try to restore after a certain time the signatures can be expired and the source instance will not allow access to the files anymore.
+Offered on the **backup** form, not the restore form. During the backup **fylr** adds a signature parameter to the file URLs (`x-fylr-signature`), and that signature is what lets the restore's target fetch the bytes from the source without a session of its own. This field says how long it stays valid — 365 days if left empty.
 
-To override the signature, you can get an OAuth2 Access Token from the source instance which has read rights on these files. If this token is passed, the restore tool will parse the file URLs and remove the signature parameter, and set the `access_token` parameter instead.
+The horizon is fixed when the backup runs and cannot be extended afterwards. Once it has passed, the restore refuses the backup before it touches the target; take a new backup, or use **Include Files** so the bytes travel inside the backup and never expire.
 
-This sets `--file-api-access-token <token>`
+This sets `--file-url-expire-days <days>`
 
 #### Chunk size
 

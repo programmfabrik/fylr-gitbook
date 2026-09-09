@@ -110,6 +110,19 @@ vi $DIR/config/fylr/fylr.yml  # replace string with EXAMPLE
 Replace all strings in `fylr.yml` that have `EXAMPLE` in it. E.g. with vim: \
 `vim $DIR/config/fylr/fylr.yml`
 
+{% hint style="warning" %}
+_From version 6.35.0_: the fylr behind this reverse proxy is reached through
+Apache rather than directly, so it has to be told that the forwarded client
+identity can be believed — set `fylr.trustProxyHeaders: true` in its
+`fylr.yml`. Without it every request looks as if it came from the proxy, which
+changes the groups an IP subnet filter grants, how failed logins are counted
+towards the lockout, and the address the audit log records. fylr writes a
+warning naming the proxy when it sees the header while the setting is off.
+
+Only set it where fylr cannot also be reached directly — here the container
+listens on `127.0.0.1:$PORT`, so Apache is the only way in.
+{% endhint %}
+
 #### Create SQL database:
 
 ```
