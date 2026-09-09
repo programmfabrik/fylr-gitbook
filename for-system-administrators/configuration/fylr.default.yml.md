@@ -175,6 +175,7 @@ fylr:
       #   fastReserve: 0     # slots reserved for light jobs, 0 = max(1, cpus/4)
       #   heavyThreshold: 10s
       #   unknownShare: 0.5  # pool share for services without enough samples yet
+      #   maxCpusPerJob: 0   # cap for a command's temporary CPU request (#77577), 0 = cpus - fastReserve
 
       # graceful shutdown (#80136): running jobs may finish for this long,
       # stragglers are interrupted with a "stopped, retry later" receipt.

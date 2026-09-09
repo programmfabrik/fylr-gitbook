@@ -1053,9 +1053,17 @@ fylr:
       # runtime. Heavy jobs (long conversions) never occupy the last
       # fastReserve slots, so short interactive work always finds a slot.
       cpus: 0            # pool size, 0 = number of CPUs
-      fastReserve: 0     # slots reserved for light jobs, 0 = max(1, cpus/4)
+      fastReserve: 0     # slots only light jobs may take, 0 = max(1, cpus/4)
       heavyThreshold: 10s
       unknownShare: 0.5  # pool share for services not measured yet
+      # Temporary CPU requests (#77577): a running command may ask for more
+      # CPUs through FYLR_EXEC_CONTROL_URL while it runs a parallel
+      # subprocess (fylr convert does this around FFmpeg, and returns them
+      # when FFmpeg ends). The extras come from the same pool and never take
+      # the fastReserve slots. maxCpusPerJob caps what one command may hold in
+      # total, its own slot included. Explicit waitgroups disable the
+      # control channel.
+      maxCpusPerJob: 0   # 0 = cpus - fastReserve, for example 4
 
       # Graceful shutdown: on SIGTERM/Ctrl-C running jobs may finish for this
       # long; jobs still running are interrupted with a "stopped, retry
@@ -1103,7 +1111,8 @@ fylr:
       # os environment
       env:
         - FYLR_METADATA_BLURHASH=1g
-        # set env to set threads used by ffmpeg for mp4
+        # MP4 encoding threads, 0 or unset = all cores; under execserver
+        # this is the maximum of the temporary CPU request (#77577)
         - FYLR_CONVERT_VIDEO_MP4_THREADS=2
         # overwrite to use a different binary, defaults to "chromium" for the PDF plugin
         - SERVER_PDF_CHROME=chromium
