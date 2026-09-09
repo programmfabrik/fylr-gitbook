@@ -142,12 +142,21 @@ fylr+:
   tempDir: /var/lib/fylr/tmp
 ```
 
-In a container the directory has to be a volume to outlive the container. Note
-that the snapshot is a prior, not a verdict: a restored service still counts as
-unknown until its first live job confirms the profile. It is discarded when it
-was written on a different operating system or architecture, or with a
-different pool size, and a service the snapshot has not seen for a week ages
-out of it.
+In a container the directory has to be a volume to outlive the container. Under
+Kubernetes both shapes work. A per-pod `emptyDir` keeps the job scratch files
+on local disk and gives every new pod a cold start. A volume shared by all
+execserver replicas (`ReadWriteMany`) holds one snapshot for the whole fleet:
+every replica restores the last one written, whichever pod wrote it, and
+rewrites it in turn. That is intended, not a conflict — replicas with the same
+CPU limit learn the same profile, and pod names rotate on every restart, so a
+snapshot per pod would never be picked up again. The startup log names the
+writer when it was another pod (`restored from … by "execserver-…"`).
+
+Note that the snapshot is a prior, not a verdict: a restored service still
+counts as unknown until its first live job confirms the profile. It is
+discarded when it was written on a different operating system or architecture,
+or with a different pool size, and a service the snapshot has not seen for a
+week ages out of it.
 
 Losing the snapshot costs nothing but a few minutes of deliberately
 conservative scheduling after a restart.
