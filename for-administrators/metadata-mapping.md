@@ -53,3 +53,7 @@ An import mapping can address **several columns of the same linked object** — 
 * when several existing objects share the key name, the further columns pick the one the file agrees with.
 
 Localized values are compared only for the languages both sides have, since exported files fill missing translations with the fallback language. All addressed columns must be part of the linked object type's preferred mask.
+
+## Warnings from a recipe
+
+A metadata recipe's mapping configuration can declare `json_warnings` next to `json_error` (from **6.35.0**): a gjson path to a list of strings in the metadata the recipe produced. Unlike an error, a warning does not fail the mapping — the values apply, and the background task writes one **WARNING** line per warning, naming the recipe. The task log links the event of every recipe run as `event #<id>`, and that event's **Run** section on `/inspect` shows the exact command that was executed, its arguments and its output.

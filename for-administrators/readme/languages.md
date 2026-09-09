@@ -18,6 +18,8 @@ Add/Remove all languages for multi-language fields (they must be defined in the 
 
 #### Language Code (BCP 47)
 
+The code of a data language that has been saved is **read-only** (from 6.35.0): renaming it would leave every value stored under the old code invisible. Add the new language and remove the old one instead. Removing a language keeps its values in the database; they reappear once the language is added again.
+
 Add the language code according to BCP 47, e.g. "en-US".
 
 #### Display Name

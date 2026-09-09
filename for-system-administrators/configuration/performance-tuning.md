@@ -89,3 +89,7 @@ Give the execserver more CPU — raise `cpus`, add cores, or run execserver jobs
 
 * Example: [see execserver on another linux](../installation/linux-docker-compose/execserver-on-another-linux.md) (one, but easily customizable to multiple)
 * optionally decide which hardware does which kind of jobs — Example: [outsource only video processing with ffmpeg to another fylr](../installation/linux-docker-compose/ffmpeg-on-a-separate-fylr.md)
+
+## Reading the timing headers
+
+Every API response carries `X-Fylr-Timer-…` headers with the time each section of the request took — preparation, the database, the search cluster, rendering. From **6.35.0** each section is measured on its own (before, every nested section reported the whole response time), and `X-Fylr-Timer-Elastic-Took` carries the time the search cluster itself reports for a query. Next to the wall time of the call it tells an expensive query apart from time lost on the connection or in a queue: a large `Elastic-Took` is the query, a large elastic wall time with a small `Elastic-Took` is the path to the cluster.

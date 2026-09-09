@@ -13,6 +13,10 @@ These operations are documented generically here. When the instance has object t
 
 ### `POST /db/{objecttype}` — Create or update objects of any object type.
 
+#### Base fields only group edits
+
+From **6.35.0** the query parameter `base_fields_only=1` changes tags or pools for records that are editable through different masks in one request. Send the group-edit `_id` array without `_mask`; ordinary fields, parents, owners and record ACLs stay unchanged. Write permission, the tag-edit policy and the pool permissions still apply. Repeated tag and pool edits share unchanged value sets between record versions, so a large group edit writes far less to the database; bidirectional links are kept, and an unchanged file needs no replacement permission.
+
 {% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/db/{objecttype}" method="post" %}
 [fylr-openapi.yml](../../../.gitbook/assets/fylr-openapi.yml)
 {% endopenapi %}

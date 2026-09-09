@@ -52,3 +52,7 @@ From fylr **6.34.0**, a file's extracted content (OCR text and embedded file met
 ### Applying OCR on Already Existing Records
 
 OCR image-to-text will run when indexing a file. Consult [regenerating-preview-images.md](../for-system-administrators/regenerating-preview-images.md "mention") for a tutorial on how to reindex one or more existing records.
+
+{% hint style="info" %}
+From fylr **6.35.0** OCR reads **every page of a multi-page TIFF**; before, only the first page was read whenever the scan was larger than the recipe's `ocr` size (2000 by default), which a 300 dpi A4 page always is. Files scanned before the update keep the text they have — re-run the OCR recipe on them to pick up the remaining pages.
+{% endhint %}

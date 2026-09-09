@@ -130,18 +130,31 @@ The parent/child model is on the `File` row (`id_parent`, `id_source`, `is_origi
 
 ### The `pages` version: many images in one version
 
-A `pages` version is a single version whose file is a **`pages.zip`** holding many images plus an `info.json` that indexes them. Documents (PDF, INDD, and the office formats through their PDF version) have had one for a while; **from 6.35.0 a video has one too**, holding up to 100 frames spaced at least half a second apart, each rendered at 200 and 320 px, plus tiled **contact sheets** that carry all of them — the frame strip a player scrubs along. Both are produced by the same recipe step, `fylr convert --format pages.zip` (which replaces the former `fylr pdf2pages` command — a custom recipe calling it has to be changed).
+A `pages` version is a single version whose file is a **`pages.zip`** holding many images plus an `info.json` that indexes them. Documents (PDF, INDD, and the office formats through their PDF version) have had one for a while; **from 6.35.0 a video has one too**, holding up to 100 frames spaced at least half a second apart, each rendered at 200 and 320 px, plus tiled **contact sheets** that carry all of them — the frame strip a player scrubs along. A **multi-page TIFF** gets one as well from 6.35.0 — one image per page, so a scan reads page by page; a single-page TIFF does not. All are produced by the same recipe step, `fylr convert --format pages.zip` (which replaces the former `fylr pdf2pages` command — a custom recipe calling it has to be changed).
 
 Because it is an ordinary version, nothing about rights or URL signing is special:
 
 * `GET /api/v1/eas` returns the zip's `info.json` in the version's metadata, so a client gets the page/frame list without downloading the zip: every page lists one entry per rendered size with its `path` inside the zip and its technical metadata (dimensions, mime type, blurhash), a video frame additionally its `time` in seconds, and each contact sheet its `path` and grid (`columns`, `rows`, `tile_height`) to cut the tiles from.
 * A single entry is served straight out of the zip by appending its path to the download URL: `/api/v1/eas/download/<file_id>/<hash>/<version>/<path-inside-zip>`, range requests included. Build these URLs from the ones the API returns so they keep their signature and `obj_uuid` query parameters — a relative reference (as in a WebVTT thumbnail track) drops them and breaks share links and guest access.
 
+### 3D assets
+
+From **6.35.0** the extensions `splat`, `spz`, `ksplat`, `ply`, `ply.zip`, `ply.gz`, `stl`, `obj`, `3ds`, `glb`, `gltf`, `nxs` and `nxz` belong to the file class **`3d`**. fylr renders the preview images of a 3D file itself — a CPU rasterizer in `fylr convert` draws the scene and picks a viewpoint automatically — for everything it can decode:
+
+* **gaussian splatting scenes**: `splat`, `spz` and `ply`, also zipped or gzipped, binary and ascii;
+* **polygon meshes**: `ply` carrying faces, `stl`, `obj`.
+
+A `.ply` can be either; its content decides. Decoded sources additionally get a compact **`splat` interchange rendition**, which the web frontend's 3D viewer loads — it carries gaussians or triangles, whatever the original was. The remaining extensions are accepted and classified as `3d` but not decoded, so they get no rendered previews.
+
+The rendering camera can be stored per asset through the `splat-view-select` produce parameter (the 3D viewer's "store view" does this), and `fylr convert --splat-view` accepts COLMAP/3DGS camera matrices for a script that sets it. A 3D file uploaded before 6.35.0 keeps its previous file class until it is re-produced.
+
 ## 6. Metadata extraction
 
 Metadata is itself a recipe (`_metadata:_read`), run by the **metadata** action. It shells out to **ExifTool**, writing an `fylr_metadata.json` that fylr merges into the `File` row's `metadata` and `technical_metadata` columns; `filesize`, `hash` and `mimetype` are taken from the parsed technical metadata.
 
 From **6.35.0**, the read also recognizes **360° media**: a spherical video or a panoramic image gets the technical-metadata key `projection_type`, for example `equirectangular`. It is compiled from the Spherical Video metadata — the V1 XML block ExifTool reports as `XMP-GSpherical`, plus the V2 `sv3d` box and the Matroska `Projection` element, which fylr reads from ffprobe's stream side data — and from the XMP GPano tags for images. Flat media has no such key. **Produced versions** keep the marker: the production re-adds the Spherical Video V1 box to MP4 renditions and the XMP GPano tags to image renditions (even with `strip`), as long as the conversion keeps the full equirectangular frame (no crop, rotate or mirror).
+
+Two further technical-metadata keys arrive with **6.35.0**. `alpha` is present, and `true`, only for a file or rendition that carries an alpha channel — the way to tell whether a conversion kept a logo's transparent ground or laid it on white. `vector` holds, for an EPS or AI file, the counts of embedded images and shadings; the file worker uses them to decide whether an SVG rendition would be usable at all (flattened artwork would turn into an SVG no browser opens, so no SVG version is scheduled for it), and a custom produce configuration can gate on the same counts through the recipe replacer `%_source.technical_metadata.vector.images%`. EPS and AI rasters themselves render from the original with ghostscript, or from an embedded preview large enough for the requested version; WMF still goes through inkscape. Files already in the system keep their versions until they are resynced.
 
 The read also produces the file's **full-text** (OCR text and embedded textual metadata), capped by `fylr.elastic.metadataFulltextLimit`. This text is indexed under a record's `metadata_fulltext`, kept separate from the ordinary `_fulltext`. It participates only in **full-text / expert `match`** queries — which is why, from **6.34.0**, a file's extracted content is searchable only when the file field has its expert search enabled (see [Search in Text of Images or Office Files](../help/tutorials/for-administrators/search-text-in-images-or-office-files.md)). OCR is an opt-in recipe (`tesseract`) enabled per extension.
 

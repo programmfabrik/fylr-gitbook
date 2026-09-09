@@ -58,6 +58,18 @@ An address that fronts a fleet is recognised from the connection itself: fylr's 
 
 By default the execserver **auto-balances** concurrency: all services share one CPU pool sized to the host, and each service is classified light or heavy by its measured runtime, so long conversions never occupy the last `fastReserve` slots and short interactive jobs (metadata, plugins, IIIF) stay responsive. Configuring an explicit `waitgroups` block restores manually sized pools. See [performance tuning](../for-system-administrators/configuration/performance-tuning.md) for the settings and [Updating the execserver to 6.35](../for-system-administrators/installation/updating-the-execserver-to-6.35.md) for the migration.
 
+## Execution limits
+
+From **6.35.0** every command an execserver runs is supervised in three ways.
+
+**Memory.** Jobs run within a budget derived from the host's RAM or the lower Linux container limit. In auto-balance mode the execserver learns each service's footprint and uses it when admitting jobs; a command that exceeds its own ceiling or the shared budget is aborted. Sampling runs once per second, so an operating-system memory limit remains the strict bound between checks. The budgets, footprints and sampled peaks are shown on `/inspect/system/execserver/`.
+
+**Progress.** A command that makes no progress for ten minutes is stopped. CPU activity, transferred bytes, output and growing work files all count as progress. `fylr.services.execserver.stallTimeoutSec` changes the default, a recipe's `stallTimeout` duration overrides it per recipe, and `"0"` disables stall supervision. A recipe's `timeout` stays a wall-clock ceiling — `"0"` means unlimited — and the shipped long video encodes carry a 12-hour ceiling. Job receipts distinguish a timeout, a stall and a memory abort.
+
+**CPU.** In auto-balance mode a command may ask for more CPUs from the shared pool while it runs a parallel subprocess: the execserver passes a loopback callback in `FYLR_EXEC_CONTROL_URL`, a `PUT` with a minimum and an optional maximum answers with the actual grant, `GET` reads it, and the extras return on request, when the command ends or when it is cancelled. `fylr convert` does this around FFmpeg — up to `FYLR_CONVERT_VIDEO_MP4_THREADS` CPUs for a video encode (unset: whatever the pool can spare), two for a single frame, one for AAC and MP3 — and honours a `-threads` cap in the operator's ffmpeg command arguments. Extras never take the `fastReserve` slots, and `fylr.services.execserver.maxCpusPerJob` caps what one command may hold in total, its own slot included (`0` = cpus minus the reserve). Held extras show as `extra_cpus` in the broker status, on the topology page and in the `fylr_execserver_extra_cpus` gauge.
+
+Every command carries `FYLR_EXEC_SUPERVISED=1`, and the helper programs `fylr convert` and `fylr metadata` start stay in the command's process group, so the memory and stall watchdogs see them and the kill at the end of a command reaps them — a converter step therefore counts toward the per-job memory ceiling. Active job directories are protected from the janitor's temp cleanup while the job runs.
+
 ## File Queue
 
 ### Action: "metadata"

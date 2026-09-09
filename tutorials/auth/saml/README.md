@@ -165,3 +165,7 @@ Mapping goal of the following example: Every role that ends in the letters `saml
 ## After the tutorial
 
 see more details about fylr and SAML in [SAML config](../../../for-system-administrators/configuration/saml-config.md).
+
+## Single Logout
+
+Logging out of fylr also ends the session at the identity provider (Single Logout, SLO), and an IdP-initiated logout ends the fylr session. From **6.35.0** the logout messages fylr sends are **signed**: the Redirect-binding `LogoutRequest` carries the `SigAlg`/`Signature` query parameters the binding defines, and an IdP-initiated logout is answered with a signed `LogoutResponse` — which is what an IdP that requires signed messages (Shibboleth's default) needs to actually terminate its session, so the next login asks for credentials again. Where the IdP only advertises a POST `SingleLogoutService`, the POST binding is used. Incoming signed logout messages are verified and refused when the signature does not check out; unsigned incoming messages are still accepted.

@@ -145,16 +145,57 @@ fylr:
       # source (TEST-ONLY; the url is never dialed): simulate "timeout"
       # hangs until the fetch budget expires like a black-holed connection,
       # "refused" fails immediately, "status" answers with the given HTTP
-      # status — or it fine-tunes the client for the matched urls with the
-      # same knobs as above (dialTimeoutSec, tlsHandshakeTimeoutSec,
-      # responseHeaderTimeoutSec, disableHttp2; 0/unset = inherit). Default
-      # is no rules. Entries look like:
+      # status and the headers of "headers" — or it fine-tunes the client
+      # for the matched urls with the same knobs as above (dialTimeoutSec,
+      # tlsHandshakeTimeoutSec, responseHeaderTimeoutSec, disableHttp2;
+      # 0/unset = inherit).
+      #
+      # Three optional fields narrow a rule. "methods" limits it to the
+      # listed HTTP methods (upper case; empty = any). "times" makes it stop
+      # after that many matching requests, so the source recovers and later
+      # requests go out for real — the way to test that a retry SUCCEEDS
+      # rather than merely happens. "headers" sets response headers on a
+      # simulated status.
+      #
+      # The tuning knobs reach every fylr http client EXCEPT eas/rput, which
+      # builds its own SSRF-guarding transport; the simulate rules do reach
+      # rput, so a throttling source can be tested end to end.
+      #
+      # Default is no rules. Entries look like:
       #   - match: "^http://sim-plugin-status\\.invalid/"
       #     simulate: status
       #     status: 503
       #   - match: "^https://github\\.com/"
       #     disableHttp2: true
       #     responseHeaderTimeoutSec: 60
+      #
+      # A worked example — a source that rate-limits us and then lets us in,
+      # as test/api/eas/rput/throttled_source drives it. The url carries a
+      # marker so the rule only ever touches that suite's own requests:
+      #
+      #   - match: "rput_sim=check_throttle"
+      #     simulate: status
+      #     status: 429
+      #     # the HEAD check answers 429 three times (the first request plus
+      #     # its two retries) and so does the GET it then falls back to; the
+      #     # fifth request is served for real, so the upload only succeeds
+      #     # if the GET brings a retry budget of its own
+      #     times: 4
+      #     headers:
+      #       # read as seconds, or as an HTTP date; capped at 10 minutes
+      #       Retry-After: "1"
+      #
+      #   - match: "rput_sim=worker_throttle"
+      #     simulate: status
+      #     status: 429
+      #     # GET only, so CheckRemoteFile's HEAD passes and the upload is
+      #     # accepted; the 429 hits the download in the file worker, which
+      #     # requeues the job for the delay the source named instead of
+      #     # putting the file into error
+      #     methods: [GET]
+      #     times: 1
+      #     headers:
+      #       Retry-After: "1"
       urls: []
     # Don't announce plugins bundle on /api/plugin
     noPluginsBundle: false
@@ -997,14 +1038,32 @@ fylr:
       # is used to parse this value. Minimum duration is one minute. Defaults to "24h".
       janitorFileAge: "24h"
 
+      # From 6.35.0, memory supervision derives a shared job budget from 60%
+      # of host RAM, or the lower Linux container limit. A single job may use
+      # half that budget, with a minimum ceiling of 512 MiB. The watchdog
+      # samples process-group resident memory every second and aborts jobs
+      # over their ceiling or to bring the pool back within its budget.
+      # Auto-balancing also admits jobs by their learned memory footprint.
+      # These limits are automatic; there are no memory configuration keys.
+      # Sampling cannot prevent allocations between checks; use container
+      # limits when an operating-system-enforced memory bound is needed.
+
       # Concurrency is auto-balanced by default (#80133): all services share
       # one CPU pool and are classified light/heavy by their measured
       # runtime. Heavy jobs (long conversions) never occupy the last
       # fastReserve slots, so short interactive work always finds a slot.
       cpus: 0            # pool size, 0 = number of CPUs
-      fastReserve: 0     # slots reserved for light jobs, 0 = max(1, cpus/4)
+      fastReserve: 0     # slots only light jobs may take, 0 = max(1, cpus/4)
       heavyThreshold: 10s
       unknownShare: 0.5  # pool share for services not measured yet
+      # Temporary CPU requests (#77577): a running command may ask for more
+      # CPUs through FYLR_EXEC_CONTROL_URL while it runs a parallel
+      # subprocess (fylr convert does this around FFmpeg, and returns them
+      # when FFmpeg ends). The extras come from the same pool and never take
+      # the fastReserve slots. maxCpusPerJob caps what one command may hold in
+      # total, its own slot included. Explicit waitgroups disable the
+      # control channel.
+      maxCpusPerJob: 0   # 0 = cpus - fastReserve, for example 4
 
       # Graceful shutdown: on SIGTERM/Ctrl-C running jobs may finish for this
       # long; jobs still running are interrupted with a "stopped, retry
@@ -1027,6 +1086,16 @@ fylr:
       # drainTimeoutSec, or the drain is killed halfway through.
       drainTimeoutSec: 20
 
+      # Stall supervision: a job command showing no sign of progress for this
+      # long is aborted with a "stalled" receipt. Progress is any of: bytes on
+      # stdout/stderr or file transfers, file growth in the job's workdir, or
+      # the process group still consuming CPU time (a silently computing tool
+      # counts as alive). 0 turns stall supervision off; null or leaving the
+      # key out uses the default of 600. Recipes override this per exec with
+      # the "stallTimeout" duration string: ""/unset keeps this default, "0"
+      # turns supervision off for that exec.
+      stallTimeoutSec: 600
+
       # Configuring an explicit waitgroups block disables auto-balancing (the
       # keys above are then ignored) and restores manually sized pools; every
       # service below then needs its waitgroup key uncommented too. Deprecated.
@@ -1042,7 +1111,8 @@ fylr:
       # os environment
       env:
         - FYLR_METADATA_BLURHASH=1g
-        # set env to set threads used by ffmpeg for mp4
+        # MP4 encoding threads, 0 or unset = all cores; under execserver
+        # this is the maximum of the temporary CPU request (#77577)
         - FYLR_CONVERT_VIDEO_MP4_THREADS=2
         # overwrite to use a different binary, defaults to "chromium" for the PDF plugin
         - SERVER_PDF_CHROME=chromium

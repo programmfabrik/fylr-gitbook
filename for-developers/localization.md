@@ -44,6 +44,8 @@ New frontend languages in fylr can only be added by Programmfabrik. Please creat
 
 ## Localizing a plugin
 
+Keys in a localization CSV are trimmed as the file is read (from 6.35.0): whitespace around a key is invisible while editing the sheet and used to make the key unreachable. Values are left exactly as they are — some carry their whitespace on purpose.
+
 A plugin brings its own CSV, pointed at by `plugin.l10n` in its manifest, mastered in the "fylr localization" sheet with one tab per plugin and pulled with `fylr-build-plugin loca`. Which columns that file must have, and which ones fylr reads, is described under [Plugin Conventions and Standards](plugin/conventions.md#localization-l10n).
 
 ## Find the right keys
