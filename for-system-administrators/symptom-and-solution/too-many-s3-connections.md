@@ -80,6 +80,6 @@ On Kubernetes the same works from the node, using the PID of the container proce
 
 ## Reducing the number
 
-* **Run fewer file workers.** Set `fylr.execserver.parallel: 0` on nodes that should not do file work, and reduce the number of entries in `fylr.execserver.addresses`. Fewer concurrent rendition jobs means fewer simultaneous fetches from S3.
+* **Run fewer file workers.** Set `fylr.execserver.parallel: 0` on nodes that should not do file work (the one value of that key that still has an effect since 6.35), and reduce the number of entries in `fylr.execserver.addresses`. Fewer concurrent rendition jobs means fewer simultaneous fetches from S3.
 * **Check `allow_redirect`.** With `allow_redirect: true` downloads go from the browser straight to S3. That takes them off fylr's connection budget, which helps against a per source IP limit but not against an account wide one. With `false`, all download traffic is served by fylr and counts against fylr's own connections to S3.
 * **Ask what is being counted.** A limit expressed in sockets and a limit expressed in established connections are very different numbers for the same workload.

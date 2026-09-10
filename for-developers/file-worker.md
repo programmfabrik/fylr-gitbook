@@ -44,12 +44,7 @@ Each creates a `File` row — an **original** (`is_original = true`) or a named 
 
 ## 2. The worker pools and the queue
 
-Work is a row in the `file_queue` table. Two pools of workers drain it, started at boot:
-
-* **normal** workers — `fylr.execserver.parallel` of them;
-* **high-priority-only** workers — `fylr.execserver.parallelHigh` of them.
-
-The startup line `file worker: 18 normal and 10 high priority started` is just these two numbers. Each worker polls about once a second and, per tick, claims one job with roughly:
+Work is a row in the `file_queue` table. From **6.35.0** one **file dispatcher** per fylr server drains it: it polls about once a second and claims queue items in priority order for as long as admission allows — exec-bound work up to the share of execserver slots this server may take, local-bound work (`sync`, `checksum`, `copy_move`) on a semaphore derived from the machine's CPU count — and hands each item to its own goroutine. There is no worker count to configure any more: `fylr.execserver.parallel` and `parallelHigh` are deprecated, and only `parallel: 0` keeps a meaning — it switches file processing off on this fylr, which is how an API-only node is configured. A claim looks roughly like:
 
 ```sql
 SELECT … FROM file_queue
@@ -59,7 +54,7 @@ ORDER BY priority DESC, id ASC
 LIMIT 1 FOR UPDATE SKIP LOCKED;
 ```
 
-`FOR UPDATE SKIP LOCKED` (PostgreSQL) lets many workers pull from the same queue without stepping on each other. **High-priority jobs have an odd priority**, which is exactly what the high-priority workers filter on — so interactive work (an upload someone is watching) is never stuck behind a big background reprocessing run. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant.
+`FOR UPDATE SKIP LOCKED` (PostgreSQL) lets several fylr servers pull from the same queue without stepping on each other. **High-priority jobs have an odd priority**, and a share of the local slots stays reserved for them — so interactive work (an upload someone is watching) is never stuck behind a big background reprocessing run. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant.
 
 A worker loads the full `File` (parent, children, metadata, source) and runs the job's **action**. On success the queue row is deleted; a *requeueable* failure (for example an execserver that is momentarily busy) reschedules the row a minute later; a hard failure sets the file to `error` and re-indexes the objects that carry it.
 
@@ -160,7 +155,7 @@ The read also produces the file's **full-text** (OCR text and embedded textual m
 
 ## 7. The execserver
 
-The external tools — `magick`/`libvips` (images and the `fylr convert` command), LibreOffice (`soffice`), `ffmpeg`, ExifTool, the OCR engine, the pages.zip and IIIF converters — do not run in the fylr process. They run on the **execserver**, which fylr drives over a fylr-initiated websocket, the *slot broker* (before 6.35: a two-step token handshake): jobs are pushed onto free slots the moment they open. Concurrency is auto-balanced over one CPU pool by default (an explicit `waitgroups` block restores manually sized per-service pools), and the execserver can run standalone and be scaled to several load-balanced instances. The protocol and the per-action jobs are documented on the [Exec server](execserver.md) page and, for scaling, [Scaling the execserver](../for-system-administrators/installation/scaling-the-execserver.md).
+The external tools — `magick`/`libvips` (images and the `fylr convert` command), LibreOffice (`soffice`), `ffmpeg`, ExifTool, the OCR engine, the pages.zip and IIIF converters — do not run in the fylr process. They run on the **execserver**, which fylr drives over a fylr-initiated websocket, the *slot broker* (before 6.35: a two-step token handshake): jobs are pushed onto free slots the moment they open. Concurrency is auto-balanced over one pool of slots shared by every service (a `maxSlots` on a service holds it back), and the execserver can run standalone and be scaled to several load-balanced instances. The protocol and the per-action jobs are documented on the [Exec server](execserver.md) page and, for scaling, [Scaling the execserver](../for-system-administrators/installation/scaling-the-execserver.md).
 
 ## 8. Storage and the produce cache
 
@@ -178,12 +173,12 @@ Not every rendition is pre-produced and stored. A download can ask for a **custo
 
 | Key | Effect |
 | --- | --- |
-| `fylr.execserver.parallel` / `parallelHigh` | number of normal / high-priority file workers |
+| `fylr.execserver.parallel: 0` | switches file processing off on this fylr (any other value, and `parallelHigh`, are deprecated and ignored) |
 | `fylr.execserver.addresses` | execserver URLs (round-robin, busy-failover) |
 | `fylr.execserver.connectTimeoutSec` | how long a client retries a busy execserver |
 | `fylr.eas.rput.blockedHosts` | SSRF blocklist for `/eas/rput` targets |
 | `fylr.elastic.metadataFulltextLimit` | byte cap on a file's indexed full-text |
-| `fylr.services.execserver.*` | the execserver's own definition (tools, waitgroups, tempDir, cache) |
+| `fylr.services.execserver.*` | the execserver's own definition: `commands`, the `services` it offers (with `maxSlots` per service), `slots` and `fastReserve`, `tempDir`, cache |
 
 **Base configuration** (admin-editable): `produce_config` (classes → versions → recipe + params, allowed upload extensions, max file size), `custom_version_presets` (on-demand download presets), `colorprofiles` (custom ICC profiles referenced by recipe params). Cookbooks and recipes are also extended by enabled plugins.
 
