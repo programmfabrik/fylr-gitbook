@@ -145,16 +145,57 @@ fylr:
       # source (TEST-ONLY; the url is never dialed): simulate "timeout"
       # hangs until the fetch budget expires like a black-holed connection,
       # "refused" fails immediately, "status" answers with the given HTTP
-      # status — or it fine-tunes the client for the matched urls with the
-      # same knobs as above (dialTimeoutSec, tlsHandshakeTimeoutSec,
-      # responseHeaderTimeoutSec, disableHttp2; 0/unset = inherit). Default
-      # is no rules. Entries look like:
+      # status and the headers of "headers" — or it fine-tunes the client
+      # for the matched urls with the same knobs as above (dialTimeoutSec,
+      # tlsHandshakeTimeoutSec, responseHeaderTimeoutSec, disableHttp2;
+      # 0/unset = inherit).
+      #
+      # Three optional fields narrow a rule. "methods" limits it to the
+      # listed HTTP methods (upper case; empty = any). "times" makes it stop
+      # after that many matching requests, so the source recovers and later
+      # requests go out for real — the way to test that a retry SUCCEEDS
+      # rather than merely happens. "headers" sets response headers on a
+      # simulated status.
+      #
+      # The tuning knobs reach every fylr http client EXCEPT eas/rput, which
+      # builds its own SSRF-guarding transport; the simulate rules do reach
+      # rput, so a throttling source can be tested end to end.
+      #
+      # Default is no rules. Entries look like:
       #   - match: "^http://sim-plugin-status\\.invalid/"
       #     simulate: status
       #     status: 503
       #   - match: "^https://github\\.com/"
       #     disableHttp2: true
       #     responseHeaderTimeoutSec: 60
+      #
+      # A worked example — a source that rate-limits us and then lets us in,
+      # as test/api/eas/rput/throttled_source drives it. The url carries a
+      # marker so the rule only ever touches that suite's own requests:
+      #
+      #   - match: "rput_sim=check_throttle"
+      #     simulate: status
+      #     status: 429
+      #     # the HEAD check answers 429 three times (the first request plus
+      #     # its two retries) and so does the GET it then falls back to; the
+      #     # fifth request is served for real, so the upload only succeeds
+      #     # if the GET brings a retry budget of its own
+      #     times: 4
+      #     headers:
+      #       # read as seconds, or as an HTTP date; capped at 10 minutes
+      #       Retry-After: "1"
+      #
+      #   - match: "rput_sim=worker_throttle"
+      #     simulate: status
+      #     status: 429
+      #     # GET only, so CheckRemoteFile's HEAD passes and the upload is
+      #     # accepted; the 429 hits the download in the file worker, which
+      #     # requeues the job for the delay the source named instead of
+      #     # putting the file into error
+      #     methods: [GET]
+      #     times: 1
+      #     headers:
+      #       Retry-After: "1"
       urls: []
     # Don't announce plugins bundle on /api/plugin
     noPluginsBundle: false
@@ -282,8 +323,8 @@ fylr:
     # and its database backend released. A busy server keeps reusing its
     # connections and is unaffected; a quiet server frees up to maxIdleConns
     # backends instead of pinning them open forever. This matters when many
-    # fylr instances share one PostgreSQL server. Set to 0 to keep idle
-    # connections open with no time limit.
+    # fylr instances share one PostgreSQL server. 0 is this default of 30
+    # seconds, -1 keeps idle connections open with no time limit.
     connMaxIdleTimeSec: 30
 
     # https://golang.org/pkg/database/sql/#DB.SetConnMaxLifetime, default: 0
@@ -507,10 +548,11 @@ fylr:
     # file dispatcher) on this fylr, e.g. for API-only nodes. "parallelHigh"
     # is ignored.
     # parallel: 0
-    # addresses of the execserver. they are tried in round robin.
-    # if a server reports to be busy, the next server is tried.
-    # if the server URL contains a /job/{service} path it is only used for the given service
-    # example to only match service "node": http://localhost:8083/job/node?pretty=true
+    # addresses of the execservers. Every address names a whole execserver,
+    # or a load balancer in front of a fleet of them; which services each one
+    # runs is what it announces itself, see fylr.services.execserver.services.
+    # A /job/<service> path on an address, the routing filter of earlier
+    # versions, is refused at startup.
     addresses:
       - http://localhost:8083/?pretty=true
     # the maximum a callback is allowed to run
@@ -997,14 +1039,41 @@ fylr:
       # is used to parse this value. Minimum duration is one minute. Defaults to "24h".
       janitorFileAge: "24h"
 
-      # Concurrency is auto-balanced by default (#80133): all services share
-      # one CPU pool and are classified light/heavy by their measured
-      # runtime. Heavy jobs (long conversions) never occupy the last
-      # fastReserve slots, so short interactive work always finds a slot.
-      cpus: 0            # pool size, 0 = number of CPUs
-      fastReserve: 0     # slots reserved for light jobs, 0 = max(1, cpus/4)
+      # From 6.35.0, memory supervision derives a shared job budget from 60%
+      # of host RAM, or the lower Linux container limit. A single job may use
+      # half that budget, with a minimum ceiling of 512 MiB. The watchdog
+      # samples process-group resident memory every second and aborts jobs
+      # over their ceiling or to bring the pool back within its budget.
+      # Auto-balancing also admits jobs by their learned memory footprint.
+      # These limits are automatic; there are no memory configuration keys.
+      # Sampling cannot prevent allocations between checks; use container
+      # limits when an operating-system-enforced memory bound is needed.
+
+      # One pool of slots for every service (#80133). A job holds one slot
+      # while it runs; a command that asks for a temporary CPU allocation
+      # (#77577, fylr convert does this around FFmpeg) holds more, and gives
+      # them back when its subprocess ends. The balancer classifies each
+      # service light or heavy by its measured runtime, and heavy jobs never
+      # take the last fastReserve slots, so short interactive work (metadata,
+      # plugins, IIIF) always finds one however busy the conversions are.
+      #
+      # cpus is the size of the pool. 0 is the CPUs available to fylr: in a
+      # container that is the CPU limit, not the host's core count. A slot is
+      # a unit of admission, not a core: on a small container, set cpus above
+      # the limit so short jobs overlap their downloads and uploads instead
+      # of waiting on each other. A 2-CPU pod with cpus: 6 runs six jobs at
+      # once, of which one slot stays reserved for light work.
+      cpus: 0
+      # fastReserve is how many slots only light jobs may take. -1 is a
+      # quarter of the pool, at least one; 0 is no reserve. Behind a load
+      # balancer with several execservers set it to 0: fylr parks a job on
+      # every execserver and takes the first free slot, so the fleet is the
+      # headroom and a reserve per pod only idles slots.
+      fastReserve: -1
       heavyThreshold: 10s
       unknownShare: 0.5  # pool share for services not measured yet
+      # What one service may hold of the pool is set per service below
+      # (maxCpus), jobs and temporary allocations together.
 
       # Graceful shutdown: on SIGTERM/Ctrl-C running jobs may finish for this
       # long; jobs still running are interrupted with a "stopped, retry
@@ -1027,216 +1096,96 @@ fylr:
       # drainTimeoutSec, or the drain is killed halfway through.
       drainTimeoutSec: 20
 
-      # Configuring an explicit waitgroups block disables auto-balancing (the
-      # keys above are then ignored) and restores manually sized pools; every
-      # service below then needs its waitgroup key uncommented too. Deprecated.
-      # waitgroups:
-      #   a:
-      #     processes: 4
-      #   b:
-      #     processes: 2
-      #   c:
-      #     processes: 4
+      # Stall supervision: a job command showing no sign of progress for this
+      # long is aborted with a "stalled" receipt. Progress is any of: bytes on
+      # stdout/stderr or file transfers, file growth in the job's workdir, or
+      # the process group still consuming CPU time (a silently computing tool
+      # counts as alive). 0 turns stall supervision off. Recipes override
+      # this per exec with the "stallTimeout" duration string: ""/unset
+      # keeps this default, "0" turns supervision off for that exec.
+      stallTimeoutSec: 600
+
+      # The "waitgroups" block and the per-service "waitgroup" keys of
+      # versions before 6.35 are reported as deprecated and ignored: the pool
+      # above is the one pool, and maxCpus below caps a single service.
       # env can be set for all programs started by the execserver
       # this is overwritten by the env set for the specific command and by the
       # os environment
       env:
         - FYLR_METADATA_BLURHASH=1g
-        # set env to set threads used by ffmpeg for mp4
+        # MP4 encoding threads, 0 or unset = all cores; under execserver
+        # this is the maximum of the temporary CPU request (#77577)
         - FYLR_CONVERT_VIDEO_MP4_THREADS=2
         # overwrite to use a different binary, defaults to "chromium" for the PDF plugin
         - SERVER_PDF_CHROME=chromium
 
-      # common command defintion for all services. Also used to set FYLR_CMD_<PROG> environment
-      # for helper programs which are started by "fylr SUBCOMMAND". Like "exiftool" or "magick"
+      # The commands the services run. A job names a command; a name this
+      # block does not know is run as it is, which is how the "exec" service
+      # runs arbitrary binaries. Every prog is also exported to the commands
+      # as FYLR_CMD_<PROG>, which is how "fylr convert" finds its helpers.
+      # In a config layered over fylr.default.yml, "commands+:" extends the
+      # shipped block and "commands:" replaces it.
       commands:
         exiftool:
           prog: exiftool
         magick:
           prog: magick
-          args:
-            # %_exec.binDir% is replaced with the directory the binary is in
-            - more
-
-      services:
-        node:
-          # waitgroup: b
-          commands:
-            node:
-              prog: "node"
-        python3:
-          # waitgroup: b
-          commands:
-            python3:
-              prog: "python3"
+        # ImageMagick's own thread pool competes with the execserver's
+        # slots; one thread per process keeps the pool honest
         convert:
-          # waitgroup: a
-          commands:
-            fylr_convert:
-              prog: "fylr"
-              args:
-                - "convert"
-            convert:
-              prog: "convert"
-              env:
-                - "OMP_NUM_THREADS=1"
-              # if startupCheck is omitted, fylr only checks if it is in PATH
-              # an empty startupCheck will execute the prog without any arguments
-              startupCheck:
-                # args are optional
-                args:
-                  - "-version"
-                # If a regexp is given, the stdout of the command is checked against it
-                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
-            composite:
-              prog: "composite"
-              env:
-                - "OMP_NUM_THREADS=1"
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
-            fylr_metadata:
-              # For the blurhash production a maximum size can be set via env.
-              # Settings this to "-" turns the blurhash off. Blurhash needs to
-              # be calculated in RAM so the bigger the image is to produce a
-              # blurhash, the more RAM is needed. More info about blurhashes can
-              # be found here: https://blurha.sh/. The default for this setting
-              # is unlimited.
-              env:
-                - FYLR_METADATA_BLURHASH=1g
-              prog: "fylr"
-              args:
-                # %_exec.binDir% is replaced with the directory the binary is in
-                - "metadata"
+          prog: convert
+          env:
+            - "OMP_NUM_THREADS=1"
+          startupCheck:
+            args:
+              - "-version"
+            regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+        composite:
+          prog: composite
+          env:
+            - "OMP_NUM_THREADS=1"
         ffmpeg:
-          # waitgroup: a
-          commands:
-            ffmpeg:
-              prog: ffmpeg
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "ffmpeg version 5[\\.0-9]+ Copyright"
-            ffprobe:
-              prog: ffprobe
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "ffprobe version 5[\\.0-9]+ Copyright"
-            convert:
-              prog: "convert"
-              env:
-                - "OMP_NUM_THREADS=1"
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
-            composite:
-              prog: "composite"
-              env:
-                - "OMP_NUM_THREADS=1"
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
-            fylr_metadata:
-              env:
-                - FYLR_METADATA_BLURHASH=1g
-              prog: "fylr"
-              args:
-                - "metadata"
-            ffmpegthumbnailer:
-              prog: ffmpegthumbnailer
-              startupCheck:
-                args:
-                - "-v"
-                regex: "ffmpegthumbnailer version: 2\\..*"
+          prog: ffmpeg
+          startupCheck:
+            args:
+              - "-version"
+            regex: "ffmpeg version [5-7][\\.0-9]+ Copyright"
+        ffprobe:
+          prog: ffprobe
+        node:
+          prog: node
+        python3:
+          prog: python3
+        saxon:
+          prog: saxon
+
+      # What this execserver offers: the services jobs are addressed to.
+      # fylr.default.yml ships the complete list; "services+:" adjusts it,
+      # "services:" replaces it. fylr sends a job only to execservers that
+      # announce its service, so this block is also how work is routed: an
+      # execserver meant for video alone lists nothing but ffmpeg, and the
+      # execserver next to fylr removes ffmpeg ("ffmpeg:" with nothing
+      # behind it).
+      services:
+        # maxCpus caps what a service holds of the pool at once, jobs and
+        # temporary CPU allocations together. soffice runs one job at a time
+        # because LibreOffice misbehaves in parallel; ffmpeg may hold four
+        # slots, as four single-thread encodes or one four-thread encode.
         soffice:
-          # waitgroup: c
-          commands:
-            soffice:
-              prog: soffice
-              startupCheck:
-                args:
-                  - "--headless"
-                  - "--invisible"
-                  - "--version"
-                regex: "LibreOffice 7[.0-9]+"
-            convert:
-              prog: "convert"
-              env:
-                - "OMP_NUM_THREADS=1"
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
-            composite:
-              prog: "composite"
-              env:
-                - "OMP_NUM_THREADS=1"
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
-            fylr_metadata:
-              env:
-                - FYLR_METADATA_BLURHASH=1g
-              prog: "fylr"
-              args:
-                - "metadata"
-
-        metadata:
-          # waitgroup: a
-          commands:
-            fylr_metadata:
-              env:
-                - FYLR_METADATA_BLURHASH=1g
-              prog: "fylr"
-              args:
-                - "metadata"
-
-            ffprobe:
-              prog: ffprobe
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "ffprobe version 4[\\.0-9]+ Copyright"
-        pdf2pages:
-          # waitgroup: a
-          commands:
-            fylr_pdf2pages:
-              # fylr_* utils use other programs to do their job. These
-              # programs must be either found in the $PATH of the OS or
-              # passed in by environment in the form of FYLR_CMD_<prog>
-              # The <prog> is the program name (upper case)
-              #
-              # pdf2pages needs
-              #   - mutool for PDF page rendering
-              #   - exiftool for INDD PageImage extraction
-              prog: "fylr"
-              args:
-                - "pdf2pages"
-
-            fylr_metadata:
-              env:
-                - FYLR_METADATA_BLURHASH=1g
-              prog: "fylr"
-              args:
-                - "metadata"
-        xslt:
-          # waitgroup: a
-          commands:
-            saxon:
-              prog: "saxon"
-        iiif:
-          # waitgroup: a
-          commands:
-            convert:
-              prog: convert
-            fylr_iiif:
-              prog: "fylr"
-              args:
-                - "iiif"
+          maxCpus: 1
+        ffmpeg:
+          maxCpus: 4
+        # every other service: no cap beyond the pool
+        exec: {}
+        node: {}
+        python3: {}
+        xslt: {}
+        convert: {}
+        ocr: {}
+        inkscape: {}
+        pdf2pages: {}
+        iiif: {}
+        dot: {}
+        metadata: {}
 ```
 {% endcode %}
