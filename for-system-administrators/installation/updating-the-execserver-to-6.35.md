@@ -58,11 +58,12 @@ These are the execserver settings to look for:
 | `fylr.execserver.parallelHigh` | **deprecated**, ignored | Delete it. Worker counts are derived from the connected execservers' capacity. |
 | `fylr.execserver.parallel` | ignored — except the value `0` | Delete it, **unless** it is `0`: that still switches file processing off on this fylr, which is how an API-only node is configured. It is not reported, because `0` is a supported value. |
 | `fylr.execserver.callbackBackendInternalURL`, `fylr.execserver.callbackApiInternalURL` | still override scheme and port, never the host | Neither is required any more. If one of them names a **host** — a Kubernetes Service, a load balancer in front of several fylr replicas — that host is now ignored; keep the setting only for a proxy in front of the listener that changes scheme or port. Where NAT sits between fylr and the execserver, `fylr.execserver.callbackBackendOwnURL` is the verbatim override. |
-| `fylr.services.execserver.waitgroups` and the per-service `waitgroup:` keys | **deprecated**, ignored | Delete them. Every service runs on the one pool, sized by `cpus`; a service that must not run in parallel gets a `maxCpus`, see the next section. |
+| `fylr.services.execserver.waitgroups` and the per-service `waitgroup:` keys | **deprecated**, ignored | Delete them. Every service runs on the one pool, sized by `slots`; a service that must not run in parallel gets a `maxSlots`, see the next section. |
 | `fylr.services.execserver.services.<name>.commands` | **deprecated**, ignored | Move the command definitions into `fylr.services.execserver.commands`, where every service finds them. |
 | `fylr.services.execserver.services.<name>.workDir` | **deprecated**, ignored | Delete it; it never had an effect. |
 | a `/job/<service>` path on an entry of `fylr.execserver.addresses` | **refused** at startup | Delete the path. Which execserver runs a service is what the execserver announces; a dedicated execserver lists only its services, see the next section. |
-| `fylr.services.execserver.maxCpusPerJob` (6.35 previews only) | **deprecated**, ignored | Delete it. A command's temporary CPU allocation is bounded by its service's `maxCpus`. |
+| `fylr.services.execserver.maxCpusPerJob` (6.35 previews only) | **deprecated**, ignored | Delete it. A command's temporary CPU allocation is bounded by its service's `maxSlots`. |
+| `fylr.services.execserver.cpus` (6.35 previews only) | **deprecated**, ignored | It is `slots` now: a slot is a unit of admission, not a core. |
 
 {% hint style="info" %}
 A callback has to reach the **exact** fylr process that created the job: the
@@ -95,26 +96,27 @@ Every value has its default in `fylr.default.yml`; these are the shipped ones:
 fylr+:
   services+:
     execserver+:
-      cpus: 0             # slots in the pool, 0 = the CPUs available to fylr
-      fastReserve: -1     # slots only light jobs may take, -1 = max(1, cpus / 4), 0 = none
+      slots: 0            # size of the pool, 0 = GOMAXPROCS, the CPUs available to fylr
+      fastReserve: -1     # slots only light jobs may take, -1 = max(1, slots / 4), 0 = none
       heavyThreshold: 10s # a service slower than this counts as heavy
       unknownShare: 0.5   # pool share a service may use before it has samples
 ```
 
-`cpus` is the one number to think about:
+`slots` is the one number to think about:
 
-* `0` is the number of CPUs available to fylr. In a container that is the
-  CPU limit of the container, not the core count of the host — a pod limited
-  to 2 CPUs gets a pool of 2.
+* `0` is `GOMAXPROCS`, the number of CPUs the Go runtime may use: the core
+  count on a bare host, the CPU limit inside a container (the cgroup quota,
+  rounded up), or the value of the `GOMAXPROCS` environment variable when it
+  is set. A pod limited to 2 CPUs gets a pool of 2.
 * A slot is a unit of admission, **not a core**. A job spends much of its
   time fetching its source and writing its results, and a pool the size of a
   small CPU limit serialises that waiting. On a container with a limit of 2,
-  `cpus: 6` runs six jobs at once and leaves one slot reserved for light
+  `slots: 6` runs six jobs at once and leaves one slot reserved for light
   work; the limit still bounds what they get of the CPU.
 * On a machine the execserver shares with something else — a database, other
-  containers — `cpus` is the whole budget the execserver will use.
+  containers — `slots` is the whole budget the execserver will use.
 
-`fastReserve` must be smaller than `cpus`, and fylr refuses to start
+`fastReserve` must be smaller than `slots`, and fylr refuses to start
 otherwise. Behind a load balancer with several execservers, set it to `0`:
 fylr parks a job on every execserver and takes the first free slot, so the
 fleet is the headroom, and a reserve on each pod only idles slots.
@@ -125,9 +127,9 @@ The startup log states what the pool is:
 INF execserver: pool of 16 slots (fastReserve 4, heavyThreshold 10s, unknown max 8)
 ```
 
-### Capping a service: `maxCpus`
+### Capping a service: `maxSlots`
 
-A service may carry `maxCpus`, the most slots of the pool it holds at once —
+A service may carry `maxSlots`, the most slots of the pool it holds at once —
 jobs and temporary CPU allocations together. `1` runs one job at a time and
 lets it lease nothing; `4` runs four single-slot jobs, or one command that
 leased three more, or two of two. That is the setting for a tool that
@@ -140,9 +142,9 @@ fylr+:
     execserver+:
       services+:
         soffice+:
-          maxCpus: 1
+          maxSlots: 1
         ffmpeg+:
-          maxCpus: 4
+          maxSlots: 4
 ```
 
 `0`, the default, is no cap beyond the pool. A cap above the pool is the
@@ -217,7 +219,7 @@ see [Scaling the execserver](scaling-the-execserver.md). What to remove and
 what to add:
 
 * **Remove the per-pod addressing.** `tokenResponseSendServerIP`, a headless Service, pod IPs from the downward API, L4 session affinity: none of it is needed. fylr dials the one published address and opens further connections to it while jobs back up, until it has found the whole fleet.
-* **Size the pool for the pod, not the node.** `cpus: 0` reads the pod's CPU limit. A small limit makes a small pool, and a slot is not a core: set `cpus` above the limit so short jobs overlap their transfers (section 3), and set `fastReserve: 0`, since the fleet is the headroom.
+* **Size the pool for the pod, not the node.** `slots: 0` reads the pod's CPU limit. A small limit makes a small pool, and a slot is not a core: set `slots` above the limit so short jobs overlap their transfers (section 3), and set `fastReserve: 0`, since the fleet is the headroom.
 * **Point the readiness probe at `/readyz`.** It answers `200` while the execserver takes work and `503` from the moment it starts draining, so a terminating pod leaves the load balancer's endpoints before it exits. Without this a fylr still opens fresh connections to it, and the jobs granted there come straight back as "stopped, retry later".
 * **Point the liveness probe at `/healthz`.** It answers `200` as long as the process runs, draining included — a liveness probe on `/readyz` would restart the container and cut the drain short.
 * **Give the pod room to drain.** On `SIGTERM` the execserver stops granting slots and lets running jobs finish for `drainTimeoutSec` (default 20 s); a job still running at the deadline is answered with a retryable receipt that the client requeues on its own. `terminationGracePeriodSeconds` has to be comfortably above `drainTimeoutSec`, or the drain is killed halfway through.
@@ -233,6 +235,6 @@ terminationGracePeriodSeconds: 45
 ## 6. After the restart
 
 * The startup log carries the `execserver: pool of …` line, and the deprecated keys of section 2 as warnings.
-* `/inspect/system/execserver/` lists the connected fylr servers, the pool — its size, the fast reserve, the heavy threshold, and what is in flight against each cap — and per service its `maxCpus`, its learned class and its mean runtime. It is where you check that the balancer's beliefs match the machine.
+* `/inspect/system/execserver/` lists the connected fylr servers, the pool — its size, the fast reserve, the heavy threshold, and what is in flight against each cap — and per service its `maxSlots`, its learned class and its mean runtime. It is where you check that the balancer's beliefs match the machine.
 * [`/inspect/system/topology/`](../inspect/system.md#fleet-topology) shows the whole installation on one page: every fylr, every execserver, the load balancer when there is one, and the jobs moving between them — including a callback address that would not come back to the right replica.
 * `/metrics` carries `fylr_execserver_jobs_done`, `fylr_execserver_jobs_failed` and `fylr_execserver_jobs_running`, labelled by service, for the long-term view.

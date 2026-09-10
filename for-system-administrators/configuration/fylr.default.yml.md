@@ -164,17 +164,17 @@ fylr:
       addr: :8083
       jobRemovalPolicy: "done"
       janitorFileAge: "24h"
-      # One pool of slots for every service (#80133). A slot is a unit of
+      # One pool of slots for every service. A slot is a unit of
       # admission, not a core: a job holds one, a command that asked for a
       # temporary CPU allocation holds more. The balancer classifies each
       # service light or heavy by its measured runtime, and heavy jobs never
       # take the last fastReserve slots, so short interactive work always
       # finds one. See fylr.example.yml for the reasoning behind each value.
-      cpus: 0              # slots in the pool, 0 = the CPUs available to fylr
-      fastReserve: -1      # slots only light jobs may take, -1 = max(1, cpus/4), 0 = none
+      slots: 0             # size of the pool, 0 = GOMAXPROCS, the CPUs available to fylr
+      fastReserve: -1      # slots only light jobs may take, -1 = max(1, slots/4), 0 = none
       heavyThreshold: 10s  # a service slower than this counts as heavy
       unknownShare: 0.5    # pool share for services not measured yet
-      # graceful shutdown (#80136): running jobs may finish for this long,
+      # graceful shutdown: running jobs may finish for this long,
       # stragglers are interrupted with a "stopped, retry later" receipt
       drainTimeoutSec: 20
       # a command showing no progress for this long is aborted, 0 = off
@@ -228,7 +228,7 @@ fylr:
           prog: java
 
 
-      # What this execserver offers. A service may carry "maxCpus: N", the
+      # What this execserver offers. A service may carry "maxSlots: N", the
       # most slots it holds at once, jobs and temporary CPU allocations
       # together; "name:" with nothing behind it removes a service, which
       # is how a dedicated execserver limits itself to some services.

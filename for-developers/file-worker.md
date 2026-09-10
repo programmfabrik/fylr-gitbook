@@ -147,7 +147,7 @@ The read also produces the file's **full-text** (OCR text and embedded textual m
 
 ## 7. The execserver
 
-The external tools — `magick`/`libvips` (images and the `fylr convert` command), LibreOffice (`soffice`), `ffmpeg`, ExifTool, the OCR engine, the pages.zip and IIIF converters — do not run in the fylr process. They run on the **execserver**, which fylr drives over a fylr-initiated websocket, the *slot broker* (before 6.35: a two-step token handshake): jobs are pushed onto free slots the moment they open. Concurrency is one pool of slots per execserver, with an optional cap per service (`maxCpus`), and the execserver can run standalone and be scaled to several load-balanced instances. The protocol and the per-action jobs are documented on the [Exec server](execserver.md) page and, for scaling, [Scaling the execserver](../for-system-administrators/installation/scaling-the-execserver.md).
+The external tools — `magick`/`libvips` (images and the `fylr convert` command), LibreOffice (`soffice`), `ffmpeg`, ExifTool, the OCR engine, the pages.zip and IIIF converters — do not run in the fylr process. They run on the **execserver**, which fylr drives over a fylr-initiated websocket, the *slot broker* (before 6.35: a two-step token handshake): jobs are pushed onto free slots the moment they open. Concurrency is one pool of slots per execserver, with an optional cap per service (`maxSlots`), and the execserver can run standalone and be scaled to several load-balanced instances. The protocol and the per-action jobs are documented on the [Exec server](execserver.md) page and, for scaling, [Scaling the execserver](../for-system-administrators/installation/scaling-the-execserver.md).
 
 ## 8. Storage and the produce cache
 

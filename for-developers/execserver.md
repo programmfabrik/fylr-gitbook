@@ -56,7 +56,7 @@ An address that fronts a fleet is recognised from the connection itself: fylr's 
 
 ## Concurrency
 
-The execserver runs one pool of slots for every service, sized by `cpus` (the CPUs available to it by default, which in a container is the CPU limit). Each service is classified light or heavy by its measured runtime, so long conversions never occupy the last `fastReserve` slots and short interactive jobs (metadata, plugins, IIIF) stay responsive. A service's `maxCpus` caps what it holds of the pool at once, jobs and temporary CPU allocations together. See [performance tuning](../for-system-administrators/configuration/performance-tuning.md) for the settings and [Updating the execserver to 6.35](../for-system-administrators/installation/updating-the-execserver-to-6.35.md) for the migration.
+The execserver runs one pool of slots for every service, sized by `slots` (`GOMAXPROCS` by default, the CPUs the Go runtime may use, which in a container is the CPU limit). Each service is classified light or heavy by its measured runtime, so long conversions never occupy the last `fastReserve` slots and short interactive jobs (metadata, plugins, IIIF) stay responsive. A service's `maxSlots` caps what it holds of the pool at once, jobs and temporary CPU allocations together. See [performance tuning](../for-system-administrators/configuration/performance-tuning.md) for the settings and [Updating the execserver to 6.35](../for-system-administrators/installation/updating-the-execserver-to-6.35.md) for the migration.
 
 ## File Queue
 

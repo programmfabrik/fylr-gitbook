@@ -25,7 +25,7 @@ fylr+:
 ```
 
 * Reduce load on the hardware so that processing per asset is faster. All the reasons for load on your hardware are out of the scope of this fylr documentation, but to e.g. reduce the number of parallel video processing to 1 see the code block below.
-  * By default ffmpeg shares the execserver's pool with every other service; `maxCpus: 1` runs one video conversion at a time.
+  * By default ffmpeg shares the execserver's pool with every other service; `maxSlots: 1` runs one video conversion at a time.
 
 ```yaml
 fylr+:
@@ -33,7 +33,7 @@ fylr+:
     execserver+:
       services+:
         ffmpeg+:
-          maxCpus: 1
+          maxSlots: 1
 ```
 
 * Change the used "recipe"(=list of steps on how to process certain asset file types). About recipes see e.g. [https://docs.fylr.io/releases/2023/v6.8.0](https://docs.fylr.io/releases/2023/v6.8.0) and search for the word recipe.

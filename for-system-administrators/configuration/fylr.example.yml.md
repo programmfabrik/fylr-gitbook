@@ -305,8 +305,8 @@ fylr:
     dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
 
     # https://golang.org/pkg/database/sql/#DB.SetMaxOpenConns default: 100 At
-    # least: 4 + elastic.parallel (the file dispatcher sizes itself, see
-    # #80119). Two of these connections will be dedicated to a separate
+    # least: 4 + elastic.parallel (the file dispatcher sizes itself). Two of
+    # these connections will be dedicated to a separate
     # connection pool managing the sequences. The recommended setting for this
     # is 100. It is not recommended to set it to 0 (unlimited), as this can
     # possibly open too many connections for the OS to handle. Also, since each
@@ -543,7 +543,7 @@ fylr:
   # Client configuration of execserver is used
   # for syncing of files, metadata generation and plugin execution
   execserver:
-    # NOTE: "parallel" is deprecated (#80133) — the file dispatcher sizes its
+    # NOTE: "parallel" is deprecated — the file dispatcher sizes its
     # own concurrency from the connected execserver pool (see the "backend"
     # section below) and the execserver auto-balances its slots. Only
     # "parallel: 0" still has an effect: it disables file processing (the
@@ -1051,21 +1051,23 @@ fylr:
       # Sampling cannot prevent allocations between checks; use container
       # limits when an operating-system-enforced memory bound is needed.
 
-      # One pool of slots for every service (#80133). A job holds one slot
+      # One pool of slots for every service. A job holds one slot
       # while it runs; a command that asks for a temporary CPU allocation
-      # (#77577, fylr convert does this around FFmpeg) holds more, and gives
+      # (fylr convert does this around FFmpeg) holds more, and gives
       # them back when its subprocess ends. The balancer classifies each
       # service light or heavy by its measured runtime, and heavy jobs never
       # take the last fastReserve slots, so short interactive work (metadata,
       # plugins, IIIF) always finds one however busy the conversions are.
       #
-      # cpus is the size of the pool. 0 is the CPUs available to fylr: in a
-      # container that is the CPU limit, not the host's core count. A slot is
-      # a unit of admission, not a core: on a small container, set cpus above
-      # the limit so short jobs overlap their downloads and uploads instead
-      # of waiting on each other. A 2-CPU pod with cpus: 6 runs six jobs at
+      # slots is the size of the pool. 0 is GOMAXPROCS, the number of CPUs
+      # the Go runtime may use: the core count on a bare host, the CPU limit
+      # inside a container (the cgroup quota, rounded up), or the value of
+      # the GOMAXPROCS environment variable when it is set. A slot is a unit
+      # of admission, not a core: on a small container, set slots above the
+      # limit so short jobs overlap their downloads and uploads instead of
+      # waiting on each other. A 2-CPU pod with slots: 6 runs six jobs at
       # once, of which one slot stays reserved for light work.
-      cpus: 0
+      slots: 0
       # fastReserve is how many slots only light jobs may take. -1 is a
       # quarter of the pool, at least one; 0 is no reserve. Behind a load
       # balancer with several execservers set it to 0: fylr parks a job on
@@ -1075,7 +1077,7 @@ fylr:
       heavyThreshold: 10s
       unknownShare: 0.5  # pool share for services not measured yet
       # What one service may hold of the pool is set per service below
-      # (maxCpus), jobs and temporary allocations together.
+      # (maxSlots), jobs and temporary allocations together.
 
       # Graceful shutdown: on SIGTERM/Ctrl-C running jobs may finish for this
       # long; jobs still running are interrupted with a "stopped, retry
@@ -1109,14 +1111,14 @@ fylr:
 
       # The "waitgroups" block and the per-service "waitgroup" keys of
       # versions before 6.35 are reported as deprecated and ignored: the pool
-      # above is the one pool, and maxCpus below caps a single service.
+      # above is the one pool, and maxSlots below caps a single service.
       # env can be set for all programs started by the execserver
       # this is overwritten by the env set for the specific command and by the
       # os environment
       env:
         - FYLR_METADATA_BLURHASH=1g
         # MP4 encoding threads, 0 or unset = all cores; under execserver
-        # this is the maximum of the temporary CPU request (#77577)
+        # this is the maximum of the temporary CPU request
         - FYLR_CONVERT_VIDEO_MP4_THREADS=2
         # overwrite to use a different binary, defaults to "chromium" for the PDF plugin
         - SERVER_PDF_CHROME=chromium
@@ -1169,14 +1171,14 @@ fylr:
       # execserver next to fylr removes ffmpeg ("ffmpeg:" with nothing
       # behind it).
       services:
-        # maxCpus caps what a service holds of the pool at once, jobs and
+        # maxSlots caps what a service holds of the pool at once, jobs and
         # temporary CPU allocations together. soffice runs one job at a time
         # because LibreOffice misbehaves in parallel; ffmpeg may hold four
         # slots, as four single-thread encodes or one four-thread encode.
         soffice:
-          maxCpus: 1
+          maxSlots: 1
         ffmpeg:
-          maxCpus: 4
+          maxSlots: 4
         # every other service: no cap beyond the pool
         exec: {}
         node: {}
