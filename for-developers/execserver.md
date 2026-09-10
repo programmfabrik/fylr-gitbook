@@ -10,7 +10,7 @@ A slot's life alternates direction over that one socket:
 
 | Direction | Message | Meaning |
 | --- | --- | --- |
-| exec → fylr | `HELLO {instance_id, services, waitgroups, clients}` | Capability snapshot on connect, re-sent when it changes. fylr parks a `WANT` only on a connection whose execserver announced that service. |
+| exec → fylr | `HELLO {instance_id, services, processes, clients}` | Capability snapshot on connect, re-sent when it changes: the services this execserver offers and the size of its pool. fylr parks a `WANT` only on a connection whose execserver announced that service. |
 | fylr → exec | `WANT {job_id, service, priority}` | A worker is parked, needing a slot. |
 | fylr → exec | `UNWANT {job_id}` | Got a slot elsewhere / gave up (requeue). |
 | exec → fylr | `OFFER {job_id, token}` | A slot has been reserved for that job. |
@@ -25,7 +25,7 @@ sequenceDiagram
     participant F as fylr (client)
     participant X as execserver
     Note over F,X: control — one fylr-initiated websocket
-    X-->>F: HELLO {instance_id, services, waitgroups, clients}
+    X-->>F: HELLO {instance_id, services, processes, clients}
     F->>X: WANT {job_id, service, priority}
     Note right of X: parked in the want-book until a slot frees
     X->>F: OFFER {job_id, token}
@@ -48,7 +48,7 @@ For the full design — demand-driven connection pooling behind a load balancer,
 
 ## Fleet topology
 
-From version 6.35.0, `/inspect/system/topology` shows the whole installation on one page: every fylr server, every execserver, the load balancer when there is one, and the work moving between them — running jobs, jobs queued behind a full waitgroup, what finished and what failed, with throughput and bytes moved. It streams over a websocket; the same data is served as JSON at `/inspect/system/topology/data`.
+From version 6.35.0, `/inspect/system/topology` shows the whole installation on one page: every fylr server, every execserver, the load balancer when there is one, and the work moving between them — running jobs, jobs waiting for a slot, what finished and what failed, with throughput and bytes moved. It streams over a websocket; the same data is served as JSON at `/inspect/system/topology/data`.
 
 Each fylr registers itself on every broker connection — backend id, name, version and the callback base it announces. The execserver fetches that base and checks that the server answering is the one that registered, so a callback address pointing at a load balancer in front of several replicas is reported on the page at connect time, instead of failing later inside a job.
 
@@ -56,7 +56,7 @@ An address that fronts a fleet is recognised from the connection itself: fylr's 
 
 ## Concurrency
 
-By default the execserver **auto-balances** concurrency: all services share one CPU pool sized to the host, and each service is classified light or heavy by its measured runtime, so long conversions never occupy the last `fastReserve` slots and short interactive jobs (metadata, plugins, IIIF) stay responsive. Configuring an explicit `waitgroups` block restores manually sized pools. See [performance tuning](../for-system-administrators/configuration/performance-tuning.md) for the settings and [Updating the execserver to 6.35](../for-system-administrators/installation/updating-the-execserver-to-6.35.md) for the migration.
+The execserver runs one pool of slots for every service, sized by `slots` (`GOMAXPROCS` by default, the CPUs the Go runtime may use, which in a container is the CPU limit). Each service is classified light or heavy by its measured runtime, so long conversions never occupy the last `fastReserve` slots and short interactive jobs (metadata, plugins, IIIF) stay responsive. A service's `maxSlots` caps what it holds of the pool at once, jobs and temporary CPU allocations together. See [performance tuning](../for-system-administrators/configuration/performance-tuning.md) for the settings and [Updating the execserver to 6.35](../for-system-administrators/installation/updating-the-execserver-to-6.35.md) for the migration.
 
 ## File Queue
 

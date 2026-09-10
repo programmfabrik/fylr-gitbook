@@ -40,6 +40,12 @@ fylr+:
       # all: delete failed jobs, for preserving disk space. done: keep failed jobs, for debugging
       jobRemovalPolicy: all
       addr: :8083
+      # ffmpeg only. The services an execserver lists are what it announces
+      # to fylr, and fylr sends a job only to an execserver that announces
+      # its service — so this list, without the + suffix, is what makes this
+      # box the video box.
+      services:
+        ffmpeg: {}
 
     api:
 
@@ -85,29 +91,25 @@ networks:
 ```
 fylr+:
 [...]
-  execserver: # how to connect to the execservers (this is the "client" part)
+  execserver+: # how to connect to the execservers (this is the "client" part)
     addresses:
-      - http://ff.example.com:8083/job/ffmpeg?pretty=true
-      - http://localhost:8083/?pretty=true
-    parallel: 18
-    parallelHigh: 10
-    pluginJobTimeoutSec: 2400
-    connectTimeoutSec: 120
-    # the following tells the execservers how to connect back to the main fylr
-    callbackBackendInternalURL: "http://main.example.com:8081"
-    callbackApiInternalURL: "http://main.example.com:8080"
+      # both boxes, without any path: which one runs ffmpeg is what each
+      # execserver announces, ff.example.com offers nothing else and the
+      # local execserver removes it below
+      - http://ff.example.com:8083/
+      - http://localhost:8083/
 
 [...]
   services+:
 [...]
     execserver+: # what the execserver at main.example.com does ("server" part)
-      commands+: # the + tells fylr to use defaults unless explicitly overwritten
-        ffmpeg:
-          # overwritten with empty = should not be able to find ffmpeg
       services+:
         ffmpeg:
-          # overwritten with empty = should not consider ffmpeg as a local service
+          # overwritten with empty = main.example.com does not offer ffmpeg,
+          # so every ffmpeg job goes to ff.example.com
 ```
+
+fylr learns the address the execserver on ff.example.com reaches it back on from the broker connection, so no callback URL has to be configured; from 6.35 a `/job/ffmpeg` path on the address is refused, the services list above replaces it.
 
 * use a `docker-compose.yml` with these changes, the rest remains as in [the default installation](../linux-docker-compose.md#installation):
 
