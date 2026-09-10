@@ -87,10 +87,8 @@ fylr+:
 [...]
   execserver: # how to connect to the execservers (this is the "client" part)
     addresses:
-      - http://ff.example.com:8083/job/ffmpeg?pretty=true
-      - http://localhost:8083/?pretty=true
-    parallel: 18
-    parallelHigh: 10
+      - http://ff.example.com:8083/
+      - http://localhost:8083/
     pluginJobTimeoutSec: 2400
     connectTimeoutSec: 120
     # the following tells the execservers how to connect back to the main fylr
@@ -108,6 +106,8 @@ fylr+:
         ffmpeg:
           # overwritten with empty = should not consider ffmpeg as a local service
 ```
+
+Each execserver announces the services it offers when it connects, and fylr routes ffmpeg jobs to the only one that has it — _ff_.example.com. The address needs no `/job/ffmpeg` path (from 6.35 such a path is refused at startup), and there is no worker count to configure on the main fylr: one file dispatcher takes as many jobs as the connected execservers have slots (see [Scaling the execserver](../scaling-the-execserver.md)).
 
 * use a `docker-compose.yml` with these changes, the rest remains as in [the default installation](../linux-docker-compose.md#installation):
 

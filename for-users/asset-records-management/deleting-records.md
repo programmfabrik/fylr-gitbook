@@ -48,3 +48,6 @@ The records that prevent the deletion are linked in the following collections:
 
 <table><thead><tr><th width="244">COLLECTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table>
 
+## Deleting a record with bidirectional links
+
+A record linked in both directions to other records (a bidirectional field) asks whether to **unlink** it from its partners when it is deleted. From **6.35.0** confirming removes the link on both sides before the record enters the trash, and restoring the record from the trash keeps the links removed — the partners are not silently re-linked. Deleting through a background task behaves the same way.

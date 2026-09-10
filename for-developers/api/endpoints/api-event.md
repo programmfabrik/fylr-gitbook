@@ -16,6 +16,8 @@ Read, write and subscribe to **events**. fylr writes events for many server-side
 
 ### `GET /event/stream` — WebSocket stream of new events.
 
+From **6.35.0** the access token may travel in the websocket handshake instead of the URL: offer `fylr.auth.bearer.<token>` — the token base64url-encoded without padding — as an entry of the `Sec-WebSocket-Protocol` header, next to the real subprotocol `fylr.event.v1`, which the server echoes back. A browser cannot set request headers on a websocket handshake, so this is the only way a web client authenticates without putting the token into the URL and its logs. The token is read only from an actual handshake, before the upgrade; an unauthenticated handshake is refused with `401` and answered with the JSON error `WebsocketUpgradeFailed`. The `access_token` query parameter keeps working.
+
 {% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/event/stream" method="get" %}
 [fylr-openapi.yml](../../../.gitbook/assets/fylr-openapi.yml)
 {% endopenapi %}

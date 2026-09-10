@@ -33,6 +33,14 @@ The option fields are the same as the custom-version options in the download dia
 A preset must have a display name **and** at least one effective option. The editor disables **Apply** for an invalid preset, and the server rejects an invalid preset on save.
 {% endhint %}
 
+### Color space and color profile
+
+From fylr **6.35.0** a **Color Space** an ICC profile can express is converted *through* that profile, and the produced file carries it: `rgb` and `srgb` through `sRGB_IEC61966-2-1_black_scaled`, `gray` and `grey` through `Generic Gray Profile`, `cmyk` through `ISOcoated_v2_eci` — so a CMYK download is what a print shop expects. A color space no profile expresses (`YCbCr`, `HSL`, …) is converted by channel arithmetic and leaves the file untagged, as before.
+
+Set together, **Color Space** and **Color Profile** have to agree: a `cmyk` color space with an RGB profile is refused when the preset is saved, rather than one of the two being dropped.
+
+`Generic XYZ Profile` and `Generic Lab Profile` are no longer offered. XYZ and Lab describe the space color management converts *through*, not image data; a file tagged with one is refused by color-managed software although the image inside it is intact. A preset that still names either does not save until it is changed to a real profile, for example `sRGB Profile` or `AdobeRGB1998`.
+
 ## Using a preset
 
 When a preset applies to a file, it appears in the **Renditions** list of the download options alongside the standard renditions. See [Downloading](../../../for-users/download-and-export/downloading.md#custom-version-presets) for the user's perspective.
