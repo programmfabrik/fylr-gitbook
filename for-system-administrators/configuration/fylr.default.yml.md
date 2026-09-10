@@ -25,11 +25,16 @@ fylr:
     format: "console"
     level: "info"
     timeFormat: "2006-01-02 15:04:05Z07"
+  # A db: block without the + suffix replaces this whole block, and the
+  # connection pool then runs on the Go defaults (unlimited open
+  # connections, two idle, no idle timeout); write db+: to keep these.
   db:
     driver: sqlite3
     dsn: "fylr.db"
     maxIdleConns: 10
     maxOpenConns: 90
+    # a pooled connection idle for this long is closed, 0 = never
+    connMaxIdleTimeSec: 30
     init:
       config:
         system:
@@ -60,7 +65,7 @@ fylr:
 
   execserver:
     addresses:
-      - http://localhost:8083/?pretty=true
+      - http://localhost:8083/
     pluginJobTimeoutSec: 2400
     connectTimeoutSec: 120
 

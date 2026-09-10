@@ -323,8 +323,10 @@ fylr:
     # and its database backend released. A busy server keeps reusing its
     # connections and is unaffected; a quiet server frees up to maxIdleConns
     # backends instead of pinning them open forever. This matters when many
-    # fylr instances share one PostgreSQL server. 0 is this default of 30
-    # seconds, -1 keeps idle connections open with no time limit.
+    # fylr instances share one PostgreSQL server. 0 keeps idle connections
+    # open with no time limit. The shipped default is 30; note that a db:
+    # block without the + suffix replaces the shipped block, so write db+:
+    # to keep this and the maxOpenConns / maxIdleConns defaults.
     connMaxIdleTimeSec: 30
 
     # https://golang.org/pkg/database/sql/#DB.SetConnMaxLifetime, default: 0
@@ -554,7 +556,7 @@ fylr:
     # A /job/<service> path on an address, the routing filter of earlier
     # versions, is refused at startup.
     addresses:
-      - http://localhost:8083/?pretty=true
+      - http://localhost:8083/
     # the maximum a callback is allowed to run
     pluginJobTimeoutSec: 2400
     # the maximum the server will wait until a worker gets a job. It only

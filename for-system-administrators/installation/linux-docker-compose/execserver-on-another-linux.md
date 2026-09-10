@@ -82,7 +82,7 @@ networks:
 [...]
   execserver: # the following tells fylr how to connect to the execserver
     addresses:
-      - http://exec.example.com:8083/?pretty=true
+      - http://exec.example.com:8083/
     parallel: 18
     parallelHigh: 10
     pluginJobTimeoutSec: 2400

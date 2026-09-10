@@ -96,8 +96,8 @@ fylr+:
       # both boxes, without any path: which one runs ffmpeg is what each
       # execserver announces, ff.example.com offers nothing else and the
       # local execserver removes it below
-      - http://ff.example.com:8083/?pretty=true
-      - http://localhost:8083/?pretty=true
+      - http://ff.example.com:8083/
+      - http://localhost:8083/
 
 [...]
   services+:
