@@ -45165,6 +45165,77 @@ components:
                     type: array
                     items:
                         type: string
+                video_streams:
+                    type: array
+                    description: |
+                        One entry per video stream of a media file, in stream order. An
+                        embedded cover picture, which `video_codec` still lists, is not a
+                        video stream. Absent for images and for audio files.
+                        Available from version 6.35.0.
+                    items:
+                        type: object
+                        properties:
+                            codec:
+                                type: string
+                                description: Codec name as ffprobe reports it, e.g. `h264`.
+                            width:
+                                type: number
+                                format: int
+                            height:
+                                type: number
+                                format: int
+                            duration:
+                                type: number
+                                format: double
+                                description: |
+                                    Length of this stream in seconds. It falls short of the
+                                    file's `duration` when another track runs longer, which is the
+                                    rule for an AAC audio track. Absent when the container does
+                                    not state it.
+                            frame_rate:
+                                type: number
+                                format: double
+                                description: Frames per second, e.g. `25` or `29.97`.
+                            frame_count:
+                                type: number
+                                format: int
+                                description: |
+                                    Number of frames: the container's count where it keeps one
+                                    (MP4, MOV, AVI), otherwise the stream's duration times its
+                                    rate.
+                            language:
+                                type: string
+                                description: |
+                                    ISO 639-2 code the track is tagged with, `und` when it
+                                    carries none.
+                audio_streams:
+                    type: array
+                    description: |
+                        One entry per audio stream of a media file, in stream order. Absent
+                        for files without one.
+                        Available from version 6.35.0.
+                    items:
+                        type: object
+                        properties:
+                            codec:
+                                type: string
+                                description: Codec name as ffprobe reports it, e.g. `aac`.
+                            channels:
+                                type: number
+                                format: int
+                            sample_rate:
+                                type: number
+                                format: int
+                                description: Samples per second, e.g. `44100`.
+                            duration:
+                                type: number
+                                format: double
+                                description: Length of this stream in seconds.
+                            language:
+                                type: string
+                                description: |
+                                    ISO 639-2 code the track is tagged with, `und` when it
+                                    carries none.
                 width:
                     type: number
                     format: int

@@ -48541,6 +48541,77 @@
               "type": "string"
             }
           },
+          "video_streams": {
+            "type": "array",
+            "description": "One entry per video stream of a media file, in stream order. An\nembedded cover picture, which `video_codec` still lists, is not a\nvideo stream. Absent for images and for audio files.\nAvailable from version 6.35.0.\n",
+            "items": {
+              "type": "object",
+              "properties": {
+                "codec": {
+                  "type": "string",
+                  "description": "Codec name as ffprobe reports it, e.g. `h264`."
+                },
+                "width": {
+                  "type": "number",
+                  "format": "int"
+                },
+                "height": {
+                  "type": "number",
+                  "format": "int"
+                },
+                "duration": {
+                  "type": "number",
+                  "format": "double",
+                  "description": "Length of this stream in seconds. It falls short of the\nfile's `duration` when another track runs longer, which is the\nrule for an AAC audio track. Absent when the container does\nnot state it.\n"
+                },
+                "frame_rate": {
+                  "type": "number",
+                  "format": "double",
+                  "description": "Frames per second, e.g. `25` or `29.97`."
+                },
+                "frame_count": {
+                  "type": "number",
+                  "format": "int",
+                  "description": "Number of frames: the container's count where it keeps one\n(MP4, MOV, AVI), otherwise the stream's duration times its\nrate.\n"
+                },
+                "language": {
+                  "type": "string",
+                  "description": "ISO 639-2 code the track is tagged with, `und` when it\ncarries none.\n"
+                }
+              }
+            }
+          },
+          "audio_streams": {
+            "type": "array",
+            "description": "One entry per audio stream of a media file, in stream order. Absent\nfor files without one.\nAvailable from version 6.35.0.\n",
+            "items": {
+              "type": "object",
+              "properties": {
+                "codec": {
+                  "type": "string",
+                  "description": "Codec name as ffprobe reports it, e.g. `aac`."
+                },
+                "channels": {
+                  "type": "number",
+                  "format": "int"
+                },
+                "sample_rate": {
+                  "type": "number",
+                  "format": "int",
+                  "description": "Samples per second, e.g. `44100`."
+                },
+                "duration": {
+                  "type": "number",
+                  "format": "double",
+                  "description": "Length of this stream in seconds."
+                },
+                "language": {
+                  "type": "string",
+                  "description": "ISO 639-2 code the track is tagged with, `und` when it\ncarries none.\n"
+                }
+              }
+            }
+          },
           "width": {
             "type": "number",
             "format": "int"
