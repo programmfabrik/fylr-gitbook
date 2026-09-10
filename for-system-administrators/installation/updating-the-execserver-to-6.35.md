@@ -62,8 +62,6 @@ These are the execserver settings to look for:
 | `fylr.services.execserver.services.<name>.commands` | **deprecated**, ignored | Move the command definitions into `fylr.services.execserver.commands`, where every service finds them. |
 | `fylr.services.execserver.services.<name>.workDir` | **deprecated**, ignored | Delete it; it never had an effect. |
 | a `/job/<service>` path on an entry of `fylr.execserver.addresses` | **refused** at startup | Delete the path. Which execserver runs a service is what the execserver announces; a dedicated execserver lists only its services, see the next section. |
-| `fylr.services.execserver.maxCpusPerJob` (6.35 previews only) | **deprecated**, ignored | Delete it. A command's temporary CPU allocation is bounded by its service's `maxSlots`. |
-| `fylr.services.execserver.cpus` (6.35 previews only) | **deprecated**, ignored | It is `slots` now: a slot is a unit of admission, not a core. |
 
 {% hint style="info" %}
 A callback has to reach the **exact** fylr process that created the job: the
