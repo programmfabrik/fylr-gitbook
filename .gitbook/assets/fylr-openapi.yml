@@ -1321,12 +1321,13 @@ paths:
                                     description: |
                                         This flag indicates that the collection has a pin code. The actual pin code is only visible
                                         to `system.root` users and users with the `BAG_ACL`.
-                                pin_ok:
+                                _pin_ok:
                                     type: boolean
                                     readOnly: true
                                     description: |
-                                        Flag to indicate that the pin was entered correctly for the current user. `system.root` and
-                                        all users with the `BAG_ACL` permission will always see `pin_ok`.
+                                        Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner
+                                        and all users with the `BAG_ACL` permission (granted directly or through a parent collection) are
+                                        not asked for the pin and always see `_pin_ok: true`.
                                 _created_at:
                                     type: string
                                     format: RFC3339_date
@@ -2549,12 +2550,13 @@ paths:
                                         description: |
                                             This flag indicates that the collection has a pin code. The actual pin code is only visible
                                             to `system.root` users and users with the `BAG_ACL`.
-                                    pin_ok:
+                                    _pin_ok:
                                         type: boolean
                                         readOnly: true
                                         description: |
-                                            Flag to indicate that the pin was entered correctly for the current user. `system.root` and
-                                            all users with the `BAG_ACL` permission will always see `pin_ok`.
+                                            Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner
+                                            and all users with the `BAG_ACL` permission (granted directly or through a parent collection) are
+                                            not asked for the pin and always see `_pin_ok: true`.
                                     _created_at:
                                         type: string
                                         format: RFC3339_date
@@ -3873,12 +3875,13 @@ paths:
                                     description: |
                                         This flag indicates that the collection has a pin code. The actual pin code is only visible
                                         to `system.root` users and users with the `BAG_ACL`.
-                                pin_ok:
+                                _pin_ok:
                                     type: boolean
                                     readOnly: true
                                     description: |
-                                        Flag to indicate that the pin was entered correctly for the current user. `system.root` and
-                                        all users with the `BAG_ACL` permission will always see `pin_ok`.
+                                        Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner
+                                        and all users with the `BAG_ACL` permission (granted directly or through a parent collection) are
+                                        not asked for the pin and always see `_pin_ok: true`.
                                 _created_at:
                                     type: string
                                     format: RFC3339_date
@@ -5101,12 +5104,13 @@ paths:
                                         description: |
                                             This flag indicates that the collection has a pin code. The actual pin code is only visible
                                             to `system.root` users and users with the `BAG_ACL`.
-                                    pin_ok:
+                                    _pin_ok:
                                         type: boolean
                                         readOnly: true
                                         description: |
-                                            Flag to indicate that the pin was entered correctly for the current user. `system.root` and
-                                            all users with the `BAG_ACL` permission will always see `pin_ok`.
+                                            Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner
+                                            and all users with the `BAG_ACL` permission (granted directly or through a parent collection) are
+                                            not asked for the pin and always see `_pin_ok: true`.
                                     _created_at:
                                         type: string
                                         format: RFC3339_date
@@ -6399,12 +6403,13 @@ paths:
                                         description: |
                                             This flag indicates that the collection has a pin code. The actual pin code is only visible
                                             to `system.root` users and users with the `BAG_ACL`.
-                                    pin_ok:
+                                    _pin_ok:
                                         type: boolean
                                         readOnly: true
                                         description: |
-                                            Flag to indicate that the pin was entered correctly for the current user. `system.root` and
-                                            all users with the `BAG_ACL` permission will always see `pin_ok`.
+                                            Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner
+                                            and all users with the `BAG_ACL` permission (granted directly or through a parent collection) are
+                                            not asked for the pin and always see `_pin_ok: true`.
                                     _created_at:
                                         type: string
                                         format: RFC3339_date
@@ -7709,12 +7714,13 @@ paths:
                                     description: |
                                         This flag indicates that the collection has a pin code. The actual pin code is only visible
                                         to `system.root` users and users with the `BAG_ACL`.
-                                pin_ok:
+                                _pin_ok:
                                     type: boolean
                                     readOnly: true
                                     description: |
-                                        Flag to indicate that the pin was entered correctly for the current user. `system.root` and
-                                        all users with the `BAG_ACL` permission will always see `pin_ok`.
+                                        Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner
+                                        and all users with the `BAG_ACL` permission (granted directly or through a parent collection) are
+                                        not asked for the pin and always see `_pin_ok: true`.
                                 _created_at:
                                     type: string
                                     format: RFC3339_date
@@ -8937,12 +8943,13 @@ paths:
                                         description: |
                                             This flag indicates that the collection has a pin code. The actual pin code is only visible
                                             to `system.root` users and users with the `BAG_ACL`.
-                                    pin_ok:
+                                    _pin_ok:
                                         type: boolean
                                         readOnly: true
                                         description: |
-                                            Flag to indicate that the pin was entered correctly for the current user. `system.root` and
-                                            all users with the `BAG_ACL` permission will always see `pin_ok`.
+                                            Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner
+                                            and all users with the `BAG_ACL` permission (granted directly or through a parent collection) are
+                                            not asked for the pin and always see `_pin_ok: true`.
                                     _created_at:
                                         type: string
                                         format: RFC3339_date
@@ -10319,12 +10326,13 @@ paths:
                                             description: |
                                                 This flag indicates that the collection has a pin code. The actual pin code is only visible
                                                 to `system.root` users and users with the `BAG_ACL`.
-                                        pin_ok:
+                                        _pin_ok:
                                             type: boolean
                                             readOnly: true
                                             description: |
-                                                Flag to indicate that the pin was entered correctly for the current user. `system.root` and
-                                                all users with the `BAG_ACL` permission will always see `pin_ok`.
+                                                Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner
+                                                and all users with the `BAG_ACL` permission (granted directly or through a parent collection) are
+                                                not asked for the pin and always see `_pin_ok: true`.
                                         _created_at:
                                             type: string
                                             format: RFC3339_date
@@ -11614,12 +11622,13 @@ paths:
                                         description: |
                                             This flag indicates that the collection has a pin code. The actual pin code is only visible
                                             to `system.root` users and users with the `BAG_ACL`.
-                                    pin_ok:
+                                    _pin_ok:
                                         type: boolean
                                         readOnly: true
                                         description: |
-                                            Flag to indicate that the pin was entered correctly for the current user. `system.root` and
-                                            all users with the `BAG_ACL` permission will always see `pin_ok`.
+                                            Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner
+                                            and all users with the `BAG_ACL` permission (granted directly or through a parent collection) are
+                                            not asked for the pin and always see `_pin_ok: true`.
                                     _created_at:
                                         type: string
                                         format: RFC3339_date
@@ -12845,12 +12854,13 @@ paths:
                                             description: |
                                                 This flag indicates that the collection has a pin code. The actual pin code is only visible
                                                 to `system.root` users and users with the `BAG_ACL`.
-                                        pin_ok:
+                                        _pin_ok:
                                             type: boolean
                                             readOnly: true
                                             description: |
-                                                Flag to indicate that the pin was entered correctly for the current user. `system.root` and
-                                                all users with the `BAG_ACL` permission will always see `pin_ok`.
+                                                Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner
+                                                and all users with the `BAG_ACL` permission (granted directly or through a parent collection) are
+                                                not asked for the pin and always see `_pin_ok: true`.
                                         _created_at:
                                             type: string
                                             format: RFC3339_date
@@ -14153,12 +14163,13 @@ paths:
                                             description: |
                                                 This flag indicates that the collection has a pin code. The actual pin code is only visible
                                                 to `system.root` users and users with the `BAG_ACL`.
-                                        pin_ok:
+                                        _pin_ok:
                                             type: boolean
                                             readOnly: true
                                             description: |
-                                                Flag to indicate that the pin was entered correctly for the current user. `system.root` and
-                                                all users with the `BAG_ACL` permission will always see `pin_ok`.
+                                                Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner
+                                                and all users with the `BAG_ACL` permission (granted directly or through a parent collection) are
+                                                not asked for the pin and always see `_pin_ok: true`.
                                         _created_at:
                                             type: string
                                             format: RFC3339_date

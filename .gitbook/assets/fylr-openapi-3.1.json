@@ -1096,10 +1096,10 @@
                     "readOnly": true,
                     "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
                   },
-                  "pin_ok": {
+                  "_pin_ok": {
                     "type": "boolean",
                     "readOnly": true,
-                    "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root` and\nall users with the `BAG_ACL` permission will always see `pin_ok`.\n"
+                    "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner\nand all users with the `BAG_ACL` permission (granted directly or through a parent collection) are\nnot asked for the pin and always see `_pin_ok: true`.\n"
                   },
                   "_created_at": {
                     "type": "string",
@@ -2142,10 +2142,10 @@
                       "readOnly": true,
                       "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
                     },
-                    "pin_ok": {
+                    "_pin_ok": {
                       "type": "boolean",
                       "readOnly": true,
-                      "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root` and\nall users with the `BAG_ACL` permission will always see `pin_ok`.\n"
+                      "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner\nand all users with the `BAG_ACL` permission (granted directly or through a parent collection) are\nnot asked for the pin and always see `_pin_ok: true`.\n"
                     },
                     "_created_at": {
                       "type": "string",
@@ -3278,10 +3278,10 @@
                     "readOnly": true,
                     "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
                   },
-                  "pin_ok": {
+                  "_pin_ok": {
                     "type": "boolean",
                     "readOnly": true,
-                    "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root` and\nall users with the `BAG_ACL` permission will always see `pin_ok`.\n"
+                    "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner\nand all users with the `BAG_ACL` permission (granted directly or through a parent collection) are\nnot asked for the pin and always see `_pin_ok: true`.\n"
                   },
                   "_created_at": {
                     "type": "string",
@@ -4324,10 +4324,10 @@
                       "readOnly": true,
                       "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
                     },
-                    "pin_ok": {
+                    "_pin_ok": {
                       "type": "boolean",
                       "readOnly": true,
-                      "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root` and\nall users with the `BAG_ACL` permission will always see `pin_ok`.\n"
+                      "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner\nand all users with the `BAG_ACL` permission (granted directly or through a parent collection) are\nnot asked for the pin and always see `_pin_ok: true`.\n"
                     },
                     "_created_at": {
                       "type": "string",
@@ -5456,10 +5456,10 @@
                       "readOnly": true,
                       "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
                     },
-                    "pin_ok": {
+                    "_pin_ok": {
                       "type": "boolean",
                       "readOnly": true,
-                      "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root` and\nall users with the `BAG_ACL` permission will always see `pin_ok`.\n"
+                      "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner\nand all users with the `BAG_ACL` permission (granted directly or through a parent collection) are\nnot asked for the pin and always see `_pin_ok: true`.\n"
                     },
                     "_created_at": {
                       "type": "string",
@@ -6591,10 +6591,10 @@
                     "readOnly": true,
                     "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
                   },
-                  "pin_ok": {
+                  "_pin_ok": {
                     "type": "boolean",
                     "readOnly": true,
-                    "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root` and\nall users with the `BAG_ACL` permission will always see `pin_ok`.\n"
+                    "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner\nand all users with the `BAG_ACL` permission (granted directly or through a parent collection) are\nnot asked for the pin and always see `_pin_ok: true`.\n"
                   },
                   "_created_at": {
                     "type": "string",
@@ -7637,10 +7637,10 @@
                       "readOnly": true,
                       "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
                     },
-                    "pin_ok": {
+                    "_pin_ok": {
                       "type": "boolean",
                       "readOnly": true,
-                      "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root` and\nall users with the `BAG_ACL` permission will always see `pin_ok`.\n"
+                      "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner\nand all users with the `BAG_ACL` permission (granted directly or through a parent collection) are\nnot asked for the pin and always see `_pin_ok: true`.\n"
                     },
                     "_created_at": {
                       "type": "string",
@@ -8887,10 +8887,10 @@
                         "readOnly": true,
                         "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
                       },
-                      "pin_ok": {
+                      "_pin_ok": {
                         "type": "boolean",
                         "readOnly": true,
-                        "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root` and\nall users with the `BAG_ACL` permission will always see `pin_ok`.\n"
+                        "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner\nand all users with the `BAG_ACL` permission (granted directly or through a parent collection) are\nnot asked for the pin and always see `_pin_ok: true`.\n"
                       },
                       "_created_at": {
                         "type": "string",
@@ -10006,10 +10006,10 @@
                       "readOnly": true,
                       "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
                     },
-                    "pin_ok": {
+                    "_pin_ok": {
                       "type": "boolean",
                       "readOnly": true,
-                      "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root` and\nall users with the `BAG_ACL` permission will always see `pin_ok`.\n"
+                      "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner\nand all users with the `BAG_ACL` permission (granted directly or through a parent collection) are\nnot asked for the pin and always see `_pin_ok: true`.\n"
                     },
                     "_created_at": {
                       "type": "string",
@@ -11056,10 +11056,10 @@
                         "readOnly": true,
                         "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
                       },
-                      "pin_ok": {
+                      "_pin_ok": {
                         "type": "boolean",
                         "readOnly": true,
-                        "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root` and\nall users with the `BAG_ACL` permission will always see `pin_ok`.\n"
+                        "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner\nand all users with the `BAG_ACL` permission (granted directly or through a parent collection) are\nnot asked for the pin and always see `_pin_ok: true`.\n"
                       },
                       "_created_at": {
                         "type": "string",
@@ -12208,10 +12208,10 @@
                         "readOnly": true,
                         "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
                       },
-                      "pin_ok": {
+                      "_pin_ok": {
                         "type": "boolean",
                         "readOnly": true,
-                        "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root` and\nall users with the `BAG_ACL` permission will always see `pin_ok`.\n"
+                        "description": "Flag to indicate that the pin was entered correctly for the current user. `system.root`, the owner\nand all users with the `BAG_ACL` permission (granted directly or through a parent collection) are\nnot asked for the pin and always see `_pin_ok: true`.\n"
                       },
                       "_created_at": {
                         "type": "string",

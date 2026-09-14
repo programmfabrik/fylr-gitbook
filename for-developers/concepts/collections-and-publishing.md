@@ -20,7 +20,7 @@ Some collections cannot be deleted. The **root collection** is the top of the tr
 
 ## Pin-protected collections
 
-A collection can be **pin-protected**: a code the recipient enters once before its contents are shown. The pin is a second step on top of permissions, not a replacement for them — a recipient with permission to read the collection still enters the pin first. It is used when sharing sensitive material with people who already have an account.
+A collection can be **pin-protected**: a code the recipient enters once before its contents are shown. The pin is a second step on top of permissions, not a replacement for them — a recipient with permission to read the collection still enters the pin first. It is used when sharing sensitive material with people who already have an account. The owner and holders of `bag_acl` on the collection are exempt from 6.35.0 on: they can read and change the pin, so they are not asked for it.
 
 ## Presentations
 

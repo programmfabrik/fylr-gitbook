@@ -69,7 +69,7 @@ You can change the **order** of the shares by using the **drag** handle at the b
 
 Use the "**Copy row**", "**Copy all rows**" and "**Paste rows**" to copy & paste permissions within a collection. Copying an anonymous sharing link will result in a new sharing link with the same settings.
 
-As an additional protection a **pin code** can be set for a collection. Users who open the collection have to **enter** the pin code to **get final access** to the collection and its content. The pin code has to be at least **3 characters** long and can consist of numbers, letters and special characters.
+As an additional protection a **pin code** can be set for a collection. Users who open the collection have to **enter** the pin code to **get final access** to the collection and its content. The pin code has to be at least **3 characters** long and can consist of numbers, letters and special characters. From fylr 6.35.0, the owner of the collection and users with the permission **Edit Collection Permissions** on it (set directly or on a superordinate collection) are not asked for the pin code; they see it in the collection settings instead.
 
 By default, permission will be **inherited** by the subordinate collections, meaning the permissions you define for a collection also grant users access to the subordinate collections. Activate "**Ignore permissions of the superordinate collections**" so that the permissions are not inherited from above.
 

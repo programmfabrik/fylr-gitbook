@@ -39,7 +39,7 @@ The mutable collection data sits under the `collection` key; counts, ACL, tree i
 | `_invalid_acl` | `bool` (read-only) | Sharing is disabled because the owner lacks the rights needed to grant it. |
 | `_create_object_compiled` | `object` (read-only) | The effective `create_object`, from this collection or the nearest parent that sets one. |
 | `_has_pin` | `bool` (read-only) | The collection has a pin code set. |
-| `_pin_ok` | `bool` (read-only) | The current user has entered the correct pin. |
+| `_pin_ok` | `bool` (read-only) | The current user has entered the correct pin, or is not asked for it: root, the owner and holders of `bag_acl` (from 6.35.0). |
 | `_hotfolder_upload_urls` | `array<object {type, url}>` (read-only) | WebDAV upload URLs for the collection. |
 | `_objects` | `array` (read-only) | The linked objects, as returned in a response. |
 | `_created_at` / `_updated_at` | `date-time` (read-only) | Create / last-update timestamps. |
