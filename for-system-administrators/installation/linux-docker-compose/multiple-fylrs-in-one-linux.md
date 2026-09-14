@@ -86,11 +86,13 @@ cat >>../sites-available/$DOMAIN.conf<<EOF
     ServerName $DOMAIN
     ServerAdmin administratoren@programmfabrik.de
     ProxyPreserveHost On
+    RequestHeader unset X-Real-IP
     ProxyPass / http://127.0.0.1:$PORT/ upgrade=websocket
     ProxyPassReverse / http://127.0.0.1:$PORT/ upgrade=websocket
 </VirtualHost>
 EOF
 ln -s ../sites-available/$DOMAIN.conf .
+a2enmod headers
 apache2ctl -t && systemctl restart apache2
 certbot --apache --agree-tos -d $DOMAIN # -m emailadress
 ```
@@ -111,16 +113,17 @@ Replace all strings in `fylr.yml` that have `EXAMPLE` in it. E.g. with vim: \
 `vim $DIR/config/fylr/fylr.yml`
 
 {% hint style="warning" %}
-_From version 6.35.0_: the fylr behind this reverse proxy is reached through
-Apache rather than directly, so it has to be told that the forwarded client
-identity can be believed — set `fylr.trustProxyHeaders: true` in its
-`fylr.yml`. Without it every request looks as if it came from the proxy, which
-changes the groups an IP subnet filter grants, how failed logins are counted
-towards the lockout, and the address the audit log records. fylr writes a
-warning naming the proxy when it sees the header while the setting is off.
+_From version 6.35.0_: fylr uses the client address Apache forwards only from a peer listed in `fylr.trustedProxies`. Inside the container, Apache connects from the gateway of the container's docker network (`docker network inspect <network>`, field `Gateway`). Add it to `fylr.yml`:
 
-Only set it where fylr cannot also be reached directly — here the container
-listens on `127.0.0.1:$PORT`, so Apache is the only way in.
+```yaml
+fylr:
+  trustedProxies:
+    - "172.18.0.1" # the gateway address shown by docker network inspect
+```
+
+Without it every request looks as if it came from the proxy: IP subnet filters, the failed-login lockout and the audit log see the proxy's address, and fylr logs a warning naming it.
+
+`RequestHeader unset X-Real-IP` in the virtual host is required: fylr reads `X-Real-IP` before `X-Forwarded-For`, and Apache only appends to `X-Forwarded-For`, so it would pass on an `X-Real-IP` sent by the caller.
 {% endhint %}
 
 #### Create SQL database:
