@@ -44,12 +44,7 @@ Each creates a `File` row — an **original** (`is_original = true`) or a named 
 
 ## 2. The worker pools and the queue
 
-Work is a row in the `file_queue` table. Two pools of workers drain it, started at boot:
-
-* **normal** workers — `fylr.execserver.parallel` of them;
-* **high-priority-only** workers — `fylr.execserver.parallelHigh` of them.
-
-The startup line `file worker: 18 normal and 10 high priority started` is just these two numbers. Each worker polls about once a second and, per tick, claims one job with roughly:
+Work is a row in the `file_queue` table. From **6.35.0** one **file dispatcher** per fylr server drains it: it polls about once a second and claims queue items in priority order for as long as admission allows — exec-bound work up to the share of execserver slots this server may take, local-bound work (`sync`, `checksum`, `copy_move`) on a semaphore derived from the machine's CPU count — and hands each item to its own goroutine. There is no worker count to configure any more: `fylr.execserver.parallel` and `parallelHigh` are deprecated, and only `parallel: 0` keeps a meaning — it switches file processing off on this fylr, which is how an API-only node is configured. A claim looks roughly like:
 
 ```sql
 SELECT … FROM file_queue
@@ -59,7 +54,7 @@ ORDER BY priority DESC, id ASC
 LIMIT 1 FOR UPDATE SKIP LOCKED;
 ```
 
-`FOR UPDATE SKIP LOCKED` (PostgreSQL) lets many workers pull from the same queue without stepping on each other. **High-priority jobs have an odd priority**, which is exactly what the high-priority workers filter on — so interactive work (an upload someone is watching) is never stuck behind a big background reprocessing run. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant.
+`FOR UPDATE SKIP LOCKED` (PostgreSQL) lets several fylr servers pull from the same queue without stepping on each other. **High-priority jobs have an odd priority**, and a share of the local slots stays reserved for them — so interactive work (an upload someone is watching) is never stuck behind a big background reprocessing run. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant.
 
 A worker loads the full `File` (parent, children, metadata, source) and runs the job's **action**. On success the queue row is deleted; a *requeueable* failure (for example an execserver that is momentarily busy) reschedules the row a minute later; a hard failure sets the file to `error` and re-indexes the objects that carry it.
 
@@ -130,12 +125,23 @@ The parent/child model is on the `File` row (`id_parent`, `id_source`, `is_origi
 
 ### The `pages` version: many images in one version
 
-A `pages` version is a single version whose file is a **`pages.zip`** holding many images plus an `info.json` that indexes them. Documents (PDF, INDD, and the office formats through their PDF version) have had one for a while; **from 6.35.0 a video has one too**, holding up to 100 frames spaced at least half a second apart, each rendered at 200 and 320 px, plus tiled **contact sheets** that carry all of them — the frame strip a player scrubs along. Both are produced by the same recipe step, `fylr convert --format pages.zip` (which replaces the former `fylr pdf2pages` command — a custom recipe calling it has to be changed).
+A `pages` version is a single version whose file is a **`pages.zip`** holding many images plus an `info.json` that indexes them. Documents (PDF, INDD, and the office formats through their PDF version) have had one for a while; **from 6.35.0 a video has one too**, holding up to 100 frames spaced at least half a second apart, each rendered at 200 and 320 px, plus tiled **contact sheets** that carry all of them — the frame strip a player scrubs along. A **multi-page TIFF** gets one as well from 6.35.0 — one image per page, so a scan reads page by page; a single-page TIFF does not. All are produced by the same recipe step, `fylr convert --format pages.zip` (which replaces the former `fylr pdf2pages` command — a custom recipe calling it has to be changed).
 
 Because it is an ordinary version, nothing about rights or URL signing is special:
 
 * `GET /api/v1/eas` returns the zip's `info.json` in the version's metadata, so a client gets the page/frame list without downloading the zip: every page lists one entry per rendered size with its `path` inside the zip and its technical metadata (dimensions, mime type, blurhash), a video frame additionally its `time` in seconds, and each contact sheet its `path` and grid (`columns`, `rows`, `tile_height`) to cut the tiles from.
 * A single entry is served straight out of the zip by appending its path to the download URL: `/api/v1/eas/download/<file_id>/<hash>/<version>/<path-inside-zip>`, range requests included. Build these URLs from the ones the API returns so they keep their signature and `obj_uuid` query parameters — a relative reference (as in a WebVTT thumbnail track) drops them and breaks share links and guest access.
+
+### 3D assets
+
+From **6.35.0** the extensions `splat`, `spz`, `ksplat`, `ply`, `ply.zip`, `ply.gz`, `stl`, `obj`, `3ds`, `glb`, `gltf`, `nxs` and `nxz` belong to the file class **`3d`**. fylr renders the preview images of a 3D file itself — a CPU rasterizer in `fylr convert` draws the scene and picks a viewpoint automatically — for everything it can decode:
+
+* **gaussian splatting scenes**: `splat`, `spz` and `ply`, also zipped or gzipped, binary and ascii;
+* **polygon meshes**: `ply` carrying faces, `stl`, `obj`.
+
+A `.ply` can be either; its content decides. Decoded sources additionally get a compact **`splat` interchange rendition**, which the web frontend's 3D viewer loads — it carries gaussians or triangles, whatever the original was. The remaining extensions are accepted and classified as `3d` but not decoded, so they get no rendered previews.
+
+The rendering camera can be stored per asset through the `splat-view-select` produce parameter (the 3D viewer's "store view" does this), and `fylr convert --splat-view` accepts COLMAP/3DGS camera matrices for a script that sets it. A 3D file uploaded before 6.35.0 keeps its previous file class until it is re-produced.
 
 ## 6. Metadata extraction
 
@@ -143,11 +149,13 @@ Metadata is itself a recipe (`_metadata:_read`), run by the **metadata** action.
 
 From **6.35.0**, the read also recognizes **360° media**: a spherical video or a panoramic image gets the technical-metadata key `projection_type`, for example `equirectangular`. It is compiled from the Spherical Video metadata — the V1 XML block ExifTool reports as `XMP-GSpherical`, plus the V2 `sv3d` box and the Matroska `Projection` element, which fylr reads from ffprobe's stream side data — and from the XMP GPano tags for images. Flat media has no such key. **Produced versions** keep the marker: the production re-adds the Spherical Video V1 box to MP4 renditions and the XMP GPano tags to image renditions (even with `strip`), as long as the conversion keeps the full equirectangular frame (no crop, rotate or mirror).
 
+Two further technical-metadata keys arrive with **6.35.0**. `alpha` is present, and `true`, only for a file or rendition that carries an alpha channel — the way to tell whether a conversion kept a logo's transparent ground or laid it on white. `vector` holds, for an EPS or AI file, the counts of embedded images and shadings; the file worker uses them to decide whether an SVG rendition would be usable at all (flattened artwork would turn into an SVG no browser opens, so no SVG version is scheduled for it), and a custom produce configuration can gate on the same counts through the recipe replacer `%_source.technical_metadata.vector.images%`. EPS and AI rasters themselves render from the original with ghostscript, or from an embedded preview large enough for the requested version; WMF still goes through inkscape. Files already in the system keep their versions until they are resynced.
+
 The read also produces the file's **full-text** (OCR text and embedded textual metadata), capped by `fylr.elastic.metadataFulltextLimit`. This text is indexed under a record's `metadata_fulltext`, kept separate from the ordinary `_fulltext`. It participates only in **full-text / expert `match`** queries — which is why, from **6.34.0**, a file's extracted content is searchable only when the file field has its expert search enabled (see [Search in Text of Images or Office Files](../help/tutorials/for-administrators/search-text-in-images-or-office-files.md)). OCR is an opt-in recipe (`tesseract`) enabled per extension.
 
 ## 7. The execserver
 
-The external tools — `magick`/`libvips` (images and the `fylr convert` command), LibreOffice (`soffice`), `ffmpeg`, ExifTool, the OCR engine, the pages.zip and IIIF converters — do not run in the fylr process. They run on the **execserver**, which fylr drives over a fylr-initiated websocket, the *slot broker* (before 6.35: a two-step token handshake): jobs are pushed onto free slots the moment they open. Concurrency is auto-balanced over one CPU pool by default (an explicit `waitgroups` block restores manually sized per-service pools), and the execserver can run standalone and be scaled to several load-balanced instances. The protocol and the per-action jobs are documented on the [Exec server](execserver.md) page and, for scaling, [Scaling the execserver](../for-system-administrators/installation/scaling-the-execserver.md).
+The external tools — `magick`/`libvips` (images and the `fylr convert` command), LibreOffice (`soffice`), `ffmpeg`, ExifTool, the OCR engine, the pages.zip and IIIF converters — do not run in the fylr process. They run on the **execserver**, which fylr drives over a fylr-initiated websocket, the *slot broker* (before 6.35: a two-step token handshake): jobs are pushed onto free slots the moment they open. Concurrency is auto-balanced over one pool of slots shared by every service (a `maxSlots` on a service holds it back), and the execserver can run standalone and be scaled to several load-balanced instances. The protocol and the per-action jobs are documented on the [Exec server](execserver.md) page and, for scaling, [Scaling the execserver](../for-system-administrators/installation/scaling-the-execserver.md).
 
 ## 8. Storage and the produce cache
 
@@ -165,12 +173,12 @@ Not every rendition is pre-produced and stored. A download can ask for a **custo
 
 | Key | Effect |
 | --- | --- |
-| `fylr.execserver.parallel` / `parallelHigh` | number of normal / high-priority file workers |
+| `fylr.execserver.parallel: 0` | switches file processing off on this fylr (any other value, and `parallelHigh`, are deprecated and ignored) |
 | `fylr.execserver.addresses` | execserver URLs (round-robin, busy-failover) |
 | `fylr.execserver.connectTimeoutSec` | how long a client retries a busy execserver |
 | `fylr.eas.rput.blockedHosts` | SSRF blocklist for `/eas/rput` targets |
 | `fylr.elastic.metadataFulltextLimit` | byte cap on a file's indexed full-text |
-| `fylr.services.execserver.*` | the execserver's own definition (tools, waitgroups, tempDir, cache) |
+| `fylr.services.execserver.*` | the execserver's own definition: `commands`, the `services` it offers (with `maxSlots` per service), `slots` and `fastReserve`, `tempDir`, cache |
 
 **Base configuration** (admin-editable): `produce_config` (classes → versions → recipe + params, allowed upload extensions, max file size), `custom_version_presets` (on-demand download presets), `colorprofiles` (custom ICC profiles referenced by recipe params). Cookbooks and recipes are also extended by enabled plugins.
 

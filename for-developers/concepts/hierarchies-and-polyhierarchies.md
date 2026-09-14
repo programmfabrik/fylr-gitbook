@@ -67,3 +67,7 @@ A third option is to use an ordinary link between records rather than a structur
 - [Nested and reverse-nested tables](nested-and-reverse-nested.md) — rows held inside a single record, a different kind of nesting.
 - [Pools](pools.md) — pools also form a tree, with different mechanics.
 - [Permissions](permissions.md) — why per-record permissions and polyhierarchy are mutually exclusive.
+
+## Switching a polyhierarchy to a single hierarchy
+
+A polyhierarchical objecttype lets a record name the **virtual topmost entry** as one of its parents; that is how a record is marked top-level while it may also have real parents. A single hierarchy has no such entry. From **6.35.0** the stored reference to it is ignored while the objecttype is a single hierarchy: such a record is top-level, and a record that also had a real parent keeps that parent. Nothing is deleted — switching the objecttype back to a polyhierarchy restores the virtual topmost entry.

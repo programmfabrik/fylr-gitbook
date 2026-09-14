@@ -22,6 +22,7 @@ By default, several parts of a pool's configuration are inherited by its sub-poo
 - **Transitions.** [Transitions](tags-and-transitions.md) on a pool are offered to records in it and, by default, in its sub-pools.
 - **Tags.** A pool can hold tags that apply to records in its sub-tree. Sub-pools inherit them by default.
 - **Preferred masks.** A pool can prefer a particular [mask](masks.md) for each objecttype. The preference is inherited.
+- **Standard masks.** A pool can limit the masks under which records of an objecttype are indexed and offered; from 6.35.0 a record is indexed only under those. The list is inherited, and falls back to the objecttype's masks (see [Masks](masks.md#standard-masks-decide-what-is-indexed)).
 
 Each of these has a switch — private permissions, private transitions, private tags — that breaks inheritance on a sub-pool. A sub-pool with private permissions starts with no inherited grants and sets its own. The switches apply from that pool downward.
 
@@ -50,6 +51,7 @@ Some objecttypes are not pooled: the [datamodel](the-datamodel.md), users, group
 - A record names its pool in the `_pool` field of its content; the pool rides along as a linked object.
 - Pools are managed through the [`/pool` endpoint](../api/endpoints/api-pool.md): `/pool`, `/pool/{poolID}`, and `/pool/{poolID}/stats` for record counts.
 - A pool's grants are its `_acl` list, and the inheritance-breaking switch is `_private_acl` (see [Permissions](permissions.md)).
+- From 6.35.0 `POST /pool` and `POST /objecttype` answer a change of the standard masks with a `202` that names how many records it re-indexes; repeating the request with `confirmReindex=yes` queues those records into the running index at low priority, without building a new index.
 
 ## See also
 

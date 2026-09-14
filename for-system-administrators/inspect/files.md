@@ -152,6 +152,10 @@ Next to the **Action** dropdown, choose the target:
 
 Pressing **Action** asks for confirmation and then **schedules** the work — it does not run synchronously. Scheduling a very large selection (>100k) can take a while. Watch progress in the [file queue](system.md) and by reloading `/inspect/files`.
 
+## Browsing a ZIP
+
+From **6.35.0** the file page of an archive — an uploaded `.zip`, or a produced `pages.zip` — shows its contents as a tree next to a preview, so what the archive holds can be seen without downloading and unpacking it. Images, video and audio play in the page, JSON gets the tree and raw view used elsewhere in inspect, markdown is rendered, common text formats are syntax-highlighted, and anything else offers a download. The IIIF viewer link is offered only for files IIIF can serve.
+
 ## File Queue
 
 Open `<fylr url>/inspect/system/queues/?queue=file` (or follow **→ Show file queue** on the files page). The table shows queued file jobs as well as file jobs which are currently worked on. Each job is defined by a file in a specific state and the current action.

@@ -41,6 +41,8 @@ This is useful for subfields whose values would otherwise flood the suggest inde
 
 Custom Data Types can be updated by a background service provided by FYLR. This background service collects all expired custom data and asks a script of the plugin to provide any updates on that data as needed. The updates happen periodically and the Custom Data Type can provide an expiration date for each record.
 
+An entry that brings no `_uuid` of its own is identified by the MD5 of its data. From **6.35.0** the `_expires_at` the updater writes is left out of that hash — it stays part of the data and is returned like every other key, but two entries with the same content are one entry whatever expiry they carry. Entries stored earlier keep their identity until the updater next touches them, so duplicates merge over one expiry cycle. Entries no field value refers to any more are removed by the [janitor](../for-administrators/readme/services.md#orphaned-terms-and-custom-data) after an hour.
+
 
 
 

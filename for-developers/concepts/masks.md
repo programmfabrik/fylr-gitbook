@@ -29,6 +29,12 @@ A mask does not change the record. The stored data is the same whichever mask is
 
 The choice is usually automatic: the interface uses the pool's preferred mask, or the standard mask if there is none.
 
+## Standard masks decide what is indexed
+
+A pool can list the **standard masks** of an objecttype — the masks under which records in that pool are offered. From **6.35.0** this list is an indexing rule, not only a search-time filter: a record is written to the search index only under the standard masks of its pool. The list is inherited from the parent pools, falls back to the objecttype's own standard masks, and finally to all of its masks, so an instance that configures no standard masks anywhere is unaffected.
+
+A mask right that names an excluded mask does not bring it back: the pool decides whether the record is findable under that mask at all. Because the standard masks and the mask filters are evaluated while indexing, changing the list re-indexes the records of the pool — and of its sub-pools — which is why saving a pool or an objecttype with a changed list asks for confirmation first (see [Pools](pools.md#in-the-api)). Reordering the masks changes nothing: the order picks the best mask per search request and is not stored in the index.
+
 ## Reaching past the objecttype
 
 A mask is anchored to one objecttype, but the fields it shows are not limited to that objecttype's own columns. Where the objecttype has a [nested or reverse-nested table](nested-and-reverse-nested.md), the mask can include it, and the rows of that table are shown and edited inline within the mask.

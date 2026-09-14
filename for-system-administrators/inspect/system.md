@@ -28,9 +28,9 @@ The dashboard also links the read-only runtime views:
 
 | Subpage | Shows |
 | --- | --- |
-| `system/janitor/` | the clean-up janitor's state — file deletion, trash draining, idle-user archiving |
+| `system/janitor/` | the clean-up janitor's state — file deletion, trash draining, idle-user archiving, and from 6.35 the next batch of orphaned terms and custom data, each runnable by hand (optionally with a `run_time` that the run treats as "now"); every section folds under its *Next batch* heading |
 | `system/queues/` | the file and index job queues |
-| `system/execserver/` | the connected execservers, their services and — in auto-balance mode — the learned class and mean runtime per service |
+| `system/execserver/` | the connected execservers, their services, and the learned class and mean runtime per service |
 | `system/topology/` | from 6.35: the whole installation on one live page — see [Fleet topology](#fleet-topology) below |
 | `system/locations/` | the storage locations and their status |
 | `system/backups/` | the on-disk backups |
