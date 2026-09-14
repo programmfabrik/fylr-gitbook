@@ -60807,7 +60807,7 @@
           },
           "bidirectional_reverse": {
             "type": "boolean",
-            "description": "For columns participating in a bidirectional link — true if\nthis column is the reverse half of the pair (writes to it\nmirror through the forward half).\n"
+            "description": "Marks a self link on a relation-type objecttype as the pointer\nto the reverse relation. When a bidirectional nested row links\nsuch a record (a link qualifier), the row mirrored into the\npartner links the reverse record instead: \"father > son\" is\nmirrored as \"son > father\". Only links in the mirrored row itself\nare swapped; rows nested below it are copied unchanged. The flag\ndoes not mirror the link itself; it is only read while a\nbidirectional link is mirrored.\nAllowed on a link column pointing at its own objecttype only.\n"
           },
           "custom_settings": {
             "type": "object",
@@ -60963,7 +60963,7 @@
         "properties": {
           "columns": {
             "type": "array",
-            "description": "The two columns participating in the bidirectional link — the\nforward column on this table and the reverse column on the\nother (`bidirectional_reverse: true` on the other side's\nColumnApi).\n",
+            "description": "The two columns participating in the bidirectional link: on a\nnested table the auto uplink and the link column pointing at\nthe parent objecttype, on a top-level table two link columns\nsharing the same target objecttype.\n",
             "items": {
               "type": "object",
               "properties": {

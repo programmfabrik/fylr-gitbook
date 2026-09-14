@@ -56880,9 +56880,15 @@ components:
                 bidirectional_reverse:
                     type: boolean
                     description: |
-                        For columns participating in a bidirectional link — true if
-                        this column is the reverse half of the pair (writes to it
-                        mirror through the forward half).
+                        Marks a self link on a relation-type objecttype as the pointer
+                        to the reverse relation. When a bidirectional nested row links
+                        such a record (a link qualifier), the row mirrored into the
+                        partner links the reverse record instead: "father > son" is
+                        mirrored as "son > father". Only links in the mirrored row itself
+                        are swapped; rows nested below it are copied unchanged. The flag
+                        does not mirror the link itself; it is only read while a
+                        bidirectional link is mirrored.
+                        Allowed on a link column pointing at its own objecttype only.
                 custom_settings:
                     type: object
                     additionalProperties:
@@ -57058,10 +57064,10 @@ components:
                 columns:
                     type: array
                     description: |
-                        The two columns participating in the bidirectional link — the
-                        forward column on this table and the reverse column on the
-                        other (`bidirectional_reverse: true` on the other side's
-                        ColumnApi).
+                        The two columns participating in the bidirectional link: on a
+                        nested table the auto uplink and the link column pointing at
+                        the parent objecttype, on a top-level table two link columns
+                        sharing the same target objecttype.
                     items:
                         type: object
                         properties:
