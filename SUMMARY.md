@@ -156,6 +156,7 @@
 * [Additional Features](for-users/additional-features/README.md)
   * [Change History](for-users/additional-features/change-history.md)
   * [Custom Renditions & Crop Tool](for-users/additional-features/custom-renditions-and-crop-tool.md)
+  * [Variants](for-users/additional-features/variants.md)
   * [Background Tasks](for-users/additional-features/background-tasks.md)
   * [Drupal Integration](for-users/additional-features/drupal-integration.md)
 * [Mobile App](for-users/mobile-app.md)
