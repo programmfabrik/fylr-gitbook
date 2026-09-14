@@ -71,11 +71,14 @@ fylr:
   # always trusted. From any other peer the headers are ignored, the peer is the
   # client, and a warning is logged once per peer per hour.
   #
-  # From a trusted peer the client is "x-real-ip", else the last
-  # "x-forwarded-for" entry. The proxy has to set or remove "x-real-ip": one
-  # that only appends to "x-forwarded-for" (Apache, HAProxy) passes a caller's
-  # "x-real-ip" through. With several proxies in a row, the one next to fylr has
-  # to pass on the client address.
+  # From a trusted peer the client is "x-real-ip", else the last entry of
+  # "x-forwarded-for": the address the proxy saw, while entries before it come
+  # from the caller. If a header appears more than once, its last line counts.
+  #
+  # The proxy has to set or remove "x-real-ip": one that only appends to
+  # "x-forwarded-for" (Apache, HAProxy) passes a caller's "x-real-ip" through.
+  # With several proxies in a row, the one next to fylr has to set "x-real-ip"
+  # to the client address.
   #
   # The client IP decides IP-subnet-filtered groups, the failed-login lockout
   # and the address in the audit log. List only addresses nothing but the proxy
