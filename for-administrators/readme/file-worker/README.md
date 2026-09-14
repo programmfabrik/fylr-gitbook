@@ -19,7 +19,7 @@ Every uploadable file type belongs to one of four **file classes**. The file wor
 
 | CLASS | EXAMPLES |
 | ----- | -------- |
-| **Image** | jpg, png, tiff, gif, heic, camera raw (cr2, nef, dng, …), svg, ai, eps, psd |
+| **Image** | jpg, png, tiff, gif, heic, camera raw (cr2, nef, dng, …), svg, ai, eps, ps, psd |
 | **Audio** | mp3, wav, flac, m4a, aac, ogg |
 | **Video** | mp4, mov, avi, mkv, webm, mpeg |
 | **Office** | pdf, doc(x), xls(x), ppt(x), odt, rtf, txt, indd, fonts (ttf, otf) |
@@ -33,6 +33,8 @@ A **version** is one rendition of an original — for example a 250 px thumbnail
 Some versions are **derived from another version** instead of from the original: the watermarked preview is built from the `preview` version, and previews of wmf files are built from a generated `svg`. This *source version* chaining means that re-generating a source version also re-generates everything built on top of it.
 
 Up to version 6.34 the previews of ai and eps files were built from that `svg` as well. From version 6.35.0 they are rendered from the original instead, and the `svg` version is only produced for a drawing simple enough to make a usable one. A file handling configuration saved before 6.35.0 still carries the old wiring; the update rewrites it, and the configuration then shows ai and eps sourced from the original.
+
+PostScript files (ps) are accepted from version 6.35.0. Their previews are rendered like eps, from the first page, and as a document they also get a `pdf` version of every page and the `pages` version for the paged viewer, like a PDF upload. A file handling configuration saved before that does not list the extension: enable ps in the image class and add it to the ai/eps versions, or reset the class to the default.
 
 ### Standard, rights-management and watermark versions
 
