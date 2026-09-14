@@ -69,7 +69,6 @@ Flags:
     --include-password          Include password in user restore.
     --skip-constraints          Skip constraints during restore.
     --file-api=""               API used to upload files. Leave empty to not upload files. "put": restore tool uploads files synchronous. "rput": target server loads files from remote URLs. "rput_leave": target server stores remote URLs, no data is copied to storage. "rput" and "rput_leave" are faster, "put" might take long.
-    --file-api-access-token="" Use this to pass an access token to fylr backends. This is needed to load files from fylr source instances. It appends the "access_token" query parameter to the remote url of files, and removes the "x-fylr-signature" query parameter.
     --file-version=""           Set to version to use for upload. "original" might take long for "put". Use "preview" for test runs.
     --upload-versions           Set to true, to upload the preview versions (renditions) instead of regenerating them on the target, so it keeps byte-identical renditions. For an --include-files=with-versions backup the renditions are uploaded from the backup; otherwise they are fetched from the source, which must stay reachable during the restore. Cannot be combined with an --include-files=original backup (its renditions are not packed).
     --include-deleted-linked    By default, linked fields whose target carries _latest_version_deleted_at are dropped during restore — the target won't be re-imported, so the link would become a deferred 'Purged / Deferred object'. Set this to keep them, e.g. for a partial restore where the deleted targets are imported in a separate run.
@@ -293,11 +292,21 @@ By default no files or URLs are uploaded. You have to specify one of the file up
 * default: `""`
 
 
-### `--file-api-access-token`
+### File URLs and their expiry
 
-Use this to pass an access token to fylr backends. This is needed to load files from fylr source instances. It appends the `access_token` query parameter to the remote url of files, and removes the `x-fylr-signature` query parameter.
+{% hint style="info" %}
+Described behaviour as of fylr **6.35.0**. Before it, this section was the `--file-api-access-token` parameter, which is removed.
+{% endhint %}
 
-* type: `string`
+When the backup stores file **URLs** rather than bytes, the target fetches those URLs itself, with no session of its own. What authorizes the fetch is the **signature** the source put in the URL when the backup was taken, for the horizon [`fylr backup --file-url-expire-days`](backup.md#file-url-expire-days) asked for — 365 days by default. Nothing has to be passed to the restore, and no access token is involved.
+
+Up to 6.34 this needed `--file-api-access-token`, a full access token of a source user, appended to every file URL. That put a working credential into the request logs of the source and of every hop in between, so the parameter is **removed** in 6.35.0 — from the command line and from the migration form under `/inspect`. A backup taken with 6.35.0 or newer needs nothing in its place.
+
+{% hint style="warning" %}
+The horizon is fixed when the **backup** runs and cannot be extended afterwards. `fylr restore` checks it before it touches the target and refuses a backup whose URLs have expired, naming the ways out: take a new backup, pack the bytes with [`--include-files`](backup.md#include-files), or restore without `--file-api` and leave the files behind.
+{% endhint %}
+
+Files whose bytes were packed into the backup carry no URL, so they never expire — and neither do the files fylr stores for a user picture, a pool watermark, custom data on a group or objecttype, or a base config value: those are always packed into the backup and uploaded from it.
 
 
 ### `--file-version`

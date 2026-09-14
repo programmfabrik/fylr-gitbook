@@ -14,6 +14,10 @@ When downloading, users can configure several **download options**. These option
 
 <table><thead><tr><th width="188.7734375">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Renditions</td><td>All files are grouped in file classes. Select which <strong>rendition(s)</strong> should be downloaded, such as the original file or a specific preview or watermarked version. Only those with appropriate <strong>download permissions</strong> are shown.</td></tr><tr><td>Metadata Mapping</td><td>Choose between <strong>Default</strong>, which applies the metadata mapping configured by the administrator, <strong>Unchanged</strong>, which downloads the file with its original embedded metadata, <strong>Delete</strong>, which removes metadata from the file, or a <strong>specific metadata mapping</strong>.</td></tr><tr><td>File Name</td><td>For <strong>file naming</strong>, choose between the <strong>standard template</strong> configured by the administrator, the <strong>original file name</strong>, or enter a <strong>custom static text</strong>.</td></tr><tr><td>Download as ZIP</td><td>When downloading multiple files, choose to <strong>download the files as a ZIP archive</strong>, which bundles all files into a single compressed file.</td></tr><tr><td>Include File Variants</td><td>If records contain <strong>file variants</strong>, decide whether these variants should be included in the download.</td></tr></tbody></table>
 
+{% hint style="info" %}
+From fylr **6.35.0**, an administrator can hide individual download options per user or group with the **Download Options** system right (under *Frontend Functions*). Its three choices control whether the **File Name** section, the **Include File Variants** option, and the **Custom Versions** / **Custom Rendition** section are offered. Removing a choice hides that option only — the remaining renditions and the download itself keep working. Existing instances keep all three enabled after the update.
+{% endhint %}
+
 ### Custom Versions
 
 {% hint style="info" %}

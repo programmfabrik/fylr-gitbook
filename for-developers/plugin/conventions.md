@@ -53,11 +53,13 @@ description: >-
 
 ## Readme
 
+The `README.md` is not only for GitHub. From fylr **6.35.0** the file next to `manifest.yml` inside the ZIP is what the Plugin Manager shows on a plugin's **README** tab, and what the marketplace shows as **more information** before installing — so it has to stand on its own, without the repository around it. `fylr-build-plugin` copies it into the ZIP and inlines its images as data URIs, because a private repository's relative image paths are unreachable from a fylr instance.
+
 Every plugin repository must include a `README.md` that covers at minimum:
 
 * **How to setup**:
   * If a ZIP file is available via URL, include it in the Readme so it can be copied into the fylr Plugin Manager
-  * The URL should always link to the latest release, in the form `https://github.com/<orgranization>/<plugin>/releases/latest/download/<plugin>.zip`
+  * The URL should always link to the latest release, in the form `https://github.com/<organization>/<repository>/releases/latest/download/<repository>.zip`. The asset is named after the **repository**, not after the plugin — `fylr-build-plugin` names it that way and takes no override, and the marketplace catalog builds the install URL from the repository name.
 * **How to configure**:
   * describe all configuration options the plugin exposes with their expected values and any defaults
   * e.g. base configuration, system object types, pool settings

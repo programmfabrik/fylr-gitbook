@@ -1,6 +1,6 @@
 # /api/oauth2
 
-OAuth2 / OpenID Connect **authorization endpoint** (RFC 6749 §3.1). This is where the browser web-app logs a user in. It authenticates the end user — by password (`auth_method=easydb`, the default; also `ldap`, `email`, `collection`), anonymously (`anonymous`, when guest login is enabled), via SAML, or with an action code — and returns an authorization response (an authorization `code`, `token` or `id_token`) by redirecting back to the client's `redirect_uri`.
+OAuth2 **authorization endpoint** (RFC 6749 §3.1). This is where the browser web-app logs a user in. It authenticates the end user — by password (`auth_method=easydb`, the default; also `ldap`, `email`, `collection`), anonymously (`anonymous`, when guest login is enabled), via SAML, or with an action code — and returns an authorization `code` by redirecting back to the client's `redirect_uri`.
 
 Served at `/api/oauth2/auth` — **not** under `/api/v1`. No prior access token is required.
 
