@@ -160,7 +160,22 @@ Matches:
 * The `*` wildcard can be used at the beginning, middle, or end of a word.
 * Searches with a leading `*` may impact performance.
 
+### Searching for Dates
 
+{% hint style="info" %}
+**From version 6.35.0**, date, time and date range fields are part of the full-text search. As before, a field only takes part in the full-text search if it is included in the full text by the mask. Existing installations need a re-index for dates in existing records to become searchable.
+{% endhint %}
+
+A date value can be found by **any of its renderings** — you do not have to know in which format it was entered:
+
+<table><thead><tr><th width="276">Search Term</th><th>Finds</th></tr></thead><tbody><tr><td><code>12.03.2026</code>, <code>3/12/2026</code></td><td>The date, rendered in any of the database languages</td></tr><tr><td><code>2026-03-12</code></td><td>The same date in ISO notation</td></tr><tr><td><code>2026</code></td><td>Every record with a date in 2026 — including dates entered as a year only</td></tr><tr><td><code>1000</code> or <code>1000 BC</code></td><td>A B.C. date, by its displayed year or full rendering</td></tr><tr><td><code>1972</code></td><td>A date range like <code>1970 - 1975</code> — every year the range covers matches</td></tr></tbody></table>
+
+Time fields can additionally be found by their rendered date and time. If a date range carries a **textual representation** (for example *frühes 15. Jahrhundert*), its words are searchable like regular text — searching `Jahrhundert` finds the record.
+
+**Notes:**
+
+* **Word suggestions** only offer a date the way it is **displayed on the record**: the localized renderings, or the year for a year-only date. The ISO form and the years derived from full dates or ranges still match in the full-text search, but are never offered as suggestions. Typing a year still surfaces the renderings that contain it — typing `2026` offers `12.03.2026`.
+* B.C. dates are found by their **displayed** year: a date stored as ISO `-0999` is found by searching `1000`, not `-0999` or `0999`.
 
 ## Others
 

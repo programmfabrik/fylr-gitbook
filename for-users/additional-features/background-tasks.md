@@ -74,6 +74,8 @@ Additional parameters:
 
 <table><thead><tr><th width="212.93359375">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Override Values</strong></td><td>Allow the mapping to replace existing field values; otherwise only empty fields are filled.</td></tr><tr><td><strong>Merge Values</strong></td><td>Merge mapped values with existing ones instead of replacing them.</td></tr><tr><td><strong>Set/Unset Tags</strong></td><td>Set or remove tags on each record after it was successfully updated.</td></tr></tbody></table>
 
+**From version 6.35.0** the task log also reports what a mapping's recipe had to say about its own run, one **WARNING** line per remark, naming the recipe. An AI recipe uses this to report a prompt it could not fill in as configured, for example — the mapping still applies, so a run that produced values and a run that produced the values you meant are told apart in the log rather than only in the result. Each updated record's line additionally names the event of the run behind its values, which an administrator can open in `/inspect` to see the command that was executed.
+
 ### **search**
 
 Runs the configured **Search** and reports the number of matching records in the task log. Combined with a schedule and an email notification, this works as a recurring report — for example, a weekly check for records that are missing required information.
