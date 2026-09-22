@@ -14,13 +14,13 @@ The **Datamodel** page (`/inspect/datamodel/`) lists the datamodels of the insta
 
 Every chip is a **top-level objecttype**. A nested table is not something you navigate to, so it contributes its *links* to the objecttype that owns it, and is counted in the chip's "nested".
 
-**Lines.** One line per relationship — not per column — with exactly **one arrowhead**, at the objecttype that **holds the column**. A vocabulary is used by the things that name it, and that is the direction worth reading: `work.lk_keyword` puts the head at `work`.
+**Lines.** One line per relationship — not per column — with exactly **one arrowhead**, at the objecttype the column **points at**, the way the column list reads it: `work.lk_keyword` puts the head at `keyword`. A reverse link is the owned objecttype's link column read from the master, so its head stays at the master: `photo.lk_person` puts it at `person`.
 
-A line marked **R** reads from either end. Three different schema constructs land there, and the line's tooltip names the columns and says which it is:
+A grey line is read at its head only. What else a line is, it says with its colour, and the line's tooltip names the columns:
 
-* a **reverse link** — the master surfaces the records that link to it;
-* a **hierarchy** — an objecttype that owns its own records (`reverse_hierarchical`);
-* a **bidirectional** column — set on one side, written on both.
+* **orange** reads from either end: a **reverse link** (the master surfaces the records that link to it) or a **hierarchy** (an objecttype that owns its own records, `reverse_hierarchical`);
+* **purple** is a **bidirectional** pair: two link columns of a relation objecttype, pointing at another objecttype, written on one record and read on both. A pair whose columns point at the objecttype that holds them is refused when the schema is saved;
+* **dashed purple** is the **reverse marker** (`bidirectional_reverse`): the self link of a relation kind that names the kind seen from the other end (father of / son of). It is a marker on a vocabulary, not a bidirectional link.
 
 **Boxes.** A master and the objecttypes it owns are drawn as **one box**, not as arrows between them: an arrow says "points at", and what this says is "is part of". Clicking anywhere in a box opens its master. An owned objecttype also keeps a chip of its own outside every box — it is still an objecttype in its own right, and its other links are drawn from there.
 
@@ -38,7 +38,7 @@ A line marked **R** reads from either end. Three different schema constructs lan
 
 ## The panel
 
-Picking a chip shows, for that objecttype: its flags, its comment, its **links** (the column on the left, the objecttype at the other end on the right), its **columns** with their types, and its **masks** — each mask's fields with a matrix of the settings that decide where a field shows up at all (detail, text, list, expert search, fulltext, facet, nested search), a filled dot for on and a faint one for off. Every objecttype named in the panel is a link back into the net, so the model can be walked without leaving the page. The current objecttype is in the URL as an anchor (`…/model/#work`), so a view can be linked to and the back button works.
+Picking a chip shows, for that objecttype: its flags, its comment, its **columns** as one list in schema order — a link names the objecttype it points at, a nested table, a reverse link and the hierarchy are blocks with their columns stepped in under them, the way the datamodel editor lists them — and its **masks**, each mask's fields with a matrix of the settings that decide where a field shows up at all (detail, text, list, expert search, fulltext, facet, nested search), a filled dot for on and a faint one for off. The nested-search mark sits on a nested table's own row, since that is where the setting lives. The head of the matrix stays in view while the fields scroll. What points at an objecttype from elsewhere is a line into its chip, not a column of it. Every objecttype named in the panel is a link back into the net, so the model can be walked without leaving the page. The current objecttype is in the URL as an anchor (`…/model/#work`), so a view can be linked to and the back button works.
 
 ## Controls
 
@@ -47,6 +47,7 @@ Picking a chip shows, for that objecttype: its flags, its comment, its **links**
 * **hide unlinked** — drops the objecttypes nothing links to and that link to nothing.
 * **hide links** — draws the objecttypes without the lines. On a model with hundreds of links the thicket buries what the lines are about; hovering a chip still lights what it links to.
 * The zoom (**◎ ＋ −**) sits in the canvas. Dragging pans; the view is held over the model and cannot be carried off it.
+* **Download SVG**, the button at the right of the page head — the whole model with the legend as a file, `fylr-datamodel-<id>-v<version>.svg`, unfiltered and with nothing highlighted, whatever the page shows at the moment. The head of the file is one line: the instance and the datamodel version with its commit time on the left, the download time and the user on the right. It is drawn in the browser, so it needs no `dot` service on the execserver, unlike the SVG the datamodel manager offers.
 
 ## JSON
 
