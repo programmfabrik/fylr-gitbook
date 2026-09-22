@@ -37189,9 +37189,9 @@ paths:
                 Filters and pagination are query parameters. Pagination: `offset`,
                 `limit`. Output: `format` (`json` (default) or `csv`); `pretty`
                 (JSON only, default `true`). Filters are matched as **IN** lists
-                (comma-separated): `id` (id list/ranges, e.g. `1,2-30,4`), `pollable`
-                (bool), `type`, `basetype`, `objecttype`, `user_id`, `group_id`,
-                `user_type`, `object_id`, `system_object_id`. Time window:
+                (comma-separated): `id`, `object_id`, `system_object_id` (id lists
+                and ranges, e.g. `1,2-30,4`), `pollable` (bool), `type`, `basetype`,
+                `objecttype`, `user_id`, `group_id`, `user_type`. Time window:
                 `date_from`, `date_to` (ISO timestamps, range on `event.timestamp`).
 
                 `sort` is a comma-separated list of `field.DIR` (DIR = `ASC`|`DESC`)
