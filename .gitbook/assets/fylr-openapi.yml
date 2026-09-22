@@ -27359,9 +27359,12 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
-                        `version`, or an invalid / expired signature is a `403`, not
-                        a `404`.
+                        The addressed file id does not exist, or its storage location
+                        no longer holds the file's content (the answer then carries
+                        neither the file's `Content-Length` nor its `Cache-Control`).
+                        A wrong `hash`, wrong `version`, or an invalid / expired
+                        signature is a `403`, not a `404`. A `zippath` that does not
+                        exist inside the ZIP is a `400`, not this `404`.
                     content:
                         application/json:
                             schema:
@@ -27443,9 +27446,12 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
-                        `version`, or an invalid / expired signature is a `403`, not
-                        a `404`.
+                        The addressed file id does not exist, or its storage location
+                        no longer holds the file's content (the answer then carries
+                        neither the file's `Content-Length` nor its `Cache-Control`).
+                        A wrong `hash`, wrong `version`, or an invalid / expired
+                        signature is a `403`, not a `404`. A `zippath` that does not
+                        exist inside the ZIP is a `400`, not this `404`.
                     content:
                         application/json:
                             schema:
@@ -27590,10 +27596,12 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
-                        `version`, or an invalid / expired signature is a `403`, not
-                        a `404`. A `zippath` that does not exist inside the ZIP is a
-                        `400`, not this `404`.
+                        The addressed file id does not exist, or its storage location
+                        no longer holds the file's content (the answer then carries
+                        neither the file's `Content-Length` nor its `Cache-Control`).
+                        A wrong `hash`, wrong `version`, or an invalid / expired
+                        signature is a `403`, not a `404`. A `zippath` that does not
+                        exist inside the ZIP is a `400`, not this `404`.
                     content:
                         application/json:
                             schema:
@@ -27688,10 +27696,12 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
-                        `version`, or an invalid / expired signature is a `403`, not
-                        a `404`. A `zippath` that does not exist inside the ZIP is a
-                        `400`, not this `404`.
+                        The addressed file id does not exist, or its storage location
+                        no longer holds the file's content (the answer then carries
+                        neither the file's `Content-Length` nor its `Cache-Control`).
+                        A wrong `hash`, wrong `version`, or an invalid / expired
+                        signature is a `403`, not a `404`. A `zippath` that does not
+                        exist inside the ZIP is a `400`, not this `404`.
                     content:
                         application/json:
                             schema:

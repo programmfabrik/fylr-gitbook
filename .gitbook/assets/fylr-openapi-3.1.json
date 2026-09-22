@@ -28881,7 +28881,7 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or its storage location\nno longer holds the file's content (the answer then carries\nneither the file's `Content-Length` nor its `Cache-Control`).\nA wrong `hash`, wrong `version`, or an invalid / expired\nsignature is a `403`, not a `404`. A `zippath` that does not\nexist inside the ZIP is a `400`, not this `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -28981,7 +28981,7 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or its storage location\nno longer holds the file's content (the answer then carries\nneither the file's `Content-Length` nor its `Cache-Control`).\nA wrong `hash`, wrong `version`, or an invalid / expired\nsignature is a `403`, not a `404`. A `zippath` that does not\nexist inside the ZIP is a `400`, not this `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -29133,7 +29133,7 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`. A `zippath` that does not exist inside the ZIP is a\n`400`, not this `404`.\n",
+            "description": "The addressed file id does not exist, or its storage location\nno longer holds the file's content (the answer then carries\nneither the file's `Content-Length` nor its `Cache-Control`).\nA wrong `hash`, wrong `version`, or an invalid / expired\nsignature is a `403`, not a `404`. A `zippath` that does not\nexist inside the ZIP is a `400`, not this `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -29240,7 +29240,7 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`. A `zippath` that does not exist inside the ZIP is a\n`400`, not this `404`.\n",
+            "description": "The addressed file id does not exist, or its storage location\nno longer holds the file's content (the answer then carries\nneither the file's `Content-Length` nor its `Cache-Control`).\nA wrong `hash`, wrong `version`, or an invalid / expired\nsignature is a `403`, not a `404`. A `zippath` that does not\nexist inside the ZIP is a `400`, not this `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
