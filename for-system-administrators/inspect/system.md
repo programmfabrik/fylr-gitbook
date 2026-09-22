@@ -30,7 +30,7 @@ The dashboard also links the read-only runtime views:
 | --- | --- |
 | `system/janitor/` | the clean-up janitor's state — file deletion, trash draining, idle-user archiving |
 | `system/queues/` | the file and index job queues |
-| `system/execserver/` | the connected execservers, their services and — in auto-balance mode — the learned class and mean runtime per service |
+| `system/execserver/` | this process's own execserver when it runs one ("This execserver"), and the connected execservers with their services and — in auto-balance mode — the learned class and mean runtime per service |
 | `system/topology/` | from 6.35: the whole installation on one live page — see [Fleet topology](#fleet-topology) below |
 | `system/locations/` | the storage locations and their status |
 | `system/backups/` | the on-disk backups |
@@ -46,7 +46,20 @@ slot, what finished and what failed, with throughput and bytes moved. The page
 streams over a websocket and updates itself; the same data is served as JSON at
 `/inspect/system/topology/data`.
 
-<figure><img src="../../.gitbook/assets/topology-fleet.png" alt="The topology page of a fylr installation with three servers, two execservers and a load balancer"><figcaption><p>Three fylr servers sharing two execservers, reached through one load-balanced address. The counters across the top are installation-wide; the lists below are the jobs running, finished and failed right now.</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/topology-fleet.png" alt="The topology page of a fylr installation with three servers, two execservers and a load balancer"><figcaption><p>Three fylr servers — two replicas and one of another installation — sharing two execservers, reached through one load-balanced address. The counters across the top are installation-wide; the lists below are the jobs running, finished and failed right now.</p></figcaption></figure>
+
+Every box leads with its role — **fylr**, **fylr (other db)** for a fylr of
+another installation that shares an execserver, **execserver**, **balancer /
+proxy** for whatever rewrote the destination on the way (a Kubernetes Service,
+a load balancer, a port-forward) — and one dot in its corner carries the colour
+the legend in the header explains: white is the fylr serving the page, pink a
+fylr on the same database, purple one on another database; an execserver is
+green, yellow when busy, red when full with jobs waiting, grey when down or
+unreachable. The same dot marks the chips in the server list and the cards.
+Execservers are shown by their hostname, the one thing about them that
+survives a restart; the instance id, fresh with every process, stays next to
+the address. An address nothing answers on is drawn as its own box, with the
+error on its card.
 
 
 It is the page to open when the installation has more than one moving part:
