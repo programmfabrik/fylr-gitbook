@@ -562,6 +562,17 @@ fylr:
     # reachable at all, the job is requeued at once instead. fylr starts and
     # serves without execservers and connects them as they come up.
     connectTimeoutSec: 120
+    # the most file-queue items this fylr holds claimed at once. The file
+    # dispatcher starts from its share of the connected execservers' slots
+    # plus the CPU count and raises that by feedback while the queue is deep
+    # and the execservers have room — an item that spends most of its life
+    # fetching its original, writing versions and indexing would otherwise
+    # leave the execservers idle. 0 is automatic: four times that start, at
+    # least 32, at most twice fylr.db.maxOpenConns when that is set (every
+    # item in flight may hold a database connection for a moment), and never
+    # below the start itself. A value is a hard cap; one below the slots
+    # reserved for high-priority items is raised to leave one normal slot.
+    maxInFlight: 0
     # WHERE AN EXECSERVER REACHES THIS FYLR
     #
     # An execserver running a job calls back for the plugin zip, file blobs,

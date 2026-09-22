@@ -44,24 +44,26 @@ Each creates a `File` row — an **original** (`is_original = true`) or a named 
 
 ## 2. The worker pools and the queue
 
-Work is a row in the `file_queue` table. Two pools of workers drain it, started at boot:
+Work is a row in the `file_queue` table. From 6.35.0 one **file dispatcher** per fylr server drains it (the `parallel` and `parallelHigh` worker pools of earlier versions are gone; `parallel: 0` still switches file processing off on an API-only node). The dispatcher holds a bounded number of items in flight — its **admission** — and hands each claimed item to its own goroutine:
 
-* **normal** workers — `fylr.execserver.parallel` of them;
-* **high-priority-only** workers — `fylr.execserver.parallelHigh` of them.
+* the base admission is this server's share of the connected execservers' slots plus its CPU count;
+* above that it adapts to what the execservers absorb: every execserver reports the slots that idled through its last second, and the dispatcher raises the admission by that count while the queue is deep and none of its jobs waits for a slot, lowers it by the jobs that queue at the execservers — so an item that spends most of its life fetching, writing and indexing does not leave the execservers idle;
+* `fylr.execserver.maxInFlight` caps it, 0 (the default) meaning automatic: four times the base, at least 32, at most twice `fylr.db.maxOpenConns`;
+* a few slots are reserved for high-priority items, so interactive work (an upload someone is watching) is never stuck behind a big background reprocessing run.
 
-The startup line `file worker: 18 normal and 10 high priority started` is just these two numbers. Each worker polls about once a second and, per tick, claims one job with roughly:
+The dispatcher claims once a second and the moment an item finishes, per claim roughly:
 
 ```sql
 SELECT … FROM file_queue
 WHERE status = 'new' AND start_after < now()
-  -- high-priority workers additionally: AND priority % 2 != 0
+  -- for the reserved slots additionally: AND priority % 2 != 0
 ORDER BY priority DESC, id ASC
-LIMIT 1 FOR UPDATE SKIP LOCKED;
+LIMIT <free admission> FOR UPDATE SKIP LOCKED;
 ```
 
-`FOR UPDATE SKIP LOCKED` (PostgreSQL) lets many workers pull from the same queue without stepping on each other. **High-priority jobs have an odd priority**, which is exactly what the high-priority workers filter on — so interactive work (an upload someone is watching) is never stuck behind a big background reprocessing run. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant.
+`FOR UPDATE SKIP LOCKED` (PostgreSQL) lets several fylr servers pull from the same queue without stepping on each other. **High-priority jobs have an odd priority**, which is exactly what the reserved slots filter on. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant. `/inspect/system/queues` shows the admission and its parts.
 
-A worker loads the full `File` (parent, children, metadata, source) and runs the job's **action**. On success the queue row is deleted; a *requeueable* failure (for example an execserver that is momentarily busy) reschedules the row a minute later; a hard failure sets the file to `error` and re-indexes the objects that carry it.
+The item's goroutine loads the full `File` (parent, children, metadata, source) and runs the job's **action**. On success the queue row is deleted; a *requeueable* failure (for example an execserver that is momentarily busy) reschedules the row a minute later; a hard failure sets the file to `error` and re-indexes the objects that carry it.
 
 The actions are `metadata`, `produce`, `sync`, `sync_check`, `copy_move`, `copy_move_produce`, `produce_versions` and `checksum`. They are documented from the execserver's side in [Exec server → File Queue](execserver.md#file-queue).
 

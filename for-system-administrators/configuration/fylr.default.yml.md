@@ -65,6 +65,7 @@ fylr:
       - http://localhost:8083/
     pluginJobTimeoutSec: 2400
     connectTimeoutSec: 120
+    maxInFlight: 0
 
   eas:
     rput:
