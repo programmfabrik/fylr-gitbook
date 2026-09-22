@@ -36,6 +36,8 @@ Up to version 6.34 the previews of ai and eps files were built from that `svg` a
 
 PostScript files (ps) are accepted from version 6.35.0. Their previews are rendered like eps, from the first page, and as a document they also get a `pdf` version of every page and the `pages` version for the paged viewer, like a PDF upload. A file handling configuration saved before that does not list the extension: enable ps in the image class and add it to the ai/eps versions, or reset the class to the default.
 
+A .ps file can also be a PostScript Type 1 font program, the form FontForge and the Adobe tools write a font in. Such a file defines a font and draws no page, so its versions show a specimen of the font instead: the sample text of the ttf/otf specimen drawn by the font, or the font's own glyphs when it does not cover that text, as with an icon font. The `pdf` and `pages` versions are that one specimen page. The metadata carries the font's names and glyph count, as for ttf and otf.
+
 ### Standard, rights-management and watermark versions
 
 * A **standard** version (such as `preview` and `small`) is the one shown by default — in search results, in the detail view and so on.
