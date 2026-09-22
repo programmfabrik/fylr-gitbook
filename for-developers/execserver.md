@@ -10,7 +10,7 @@ A slot's life alternates direction over that one socket:
 
 | Direction | Message | Meaning |
 | --- | --- | --- |
-| exec → fylr | `HELLO {instance_id, services, waitgroups, clients}` | Capability snapshot on connect, re-sent when it changes. fylr parks a `WANT` only on a connection whose execserver announced that service. |
+| exec → fylr | `HELLO {instance_id, name, services, processes, clients}` | Capability snapshot on connect, re-sent when it changes; `name` is the hostname the inspect pages show, `instance_id` is fresh per process. fylr parks a `WANT` only on a connection whose execserver announced that service. |
 | fylr → exec | `WANT {job_id, service, priority}` | A worker is parked, needing a slot. |
 | fylr → exec | `UNWANT {job_id}` | Got a slot elsewhere / gave up (requeue). |
 | exec → fylr | `OFFER {job_id, token}` | A slot has been reserved for that job. |
@@ -25,7 +25,7 @@ sequenceDiagram
     participant F as fylr (client)
     participant X as execserver
     Note over F,X: control — one fylr-initiated websocket
-    X-->>F: HELLO {instance_id, services, waitgroups, clients}
+    X-->>F: HELLO {instance_id, name, services, processes, clients}
     F->>X: WANT {job_id, service, priority}
     Note right of X: parked in the want-book until a slot frees
     X->>F: OFFER {job_id, token}
