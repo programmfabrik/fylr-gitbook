@@ -40247,17 +40247,38 @@ paths:
                     `ListRecords`; per the OAI-PMH spec it is also expected for
                     `ListIdentifiers`, though fylr does not currently reject a
                     `ListIdentifiers` request that omits it. Built-in values:
-                    `oai_dc` and `easydb`. Each XSLT sheet enabled for OAI-PMH in
-                    the base config adds a `xslt-<name>` prefix. Call
-                    `verb=ListMetadataFormats` to enumerate the prefixes available
-                    on a given instance. An unknown prefix yields
+                    `oai_dc`, which the OAI-PMH specification requires and which
+                    is always published, and `easydb`, which can be taken off the
+                    interface with `fylr.oai_pmh.metadata_format_easydb` (default
+                    `true`) — e.g. to expose `oai_dc` and the XSLT formats only.
+                    Each XSLT sheet enabled for OAI-PMH in the base config adds a
+                    `xslt-<name>` prefix. Call `verb=ListMetadataFormats` to
+                    enumerate the prefixes available on a given instance. An
+                    unknown or deactivated prefix yields
                     `<error code="cannotDisseminateFormat">` (HTTP 400).
                 - name: set
                   in: query
                   schema:
                     type: string
                   description: |
-                    Set spec (optional for `ListIdentifiers`, `ListRecords`).
+                    Set spec (optional for `ListIdentifiers`, `ListRecords`), as
+                    listed by `verb=ListSets`. fylr publishes one set per
+                    objecttype (`objecttype:<name>`), per pool
+                    (`pool:<id>:<id>:…`, the whole path of the pool, harvesting
+                    its subtree), per objecttype within a pool
+                    (`objecttype:<name>:pool:<id>:…`), per collection
+                    (`collection:<id>`) and per tag set configured in
+                    `fylr.oai_pmh.tagfilter_sets` (`tagset:<name>`).
+
+                    `ListSets` lists a set only when the requesting user can
+                    harvest a record from it, so the rights of that user govern
+                    what the interface publishes; an anonymous harvester acts as
+                    the OAI-PMH system user. A set that is unknown, malformed or
+                    not spelled the way `ListSets` lists it (a pool with its whole
+                    path, a collection with its plain id) yields
+                    `<error code="badArgument">` (HTTP 400). When no set has a
+                    harvestable record, `ListSets` answers
+                    `<error code="noSetHierarchy">` (HTTP 404).
                 - name: from
                   in: query
                   schema:
@@ -40265,7 +40286,9 @@ paths:
                     format: date-time
                   description: |
                     UTC datestamp lower bound (UTC date or full datetime
-                    accepted, per the OAI-PMH spec).
+                    accepted, per the OAI-PMH spec). A value that is no date
+                    yields `<error code="badArgument">` (HTTP 400), for `until`
+                    as well.
                 - name: until
                   in: query
                   schema:
@@ -59754,7 +59777,12 @@ components:
                     items: {}
                 aggregations:
                     type: object
-                    description: The computed aggregations, keyed by the names used in the request.
+                    description: |
+                        The computed aggregations, keyed by the names used in the request. A
+                        `term` aggregation reports its buckets as `terms`, each with `term` and
+                        `count`, plus `limit` and `has_more`; when the request nested
+                        aggregations below it, every bucket carries an `aggregations` object of
+                        the same shape.
                     additionalProperties: true
                 point_in_time:
                     type: object
@@ -59811,6 +59839,7 @@ components:
                         - day
         SearchAggregation:
             type: object
+            x-recursion: true
             description: |
                 One aggregation computed over the search result. Aggregations are keyed by a
                 client-chosen name in the request and the response.
@@ -59870,6 +59899,18 @@ components:
                 bounds:
                     type: object
                     description: Bounding box that limits a geo aggregation.
+                aggregations:
+                    type: object
+                    description: |
+                        Aggregations computed below every bucket of a `term` aggregation, keyed
+                        by a client-chosen name like the top-level `aggregations`. Only `term`
+                        aggregations nest, to any depth; a nested aggregation of another type,
+                        or aggregations below an aggregation of another type, yield an
+                        `UnsupportedInAggregation` error. In the response every bucket of the
+                        `terms` carries an `aggregations` object of the same shape as the
+                        top-level one, with `terms`, `limit` and `has_more` per level.
+                    additionalProperties:
+                        $ref: '#/components/schemas/SearchAggregation'
         SearchRequestField:
             type: object
             description: |

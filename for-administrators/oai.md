@@ -79,7 +79,7 @@ or
 
 ## Metadata Formats
 
-The easydb always disseminates all available formats to all objects. To get all available metadata formats, use
+fylr disseminates all available formats to all objects. To get all available metadata formats, use
 
 ```
 ?verb=ListMetadataFormats
@@ -91,7 +91,9 @@ The easydb always disseminates all available formats to all objects. To get all 
 ?metadataPrefix=easydb
 ```
 
-The default metadata format that is always provided by fylr is the `easydb` export format. This format is basically an XML representation of the object in the given mask and it is very similar to the JSON representation that is normally used by the API.
+The default metadata format of fylr is the `easydb` export format. This format is basically an XML representation of the object in the given mask and it is very similar to the JSON representation that is normally used by the API.
+
+From version 6.35.0, the `easydb` format can be taken off the interface with the checkbox "Offer metadataPrefix "easydb"" in the base configuration tab "Export and OAI/PMH" (on by default), e.g. to offer only `oai_dc` and the XSLT formats. Switched off, `ListMetadataFormats` no longer lists it and a request with `metadataPrefix=easydb` answers `cannotDisseminateFormat`.
 
 ### Dublin Core
 
@@ -99,7 +101,7 @@ The default metadata format that is always provided by fylr is the `easydb` expo
 ?metadataPrefix=oai_dc
 ```
 
-As per OAI/PMH standard, [Dublin Core](https://www.dublincore.org) is offered as the Metadata format `oai_dc`. It is possible to define mapping profiles for Dublin Core under "Profile" > "Dublin Core". These mapping profiles work like any other metadata mapping profile, so they can be configured per objecttype and pool.
+As per OAI/PMH standard, [Dublin Core](https://www.dublincore.org) is always offered as the Metadata format `oai_dc`. It is possible to define mapping profiles for Dublin Core under "Profile" > "Dublin Core". These mapping profiles work like any other metadata mapping profile, so they can be configured per objecttype and pool.
 
 The OAI/PMH will use the configured profile to generate the Dublin Core representation for the object. If no profile is configured, a minimal representation is returned.
 
@@ -138,6 +140,10 @@ To get a list of all available sets, use
 ?verb=ListSets
 ```
 
+From version 6.35.0, `ListSets` lists a set only when at least one record can be harvested from it by the user "OAI/PMH"; before, every combination of pool managed objecttype and pool was listed, most of them empty, and every collection and tag set as well. When no set has a record, `ListSets` answers `noSetHierarchy`. Which sets are published is therefore controlled by the rights of the user "OAI/PMH", like the records themselves.
+
+To harvest a set, pass its `setSpec` as the `set` parameter, spelled exactly as `ListSets` lists it. From version 6.35.0, a set that is unknown, malformed or spelled differently (for example a pool without its whole path) answers `badArgument`.
+
 
 ### Objecttypes
 
@@ -151,7 +157,7 @@ Example for all objects of objecttype `sample_object`:
 
 ### Pools
 
-All pools that the user "OAI/PMH" can see (`bag_read` right).
+All pools that the user "OAI/PMH" can see (`bag_read` right). The `setSpec` carries the whole path of the pool, starting with the root pool, and the set harvests the records of the pool and all its subpools. Harvesting a pool set works from version 6.35.0.
 
 Example for all objects in the Standard Pool:
 
@@ -163,10 +169,10 @@ Example for all objects in the Standard Pool:
 
 All collections that the user "OAI/PMH" can see (`bag_read` right).
 
-Example:
+Example for the collection with the id 3:
 
 ```xml
-<setSpec>collection:1:3</setSpec>
+<setSpec>collection:3</setSpec>
 ```
 
 ### Combination of pools and objecttypes
@@ -176,15 +182,15 @@ All combinations of pool managed objecttypes and pools that the user "OAI/PMH" c
 Example for all objects of objecttype `sample_object` in the Standard Pool:
 
 ```xml
-<setSpec>objecttype_pool:sample_object:pool:1:2</setSpec>
+<setSpec>objecttype:sample_object:pool:1:2</setSpec>
 ```
 
 ### Tagfilters
 
-All names of tagfilters that have been configured in the base configuration. All sets based on tagfilters have the prefix `tagfilter:`
+All names of tagfilters that have been configured in the base configuration. All sets based on tagfilters have the prefix `tagset:`
 
 Example for all objects that are found by the Tagfilter `sample_tagfilter`:
 
 ```xml
-<setSpec>tagfilter:sample_tagfilter</setSpec>
+<setSpec>tagset:sample_tagfilter</setSpec>
 ```
