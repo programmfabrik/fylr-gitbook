@@ -25198,10 +25198,14 @@ paths:
                         - remove
                 - name: file_url_expire
                   in: query
+                  schema:
+                    type: string
                   description: |
                     Number of days the signed file URLs contained in the response stay valid. A
                     signed URL is accepted by `/eas/download` on its own, without a session, until
-                    it expires — which is what saves the download the per-record rights check.
+                    it expires — which is what saves the download the per-record rights check. The
+                    `/eas` responses (`GET`, `PUT`, `POST`, `rput`, `produce`) sign their urls the
+                    same way, so a browser can load them without its token in the url.
 
                     If omitted, `system.file_url_expire.default_days` applies. The value is capped
                     at `system.file_url_expire.max_days`; a caller holding the `system.root` right
@@ -25209,8 +25213,6 @@ paths:
                     long-lived URL for a file they may only see today, and does not apply to a
                     caller who may read every file anyway. This is what lets `fylr backup` store
                     URLs its restore can still fetch weeks later.
-                  schema:
-                    type: string
                 - name: base_fields_only
                   in: query
                   description: |
@@ -25821,7 +25823,9 @@ paths:
                   description: |
                     Number of days the signed file URLs contained in the response stay valid. A
                     signed URL is accepted by `/eas/download` on its own, without a session, until
-                    it expires — which is what saves the download the per-record rights check.
+                    it expires — which is what saves the download the per-record rights check. The
+                    `/eas` responses (`GET`, `PUT`, `POST`, `rput`, `produce`) sign their urls the
+                    same way, so a browser can load them without its token in the url.
 
                     If omitted, `system.file_url_expire.default_days` applies. The value is capped
                     at `system.file_url_expire.max_days`; a caller holding the `system.root` right
@@ -25993,7 +25997,9 @@ paths:
                   description: |
                     Number of days the signed file URLs contained in the response stay valid. A
                     signed URL is accepted by `/eas/download` on its own, without a session, until
-                    it expires — which is what saves the download the per-record rights check.
+                    it expires — which is what saves the download the per-record rights check. The
+                    `/eas` responses (`GET`, `PUT`, `POST`, `rput`, `produce`) sign their urls the
+                    same way, so a browser can load them without its token in the url.
 
                     If omitted, `system.file_url_expire.default_days` applies. The value is capped
                     at `system.file_url_expire.max_days`; a caller holding the `system.root` right
@@ -26121,6 +26127,23 @@ paths:
                     If set, the call is only checking if the current user is allowed to update the file information.
                   schema:
                     type: boolean
+                - name: file_url_expire
+                  in: query
+                  schema:
+                    type: string
+                  description: |
+                    Number of days the signed file URLs contained in the response stay valid. A
+                    signed URL is accepted by `/eas/download` on its own, without a session, until
+                    it expires — which is what saves the download the per-record rights check. The
+                    `/eas` responses (`GET`, `PUT`, `POST`, `rput`, `produce`) sign their urls the
+                    same way, so a browser can load them without its token in the url.
+
+                    If omitted, `system.file_url_expire.default_days` applies. The value is capped
+                    at `system.file_url_expire.max_days`; a caller holding the `system.root` right
+                    is **not** capped, since the cap exists to stop a regular user minting a
+                    long-lived URL for a file they may only see today, and does not apply to a
+                    caller who may read every file anyway. This is what lets `fylr backup` store
+                    URLs its restore can still fetch weeks later.
             requestBody:
                 required: true
                 content:
@@ -26282,6 +26305,23 @@ paths:
                         - short
                         - long
                         - standard
+                - name: file_url_expire
+                  in: query
+                  schema:
+                    type: string
+                  description: |
+                    Number of days the signed file URLs contained in the response stay valid. A
+                    signed URL is accepted by `/eas/download` on its own, without a session, until
+                    it expires — which is what saves the download the per-record rights check. The
+                    `/eas` responses (`GET`, `PUT`, `POST`, `rput`, `produce`) sign their urls the
+                    same way, so a browser can load them without its token in the url.
+
+                    If omitted, `system.file_url_expire.default_days` applies. The value is capped
+                    at `system.file_url_expire.max_days`; a caller holding the `system.root` right
+                    is **not** capped, since the cap exists to stop a regular user minting a
+                    long-lived URL for a file they may only see today, and does not apply to a
+                    caller who may read every file anyway. This is what lets `fylr backup` store
+                    URLs its restore can still fetch weeks later.
             responses:
                 "200":
                     description: |
@@ -26331,6 +26371,23 @@ paths:
                     The `_uuid` of the object the file is linked into. This is used for the permission check.
                   schema:
                     type: string
+                - name: file_url_expire
+                  in: query
+                  schema:
+                    type: string
+                  description: |
+                    Number of days the signed file URLs contained in the response stay valid. A
+                    signed URL is accepted by `/eas/download` on its own, without a session, until
+                    it expires — which is what saves the download the per-record rights check. The
+                    `/eas` responses (`GET`, `PUT`, `POST`, `rput`, `produce`) sign their urls the
+                    same way, so a browser can load them without its token in the url.
+
+                    If omitted, `system.file_url_expire.default_days` applies. The value is capped
+                    at `system.file_url_expire.max_days`; a caller holding the `system.root` right
+                    is **not** capped, since the cap exists to stop a regular user minting a
+                    long-lived URL for a file they may only see today, and does not apply to a
+                    caller who may read every file anyway. This is what lets `fylr backup` store
+                    URLs its restore can still fetch weeks later.
             requestBody:
                 required: true
                 content:
@@ -26668,6 +26725,23 @@ paths:
                     If set, the fylr database is queried for duplicates of the file. The `_duplicate` property will be added to the response.
                   schema:
                     type: boolean
+                - name: file_url_expire
+                  in: query
+                  schema:
+                    type: string
+                  description: |
+                    Number of days the signed file URLs contained in the response stay valid. A
+                    signed URL is accepted by `/eas/download` on its own, without a session, until
+                    it expires — which is what saves the download the per-record rights check. The
+                    `/eas` responses (`GET`, `PUT`, `POST`, `rput`, `produce`) sign their urls the
+                    same way, so a browser can load them without its token in the url.
+
+                    If omitted, `system.file_url_expire.default_days` applies. The value is capped
+                    at `system.file_url_expire.max_days`; a caller holding the `system.root` right
+                    is **not** capped, since the cap exists to stop a regular user minting a
+                    long-lived URL for a file they may only see today, and does not apply to a
+                    caller who may read every file anyway. This is what lets `fylr backup` store
+                    URLs its restore can still fetch weeks later.
             requestBody:
                 required: true
                 content:
@@ -26795,6 +26869,23 @@ paths:
                     If set, the fylr database is queried for duplicates of the file. The `_duplicate` property will be added to the response.
                   schema:
                     type: boolean
+                - name: file_url_expire
+                  in: query
+                  schema:
+                    type: string
+                  description: |
+                    Number of days the signed file URLs contained in the response stay valid. A
+                    signed URL is accepted by `/eas/download` on its own, without a session, until
+                    it expires — which is what saves the download the per-record rights check. The
+                    `/eas` responses (`GET`, `PUT`, `POST`, `rput`, `produce`) sign their urls the
+                    same way, so a browser can load them without its token in the url.
+
+                    If omitted, `system.file_url_expire.default_days` applies. The value is capped
+                    at `system.file_url_expire.max_days`; a caller holding the `system.root` right
+                    is **not** capped, since the cap exists to stop a regular user minting a
+                    long-lived URL for a file they may only see today, and does not apply to a
+                    caller who may read every file anyway. This is what lets `fylr backup` store
+                    URLs its restore can still fetch weeks later.
             requestBody:
                 required: true
                 content:
@@ -26858,6 +26949,23 @@ paths:
             The **eas/rput** endpoint is used to asynchronously upload files. Use **/eas/put** to synchronously upload files. A file can only be inserted if a filename is provided, either by setting it as query parameter or in the `Content-Disposition` header set by the web server of the URL.
         post:
             parameters:
+                - name: file_url_expire
+                  in: query
+                  schema:
+                    type: string
+                  description: |
+                    Number of days the signed file URLs contained in the response stay valid. A
+                    signed URL is accepted by `/eas/download` on its own, without a session, until
+                    it expires — which is what saves the download the per-record rights check. The
+                    `/eas` responses (`GET`, `PUT`, `POST`, `rput`, `produce`) sign their urls the
+                    same way, so a browser can load them without its token in the url.
+
+                    If omitted, `system.file_url_expire.default_days` applies. The value is capped
+                    at `system.file_url_expire.max_days`; a caller holding the `system.root` right
+                    is **not** capped, since the cap exists to stop a regular user minting a
+                    long-lived URL for a file they may only see today, and does not apply to a
+                    caller who may read every file anyway. This is what lets `fylr backup` store
+                    URLs its restore can still fetch weeks later.
                 - name: filename
                   in: query
                   schema:
@@ -27160,7 +27268,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -27394,7 +27502,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -27502,7 +27610,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -27631,7 +27739,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -27780,7 +27888,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -27897,7 +28005,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -28007,7 +28115,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -28124,7 +28232,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -28240,7 +28348,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -28363,7 +28471,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -28479,7 +28587,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -28602,7 +28710,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -28719,7 +28827,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -28843,7 +28951,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -28960,7 +29068,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -29084,7 +29192,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -29207,7 +29315,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -29337,7 +29445,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -29460,7 +29568,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -29590,7 +29698,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -29680,7 +29788,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -29767,7 +29875,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -29851,7 +29959,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -29932,7 +30040,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -30015,7 +30123,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -30095,7 +30203,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -30172,7 +30280,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -30246,7 +30354,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -30381,7 +30489,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -30509,7 +30617,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -30638,7 +30746,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -30760,7 +30868,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -30888,7 +30996,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -31009,7 +31117,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -31131,7 +31239,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -31246,7 +31354,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
+                  description: The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search`, `/api/eas` or other endpoints which deliver fylr URLs. The signature will be taken from the query parameter first and if not found, from the request header.
                 - name: x-fylr-signature
                   in: header
                   schema:
@@ -31730,6 +31838,23 @@ paths:
                   schema:
                     type: object
                     format: json
+                - name: file_url_expire
+                  in: query
+                  schema:
+                    type: string
+                  description: |
+                    Number of days the signed file URLs contained in the response stay valid. A
+                    signed URL is accepted by `/eas/download` on its own, without a session, until
+                    it expires — which is what saves the download the per-record rights check. The
+                    `/eas` responses (`GET`, `PUT`, `POST`, `rput`, `produce`) sign their urls the
+                    same way, so a browser can load them without its token in the url.
+
+                    If omitted, `system.file_url_expire.default_days` applies. The value is capped
+                    at `system.file_url_expire.max_days`; a caller holding the `system.root` right
+                    is **not** capped, since the cap exists to stop a regular user minting a
+                    long-lived URL for a file they may only see today, and does not apply to a
+                    caller who may read every file anyway. This is what lets `fylr backup` store
+                    URLs its restore can still fetch weeks later.
             responses:
                 "200":
                     description: |
@@ -32964,6 +33089,18 @@ paths:
                 with a `running` status immediately, and the archive is produced in
                 the background and stored in the configured backup location.
                 Requires `system.backup` (or `system.root`).
+            parameters:
+                - name: sign_url
+                  in: query
+                  schema:
+                    type: boolean
+                  description: |
+                    If set, each backup descriptor in the response carries
+                    `download_signature`, valid for one day (fixed, no configuration, no
+                    exception for `system.root`). It authorizes
+                    `GET /system/backup/{id}/download` on its own as `?x-fylr-signature=`, so
+                    a browser needs no token in the url (#79337). Without it there is no
+                    signature.
             requestBody:
                 required: true
                 content:
@@ -33011,6 +33148,18 @@ paths:
             summary: List backups on file.
             description: |
                 Requires `system.backup` (or `system.root`).
+            parameters:
+                - name: sign_url
+                  in: query
+                  schema:
+                    type: boolean
+                  description: |
+                    If set, each backup descriptor in the response carries
+                    `download_signature`, valid for one day (fixed, no configuration, no
+                    exception for `system.root`). It authorizes
+                    `GET /system/backup/{id}/download` on its own as `?x-fylr-signature=`, so
+                    a browser needs no token in the url (#79337). Without it there is no
+                    signature.
             responses:
                 "200":
                     description: Array of backup descriptors.
@@ -33053,6 +33202,17 @@ paths:
                     type: integer
                     format: int64
                     minimum: 1
+                - name: sign_url
+                  in: query
+                  schema:
+                    type: boolean
+                  description: |
+                    If set, each backup descriptor in the response carries
+                    `download_signature`, valid for one day (fixed, no configuration, no
+                    exception for `system.root`). It authorizes
+                    `GET /system/backup/{id}/download` on its own as `?x-fylr-signature=`, so
+                    a browser needs no token in the url (#79337). Without it there is no
+                    signature.
             responses:
                 "200":
                     description: The backup descriptor.
@@ -33152,11 +33312,16 @@ paths:
         description: |
             Streams the archive bytes of the backup identified by `id` as
             `application/octet-stream`. An unknown `id` yields
-            `code: BackupNotFound`. Requires `system.backup` (or `system.root`).
+            `code: BackupNotFound`. Requires `system.backup` (or `system.root`),
+            or the backup's `download_signature` as `?x-fylr-signature=`, which
+            authorizes the download on its own the way a signed file url is
+            accepted by `/eas/download` — so a browser downloads without its token
+            in the url.
         get:
             summary: Download a backup archive.
             description: |
-                Requires `system.backup` (or `system.root`).
+                Requires `system.backup` (or `system.root`), or a valid
+                `x-fylr-signature`.
             parameters:
                 - name: id
                   in: path
@@ -33165,6 +33330,14 @@ paths:
                     type: integer
                     format: int64
                     minimum: 1
+                - name: x-fylr-signature
+                  in: query
+                  schema:
+                    type: string
+                  description: |
+                    The backup's `download_signature`, as returned by the list and
+                    get routes with `sign_url`. A wrong or expired signature is
+                    refused with `403`.
             responses:
                 "200":
                     description: The backup bytes.
@@ -37518,7 +37691,11 @@ paths:
             `access_token` query parameter); there is no dedicated system right for
             the feature. Exports are user-scoped: each export records the `user_id`
             that saved it, and the handlers permit access only to that owner or to a
-            `system.root` user.
+            `system.root` user. The one exception is the download routes (`file/`,
+            `zip/`, `tar_gz/`): they also accept the export's `_download_signature`
+            as `?x-fylr-signature=` in place of a session, the way `/eas/download`
+            accepts a signed file url, so a browser downloads without its token in
+            the url.
         get:
             summary: List the authenticated user's exports.
             parameters:
@@ -37555,6 +37732,16 @@ paths:
                     Differs from easydb 5: fylr adds the run state
                     `done_with_warnings`; easydb 5 documents only `new`, `pending`,
                     `processing`, `failed`, and `done`.
+                - name: sign_url
+                  in: query
+                  schema:
+                    type: boolean
+                  description: |
+                    If set, the response carries `_download_signature`, valid for one day
+                    (fixed, no configuration, no exception for `system.root`). It authorizes
+                    the export's `file/`, `zip/` and `tar_gz/` downloads on its own as
+                    `?x-fylr-signature=`, so a browser needs no token in the url (#79337).
+                    Without it there is no signature.
             responses:
                 "200":
                     description: A page of the user's exports.
@@ -37579,6 +37766,17 @@ paths:
                 Saves a new export owned by the authenticated user (the stored
                 `user_id` is always set to the caller, regardless of any value in the
                 body). There is no owner check on this route.
+            parameters:
+                - name: sign_url
+                  in: query
+                  schema:
+                    type: boolean
+                  description: |
+                    If set, the response carries `_download_signature`, valid for one day
+                    (fixed, no configuration, no exception for `system.root`). It authorizes
+                    the export's `file/`, `zip/` and `tar_gz/` downloads on its own as
+                    `?x-fylr-signature=`, so a browser needs no token in the url (#79337).
+                    Without it there is no signature.
             requestBody:
                 required: true
                 content:
@@ -37614,6 +37812,17 @@ paths:
                                 $ref: '#/components/schemas/ExportDuplicateNameError'
         put:
             summary: Create a new export (alias for POST).
+            parameters:
+                - name: sign_url
+                  in: query
+                  schema:
+                    type: boolean
+                  description: |
+                    If set, the response carries `_download_signature`, valid for one day
+                    (fixed, no configuration, no exception for `system.root`). It authorizes
+                    the export's `file/`, `zip/` and `tar_gz/` downloads on its own as
+                    `?x-fylr-signature=`, so a browser needs no token in the url (#79337).
+                    Without it there is no signature.
             requestBody:
                 required: true
                 content:
@@ -37678,6 +37887,16 @@ paths:
                   description: |
                     Rendering detail level. Defaults to `long` when omitted. An
                     unrecognised value yields a 400 error.
+                - name: sign_url
+                  in: query
+                  schema:
+                    type: boolean
+                  description: |
+                    If set, the response carries `_download_signature`, valid for one day
+                    (fixed, no configuration, no exception for `system.root`). It authorizes
+                    the export's `file/`, `zip/` and `tar_gz/` downloads on its own as
+                    `?x-fylr-signature=`, so a browser needs no token in the url (#79337).
+                    Without it there is no signature.
             responses:
                 "200":
                     description: The export.
@@ -37723,6 +37942,16 @@ paths:
                     type: integer
                     format: int64
                     minimum: 1
+                - name: sign_url
+                  in: query
+                  schema:
+                    type: boolean
+                  description: |
+                    If set, the response carries `_download_signature`, valid for one day
+                    (fixed, no configuration, no exception for `system.root`). It authorizes
+                    the export's `file/`, `zip/` and `tar_gz/` downloads on its own as
+                    `?x-fylr-signature=`, so a browser needs no token in the url (#79337).
+                    Without it there is no signature.
             requestBody:
                 required: true
                 content:
@@ -37822,6 +38051,16 @@ paths:
                     type: integer
                     format: int64
                     minimum: 1
+                - name: sign_url
+                  in: query
+                  schema:
+                    type: boolean
+                  description: |
+                    If set, the response carries `_download_signature`, valid for one day
+                    (fixed, no configuration, no exception for `system.root`). It authorizes
+                    the export's `file/`, `zip/` and `tar_gz/` downloads on its own as
+                    `?x-fylr-signature=`, so a browser needs no token in the url (#79337).
+                    Without it there is no signature.
             responses:
                 "200":
                     description: The export is scheduled.
@@ -37875,6 +38114,16 @@ paths:
                     type: integer
                     format: int64
                     minimum: 1
+                - name: sign_url
+                  in: query
+                  schema:
+                    type: boolean
+                  description: |
+                    If set, the response carries `_download_signature`, valid for one day
+                    (fixed, no configuration, no exception for `system.root`). It authorizes
+                    the export's `file/`, `zip/` and `tar_gz/` downloads on its own as
+                    `?x-fylr-signature=`, so a browser needs no token in the url (#79337).
+                    Without it there is no signature.
             responses:
                 "200":
                     description: |
@@ -37930,6 +38179,16 @@ paths:
                     type: integer
                     format: int64
                     minimum: 1
+                - name: x-fylr-signature
+                  in: query
+                  schema:
+                    type: string
+                  description: |
+                    The export's `_download_signature`, as returned by `GET /export/{exportId}`
+                    with `sign_url`. Authorizes the download on its own, without a session,
+                    for one day — a wrong or expired signature is refused with `403` even for
+                    the export's owner. Without it the usual owner / `system.root` session
+                    check applies.
             responses:
                 "200":
                     description: The archive (or selected entry) bytes.
@@ -37990,6 +38249,16 @@ paths:
                     type: integer
                     format: int64
                     minimum: 1
+                - name: x-fylr-signature
+                  in: query
+                  schema:
+                    type: string
+                  description: |
+                    The export's `_download_signature`, as returned by `GET /export/{exportId}`
+                    with `sign_url`. Authorizes the download on its own, without a session,
+                    for one day — a wrong or expired signature is refused with `403` even for
+                    the export's owner. Without it the usual owner / `system.root` session
+                    check applies.
             responses:
                 "200":
                     description: The archive (or selected entry) bytes.
@@ -38167,7 +38436,8 @@ paths:
                 bytes. With an empty path or a path ending in `/`, renders an HTML
                 directory index of the export's produced files (the `exportIndex`
                 page). `HEAD` is also accepted and returns the headers only, no
-                body.
+                body. The index links carry the signature when the request was
+                authorized by one, the session token otherwise.
             parameters:
                 - name: exportId
                   in: path
@@ -38176,6 +38446,16 @@ paths:
                     type: integer
                     format: int64
                     minimum: 1
+                - name: x-fylr-signature
+                  in: query
+                  schema:
+                    type: string
+                  description: |
+                    The export's `_download_signature`, as returned by `GET /export/{exportId}`
+                    with `sign_url`. Authorizes the download on its own, without a session,
+                    for one day — a wrong or expired signature is refused with `403` even for
+                    the export's owner. Without it the usual owner / `system.root` session
+                    check applies.
             responses:
                 "200":
                     description: |
@@ -55211,6 +55491,14 @@ components:
                                 type: string
                                 format: date-time
                                 description: Creation timestamp (RFC3339).
+                _download_signature:
+                    type: string
+                    description: |
+                        Signature that authorizes the export's `file/`, `zip/` and `tar_gz/`
+                        downloads on its own as `?x-fylr-signature=`, the way a signed file
+                        url is accepted by `/eas/download` — so a browser downloads without
+                        its token in the url. Present only when the request asked for it
+                        (`sign_url`); valid for one day.
                 _log:
                     type: array
                     items:
@@ -55420,6 +55708,14 @@ components:
                             - created_at
                             - msg
                     description: Per-run log lines emitted by the backup pipeline.
+                download_signature:
+                    type: string
+                    description: |
+                        Signature that authorizes `GET /system/backup/{id}/download` on its
+                        own as `?x-fylr-signature=`, the way a signed file url is accepted
+                        by `/eas/download` — so a browser downloads without its token in the
+                        url. Present only when the request asked for it (`sign_url`); valid
+                        for one day.
         LocationApi:
             type: object
             description: |

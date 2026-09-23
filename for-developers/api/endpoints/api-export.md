@@ -4,6 +4,8 @@ Manage **exports** — long-running jobs that bundle objects and their files int
 
 Since fylr 6.35, while the Janitor is enabled, downloads expire after `system.config.janitor.exports.download_expire_days` days without a run (default: `1`). Clearing this setting restores the default; `0` makes idle downloads eligible on the next pass. Unscheduled exports can expire after `system.config.janitor.exports.export_expire_days` days without a run; the default is `null` (disabled), and `0` makes idle exports eligible on the next pass. The age is measured from the latest run's start, including failed and empty runs, or creation if never run. Starting another run renews retention. Reading or downloading existing output does not. Scheduled, pending, and processing exports are kept. See [Janitor settings](../../../for-administrators/readme/services.md#settings-for-exports-and-downloads).
 
+Since fylr 6.35, the download routes (`file/`, `zip/`, `tar_gz/`) also accept the export's `_download_signature` as `?x-fylr-signature=` in place of a session, the way `/eas/download` accepts a signed file URL, so a browser downloads without its access token in the URL. The export carries the signature when it is loaded, listed, created, updated, started or stopped with `?sign_url=1`; it is valid for one day, and a wrong or expired signature is refused with `403`.
+
 ### `GET /export` — List the authenticated user's exports.
 
 {% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/export" method="get" %}
