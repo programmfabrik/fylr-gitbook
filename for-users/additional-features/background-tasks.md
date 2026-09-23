@@ -60,11 +60,13 @@ With **Use scheduler**, configure recurring runs in the schedule editor. Presets
 
 Deletes — or restores — the records matching the configured **Search**. The **Delete Policy** controls what happens:
 
-<table><thead><tr><th width="151.8046875">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Unlink</strong> (<code>setnull</code>)</td><td>Delete the records and set links that point at them in other records to null. The default.</td></tr><tr><td><strong>Delete</strong> (<code>remove</code>)</td><td>Also delete the subordinate or reverse-linked records of the deleted records.</td></tr><tr><td><strong>Purge</strong> (<code>purge</code>)</td><td>Permanently delete the records from the trash — not recoverable.</td></tr><tr><td><strong>Restore</strong> (<code>undelete</code>)</td><td>Restore matched, soft-deleted records from the trash.</td></tr></tbody></table>
+<table><thead><tr><th width="151.8046875">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Unlink</strong> (<code>setnull</code>)</td><td>Delete the records and clear the links that point at them in other records. A NOT NULL link in a nested table row takes its row with it when the link is the row's only field; a row with further fields keeps its record from being deleted and the task stops with "Unable to delete objects, there are N objects linking to them". The default.</td></tr><tr><td><strong>Delete</strong> (<code>remove</code>)</td><td>Also delete the subordinate or reverse-linked records of the deleted records, and remove every nested table row whose NOT NULL link points at a deleted record, together with the other fields of the row.</td></tr><tr><td><strong>Purge</strong> (<code>purge</code>)</td><td>Permanently delete the records from the trash — not recoverable.</td></tr><tr><td><strong>Restore</strong> (<code>undelete</code>)</td><td>Restore matched, soft-deleted records from the trash.</td></tr></tbody></table>
 
 {% hint style="warning" %}
 Review the search carefully before scheduling this module — every record matching the search is deleted on every run. Deleted records are moved to the trash and can be restored from there (see [deleting records](../asset-records-management/deleting-records.md)).
 {% endhint %}
+
+A link the policy cannot remove stops the task: a NOT NULL link in a top-level field, a NOT NULL link in a row with further fields under **Unlink**, and any link whose removal would leave a nested table empty that is set to NOT NULL itself. Records that link each other within the search result do not stop it, they go to the trash together.
 
 ### **metadata**
 

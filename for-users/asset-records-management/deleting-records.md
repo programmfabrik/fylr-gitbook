@@ -38,7 +38,19 @@ Use caution when deleting multiple records at once to avoid accidental loss of i
 
 If you delete a record that is referenced by another record (for example a keyword that is linked in an image record), you will receive a message and have to decide what you want to do.
 
-You can delete the record and let fylr remove all references in the other records automatically (if the data model allows that). Please note, that if there is a NOT NULL Constraint on the field, this option will be disabled and the record cannot be deleted. You will have to fix this problem manually by searching for these records and linking a different record first. When all references are removed, you will be able to delete the record.
+You can delete the record and let fylr remove all references in the other records automatically. A reference in a field that allows empty values is cleared. A reference in a nested table row whose field is set to NOT NULL takes the whole row with it: with "Delete" (policy `remove`, the option "Delete N and unlink M" in the dialog) always, including the other fields of the row; with "Unlink" (policy `setnull`, the default of a background `delete_objects` task, see [background tasks](../additional-features/background-tasks.md#delete_objects)) only when the reference is the row's only field.
+
+A reference that cannot be removed disables the option and the record cannot be deleted:
+
+* a NOT NULL reference in a top-level field,
+* a NOT NULL reference in a nested table row with further fields, when the policy "Unlink" keeps such rows,
+* any reference whose removal would leave a nested table empty that is set to NOT NULL itself.
+
+Search for these records and link a different record or remove the rows first. When all such references are gone, you will be able to delete the record.
+
+{% hint style="info" %}
+From **fylr 6.35.0**, a NOT NULL reference in a nested table row no longer blocks the deletion: the row is removed with the record. Before, every NOT NULL reference blocked it.
+{% endhint %}
 
 {% hint style="info" %}
 From **fylr 6.35.0**, confirming removal of references also removes the reciprocal link in a bidirectional relation before the record enters the trash. For example, if A and B link to each other and you delete A while removing B's reference to it, both B → A and A → B are removed. Restoring A keeps those links removed. The same behavior applies to background `delete_objects` tasks.
