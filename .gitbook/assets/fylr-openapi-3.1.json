@@ -26872,7 +26872,7 @@
           {
             "name": "delete_policy",
             "in": "query",
-            "description": "Decides what happens to objects and links affected by the deletion.\n  * `remove`: also delete objects that link to a deleted object.\n  * `setnull`: keep the linking objects but clear their link. For\n    bidirectional relations, the reciprocal link is removed as well.\n  * `create_collection`: collect the affected objects in a new\n    collection instead of deleting them.\n  * `undelete`: restore previously deleted objects. Links explicitly\n    removed during deletion remain removed, including both sides of\n    bidirectional relations.\n  * `purge`: permanently remove objects from the trash.\nWhen omitted, **fylr** answers with a `202` response describing the\nchoices instead of deleting anything.\n",
+            "description": "Decides what happens to objects and links affected by the deletion.\n  * `remove`: also delete the reverse-linked and the hierarchically\n    subordinate objects of a deleted object.\n  * `setnull`: keep the reverse-linked and subordinate objects and\n    clear their link to the deleted object.\n  * `create_collection`: collect the affected objects in a new\n    collection instead of deleting them.\n  * `undelete`: restore previously deleted objects. Links explicitly\n    removed during deletion remain removed, including both sides of\n    bidirectional relations.\n  * `purge`: permanently remove objects from the trash.\n\nWith `remove` and `setnull`, other objects linking a deleted object\nare unlinked. A link in a column that allows null is cleared. A NOT\nNULL link in a nested table row takes the whole row with it: under\nboth policies when the link is the row's only column, under\n`remove` only when the row has further columns. For bidirectional\nrelations, the reciprocal link is removed as well.\n\nA link that cannot be removed this way blocks the deletion with\n`UnableToDeleteObjects`: a NOT NULL link on the top level, a NOT\nNULL link in a nested row with further columns under `setnull`, and\nany link whose removal would leave a nested table empty that is NOT\nNULL itself.\n\nWhen omitted, **fylr** answers with a `202` response describing the\nchoices instead of deleting anything; a choice such a link blocks is\nmarked `disabled`.\n",
             "schema": {
               "type": "string",
               "enum": [
@@ -26972,7 +26972,7 @@
                     },
                     "setnull": {
                       "type": "array",
-                      "description": "System object IDs of objects whose link to a removed\nobject was cleared.\n",
+                      "description": "System object IDs of objects whose link to a removed\nobject was cleared or whose nested row holding it was\nremoved.\n",
                       "items": {
                         "type": "integer",
                         "format": "int64"
