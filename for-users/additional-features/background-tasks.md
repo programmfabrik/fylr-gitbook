@@ -54,7 +54,7 @@ With **Use scheduler**, configure recurring runs in the schedule editor. Presets
 
 ## Modules
 
-<table><thead><tr><th width="227.875">Module</th><th>Purpose</th></tr></thead><tbody><tr><td><code>delete_objects</code></td><td>Delete all records matching a search. Also supports permanently deleting or restoring records from the trash.</td></tr><tr><td><code>metadata</code></td><td>Apply a metadata mapping to records matching a search.</td></tr><tr><td><code>search</code></td><td>Run a search and report the number of matching records.</td></tr><tr><td><code>set_unset_tags</code></td><td>Set or remove tags on records matching a search.</td></tr><tr><td><code>consolidate_objects</code></td><td>Merge duplicate records into one target record.</td></tr></tbody></table>
+<table><thead><tr><th width="227.875">Module</th><th>Purpose</th></tr></thead><tbody><tr><td><code>delete_objects</code></td><td>Delete all records matching a search. Also supports permanently deleting or restoring records from the trash. From fylr 6.35.0, records of one search result that link each other are deleted together: such a link neither blocks the task nor is unlinked.</td></tr><tr><td><code>metadata</code></td><td>Apply a metadata mapping to records matching a search.</td></tr><tr><td><code>search</code></td><td>Run a search and report the number of matching records.</td></tr><tr><td><code>set_unset_tags</code></td><td>Set or remove tags on records matching a search.</td></tr><tr><td><code>consolidate_objects</code></td><td>Merge duplicate records into one target record.</td></tr></tbody></table>
 
 ### **delete\_objects**
 

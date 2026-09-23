@@ -42372,6 +42372,10 @@ paths:
               subordinate or reverse-linked objects), `purge` (purge objects from the
               trash), `undelete` (restore objects from the trash).
 
+            The objects are deleted in batches. A link between two objects of the
+            search result neither blocks the deletion nor is unlinked, whichever
+            batch each of them is in.
+
             ### `metadata`
 
             Applies mapped file metadata to the objects found by the task search.
