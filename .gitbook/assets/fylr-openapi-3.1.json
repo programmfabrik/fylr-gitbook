@@ -63260,7 +63260,7 @@
         "properties": {
           "field": {
             "type": "string",
-            "description": "Field to sort by. Use `_score` to sort by relevance."
+            "description": "Field to sort by. Use `_score` to sort by relevance,\n`_changelog.date_created` and `_changelog.date_last_updated` for the\ntime an object was created and last changed, and\n`_changelog.date_deleted` for the time a deleted object was deleted (see\n`include_deleted`).\nThese and the date fields of the datamodel put the date into `_sort` in\nepoch seconds.\n"
           },
           "order": {
             "type": "string",
@@ -63296,7 +63296,7 @@
           },
           "width": {
             "type": "string",
-            "description": "For date fields, the bucket width to sort by.",
+            "description": "For date fields and the date fields listed under `field`: objects sort\nby the start of the year, month, week (from Monday) or day their date\nfalls into, in the request's `timezone` (UTC if unset), and further\ncriteria order them within it. The object's `_sort` value is that start\nin epoch seconds. An object without a date sorts as 1970-01-01.\n",
             "enum": [
               "year",
               "month",

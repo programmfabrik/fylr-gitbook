@@ -59817,7 +59817,14 @@ components:
             properties:
                 field:
                     type: string
-                    description: Field to sort by. Use `_score` to sort by relevance.
+                    description: |
+                        Field to sort by. Use `_score` to sort by relevance,
+                        `_changelog.date_created` and `_changelog.date_last_updated` for the
+                        time an object was created and last changed, and
+                        `_changelog.date_deleted` for the time a deleted object was deleted (see
+                        `include_deleted`).
+                        These and the date fields of the datamodel put the date into `_sort` in
+                        epoch seconds.
                 order:
                     type: string
                     description: Sort direction. Defaults to `asc`.
@@ -59848,7 +59855,12 @@ components:
                         format: int64
                 width:
                     type: string
-                    description: For date fields, the bucket width to sort by.
+                    description: |
+                        For date fields and the date fields listed under `field`: objects sort
+                        by the start of the year, month, week (from Monday) or day their date
+                        falls into, in the request's `timezone` (UTC if unset), and further
+                        criteria order them within it. The object's `_sort` value is that start
+                        in epoch seconds. An object without a date sorts as 1970-01-01.
                     enum:
                         - year
                         - month
