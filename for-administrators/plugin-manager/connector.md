@@ -10,24 +10,24 @@ Please note: this plugin is licensed as a separate module. If in doubt, please c
 
 ## About
 
-The Connector Plugin (`easydb-connector-plugin`) is a frontend plugin which allows to connect to remote easydb and fylr instances. The plugin performs searches in remote instances and shows the results in the local frontend.
+The Connector Plugin (`fylr-connector-plugin`) is a frontend plugin which allows to connect to remote easydb and fylr instances. The plugin performs searches in remote instances and shows the results in the local frontend.
 
 ## Adding the Plugin
 
-First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](README.md). If not, add the plugin. To license and get the plugin, please get in touch with Programmfabrik GmbH.
+First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](./). If not, add the plugin. To license and get the plugin, please get in touch with Programmfabrik GmbH.
 
 **The plugin needs to be installed and enabled on the local and the remote instances.**
 
 ## Configuration
 
-Open the [Base Configuration](../readme/), go to "Plugins" and open "easydb-connector-plugin".
+Open the [Base Configuration](../readme/), go to "Plugins" and open "fylr-connector-plugin".
 
-First, enable the Connector by enabling "Activated for users".
-
-Under "easydb instances for Connector", add one or more connections to remote easydb5 and fylr instances.
+1. **enable the Connector plugin** by enabling "Activated for users".
+2. Under "easydb instances for Connector", add one or more connections to remote easydb5 and fylr instances.
 
 {% hint style="info" %}
-if you want to connect to an easydb instance, you need to add your current instances URL to the allowed sources in the easydbs base config.
+* **for connections to easydbs:** if you want to connect to an easydb instance, you need to add your current instances URL to the **allowed sources** in the easydb base configuration.
+* **plugin versions for fylr and easydb**: the configuration files of the plugin variants  `easydb-connector-plugin` and `fylr-plugin-connector` are compatible.&#x20;
 {% endhint %}
 
 For each remote instance, set the following configuration:
@@ -41,7 +41,7 @@ To enable your connector partners to access your fylr, you must first determine 
 Create a new user account in the "Users" area of the instance you want to connect to and in the "System Rights" tab assign the right "**Allow connector connections from other instances via this user**", as well as the "Download" frontend function if you want to allow your connector partner to download.
 
 {% hint style="warning" %}
-Make sure to enable the plugin on both instances to make the required system right visible!&#x20;
+Make sure to enable the plugin on both instances to make the required system right visible!
 {% endhint %}
 
 {% hint style="info" %}
