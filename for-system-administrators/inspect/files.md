@@ -31,6 +31,7 @@ object ids, and the full status message).
 | **Leave On Remote** | Checked when the file is intentionally kept on remote and not copied in. |
 | **Version** | The version name (`original`, or a produced version such as a preview or thumbnail). |
 | **Filename** / **Size** | The file name and size. |
+| **Created** | When the file was added to this fylr, in UTC (**from version 6.35.0**). On an instance restored from a backup this is the time of the restore, not the original upload. |
 | **Status API** | The coarse, API-facing status (`pending`, `processing`, `sync`, `done`, `failed`). |
 | **Status** | The precise internal status (see [File States](#file-states)). |
 | **Status Msg** | The status / error message, truncated — hover, or open the file, to read it in full. |
@@ -38,6 +39,10 @@ object ids, and the full status message).
 | **Class** / **Extension** | The file class (image, video, audio, …) and extension. |
 | **Info** | Compile info. |
 | **Object Id(s)** | The objects that link this file. |
+
+**From version 6.35.0** a click on the **ID**, **Filename**, **Size** or
+**Created** header sorts the list by that column, a second click reverses it;
+the header shows ↑ or ↓. It sets the same order as **Sort By** below.
 
 ## Filters
 
@@ -57,9 +62,11 @@ many files match. Set any combination and press **Search**.
 | **Child Status** | Restrict to files that have a child in the chosen status (e.g. find originals with a child in `error`). |
 | **Queue Status** | `Not Queued`, `Queued`, `New`, or `Processing` — whether the file currently has a job in the file queue. |
 | **Metadata Status** | `Has Metadata` (both `metadata` and `technical_metadata` are set) or `Has No Metadata` (either is empty). |
+| **Created** | **From version 6.35.0.** Files created between a start and an end day, both picked in a dialog, with shortcuts for today, this week, this month, this year and the last 30 days. Both days are included, and they are UTC days, like the times in the list. Leave either date empty for an open range. |
 | **Parents** | Also show the parents (originals) of the matching files. |
 | **Children** | Also show the children (versions) of the matching files. |
 | **Offset** / **Limit** | Paging: the start offset and the page size (10 – 1000). |
+| **Sort By** | **From version 6.35.0.** The order of the list: ID, Created, Size or Filename, ↑ ascending or ↓ descending; ties are broken by ID. The default, ID ↓, lists the newest files first. The [actions](#file-actions) queue their jobs in this order. |
 
 {% hint style="info" %}
 Expanding **Parents** or **Children** builds a tree instead of a flat result. In
@@ -78,6 +85,8 @@ Automatic changes between different states, which are done by internal workflows
 The following actions can be manually performed on files. Each action changes the state of the file. Depending on the current state of a file, not all actions can be performed, and not all states can be reached.
 
 To perform an action, tick the files you want (and optionally their children), pick an action from the **Action** dropdown, and press **Action**. Hovering an option in the dropdown shows the same help text as below.
+
+**From version 6.35.0** the jobs are queued in the order of the list (**Sort By**), for ticked files as for the whole search result. With the default order a resync starts with the newest files; choose **Created ↑** to start with the oldest. The file queue still runs higher-priority jobs first; within one priority the jobs keep the list order.
 
 ### Resync
 
