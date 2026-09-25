@@ -56,7 +56,8 @@ Each element has a `type` and, optionally, a `bool` context and a `boost`. The e
 
 | `type` | Matches | Key fields |
 | --- | --- | --- |
-| `match` / `text` | full-text against one or more fields | `fields`, `string`, `mode` (`fulltext` / `wildcard` / `token`), `phrase` |
+| `text` | full-text against one or more fields, the kind of match set by `query` | `fields`, `string`, `query` |
+| `match` | like `text`, kept for compatibility; takes the kind of match from `mode` and `phrase` | `fields`, `string`, `mode` (`fulltext` / `wildcard` / `token`), `phrase` |
 | `in` | a field against a set of values, an object type, or a sub-search | `fields`, `in` (values), `objecttype`, `subsearch`, `include_path` |
 | `range` | a range on one field | `field`, `from`, `to`, `from_equals`, `to_equals` |
 | `changelog_range` | by change-history entries | `field`, `from`, `to`, `operation`, `comment`, `user` |
@@ -65,7 +66,29 @@ Each element has a `type` and, optionally, a `bool` context and a `boost`. The e
 | `geo_bounding_box` | a geo field inside a box (needs the geo capability) | `field`, `geo_bounding_box` |
 | `geo_shape` | a geo field inside a polygon (needs the geo capability) | `field`, `geo_shape` |
 
-Id lookups use `type: "in"` with `fields: ["_system_object_id"]` (or `["_uuid"]`); there is no separate `ids` element. Full-text is `type: "match"` / `"text"`.
+Id lookups use `type: "in"` with `fields: ["_system_object_id"]` (or `["_uuid"]`); there is no separate `ids` element. Full-text is `type: "text"`, or the older `type: "match"`.
+
+### Full-text: `query`
+
+A `text` element needs `query`, which says how `string` matches the `fields` (the full text when `fields` is empty):
+
+| `query` | Matches |
+| --- | --- |
+| `match` | all words of `string`, in any order |
+| `match_phrase` | the words next to each other, in this order |
+| `intervals_ordered` | the words next to each other, in this order; `*` and `?` in a word are wildcards, a word that is only `*` allows any number of words in between |
+| `intervals` | all words, in any order and at any distance; `*` and `?` in a word are wildcards |
+| `text` | all words, in any order; `*` and `?` in a word are wildcards |
+| `exact` | the whole value, case sensitive; `*` and `?` are wildcards |
+| `token` | one of the field's indexed words, as it is, without wildcards |
+
+The word-based kinds ignore case. `match` and `match_phrase` take no wildcards, a `*` in `string` is dropped. A `text` element without `query`, or with any other value, is rejected, as is a `string` of only wildcards.
+
+```json
+{ "type": "text", "query": "text", "fields": ["person.name"], "string": "mei*" }
+```
+
+`type: "match"` ignores `query` and derives it: `mode` `fulltext` (the default) is `match`, `wildcard` is `text`, `token` is `token`, and `phrase: true` is `intervals_ordered`. For `text`, `mode` and `phrase` are ignored, except that `mode: "wildcard"` with `query` `match` or `match_phrase` is rejected.
 
 ## `bool` contexts
 
