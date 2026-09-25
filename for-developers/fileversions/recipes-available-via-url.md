@@ -58,6 +58,17 @@ GET /api/v1/objects/uuid/{uuid}/file/id/{file}?recipe=audioconverter:snippet&rec
 * To access the copyable deep links set the correct permissions for the deep link user[export-and-deep-links.md](../../for-administrators/readme/export-and-deep-links.md "mention")
 {% endhint %}
 
+{% hint style="warning" %}
+**Permissions when calling this without a login (deep link):** an unauthenticated request to `/api/v1/objects/…` does **not** run as *Anonymous* — it runs as the system user **`system:deep_link`**. Rights granted to the *Anonymous users* group therefore do **not** apply here.
+
+For the snippet URL to work without login, grant the **`deep_link` user** (on the relevant objecttype) the same rights the use case needs, e.g.:
+
+* view records (with the *standard* mask), and
+* **asset show + download** for the version you are addressing (e.g. `audio.original`).
+
+`file/id/{file}` and `file/standard/{n}` both work; `file/standard/{n}` avoids needing the file id.
+{% endhint %}
+
 
 
 **api/v1/eas/download/**
