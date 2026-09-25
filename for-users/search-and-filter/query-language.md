@@ -303,6 +303,44 @@ separate French one).
 The inner query is complete in its own right, so it can use every operator,
 boolean logic, and even further sub-searches.
 
+## Change History
+
+{% hint style="info" %}
+**From version 6.35.0.**
+{% endhint %}
+
+`_changelog == ?( … )` finds records by their change history: who changed them,
+how, when, and with which comment. All conditions inside the parentheses must
+hold for the **same** change, so this lists every record `jonas` changed between
+May and December 2024:
+
+```
+_changelog == ?( user == "jonas" && date >= "2024-05-01" && date <= "2024-12-31" )
+```
+
+A record that `jonas` created in March and someone else changed in June does not
+match: the user and the date belong to two different changes.
+
+| Condition   | Operators                  | Value                                                      |
+| ----------- | -------------------------- | ---------------------------------------------------------- |
+| `user`      | `==`                       | The login in quotes (`"jonas"`) or the user ID (`17`)      |
+| `operation` | `==`                       | `"INSERT"` (created), `"UPDATE"` (changed) or `"DELETE"`   |
+| `date`      | `==`, `>`, `>=`, `<`, `<=` | A date in quotes, as in [Dates](#dates)                    |
+| `comment`   | `=@`, `=*`, `=^`           | The comment saved with the change                          |
+
+* Conditions are combined with `&&` only; `||` and `!` are not allowed inside
+  the parentheses. For either of two users, write two change-history searches:
+  `_changelog == ?( user == "jonas" ) || _changelog == ?( user == "anna" )`.
+* A `!` in front negates the whole search: `!_changelog == ?( user == "jonas" )`
+  finds the records `jonas` never changed.
+* A date stands for its whole period: `date == "2024-05"` is all of May 2024,
+  `date > "2024-05-01"` starts on May 2. A date without a time zone offset is
+  UTC. The [placeholders](#dates) work as well: `date >= "$now-7d"`.
+* Each condition may be given once; `date` may have one lower and one upper
+  bound.
+* An unknown login makes the query invalid.
+* Deleted records are only found by searches that include deleted records.
+
 ## Full-Text Search
 
 A bare text value with **no field and no operator** runs a full-text search
@@ -330,6 +368,8 @@ search bar:
 | No author linked                                  | `book.author == null`                                   |
 | Custom data type sub-field (link URL)             | `book.link.url == "http://www.programmfabrik.de"`       |
 | Linked author from France (sub-search)            | `book.author == ?( person.country == "FR" )`            |
+| Changed by `jonas` in 2024 (change history)       | `_changelog == ?( user == "jonas" && date == "2024" )`   |
+| Never changed by user 17                          | `!_changelog == ?( user == 17 )`                        |
 
 ## Errors
 

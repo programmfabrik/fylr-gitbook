@@ -32128,6 +32128,22 @@ paths:
             objects found by a nested query, for example
             `artist ==? ( country == "FR" )`.
 
+            **Changelog.** `_changelog ==? ( <conditions> )` matches objects with at
+            least one changelog entry that meets all conditions. Conditions are joined
+            with `&&` only; `||` and `!` inside the parentheses are rejected, a `!` in
+            front of `_changelog` negates the whole search. Conditions:
+
+              * `user == "jonas"` or `user == 17` — the user who made the change, by
+                login or by user id. An unknown login is a `QueryParse` error.
+              * `operation == "UPDATE"` — `INSERT`, `UPDATE` or `DELETE`, any case.
+              * `date` with `==`, `>`, `>=`, `<` or `<=` — a quoted date. A value
+                stands for its whole period: `date == "2024-05"` is all of May 2024,
+                `date > "2024-05-01"` starts on May 2nd. Values without an offset are
+                UTC; `$now`-style placeholders work as in other date fields.
+              * `comment` with `=@`, `=*` or `=^` — the comment of the change.
+
+            Example: `_changelog ==? ( user == "jonas" && date >= "2024-05-01" && date <= "2024-12-31" )`
+
             **Geo terms.** A geo value compares a geo field against an area:
 
               * `[lat1,lon1][lat2,lon2]` — a bounding box given by two corner points.
