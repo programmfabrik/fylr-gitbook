@@ -32,6 +32,10 @@ Timestamp in seconds, you may use dot notation to target in milliseconds.
 
 Example: `{ format:"mp3", start:"0.305", end:"20.571" }`
 
+{% hint style="info" %}
+**From fylr 6.35.0** a snippet arrives with its `Content-Length` and answers `Range` requests with `206`, so the browser's audio player can seek in it and play it again. The execserver keeps a snippet for a day: requesting the same snippet again does not encode it again.
+{% endhint %}
+
 ### Usage
 
 Usage of the audio snippet generation endpoint:

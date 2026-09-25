@@ -28669,6 +28669,7 @@
       "x-path": "/eas/download",
       "description": "The download endpoint is used to deliver binary file data. It delivers data for original files as well as renditions. These URL to the files should be taken from the responses of `/api/db` or `/api/search`.",
       "get": {
+        "description": "Stored files and renditions are delivered with `Content-Length` and\n`Accept-Ranges: bytes` and answer `Range` requests with `206`. A\nrendition produced on the fly with `recipe` or the resize parameters is\nstreamed while it is produced and has no length, unless the recipe\nwrites its output as a file that is then sent (`file_out_stream`), as\nthe audio snippet recipe does: that response has a length and supports\nranges too, so the browser's media player can seek in and replay the\nsnippet.\n",
         "parameters": [
           {
             "name": "fileId",
