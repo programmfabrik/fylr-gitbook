@@ -33227,10 +33227,10 @@
     },
     "/system/reindex": {
       "x-path": "/system",
-      "description": "Drops the search index into a freshly created one and starts a full\nreindexing run. The run executes asynchronously; the call returns once\nit has been started. Pass `blockFrontend=true` to serve a maintenance\npage on the frontend until the reindex completes.\n\nDiffers from easydb 5: the handler performs no rights check and needs\nno enable flag. In easydb 5 the equivalent `POST /api/v1/settings/reindex`\nrequired a `system.root` session and the server-config flag\n`server.api.settings.reindex` set to `true`.\n",
+      "description": "Drops the search index into a freshly created one and starts a full\nreindexing run. The run executes asynchronously; the call returns once\nit has been started. Pass `blockFrontend=true` to serve a maintenance\npage on the frontend until the reindex completes. Requires the\n`system.root` right.\n\nDiffers from easydb 5: no enable flag is needed. In easydb 5 the\nequivalent `POST /api/v1/settings/reindex` additionally required the\nserver-config flag `server.api.settings.reindex` set to `true`.\n",
       "post": {
         "summary": "Rebuild the search index from scratch.",
-        "description": "Drops the search index into a freshly created one and triggers a\nfull reindexing run. The reindexing work runs asynchronously on\nthe server; the call returns as soon as the run has been started.\nThe frontend can be blocked while the reindex is in progress so\nusers do not see partial results.\n\nThis operation performs no rights check in the handler today.\n",
+        "description": "Drops the search index into a freshly created one and triggers a\nfull reindexing run. The reindexing work runs asynchronously on\nthe server; the call returns as soon as the run has been started.\nThe frontend can be blocked while the reindex is in progress so\nusers do not see partial results. Requires the `system.root` right.\n",
         "parameters": [
           {
             "name": "blockFrontend",
@@ -33260,6 +33260,26 @@
                       ]
                     }
                   }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No authenticated user. The request must carry a valid access token.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRequiredError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The authenticated user lacks the system right required for\nthe operation (typically `system.root`).\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemRightRequiredError"
                 }
               }
             }
@@ -39618,9 +39638,10 @@
     },
     "/l10n/user/HEAD": {
       "x-path": "/l10n",
-      "description": "Write the working-copy (`HEAD`) datamodel translations. The handler does\nnot check any user right — it is guarded only by read-only mode. **This is\na full replace**: any generated key omitted from the body is cleared, so\nalways send the complete document (typically the body returned by\n`GET /l10n/user/HEAD`). The write lands on the uncommitted `HEAD` datamodel\n(a fresh working copy is started when `HEAD` was previously committed), so\nthe change reaches `CURRENT` and committed versions only after\n`POST /schema/commit`.\n\nDiffers from easydb 5: easydb 5 requires the system right `system.datamodel`\nwith level `development` to update localizations; fylr checks no user right\nhere (the write is guarded only by read-only mode). easydb 5 also accepts\n`POST /api/v1/l10n/user/{CURRENT|HEAD}` (both `CURRENT` and `HEAD`); fylr\nonly exposes `HEAD` — writing always lands on the working copy.\n",
+      "description": "Write the working-copy (`HEAD`) datamodel translations. Requires the\nsystem right `system.datamodel` with level `development` or `commit`, the\nsame right as writing the `HEAD` schema and masks. **This is a full\nreplace**: any generated key omitted from the body is cleared, so\nalways send the complete document (typically the body returned by\n`GET /l10n/user/HEAD`). The write lands on the uncommitted `HEAD` datamodel\n(a fresh working copy is started when `HEAD` was previously committed), so\nthe change reaches `CURRENT` and committed versions only after\n`POST /schema/commit`.\n\nDiffers from easydb 5: easydb 5 also accepts\n`POST /api/v1/l10n/user/{CURRENT|HEAD}` (both `CURRENT` and `HEAD`); fylr\nonly exposes `HEAD` — writing always lands on the working copy.\n",
       "post": {
         "summary": "Update HEAD datamodel translations.",
+        "description": "Saves the translations into the working copy. If the latest\ndatamodel is committed, this opens the next working version based\non it, as a schema POST does. The change is only visible to other\nreaders after a separate commit via `POST /api/v1/schema/commit`.\nRequires `system.datamodel` with level `development` or `commit`.\n",
         "requestBody": {
           "required": true,
           "content": {
@@ -39655,6 +39676,26 @@
                       "$ref": "#/components/schemas/ReadOnlyModeError"
                     }
                   ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No authenticated user. The request must carry a valid access token.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRequiredError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The authenticated user lacks `system.datamodel[level=development]`\n(or `[level=commit]`), the right required to write the HEAD\ntranslations. (`system.root` also satisfies the check.)\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemRightRequiredError"
                 }
               }
             }

@@ -31159,12 +31159,12 @@ paths:
             Drops the search index into a freshly created one and starts a full
             reindexing run. The run executes asynchronously; the call returns once
             it has been started. Pass `blockFrontend=true` to serve a maintenance
-            page on the frontend until the reindex completes.
+            page on the frontend until the reindex completes. Requires the
+            `system.root` right.
 
-            Differs from easydb 5: the handler performs no rights check and needs
-            no enable flag. In easydb 5 the equivalent `POST /api/v1/settings/reindex`
-            required a `system.root` session and the server-config flag
-            `server.api.settings.reindex` set to `true`.
+            Differs from easydb 5: no enable flag is needed. In easydb 5 the
+            equivalent `POST /api/v1/settings/reindex` additionally required the
+            server-config flag `server.api.settings.reindex` set to `true`.
         post:
             summary: Rebuild the search index from scratch.
             description: |
@@ -31172,9 +31172,7 @@ paths:
                 full reindexing run. The reindexing work runs asynchronously on
                 the server; the call returns as soon as the run has been started.
                 The frontend can be blocked while the reindex is in progress so
-                users do not see partial results.
-
-                This operation performs no rights check in the handler today.
+                users do not see partial results. Requires the `system.root` right.
             parameters:
                 - name: blockFrontend
                   in: query
@@ -31199,6 +31197,21 @@ paths:
                                         type: string
                                         enum:
                                             - ok
+                "401":
+                    description: |
+                        No authenticated user. The request must carry a valid access token.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UserRequiredError'
+                "403":
+                    description: |
+                        The authenticated user lacks the system right required for
+                        the operation (typically `system.root`).
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SystemRightRequiredError'
     /system/purgeall:
         x-path: /system
         description: |
@@ -37113,22 +37126,27 @@ paths:
     /l10n/user/HEAD:
         x-path: /l10n
         description: |
-            Write the working-copy (`HEAD`) datamodel translations. The handler does
-            not check any user right — it is guarded only by read-only mode. **This is
-            a full replace**: any generated key omitted from the body is cleared, so
+            Write the working-copy (`HEAD`) datamodel translations. Requires the
+            system right `system.datamodel` with level `development` or `commit`, the
+            same right as writing the `HEAD` schema and masks. **This is a full
+            replace**: any generated key omitted from the body is cleared, so
             always send the complete document (typically the body returned by
             `GET /l10n/user/HEAD`). The write lands on the uncommitted `HEAD` datamodel
             (a fresh working copy is started when `HEAD` was previously committed), so
             the change reaches `CURRENT` and committed versions only after
             `POST /schema/commit`.
 
-            Differs from easydb 5: easydb 5 requires the system right `system.datamodel`
-            with level `development` to update localizations; fylr checks no user right
-            here (the write is guarded only by read-only mode). easydb 5 also accepts
+            Differs from easydb 5: easydb 5 also accepts
             `POST /api/v1/l10n/user/{CURRENT|HEAD}` (both `CURRENT` and `HEAD`); fylr
             only exposes `HEAD` — writing always lands on the working copy.
         post:
             summary: Update HEAD datamodel translations.
+            description: |
+                Saves the translations into the working copy. If the latest
+                datamodel is committed, this opens the next working version based
+                on it, as a schema POST does. The change is only visible to other
+                readers after a separate commit via `POST /api/v1/schema/commit`.
+                Requires `system.datamodel` with level `development` or `commit`.
             requestBody:
                 required: true
                 content:
@@ -37155,6 +37173,22 @@ paths:
                                 oneOf:
                                     - $ref: '#/components/schemas/ServerGenericError'
                                     - $ref: '#/components/schemas/ReadOnlyModeError'
+                "401":
+                    description: |
+                        No authenticated user. The request must carry a valid access token.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UserRequiredError'
+                "403":
+                    description: |
+                        The authenticated user lacks `system.datamodel[level=development]`
+                        (or `[level=commit]`), the right required to write the HEAD
+                        translations. (`system.root` also satisfies the check.)
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SystemRightRequiredError'
     /plugin:
         description: |
             Read information about installed plugins, and download the bundled
