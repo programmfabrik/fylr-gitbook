@@ -11,7 +11,7 @@ description: >-
 
 * This page is only about the plugins **fylr shipped on disk**, inside the distribution. A plugin you installed yourself — `fylr-plugin-sequence`, `ai-metadata` and everything else in the [plugin overview](overview.md) — is already a url plugin and is not converted. There is **one exception**: `server-pdf` is switched **off** where PDF Creator is enabled, because PDF Creator renders its own PDFs now — see [PDF Creator and the PDF Server](disk-to-url-migration.md#pdf-creator-and-the-pdf-server).
 * The shipped plugins become **url plugins**, installed from their own releases. The upgrade converts every enabled plugin that has a successor; the [few without one](disk-to-url-migration.md#plugins-that-will-be-removed) are removed.
-* Your **configuration and permissions move with a plugin**, including where the plugin is renamed. There is nothing to write down before the upgrade.
+* Your **configuration and permissions move with a plugin**, including where the plugin is renamed. There is nothing to write down before the upgrade. The one exception is an instance where you **already replaced a shipped plugin by hand** with its successor: there the old settings stay where they are, see [below](disk-to-url-migration.md#if-you-already-replaced-a-shipped-plugin-by-hand).
 * A distribution plugin that is **switched off** at that moment is removed instead of converted. Switch it on before you upgrade if it should stay — off again afterwards is fine.
 * If your fylr **cannot reach the internet**, the plugin manager marks the plugins whose release it could not download and offers to **install them as ZIP** — see [Installations without internet access](disk-to-url-migration.md#installations-without-internet-access). Plan for this before the upgrade rather than after it.
 * If you use the **Drupal, TYPO3 or WordPress** connector, you **must obtain an updated fylr license** that enables it — without that grant the plugin cannot be enabled after the upgrade. Contact Programmfabrik **before** you upgrade.
@@ -34,7 +34,7 @@ fylr 6.35 has not been released yet — this page describes the upgrade it will 
 * Every **enabled** plugin from the distribution that has a successor in the table below becomes a **url plugin** pointing at the successor's release — enabled as before, and configured as before. Where a plugin is renamed, its configuration, its granted system rights and any export that uses it are moved to the new name by the upgrade.
 * **Disabled** distribution plugins are removed. Their stored configuration is kept and applies again if a plugin of the same name is installed later.
 * A plugin **you** maintain yourself under one of the distribution's names is converted as well. The upgrade recognises a distribution plugin by its **name**, wherever it is loaded from — so your own copy of, say, `easydb-orcid-plugin` in your own directory becomes the published `fylr-plugin-orcid` release. If you want to keep running your own build of it, install that again as a ZIP or from your directory after the upgrade. A plugin whose name is not in the table below is never touched.
-* Where you had **already installed the successor yourself** from the marketplace, the distribution plugin is left alone rather than renamed onto it — two plugins cannot share a name. The old row is then dropped like any other distribution plugin, and its configuration stays under the old name. Nothing is lost, but the settings you want are the ones under the new name.
+* Where you had **already installed the successor yourself** from the marketplace, the distribution plugin is left alone rather than renamed onto it — two plugins cannot share a name. The old row is then dropped like any other distribution plugin, and its configuration stays under the old name. Nothing is lost, but the settings the successor uses are the ones you entered for it — see [If you already replaced a shipped plugin by hand](disk-to-url-migration.md#if-you-already-replaced-a-shipped-plugin-by-hand) for carrying the old ones over.
 * Distribution plugins with **no successor** are removed — they are obsolete, or their function is part of fylr itself by now. See [the second table](disk-to-url-migration.md#plugins-that-will-be-removed).
 * After the restart, each converted plugin downloads its release once and keeps itself up to date from then on. It is installed from exactly the release the plugin manager offers for a fresh installation — a migrated plugin and a newly installed one are the same package.
 
@@ -125,9 +125,52 @@ You do not have to do anything with this list before upgrading — it is here so
 
 ### Configuration, rights and exports
 
-A plugin's configuration is stored under its **internal name**, and so are the system rights it defines. Where a plugin is renamed, the upgrade moves both to the new name, together with any export that produces or transports through that plugin. Nothing has to be written down beforehand and nothing has to be re-entered afterwards.
+A plugin's configuration is stored under its **internal name**, and so are the system rights it defines. Where a plugin is renamed, the upgrade moves both to the new name, together with any export that produces or transports through that plugin.
 
-A plugin that is **not** converted — switched off, or loaded from your own directory — keeps its configuration under the old name, so nothing is lost there either.
+The successors read the same settings: **every settings block, every field in it and every system right keeps its internal key**. The values arrive under the new name exactly as they were — nothing has to be written down beforehand and nothing has to be re-entered afterwards, the connector's partner instances with their logins and client secrets included. In detail:
+
+| After the upgrade | Settings carried over | System rights moved |
+| --- | --- | --- |
+| `fylr-plugin-basemigration` | none — the plugin has no settings | `migration` |
+| `fylr-scancode-display` | none | — |
+| `fylr-plugin-coin-viewer` | none | — |
+| `fylr-plugin-connector` | `connector` (the partner instances with login, password, client ID and secret; *enable all*), `fylr_url`, `connector_easydb4` | `allow_use`, `allow_use_as_server` |
+| `fylr-plugin-custom-mask-splitter-detail-linked` | none | — |
+| `fylr-plugin-detail-map` | `detail_map` (enabled, tiles, Mapbox token) | — |
+| `fylr-plugin-display-field-values` | none | — |
+| `fylr-plugin-drupal` | `drupal` (active, send files, maximum file size) | — |
+| `fylr-plugin-easydb4migration` | `easydb4migration` (fylr URL, user, instance) | — the successor **adds** a right, see below |
+| `editor-field-visibility` | none | — |
+| `fylr-plugin-editor-tagfilter-defaults` | `editor-tagfilter-defaults` (the filter table) | — |
+| `fylr-plugin-hijri-gregorian-converter` | none | — |
+| `fylr-plugin-orcid` | none | — |
+| `presentation-pptx` | none | — |
+| `fylr-plugin-typo3` | `typo3` (active, send files, maximum file size, profile mapping) | — |
+| `fylr-plugin-wordpress` | `wordpress` (the WordPress instances) | `wordpress` — the settings block is shown only to holders of this right, and the grant moves with it |
+
+The plugins that keep their name keep their settings untouched, and the successor reads them as they are — the FTP transport's `rclone` block, the HTML editor's and the web link's settings among them. Two things are **new** rather than moved:
+
+* **`fylr-plugin-easydb4migration` introduces a system right**, *easydb 4 Migration*, which the shipped plugin did not have. Its tool is shown only to users who hold the right, and after the upgrade nobody does — grant it to the groups or users who run the migration.
+* **`pdf-creator` no longer has the `fylr_url` setting** — the value is carried along and ignored, see [PDF Creator and the PDF Server](disk-to-url-migration.md#pdf-creator-and-the-pdf-server).
+
+#### The custom data types configure their updates differently
+
+The custom data types keep their names, so the upgrade leaves their settings where they are — but it installs newer releases, and those define the **automatic update** differently from the versions fylr shipped. The shipped versions carried an easydb5 block, *Update interval* (`update_interval_<type>`, a number of days), which has no effect on fylr: fylr runs the update on its own schedule. The new releases replace it with a block of their own, `update_<type>`, that the update really reads — a time window, an expiry in days, for `gnd` and `dante` a URI replacement — and it starts at its **defaults**. Where the old block also held a value the plugin did use, enter it again in the new one: the **default language** for `dante`, `geonames` and `iconclass`, and the **GeoNames user name** for `geonames`, which now has a block of its own, `config_geonames`. The new block of `gvk` is called `update_k10plus`. `gazetteer` and `iucn` drop the old block without a replacement, and `iucn` also drops its easydb login block, which the fylr version does not need.
+
+This is the plugin's new version, not the migration: an instance that already updated these data types from the marketplace has seen the change already. After the upgrade, open each data type's **Config** tab in the plugin manager and check the update settings.
+
+### If you already replaced a shipped plugin by hand
+
+Where a successor was installed by URL or from the marketplace **before** the upgrade, next to the shipped plugin, the upgrade finds it already there. For these the upgrade does **not** move the settings: the successor is there, so the shipped plugin is not renamed onto it, and its settings stay under the old name (see [What the upgrade will do](disk-to-url-migration.md#what-the-upgrade-will-do)). The successor uses the settings you entered for it, and nothing else.
+
+If you have not entered them yet, carry them over through the plugin manager — the keys are the same for every renamed plugin, so the file of one is accepted by the other:
+
+1. Open the shipped plugin and its **Config** tab, and choose **Download Config** from the tab's gear menu. The tab exists only while the plugin is **enabled**; switch it on for the moment if you have to.
+2. Open the successor and its **Config** tab, choose **Upload Config**, pick the file, and **save**.
+
+The file holds the settings as the plugin manager shows them, passwords and client secrets included, in plain text: keep it out of shared places and delete it when you are done. Do this **before** the upgrade — afterwards the shipped plugin is gone, and with it the tab; the settings themselves stay in the database under the old name, but nothing shows them any more.
+
+If you can wait for 6.35, do not replace a shipped plugin by hand at all: the upgrade does it, and carries the settings and rights with it.
 
 ### The barcode plugins
 
@@ -219,6 +262,8 @@ Open the **plugin manager** and go down the list:
 * Every plugin shows a **version** and a **build date**. That is the proof its release was downloaded; a plugin still marked **not installed** has not got its ZIP yet, and one with a **warning triangle** could not fetch it at all.
 * No plugin reports a **missing dependency**. A plugin whose dependency is absent or switched off does not load at all, and the plugin manager names what it is waiting for. Install it from the marketplace — the two to expect are `commons-library` under the [VZG custom data types](disk-to-url-migration.md#how-plugins-will-migrate) and `pdf-creator` under [Scancode Display](disk-to-url-migration.md#the-barcode-plugins).
 * The **licensed** plugins — Drupal, TYPO3, WordPress — are enabled rather than held off by the license.
+* The **custom data types' update settings** are at their defaults, because the new releases define them differently — see [above](disk-to-url-migration.md#the-custom-data-types-configure-their-updates-differently).
+* `fylr-plugin-easydb4migration` has a **new system right** that nobody holds yet — see [Configuration, rights and exports](disk-to-url-migration.md#configuration-rights-and-exports).
 
 Then check the things a plugin contributes to the data model: masks that use a **custom mask splitter** or a **custom data type**, and PDF Creator templates.
 
