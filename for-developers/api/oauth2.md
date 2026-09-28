@@ -344,7 +344,7 @@ It requires a valid access token and returns `sub` plus whatever claims (email, 
 
 ## Revoking a token (Logout)
 
-Revoke an access or refresh token ([RFC 7009](https://datatracker.ietf.org/doc/html/rfc7009)). This is what the web app uses to log out; a `USER_LOGOUT` event is recorded for the token's user.
+Revoke an access or refresh token ([RFC 7009](https://datatracker.ietf.org/doc/html/rfc7009)); a `USER_LOGOUT` event is recorded for the token's user. The web app logs out through [`/logout`](#logging-out-the-browser-logout) instead.
 
 <mark style="color:green;">`POST`</mark> `fylr-instance/api/oauth2/revoke`
 
@@ -356,6 +356,28 @@ Revoke an access or refresh token ([RFC 7009](https://datatracker.ietf.org/doc/h
 | `token_type_hint` | string | Optional: `access_token` or `refresh_token` |
 
 Per RFC 7009 the endpoint returns `200` even for an unknown token.
+
+### Logging out the browser: `/logout`
+
+The web app logs a user out by sending the browser to `/logout`, served at the server root (not under `/api`). The request needs no `Authorization` header: it logs out the browser that sends it, identified by its `fylr-browser-id` cookie, and then redirects.
+
+<mark style="color:blue;">`GET`</mark> `fylr-instance/logout`
+
+**Query Parameters**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `redirect` | string | Where the browser goes after the logout, default `/`. From fylr 6.35.0 it must be a path on the fylr server (starting with `/`), a URL on `fylr.externalURL`, or a URL whose origin matches an entry of `fylr.services.webapp.loginAllowRedirects`; any other value redirects to `/`. |
+| `access_token` | string | Optional: an access token to revoke as well |
+| `everywhere` | string | `1` logs the user out on every browser and device, not only this one |
+
+The logout
+
+* revokes the tokens of this browser, so every tab of it is logged out (with `everywhere=1`: all tokens of the user), and records a `USER_LOGOUT` event, which sends the affected web apps back to the login,
+* ends a "Keep me logged in" session and removes its cookie,
+* for a user logged in via SAML whose identity provider offers single logout, sends the browser to that single logout instead of `redirect`.
+
+The response is `303 See Other` to the redirect target.
 
 ## Token Introspection
 
