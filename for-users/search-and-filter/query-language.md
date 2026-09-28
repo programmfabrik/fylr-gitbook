@@ -237,6 +237,32 @@ book.date >= "$startOfMonth+1M-1d"   # up to the last day of this month
 If you omit the unit, **days** are assumed: `$now-2` means two days ago.
 {% endhint %}
 
+### Current User
+
+{% hint style="info" %}
+**From version 6.35.0.**
+{% endhint %}
+
+`"$current_user"` stands for the logged-in user. It works in the fields that
+hold a user:
+
+| Field                                             | The user who                 |
+| ------------------------------------------------- | ---------------------------- |
+| `user` in a [change history](#change-history) search | made the change              |
+| `_owner.user._id`                                 | owns the record              |
+| `<objecttype>.<file field>.upload_user.user._id`  | uploaded the file            |
+
+```
+_changelog == ?( user == "$current_user" && date >= "$now-14d" )
+_owner.user._id == "$current_user"
+```
+
+Like the date placeholders, it is resolved for whoever runs the search: a
+[Saved Search](../quick-access/saved-searches-and-lists.md) finds the records of
+the user who opens it. It goes by the user's ID, so it also works for users
+without a login name. Compared with `==` or `!=` to any other field, it makes
+the query invalid.
+
 ### Geo coordinates
 
 Geo fields can be searched with a bounding box, given either as two
@@ -323,7 +349,7 @@ match: the user and the date belong to two different changes.
 
 | Condition   | Operators                  | Value                                                      |
 | ----------- | -------------------------- | ---------------------------------------------------------- |
-| `user`      | `==`                       | The login in quotes (`"jonas"`) or the user ID (`17`)      |
+| `user`      | `==`                       | The login in quotes (`"jonas"`), the user ID (`17`) or [`"$current_user"`](#current-user) |
 | `operation` | `==`                       | `"INSERT"` (created), `"UPDATE"` (changed) or `"DELETE"`   |
 | `date`      | `==`, `>`, `>=`, `<`, `<=` | A date in quotes, as in [Dates](#dates)                    |
 | `comment`   | `=@`, `=*`, `=^`           | The comment saved with the change                          |
@@ -370,6 +396,8 @@ search bar:
 | Linked author from France (sub-search)            | `book.author == ?( person.country == "FR" )`            |
 | Changed by `jonas` in 2024 (change history)       | `_changelog == ?( user == "jonas" && date == "2024" )`   |
 | Never changed by user 17                          | `!_changelog == ?( user == 17 )`                        |
+| Changed by the logged-in user in the last 14 days | `_changelog == ?( user == "$current_user" && date >= "$now-14d" )` |
+| Owned by the logged-in user                       | `_owner.user._id == "$current_user"`                    |
 
 ## Errors
 
