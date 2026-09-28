@@ -21,9 +21,7 @@ The license contract determines:
 
 ## License Editions
 
-<table><thead><tr><th width="194">LICENSE EDITION</th><th width="210">INSTANCES</th><th>ADDITIONAL FEATURES</th></tr></thead><tbody><tr><td>Workgroup</td><td>1 production instance<br>0 test instance</td><td>All main fylr features</td></tr><tr><td>Department</td><td>1 production instance<br>0 test instance</td><td> + Authentication/ Single Sign-On</td></tr><tr><td>Organization</td><td>1 production instance<br>1 test instance</td><td> + Authentication/ Single Sign-On <br> + Kubernetes Installation (Horizontal Scaling)</td></tr></tbody></table>
-
-
+<table><thead><tr><th width="194">LICENSE EDITION</th><th width="210">INSTANCES</th><th>ADDITIONAL FEATURES</th></tr></thead><tbody><tr><td>Workgroup</td><td>1 production instance<br>0 test instance</td><td>All main fylr features</td></tr><tr><td>Department</td><td>1 production instance<br>0 test instance</td><td>+ Authentication/ Single Sign-On</td></tr><tr><td>Organization</td><td>1 production instance<br>1 test instance</td><td>+ Authentication/ Single Sign-On<br>+ Kubernetes Installation (Horizontal Scaling)</td></tr></tbody></table>
 
 {% hint style="info" %}
 All fylr license editions grant you the permission to use the system with an unlimited number of users / user accounts (read and write accounts) and unlimited data. However this can be treated differently in the fylr cloud.
@@ -71,15 +69,15 @@ How long a fylr version can be used depends on the license type — _subscriptio
 
 ### Subscription licenses
 
-A subscription license is purely time-based. fylr can be used until the license **end date**, followed by a **two-month grace period** (see [below](#grace-period)). The age of the fylr binary no longer plays a role — a subscription is not affected by how old the running fylr version is.
+A subscription license is purely time-based. fylr can be used until the license **end date**, followed by a **two-month grace period** (see [below](license-management.md#grace-period)). The age of the fylr binary no longer plays a role — a subscription is not affected by how old the running fylr version is.
 
 ### Buy licenses
 
 A buy license does not expire in time — fylr can be used indefinitely. Its end date is instead a **cutoff for binaries**: a fylr binary **released up to the end date runs indefinitely**, while a binary **released after the end date is refused** as _too new_ and will not run. To move to a newer fylr version, the buy license has to be renewed.
 
-### Grace period
+### Grace period - for subscription licences only
 
-When a license reaches its end date, fylr does not stop immediately. It enters a **two-month grace period** (end date + 2 months) during which it keeps running normally. Only once the grace period is over does fylr fall back to [limited functionality](#fylr-with-an-invalid-or-no-license).
+When a subscription license reaches its end date, fylr does not stop immediately. It enters a **two-month grace period** (end date + 2 months) during which it keeps running normally. Only once the grace period is over does fylr fall back to [limited functionality](license-management.md#fylr-with-an-invalid-or-no-license).
 
 The license validation reports the end of the grace period as the **grace to** date (end date + two months), which the [License Management](for-administrators/readme/license-management.md) view shows next to the end date.
 
@@ -116,4 +114,3 @@ To download, install and test fylr see these pages:
 * Find the latest [fylr release](releases/) to download it
 * [fylr Installation](for-system-administrators/installation/)
 * [upload your fylr license](for-administrators/readme/license-management.md#upload-your-license)
-
