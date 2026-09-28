@@ -38982,9 +38982,10 @@ paths:
             language settings apply.
 
             Read-only: the request runs in a read transaction; nothing is
-            written. The handler enforces no specific right and no login —
-            an anonymous request is accepted; results are scoped to whatever
-            the session is allowed to see via the per-user best-mask filter.
+            written. Requires an authenticated user. Suggestions are limited
+            to what that user may see: `fields` and `linked_objects` come
+            only from records the user may read, `tokens` only from the mask
+            and pool combinations of the user's best-mask filter.
         get:
             summary: Auto-suggest with the request encoded in the URL.
             description: |
@@ -39020,11 +39021,18 @@ paths:
                         unresolvable entry in `fields`, or an unknown `tokens_mode`
                         (the latter only rejects when token suggestions run, i.e.
                         unless `tokens` is `false`). All return `ServerGeneric` /
-                        `400`; the handler emits no other status.
+                        `400`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ServerGenericError'
+                "401":
+                    description: |
+                        No authenticated user. The request must carry a valid access token.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UserRequiredError'
         post:
             summary: Auto-suggest with the request as a JSON body.
             requestBody:
@@ -39047,11 +39055,18 @@ paths:
                         not exist, an unresolvable entry in `fields`, or an unknown
                         `tokens_mode` (the latter only rejects when token suggestions
                         run, i.e. unless `tokens` is `false`). All return
-                        `ServerGeneric` / `400`; the handler emits no other status.
+                        `ServerGeneric` / `400`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ServerGenericError'
+                "401":
+                    description: |
+                        No authenticated user. The request must carry a valid access token.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UserRequiredError'
     /l10n/static/{lang}.json:
         x-path: /l10n
         description: |

@@ -41673,7 +41673,7 @@
       }
     },
     "/suggest": {
-      "description": "Auto-suggest / autocomplete. Given the user's current input,\nreturns candidate completions either as token frequencies\n(`tokens`) or as per-field value matches (`fields`), plus\noptionally the full linked-object descriptors for picker UIs\n(`linked_objects`). Backed by the search index — the same\nlanguage settings apply.\n\nRead-only: the request runs in a read transaction; nothing is\nwritten. The handler enforces no specific right and no login —\nan anonymous request is accepted; results are scoped to whatever\nthe session is allowed to see via the per-user best-mask filter.\n",
+      "description": "Auto-suggest / autocomplete. Given the user's current input,\nreturns candidate completions either as token frequencies\n(`tokens`) or as per-field value matches (`fields`), plus\noptionally the full linked-object descriptors for picker UIs\n(`linked_objects`). Backed by the search index — the same\nlanguage settings apply.\n\nRead-only: the request runs in a read transaction; nothing is\nwritten. Requires an authenticated user. Suggestions are limited\nto what that user may see: `fields` and `linked_objects` come\nonly from records the user may read, `tokens` only from the mask\nand pool combinations of the user's best-mask filter.\n",
       "get": {
         "summary": "Auto-suggest with the request encoded in the URL.",
         "description": "Identical semantics to `POST /suggest`; the JSON request is\npassed verbatim as the `BODY` query parameter. Useful for\nfront ends that prefer not to send a GET body.\n\nThe query parameter name is **`BODY`** (uppercase) — the\nhandler reads `r.URL.Query().Get(\"BODY\")` case-sensitively, so a\nlowercase `body=...` is not picked up; an absent or empty `BODY`\nthen fails JSON parsing and returns a `400`.\n",
@@ -41701,11 +41701,21 @@
             }
           },
           "400": {
-            "description": "Malformed request — invalid JSON in `BODY`, an objecttype in\n`objecttypes` or `linked_objecttypes` that does not exist, an\nunresolvable entry in `fields`, or an unknown `tokens_mode`\n(the latter only rejects when token suggestions run, i.e.\nunless `tokens` is `false`). All return `ServerGeneric` /\n`400`; the handler emits no other status.\n",
+            "description": "Malformed request — invalid JSON in `BODY`, an objecttype in\n`objecttypes` or `linked_objecttypes` that does not exist, an\nunresolvable entry in `fields`, or an unknown `tokens_mode`\n(the latter only rejects when token suggestions run, i.e.\nunless `tokens` is `false`). All return `ServerGeneric` /\n`400`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ServerGenericError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No authenticated user. The request must carry a valid access token.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRequiredError"
                 }
               }
             }
@@ -41736,11 +41746,21 @@
             }
           },
           "400": {
-            "description": "Malformed request — invalid JSON in the request body, an\nobjecttype in `objecttypes` or `linked_objecttypes` that does\nnot exist, an unresolvable entry in `fields`, or an unknown\n`tokens_mode` (the latter only rejects when token suggestions\nrun, i.e. unless `tokens` is `false`). All return\n`ServerGeneric` / `400`; the handler emits no other status.\n",
+            "description": "Malformed request — invalid JSON in the request body, an\nobjecttype in `objecttypes` or `linked_objecttypes` that does\nnot exist, an unresolvable entry in `fields`, or an unknown\n`tokens_mode` (the latter only rejects when token suggestions\nrun, i.e. unless `tokens` is `false`). All return\n`ServerGeneric` / `400`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ServerGenericError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No authenticated user. The request must carry a valid access token.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRequiredError"
                 }
               }
             }
