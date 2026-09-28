@@ -398,6 +398,7 @@
     * [/api/v1/xmlmapping](for-developers/api/endpoints/api-xmlmapping.md)
     * [/api/oauth2](for-developers/api/endpoints/api-oauth2.md)
     * [/.well-known](for-developers/api/endpoints/api-well-known.md)
+    * [/logout](for-developers/api/endpoints/api-logout.md)
     * [/inspect](for-developers/api/endpoints/api-inspect.md)
 * [Anatomy of a Record](for-developers/record-json.md)
 * [Building a Search Request](for-developers/search-requests.md)

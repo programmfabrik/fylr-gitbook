@@ -43616,6 +43616,78 @@ paths:
                                     - S256
                                 subject_types_supported:
                                     - public
+    /logout:
+        x-path: /logout
+        servers:
+            - url: /
+        description: |
+            Logs the browser that sends the request out of the web app and
+            redirects it. Served at the server root (`/logout`) — **not** under
+            `/api/v1`. The web app sends the browser here to log out.
+
+            The request needs no access token: the browser is identified by its
+            `fylr-browser-id` cookie. The tokens of that browser are revoked, so
+            every tab of it is logged out (with `everywhere=1`: every token of
+            the user), and a `USER_LOGOUT` event sends the affected web apps
+            back to the login. A "Keep me logged in" session is ended and its
+            cookie removed. An `access_token` given in the query is revoked as
+            well. Revocation failures are only logged; the answer is always the
+            redirect.
+
+            For a user logged in via SAML whose identity provider offers single
+            logout, the browser is sent to that single logout instead of
+            `redirect`.
+        get:
+            summary: Log the browser out and redirect.
+            security:
+                - {}
+            parameters:
+                - name: redirect
+                  in: query
+                  required: false
+                  schema:
+                    type: string
+                    default: /
+                  description: |
+                    Where the browser goes after the logout. From version 6.35.0 it
+                    must be a path on this server (starting with `/`, but not with
+                    `//`), a URL on `fylr.externalURL`, or a URL whose origin
+                    matches an entry of `fylr.services.webapp.loginAllowRedirects`;
+                    any other value redirects to `/`.
+                - name: access_token
+                  in: query
+                  required: false
+                  schema:
+                    type: string
+                  description: An access token to revoke as well.
+                - name: everywhere
+                  in: query
+                  required: false
+                  schema:
+                    type: string
+                    enum:
+                        - "1"
+                  description: |
+                    `1` logs the user out on every browser and device, not only
+                    this one.
+            responses:
+                "303":
+                    description: |
+                        Logged out. `Location` is `redirect`, or the identity
+                        provider's single logout for a SAML user.
+                    headers:
+                        Location:
+                            schema:
+                                type: string
+                "200":
+                    description: |
+                        From version 6.35.0, for a SAML user whose identity provider
+                        offers single logout only by POST binding: an HTML page whose
+                        form submits the logout request to it.
+                    content:
+                        text/html:
+                            schema:
+                                type: string
     /inspect/:
         x-path: /inspect
         servers:
