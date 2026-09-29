@@ -12,7 +12,7 @@ Please note, that the copies here only include SQL data. Asset files are not inc
 
 Backups are **sorted** chronologically with the **latest** backup at the **top**. To **create** a new backup, click on the **plus** button in the lower **left** and choose between the following **formats** in the next screen:
 
-<table><thead><tr><th width="179.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>sqlite3</td><td>Plain text SQL to manually reimport into a sqlite3 database (gzipped).</td></tr><tr><td>postgres</td><td>Plain text SQL to manually reimport into a postgres database (gzipped).</td></tr><tr><td>sqlite3_db</td><td>Ready to use SQLite database file (a local FYLR binary can startup using that db).</td></tr></tbody></table>
+<table><thead><tr><th width="179.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>sqlite3</td><td>Plain text SQL to manually reimport into a sqlite3 database (gzipped).</td></tr><tr><td>postgres</td><td>Plain text SQL to manually reimport into a postgres database (gzipped).</td></tr><tr><td>pg_dump</td><td>Plain text SQL written by <code>pg_dump</code> to manually reimport into a postgres database (gzipped). Restores without superuser privileges.</td></tr><tr><td>sqlite3_db</td><td>Ready to use SQLite database file (a local FYLR binary can startup using that db).</td></tr></tbody></table>
 
 You can see that **status** of each backup in the backup **list**. By **clicking** on a **backup**, you can also access the **logs** to get details on the **status** or **error**. In the backup **detail**, you can also **download** the backup. To **remove** a backup, **click** on the desired **backup** and on the **minus** button in the lower **left**.
 
@@ -32,7 +32,7 @@ Typically, we, the developer, restore such a copy, to analyze your problem. Just
 Please note, that these backups cannot be restored in the FYLR frontend.
 {% endhint %}
 
-The `postgres` and `sqlite3` copies are gzipped plain SQL: unpack them and feed
+The `pg_dump`, `postgres` and `sqlite3` copies are gzipped plain SQL: unpack them and feed
 them to the client of the target database, into an **empty** database.
 
 ```
@@ -43,6 +43,8 @@ gunzip -c fylr-backup-postgres-<instance>-<date>.sql.gz | psql -v ON_ERROR_STOP=
 statement and carries on, so a restore that lost part of its data still looks
 like it succeeded. The dump is written to run through cleanly under it.
 
-If you restore a copy in the postgres format, the postgres user needs superuser privileges. This is unusual but O.K. because this is part of debugging and development, not production use.\
+If you restore a copy in the postgres format, the postgres user needs superuser privileges (or, from PostgreSQL 15, `GRANT SET ON PARAMETER session_replication_role`): the copy sets that parameter. This is unusual but O.K. because this is part of debugging and development, not production use. A copy in the pg_dump format restores without it.
+
+From fylr 6.35.0, `/inspect/migration` refuses to restore a postgres copy into a database whose user lacks that privilege, before anything is purged.\
 \
 For a full backup in production, that can be restored in case of emergency, please [follow this routine](../for-system-administrators/backup.md).
