@@ -243,25 +243,28 @@ If you omit the unit, **days** are assumed: `$now-2` means two days ago.
 **From version 6.35.0.**
 {% endhint %}
 
-`"$current_user"` stands for the logged-in user. It works in the fields that
-hold a user:
+`$current_user`, written without quotes, stands for the ID of the logged-in
+user. It works with `==` and `!=` in the fields that hold a user ID:
 
-| Field                                             | The user who                 |
-| ------------------------------------------------- | ---------------------------- |
-| `user` in a [change history](#change-history) search | made the change              |
-| `_owner.user._id`                                 | owns the record              |
-| `<objecttype>.<file field>.upload_user.user._id`  | uploaded the file            |
+| Field                                                | The user who                              |
+| ---------------------------------------------------- | ----------------------------------------- |
+| `user` in a [change history](#change-history) search | made the change                           |
+| `_owner.user._id`                                    | owns the record                           |
+| `<objecttype>.<file field>.upload_user.user._id`     | uploaded the file                         |
+| any field of type [`number`](../../for-developers/user-data-types/number.md) | is stored in it, for example by a plugin |
 
 ```
-_changelog == ?( user == "$current_user" && date >= "$now-14d" )
-_owner.user._id == "$current_user"
+_changelog == ?( user == $current_user && date >= "$now-14d" )
+_owner.user._id == $current_user
+book.editor_id == $current_user
 ```
 
 Like the date placeholders, it is resolved for whoever runs the search: a
 [Saved Search](../quick-access/saved-searches-and-lists.md) finds the records of
 the user who opens it. It goes by the user's ID, so it also works for users
-without a login name. Compared with `==` or `!=` to any other field, it makes
-the query invalid.
+without a login name. With any other operator, or on any other field (text, a
+link, `integer.2` or `double`), it makes the query invalid. In quotes,
+`"$current_user"` is ordinary text.
 
 ### Geo coordinates
 
@@ -349,7 +352,7 @@ match: the user and the date belong to two different changes.
 
 | Condition   | Operators                  | Value                                                      |
 | ----------- | -------------------------- | ---------------------------------------------------------- |
-| `user`      | `==`                       | The login in quotes (`"jonas"`), the user ID (`17`) or [`"$current_user"`](#current-user) |
+| `user`      | `==`                       | The login in quotes (`"jonas"`), the user ID (`17`) or [`$current_user`](#current-user) |
 | `operation` | `==`                       | `"INSERT"` (created), `"UPDATE"` (changed) or `"DELETE"`   |
 | `date`      | `==`, `>`, `>=`, `<`, `<=` | A date in quotes, as in [Dates](#dates)                    |
 | `comment`   | `=@`, `=*`, `=^`           | The comment saved with the change                          |
@@ -396,8 +399,8 @@ search bar:
 | Linked author from France (sub-search)            | `book.author == ?( person.country == "FR" )`            |
 | Changed by `jonas` in 2024 (change history)       | `_changelog == ?( user == "jonas" && date == "2024" )`   |
 | Never changed by user 17                          | `!_changelog == ?( user == 17 )`                        |
-| Changed by the logged-in user in the last 14 days | `_changelog == ?( user == "$current_user" && date >= "$now-14d" )` |
-| Owned by the logged-in user                       | `_owner.user._id == "$current_user"`                    |
+| Changed by the logged-in user in the last 14 days | `_changelog == ?( user == $current_user && date >= "$now-14d" )` |
+| Owned by the logged-in user                       | `_owner.user._id == $current_user`                      |
 
 ## Errors
 
