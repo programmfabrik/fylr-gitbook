@@ -26736,6 +26736,13 @@ paths:
                     to be configured as upload collection. The `_linked_objects` property will be
                     set in the response with informations about the created or updated objects the
                     files have been linked to.
+                - name: dates_uploaded
+                  in: query
+                  schema:
+                    type: string
+                    format: json
+                  description: |
+                    Array of ISO 8601 timestamps with the upload date of each file, in the order of the files. The file is saved with this date as its `date_uploaded` (and `versions.original.date_created`) instead of the time of the upload; a timestamp without a time zone is read as UTC. An empty string or a missing entry keeps the time of the upload. Only a user with `system.root` may set it (`403` `SystemRightRequired` otherwise); **fylr restore** uses it to carry over the upload dates of the source. An unparseable timestamp is refused with `400` (`TimestampParse`).
                 - name: check_for_duplicates
                   in: query
                   description: |
@@ -26788,7 +26795,8 @@ paths:
                     description: |
                         The upload could not be processed. The `code` field identifies
                         the specific reason — for example `FileLimitExceeded`,
-                        `UploadError`, or `EasNoParentID`. `ReadOnlyMode` is returned
+                        `UploadError`, or `EasNoParentID`. `TimestampParse` names an
+                        unparseable `dates_uploaded` entry. `ReadOnlyMode` is returned
                         if the instance is in read-only mode.
                     content:
                         application/json:
@@ -26797,6 +26805,7 @@ paths:
                                     - $ref: '#/components/schemas/FileLimitExceededError'
                                     - $ref: '#/components/schemas/UploadError'
                                     - $ref: '#/components/schemas/EasNoParentIDError'
+                                    - $ref: '#/components/schemas/TimestampParseError'
                                     - $ref: '#/components/schemas/ReadOnlyModeError'
                 "401":
                     description: |
@@ -26811,11 +26820,14 @@ paths:
                     description: |
                         The authenticated user holds no `asset_upload` anywhere
                         (and is neither system root nor `system.poolmanager`). The
-                        `code` is `RightRequired`.
+                        `code` is `RightRequired`. A `dates_uploaded` from a user
+                        without `system.root` is refused with `SystemRightRequired`.
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RightRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/RightRequiredError'
+                                    - $ref: '#/components/schemas/SystemRightRequiredError'
         put:
             description: Endpoint to upload one or multiple files. `PUT` and `POST` are identical.
             parameters:
@@ -26880,6 +26892,13 @@ paths:
                     to be configured as upload collection. The `_linked_objects` property will be
                     set in the response with informations about the created or updated objects the
                     files have been linked to.
+                - name: dates_uploaded
+                  in: query
+                  schema:
+                    type: string
+                    format: json
+                  description: |
+                    Array of ISO 8601 timestamps with the upload date of each file, in the order of the files. The file is saved with this date as its `date_uploaded` (and `versions.original.date_created`) instead of the time of the upload; a timestamp without a time zone is read as UTC. An empty string or a missing entry keeps the time of the upload. Only a user with `system.root` may set it (`403` `SystemRightRequired` otherwise); **fylr restore** uses it to carry over the upload dates of the source. An unparseable timestamp is refused with `400` (`TimestampParse`).
                 - name: check_for_duplicates
                   in: query
                   description: |
@@ -26932,7 +26951,8 @@ paths:
                     description: |
                         The upload could not be processed. The `code` field identifies
                         the specific reason — for example `FileLimitExceeded`,
-                        `UploadError`, or `EasNoParentID`. `ReadOnlyMode` is returned
+                        `UploadError`, or `EasNoParentID`. `TimestampParse` names an
+                        unparseable `dates_uploaded` entry. `ReadOnlyMode` is returned
                         if the instance is in read-only mode.
                     content:
                         application/json:
@@ -26941,6 +26961,7 @@ paths:
                                     - $ref: '#/components/schemas/FileLimitExceededError'
                                     - $ref: '#/components/schemas/UploadError'
                                     - $ref: '#/components/schemas/EasNoParentIDError'
+                                    - $ref: '#/components/schemas/TimestampParseError'
                                     - $ref: '#/components/schemas/ReadOnlyModeError'
                 "401":
                     description: |
@@ -26955,11 +26976,14 @@ paths:
                     description: |
                         The authenticated user holds no `asset_upload` anywhere
                         (and is neither system root nor `system.poolmanager`). The
-                        `code` is `RightRequired`.
+                        `code` is `RightRequired`. A `dates_uploaded` from a user
+                        without `system.root` is refused with `SystemRightRequired`.
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RightRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/RightRequiredError'
+                                    - $ref: '#/components/schemas/SystemRightRequiredError'
     /eas/rput:
         x-path: /eas/rput
         description: |
@@ -27069,6 +27093,13 @@ paths:
                     type: boolean
                   description: |
                     If set, **fylr** does not check the validity of the URL by performing the `HEAD` request to the remote server. If set, providing a `filename` is required. This can be used to speed up file imports.
+                - name: date_uploaded
+                  in: query
+                  schema:
+                    type: string
+                    format: date-time
+                  description: |
+                    Upload date to save the file with, an ISO 8601 timestamp. The file gets it as its `date_uploaded` (and `versions.original.date_created`) instead of the time of the request; a timestamp without a time zone is read as UTC. Only a user with `system.root` may set it (`403` `SystemRightRequired` otherwise); **fylr restore** uses it to carry over the upload dates of the source. An unparseable timestamp is refused with `400` (`TimestampParse`).
             requestBody:
                 description: |
                     The body may contain the metadata to be stored for this file. If sent, the query parameter `generate_metadata` must be set to `false`.
@@ -27094,7 +27125,8 @@ paths:
                         missing or unparseable `url`, `EasEmptyFilename` /
                         `EasInvalidFilename` (filename validation), or `EasRputError`
                         when the upstream URL is blocked by the SSRF list or is
-                        otherwise unreachable. `ReadOnlyMode` is returned if the
+                        otherwise unreachable. `TimestampParse` names an unparseable
+                        `date_uploaded`. `ReadOnlyMode` is returned if the
                         instance is in read-only mode.
                     content:
                         application/json:
@@ -27104,6 +27136,7 @@ paths:
                                     - $ref: '#/components/schemas/EasEmptyFilenameError'
                                     - $ref: '#/components/schemas/EasInvalidFilenameError'
                                     - $ref: '#/components/schemas/EasRputError'
+                                    - $ref: '#/components/schemas/TimestampParseError'
                                     - $ref: '#/components/schemas/ReadOnlyModeError'
                 "401":
                     description: |
@@ -27118,11 +27151,14 @@ paths:
                     description: |
                         The authenticated user holds no `asset_upload` anywhere
                         (and is neither system root nor `system.poolmanager`). The
-                        `code` is `RightRequired`.
+                        `code` is `RightRequired`. A `date_uploaded` from a user
+                        without `system.root` is refused with `SystemRightRequired`.
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RightRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/RightRequiredError'
+                                    - $ref: '#/components/schemas/SystemRightRequiredError'
     /eas/rput/bulk:
         x-path: /eas/rput/bulk
         description: |
@@ -27206,6 +27242,11 @@ paths:
                                         type: boolean
                                         description: |
                                             If set, **fylr** does not check the validity of the URL by performing the `HEAD` request to the remote server. If set, providing a `filename` is required. This can be used to speed up file imports.
+                                    date_uploaded:
+                                        type: string
+                                        format: date-time
+                                        description: |
+                                            Upload date to save the file with, an ISO 8601 timestamp. The file gets it as its `date_uploaded` (and `versions.original.date_created`) instead of the time of the request; a timestamp without a time zone is read as UTC. Only a user with `system.root` may set it (`403` `SystemRightRequired` otherwise, for the whole request); **fylr restore** uses it to carry over the upload dates of the source. An unparseable timestamp refuses the whole request with `400` (`TimestampParse`).
                                     metadata:
                                         $ref: '#/components/schemas/FileMetadata'
             responses:
@@ -27228,7 +27269,8 @@ paths:
                         missing or unparseable `url`, `EasEmptyFilename` /
                         `EasInvalidFilename` (filename validation), or `EasRputError`
                         when an upstream URL is blocked by the SSRF list or is otherwise
-                        unreachable. Unlike `/eas/put` and `/eas/rput`, this endpoint
+                        unreachable. `TimestampParse` names an unparseable
+                        `date_uploaded`. Unlike `/eas/put` and `/eas/rput`, this endpoint
                         has no read-only-mode guard and does not raise `ReadOnlyMode`.
                     content:
                         application/json:
@@ -27238,6 +27280,7 @@ paths:
                                     - $ref: '#/components/schemas/EasEmptyFilenameError'
                                     - $ref: '#/components/schemas/EasInvalidFilenameError'
                                     - $ref: '#/components/schemas/EasRputError'
+                                    - $ref: '#/components/schemas/TimestampParseError'
                                     - $ref: '#/components/schemas/ReadOnlyModeError'
                 "401":
                     description: |
@@ -27252,11 +27295,14 @@ paths:
                     description: |
                         The authenticated user holds no `asset_upload` anywhere
                         (and is neither system root nor `system.poolmanager`). The
-                        `code` is `RightRequired`.
+                        `code` is `RightRequired`. A `date_uploaded` from a user
+                        without `system.root` is refused with `SystemRightRequired`.
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RightRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/RightRequiredError'
+                                    - $ref: '#/components/schemas/SystemRightRequiredError'
     /eas/download/{fileId}/{hash}/{version}:
         x-path: /eas/download
         description: The download endpoint is used to deliver binary file data. It delivers data for original files as well as renditions. These URL to the files should be taken from the responses of `/api/db` or `/api/search`.
@@ -47997,6 +48043,54 @@ components:
                     additionalProperties: true
                     description: |
                         Machine-readable details: `url`.
+                realm:
+                    type: string
+                    enum:
+                        - api
+                    description: The realm the error originates from. Always `api`.
+                statuscode:
+                    type: integer
+                    enum:
+                        - 400
+                    description: The HTTP status code, repeated here. Always `400`.
+        TimestampParseError:
+            type: object
+            description: |
+                Error returned with `code` `TimestampParse` (HTTP `400`).
+            required:
+                - code
+                - error
+                - package
+                - parameters
+                - realm
+                - statuscode
+            properties:
+                code:
+                    type: string
+                    description: |
+                        Stable, machine-readable error code:
+
+                          * `TimestampParse` — see the referencing response description.
+                    enum:
+                        - TimestampParse
+                error:
+                    type: string
+                    description: |
+                        Human-readable message, localized to the caller's preferred language.
+                        If no translation exists for this error key, the untranslated message
+                        is returned with a `Package` / `Code` footer appended.
+                package:
+                    type: string
+                    enum:
+                        - ferrors
+                    description: |
+                        Internal origin marker for **fylr** support; not part of the API
+                        contract. Branch on `code`, not `package`.
+                parameters:
+                    type: object
+                    additionalProperties: true
+                    description: |
+                        Machine-readable details: `timestamp`, the value that could not be parsed.
                 realm:
                     type: string
                     enum:

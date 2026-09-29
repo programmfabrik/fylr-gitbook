@@ -105,7 +105,7 @@ API Url of the target instance. The Url must include the API base endpoint, for 
 
 ### `--login`
 
-Username of the user in the target instance. It should be a user with root rights or sufficient read rights.
+Username of the user in the target instance. From fylr **6.35.0** it has to be a user with `system.root`; with any other user the restore stops when it connects, before the target is changed.
 
 * this parameter is **mandatory**!
 * type: `string`
@@ -283,6 +283,8 @@ Method used to upload files.
 {% endhint %}
 
 A file that the **source** instance itself only references at a remote URL (left there via `leave_on_remote`) is always restored as a reference, whatever method is chosen — the source flag is additive to the run method. All other files follow the chosen method (since fylr 6.34.2; 6.34.0 and 6.34.1 routed every file by its source flag alone).
+
+Every restored file keeps the upload date it had on the source (`date_uploaded`, which is also the `date_created` of its `original` version), whichever method is chosen, with a fylr or an easydb 5 source (from fylr **6.35.0**). Renditions uploaded with `--upload-versions` get the time of the restore.
 
 {% hint style="warning" %}
 By default no files or URLs are uploaded. You have to specify one of the file upload methods to transfer any files.
