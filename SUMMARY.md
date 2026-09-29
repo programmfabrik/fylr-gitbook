@@ -185,6 +185,7 @@
   * [Groups](for-administrators/permissions/groups.md)
   * [Object Types](for-administrators/permissions/object-types.md)
   * [Pools](for-administrators/permissions/pools.md)
+  * [Record Permissions](for-administrators/permissions/record-permissions.md)
   * [Tags & Workflows](for-administrators/permissions/tags-and-workflows.md)
   * [Presets](for-administrators/permissions/presets.md)
 * [Tools](for-administrators/tools/README.md)

@@ -872,6 +872,20 @@ paths:
                                         unlink:
                                             type: object
                                             properties: {}
+                                        hierarchy_link:
+                                            type: object
+                                            properties: {}
+                                            description: |
+                                                Records may be created or moved beneath this record. Only present on
+                                                hierarchical objecttypes; always given when the objecttype has no
+                                                record permissions.
+                                        hierarchy_unlink:
+                                            type: object
+                                            properties: {}
+                                            description: |
+                                                Records may be moved away from beneath this record. Only present on
+                                                hierarchical objecttypes; always given when the objecttype has no
+                                                record permissions.
                                         bag_read:
                                             type: object
                                             properties: {}
@@ -2101,6 +2115,20 @@ paths:
                                             unlink:
                                                 type: object
                                                 properties: {}
+                                            hierarchy_link:
+                                                type: object
+                                                properties: {}
+                                                description: |
+                                                    Records may be created or moved beneath this record. Only present on
+                                                    hierarchical objecttypes; always given when the objecttype has no
+                                                    record permissions.
+                                            hierarchy_unlink:
+                                                type: object
+                                                properties: {}
+                                                description: |
+                                                    Records may be moved away from beneath this record. Only present on
+                                                    hierarchical objecttypes; always given when the objecttype has no
+                                                    record permissions.
                                             bag_read:
                                                 type: object
                                                 properties: {}
@@ -3426,6 +3454,20 @@ paths:
                                         unlink:
                                             type: object
                                             properties: {}
+                                        hierarchy_link:
+                                            type: object
+                                            properties: {}
+                                            description: |
+                                                Records may be created or moved beneath this record. Only present on
+                                                hierarchical objecttypes; always given when the objecttype has no
+                                                record permissions.
+                                        hierarchy_unlink:
+                                            type: object
+                                            properties: {}
+                                            description: |
+                                                Records may be moved away from beneath this record. Only present on
+                                                hierarchical objecttypes; always given when the objecttype has no
+                                                record permissions.
                                         bag_read:
                                             type: object
                                             properties: {}
@@ -4655,6 +4697,20 @@ paths:
                                             unlink:
                                                 type: object
                                                 properties: {}
+                                            hierarchy_link:
+                                                type: object
+                                                properties: {}
+                                                description: |
+                                                    Records may be created or moved beneath this record. Only present on
+                                                    hierarchical objecttypes; always given when the objecttype has no
+                                                    record permissions.
+                                            hierarchy_unlink:
+                                                type: object
+                                                properties: {}
+                                                description: |
+                                                    Records may be moved away from beneath this record. Only present on
+                                                    hierarchical objecttypes; always given when the objecttype has no
+                                                    record permissions.
                                             bag_read:
                                                 type: object
                                                 properties: {}
@@ -5954,6 +6010,20 @@ paths:
                                             unlink:
                                                 type: object
                                                 properties: {}
+                                            hierarchy_link:
+                                                type: object
+                                                properties: {}
+                                                description: |
+                                                    Records may be created or moved beneath this record. Only present on
+                                                    hierarchical objecttypes; always given when the objecttype has no
+                                                    record permissions.
+                                            hierarchy_unlink:
+                                                type: object
+                                                properties: {}
+                                                description: |
+                                                    Records may be moved away from beneath this record. Only present on
+                                                    hierarchical objecttypes; always given when the objecttype has no
+                                                    record permissions.
                                             bag_read:
                                                 type: object
                                                 properties: {}
@@ -7265,6 +7335,20 @@ paths:
                                         unlink:
                                             type: object
                                             properties: {}
+                                        hierarchy_link:
+                                            type: object
+                                            properties: {}
+                                            description: |
+                                                Records may be created or moved beneath this record. Only present on
+                                                hierarchical objecttypes; always given when the objecttype has no
+                                                record permissions.
+                                        hierarchy_unlink:
+                                            type: object
+                                            properties: {}
+                                            description: |
+                                                Records may be moved away from beneath this record. Only present on
+                                                hierarchical objecttypes; always given when the objecttype has no
+                                                record permissions.
                                         bag_read:
                                             type: object
                                             properties: {}
@@ -8494,6 +8578,20 @@ paths:
                                             unlink:
                                                 type: object
                                                 properties: {}
+                                            hierarchy_link:
+                                                type: object
+                                                properties: {}
+                                                description: |
+                                                    Records may be created or moved beneath this record. Only present on
+                                                    hierarchical objecttypes; always given when the objecttype has no
+                                                    record permissions.
+                                            hierarchy_unlink:
+                                                type: object
+                                                properties: {}
+                                                description: |
+                                                    Records may be moved away from beneath this record. Only present on
+                                                    hierarchical objecttypes; always given when the objecttype has no
+                                                    record permissions.
                                             bag_read:
                                                 type: object
                                                 properties: {}
@@ -9877,6 +9975,20 @@ paths:
                                                 unlink:
                                                     type: object
                                                     properties: {}
+                                                hierarchy_link:
+                                                    type: object
+                                                    properties: {}
+                                                    description: |
+                                                        Records may be created or moved beneath this record. Only present on
+                                                        hierarchical objecttypes; always given when the objecttype has no
+                                                        record permissions.
+                                                hierarchy_unlink:
+                                                    type: object
+                                                    properties: {}
+                                                    description: |
+                                                        Records may be moved away from beneath this record. Only present on
+                                                        hierarchical objecttypes; always given when the objecttype has no
+                                                        record permissions.
                                                 bag_read:
                                                     type: object
                                                     properties: {}
@@ -11173,6 +11285,20 @@ paths:
                                             unlink:
                                                 type: object
                                                 properties: {}
+                                            hierarchy_link:
+                                                type: object
+                                                properties: {}
+                                                description: |
+                                                    Records may be created or moved beneath this record. Only present on
+                                                    hierarchical objecttypes; always given when the objecttype has no
+                                                    record permissions.
+                                            hierarchy_unlink:
+                                                type: object
+                                                properties: {}
+                                                description: |
+                                                    Records may be moved away from beneath this record. Only present on
+                                                    hierarchical objecttypes; always given when the objecttype has no
+                                                    record permissions.
                                             bag_read:
                                                 type: object
                                                 properties: {}
@@ -12405,6 +12531,20 @@ paths:
                                                 unlink:
                                                     type: object
                                                     properties: {}
+                                                hierarchy_link:
+                                                    type: object
+                                                    properties: {}
+                                                    description: |
+                                                        Records may be created or moved beneath this record. Only present on
+                                                        hierarchical objecttypes; always given when the objecttype has no
+                                                        record permissions.
+                                                hierarchy_unlink:
+                                                    type: object
+                                                    properties: {}
+                                                    description: |
+                                                        Records may be moved away from beneath this record. Only present on
+                                                        hierarchical objecttypes; always given when the objecttype has no
+                                                        record permissions.
                                                 bag_read:
                                                     type: object
                                                     properties: {}
@@ -13714,6 +13854,20 @@ paths:
                                                 unlink:
                                                     type: object
                                                     properties: {}
+                                                hierarchy_link:
+                                                    type: object
+                                                    properties: {}
+                                                    description: |
+                                                        Records may be created or moved beneath this record. Only present on
+                                                        hierarchical objecttypes; always given when the objecttype has no
+                                                        record permissions.
+                                                hierarchy_unlink:
+                                                    type: object
+                                                    properties: {}
+                                                    description: |
+                                                        Records may be moved away from beneath this record. Only present on
+                                                        hierarchical objecttypes; always given when the objecttype has no
+                                                        record permissions.
                                                 bag_read:
                                                     type: object
                                                     properties: {}
@@ -25123,6 +25277,28 @@ paths:
                 linked elsewhere in the same object is not enough — it must be the same
                 location. The frontend round-trips the `_uuid` of existing nested rows, so
                 ordinary edits keep their unchanged links exempt.
+
+                In a hierarchical objecttype the parent named by `_id_parent` always
+                requires `read`. If the objecttype has record permissions enabled
+                (`acl_table`), creating a record beneath a parent or moving it there
+                additionally requires `hierarchy_link` on the new parent, and moving a
+                record away from its parent (to another parent or to the top level)
+                requires `hierarchy_unlink` on the parent it leaves. Both exist only in
+                the record permissions (`_acl`, inherited down the hierarchy, so a grant
+                on a top-level record covers its whole subtree) and cannot be granted per
+                pool or per objecttype; the owner of the parent has them implicitly. A
+                save that keeps the parent needs neither,
+                deleting a child needs no permission on the parent, and objecttypes
+                without record permissions do not check them at all. A refusal is
+                `403 ObjectInsufficientRights` (`right: hierarchy_link` or
+                `hierarchy_unlink`, `systemobjectid` names the parent).
+
+                Record permissions inherit down a hierarchy: a record's effective `_acl`
+                is every ancestor's list, top down, plus its own. A record with
+                `_private_acl: true` drops the inherited entries except those marked
+                `sticky`. `_private_acl` is only rendered for hierarchical objecttypes; a
+                save that omits it keeps the stored flag, and changing it requires the
+                `acl` permission like sending `_acl`.
 
                 Differs from easydb 5: both create and update use `POST`, and create
                 versus update is decided by `_version` (create when absent or `1`), not by

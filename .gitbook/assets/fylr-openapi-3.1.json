@@ -615,6 +615,16 @@
                         "type": "object",
                         "properties": {}
                       },
+                      "hierarchy_link": {
+                        "type": "object",
+                        "properties": {},
+                        "description": "Records may be created or moved beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                      },
+                      "hierarchy_unlink": {
+                        "type": "object",
+                        "properties": {},
+                        "description": "Records may be moved away from beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                      },
                       "bag_read": {
                         "type": "object",
                         "properties": {}
@@ -1660,6 +1670,16 @@
                         "unlink": {
                           "type": "object",
                           "properties": {}
+                        },
+                        "hierarchy_link": {
+                          "type": "object",
+                          "properties": {},
+                          "description": "Records may be created or moved beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                        },
+                        "hierarchy_unlink": {
+                          "type": "object",
+                          "properties": {},
+                          "description": "Records may be moved away from beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
                         },
                         "bag_read": {
                           "type": "object",
@@ -2797,6 +2817,16 @@
                         "type": "object",
                         "properties": {}
                       },
+                      "hierarchy_link": {
+                        "type": "object",
+                        "properties": {},
+                        "description": "Records may be created or moved beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                      },
+                      "hierarchy_unlink": {
+                        "type": "object",
+                        "properties": {},
+                        "description": "Records may be moved away from beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                      },
                       "bag_read": {
                         "type": "object",
                         "properties": {}
@@ -3842,6 +3872,16 @@
                         "unlink": {
                           "type": "object",
                           "properties": {}
+                        },
+                        "hierarchy_link": {
+                          "type": "object",
+                          "properties": {},
+                          "description": "Records may be created or moved beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                        },
+                        "hierarchy_unlink": {
+                          "type": "object",
+                          "properties": {},
+                          "description": "Records may be moved away from beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
                         },
                         "bag_read": {
                           "type": "object",
@@ -4974,6 +5014,16 @@
                         "unlink": {
                           "type": "object",
                           "properties": {}
+                        },
+                        "hierarchy_link": {
+                          "type": "object",
+                          "properties": {},
+                          "description": "Records may be created or moved beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                        },
+                        "hierarchy_unlink": {
+                          "type": "object",
+                          "properties": {},
+                          "description": "Records may be moved away from beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
                         },
                         "bag_read": {
                           "type": "object",
@@ -6110,6 +6160,16 @@
                         "type": "object",
                         "properties": {}
                       },
+                      "hierarchy_link": {
+                        "type": "object",
+                        "properties": {},
+                        "description": "Records may be created or moved beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                      },
+                      "hierarchy_unlink": {
+                        "type": "object",
+                        "properties": {},
+                        "description": "Records may be moved away from beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                      },
                       "bag_read": {
                         "type": "object",
                         "properties": {}
@@ -7155,6 +7215,16 @@
                         "unlink": {
                           "type": "object",
                           "properties": {}
+                        },
+                        "hierarchy_link": {
+                          "type": "object",
+                          "properties": {},
+                          "description": "Records may be created or moved beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                        },
+                        "hierarchy_unlink": {
+                          "type": "object",
+                          "properties": {},
+                          "description": "Records may be moved away from beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
                         },
                         "bag_read": {
                           "type": "object",
@@ -8406,6 +8476,16 @@
                             "type": "object",
                             "properties": {}
                           },
+                          "hierarchy_link": {
+                            "type": "object",
+                            "properties": {},
+                            "description": "Records may be created or moved beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                          },
+                          "hierarchy_unlink": {
+                            "type": "object",
+                            "properties": {},
+                            "description": "Records may be moved away from beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                          },
                           "bag_read": {
                             "type": "object",
                             "properties": {}
@@ -9525,6 +9605,16 @@
                           "type": "object",
                           "properties": {}
                         },
+                        "hierarchy_link": {
+                          "type": "object",
+                          "properties": {},
+                          "description": "Records may be created or moved beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                        },
+                        "hierarchy_unlink": {
+                          "type": "object",
+                          "properties": {},
+                          "description": "Records may be moved away from beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                        },
                         "bag_read": {
                           "type": "object",
                           "properties": {}
@@ -10574,6 +10664,16 @@
                           "unlink": {
                             "type": "object",
                             "properties": {}
+                          },
+                          "hierarchy_link": {
+                            "type": "object",
+                            "properties": {},
+                            "description": "Records may be created or moved beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                          },
+                          "hierarchy_unlink": {
+                            "type": "object",
+                            "properties": {},
+                            "description": "Records may be moved away from beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
                           },
                           "bag_read": {
                             "type": "object",
@@ -11726,6 +11826,16 @@
                           "unlink": {
                             "type": "object",
                             "properties": {}
+                          },
+                          "hierarchy_link": {
+                            "type": "object",
+                            "properties": {},
+                            "description": "Records may be created or moved beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
+                          },
+                          "hierarchy_unlink": {
+                            "type": "object",
+                            "properties": {},
+                            "description": "Records may be moved away from beneath this record. Only present on\nhierarchical objecttypes; always given when the objecttype has no\nrecord permissions.\n"
                           },
                           "bag_read": {
                             "type": "object",
@@ -26523,7 +26633,7 @@
       "description": "The `/db` endpoint is **datamodel-driven**. `{objecttype}` is the name of an\nobject type defined in this instance's datamodel. For every object type,\n**fylr** exposes the same set of operations:\n\n  * `POST /db/{objecttype}` — create or update objects.\n  * `GET /db/{objecttype}/{mask}/{objectId}` — read a single object.\n  * `GET /db/{objecttype}/{mask}/list` — list objects.\n  * `DELETE /db/{objecttype}` — delete objects.\n\nEvery object is shaped by a *mask* of its object type. The mask selects\nwhich fields are present and whether each one is writable or read-only.\n\nThese operations are documented generically here. When the instance has\nobject types defined, the sections below additionally describe each object\ntype concretely, with its real masks and field schemas. If only this\ngeneric overview is shown, no object types have been defined yet.\n",
       "post": {
         "summary": "Create or update objects of any object type.",
-        "description": "Create or update objects. Replace `{objecttype}` in the URL with the name\nof an object type from this instance's datamodel.\n\nThe request body is an array, so multiple objects can be created or\nupdated in a single call. Each object carries an `_objecttype` matching\nthe URL and a `_mask`. An object is **created** when it has no `_version`\n(or `_version` is `1`) and **updated** otherwise; on update the supplied\n`_version` must match the version currently stored.\n\nOn create, `_id` (unique per object type) and `_system_object_id` (unique\nper instance) are assigned from a server-side counter that is not rolled\nback with the request: ids are never reused, and a save that fails after\nthey are drawn leaves a gap in the numbering. Gaps are expected.\n\nSaving an object requires the `read` permission on a linked object only\nwhen the save introduces that target at a **new location** — a field, or\na nested row (identified by its `_uuid`) and sub-field, where the object's\ncommitted version did not already link it. A target sent back at the same\nlocation is exempt, even if its row moved position or other rows around it\nwere removed. Moving a link to a different field or nested row, or\nreplacing it with a not-previously-linked target there, requires `read` on\nthat target; a caller with `write` on the object but no `read` on it is\nthen rejected with `403 ObjectInsufficientRights` (`right: read`). Being\nlinked elsewhere in the same object is not enough — it must be the same\nlocation. The frontend round-trips the `_uuid` of existing nested rows, so\nordinary edits keep their unchanged links exempt.\n\nDiffers from easydb 5: both create and update use `POST`, and create\nversus update is decided by `_version` (create when absent or `1`), not by\nwhether `_id` is set. easydb 5 distinguishes the two by HTTP method —\n`PUT` to create with no `_id`, `POST` to update with `_id` set.\n",
+        "description": "Create or update objects. Replace `{objecttype}` in the URL with the name\nof an object type from this instance's datamodel.\n\nThe request body is an array, so multiple objects can be created or\nupdated in a single call. Each object carries an `_objecttype` matching\nthe URL and a `_mask`. An object is **created** when it has no `_version`\n(or `_version` is `1`) and **updated** otherwise; on update the supplied\n`_version` must match the version currently stored.\n\nOn create, `_id` (unique per object type) and `_system_object_id` (unique\nper instance) are assigned from a server-side counter that is not rolled\nback with the request: ids are never reused, and a save that fails after\nthey are drawn leaves a gap in the numbering. Gaps are expected.\n\nSaving an object requires the `read` permission on a linked object only\nwhen the save introduces that target at a **new location** — a field, or\na nested row (identified by its `_uuid`) and sub-field, where the object's\ncommitted version did not already link it. A target sent back at the same\nlocation is exempt, even if its row moved position or other rows around it\nwere removed. Moving a link to a different field or nested row, or\nreplacing it with a not-previously-linked target there, requires `read` on\nthat target; a caller with `write` on the object but no `read` on it is\nthen rejected with `403 ObjectInsufficientRights` (`right: read`). Being\nlinked elsewhere in the same object is not enough — it must be the same\nlocation. The frontend round-trips the `_uuid` of existing nested rows, so\nordinary edits keep their unchanged links exempt.\n\nIn a hierarchical objecttype the parent named by `_id_parent` always\nrequires `read`. If the objecttype has record permissions enabled\n(`acl_table`), creating a record beneath a parent or moving it there\nadditionally requires `hierarchy_link` on the new parent, and moving a\nrecord away from its parent (to another parent or to the top level)\nrequires `hierarchy_unlink` on the parent it leaves. Both exist only in\nthe record permissions (`_acl`, inherited down the hierarchy, so a grant\non a top-level record covers its whole subtree) and cannot be granted per\npool or per objecttype; the owner of the parent has them implicitly. A\nsave that keeps the parent needs neither,\ndeleting a child needs no permission on the parent, and objecttypes\nwithout record permissions do not check them at all. A refusal is\n`403 ObjectInsufficientRights` (`right: hierarchy_link` or\n`hierarchy_unlink`, `systemobjectid` names the parent).\n\nRecord permissions inherit down a hierarchy: a record's effective `_acl`\nis every ancestor's list, top down, plus its own. A record with\n`_private_acl: true` drops the inherited entries except those marked\n`sticky`. `_private_acl` is only rendered for hierarchical objecttypes; a\nsave that omits it keeps the stored flag, and changing it requires the\n`acl` permission like sending `_acl`.\n\nDiffers from easydb 5: both create and update use `POST`, and create\nversus update is decided by `_version` (create when absent or `1`), not by\nwhether `_id` is set. easydb 5 distinguishes the two by HTTP method —\n`PUT` to create with no `_id`, `POST` to update with `_id` set.\n",
         "parameters": [
           {
             "name": "x-fylr-authorization",
