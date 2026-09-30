@@ -66,7 +66,7 @@ It is the page to open when the installation has more than one moving part:
 
 * **Is every execserver actually connected?** An execserver that fylr cannot reach receives no work at all in 6.35 — there is no polling fallback that would eventually pick the job up.
 * **Does a load-balanced address reach the whole fleet?** An address that fronts several instances is recognised as such from the connection itself, so a Kubernetes Service is shown as a Service even while only one pod is behind it.
-* **Will the callbacks come back to the right process?** Every fylr registers the callback base it announces, and the execserver checks at connect time that the server answering it is the one that registered. A callback address pointing at a load balancer in front of several fylr replicas is reported here, at connect time, instead of failing later inside a job.
+* **Will the callbacks come back to the right process?** Every fylr registers the callback base it announces, and the execserver checks at connect time that the server answering it is the one that registered. A callback address pointing at a load balancer in front of several fylr replicas is reported here, at connect time, instead of failing later inside a job. The line between a fylr and an execserver is dashed while that check has no clean answer: grey as long as the execserver is still retrying — it waits out a fylr that is booting for up to ten minutes — and red once the check has failed. The reason is on the line's tooltip and on the fylr's card.
 
 ## See also
 
