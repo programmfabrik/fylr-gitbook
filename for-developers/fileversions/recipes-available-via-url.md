@@ -32,6 +32,10 @@ Timestamp in seconds, you may use dot notation to target in milliseconds.
 
 Example: `{ format:"mp3", start:"0.305", end:"20.571" }`
 
+{% hint style="info" %}
+**From fylr 6.35.0** a snippet arrives with its `Content-Length` and answers `Range` requests with `206`, so the browser's audio player can seek in it and play it again. The execserver keeps a snippet for a day: requesting the same snippet again does not encode it again.
+{% endhint %}
+
 ### Usage
 
 Usage of the audio snippet generation endpoint:
@@ -56,6 +60,17 @@ GET /api/v1/objects/uuid/{uuid}/file/id/{file}?recipe=audioconverter:snippet&rec
 {% hint style="info" %}
 * Find the a base URL to append a recipe to at the file field share menu in the detail view of a object
 * To access the copyable deep links set the correct permissions for the deep link user[export-and-deep-links.md](../../for-administrators/readme/export-and-deep-links.md "mention")
+{% endhint %}
+
+{% hint style="warning" %}
+**Permissions when calling this without a login (deep link):** an unauthenticated request to `/api/v1/objects/…` does **not** run as *Anonymous* — it runs as the system user **`system:deep_link`**. Rights granted to the *Anonymous users* group therefore do **not** apply here.
+
+For the snippet URL to work without login, grant the **`deep_link` user** (on the relevant objecttype) the same rights the use case needs, e.g.:
+
+* view records (with the *standard* mask), and
+* **asset show + download** for the version you are addressing (e.g. `audio.original`).
+
+`file/id/{file}` and `file/standard/{n}` both work; `file/standard/{n}` avoids needing the file id.
 {% endhint %}
 
 

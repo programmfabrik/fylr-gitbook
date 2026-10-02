@@ -10,15 +10,15 @@ The PDF-Creator is officially supported and guaranteed only in Google Chrome. In
 
 ## Installation (if not yet installed)
 
-
-
-1. Got to **Plugin-Manager** and if there is no **Server PDF Plugin** yet, press the **+** button at the bottom:
+1. Go to the **Plugin Manager** and press the **+** button at the bottom to open the marketplace.
 
 ![](<../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png>) (click to enlarge)
 
-2. Choose type "**url"** and paste the URL of the latest release zip:\
-   [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip)
-3. Make sure both the plugins "**Server PDF Plugin**" and "**PDF Creator Plugin**" are marked as **enabled**.
+2. Install **PDF Creator** (`pdf-creator`) and make sure it is **enabled**.
+
+{% hint style="warning" %}
+**Do not install the PDF Server (`server-pdf`) alongside it.** PDF Creator used to send its HTML to that plugin to be rendered; from PDF Creator **1.1.0** it renders the PDF itself. Running both is not merely redundant: they declare the same custom events, only one plugin can hold an event name, and the loser's declaration is dropped. fylr 6.35 switches `server-pdf` off for you where PDF Creator is enabled — see [PDF Creator and the PDF Server](../plugins/disk-to-url-migration.md#pdf-creator-and-the-pdf-server).
+{% endhint %}
 
 ### Create a PDF template
 

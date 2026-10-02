@@ -23,3 +23,26 @@ currently it is a manual process:
 
 6. Do e.g. `git status` to see what was changed and then add, commit, push
 
+
+# how to refresh plugins/overview.md
+
+The "In the marketplace" tables are a snapshot of the **published marketplace
+catalog** — the same sheet fylr pulls at runtime, mirrored in the fylr repo at
+`internal/pluginmarketplace/testdata/catalog_sheet.csv` (refresh it there first,
+see that directory's README). Take from each row: the manifest plugin name, the
+`fylr licensed` / `custom data type` / `dependencies` / `visibility` flags, the
+category, the repository URL and the one-line repo description. Rows without the
+`fylr marketplace` tick are not offered and do not belong in those tables —
+`commons-library` is one of them and is described in prose instead.
+
+Two rules the page follows:
+
+* A **private** repository (`visibility` other than `PUBLIC`) answers 404 to a
+  reader without access — name it, do not link it.
+* The catalog's repo descriptions are written for GitHub. Rewrite the ones that
+  open with "This plugin …" or "fylr plugin that …" rather than pasting them.
+
+The "Not in the marketplace" section is maintained by hand: plugins that exist
+but are not offered in the shop. Link the repository, not a release URL — the
+install URL belongs in the plugin's own README, which the plugin manager now
+displays.

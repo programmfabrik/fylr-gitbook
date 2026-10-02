@@ -6,6 +6,20 @@ Differs from easydb 5: the searchable domains are `pool`, `collection`, `event`,
 
 From version 6.34.0, every element of the `search` array accepts a `boost` parameter (number, default `1`), with the semantics known from easydb 5: a higher boost gives objects matching that element a higher `_score`. Combine `bool: should` elements with different boosts and sort by `_score` to rank preferred matches first.
 
+From version 6.35.0, a `term` aggregation takes an `aggregations` object like the request itself. Those aggregations run below every bucket and nest to any depth, and every bucket of the response carries their result in the same shape, with `terms`, `limit` and `has_more` per level. Only `term` aggregations nest. Example, the pools of the records per objecttype, ancestor pools included:
+
+```json
+"aggregations": {
+  "ot": {
+    "type": "term",
+    "field": "_objecttype",
+    "aggregations": {
+      "pools": { "type": "term", "field": "_pool._path.pool._id", "limit": 100 }
+    }
+  }
+}
+```
+
 ### `GET /search` — Search for objects (cacheable).
 
 {% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/search" method="get" %}

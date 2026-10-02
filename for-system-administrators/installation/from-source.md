@@ -91,7 +91,7 @@ mupdf-tools poppler-utils                  # mutool (PDF render), pdfinfo
 tesseract-ocr-all                          # OCR
 calibre                                    # EPUB
 default-jre-headless libsaxonhe-java       # java (Tika), Saxon-HE (XSLT)
-graphviz chromium                          # dot; HTML->PDF (server-pdf plugin)
+graphviz chromium                          # dot; HTML->PDF (PDF Creator plugin)
 nodejs python3                             # plugin runtimes
 postgresql-client-18                       # pg_dump / psql (backup & restore)
 ttf-mscorefonts-installer fontconfig       # rendering fonts

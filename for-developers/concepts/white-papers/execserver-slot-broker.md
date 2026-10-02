@@ -7,7 +7,7 @@ Replace both polling loops with a fylr-initiated websocket per execserver instan
 | One `SELECT` per second per file worker, even when idle. One `GET /token` per second per waiting job, against _every_ configured execserver, for up to `connectTimeoutSec`. Slot handshake breaks behind load balancers. | Zero execserver requests while idle. One message per state change. The execserver picks exactly one taker per free slot — by priority, across all connected fylr servers. No instance-affinity problems left to patch. |
 
 {% hint style="info" %}
-Design document, July 2026, implemented starting with fylr 6.34. Tracked internally as ticket #80119. A few details below are marked where the implementation refined the original proposal.
+Design document, July 2026, shipped in fylr 6.35 as the only execserver transport. Tracked internally as ticket #80119 (with auto-balance #80133 and graceful drain #80136). A few details below are marked where the implementation refined the original proposal.
 {% endhint %}
 
 ## Problem
@@ -43,8 +43,9 @@ All control traffic is multiplexed over the one socket. A slot's life alternates
 
 | Direction | Message | Meaning |
 | --- | --- | --- |
-| exec → fylr | `HELLO {instance_id, services, waitgroups, clients}` | Snapshot on connect, re-sent when its content changes (e.g. the connected-client count); also kills the per-job 404 service probing. |
+| exec → fylr | `HELLO {instance_id, services, processes, idle, clients}` | Snapshot on connect, re-sent when its content changes (the connected-client count, the idle-slot count); also kills the per-job 404 service probing. |
 | fylr → exec | `WANT {job_id, service, priority}` | A worker is parked needing a slot. |
+| exec → fylr | `QUEUED {job_id}` | The want found no free slot right now. Once every pod that serves the job has said so, fylr counts the address as under backpressure (see *Replicas behind one address*). |
 | fylr → exec | `UNWANT {job_id}` | Got a slot elsewhere / gave up (requeue). |
 | exec → fylr | `OFFER {job_id}` | A slot has been reserved for that job. |
 | fylr → exec | `JOB {job_id, job}` | Acceptance: the job JSON (previously a URL query parameter on the PUT) rides the socket. |
@@ -61,7 +62,7 @@ sequenceDiagram
     participant X as execserver pod
 
     Note over F,X: control — one fylr-initiated websocket
-    X-->>F: HELLO {instance_id, services, waitgroups, clients}
+    X-->>F: HELLO {instance_id, services, processes, idle, clients}
     F->>X: WANT {job_id, service, priority}
     Note right of X: parked in the want-book until a slot frees
     X->>F: OFFER {job_id, token}
@@ -93,7 +94,7 @@ A mid-stream failure becomes: the execserver aborts its stream request and sends
 Because reservation, job delivery and receipt all ride the instance-pinned socket, and streams flow in the guaranteed direction, no fylr → execserver request needs instance affinity any more:
 
 * The token machinery — 10 s TTL, cleanup goroutine, `Token not found` / wrong-service errors
-* `tokenResponseSendServerIP` and `TokenResponse.ServiceURL` (after deprecation, see migration)
+* `tokenResponseSendServerIP` and `TokenResponse.ServiceURL`
 * The `Connection: close` re-balance hack
 * The 1 s busy-retry loop against every execserver address
 * The "Token not found" incident class — structurally, instead of mitigated
@@ -106,12 +107,12 @@ Several execserver replicas commonly sit behind one load-balanced address — a 
 **Rejected: re-addressing the pods.** Two obvious fixes both breach the load balancer. `tokenResponseSendServerIP` (the legacy mechanism this design retires) had the chosen pod stamp its own IP into the token response so fylr could re-address the job straight to that pod. A DNS fan-out — resolving the address to every pod A-record and opening one socket per pod — needs the same per-pod reachability plus a headless service. Both defeat the reason an operator puts a balancer there: to expose one address and keep the pods private. The balancer must remain the only thing fylr addresses.
 {% endhint %}
 
-**Demand-driven connection pool.** Each configured address keeps a small pool — one connection to start. When a job stays parked with no slot after a full retry tick — genuine backpressure, every pod reached so far is busy — fylr opens _one more_ connection to the _same_ address. The balancer round-robins it onto another pod, whose free slots now join the fylr's reach. Growth is rate-limited (at most one new connection every couple of seconds, however many jobs are waiting) and capped. When the burst passes no new backpressure arrives, so the pool stops growing. A literal-IP or single-pod address never hits a "busy with work still queued" moment it can't serve, so it stays at one connection — unchanged behaviour for the common case.
+**Fleet enumeration.** Each configured address keeps a pool of connections that all dial that one address. At startup fylr opens connections in quick succession. Every pod announces its boot-generated `HELLO.instance_id`; a connection that reaches a pod already in the pool is closed again — so the execserver counts this fylr once and the claim share stays correct — and the enumeration ends once a run of consecutive attempts found nothing new. The run grows with the pods known, long enough that a pod still unfound is missed with odds of a tenth at most. A four-pod fleet is fully in view a second after startup, before any work arrives. fylr looks again at rest, doubling the interval while nothing changes (thirty seconds up to sixteen minutes) and dropping back to thirty seconds when a pod appears, a connection drops or a backlog builds; under sustained backpressure it looks again within seconds — an autoscaler adding pods is exactly what a backlog causes — backing off the same way within one run of backpressure. A dropped connection simply reconnects through the balancer onto a live pod. The pool tracks the reachable fleet without ever learning a pod's address.
 
-**Knowing when to stop.** Because every pool connection dials the same address, two can land on the same pod. The boot-generated `HELLO.instance_id` makes that visible: when a new connection announces an instance already in the pool, fylr closes the duplicate — so the execserver still counts this fylr once and the claim-share stays correct — and marks the pool "covered": it circled back to a known pod, so growth stops. A periodic re-probe clears that mark so pods added later are found, and a dropped connection simply reconnects through the balancer onto a live pod. The pool tracks the reachable fleet without ever learning a pod's address.
+**Backpressure is fleet-wide.** A `WANT` that finds no free slot is answered `QUEUED` at once. Only when every pod that serves the job has answered so is the address under backpressure: one full pod while another may still offer is not pressure. fylr's own measure — a job still parked after a full second — never fires for a queue of short jobs, where each job gets a slot within seconds while someone is always waiting.
 
 {% hint style="success" %}
-**Only the balancer, only on demand.** No headless service, no per-pod DNS, no downward-API pod IPs. fylr dials exactly the address the operator configured, and fans out across pods only while there is work the pods it already reached cannot absorb. Many fylr servers behind the balancer stay balanced for free — each opens its own pool, and the balancer spreads their connections across pods.
+**Only the balancer.** No headless service, no per-pod DNS, no downward-API pod IPs, no Kubernetes API. fylr dials exactly the address the operator configured and lets the balancer hand it every pod. A directly addressed execserver is the fleet of one: its enumeration finds nothing but itself and backs off. Many fylr servers behind the balancer stay balanced for free — each keeps its own pool, one connection per pod.
 {% endhint %}
 
 ## Heterogeneous fleets
@@ -127,7 +128,7 @@ Horizontal fylr scaling — several fylr servers sharing one database and the sa
 
 Cross-fylr priority is emergent: a high-priority job claimed by fylr B outranks fylr A's earlier background wants at the execserver, something the token protocol could not express at all.
 
-**Claim fairness.** Round-robin grants alone don't spread the _fylr-side_ work (feeding streams, processing responses, reindexing): if one fylr's dispatcher wakes first and claims the whole queue, its siblings idle even though slot allocation stays "fair" — all the parked wants are simply its own. So claiming is bounded to a share: `HELLO` carries the execserver's connected-client count, and each fylr's exec-bound admission becomes `ceil(capacity / clients)` plus a small pipelining headroom, summed over instances. Five fylrs on a 40-slot pool claim at most ~10 items each; when a fylr drops off, the count falls and the survivors' shares grow — self-healing, no configuration.
+**Claim fairness.** Round-robin grants alone don't spread the _fylr-side_ work (feeding streams, processing responses, reindexing): if one fylr's dispatcher wakes first and claims the whole queue, its siblings idle even though slot allocation stays "fair" — all the parked wants are simply its own. So claiming is bounded to a share: `HELLO` carries the execserver's connected-client count, and each fylr's exec-bound admission becomes `ceil(capacity / clients)` plus a small pipelining headroom, summed over instances. Five fylrs on a 40-slot pool claim at most ~10 items each; when a fylr drops off, the count falls and the survivors' shares grow — self-healing, no configuration. That share is the admission's base; the dispatcher adapts above it by what the fleet reports idle, see *Companion fix* below.
 
 Claimed-but-parked items stay cheap (a goroutine, a book entry, a claimed row). Claims carry a **heartbeat**: a crashed fylr's claims go stale and are requeued by any surviving fylr after a threshold, so no item is stranded — the startup sweep alone provably cannot catch this case, because the dead server's backend registration keeps its claims looking fresh. Several distinct instances (separate databases) sharing one execserver pool behave identically — fairness is per connection, and the want-book neither knows nor cares about database boundaries.
 
@@ -141,32 +142,43 @@ Claimed-but-parked items stay cheap (a goroutine, a book entry, a claimed row). 
 | `OFFER` never answered (conn drop) | Offer timeout → next candidate. |
 | Two `OFFER`s for one job race | First wins; the loser gets `DECLINE` immediately. |
 | No slot within `connectTimeoutSec` | Unchanged: requeue with `start_after` +1 min — just silent while waiting instead of polling. |
-| Old execserver (no `/broker`) | fylr falls back to polling for that address. |
-| Old fylr, new execserver | Legacy `GET /token` still served; it returns 503 while the want-book is non-empty, so legacy clients cannot steal slots from parked jobs. |
+| Version mismatch (old execserver or old fylr) | No shared transport — the peer without the broker exchanges no jobs. There is no fallback; execserver and fylr are upgraded together (see *Migration*). |
 
-Every failure collapses onto two primitives: connection lifetime, and — during migration, for the legacy path — the existing token TTL.
+Every failure collapses onto one primitive: connection lifetime.
 
 ## Companion fix: the file dispatcher
 
 Slot events say nothing about queued work, so the DB side gets its own fix. With `parallel` / `parallelHigh` gone, the worker pool collapses into **one dispatcher goroutine per fylr server**: it claims queue items in priority order as long as admission allows — exec-bound work up to the claim share described above, local-bound work (`sync`, `checksum`, `copy_move`) on a semaphore derived from `NumCPU` — and hands each item to its own goroutine. The dispatcher never blocks on a slot itself, so the starvation scenario behind `parallelHigh` cannot occur; a fraction of the local slots stays reserved for high-priority work as an internal concern of that semaphore, not configuration.
 
-The original proposal added Postgres LISTEN/NOTIFY and a 15–30 s fallback poll; the implementation deliberately keeps a plain **1 s poll** instead — one cheap indexed query per fylr per second replaces one query per worker per second, and the operational simplicity beats the last increment of idle silence. The dispatcher also maintains the claim heartbeats and requeues orphaned claims of crashed siblings.
+**Admission adapts to what the fleet absorbs.** The claim share assumes an item spends its life in an execserver slot. An item that spends most of it fetching its original from storage, writing versions and indexing holds its admission slot while the fleet idles — on a four-pod fleet with slow storage, one or two jobs ran per pod while a thousand images queued. So the room is measured where the slots are: the execserver's balancer keeps the least number of slots outside the fast reserve that stayed free of jobs through its last one-second window, and the broker puts that count into the `HELLO` as `idle`, re-broadcast when it changes. The dispatcher raises its admission by the fleet's idle count while the queue is deep and none of its own wants is parked — an idle pool slot may still not fit this fylr's service (memory, class caps, `maxSlots`), and then its wants queue — at most every three seconds, since the admitted items take a while to reach their exec phase. Parked wants beyond a few stragglers lower it by the excess at once. Both moves are made only while the in-flight set sits at the admission, so a lower is not counted twice while the set drains, and an empty queue decays the admission back to its base. `fylr.execserver.maxInFlight` caps it; 0 is automatic — four times the base, at least 32, at most twice `fylr.db.maxOpenConns`, since every item in flight may hold a database connection for a moment.
+
+The original proposal added Postgres LISTEN/NOTIFY and a 15–30 s fallback poll; the implementation deliberately keeps a plain **1 s poll**, plus a wakeup the moment an item finishes so freed admission is refilled at once and the execservers see a steady stream rather than a burst per tick — one cheap indexed query per fylr per second or per completion replaces one query per worker per second, and the operational simplicity beats the last increment of idle silence. The dispatcher also maintains the claim heartbeats and requeues orphaned claims of crashed siblings.
 
 ## No more worker-pool configuration
 
 `fylr.execserver.parallel` sized a static pool of file workers, each carrying one queue item synchronously — including _blocking_ inside the slot wait. The knob therefore conflated two unrelated bounds, and `parallelHigh` existed only because a fully-blocked pool starves interactive work. The broker dissolves both, so the keys are gone:
 
-* **Exec-bound concurrency derives from the pool itself.** The `HELLO` snapshot carries each execserver's waitgroups, process counts and connected-client count, so fylr computes admission from actual capacity. The execserver's `waitgroups.processes` — which already exists, and lives where the CPUs are — is the _single_ source of truth for exec concurrency. No execserver connected → nothing exec-bound is claimed at all (previously: workers claimed, failed, requeued).
+* **Exec-bound concurrency derives from the pool itself.** The `HELLO` snapshot carries each execserver's waitgroups, process counts and connected-client count, so fylr computes admission from actual capacity. With an explicit `waitgroups` block its `processes` counts are the source of truth; with none, the execserver auto-balances a single CPU pool (see *Auto-balance* below). Either way it lives where the CPUs are. No execserver connected → nothing exec-bound is claimed at all (previously: workers claimed, failed, requeued).
 * **Local-bound actions size themselves off the machine.** A semaphore derived from `NumCPU` bounds them with no configuration.
 * **Priority lanes are subsumed.** Parked wants don't occupy workers, so a high-priority job simply registers a higher-priority `WANT` and takes the next slot.
 
-What remains in fylr.yml: `addresses`, the callback URLs, and the timeouts.
+What remains in fylr.yml: `addresses`, the callback URLs, the timeouts, and `maxInFlight` as the one ceiling on how many items a fylr holds in flight.
+
+## Auto-balance
+
+With no `waitgroups` block configured (the default from 6.35), the execserver runs **one CPU pool** and classifies each service _light_, _heavy_ or _unknown_ from its measured runtime: a service whose mean exceeds `heavyThreshold` is heavy, and heavy jobs may never occupy the last `fastReserve` slots, so a burst of long conversions can never starve short interactive work (metadata, plugins, IIIF). A service without enough samples yet is capped at `unknownShare` of the pool until its first jobs classify it. The learned per-service profile — an EMA of wall time — is snapshotted to the execserver's workdir and restored on start, so the classification survives restarts; a snapshot taken on different hardware (`GOOS`/`GOARCH` or a changed pool size) is discarded. An explicit `waitgroups` block turns all of this off and restores manually sized pools.
+
+## Graceful drain
+
+On `SIGTERM` / `Ctrl-C` the execserver **drains**: it stops granting new slots, announces zero capacity in its `HELLO`, and lets running jobs finish for up to `drainTimeoutSec` (default 20 s). A job still running at the deadline is interrupted and answered with a retryable `503 ExecStopped` receipt, which the client requeues transparently — so a rolling restart behind a load balancer never fails a user's request, it only delays it. Draining applies in both auto-balance and explicit-`waitgroups` mode.
 
 ## Migration
 
-1. **(done)** Execserver: `/broker` endpoint, want-book, job-over-ws. fylr: broker client with per-address fallback to polling. Mixed fleets degrade gracefully in both directions.
-2. **(done)** Body-mode call sites converted to pipe endpoints; the legacy token path exists only for old peers.
-3. **(next major release)** Delete the legacy token path, `tokenResponseSendServerIP`, and the `parallel` / `parallelHigh` keys.
+fylr 6.35 ships the broker as the **only** transport. The phased rollout the original proposal sketched — a broker with a polling fallback, then a later removal — was collapsed into one release:
+
+* The `/broker` endpoint, want-book and job-over-websocket replace the token handshake, and every body-mode call site uses the pipe endpoints.
+* The legacy `GET /token` / `PUT /job` path, `tokenResponseSendServerIP` / `TokenResponse.ServiceURL`, the `Connection: close` re-balance hack and the `parallel` / `parallelHigh` keys are **removed**, not deprecated.
+* There is no mixed-version fallback: an execserver and the fylr servers that use it are **upgraded together**. A schema migration (198) ships with the release.
 
 ## Future extension: queue position
 

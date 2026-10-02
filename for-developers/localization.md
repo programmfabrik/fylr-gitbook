@@ -42,6 +42,10 @@ If a new key is added to the Google Sheet, the checkboxes in the columns “R”
 
 New frontend languages in fylr can only be added by Programmfabrik. Please create a ticket if you need a new frontend language. Data languages can be added in the [base configuration](../for-administrators/readme/languages.md#data-languages).
 
+## Localizing a plugin
+
+A plugin brings its own CSV, pointed at by `plugin.l10n` in its manifest, mastered in the "fylr localization" sheet with one tab per plugin and pulled with `fylr-build-plugin loca`. Which columns that file must have, and which ones fylr reads, is described under [Plugin Conventions and Standards](plugin/conventions.md#localization-l10n).
+
 ## Find the right keys
 
 If you can’t find the text you want to change in the Google Sheet, open a fylr instance and open the debug menu (STRG+CTRL+D or CONTROL+OPTION+D) and enable “Show localization keys”. Instead of the translations you see the keys now. For small buttons, you might have to use the browser developer tools and inspect the html and look for “ez5-loca-key”.

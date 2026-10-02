@@ -14,15 +14,24 @@ fylr:
   name: "fylr"
   externalURL: "http://localhost"
 
+  # peers allowed to name the client in x-real-ip / x-forwarded-for; loopback
+  # is always trusted. See fylr.example.yml.
+  trustedProxies: []
+
   logger:
     format: "console"
     level: "info"
     timeFormat: "2006-01-02 15:04:05Z07"
+  # A db: block without the + suffix replaces this whole block, and the
+  # connection pool then runs on the Go defaults (unlimited open
+  # connections, two idle, no idle timeout); write db+: to keep these.
   db:
     driver: sqlite3
     dsn: "fylr.db"
     maxIdleConns: 10
     maxOpenConns: 90
+    # a pooled connection idle for this long is closed, 0 = never
+    connMaxIdleTimeSec: 30
     init:
       config:
         system:
@@ -53,13 +62,10 @@ fylr:
 
   execserver:
     addresses:
-      - http://localhost:8083/?pretty=true
-    parallel: 18
-    parallelHigh: 10
+      - http://localhost:8083/
     pluginJobTimeoutSec: 2400
     connectTimeoutSec: 120
-    callbackBackendInternalURL: "http://localhost:8081"
-    callbackApiInternalURL: "http://localhost:8080"
+    maxInFlight: 0
 
   eas:
     rput:
@@ -141,30 +147,36 @@ fylr:
         api: "bind"
         backend: "http://localhost:8081"
       # baked-in so programmfabrik-hosted frontend branches at
-      # *.web.fylr.dev can be tested against customer fylrs via
-      # the cross-server feature. localhost on any port covers
-      # frontend developers running a local dev server. Customer
-      # configs replace this list by default; use
-      # loginAllowRedirects+: to extend it or loginAllowRedirects-:
-      # to remove a baked-in entry.
+      # *.web.fylr.dev and *.web.fylr.io can be tested
+      # against customer fylrs via the cross-server
+      # feature. localhost on any port covers frontend developers
+      # running a local dev server. Customer configs replace this
+      # list by default; use loginAllowRedirects+: to extend it or
+      # loginAllowRedirects-: to remove a baked-in entry.
       loginAllowRedirects:
         - https://*.web.fylr.dev
+        - https://*.web.fylr.io
         - http://localhost:*
         - https://localhost:*
     execserver:
       addr: :8083
       jobRemovalPolicy: "done"
       janitorFileAge: "24h"
-      waitgroups:
-        # video / office conversion
-        slow:
-          processes: 2
-        # convert / image
-        medium:
-          processes: 6
-        # plugins / metadata etc.
-        fast:
-          processes: 10
+      # One pool of slots for every service. A slot is a unit of
+      # admission, not a core: a job holds one, a command that asked for a
+      # temporary CPU allocation holds more. The balancer classifies each
+      # service light or heavy by its measured runtime, and heavy jobs never
+      # take the last fastReserve slots, so short interactive work always
+      # finds one. See fylr.example.yml for the reasoning behind each value.
+      slots: 0             # size of the pool, 0 = GOMAXPROCS, the CPUs available to fylr
+      fastReserve: -1      # slots only light jobs may take, -1 = max(1, slots/4), 0 = none
+      heavyThreshold: 10s  # a service slower than this counts as heavy
+      unknownShare: 0.5    # pool share for services not measured yet
+      # graceful shutdown: running jobs may finish for this long,
+      # stragglers are interrupted with a "stopped, retry later" receipt
+      drainTimeoutSec: 20
+      # a command showing no progress for this long is aborted, 0 = off
+      stallTimeoutSec: 600
 
       # common environment to be used for all program exec
       env:
@@ -214,36 +226,27 @@ fylr:
           prog: java
 
 
+      # What this execserver offers. A service may carry "maxSlots: N", the
+      # most slots it holds at once, jobs and temporary CPU allocations
+      # together; "name:" with nothing behind it removes a service, which
+      # is how a dedicated execserver limits itself to some services.
       services:
         # this service allows to execute arbitrary binaries
-        exec:
-          waitgroup: fast
+        exec: {}
         # plugin support
-        node:
-          waitgroup: fast
-        python3:
-          waitgroup: fast
-        xslt:
-          waitgroup: fast
+        node: {}
+        python3: {}
+        xslt: {}
         # file conversion support, also used by video thumbmnail which
         # is calling "fylr convert" which then calls ffmpeg
-        convert:
-          waitgroup: medium
-        ocr:
-          waitgroup: slow
-        ffmpeg:
-          waitgroup: slow
-        inkscape:
-          waitgroup: slow
-        soffice:
-          waitgroup: slow
-        pdf2pages:
-          waitgroup: slow
-        iiif:
-          waitgroup: fast
-        dot:
-          waitgroup: fast
-        metadata:
-          waitgroup: fast
+        convert: {}
+        ocr: {}
+        ffmpeg: {}
+        inkscape: {}
+        soffice: {}
+        pdf2pages: {}
+        iiif: {}
+        dot: {}
+        metadata: {}
 ```
 {% endcode %}

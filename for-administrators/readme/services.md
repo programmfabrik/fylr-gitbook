@@ -68,11 +68,19 @@ And enables all the following:
 
 ### Settings for Files
 
-Specify after how many days unused files should be deleted from the storage. Unused files are files that has been uploaded to FYLR but have never been linked to a record. Enter "0" to remove unused files with every janitor run (every 10 minutes).
+Specify after how many days unused files should be deleted from the storage. Unused files include uploads never linked to a record and files whose record, historic-version, and export references have all been removed. Enter "0" to remove unused files with every janitor run (every 10 minutes).
 
 {% hint style="danger" %}
 Please note, this also applies to files which where uploaded but not yet been saved. We recommend to use at least an interval of 1 day.
 {% endhint %}
+
+### Settings for Exports and Downloads
+
+Since fylr 6.35, these options are grouped under **Settings for Exports and Downloads** in the Janitor configuration. **Delete downloads after n days without a run** controls download retention for all users while the Janitor is active. It defaults to `1` day; clearing the field restores this default. Set it to `0` to make idle downloads eligible on the next Janitor pass. **Delete exports after n days without a run** sets a separate retention period for unscheduled exports, for all users. Leave it empty (the default) to keep exports indefinitely, or set it to `0` to make idle exports eligible on the next Janitor pass.
+
+The period starts when the most recent run started, including failed runs and runs with no new output. For exports never run, it starts at creation. Rerunning an export resets the period; viewing it or downloading existing output does not. Scheduled exports and exports that are pending or processing are kept.
+
+Cleanup removes the expired export or download, including its output references and transport links. File storage is reclaimed only when no other references remain and the separate file expiration setting allows deletion. Each file cleanup pass removes eligible historic file links, purges eligible deleted records, removes expired exports and downloads, and finally deletes unused files. Read-only storage stays protected.
 
 ### Settings for Objects
 
