@@ -41108,6 +41108,22 @@ paths:
             selector). When a `file/...` selector is present and no `format` is
             given, the raw file bytes are served.
 
+            For `iiif`, when no `mask/<name>` selector is given and the base
+            config `deep_link_access.iiif_mask` names a mask that exists for the
+            objecttype, that mask is used instead of the best mask. The
+            manifest's `rights` and `requiredStatement` come from the base
+            config (`deep_link_access.iiif_rights` and
+            `...iiif_required_statement`); both may contain
+            `%<objecttype>.<field>%` placeholders, resolved against the
+            object's top-level values for the manifest and against the values
+            along the path from each file to the object for its canvas. A
+            property the manifest's own values leave empty takes the value all
+            its canvases share (e.g. a field of an embedded objecttype); a canvas
+            carries a property only where it differs from the manifest's. A
+            placeholder resolves only for fields the manifest's mask renders;
+            for an embedded objecttype that is the sub-mask of the embedding
+            field.
+
             **Differs from easydb 5:** **fylr** also serves `html` and `iiif`
             (`iiif/v3/manifest.json`). easydb 5 documents only `json`,
             `xml_easydb`, `xslt`, and `csv`.
