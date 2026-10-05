@@ -102,3 +102,13 @@ The Crop Tool supports:
 * Automatic straightening by drawing a reference line along an edge or horizon.
 
 These adjustments are applied to the exported image before it is cropped.
+
+## Video Editor
+
+{% hint style="info" %}
+From **fylr 6.35.0**.
+{% endhint %}
+
+Video assets get a full-screen video editor in the variant editor. It trims, rotates, mirrors, crops and mutes the video, corrects its colours, takes a frame as the thumbnail and sets the output height and format (MP4, MOV, M4V). The result is produced on the server as a new variant of the video.
+
+The video editor is a licensed feature: it is offered only when the fylr license includes the video editor. On localhost it is always available.

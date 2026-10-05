@@ -28036,7 +28036,7 @@
             }
           },
           "400": {
-            "description": "The produce request could not be processed — typical reasons are\n`EasNoParentID` (no / zero `eas_parent_id`), `ProduceOriginalOnly`\n(the parent is not an original), `ProduceExtensionNotSupported`,\n`ProduceFormatNotSupported` and `RecipeParamUnsupportedValue`\n(unknown `colorspace` / `colorprofile`). `ReadOnlyMode` is\nreturned if the instance is read-only. An `eas_parent_id` that\ndoes not match any stored file surfaces as a generic `400` error\n(`ServerGeneric`), not a `404`.\n",
+            "description": "The produce request could not be processed — typical reasons are\n`EasNoParentID` (no / zero `eas_parent_id`), `ProduceOriginalOnly`\n(the parent is not an original), `ProduceExtensionNotSupported`,\n`ProduceFormatNotSupported`, `RecipeParamUnsupportedValue`\n(unknown `colorspace` / `colorprofile`) and `LicenseNoVideoEditor`\n(a video original, but the license has no `video_editor`\ncapability). `ReadOnlyMode` is\nreturned if the instance is read-only. An `eas_parent_id` that\ndoes not match any stored file surfaces as a generic `400` error\n(`ServerGeneric`), not a `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -28055,6 +28055,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/RecipeParamUnsupportedValueError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/LicenseNoVideoEditorError"
                     },
                     {
                       "$ref": "#/components/schemas/ReadOnlyModeError"
@@ -34967,6 +34970,10 @@
                         "two_factor": {
                           "type": "boolean",
                           "description": "Logins on this instance can use a second factor:\ntwo-factor authentication is licensed, enabled in\nthe base config and at least one method is usable.\n"
+                        },
+                        "video_editor": {
+                          "type": "boolean",
+                          "description": "Videos can be produced into new versions\n(`POST /eas/produce`), so the video editor is\navailable. Licensed via the `video_editor`\ncapability.\n"
                         }
                       }
                     }
@@ -53695,6 +53702,57 @@
           },
           "realm": "api",
           "statuscode": 401
+        }
+      },
+      "LicenseNoVideoEditorError": {
+        "type": "object",
+        "description": "Error returned with `code` `LicenseNoVideoEditor` (HTTP `400`).\n",
+        "required": [
+          "code",
+          "error",
+          "package",
+          "parameters",
+          "realm",
+          "statuscode"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Stable, machine-readable error code:\n\n  * `LicenseNoVideoEditor` — `POST /eas/produce` was called with a\n    video original, but the license of this instance has no\n    `video_editor` capability. `/settings` reports\n    `capabilities.video_editor: false` in this case.\n",
+            "enum": [
+              "LicenseNoVideoEditor"
+            ]
+          },
+          "error": {
+            "type": "string",
+            "description": "Human-readable message, localized to the caller's preferred language.\nIf no translation exists for this error key, the untranslated message\nis returned with a `Package` / `Code` footer appended.\n"
+          },
+          "package": {
+            "type": "string",
+            "enum": [
+              "license"
+            ],
+            "description": "Internal origin marker for **fylr** support; not part of the API\ncontract. Branch on `code`, not `package`.\n"
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Machine-readable details; `realm` and `statuscode` are repeated here.\n"
+          },
+          "realm": {
+            "type": "string",
+            "enum": [
+              "api"
+            ],
+            "description": "The realm the error originates from. Always `api`."
+          },
+          "statuscode": {
+            "type": "integer",
+            "enum": [
+              400
+            ],
+            "description": "The HTTP status code, repeated here. Always `400`."
+          }
         }
       },
       "LookupFoundTooManyError": {

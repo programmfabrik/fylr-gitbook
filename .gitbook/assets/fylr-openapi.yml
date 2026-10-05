@@ -26806,8 +26806,10 @@ paths:
                         The produce request could not be processed — typical reasons are
                         `EasNoParentID` (no / zero `eas_parent_id`), `ProduceOriginalOnly`
                         (the parent is not an original), `ProduceExtensionNotSupported`,
-                        `ProduceFormatNotSupported` and `RecipeParamUnsupportedValue`
-                        (unknown `colorspace` / `colorprofile`). `ReadOnlyMode` is
+                        `ProduceFormatNotSupported`, `RecipeParamUnsupportedValue`
+                        (unknown `colorspace` / `colorprofile`) and `LicenseNoVideoEditor`
+                        (a video original, but the license has no `video_editor`
+                        capability). `ReadOnlyMode` is
                         returned if the instance is read-only. An `eas_parent_id` that
                         does not match any stored file surfaces as a generic `400` error
                         (`ServerGeneric`), not a `404`.
@@ -26820,6 +26822,7 @@ paths:
                                     - $ref: '#/components/schemas/ProduceExtensionNotSupportedError'
                                     - $ref: '#/components/schemas/ProduceFormatNotSupportedError'
                                     - $ref: '#/components/schemas/RecipeParamUnsupportedValueError'
+                                    - $ref: '#/components/schemas/LicenseNoVideoEditorError'
                                     - $ref: '#/components/schemas/ReadOnlyModeError'
                                     - $ref: '#/components/schemas/ServerGenericError'
                 "403":
@@ -32797,6 +32800,13 @@ paths:
                                                     Logins on this instance can use a second factor:
                                                     two-factor authentication is licensed, enabled in
                                                     the base config and at least one method is usable.
+                                            video_editor:
+                                                type: boolean
+                                                description: |
+                                                    Videos can be produced into new versions
+                                                    (`POST /eas/produce`), so the video editor is
+                                                    available. Licensed via the `video_editor`
+                                                    capability.
                                 example:
                                     name: fa2c7b27-3430-46cc-97fa-cc3f2eeb1c0b
                                     config_name: fylr apitest
@@ -50241,6 +50251,57 @@ components:
                     statuscode: 401
                 realm: api
                 statuscode: 401
+        LicenseNoVideoEditorError:
+            type: object
+            description: |
+                Error returned with `code` `LicenseNoVideoEditor` (HTTP `400`).
+            required:
+                - code
+                - error
+                - package
+                - parameters
+                - realm
+                - statuscode
+            properties:
+                code:
+                    type: string
+                    description: |
+                        Stable, machine-readable error code:
+
+                          * `LicenseNoVideoEditor` — `POST /eas/produce` was called with a
+                            video original, but the license of this instance has no
+                            `video_editor` capability. `/settings` reports
+                            `capabilities.video_editor: false` in this case.
+                    enum:
+                        - LicenseNoVideoEditor
+                error:
+                    type: string
+                    description: |
+                        Human-readable message, localized to the caller's preferred language.
+                        If no translation exists for this error key, the untranslated message
+                        is returned with a `Package` / `Code` footer appended.
+                package:
+                    type: string
+                    enum:
+                        - license
+                    description: |
+                        Internal origin marker for **fylr** support; not part of the API
+                        contract. Branch on `code`, not `package`.
+                parameters:
+                    type: object
+                    additionalProperties: true
+                    description: |
+                        Machine-readable details; `realm` and `statuscode` are repeated here.
+                realm:
+                    type: string
+                    enum:
+                        - api
+                    description: The realm the error originates from. Always `api`.
+                statuscode:
+                    type: integer
+                    enum:
+                        - 400
+                    description: The HTTP status code, repeated here. Always `400`.
         LookupFoundTooManyError:
             type: object
             description: |
