@@ -21,7 +21,9 @@ It contains:
 * `fylr.example.yml` most configuration parameters. Look here for reference.
 * `fylr.default.yml` compiled-in default values. Just as a copy for you to look them up.
 * `LICENSE` legal information on who may use fylr.
-* A folder with plugins.
+* `README.md` pointing to this page.
+
+Up to 6.34 the archive also contained an `easydb-plugins` folder. From 6.35 plugins come from the plugin manager; updating an installation from 6.34 is described in [Updating a self-installation to 6.35](README.md#updating-a-self-installation-to-6.35).
 
 ## Windows path length
 
@@ -108,7 +110,6 @@ fylr+:
       commands:
         fylr:
           prog: fylr.exe
-      services:
 ```
 
 You are now ready to start fylr, although most asset processing tools are still missing: (no previews)
@@ -268,7 +269,18 @@ Mode                 LastWriteTime         Length Name
 
 We also added to the system path: `C:\Program Files\gs\gs10.05.0\lib`.
 
-The latter is needed for the generation of previews for `.eps`-files via `ps2pdf` and [inkscape](windows.md#inkscape).
+Up to fylr 6.34 the latter was needed for previews of `.eps` files via `ps2pdf` and [Inkscape](windows.md#inkscape). From 6.35 fylr renders EPS, AI and PS with Ghostscript itself and calls it as `gs`, which finds the copied `gs.exe` in the `%PATH%`. Instead of the copy, the program can be named in `fylr.yml`:
+
+```
+fylr+:
+  services+:
+    execserver+:
+      commands:
+        gs:
+          prog: "C:\\Program Files\\gs\\gs10.05.0\\bin\\gswin64c.exe"
+```
+
+A command declared there whose program is missing keeps fylr from starting, so add it once Ghostscript is installed.
 
 ### Libreoffice
 
@@ -298,7 +310,7 @@ We then configured the path to `soffice.exe` in `fylr.yml`.
 
 We installed Inkscape 1.4 via its default Installer.
 
-Version 1.4 is needed for the generation of previews for `.eps`-files via `ps2pdf` and inkscape.
+Up to fylr 6.34, version 1.4 was needed for previews of `.eps` files via `ps2pdf` and Inkscape. From 6.35 Inkscape renders SVG and WMF, and [Ghostscript](windows.md#ghostscript) the PostScript family.
 
 We added Inkscape's `bin` directory to the Windows System `%PATH%` like this:
 
@@ -362,6 +374,12 @@ fylr+:
           prog: "C:\\fylr\\utils\\mupdf\\mutool.exe"
 ```
 
+mutool must be built with ICC color management, or CMYK PDFs render with oversaturated colors. A build without it prints `warning: ICC support is not available` when it renders a PDF:
+
+```
+C:\fylr\utils\mupdf> .\mutool.exe draw -o check.png any.pdf
+```
+
 ### dot
 
 from [https://www.graphviz.org/download/](https://www.graphviz.org/download/)
@@ -422,7 +440,6 @@ fylr+:
       commands:
         fylr:
           prog: fylr.exe
-      services:
       
 ```
 

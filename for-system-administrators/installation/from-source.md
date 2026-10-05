@@ -13,11 +13,13 @@ This page covers **building fylr from source** and running it **directly on a ho
 Since fylr **6.34.0** the pre-built macOS/Windows/Linux binaries are statically linked (cgo-free, pure-Go SQLite) and run without a C toolchain — so building from source is only needed for development, patched builds, or unsupported platforms.
 {% endhint %}
 
+Updating from 6.34: see [Updating a self-installation to 6.35](README.md#updating-a-self-installation-to-6.35).
+
 ## 1. Build the binary
 
 **Requirements**
 
-* **Go 1.26** (see `go.mod`).
+* **Go 1.27** (see `go.mod`).
 * **git** — the web frontend is a submodule.
 * **Node.js + npm** and **sass** — to build the embedded web frontend.
 * A **C toolchain** — the default build keeps cgo for the native SQLite driver.
@@ -76,18 +78,21 @@ With just these two, fylr boots and serves the frontend; asset previews and meta
 
 ## 3. Third-party tools (the execserver)
 
-The [execserver](../../for-developers/execserver.md) shells out to external programs for previews, metadata and plugins. On a bare host each must resolve on `$PATH` (or be pointed at via `fylr.services.execserver.commands` / a `FYLR_CMD_<PROG>` env var). Each execserver service runs a `startupCheck` that pins the expected tool version, so a present-but-wrong-version tool still fails.
+The [execserver](../../for-developers/execserver.md) shells out to external programs for previews, metadata and plugins. On a bare host each must resolve on `$PATH` (or be pointed at via `fylr.services.execserver.commands` / a `FYLR_CMD_<PROG>` env var). A command can carry a `startupCheck` — arguments and a regex its output must match, see `fylr.example.yml` — so that a present but wrong version of a tool fails at startup.
 
 The full set (matching the official Docker image — Debian package names):
 
 ```
 imagemagick libmagickcore-7.q16-10-extra   # magick (ImageMagick 7)
+libheif-plugin-x265                        # HEIC encoding for magick and vips
 libvips-tools                              # vips  (>= 8.16)
-librsvg2-bin ghostscript inkscape          # SVG / EPS delegates
+ghostscript                                # gs: EPS, AI, PS
+librsvg2-bin inkscape                      # SVG / WMF
 exiftool libarchive-zip-perl               # metadata (+ office formats)
 ffmpeg ffmpegthumbnailer                   # video / ffprobe
 libreoffice                                # soffice (office conversions)
-mupdf-tools poppler-utils                  # mutool (PDF render), pdfinfo
+poppler-utils                              # pdfinfo
+                                           # mutool (PDF render): built from source, see below
 tesseract-ocr-all                          # OCR
 calibre                                    # EPUB
 default-jre-headless libsaxonhe-java       # java (Tika), Saxon-HE (XSLT)
@@ -99,6 +104,18 @@ ca-certificates tzdata-legacy
 ```
 
 Extra Python modules used by some plugins (`python3-requests`, `python3-requests-oauthlib`, `python3-opencv`, `python3-cssselect`, `python3-tinycss2`, …) are installed with `pip3`.
+
+mutool has to be built with ICC color management, or CMYK PDFs render with oversaturated colors. Debian's and Ubuntu's `mupdf-tools` are built without it, so the Docker image builds mutool from source, and so does this:
+
+```bash
+sudo apt-get install build-essential pkg-config curl
+curl -fsSL -o mupdf.tar.gz https://mupdf.com/downloads/archive/mupdf-1.28.0-source.tar.gz
+mkdir mupdf && tar -xzf mupdf.tar.gz -C mupdf --strip-components=1
+make -C mupdf -j"$(nproc)" HAVE_X11=no HAVE_GLUT=no tools
+sudo install -m 0755 mupdf/build/release/mutool /usr/local/bin/mutool
+```
+
+A build without ICC prints `warning: ICC support is not available` when it renders a PDF (`mutool draw -o /tmp/check.png any.pdf`). On macOS, Homebrew's `mupdf-tools` has ICC.
 
 {% hint style="info" %}
 **Version gotchas:** ImageMagick must be **v7** and is called as `magick` (fylr ≥ 6.34 no longer uses the deprecated `magick convert`); libvips **≥ 8.16**; the OpenSearch `analysis-icu` plugin is required; the `postgresql-client` major should match your PostgreSQL server (used for backup/restore, configurable via `FYLR_CMD_PG_DUMP`). If a program has a different name on your distribution, override it in `fylr.services.execserver.commands`.

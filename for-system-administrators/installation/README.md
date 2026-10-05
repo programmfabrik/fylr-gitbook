@@ -48,6 +48,43 @@ Please note: We do all of our automated and manual software testing based on Lin
 
 From fylr **6.34.0**, the downloadable macOS, Windows and Linux binaries are compiled without cgo: they are **statically linked** and use the pure-Go SQLite driver, so they run on any host of their platform without a C toolchain or extra system libraries. The official **Docker image is unchanged** — it keeps cgo and the C-based SQLite driver — and PostgreSQL deployments are unaffected either way.
 
+### Updating a self-installation to 6.35
+
+This is for fylr run from the downloadable archives or [built from source](from-source.md) on Linux, macOS or [Windows](windows.md), with the third-party tools installed by you. The Docker image and the Helm chart bring these changes with them.
+
+**Ghostscript renders EPS, AI and PS.** fylr runs Ghostscript itself, as `gs`; Inkscape is left with SVG and WMF. Without Ghostscript these files get no previews. On Linux install the `ghostscript` package, on macOS `brew install ghostscript` (Homebrew's ImageMagick does not bring it along). On Windows the program is called `gswin64c.exe`, see [Ghostscript](windows.md#ghostscript).
+
+**The archives no longer contain the plugins.** The `easydb-plugins` folder is gone: the upgrade converts the enabled plugins to their marketplace releases, which fylr then downloads, see [Disk to URL plugin migration](../../plugins/disk-to-url-migration.md). Remove the `easydb-plugins` entries from `plugin.paths` in your `fylr.yml` and delete the folder; otherwise fylr warns about the old copies at every start and brings back the plugins the upgrade removed.
+
+**Check `fylr.yml` before the restart.** `fylr config check fylr.yml` names the keys 6.35 no longer knows, among them several execserver settings, see [Updating the execserver to 6.35](updating-the-execserver-to-6.35.md). The `fylr.yml` of the Windows archive was corrected in 6.35. If yours started from an earlier one, take over:
+
+* `db+:` instead of `db:` — a bare `db:` drops the connection pool defaults,
+* no empty `services:` line under `execserver+:` — it replaces the execserver's service list with nothing,
+* `update_policy` instead of `update` under `plugin.defaults`.
+
+**Building from source needs Go 1.27.**
+
+**Coming from 6.34.0**, two patch releases changed the tool requirements:
+
+* **mutool needs ICC color management** (6.34.1); without it, CMYK PDFs render with oversaturated colors. Debian's and Ubuntu's `mupdf-tools` are built without it, Homebrew's `mupdf-tools` has it. A build without it prints `warning: ICC support is not available` when it renders a PDF:
+
+  ```bash
+  mutool draw -o /tmp/check.png any.pdf
+  ```
+
+  On Debian and Ubuntu build mutool the way the Docker image does:
+
+  ```bash
+  sudo apt-get install build-essential pkg-config curl
+  curl -fsSL -o mupdf.tar.gz https://mupdf.com/downloads/archive/mupdf-1.28.0-source.tar.gz
+  mkdir mupdf && tar -xzf mupdf.tar.gz -C mupdf --strip-components=1
+  make -C mupdf -j"$(nproc)" HAVE_X11=no HAVE_GLUT=no tools
+  sudo install -m 0755 mupdf/build/release/mutool /usr/local/bin/mutool
+  ```
+
+  Previews produced before keep their colors until the files are produced again.
+* **Writing HEIC** (6.34.2) needs libheif with its x265 encoder: the `libheif-plugin-x265` package on Debian and Ubuntu; Homebrew's `libheif` includes it; for Windows see [ImageMagick](windows.md#magick.exe-imagemagick).
+
 ### Troubleshooting
 
 [fylr log messages that can be ignored](../symptom-and-solution/log-messages-that-can-be-ignored.md)
