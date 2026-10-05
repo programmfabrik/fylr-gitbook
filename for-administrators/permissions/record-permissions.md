@@ -28,6 +28,8 @@ Two permissions of a record decide who may change which records hang beneath it:
 
 <table><thead><tr><th width="330">PERMISSION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Create or Attach Child Records</td><td>Allows to create a new record beneath this record and to move an existing record beneath it.</td></tr><tr><td>Detach Child Records</td><td>Allows to move a record away from beneath this record, to another superordinate record or to the top level.</td></tr></tbody></table>
 
+<figure><img src="../../.gitbook/assets/v6.35-record-permissions-hierarchy.png" alt="The record permissions of a record in a hierarchy, with the child record rights"><figcaption>The record permissions of a record in a hierarchy, with the child record rights</figcaption></figure>
+
 Both permissions can only be set in the permissions of a record, not for a pool or an object type. As they are inherited, setting them for a record on the top level applies to all records beneath it. The owner of a record has both permissions for it automatically.
 
 The user additionally needs to see the superordinate record and needs the permission to create records in the pool or object type. Editing a record without changing its superordinate record requires neither permission, and deleting a subordinate record requires no permission for the superordinate record.

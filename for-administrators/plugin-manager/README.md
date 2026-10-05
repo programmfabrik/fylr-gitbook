@@ -65,6 +65,8 @@ Please note, some plugins may come with custom settings. Please check the [base 
 
 From fylr **6.35.0**, the **plus** button opens the **marketplace** — a curated catalog of installable plugins, grouped by **category**, each with a localized **description** and a **more information** view that shows the plugin's README. **Installing** a plugin from the marketplace also installs any plugins it **depends on**; conversely, a plugin that an enabled plugin depends on can **not** be **disabled** or **deleted** while that dependent plugin is enabled.
 
+<figure><img src="../../.gitbook/assets/v6.35-plugin-marketplace.png" alt="Add plugins from catalog in the plugin manager"><figcaption>Add plugins from catalog in the plugin manager</figcaption></figure>
+
 **Paid** and **private** plugins are delivered **sealed** (encrypted) and are decrypted by fylr during the install. Whether such a plugin can be **enabled** is decided by your **license** (see below).
 
 {% hint style="info" %}

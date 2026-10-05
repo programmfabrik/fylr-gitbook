@@ -14,6 +14,8 @@ The **Datamodel** page (`/inspect/datamodel/`) lists the datamodels of the insta
 
 Every chip is a **top-level objecttype**. A nested table is not something you navigate to, so it contributes its *links* to the objecttype that owns it, and is counted in the chip's "nested".
 
+<figure><img src="../../.gitbook/assets/v6.35-inspect-datamodel-explorer.png" alt="The datamodel model explorer with an object type picked"><figcaption>The datamodel model explorer with an object type picked</figcaption></figure>
+
 **Lines.** One line per relationship — not per column — with exactly **one arrowhead**, at the objecttype the column **points at**, the way the column list reads it: `work.lk_keyword` puts the head at `keyword`. A reverse link is the owned objecttype's link column read from the master, so its head stays at the master: `photo.lk_person` puts it at `person`.
 
 A grey line is read at its head only. What else a line is, it says with its colour, and the line's tooltip names the columns:

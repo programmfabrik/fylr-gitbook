@@ -111,6 +111,8 @@ From **fylr 6.35.0**.
 
 A video asset opens its own editor from the variant editor, next to the image one. It previews every edit in the browser and produces the new version on the server:
 
+<figure><img src="../../.gitbook/assets/v6.35-video-editor.png" alt="The video editor with the timeline and its filmstrip"><figcaption>The video editor with the timeline and its filmstrip</figcaption></figure>
+
 * **Trim** with snapping handles on the timeline, a range loop and keyboard shortcuts (a help sheet lists them); the timeline zooms and scrolls, and its filmstrip is drawn from the frames the server produces for the player.
 * **Rotate**, **mirror**, **crop** (the preview shows only the cropped region), **mute** and **scale** to an output height.
 * **Colour correction** — white balance, tone and presence controls — previewed live.

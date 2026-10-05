@@ -26,6 +26,8 @@ In addition, you can switch to **more options** to select **relative dates**, su
 
 For a **date range field**, relative dates search one end of the stored range: **Start** finds records whose range starts within the chosen time frame, **End** records whose range ends within it. The badge of the search says which end is searched.
 
+<figure><img src="../../.gitbook/assets/v6.35-expert-search-relative-dates.png" alt="Relative dates on a date range field in the expert search"><figcaption>Relative dates on a date range field in the expert search</figcaption></figure>
+
 A range whose **To** lies before its **From** is not searched: the error is shown below the inputs and **Add to search** / **Apply** stay disabled until it is corrected, also for a date inside a nested field.
 
 ### String Fields

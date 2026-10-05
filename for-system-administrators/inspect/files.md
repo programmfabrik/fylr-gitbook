@@ -56,6 +56,8 @@ itself, for example when the list is filtered by version without **Parents**.
 The images load only once the column is switched on, and the browser keeps the
 choice for the next visit.
 
+<figure><img src="../../.gitbook/assets/v6.35-inspect-files-list.png" alt="The inspect files list with thumbnails"><figcaption>The inspect files list with thumbnails</figcaption></figure>
+
 ## Filters
 
 The two filter rows above the list narrow it down. Dropdowns are populated from
@@ -176,6 +178,8 @@ Pressing **Action** asks for confirmation and then **schedules** the work — it
 ## Browsing a ZIP
 
 From **6.35.0** the file page of an archive — an uploaded `.zip`, or a produced `pages.zip` — shows its contents as a tree next to a preview, so what the archive holds can be seen without downloading and unpacking it. Images, video and audio play in the page, JSON gets the tree and raw view used elsewhere in inspect, markdown is rendered, common text formats are syntax-highlighted, and anything else offers a download. The IIIF viewer link is offered only for files IIIF can serve.
+
+<figure><img src="../../.gitbook/assets/v6.35-inspect-zip-browser.png" alt="A ZIP archive browsed on its inspect file page"><figcaption>A ZIP archive browsed on its inspect file page</figcaption></figure>
 
 ## File Queue
 
