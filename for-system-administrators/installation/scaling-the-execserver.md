@@ -32,7 +32,7 @@ fylr+:
 
 ## Several execservers behind one load balancer
 
-If the instances share a single balanced address (for example a Kubernetes Service in front of multiple execserver pods), this works out of the box since fylr 6.35: fylr starts with one broker connection through the balancer and, whenever jobs stay parked because every instance reached so far is busy, opens one additional connection to the same address — which the balancer routes to another pod, whose slots then join in. Duplicate connections to the same pod are detected (each execserver announces a unique instance id) and closed again, so the pool grows exactly until it has found the fleet.
+If the instances share a single balanced address (for example a Kubernetes Service in front of multiple execserver pods), this works out of the box since fylr 6.35: fylr starts with one broker connection through the balancer and, whenever jobs stay parked because every instance reached so far is busy, opens one additional connection to the same address — which the balancer routes to another pod, whose slots then join in. Duplicate connections to the same pod are detected (each execserver announces a unique instance id) and closed again, so the pool grows exactly until it has found the fleet. Pods added later — by an autoscaler, say — are found as well: whenever a backlog persists behind the address for more than a few seconds, fylr re-probes it every five seconds until the pressure eases, so a new pod picks up work within seconds rather than at the next periodic re-probe.
 
 No per-pod addressing is needed: no `tokenResponseSendServerIP`, no downward-API pod IPs, no headless service. fylr only ever dials the one address the operator published.
 

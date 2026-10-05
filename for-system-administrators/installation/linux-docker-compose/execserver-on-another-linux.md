@@ -82,9 +82,7 @@ networks:
 [...]
   execserver: # the following tells fylr how to connect to the execserver
     addresses:
-      - http://exec.example.com:8083/?pretty=true
-    parallel: 18
-    parallelHigh: 10
+      - http://exec.example.com:8083/
     pluginJobTimeoutSec: 2400
     connectTimeoutSec: 120
     # the following tells the execserver how to connect back to the main fylr
@@ -96,6 +94,8 @@ networks:
 
 [...]
 ```
+
+There is no worker count to configure on _main_.example.com: from 6.35 one file dispatcher takes as many jobs as the connected execserver has slots, and the execserver sizes its pool to its own CPUs (`slots`, see [performance tuning](../../configuration/performance-tuning.md)).
 
 * use a `docker-compose.yml` with these changes, the rest remains as in [the default installation](../linux-docker-compose.md#installation):
 

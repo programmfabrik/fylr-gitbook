@@ -54,6 +54,8 @@ custom_types:
 
 A reference that matches no user is logged as a warning and the run continues without a plugin user.
 
+An entry that brings no `_uuid` of its own is identified by the MD5 of its data. From **6.35.0** the `_expires_at` the updater writes is left out of that hash — it stays part of the data and is returned like every other key, but two entries with the same content are one entry whatever expiry they carry. Entries stored earlier keep their identity until the updater next touches them, so duplicates merge over one expiry cycle. Entries no field value refers to any more are removed by the [janitor](../for-administrators/readme/services.md#orphaned-terms-and-custom-data) after an hour.
+
 
 
 

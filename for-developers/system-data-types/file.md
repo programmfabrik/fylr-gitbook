@@ -25,6 +25,8 @@ Files are stored in configurable locations, like **S3** or **disk** storage.
 
 ### Technical Metadata
 
+Three keys were added in **6.35.0**: `projection_type` marks 360° media (for example `equirectangular`), `alpha` is present and `true` only for a file or rendition with an alpha channel, and `vector` carries the counts of embedded images and shadings of an EPS or AI file. See [Metadata extraction](../file-worker.md#6-metadata-extraction).
+
 {% include "../../.gitbook/includes/technical_metadata.md" %}
 
 ### File Versions

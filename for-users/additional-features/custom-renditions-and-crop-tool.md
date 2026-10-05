@@ -109,6 +109,13 @@ These adjustments are applied to the exported image before it is cropped.
 From **fylr 6.35.0**.
 {% endhint %}
 
-Video assets get a full-screen video editor in the variant editor. It trims, rotates, mirrors, crops and mutes the video, corrects its colours, takes a frame as the thumbnail and sets the output height and format (MP4, MOV, M4V). The result is produced on the server as a new variant of the video.
+A video asset opens its own editor from the variant editor, next to the image one. It previews every edit in the browser and produces the new version on the server:
+
+* **Trim** with snapping handles on the timeline, a range loop and keyboard shortcuts (a help sheet lists them); the timeline zooms and scrolls, and its filmstrip is drawn from the frames the server produces for the player.
+* **Rotate**, **mirror**, **crop** (the preview shows only the cropped region), **mute** and **scale** to an output height.
+* **Colour correction** — white balance, tone and presence controls — previewed live.
+* A **variant thumbnail** picked from any frame, and an output **format**: MP4, MOV or M4V.
+
+The preview plays the best playable rendition up to 1080p and falls back to the original for a codec the browser cannot decode. **Create and continue** keeps the editor open to derive the next version from the same source. The version is produced asynchronously; it appears in the file's versions once it is done.
 
 The video editor is a licensed feature: it is offered only when the fylr license includes the video editor. On localhost it is always available.
