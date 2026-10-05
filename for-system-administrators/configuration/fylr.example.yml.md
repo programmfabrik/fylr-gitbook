@@ -1112,10 +1112,11 @@ fylr:
       # Stall supervision: a job command showing no sign of progress for this
       # long is aborted with a "stalled" receipt. Progress is any of: bytes on
       # stdout/stderr or file transfers, file growth in the job's workdir, or
-      # the process group still consuming CPU time (a silently computing tool
-      # counts as alive). 0 turns stall supervision off. Recipes override
-      # this per exec with the "stallTimeout" duration string: ""/unset
-      # keeps this default, "0" turns supervision off for that exec.
+      # the process group using at least 5% of a CPU core (a silently
+      # computing tool counts as alive, a waiting wrapper does not). 0 turns
+      # stall supervision off. Recipes override this per exec with the
+      # "stallTimeout" duration string: ""/unset keeps this default, "0"
+      # turns supervision off for that exec.
       stallTimeoutSec: 600
 
       # The "waitgroups" block and the per-service "waitgroup" keys of
