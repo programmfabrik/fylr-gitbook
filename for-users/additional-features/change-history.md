@@ -24,6 +24,10 @@ Permission **Access Change History with Users**:
 
 * User always has access to change history **and** usernames
 
+#### Highlighting Changes
+
+With **mark changes**, the change history highlights what changed. From fylr **6.35.0**, the rows of a nested field are compared one by one, also inside nested rows: a removed row is shown again where it was and marked red, an added row green, and a changed row as modified, instead of the whole field being marked.
+
 #### Restore Versions
 
 If a user has the permissions to **edit the record and access the change history**, this user can restore historic versions by opening the change history while editing in the detail view.

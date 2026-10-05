@@ -15,6 +15,8 @@ From version 6.35.0 the parent file may be a video; before that, only images wer
 
 `color` is the classic set of grading controls — `temperature`, `tint`, `exposure`, `contrast`, `highlights`, `shadows`, `whites`, `blacks`, `saturation`, `vibrance` and `hue`. Every one of them is neutral at `0`, omitted ones keep the source value, and unless documented otherwise the valid range is `-100` to `100`. They are applied after the transformations, in the order white balance, tone curve, saturation and hue, vibrance.
 
+Producing from a video needs a license with the **video editor** capability. Without it a video parent is refused with `LicenseNoVideoEditor`, and `GET /api/v1/settings` reports `capabilities.video_editor: false`, so the web frontend does not offer the video editor. An instance on localhost always has the capability.
+
 Which extensions can be produced at all is decided by the produce recipes of the file worker, one per class; from version 6.35.0 that recipe's extension list is the only gate, which also makes `webp` sources producible.
 
 ### `POST /eas/produce`

@@ -14,4 +14,6 @@ A **spherical video or panoramic image** — one the server recognised as 360° 
 
 A **3D asset** — a gaussian splatting scene or a polygon mesh the server could decode — opens in a built-in 3D viewer: drag to orbit the camera on all three axes, wheel to zoom, trackpad to pan, a grid floor to toggle, and a help overlay listing the controls. In the editor the current camera can be stored as the viewpoint for the asset's produced preview images, the way a custom video thumbnail is stored. The viewer pans with the right mouse button, so the context menu stays away there.
 
+A **multi-page image** — a TIFF scan with several pages — opens in the paged viewer that office documents have, so it reads page by page.
+
 **Audio** plays with fylr's own transport bar — play/pause, elapsed and total time, mute and volume — whose seek area shows the waveform of the file.

@@ -41,6 +41,8 @@ Set together, **Color Space** and **Color Profile** have to agree: a `cmyk` colo
 
 `Generic XYZ Profile` and `Generic Lab Profile` are no longer offered. XYZ and Lab describe the space color management converts *through*, not image data; a file tagged with one is refused by color-managed software although the image inside it is intact. A preset that still names either does not save until it is changed to a real profile, for example `sRGB Profile` or `AdobeRGB1998`.
 
+A version written as **BMP** is a 24 bpp TrueColor file with a classic `BITMAPINFOHEADER` and no embedded color profile, so every BMP reader, macOS included, opens it; its pixels are still converted through the chosen color profile.
+
 ## Using a preset
 
 When a preset applies to a file, it appears in the **Renditions** list of the download options alongside the standard renditions. See [Downloading](../../../for-users/download-and-export/downloading.md#custom-version-presets) for the user's perspective.

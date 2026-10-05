@@ -21,6 +21,8 @@ fylr backup \
 
 `--server`, `--login` and `--password` refer to the source server.
 
+The base configuration is copied as it is, the SAML settings included. From fylr **6.35.0** neither `fylr backup` nor `fylr restore` fetches the identity provider's metadata, so an identity provider that cannot be reached from where the backup runs does not stop it.
+
 {% hint style="warning" %}
 `--purge` deletes a backup in `--dir` in case there is already one. All existing files in this directory are deleted!
 {% endhint %}

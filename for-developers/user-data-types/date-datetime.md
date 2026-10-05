@@ -52,6 +52,8 @@ The left side reflects the recognized width of the value.
 
 {% hint style="info" %}
 The parser does not support sending a timezone for shortened date strings. For shorter date strings, the stored time zone is always UTC.
+
+From fylr **6.35.0** the web frontend matches this: a partial date (a year, or a year and month) still shows a stored time zone offset, but editing the date drops it, and an offset typed into a partial date is invalid.
 {% endhint %}
 
 ## Index
