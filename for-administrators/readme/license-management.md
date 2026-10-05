@@ -26,7 +26,7 @@ Warnings are sent via email before the license **end date**:
 
 * **30 days**, **7 days** and **1 day** before the end date.
 
-Once the end date has passed, fylr enters a two-month [grace period](../../license-management.md#grace-period) and keeps reminding you that it is running out:
+Once the end date has passed, fylr enters a two-month [grace period](../../license-management.md#grace-period-for-subscription-licences-only) and keeps reminding you that it is running out:
 
 * **weekly**, starting eight weeks before the grace period ends, and
 * **daily** during the last week before the grace period ends.

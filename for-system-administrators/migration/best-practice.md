@@ -30,7 +30,7 @@ Productive migrations include the complete data, as well as all files. The files
 
 * For *productive* migrations:
   * [Backup and restoring including user passwords](#backup-and-restoring-including-user-passwords)
-  * [Restoring with files (all files are copied)](#restoring-with-files-all-files-are-copied)
+  * [Restoring with files (all files are copied)](#restoring-with-files-all-files-and-versions-are-copied)
   * [Restoring with and without purge](#restoring-with-and-without-purge)
     * [Purge, upload datamodel and base configuration](#purge-upload-datamodel-and-base-configuration)
     * [Purge, upload datamodel but skip upload of base configuration](#purge-upload-datamodel-but-skip-upload-of-base-configuration)

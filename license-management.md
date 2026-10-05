@@ -77,7 +77,7 @@ How long a fylr version can be used depends on the license type — _subscriptio
 
 ### Subscription licenses
 
-A subscription license is purely time-based. fylr can be used until the license **end date**, followed by a **two-month grace period** (see [below](license-management.md#grace-period)). The age of the fylr binary no longer plays a role — a subscription is not affected by how old the running fylr version is.
+A subscription license is purely time-based. fylr can be used until the license **end date**, followed by a **two-month grace period** (see [below](license-management.md#grace-period-for-subscription-licences-only)). The age of the fylr binary no longer plays a role — a subscription is not affected by how old the running fylr version is.
 
 ### Buy licenses
 

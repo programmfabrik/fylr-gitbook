@@ -124,7 +124,7 @@ Allow this XSLT to be used in the [Deep Link interface](#deep-link-settings).
 
 ### Use for OAI/PMH
 
-Allow this XSLT to be used in the [OAI/PMH interface](#oaipmh).
+Allow this XSLT to be used in the [OAI/PMH interface](#oai-pmh).
 
 {% hint style="info" %}
 Please note: since the OAI/PMH standard requires XML, make sure that the XSLT produces valid XML. Otherwise an internal parsing error can occur in the OAI/PMH endpoint.

@@ -36,7 +36,7 @@ Use [`--include-files`](#include-files) to pack the file bytes into the backup i
 {% hint style="warning" %}
 Not all events will be migrated from easydb5 to fylr, because they have no purpose in fylr. Also, some events need to be changed.
 
-For a complete overview, see [below](#migration-of-events-differences-between-easydb5-and-fylr)
+For a complete overview, see [below](limitations.md#migration-of-events)
 {% endhint %}
 
 

@@ -45,4 +45,4 @@ A version written as **BMP** is a 24 bpp TrueColor file with a classic `BITMAPIN
 
 ## Using a preset
 
-When a preset applies to a file, it appears in the **Renditions** list of the download options alongside the standard renditions. See [Downloading](../../../for-users/download-and-export/downloading.md#custom-version-presets) for the user's perspective.
+When a preset applies to a file, it appears in the **Renditions** list of the download options alongside the standard renditions. See [Downloading](../../../for-users/download-and-export/downloading.md#custom-versions) for the user's perspective.

@@ -185,7 +185,7 @@ During the background processing of all file jobs, the queue can grow. This is b
 
 ## File Locations
 
-fylr can copy files to the local file system (location: `local`), or display files which are only stored with a URL (location: `remote`), and are then linked using this URL. Files which are on `remote` can be copied to `local` using the actions [`copy_move`](#copymove) or [`copy_move_produce`](#copymove--produce). The location of the file will then be changed. It is not possible to change a file location from `local` to `remote`.
+fylr can copy files to the local file system (location: `local`), or display files which are only stored with a URL (location: `remote`), and are then linked using this URL. Files which are on `remote` can be copied to `local` using the actions [`copy_move`](#copy-move) or [`copy_move_produce`](#copy-move-and-produce). The location of the file will then be changed. It is not possible to change a file location from `local` to `remote`.
 
 In the file overview in the `/inspect/files` page, the files can be filtered by different locations:
 
