@@ -24,6 +24,7 @@ object ids, and the full status message).
 
 | Column | Meaning |
 | --- | --- |
+| **Thumbnail** | Shown with **Show thumbnails** above the list, see [Thumbnails](#thumbnails) (**from version 6.35.0**). |
 | **ID** | The file's EAS id. The checkbox selects the file for an [action](#file-actions). |
 | **Source ID** | For a version, the id of the file it was produced from. |
 | **Location ID** | The storage location holding the file (empty for remote-only files). |
@@ -43,6 +44,17 @@ object ids, and the full status message).
 **From version 6.35.0** a click on the **ID**, **Filename**, **Size** or
 **Created** header sorts the list by that column, a second click reverses it;
 the header shows ↑ or ↓. It sets the same order as **Sort By** below.
+
+### Thumbnails
+
+**From version 6.35.0** the checkbox **Show thumbnails** above the list adds a
+**Thumbnail** column on the left. An original shows its smallest finished
+rendition a browser can display, one without a watermark first; a file without
+such a rendition, an audio file without cover art for example, stays empty. A
+version shows the thumbnail of its original when the original is not listed
+itself, for example when the list is filtered by version without **Parents**.
+The images load only once the column is switched on, and the browser keeps the
+choice for the next visit.
 
 ## Filters
 
