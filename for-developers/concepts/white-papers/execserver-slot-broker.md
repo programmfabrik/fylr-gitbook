@@ -27,7 +27,7 @@ Configuration stays exactly as is: fylr.yml lists `execserver.addresses`; the ex
 **Key inversion.** Connecting _is_ the registration; the connection dropping _is_ the goodbye. Crash-safe, no registration state, no TTL cleanup — and the traffic direction (outbound from fylr) matches the previous polling, so existing firewall and NAT topologies keep working.
 {% endhint %}
 
-Each fylr opens one persistent websocket per execserver instance (`GET /broker` on the execserver). The execserver keeps a **want-book** per waitgroup — in-memory, keyed by connection, volatile by design: a reconnecting fylr simply re-registers its parked wants.
+Each fylr opens one persistent websocket per execserver instance (`GET /broker` on the execserver). The execserver keeps a **want-book** — in-memory, one list in arrival order per connection, volatile by design: a reconnecting fylr simply re-registers its parked wants.
 
 When a slot frees, the execserver picks the taker in this order: highest `priority` class first, then **round-robin across connections** within that class, then FIFO within a connection. Priority stays global — an interactive job beats background work regardless of origin — but within a class, slots are dealt like cards: a fylr with one parked want is served next even if a sibling parked a hundred wants ahead of it. Exactly one fylr is offered each slot — **no thundering herd, by construction**. An idle execserver grants an incoming `WANT` instantly: a parked want _is_ the standing "got work for me?" ask.
 
@@ -117,7 +117,7 @@ Several execserver replicas commonly sit behind one load-balanced address — a 
 
 ## Heterogeneous fleets
 
-The `HELLO` snapshot lists the services each execserver offers (`services`: service → waitgroup). fylr parks a want only on a connection whose pod announced that service, so a mixed fleet — ffmpeg on specialised hardware behind the same balancer as general workers — routes correctly with no configuration: every want finds a pod that can run it. This also closes a latent gap in the old transport, which had no way to tell that an execserver did not offer a requested service and would fail the job against it; capability is now **declared**, not discovered by failure. The static per-service address filter (a `/job/<service>` path on a configured address) still works for operators who prefer a separate pool per address, but it is no longer required.
+The `HELLO` snapshot lists the services each execserver offers (`services`, a list of service names) and its pool size (`processes`). fylr parks a want only on a connection whose pod announced that service, so a mixed fleet — ffmpeg on specialised hardware behind the same balancer as general workers — routes correctly with no configuration: every want finds a pod that can run it. This also closes a latent gap in the old transport, which had no way to tell that an execserver did not offer a requested service and would fail the job against it; capability is now **declared**, not discovered by failure. The static per-service address filter of earlier versions (a `/job/<service>` path on a configured address) is refused at startup since 6.35.0.
 
 ## Multiple fylr servers, one instance
 
@@ -166,7 +166,7 @@ What remains in fylr.yml: `addresses`, the callback URLs, the timeouts, and `max
 
 ## Auto-balance
 
-The execserver runs **one pool of slots** for every service (a slot is a unit of admission, not a core: a job holds one, a command with a temporary CPU allocation holds more) and classifies each service _light_, _heavy_ or _unknown_ from its measured runtime: a service whose mean exceeds `heavyThreshold` is heavy, and heavy jobs may never occupy the last `fastReserve` slots, so a burst of long conversions can never starve short interactive work (metadata, plugins, IIIF). A service without enough samples yet is capped at `unknownShare` of the pool until its first jobs classify it. The learned per-service profile — an EMA of wall time — is snapshotted to the execserver's workdir and restored on start, so the classification survives restarts; a snapshot taken on different hardware (`GOOS`/`GOARCH` or a changed pool size) is discarded. A single service is held back with `maxSlots`, the most slots it holds at once; the explicit-waitgroups mode that the first 6.35 previews still carried was dropped before the release.
+The execserver runs **one pool of slots** for every service (a slot is a unit of admission, not a core: a job holds one, a command with a temporary CPU allocation holds more) and classifies each service _light_, _heavy_ or _unknown_ from its measured runtime: a service whose mean exceeds `heavyThreshold` is heavy, and heavy jobs may never occupy the last `fastReserve` slots, so a burst of long conversions can never starve short interactive work (metadata, plugins, IIIF). A service without enough samples yet is capped at `unknownShare` of the pool until its first jobs classify it. The learned per-service profile — an EMA of wall time — is snapshotted to the execserver's workdir and restored on start, so the classification survives restarts; a snapshot taken on different hardware (`GOOS`/`GOARCH` or a changed pool size) is discarded. A single service is held back with `maxSlots`, the most slots it holds at once.
 
 ## Graceful drain
 
@@ -184,7 +184,7 @@ fylr 6.35 ships the broker as the **only** transport. The phased rollout the ori
 
 "3 video jobs running, 7 waiting — you are number 11." Unanswerable before: the line was a scrum of independent 1 s retry loops, so there was nothing to count. The want-book is the first time the line exists as a data structure, which turns position into a queryable fact:
 
-* **Running + waiting live at the execserver.** A `QUERY {job_id}` → `POSITION {job_id, running, ahead, capacity}` message pair answers on demand: slots in use in the waitgroup, and — by replaying the grant rule (priority → round-robin → FIFO) over the current book — how many wants precede this one.
+* **Running + waiting live at the execserver.** A `QUERY {job_id}` → `POSITION {job_id, running, ahead, capacity}` message pair answers on demand: slots in use for the service, and — by replaying the grant rule (priority → round-robin → FIFO) over the current book — how many wants precede this one.
 * **Unclaimed items live in the DB.** Claim-share bounding means some competitors may not be parked anywhere yet; fylr merges the DB count into the reported position.
 * **ETA, optionally.** The execserver already keeps per-service job statistics; a rolling mean runtime turns position into "roughly N minutes". Always an estimate, never a promise — show the position as the hard number, the time as a hint.
 

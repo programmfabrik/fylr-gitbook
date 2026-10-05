@@ -251,6 +251,11 @@ fylr:
     # = the default of 900 (15 minutes). Meant for the topology apitests, which
     # shrink it to see that killing a fylr does not strand its claimed jobs.
     fileQueueStaleAfterSec: 0
+    # fileActionDelayMs makes every file-queue item sleep this long before its
+    # action runs, outside any execserver slot — a load test's stand-in for
+    # slow storage, where an item spends most of its life fetching and
+    # writing rather than converting. 0 (the default) is off.
+    fileActionDelayMs: 0
     # label marks this instance as a non-production one. The web frontend shows
     # it as a banner above the application and names it in "about fylr". Empty
     # (the default) means no banner. A deployment that manages instances
@@ -940,9 +945,12 @@ fylr:
           to: "/#/detail/{sid}"
           statuscode: 301
 
-      # loginAllowRedirects extends the /login `redirect` allow-list (and,
-      # equivalently, the OAuth2 callback's state.Redirect allow-list) beyond
-      # same-origin (fylr.externalURL). Each entry is an absolute URL pattern.
+      # loginAllowRedirects extends the allow-list of redirect targets beyond
+      # paths on this server and same-origin (fylr.externalURL): the /login
+      # `redirect` (checked as the OAuth2 callback's state.Redirect) and the
+      # `redirect` of /logout and of the login pages under /api/page/. A
+      # /logout or login page redirect outside the list goes to "/" instead.
+      # Each entry is an absolute URL pattern.
       # The host follows the RFC 6125 wildcard rules used in TLS server
       # certificates: a single "*" is permitted only as the entire leftmost
       # label and matches exactly one label that contains no ".". So
