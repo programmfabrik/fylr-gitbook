@@ -32,6 +32,36 @@ Management API for installed plugins. Every operation requires the system right 
 [fylr-openapi.yml](../../../../.gitbook/assets/fylr-openapi.yml)
 {% endopenapi %}
 
+### `GET /plugin/manage/{id}/readme` — Read an installed plugin's README.
+
+{% openapi src="../../../../.gitbook/assets/fylr-openapi.yml" path="/plugin/manage/{id}/readme" method="get" %}
+[fylr-openapi.yml](../../../../.gitbook/assets/fylr-openapi.yml)
+{% endopenapi %}
+
+### `PUT /plugin/manage/upload` — Install a plugin from an uploaded ZIP.
+
+{% openapi src="../../../../.gitbook/assets/fylr-openapi.yml" path="/plugin/manage/upload" method="put" %}
+[fylr-openapi.yml](../../../../.gitbook/assets/fylr-openapi.yml)
+{% endopenapi %}
+
+### `POST /plugin/manage/{id}/upload` — Replace a plugin's ZIP.
+
+{% openapi src="../../../../.gitbook/assets/fylr-openapi.yml" path="/plugin/manage/{id}/upload" method="post" %}
+[fylr-openapi.yml](../../../../.gitbook/assets/fylr-openapi.yml)
+{% endopenapi %}
+
+### `GET /plugin/manage/{id}/zip` — Download a plugin's stored ZIP.
+
+{% openapi src="../../../../.gitbook/assets/fylr-openapi.yml" path="/plugin/manage/{id}/zip" method="get" %}
+[fylr-openapi.yml](../../../../.gitbook/assets/fylr-openapi.yml)
+{% endopenapi %}
+
+### `POST /plugin/manage/{id}/check` — Check a plugin's source now, skipping the update-policy interval.
+
+{% openapi src="../../../../.gitbook/assets/fylr-openapi.yml" path="/plugin/manage/{id}/check" method="post" %}
+[fylr-openapi.yml](../../../../.gitbook/assets/fylr-openapi.yml)
+{% endopenapi %}
+
 ### README, ZIP and source check
 
 From **6.35.0**:

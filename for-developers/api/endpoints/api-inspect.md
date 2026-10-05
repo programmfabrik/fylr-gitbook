@@ -83,6 +83,12 @@ with no authentication and must stay on a private network. For the console itsel
 [fylr-openapi.yml](../../../.gitbook/assets/fylr-openapi.yml)
 {% endopenapi %}
 
+### `GET /inspect/users/` — Users (ACL).
+
+{% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/inspect/users/" method="get" %}
+[fylr-openapi.yml](../../../.gitbook/assets/fylr-openapi.yml)
+{% endopenapi %}
+
 ### `GET /inspect/customdata/{id}/` — Custom-data-type event.
 
 {% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/inspect/customdata/{id}/" method="get" %}
