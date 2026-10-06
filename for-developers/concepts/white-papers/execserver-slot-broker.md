@@ -178,7 +178,7 @@ fylr 6.35 ships the broker as the **only** transport. The phased rollout the ori
 
 * The `/broker` endpoint, want-book and job-over-websocket replace the token handshake, and every body-mode call site uses the pipe endpoints.
 * The legacy `GET /token` / `PUT /job` path, `tokenResponseSendServerIP` / `TokenResponse.ServiceURL`, the `Connection: close` re-balance hack and the `parallel` / `parallelHigh` keys are **removed**, not deprecated.
-* There is no mixed-version fallback: an execserver and the fylr servers that use it are **upgraded together**. A schema migration (198) ships with the release.
+* There is no mixed-version fallback: an execserver and the fylr servers that use it must be **upgraded together**. A schema migration (198) ships with the release.
 
 ## Future extension: queue position
 

@@ -31,6 +31,11 @@ fylr restore \
   * if the objects are too big or complex, the requests might take too long and cause a timeout
   * in this case, lower this value and continue restoring with `--continue`
 
+## Data extracted with `fylr backup` 6.35.0 or newer
+
+From fylr **6.35.0**, the migration tool `fylr restore` needs data extracted with `fylr backup` of v6.35.0 or newer. What counts is the fylr that ran `fylr backup`, as recorded in `manifest.json`; the source instance itself may be older, easydb 5 included. Data extracted by an older `fylr backup` is refused before the target is touched: extract it again with a current fylr.
+
+This is about migrating between instances. For safety backups of an instance, see [Backups & Restore](../backup.md).
 
 ## Parameters
 
