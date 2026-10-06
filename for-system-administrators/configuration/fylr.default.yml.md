@@ -163,8 +163,10 @@ fylr:
       jobRemovalPolicy: "done"
       janitorFileAge: "24h"
       # One pool of slots for every service. A slot is a unit of
-      # admission, not a core: a job holds one, a command that asked for a
-      # temporary CPU allocation holds more. The balancer classifies each
+      # admission, not a core: a job holds one. A video encode also borrows
+      # the slots free outside fastReserve when FFmpeg starts and runs FFmpeg
+      # with that many threads until it ends; FYLR_CONVERT_VIDEO_MP4_THREADS
+      # in env sets the thread count instead. The balancer classifies each
       # service light or heavy by its measured runtime, and heavy jobs never
       # take the last fastReserve slots, so short interactive work always
       # finds one. See fylr.example.yml for the reasoning behind each value.
@@ -181,6 +183,9 @@ fylr:
       # common environment to be used for all program exec
       env:
         - FYLR_METADATA_BLURHASH=10M
+        # FFmpeg threads of every MP4 encode, unset = the slots borrowed
+        # when FFmpeg starts, see fylr.example.yml
+        # - FYLR_CONVERT_VIDEO_MP4_THREADS=4
 
       commands:
         fylr:

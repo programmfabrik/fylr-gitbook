@@ -11,8 +11,8 @@ If you start your hierarchy in fylr.yml with `fylr+:` instead of `fylr:`, then d
 {% code title="fylr.example.yml" %}
 ```yaml
 ## - Some of the regexs to check for versions might require modifications
-## - All relative paths described in the file are relative to cmd/fylr unless otherwise
-##    stated
+## - All relative paths described in the file are relative to the directory of
+##    the config file that sets them, unless otherwise stated
 ## - All ports described in the file are formatted to work with Golang net/http package
 ##
 ## Multiple config files can be parsed (use -c ... -c ... -c ...).
@@ -480,7 +480,8 @@ fylr:
     defaults:
       # default for fylr_example plugin
       fylr_example:
-        # enable, set to false to disable the plugin, defaults to true
+        # enabled when the plugin is first registered; unset uses
+        # plugin.default.enabled, which is false unless set
         enabled: false
         # update_policy: automatic, always, never, defaults to automatic
         update_policy: "never"
@@ -1068,13 +1069,22 @@ fylr:
       # Sampling cannot prevent allocations between checks; use container
       # limits when an operating-system-enforced memory bound is needed.
 
-      # One pool of slots for every service. A job holds one slot
-      # while it runs; a command that asks for a temporary CPU allocation
-      # (fylr convert does this around FFmpeg) holds more, and gives
-      # them back when its subprocess ends. The balancer classifies each
-      # service light or heavy by its measured runtime, and heavy jobs never
-      # take the last fastReserve slots, so short interactive work (metadata,
-      # plugins, IIIF) always finds one however busy the conversions are.
+      # One pool of slots for every service. A job holds one slot while it
+      # runs; a command that asks for a temporary CPU allocation holds more,
+      # and gives them back when its subprocess ends. fylr convert asks
+      # around FFmpeg: when FFmpeg starts it borrows the slots free outside
+      # fastReserve, and FFmpeg runs with that many threads until it ends -
+      # the count does not grow when other jobs finish. Encodes started
+      # together, like the 360p, 720p and 1080p versions of one upload,
+      # compete for the free slots: the first takes them, the others often
+      # run with one thread. FYLR_CONVERT_VIDEO_MP4_THREADS in env below gives
+      # every MP4 encode a fixed thread count instead.
+      #
+      # The balancer classifies each service light or heavy by its measured
+      # runtime, and heavy jobs never take the last fastReserve slots, so
+      # short interactive work (metadata, plugins, IIIF) always finds one
+      # however busy the conversions are. Borrowed slots count like heavy
+      # jobs: while an encode holds them, further heavy jobs wait.
       #
       # slots is the size of the pool. 0 is GOMAXPROCS, the number of CPUs
       # the Go runtime may use: the core count on a bare host, the CPU limit
@@ -1135,9 +1145,14 @@ fylr:
       # os environment
       env:
         - FYLR_METADATA_BLURHASH=1g
-        # MP4 encoding threads, 0 or unset = all cores; under execserver
-        # this is the maximum of the temporary CPU request
-        - FYLR_CONVERT_VIDEO_MP4_THREADS=2
+        # FFmpeg threads of every MP4 encode. FFmpeg runs with this many
+        # threads even when the pool has fewer slots free: the encode borrows
+        # what is free up to this count, and the threads above that are not
+        # counted in the pool. A -threads N in the ffmpeg command's args still
+        # caps it. 0 or unset: the slots borrowed when FFmpeg starts, at
+        # least one (without an execserver: all cores). Thumbnails, timeline
+        # frames and audio are not affected.
+        - FYLR_CONVERT_VIDEO_MP4_THREADS=4
         # overwrite to use a different binary, defaults to "chromium" for the PDF plugin
         - SERVER_PDF_CHROME=chromium
 
@@ -1171,7 +1186,7 @@ fylr:
           startupCheck:
             args:
               - "-version"
-            regex: "ffmpeg version [5-7][\\.0-9]+ Copyright"
+            regex: "ffmpeg version n?([5-9]|[1-9][0-9])\\."
         ffprobe:
           prog: ffprobe
         node:
@@ -1183,16 +1198,17 @@ fylr:
 
       # What this execserver offers: the services jobs are addressed to.
       # fylr.default.yml ships the complete list; "services+:" adjusts it,
-      # "services:" replaces it. fylr sends a job only to execservers that
-      # announce its service, so this block is also how work is routed: an
-      # execserver meant for video alone lists nothing but ffmpeg, and the
-      # execserver next to fylr removes ffmpeg ("ffmpeg:" with nothing
-      # behind it).
+      # "services:" replaces it, and a "services:" line with nothing below it
+      # leaves the execserver without any service, which fylr warns about.
+      # fylr sends a job only to execservers that announce its service, so
+      # this block is also how work is routed: an execserver meant for video
+      # alone lists nothing but ffmpeg, and the execserver next to fylr
+      # removes ffmpeg ("ffmpeg:" with nothing behind it).
       services:
         # maxSlots caps what a service holds of the pool at once, jobs and
         # temporary CPU allocations together. soffice runs one job at a time
-        # because LibreOffice misbehaves in parallel; ffmpeg may hold four
-        # slots, as four single-thread encodes or one four-thread encode.
+        # because LibreOffice misbehaves in parallel; ffmpeg holds at most
+        # four slots, as four encodes or fewer encodes that borrowed slots.
         soffice:
           maxSlots: 1
         ffmpeg:

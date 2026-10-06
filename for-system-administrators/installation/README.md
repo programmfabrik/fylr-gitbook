@@ -59,8 +59,10 @@ This is for fylr run from the downloadable archives or [built from source](from-
 **Check `fylr.yml` before the restart.** `fylr config check fylr.yml` names the keys 6.35 no longer knows, among them several execserver settings, see [Updating the execserver to 6.35](updating-the-execserver-to-6.35.md). The `fylr.yml` of the Windows archive was corrected in 6.35. If yours started from an earlier one, take over:
 
 * `db+:` instead of `db:` — a bare `db:` drops the connection pool defaults,
-* no empty `services:` line under `execserver+:` — it replaces the execserver's service list with nothing,
-* `update_policy` instead of `update` under `plugin.defaults`.
+* delete a `services:` line under `execserver+:` that has nothing below it — it replaces the shipped service list with an empty one, so the execserver converts nothing and runs no plugin,
+* `update_policy` instead of `update` in the per-plugin entries under `plugin.defaults`; `plugin.default`, the setting for all new plugins, already uses `update_policy`.
+
+`fylr config check` warns about the first two and reports `update` as an unknown key.
 
 **Building from source needs Go 1.27.**
 

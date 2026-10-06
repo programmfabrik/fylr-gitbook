@@ -86,6 +86,12 @@ a slot, however busy the conversions are. A service that has not been measured
 often enough yet counts as *unknown* and is capped at `unknownShare` of the
 pool until its first jobs classify it.
 
+A video encode runs FFmpeg with the slots it holds when FFmpeg starts, often
+one while the other versions of the same upload are produced; in 6.34 FFmpeg
+used all cores. `FYLR_CONVERT_VIDEO_MP4_THREADS` sets the thread count of every
+MP4 encode, see
+[Long videos encode with one thread](../configuration/performance-tuning.md#long-videos-encode-with-one-thread).
+
 These are the shipped defaults; set a key only to change it:
 
 ```yaml

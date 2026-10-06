@@ -69,10 +69,33 @@ Long conversions already yield the reserved fast slots to interactive work. To c
 fylr+:
   services+:
     execserver+:
-      env:
-        # threads used by ffmpeg for mp4 video format
+      env+:
+        # threads of every MP4 encode
         - FYLR_CONVERT_VIDEO_MP4_THREADS=1
 ```
+
+`env+:` keeps the shipped entries; `env:` replaces them.
+
+### Long videos encode with one thread
+
+A video encode runs FFmpeg with the slots it holds when FFmpeg starts: its own, plus every slot free outside `fastReserve` at that moment. The count stays fixed until the encode ends. One upload starts its thumbnails and its 360p, 720p and 1080p encodes together, so the first encode takes the free slots and the others, usually the long 1080p one, run with one thread. On a pool of two slots every encode gets one thread, also when it runs alone. `slots` and `fastReserve` only help the encode that asks first; `maxSlots` can only lower the count.
+
+Set the thread count of every MP4 encode:
+
+```
+fylr+:
+  services+:
+    execserver+:
+      env+:
+        - FYLR_CONVERT_VIDEO_MP4_THREADS=4
+```
+
+* FFmpeg runs with that many threads, also when the pool has fewer slots free. The encode borrows what is free up to the count and gives it back when FFmpeg ends. Borrowed slots count like heavy jobs, so further heavy jobs wait while the encode holds them; the threads above what it borrowed are not counted, and other jobs are admitted as if they were not there.
+* A `-threads N` in the ffmpeg command's `args` still caps the count.
+* `0` or unset keeps the slots borrowed when FFmpeg starts.
+* Thumbnails, the timeline frames and audio keep their own counts: up to two CPUs for a single frame, one for AAC and MP3.
+
+The thread count of an encode is in the receipt of the version's `FILE_PRODUCE` event: the shipped video recipes run `fylr convert -v`, which writes `FFmpeg threads: N, execserver CPU allocation: M` to stderr.
 
 ### Asset processing is too slow
 
