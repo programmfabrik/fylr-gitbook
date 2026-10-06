@@ -75,7 +75,7 @@ Technical name.
 
 In the Deep-Link interface, this XSLT can be applied by using `format/xslt/<xslt-name>`.
 
-In the OAI/PMH interface, this is used as a metadata format (`metadataFormat=xslt-<name>`).
+In the OAI/PMH interface, this is used as a metadata format (`metadataPrefix=xslt-<name>`).
 
 ### Display Name
 
