@@ -50,7 +50,7 @@ From fylr **6.34.0**, the downloadable macOS, Windows and Linux binaries are com
 
 ### Updating a self-installation to 6.35
 
-This is for fylr run from the downloadable archives or [built from source](from-source.md) on Linux, macOS or [Windows](windows.md), with the third-party tools installed by you. The Docker image and the Helm chart bring these changes with them.
+This is for fylr run from the downloadable archives or [built from source](from-source.md) on Linux, macOS or [Windows](windows.md), with the third-party tools installed by you. The Docker image and the Helm chart bring these changes with them. For Windows, the steps are listed in [Updating from 6.34 to 6.35](windows.md#updating-from-6.34-to-6.35).
 
 **Ghostscript renders EPS, AI and PS.** fylr runs Ghostscript itself, as `gs`; Inkscape is left with SVG and WMF. Without Ghostscript these files get no previews. On Linux install the `ghostscript` package, on macOS `brew install ghostscript` (Homebrew's ImageMagick does not bring it along). On Windows the program is called `gswin64c.exe`, see [Ghostscript](windows.md#ghostscript).
 
