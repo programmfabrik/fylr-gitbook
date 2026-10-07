@@ -134,6 +134,54 @@ The Docker image brings Saxon-HE 12.9 and `saxon.xml` and passes the file itself
    On macOS the class path is `/opt/homebrew/opt/saxon/libexec/*`. fylr passes the `*` to Java unchanged, and Java reads every jar of the folder.
 4. **Restart fylr**, or the execserver where it runs on its own host.
 
+#### Allowing files or URLs
+
+`saxon.xml` allows URI schemes as a whole, not single files or hosts. Where stylesheets need more than their input, a changed `saxon.xml` and `saxon` command open it, for every stylesheet of the instance and on every execserver that runs XSLT:
+
+* **Files of one folder:** put the files into a folder of their own, add the folder to Java's class path and allow the scheme `classpath`:
+
+  ```xml
+  <global allowedProtocols="classpath" allowExternalFunctions="false"/>
+  ```
+
+  Stylesheets address the files relative to the folder:
+
+  ```xml
+  <xsl:include href="classpath:common.xsl"/>
+  <xsl:variable name="countries" select="document('classpath:lookup/countries.xml')"/>
+  <xsl:variable name="codes" select="unparsed-text('classpath:codes.txt')"/>
+  ```
+
+  A `classpath:` URI reaches the files of the folder and its subfolders and the resources inside the Saxon jars, nothing else.
+* **URLs:** `allowedProtocols="classpath,https"` lets stylesheets load every `https` URL the execserver's host reaches, internal services included. To limit that to certain hosts, send Java through a proxy that forwards only those, with `-Dhttps.proxyHost=<proxy>` and `-Dhttps.proxyPort=<port>` in front of `-cp` (`-Dhttp.…` for `http`).
+* **Not `file`:** it opens every file the execserver's user may read, fylr's configuration included.
+
+The `saxon` command with the folder `/opt/saxon/files` on a self-installation:
+
+```yaml
+fylr+:
+  services+:
+    execserver+:
+      commands+:
+        saxon:
+          prog: java
+          args: ["-cp", "/opt/saxon/*:/opt/saxon/files", "net.sf.saxon.Transform", "-config:/opt/saxon/saxon.xml"]
+```
+
+In Docker, the changed `saxon.xml` and the folder go into the mounted `/fylr/config` (on the host for example `/srv/fylr/config/fylr`), and the command names the image's jars:
+
+```yaml
+fylr+:
+  services+:
+    execserver+:
+      commands+:
+        saxon:
+          prog: java
+          args: ["-cp", "/usr/share/java/saxon/*:/fylr/config/xslt", "net.sf.saxon.Transform", "-config:/fylr/config/saxon.xml"]
+```
+
+On Windows, `-cp` takes the place of `-jar` and the class path separator is `;`: `"-cp", "C:\\fylr\\utils\\saxon\\saxon-he-12.5.jar;C:\\fylr\\utils\\xslt", "net.sf.saxon.Transform"`.
+
 ### Troubleshooting
 
 [fylr log messages that can be ignored](../symptom-and-solution/log-messages-that-can-be-ignored.md)

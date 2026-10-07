@@ -89,7 +89,7 @@ Please note: FYLR currently only support XSLT 1.0.
 
 Upload a valid XSLT file.
 
-From version 6.35.0, the stylesheet works on the exported XML alone: it loads no other document, file or URL (`document()`, `doc()`, `unparsed-text()`, `xsl:include`, `xsl:import`) and cannot use `xsl:result-document`. Keep lookup tables in variables of the stylesheet itself.
+From version 6.35.0, the stylesheet works on the exported XML alone: it loads no other document, file or URL (`document()`, `doc()`, `unparsed-text()`, `xsl:include`, `xsl:import`) and cannot use `xsl:result-document`. Keep lookup tables in variables of the stylesheet itself. Files of a folder or URLs can be opened to stylesheets by the system administrator, see [Allowing files or URLs](../../for-system-administrators/installation/README.md#allowing-files-or-urls).
 
 ### Name
 
