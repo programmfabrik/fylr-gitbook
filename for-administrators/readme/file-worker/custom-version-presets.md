@@ -35,7 +35,7 @@ A preset must have a display name **and** at least one effective option. The edi
 
 ### Color space and color profile
 
-From fylr **6.35.0** a **Color Space** an ICC profile can express is converted *through* that profile, and the produced file carries it: `rgb` and `srgb` through `sRGB_IEC61966-2-1_black_scaled`, `gray` and `grey` through `Generic Gray Profile`, `cmyk` through `ISOcoated_v2_eci` — so a CMYK download is what a print shop expects. A color space no profile expresses (`YCbCr`, `HSL`, …) is converted by channel arithmetic and leaves the file untagged, as before.
+From fylr **6.35.0** a **Color Space** an ICC profile can express is converted *through* that profile, and the produced file carries it: `rgb` and `srgb` through `sRGB_IEC61966-2-1_black_scaled`, `gray` and `grey` through `Generic Gray Profile`, `cmyk` through `ISOcoated_v2_eci` — so a CMYK download is what a print shop expects. An image without an embedded color profile is converted as sRGB, or, with CMYK pixels, as `ISOcoated_v2_eci`. A color space no profile expresses (`YCbCr`, `HSL`, …) is converted by channel arithmetic and leaves the file untagged, as before.
 
 Set together, **Color Space** and **Color Profile** have to agree: a `cmyk` color space with an RGB profile is refused when the preset is saved, rather than one of the two being dropped.
 
