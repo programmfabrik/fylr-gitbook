@@ -317,8 +317,9 @@ fylr:
     # doubles as a rate throttler. (Postgres only)
     maxOpenConns: 100
 
-    # https://golang.org/pkg/database/sql/#DB.SetMaxIdleConns, default: 0
-    # This has to be not more than maxOpenConns
+    # https://golang.org/pkg/database/sql/#DB.SetMaxIdleConns, default: 10
+    # This has to be not more than maxOpenConns. 0 keeps no idle connection,
+    # so every transaction opens a new one.
     maxIdleConns: 10
 
     # https://golang.org/pkg/database/sql/#DB.SetConnMaxIdleTime, default: 30

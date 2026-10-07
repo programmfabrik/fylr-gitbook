@@ -23,8 +23,8 @@ fylr:
     level: "info"
     timeFormat: "2006-01-02 15:04:05Z07"
   # A db: block without the + suffix replaces this whole block, and the
-  # connection pool then runs on the Go defaults (unlimited open
-  # connections, two idle, no idle timeout); write db+: to keep these.
+  # connection pool then keeps no idle connection (every transaction opens
+  # a new one) and opens any number; write db+: to keep these.
   db:
     driver: sqlite3
     dsn: "fylr.db"
