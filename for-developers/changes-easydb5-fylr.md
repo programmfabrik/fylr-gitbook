@@ -135,7 +135,6 @@ Capabilities in fylr that have no equivalent in easydb 5:
 * **Field inheritance in hierarchies**: unset fields can inherit their value from the parent object, configured per mask field; the search/db output formats `long_inheritance` and `full_inheritance` include the inherited values.
 * **Automatic numbering**, e.g. for building archival tectonics.
 * **Inspect** (`/inspect`): a bare-metal database view of the structures and data in fylr, including a visual backup tool — see [The /inspect backend](../for-system-administrators/inspect/README.md).
-* The **supervisor**: run and manage a fleet of fylr instances from one binary.
 
 ## Upgrading from easydb 5
 
