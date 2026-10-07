@@ -58,7 +58,7 @@ Each tool is a page under `/inspect/<tool>/`. The ones with settings or actions 
 
 | Tool          | Shows / does                                                                     | Page                                        |
 | ------------- | -------------------------------------------------------------------------------- | ------------------------------------------- |
-| `system`      | reindex, purge, janitor, queues, execserver, backups, locations, console, status | [System](system.md)                         |
+| `system`      | reindex, purge, janitor, queues, execserver, topology, backups, locations, console, status | [System](system.md)                         |
 | `migration`   | backup & restore in the browser                                                  | [Migration](migration.md)                   |
 | `recalcterms` | rebuild the suggestion term list                                                 | [Term Recalculation](term-recalculation.md) |
 | `sqlquery`    | an arbitrary-SQL console (only when enabled)                                     | [SQL Query](sql-query.md)                   |

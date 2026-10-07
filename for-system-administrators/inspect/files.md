@@ -187,6 +187,10 @@ Open `<fylr url>/inspect/system/queues/?queue=file` (or follow **→ Show file q
 
 During the background processing of all file jobs, the queue can grow. This is because original files will produce a number of versions (depending on the recipe). Each new version creates new jobs, so once a single original file job is picked up by a file worker, for each file version which is to be produced, the queue will grow by the number of new jobs. The total number of jobs in the queue is always fluctuating, but should generally get lower over time.
 
+A job that gets no free execserver slot within `fylr.execserver.connectTimeoutSec` (120 seconds as shipped) goes back into the queue and is tried again a minute later — the **Start After** column — as often as it takes, so a large batch of videos is worked through however long it waits; its file is not set to `error`. While no configured execserver is reachable at all, jobs are put back the same way until one connects.
+
+**Claimed By** names the fylr server processing a job (its backend id, as `system/topology` shows it); it is empty while the job waits. When that fylr server stops without finishing its jobs — killed, crashed, out of memory — the other fylr servers put its jobs back into the queue within a minute.
+
 ## File Locations
 
 fylr can copy files to the local file system (location: `local`), or display files which are only stored with a URL (location: `remote`), and are then linked using this URL. Files which are on `remote` can be copied to `local` using the actions [`copy_move`](#copy-move) or [`copy_move_produce`](#copy-move-and-produce). The location of the file will then be changed. It is not possible to change a file location from `local` to `remote`.

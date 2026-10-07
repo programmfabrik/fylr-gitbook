@@ -7,7 +7,7 @@ description: >-
 
 # Plugin
 
-Plugins extend fylr through a **callback system** that runs plugin programs in the file-worker tool chain. A plugin is a `manifest.yml` plus an arbitrary tree of resource files; it can add:
+Plugins extend fylr through a **callback system** that runs plugin programs on the [execserver](execserver.md). A plugin is a `manifest.yml` plus an arbitrary tree of resource files; it can add:
 
 * **[Extensions](plugin/extensions.md)** — custom HTTP API endpoints under the plugin's base URL.
 * **[Callbacks](plugin/callbacks/README.md)** — hooks fylr runs during its own API calls (db pre-save, transitions, collection uploads, export, export transport).

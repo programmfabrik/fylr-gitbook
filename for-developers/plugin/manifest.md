@@ -49,12 +49,13 @@ Older plugins declare their frontend load order as a `dependencies` list **insid
 
 ## The `exec` map
 
-Both `extensions` and `callbacks` describe **how fylr runs the plugin program** with the same `exec` map. fylr runs it through the [execserver](../execserver.md) file-worker tool chain, so the program is any executable the execserver has a `service` for (`node`, `python3`, `exec` for standalone binaries, …).
+Both `extensions` and `callbacks` describe **how fylr runs the plugin program** with the same `exec` map. fylr runs it as a job on an [execserver](../execserver.md), so the program is any executable the execserver has a `service` for (`node`, `python3`, `exec` for standalone binaries, …).
 
 ```yaml
 exec:
   service: "node"          # an execserver service
-  timeout: "60s"           # optional — default is fylr.execserver.pluginJobTimeoutSec (30 s)
+  timeout: "60s"           # optional — default is fylr.execserver.pluginJobTimeoutSec (2400 s)
+  stallTimeout: "20m"      # optional — default is fylr.services.execserver.stallTimeoutSec (600 s), "0" = off
   commands:
     - prog: "node"
       stdin:

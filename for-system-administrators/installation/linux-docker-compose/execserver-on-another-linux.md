@@ -31,7 +31,7 @@ fylr+:
 
   elastic:
 
-  execserver: # no need to configure the client here, as this flyr is the execserver
+  execserver: # no need to configure the client here, as this fylr is the execserver
 
   services+:
     execserver+: # this is the execserver
@@ -80,14 +80,16 @@ networks:
 
 ```
 [...]
-  execserver: # the following tells fylr how to connect to the execserver
+  execserver: # the following tells fylr where the execserver is
     addresses:
       - http://exec.example.com:8083/
-    pluginJobTimeoutSec: 2400
-    connectTimeoutSec: 120
-    # the following tells the execserver how to connect back to the main fylr
-    callbackBackendInternalURL: "http://main.example.com:8081"
-    callbackApiInternalURL: "http://main.example.com:8080"
+    # without the + suffix this block replaces the shipped one, so these
+    # two shipped values are repeated here
+    pluginJobTimeoutSec: 2400 # the longest a plugin callback may run
+    connectTimeoutSec: 120    # the longest a job waits for a free execserver slot
+    # where the execserver calls back to the main fylr: fylr runs in a
+    # container here and cannot see the address main.example.com itself
+    callbackBackendOwnURL: "http://main.example.com:8081"
 
   services+:
     execserver: # this empty yaml branch with no leaves disables the execserver
@@ -95,7 +97,11 @@ networks:
 [...]
 ```
 
-There is no worker count to configure on _main_.example.com: from 6.35 one file dispatcher takes as many jobs as the connected execserver has slots, and the execserver sizes its pool to its own CPUs (`slots`, see [performance tuning](../../configuration/performance-tuning.md)).
+There is no worker count to configure on _main_.example.com: from 6.35 one file dispatcher sizes itself from the slots of the connected execserver, and the execserver sizes its pool to its own CPUs (`slots`, see [performance tuning](../../configuration/performance-tuning.md)).
+
+`connectTimeoutSec` is how long a job waits for a free slot, not a connection timeout. A file job that gets no slot in that time goes back into the file queue and is tried again a minute later, as often as it takes; a request whose client waits for the job, such as a plugin callback, fails with an error instead.
+
+`callbackBackendOwnURL` is taken verbatim, port included. The API address handed to plugins takes its host from it and its port from the API listener, here `http://main.example.com:8080`. Before 6.35 this was set with `callbackBackendInternalURL` and `callbackApiInternalURL`; from 6.35 these two keep only scheme and port, never the host, see [Updating the execserver to 6.35](../updating-the-execserver-to-6.35.md).
 
 * use a `docker-compose.yml` with these changes, the rest remains as in [the default installation](../linux-docker-compose.md#installation):
 

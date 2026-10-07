@@ -61,24 +61,51 @@ The default login is `root` / `admin`. Configure the datastores in `fylr.yml` (o
 fylr needs a database and a search index. Recommended: **PostgreSQL 18** and **OpenSearch 3** (the versions the install team tests against).
 
 ```yaml
-db:
-  driver: postgres
-  dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
+fylr+:
+  db+:
+    driver: postgres
+    dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
 
-# the search-index config block is named "elastic" even for OpenSearch
-elastic:
-  addresses:
-    - "http://localhost:9200"
+  # the search-index config block is named "elastic" even for OpenSearch
+  elastic+:
+    addresses:
+      - "http://localhost:9200"
 ```
 
 * Install the **`analysis-icu`** plugin in OpenSearch (index creation fails without it) and set `vm.max_map_count=262144` on the host.
 * For a single-node dev instance you can use SQLite instead (`driver: sqlite3`, a file `dsn`).
 
-With just these two, fylr boots and serves the frontend; asset previews and metadata extraction need the third-party tools below.
+With just these two, fylr boots and serves the frontend only once its execserver finds the program of every command in `fylr.services.execserver.commands`: a command whose program is missing keeps fylr from starting. To start before the third-party tools below are installed, replace the shipped command list with fylr alone (`commands:` without the `+` replaces it), and remove this again once the tools are in place:
+
+```yaml
+fylr+:
+  services+:
+    execserver+:
+      commands:
+        fylr:
+          prog: fylr
+```
+
+Asset previews and metadata extraction need the third-party tools below.
 
 ## 3. Third-party tools (the execserver)
 
-The [execserver](../../for-developers/execserver.md) shells out to external programs for previews, metadata and plugins. On a bare host each must resolve on `$PATH` (or be pointed at via `fylr.services.execserver.commands` / a `FYLR_CMD_<PROG>` env var). A command can carry a `startupCheck` — arguments and a regex its output must match, see `fylr.example.yml` — so that a present but wrong version of a tool fails at startup.
+The [execserver](../../for-developers/execserver.md) shells out to external programs for previews, metadata and plugins. On a bare host each must resolve on `$PATH` or be pointed at in `fylr.services.execserver.commands`; a program that is not in that list, such as `gs` or `pg_dump`, can also be named in a `FYLR_CMD_<PROG>` env var. A command can carry a `startupCheck` — arguments and a regex its output must match, see `fylr.example.yml` — so that a present but wrong version of a tool is reported as a warning in the startup log; fylr still starts.
+
+`tika` and `saxon` are commands of the shipped list but no Debian program: the Docker image runs them as `java -jar` with the Tika app jar from [tika.apache.org](https://tika.apache.org/download.html) and the Saxon-HE jar of `libsaxonhe-java`. On a bare host name them the same way, with the path of your Tika jar:
+
+```yaml
+fylr+:
+  services+:
+    execserver+:
+      commands+:
+        tika:
+          prog: java
+          args: ["-jar", "/opt/tika/tika-app.jar"]
+        saxon:
+          prog: java
+          args: ["-jar", "/usr/share/java/Saxon-HE.jar"]
+```
 
 The full set (matching the official Docker image — Debian package names):
 

@@ -7,13 +7,13 @@ These are the configurable parameters in `fylr.yml` that affect performance:
 ```
 fylr+:
 
-  elastic:
+  elastic+:
     parallel: 4
     objectsPerJob: 100
-    maxMem: 100mb
+    maxMem: 25mb
 
-  services:
-    execserver:
+  services+:
+    execserver+:
       # One pool of slots for every service (since fylr 6.35). A slot is a
       # unit of admission, not a core: a job holds one, a command that leased
       # a temporary CPU allocation holds more. Each service is classified light
@@ -23,19 +23,19 @@ fylr+:
       slots: 0             # pool size, 0 = GOMAXPROCS (cores, or the container's CPU limit)
       fastReserve: -1      # slots only light jobs may take, -1 = a quarter of the pool, 0 = none
       heavyThreshold: 10s  # a service slower than this counts as heavy
-      unknownShare: 0.5    # pool share a service may use before it has samples
+      unknownShare: 0.5    # pool share the services without samples yet may use together
       drainTimeoutSec: 20  # graceful shutdown: running jobs may finish this long
       stallTimeoutSec: 600 # a command without progress for this long is aborted, 0 = off
       services+:
         ffmpeg:
-          maxSlots: 2      # the most slots one service holds at once
+          maxSlots: 2      # not set by default: the most slots one service holds at once
 ```
 
 * `elastic.parallel` — 4 parallel fylr jobs feed the indexer with changed and new data. fylr compiles the documents for the indexer; depending on the data model and data this can be more CPU-consuming than the indexing itself.
 * `execserver` concurrency is **auto-balanced**: you no longer size a pool per service. All services draw from one pool of `slots`, and the balancer keeps short interactive jobs (metadata, plugins, IIIF) responsive by reserving `fastReserve` slots that long conversions (ffmpeg, LibreOffice, ImageMagick) cannot take. The balancer learns each service's runtime and persists that profile across restarts, provided a `tempDir` is configured. To hold one service back, give it a `maxSlots`.
 
 {% hint style="info" %}
-**Upgrading from before 6.35.** The `execserver.parallel` / `execserver.parallelHigh` keys are gone (only `parallel: 0`, which switches file processing off on a node, keeps its meaning), and so are the `waitgroups` block and the per-service `waitgroup` keys: `fylr config check` reports them as deprecated, and they are ignored. What used to be a dedicated waitgroup is a `maxSlots` on the service. [Updating the execserver to 6.35](../installation/updating-the-execserver-to-6.35.md) walks through the whole change.
+**Upgrading from before 6.35.** The `fylr.execserver.parallel` / `fylr.execserver.parallelHigh` worker counts no longer size anything (only `parallel: 0`, which switches file processing off on a node, keeps its meaning), and neither do the `waitgroups` block and the per-service `waitgroup` keys. Otherwise they are ignored: `fylr config check` reports `parallelHigh`, `waitgroups` and `waitgroup` as deprecated, and a `parallel` other than `0` gets a warning in the server log at startup. What used to be a dedicated waitgroup is a `maxSlots` on the service. [Updating the execserver to 6.35](../installation/updating-the-execserver-to-6.35.md) walks through the whole change.
 {% endhint %}
 
 ### Other things you can change:

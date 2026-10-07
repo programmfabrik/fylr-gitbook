@@ -63,7 +63,7 @@ LIMIT <free admission> FOR UPDATE SKIP LOCKED;
 
 `FOR UPDATE SKIP LOCKED` (PostgreSQL) lets several fylr servers pull from the same queue without stepping on each other. **High-priority jobs have an odd priority**, which is exactly what the reserved slots filter on. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant. `/inspect/system/queues` shows the admission and its parts.
 
-The item's goroutine loads the full `File` (parent, children, metadata, source) and runs the job's **action**. On success the queue row is deleted; a *requeueable* failure (for example an execserver that is momentarily busy) reschedules the row a minute later; a hard failure sets the file to `error` and re-indexes the objects that carry it.
+The item's goroutine loads the full `File` (parent, children, metadata, source) and runs the job's **action**. On success the queue row is deleted. A *requeueable* failure puts the row back into the queue a minute later, as often as it takes: no execserver slot within `fylr.execserver.connectTimeoutSec`, no execserver reachable at all, an execserver that stopped the job while shutting down — so a large batch of videos is worked through however long it waits for the slots. A remote source (`/eas/rput`) that answers 429, 502, 503 or 504 is asked again after its `Retry-After` (at most ten minutes, otherwise a minute) and given up on an hour after the job was queued. An item interrupted by the fylr server's own shutdown goes back into the queue at once. The items of a fylr server that was killed go back within a minute, once the others see it gone; each claimed row names the backend that holds it. A hard failure sets the file to `error` and re-indexes the objects that carry it.
 
 The actions are `metadata`, `produce`, `sync`, `sync_check`, `copy_move`, `copy_move_produce`, `produce_versions` and `checksum`. They are documented from the execserver's side in [Exec server → File Queue](execserver.md#file-queue).
 
@@ -107,7 +107,7 @@ A file may be **exported** only in `sync`, `pending_checksum` or `done` — earl
 What a worker actually *does* to a file is decided by the **produce configuration**, which binds file **classes** to **recipes**.
 
 * A **recipe** is one production step: which input `class` and `extensions` it accepts, which `produce_class` it outputs, its `params`, the external-tool `execs` it runs, and any metadata files it reads back. Its fully-qualified name is `cookbook:recipe` (or `plugin:cookbook:recipe`).
-* A **cookbook** is a named group of recipes for a kind of file, loaded from YAML. The shipped cookbooks are `imageconverter`, `officeconverter`, `pdfconverter`, `video`, `audio`, `iiif`, `metadata`, `produce`, `xslt` and `dot`; plugins can contribute more.
+* A **cookbook** is a named group of recipes for a kind of file, loaded from YAML. The shipped cookbooks are `imageconverter`, `officeconverter`, `pdfconverter`, `video`, `audio`, `splat` (3D), `iiif`, `metadata`, `produce`, `xslt` and `dot`; plugins can contribute more.
 * The **produce configuration** maps, per class, a set of named **versions** (renditions) to the recipe that produces each. A version carries its `name`, the `recipe`, the recipe `params` (format, size, quality, colour profile, watermark…), an optional `source_version` (empty = built from the original, otherwise chained off another version), whether it is part of `_standard`, and a front-end `group` (`thumbnail` / `preview` / `huge`).
 
 The produce configuration is **layered**, compiled in this order:
@@ -181,11 +181,12 @@ Not every rendition is pre-produced and stored. A download can ask for a **custo
 | Key | Effect |
 | --- | --- |
 | `fylr.execserver.parallel: 0` | switches file processing off on this fylr (any other value, and `parallelHigh`, are deprecated and ignored) |
-| `fylr.execserver.addresses` | execserver URLs (round-robin, busy-failover) |
-| `fylr.execserver.connectTimeoutSec` | how long a client retries a busy execserver |
+| `fylr.execserver.addresses` | the execservers, or a load balancer in front of a fleet of them; fylr keeps a broker connection to every execserver it reaches there and parks each exec job on all that announce its service. A `/job/<service>` path is refused at startup |
+| `fylr.execserver.connectTimeoutSec` | the most an exec job waits for a free execserver slot (120 as shipped). A file job that gets none goes back into the queue and is tried again a minute later, as often as it takes; a request waiting for its job (a plugin callback, a custom download version) fails with an error instead |
+| `fylr.execserver.maxInFlight` | ceiling of the dispatcher's admission; 0 (the default) is automatic |
 | `fylr.eas.rput.blockedHosts` | SSRF blocklist for `/eas/rput` targets |
 | `fylr.elastic.metadataFulltextLimit` | byte cap on a file's indexed full-text |
-| `fylr.services.execserver.*` | the execserver's own definition: `commands`, the `services` it offers (with `maxSlots` per service), `slots` and `fastReserve`, `tempDir`, cache |
+| `fylr.services.execserver.*` | the execserver's own definition: `commands` and `env`, the `services` it offers (with `maxSlots` per service), the slot pool (`slots`, `fastReserve`, `heavyThreshold`, `unknownShare`), `drainTimeoutSec`, `stallTimeoutSec`, and `tempDir`, which also holds the produce cache |
 
 **Base configuration** (admin-editable): `produce_config` (classes → versions → recipe + params, allowed upload extensions, max file size), `custom_version_presets` (on-demand download presets), `colorprofiles` (custom ICC profiles referenced by recipe params). Cookbooks and recipes are also extended by enabled plugins.
 

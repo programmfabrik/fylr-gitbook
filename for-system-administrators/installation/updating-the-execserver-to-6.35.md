@@ -5,8 +5,8 @@ description: What to change in the configuration and in the deployment before re
 # Updating the execserver to 6.35
 
 fylr 6.35 changes two things about the execserver at once: how fylr talks to it
-— a fylr-initiated websocket, the *slot broker*, instead of the job token an
-execserver polled for — and how its concurrency is sized: one auto-balanced CPU
+— a fylr-initiated websocket, the *slot broker*, instead of the job token fylr
+polled each execserver for — and how its concurrency is sized: one auto-balanced CPU
 pool instead of manually sized waitgroups.
 
 Most installations need **no new setting**. What does need attention is a
@@ -27,9 +27,12 @@ Where it runs on its own — a separate host, a separate container, a pool of
 pods — that machine has to be updated in the same maintenance window as fylr.
 The same applies in the other direction: moving back moves both sides back.
 
-Nothing is lost while the two sides are apart. A job whose execservers are all
-unreachable is put back on the file queue right away and picked up when an
-execserver connects again; fylr starts and serves without any execserver.
+No file is lost while the two sides are apart. A 6.35 fylr treats an
+execserver of another version as unreachable: a file job whose execservers are
+all unreachable goes back into the file queue at once and is tried again a
+minute later, until an execserver connects again. A request that waits for its
+job, such as a plugin callback, fails at once instead. fylr starts and serves
+without any execserver.
 
 ## 2. Check the configuration before you restart
 
@@ -42,7 +45,7 @@ fylr config check fylr.yml
 
 ```
 deprecated key "fylr.execserver.parallelHigh" (from fylr.yml): worker counts are automatic now, the key is ignored
-unknown key "fylr.execserver.tokenResponseSendServerIP" (from fylr.yml): fylr has no such setting, it has no effect
+unknown key "fylr.services.execserver.tokenResponseSendServerIP" (from fylr.yml): fylr has no such setting, it has no effect
 ["fylr.yml"]: 1 unknown key(s), 1 deprecated key(s)
 ```
 
@@ -54,7 +57,7 @@ These are the execserver settings to look for:
 
 | Setting | In 6.35 | What to do |
 | --- | --- | --- |
-| `fylr.execserver.tokenResponseSendServerIP` | removed — reported as an **unknown key** | Delete it. fylr learns the address an execserver reaches it on from the broker connection itself. |
+| `fylr.services.execserver.tokenResponseSendServerIP` | removed — reported as an **unknown key** | Delete it. fylr learns the address an execserver reaches it on from the broker connection itself. |
 | `fylr.execserver.parallelHigh` | **deprecated**, ignored | Delete it. Worker counts are derived from the connected execservers' capacity. |
 | `fylr.execserver.parallel` | ignored — except the value `0` | Delete it, **unless** it is `0`: that still switches file processing off on this fylr, which is how an API-only node is configured. It is not reported, because `0` is a supported value. |
 | `fylr.execserver.callbackBackendInternalURL`, `fylr.execserver.callbackApiInternalURL` | still override scheme and port, never the host | Neither is required any more. If one of them names a **host** — a Kubernetes Service, a load balancer in front of several fylr replicas — that host is now ignored; keep the setting only for a proxy in front of the listener that changes scheme or port. Where NAT sits between fylr and the execserver, `fylr.execserver.callbackBackendOwnURL` is the verbatim override. |
@@ -66,11 +69,12 @@ These are the execserver settings to look for:
 {% hint style="info" %}
 A callback has to reach the **exact** fylr process that created the job: the
 job's stdin/stdout pipe lives in that process's memory, and so does the open
-write transaction behind a plugin's `api_tx_url`. A balanced address in one of
-the callback settings was never a working configuration; from 6.35 it fails
-visibly at connect time — the
-[fleet topology page](../inspect/system.md#fleet-topology) reports it — instead
-of landing on a sibling replica later, inside a job.
+write transaction behind a plugin's `api_tx_url`. That is why 6.35 ignores the
+host in the callback settings. An execserver checks the callback address of
+every fylr that connects, and one that does not come back to that fylr — a
+load balancer in front of several replicas, say — is reported, on the
+[fleet topology page](../inspect/system.md#fleet-topology) and in the
+execserver log, instead of landing on a sibling replica later, inside a job.
 {% endhint %}
 
 ## 3. Decide how concurrency is sized
@@ -176,7 +180,7 @@ Several execserver instances behind one address work out of the box in 6.35 —
 see [Scaling the execserver](scaling-the-execserver.md). What to remove and
 what to add:
 
-* **Remove the per-pod addressing.** `tokenResponseSendServerIP`, a headless Service, pod IPs from the downward API, L4 session affinity: none of it is needed. fylr dials the one published address and opens further connections to it while jobs back up, until it has found the whole fleet.
+* **Remove the per-pod addressing.** `tokenResponseSendServerIP`, a headless Service, pod IPs from the downward API, L4 session affinity: none of it is needed. fylr dials the one published address and opens further connections to it until it has found every pod behind it — at startup, again at intervals, and sooner while jobs back up.
 * **Point the readiness probe at `/readyz`.** It answers `200` while the execserver takes work and `503` from the moment it starts draining, so a terminating pod leaves the load balancer's endpoints before it exits. Without this a fylr still opens fresh connections to it, and the jobs granted there come straight back as "stopped, retry later".
 * **Point the liveness probe at `/healthz`.** It answers `200` as long as the process runs, draining included — a liveness probe on `/readyz` would restart the container and cut the drain short.
 * **Give the pod room to drain.** On `SIGTERM` the execserver stops granting slots and lets running jobs finish for `drainTimeoutSec` (default 20 s); a job still running at the deadline is answered with a retryable receipt that the client requeues on its own. `terminationGracePeriodSeconds` has to be comfortably above `drainTimeoutSec`, or the drain is killed halfway through.

@@ -248,8 +248,11 @@ fylr:
     # fileQueueStaleAfterSec overrides how long a claimed file_queue item may
     # go without a heartbeat from its dispatcher before it counts as orphaned:
     # another fylr requeues it, and /inspect reports it as stalled. 0 or unset
-    # = the default of 900 (15 minutes). Meant for the topology apitests, which
-    # shrink it to see that killing a fylr does not strand its claimed jobs.
+    # = the default of 900 (15 minutes). A claim names the fylr that holds it,
+    # and the claims of a fylr that stopped are requeued within a minute
+    # whatever this says; the heartbeat is the fallback for claims a fylr
+    # before 6.35 made. Meant for the topology apitests, which shrink it to see
+    # that killing a fylr does not strand its claimed jobs.
     fileQueueStaleAfterSec: 0
     # fileActionDelayMs makes every file-queue item sleep this long before its
     # action runs, outside any execserver slot — a load test's stand-in for
@@ -564,9 +567,16 @@ fylr:
       - http://localhost:8083/
     # the maximum a callback is allowed to run
     pluginJobTimeoutSec: 2400
-    # the maximum the server will wait until a worker gets a job. It only
-    # covers the wait for a free slot: when none of the addresses above is
-    # reachable at all, the job is requeued at once instead. fylr starts and
+    # the maximum an exec job waits for a free execserver slot — every exec
+    # job: file production and metadata, plugin callbacks, custom download
+    # versions, IIIF tiles, XSLT exports. Nothing is connected in that time,
+    # the job waits for its turn. A file job that gets no slot goes back into
+    # the file queue and is tried again a minute later, as often as it takes,
+    # so a batch of videos is worked through however long it waits for the
+    # slots. A request whose client waits for the job (a plugin callback, a
+    # custom download version) fails with an error instead. When none of the
+    # addresses above is reachable at all, a job does not wait out this time:
+    # the file job is requeued, the request fails at once. fylr starts and
     # serves without execservers and connects them as they come up.
     connectTimeoutSec: 120
     # the most file-queue items this fylr holds claimed at once. The file

@@ -69,6 +69,10 @@ On error — a non-zero exit code, or an [API-error JSON](manifest.md#errors) wr
 }
 ```
 
+Once more than 4&nbsp;KB of STDOUT have been sent, the response has started with status `200`; a failure after that only cuts it short.
+
+The program runs within the same limits as a callback — see [Timeouts](callbacks/README.md#timeouts). An extension that gets no execserver slot within `fylr.execserver.connectTimeoutSec` (default 120 seconds), or finds no execserver reachable, does not run: fylr answers `ServerGeneric` with status `400`.
+
 ## See also
 
 * [manifest.yml](manifest.md) — the `exec` map and placeholders.
