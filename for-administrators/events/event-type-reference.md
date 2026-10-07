@@ -491,6 +491,7 @@ Created when a full reindex starts. _Pollable._
 
 * `Datamodel` — the data model version being indexed
 * `BlockFrontend` — whether the frontend is blocked during the reindex
+* `MissingPlugins` — only when the reindex runs without plugins whose custom data types the data model uses: plugin name → reason, such as `not_installed` (its zip could not be fetched) or `not_licensed`. Their fields stay out of the index until the next reindex (from version 6.35.0)
 
 ### REINDEX_QUEUED
 
