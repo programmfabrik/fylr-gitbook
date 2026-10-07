@@ -40,6 +40,7 @@ No new third-party tool and no newer version of the tools on this page is requir
 3. **Ghostscript must be found as `gs`.** fylr renders EPS, AI and PS with Ghostscript itself: keep the `gs.exe` copy or name `gswin64c.exe` in `fylr.yml`, see [Ghostscript](windows.md#ghostscript). Inkscape stays, for SVG and WMF.
 4. **Check that mutool has ICC color management**, see [mupdf tools](windows.md#mupdf-tools). Updating MuPDF to 1.28.0, the version in the Docker image, is recommended: mutool reads every uploaded PDF, and the newer release contains security fixes.
 5. **Writing HEIC** (since 6.34.2) needs the x265 encoder in the libheif that ImageMagick embeds, see [ImageMagick](windows.md#magick.exe-imagemagick).
+6. **Saxon runs with `saxon.xml`.** Save the file next to the Saxon jar and add its `-config:` argument to the `saxon` command, see [Saxon](windows.md#saxon).
 
 The same changes for Linux and macOS: [Updating a self-installation to 6.35](README.md#updating-a-self-installation-to-6.35).
 
@@ -235,7 +236,7 @@ To extract information from assets, fylr needs a "java" command. Install Java an
 
 This replaces _xsltproc_ since fylr v6.19.
 
-Download **SaxonJ-HE 12.5** from [https://www.saxonica.com/download/java.xml](https://www.saxonica.com/download/java.xml) and unpack it, here to `C:\fylr\utils\saxon\saxon-he-12.5.jar`. Configure it in `fylr.yml`:
+Download **SaxonJ-HE 12.5** from [https://www.saxonica.com/download/java.xml](https://www.saxonica.com/download/java.xml) and unpack it, here to `C:\fylr\utils\saxon\saxon-he-12.5.jar`. From fylr 6.35.0, Saxon runs with the configuration file `saxon.xml`: save it with the content shown in [XSLT with Saxon](README.md#xslt-with-saxon), here as `C:\fylr\utils\saxon\saxon.xml`. Configure both in `fylr.yml`:
 
 ```
 fylr+:
@@ -247,6 +248,7 @@ fylr+:
           args:
             - "-jar"
             - "C:\\fylr\\utils\\saxon\\saxon-he-12.5.jar"
+            - "-config:C:\\fylr\\utils\\saxon\\saxon.xml"
 ```
 
 ### Ghostscript
@@ -469,6 +471,7 @@ fylr+:
           args:
             - "-jar"
             - "C:\\fylr\\utils\\saxon\\saxon-he-12.5.jar"
+            - "-config:C:\\fylr\\utils\\saxon\\saxon.xml"
         dot:
           prog: "C:\\fylr\\utils\\Graphviz\\bin\\dot.exe"
         tika:

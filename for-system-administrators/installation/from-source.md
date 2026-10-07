@@ -92,7 +92,7 @@ Asset previews and metadata extraction need the third-party tools below.
 
 The [execserver](../../for-developers/execserver.md) shells out to external programs for previews, metadata and plugins. On a bare host each must resolve on `$PATH` or be pointed at in `fylr.services.execserver.commands`; a program that is not in that list, such as `gs` or `pg_dump`, can also be named in a `FYLR_CMD_<PROG>` env var. A command can carry a `startupCheck` — arguments and a regex its output must match, see `fylr.example.yml` — so that a present but wrong version of a tool is reported as a warning in the startup log; fylr still starts.
 
-`tika` and `saxon` are commands of the shipped list but no Debian program: the Docker image runs them as `java -jar` with the Tika app jar from [tika.apache.org](https://tika.apache.org/download.html) and the Saxon-HE jar of `libsaxonhe-java`. On a bare host name them the same way, with the path of your Tika jar:
+`tika` and `saxon` are commands of the shipped list but no Debian program: the Docker image runs them with `java`, Tika with the app jar from [tika.apache.org](https://tika.apache.org/download.html), Saxon with Saxon-HE 12.9 from Maven Central and its `saxon.xml`, see [XSLT with Saxon](README.md#xslt-with-saxon). On a bare host name them the same way, with the paths of your jars:
 
 ```yaml
 fylr+:
@@ -104,7 +104,7 @@ fylr+:
           args: ["-jar", "/opt/tika/tika-app.jar"]
         saxon:
           prog: java
-          args: ["-jar", "/usr/share/java/Saxon-HE.jar"]
+          args: ["-cp", "/opt/saxon/*", "net.sf.saxon.Transform", "-config:/opt/saxon/saxon.xml"]
 ```
 
 The full set (matching the official Docker image — Debian package names):
@@ -122,7 +122,7 @@ poppler-utils                              # pdfinfo
                                            # mutool (PDF render): built from source, see below
 tesseract-ocr-all                          # OCR
 calibre                                    # EPUB
-default-jre-headless libsaxonhe-java       # java (Tika), Saxon-HE (XSLT)
+default-jre-headless                       # java (Tika, Saxon-HE 12 from Maven Central, see above)
 graphviz chromium                          # dot; HTML->PDF (PDF Creator plugin)
 nodejs python3                             # plugin runtimes
 postgresql-client-18                       # pg_dump / psql (backup & restore)
