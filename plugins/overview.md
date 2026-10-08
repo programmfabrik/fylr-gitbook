@@ -1,17 +1,11 @@
 ---
 label: Plugin Overview
 description: >-
-  This is an overview of the plugins that can be added to fylr with the Plugin Manager.
+  This is an overview of the plugins that can be added to fylr with the Plugin
+  Manager.
 ---
 
-<!--
-    * this page was automatically generated!
-    * timestamp: 2026-06-10 13:57:37 (UTC)
--->
-
 # Plugin Overview
-
-
 
 ## `collection-plugin-example`
 
@@ -19,38 +13,34 @@ An example plugin showing how to add custom context menu for selections and coll
 
 * Repository: [https://github.com/programmfabrik/collection-plugin-example](https://github.com/programmfabrik/collection-plugin-example)
 
-
 ## `easydb-barcode-display-pdf-plugin`
 
-Extension of [easydb-barcode-display](#easydb-barcode-display) to use the barcode in the PDF Creator.
+Extension of [easydb-barcode-display](overview.md#easydb-barcode-display) to use the barcode in the PDF Creator.
 
 * Repository: [https://github.com/programmfabrik/easydb-barcode-display-pdf-plugin](https://github.com/programmfabrik/easydb-barcode-display-pdf-plugin)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `easydb-barcode-display-plugin` (internal name: `easydb-barcode-display`)
 
 Adds a Custom Mask Splitter to output a barcode based on data of another field in the record.
 
 * Repository: [https://github.com/programmfabrik/easydb-barcode-display-plugin](https://github.com/programmfabrik/easydb-barcode-display-plugin)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `easydb-connector-plugin`
 
 Adds the Connection feature which enables you to include other fylr installations in your search.
 
-
-
 {% hint style="info" %}
+**DEPRECATED IN FYLR INSTALLATIONS - use the #fylr-plugin-connector in fylr instances instead**
+
 This plugin does not have a public release URL.
 
 To get access to this plugin and receive a URL, please contact our support.
 {% endhint %}
 
 * See also: [https://docs.fylr.io/for-users/plugins/connector](https://docs.fylr.io/for-users/plugins/connector)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `easydb-custom-data-type-html-editor` (internal name: `custom-data-type-html-editor`)
 
@@ -59,15 +49,14 @@ This custom data type allows you to integrate a WYSIWYG editor and store HTML co
 * Release URL: [https://github.com/programmfabrik/easydb-custom-data-type-html-editor/releases/latest/download/custom-data-type-html-editor.zip](https://github.com/programmfabrik/easydb-custom-data-type-html-editor/releases/latest/download/custom-data-type-html-editor.zip)
 * Repository: [https://github.com/programmfabrik/easydb-custom-data-type-html-editor](https://github.com/programmfabrik/easydb-custom-data-type-html-editor)
 * This is a custom data type.
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `easydb-custom-mask-splitter-detail-linked-plugin` (internal name: `custom-mask-splitter-detail-linked`)
 
 {% hint style="warning" %}
 This plugin was renamed internally due to technical reasons.
 
-If the plugin was installed in fylr under the name `custom-mask-splitter-detail-linked`, disable and delete this plugin in the plugin manager. 
+If the plugin was installed in fylr under the name `custom-mask-splitter-detail-linked`, disable and delete this plugin in the plugin manager.
 
 Make sure to install and enable the new version with the name `easydb-custom-mask-splitter-detail-linked-plugin` using the same release url.
 {% endhint %}
@@ -76,14 +65,11 @@ Custom mask splitter that shows a list of all records that reference the shown r
 
 * Release URL: [https://github.com/programmfabrik/easydb-custom-mask-splitter-detail-linked-plugin/releases/latest/download/easydb-custom-mask-splitter-detail-linked-plugin.zip](https://github.com/programmfabrik/easydb-custom-mask-splitter-detail-linked-plugin/releases/latest/download/easydb-custom-mask-splitter-detail-linked-plugin.zip)
 * Repository: [https://github.com/programmfabrik/easydb-custom-mask-splitter-detail-linked-plugin](https://github.com/programmfabrik/easydb-custom-mask-splitter-detail-linked-plugin)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `easydb-easydb4migration-plugin`
 
 Adds a tool to migrate from easydb4 to easydb5 or fylr to the main menu.
-
-
 
 {% hint style="info" %}
 This plugin does not have a public release URL.
@@ -91,8 +77,7 @@ This plugin does not have a public release URL.
 To get access to this plugin and receive a URL, please contact our support.
 {% endhint %}
 
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `easydb-editor-tagfilter-defaults-plugin`
 
@@ -100,8 +85,7 @@ Adds a tool to the base configuration to set default values for simple text fiel
 
 * Release URL: [https://github.com/programmfabrik/easydb-editor-tagfilter-defaults-plugin/releases/latest/download/easydb-editor-tagfilter-defaults-plugin.zip](https://github.com/programmfabrik/easydb-editor-tagfilter-defaults-plugin/releases/latest/download/easydb-editor-tagfilter-defaults-plugin.zip)
 * Repository: [https://github.com/programmfabrik/easydb-editor-tagfilter-defaults-plugin](https://github.com/programmfabrik/easydb-editor-tagfilter-defaults-plugin)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `easydb-export-transport-ftp-plugin`
 
@@ -109,8 +93,7 @@ Enables the export to transport the files to a FTP server.
 
 * Release URL: [https://github.com/programmfabrik/easydb-export-transport-ftp-plugin/releases/latest/download/easydb-export-transport-ftp-plugin.zip](https://github.com/programmfabrik/easydb-export-transport-ftp-plugin/releases/latest/download/easydb-export-transport-ftp-plugin.zip)
 * Repository: [https://github.com/programmfabrik/easydb-export-transport-ftp-plugin](https://github.com/programmfabrik/easydb-export-transport-ftp-plugin)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `easydb-plugin-zooniverse-import`
 
@@ -119,22 +102,18 @@ Plugin to parse CSV exports from [Zooniverse](https://www.zooniverse.org/) and u
 * Release URL: [https://github.com/programmfabrik/easydb-plugin-zooniverse-import/releases/latest/download/easydb-plugin-zooniverse-import.zip](https://github.com/programmfabrik/easydb-plugin-zooniverse-import/releases/latest/download/easydb-plugin-zooniverse-import.zip)
 * Repository: [https://github.com/programmfabrik/easydb-plugin-zooniverse-import](https://github.com/programmfabrik/easydb-plugin-zooniverse-import)
 * See also: [https://docs.fylr.io/for-users/plugins/zooniverse](https://docs.fylr.io/for-users/plugins/zooniverse)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `easydb-presentation-pptx-plugin`
 
 Enables you to turn collections into presentations that can be exported as PPTX.
 
 * Repository: [https://github.com/programmfabrik/easydb-presentation-pptx-plugin](https://github.com/programmfabrik/easydb-presentation-pptx-plugin)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-ai-metadata` (internal name: `ai-metadata`)
 
 This plugin allows to configure AI services in order to gather enhanced metadata to use in the fylr metadata mapper.
-
-
 
 {% hint style="info" %}
 This plugin does not have a public release URL.
@@ -142,8 +121,7 @@ This plugin does not have a public release URL.
 To get access to this plugin and receive a URL, please contact our support.
 {% endhint %}
 
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-ai-validator`
 
@@ -152,44 +130,40 @@ This is a plugin for fylr which runs AI and other validations on texts like user
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-ai-validator/releases/latest/download/ai-validator.zip](https://github.com/programmfabrik/fylr-plugin-ai-validator/releases/latest/download/ai-validator.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-ai-validator](https://github.com/programmfabrik/fylr-plugin-ai-validator)
 
-
 ## `fylr-plugin-collection-csv-import` (internal name: `collection-csv-import`)
 
 Plugin manages the server side csv importer.
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-collection-csv-import/releases/latest/download/fylr-plugin-collection-csv-import.zip](https://github.com/programmfabrik/fylr-plugin-collection-csv-import/releases/latest/download/fylr-plugin-collection-csv-import.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-collection-csv-import](https://github.com/programmfabrik/fylr-plugin-collection-csv-import)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-commons-library` (internal name: `commons-library`)
 
-Provides shared functions for CustomDataTypePlugins. 
+Provides shared functions for CustomDataTypePlugins.
 
 This plugin **must be installed** as well so that plugins which are dependant on this plugin work properly.
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-commons-library/releases/latest/download/commonsLibrary.zip](https://github.com/programmfabrik/fylr-plugin-commons-library/releases/latest/download/commonsLibrary.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-commons-library](https://github.com/programmfabrik/fylr-plugin-commons-library)
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin is a dependency for these plugins:
 
-* [`custom-data-type-dante`](#custom-data-type-dante)
-* [`custom-data-type-geonames`](#custom-data-type-geonames)
-* [`custom-data-type-georef`](#custom-data-type-georef)
-* [`custom-data-type-getty`](#custom-data-type-getty)
-* [`custom-data-type-gfbio`](#custom-data-type-gfbio)
-* [`custom-data-type-gn250`](#custom-data-type-gn250)
-* [`custom-data-type-gnd`](#custom-data-type-gnd)
-* [`custom-data-type-gvk`](#custom-data-type-gvk)
-* [`custom-data-type-iconclass`](#custom-data-type-iconclass)
-* [`custom-data-type-loc`](#custom-data-type-loc)
-* [`custom-data-type-nomisma`](#custom-data-type-nomisma)
-* [`custom-data-type-wikidata`](#custom-data-type-wikidata)
-* [`fylr-plugin-mask-splitter-custom-javascript`](#fylr-plugin-mask-splitter-custom-javascript)
-* [`signaturegenerator`](#signaturegenerator)
-
+* [`custom-data-type-dante`](overview.md#custom-data-type-dante)
+* [`custom-data-type-geonames`](overview.md#custom-data-type-geonames)
+* [`custom-data-type-georef`](overview.md#custom-data-type-georef)
+* [`custom-data-type-getty`](overview.md#custom-data-type-getty)
+* [`custom-data-type-gfbio`](overview.md#custom-data-type-gfbio)
+* [`custom-data-type-gn250`](overview.md#custom-data-type-gn250)
+* [`custom-data-type-gnd`](overview.md#custom-data-type-gnd)
+* [`custom-data-type-gvk`](overview.md#custom-data-type-gvk)
+* [`custom-data-type-iconclass`](overview.md#custom-data-type-iconclass)
+* [`custom-data-type-loc`](overview.md#custom-data-type-loc)
+* [`custom-data-type-nomisma`](overview.md#custom-data-type-nomisma)
+* [`custom-data-type-wikidata`](overview.md#custom-data-type-wikidata)
+* [`fylr-plugin-mask-splitter-custom-javascript`](overview.md#fylr-plugin-mask-splitter-custom-javascript)
+* [`signaturegenerator`](overview.md#signaturegenerator)
 
 ## `fylr-plugin-custom-data-type-dante` (internal name: `custom-data-type-dante`)
 
@@ -198,13 +172,11 @@ This custom data type allows you to reference the entities of the [DANTE-Vocabul
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-dante/releases/latest/download/customDataTypeDante.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-dante/releases/latest/download/customDataTypeDante.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-dante](https://github.com/programmfabrik/fylr-plugin-custom-data-type-dante)
 * This is a custom data type.
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`commons-library`](#commons-library)
-
+* [`commons-library`](overview.md#commons-library)
 
 ## `fylr-plugin-custom-data-type-doris`
 
@@ -214,7 +186,6 @@ This plugin adds the new data type "DoRIS" to a Fylr instance, enabling communic
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-doris](https://github.com/programmfabrik/fylr-plugin-custom-data-type-doris)
 * This is a custom data type.
 
-
 ## `fylr-plugin-custom-data-type-finto`
 
 This is a plugin for fylr with Custom Data Type `CustomDataTypeFINTO` for references to entities of the Finnish Thesaurus and Ontology Service FINTO ([https://finto.fi/](https://finto.fi/)).
@@ -223,7 +194,6 @@ This is a plugin for fylr with Custom Data Type `CustomDataTypeFINTO` for refere
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-finto](https://github.com/programmfabrik/fylr-plugin-custom-data-type-finto)
 * This is a custom data type.
 
-
 ## `fylr-plugin-custom-data-type-geonames` (internal name: `custom-data-type-geonames`)
 
 This custom data type allows you to reference the entities of the [GeoNames](http://ws.gbv.de/suggest/geonames/) geographical database.
@@ -231,13 +201,11 @@ This custom data type allows you to reference the entities of the [GeoNames](htt
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-geonames/releases/latest/download/customDataTypeGeonames.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-geonames/releases/latest/download/customDataTypeGeonames.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-geonames](https://github.com/programmfabrik/fylr-plugin-custom-data-type-geonames)
 * This is a custom data type.
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`commons-library`](#commons-library)
-
+* [`commons-library`](overview.md#commons-library)
 
 ## `fylr-plugin-custom-data-type-georef` (internal name: `custom-data-type-georef`)
 
@@ -246,13 +214,11 @@ This custom data type allows you to store geoJSON data in the database. You can 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-georef/releases/latest/download/customDataTypeGeoref.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-georef/releases/latest/download/customDataTypeGeoref.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-georef](https://github.com/programmfabrik/fylr-plugin-custom-data-type-georef)
 * This is a custom data type.
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`commons-library`](#commons-library)
-
+* [`commons-library`](overview.md#commons-library)
 
 ## `fylr-plugin-custom-data-type-getty` (internal name: `custom-data-type-getty`)
 
@@ -261,13 +227,11 @@ This custom data type allows you to reference entities of the [Getty Vocabulary]
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-getty/releases/latest/download/customDataTypeGetty.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-getty/releases/latest/download/customDataTypeGetty.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-getty](https://github.com/programmfabrik/fylr-plugin-custom-data-type-getty)
 * This is a custom data type.
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`commons-library`](#commons-library)
-
+* [`commons-library`](overview.md#commons-library)
 
 ## `fylr-plugin-custom-data-type-gfbio` (internal name: `custom-data-type-gfbio`)
 
@@ -276,13 +240,11 @@ This custom data type allows you to reference entities of the [GFBio Terminology
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gfbio/releases/latest/download/customDataTypeGfbio.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gfbio/releases/latest/download/customDataTypeGfbio.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gfbio](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gfbio)
 * This is a custom data type.
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`commons-library`](#commons-library)
-
+* [`commons-library`](overview.md#commons-library)
 
 ## `fylr-plugin-custom-data-type-gn250` (internal name: `custom-data-type-gn250`)
 
@@ -291,13 +253,11 @@ This custom data type allows you to reference entities of the gn250-Set of [Bund
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250/releases/latest/download/customDataTypeGN250.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250/releases/latest/download/customDataTypeGN250.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gn250)
 * This is a custom data type.
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`commons-library`](#commons-library)
-
+* [`commons-library`](overview.md#commons-library)
 
 ## `fylr-plugin-custom-data-type-gnd` (internal name: `custom-data-type-gnd`)
 
@@ -306,13 +266,11 @@ This custom data type allows you to reference entities (only Differentiated Pers
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gnd/releases/latest/download/customDataTypeGND.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gnd/releases/latest/download/customDataTypeGND.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-gnd](https://github.com/programmfabrik/fylr-plugin-custom-data-type-gnd)
 * This is a custom data type.
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`commons-library`](#commons-library)
-
+* [`commons-library`](overview.md#commons-library)
 
 ## `fylr-plugin-custom-data-type-goobi`
 
@@ -322,7 +280,6 @@ This is a plugin for fylr with Custom Data Type CustomDataTypeGoobi for referenc
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-goobi](https://github.com/programmfabrik/fylr-plugin-custom-data-type-goobi)
 * This is a custom data type.
 
-
 ## `fylr-plugin-custom-data-type-iconclass` (internal name: `custom-data-type-iconclass`)
 
 This custom data type allows you to reference entities of the [Iconclass-Vocabulary](http://iconclass.org/).
@@ -330,13 +287,11 @@ This custom data type allows you to reference entities of the [Iconclass-Vocabul
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass/releases/latest/download/customDataTypeIconclass.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass/releases/latest/download/customDataTypeIconclass.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass](https://github.com/programmfabrik/fylr-plugin-custom-data-type-iconclass)
 * This is a custom data type.
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`commons-library`](#commons-library)
-
+* [`commons-library`](overview.md#commons-library)
 
 ## `fylr-plugin-custom-data-type-k10plus` (internal name: `custom-data-type-gvk`)
 
@@ -345,13 +300,11 @@ This custom data type allows you to reference entities of the [Gemeinsame Datenb
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-k10plus/releases/latest/download/customDataTypek10plus.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-k10plus/releases/latest/download/customDataTypek10plus.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-k10plus](https://github.com/programmfabrik/fylr-plugin-custom-data-type-k10plus)
 * This is a custom data type.
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`commons-library`](#commons-library)
-
+* [`commons-library`](overview.md#commons-library)
 
 ## `fylr-plugin-custom-data-type-loc` (internal name: `custom-data-type-loc`)
 
@@ -360,13 +313,11 @@ This is a plugin for fylr with Custom Data Type `CustomDataTypeLoc` for referenc
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-loc/releases/latest/download/customDataTypeLoc.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-loc/releases/latest/download/customDataTypeLoc.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-loc](https://github.com/programmfabrik/fylr-plugin-custom-data-type-loc)
 * This is a custom data type.
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`commons-library`](#commons-library)
-
+* [`commons-library`](overview.md#commons-library)
 
 ## `fylr-plugin-custom-data-type-nfis-geometry`
 
@@ -376,7 +327,6 @@ This plugin adds the new data type "Geometry link via WFS-T and Masterportal" to
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-nfis-geometry](https://github.com/programmfabrik/fylr-plugin-custom-data-type-nfis-geometry)
 * This is a custom data type.
 
-
 ## `fylr-plugin-custom-data-type-nomisma` (internal name: `custom-data-type-nomisma`)
 
 Custom data type for references to the records from different online ressources of the [Nomisma-Project](http://www.nomisma.org/datasets).
@@ -384,13 +334,11 @@ Custom data type for references to the records from different online ressources 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-nomisma/releases/latest/download/customDataTypeNomisma.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-nomisma/releases/latest/download/customDataTypeNomisma.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-nomisma](https://github.com/programmfabrik/fylr-plugin-custom-data-type-nomisma)
 * This is a custom data type.
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`commons-library`](#commons-library)
-
+* [`commons-library`](overview.md#commons-library)
 
 ## `fylr-plugin-custom-data-type-tnadiscovery`
 
@@ -400,7 +348,6 @@ This is a plugin for fylr with Custom Data Type `CustomDataTypeTNADiscovery` for
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-tnadiscovery](https://github.com/programmfabrik/fylr-plugin-custom-data-type-tnadiscovery)
 * This is a custom data type.
 
-
 ## `fylr-plugin-custom-data-type-wikidata` (internal name: `custom-data-type-wikidata`)
 
 Plugin for fylr with Custom Data Type `CustomDataTypeWikidata` for references to records of the Wikidata ([https://www.wikidata.org](https://www.wikidata.org)).
@@ -408,13 +355,11 @@ Plugin for fylr with Custom Data Type `CustomDataTypeWikidata` for references to
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-wikidata/releases/latest/download/customDataTypeWikidata.zip](https://github.com/programmfabrik/fylr-plugin-custom-data-type-wikidata/releases/latest/download/customDataTypeWikidata.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-data-type-wikidata](https://github.com/programmfabrik/fylr-plugin-custom-data-type-wikidata)
 * This is a custom data type.
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`commons-library`](#commons-library)
-
+* [`commons-library`](overview.md#commons-library)
 
 ## `fylr-plugin-custom-l10n`
 
@@ -423,15 +368,13 @@ Configure new l10n-keys or overwrite existing keys.
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-l10n/releases/latest/download/CustomL10n.zip](https://github.com/programmfabrik/fylr-plugin-custom-l10n/releases/latest/download/CustomL10n.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-l10n](https://github.com/programmfabrik/fylr-plugin-custom-l10n)
 
-
 ## `fylr-plugin-custom-vzg-validationhub` (internal name: `custom-vzg-validationhub`)
 
 This is a plugin for fylr which sends data to the validation center of the [VZG](https://www.gbv.de/informationen/Verbundzentrale), where content validations can be carried out.
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-custom-vzg-validationhub/releases/latest/download/customVZGValidationHub.zip](https://github.com/programmfabrik/fylr-plugin-custom-vzg-validationhub/releases/latest/download/customVZGValidationHub.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-custom-vzg-validationhub](https://github.com/programmfabrik/fylr-plugin-custom-vzg-validationhub)
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 ## `fylr-plugin-default-values-from-pool` (internal name: `default-values-from-pool`)
 
@@ -439,14 +382,11 @@ Configure standard fields in the base configuration, which can be defined per po
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-default-values-from-pool/releases/latest/download/DefaultValuesFromPool.zip](https://github.com/programmfabrik/fylr-plugin-default-values-from-pool/releases/latest/download/DefaultValuesFromPool.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-default-values-from-pool](https://github.com/programmfabrik/fylr-plugin-default-values-from-pool)
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 ## `fylr-plugin-drupal`
 
 Add your [Drupal](https://www.drupal.org/) page to fylr and send selected files to Drupal.
-
-
 
 {% hint style="info" %}
 This plugin does not have a public release URL.
@@ -454,8 +394,7 @@ This plugin does not have a public release URL.
 To get access to this plugin and receive a URL, please contact our support.
 {% endhint %}
 
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-edit-info-updater` (internal name: `edit-info-updater`)
 
@@ -463,8 +402,7 @@ This is a server plugin for fylr that updates two fields "Edited by" and "Edit d
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-edit-info-updater/releases/latest/download/EditInfoUpdater.zip](https://github.com/programmfabrik/fylr-plugin-edit-info-updater/releases/latest/download/EditInfoUpdater.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-edit-info-updater](https://github.com/programmfabrik/fylr-plugin-edit-info-updater)
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 ## `fylr-plugin-edit-info-updater` (internal name: `edit-info-updater`)
 
@@ -472,8 +410,7 @@ Server plugin for fylr that updates two fields "Edited by" and "Edit date" whene
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-edit-info-updater/releases/latest/download/EditInfoUpdater.zip](https://github.com/programmfabrik/fylr-plugin-edit-info-updater/releases/latest/download/EditInfoUpdater.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-edit-info-updater](https://github.com/programmfabrik/fylr-plugin-edit-info-updater)
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 ## `fylr-plugin-editor-field-visibility` (internal name: `editor-field-visibility`)
 
@@ -481,8 +418,7 @@ This custom mask splitter allows you to hide input fields depending on another f
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-editor-field-visibility/releases/latest/download/EditorFieldVisibility.zip](https://github.com/programmfabrik/fylr-plugin-editor-field-visibility/releases/latest/download/EditorFieldVisibility.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-editor-field-visibility](https://github.com/programmfabrik/fylr-plugin-editor-field-visibility)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-ejc`
 
@@ -491,15 +427,13 @@ Plugin to support EJC classes.
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-plugin-ejc.zip](https://github.com/programmfabrik/fylr-plugin-ejc/releases/latest/download/fylr-plugin-ejc.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-ejc](https://github.com/programmfabrik/fylr-plugin-ejc)
 
-
 ## `fylr-plugin-example` (internal name: `fylr_example`)
 
 This plugin contains a lot of examples for developers. It has no productive use.
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-example/releases/latest/download/fylr-plugin-example.zip](https://github.com/programmfabrik/fylr-plugin-example/releases/latest/download/fylr-plugin-example.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-example](https://github.com/programmfabrik/fylr-plugin-example)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-find-duplicate-field-values` (internal name: `find-duplicate-field-values`)
 
@@ -507,8 +441,7 @@ Mask splitter that is configured for a text field. It shows in the editor whethe
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values/releases/latest/download/FindDuplicateFieldValues.zip](https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values/releases/latest/download/FindDuplicateFieldValues.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values](https://github.com/programmfabrik/fylr-plugin-find-duplicate-field-values)
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 ## `fylr-plugin-fjc` (internal name: `fjc`)
 
@@ -516,8 +449,7 @@ Plugin to store settings of the Attention developed fylr Java classes.
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-fjc/releases/latest/download/fylr-plugin-fjc.zip](https://github.com/programmfabrik/fylr-plugin-fjc/releases/latest/download/fylr-plugin-fjc.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-fjc](https://github.com/programmfabrik/fylr-plugin-fjc)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-formula-columns` (internal name: `formula-columns`)
 
@@ -525,14 +457,11 @@ This plugin allows you to set or change the values in fields using small Javascr
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/latest/download/fylr-plugin-formula-columns.zip](https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/latest/download/fylr-plugin-formula-columns.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-formula-columns](https://github.com/programmfabrik/fylr-plugin-formula-columns)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-geo-json` (internal name: `geo-json`)
 
 Adds support for the `geo-json` custom data type with an editor that allows for easy and intuitive manipulation of this format in fylr. Additionally, it includes the map search view and geolocation search functions.
-
-
 
 {% hint style="info" %}
 This plugin does not have a public release URL.
@@ -540,23 +469,21 @@ This plugin does not have a public release URL.
 To get access to this plugin and receive a URL, please contact our support.
 {% endhint %}
 
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-geo-json-public` (internal name: `geo-json (public)`)
 
 {% hint style="warning" %}
-This plugin repository will be removed soon! 
+This plugin repository will be removed soon!
 
-Please change to [geo-json](#geo-json) (same functionality and content) as soon as possible!
+Please change to [geo-json](overview.md#geo-json) (same functionality and content) as soon as possible!
 {% endhint %}
 
 This plugin enables support for the GeoJSON format within the Fylr application. It provides views and editors for fields of type GeoJSON, along with additional utilities to work with geographic data.
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-geo-json-public/releases/latest/download/geo-json.zip](https://github.com/programmfabrik/fylr-plugin-geo-json-public/releases/latest/download/geo-json.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-geo-json-public](https://github.com/programmfabrik/fylr-plugin-geo-json-public)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-linked-object-use-once`
 
@@ -564,8 +491,7 @@ This plugin provides the possibity to allow the linking of specific objects only
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-linked-object-use-once/releases/latest/download/fylr-plugin-linked-object-use-once.zip](https://github.com/programmfabrik/fylr-plugin-linked-object-use-once/releases/latest/download/fylr-plugin-linked-object-use-once.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-linked-object-use-once](https://github.com/programmfabrik/fylr-plugin-linked-object-use-once)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-mask-splitter-custom-javascript`
 
@@ -573,13 +499,11 @@ Provides a masksplitter, which can be filled with any custom JavaScript.
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-mask-splitter-custom-javascript/releases/latest/download/MaskSplitterCustomJavascript.zip](https://github.com/programmfabrik/fylr-plugin-mask-splitter-custom-javascript/releases/latest/download/MaskSplitterCustomJavascript.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-mask-splitter-custom-javascript](https://github.com/programmfabrik/fylr-plugin-mask-splitter-custom-javascript)
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`commons-library`](#commons-library)
-
+* [`commons-library`](overview.md#commons-library)
 
 ## `fylr-plugin-monitoring` (internal name: `monitoring-endpoint`)
 
@@ -587,8 +511,7 @@ Custom monitoring-endpoint for fylr-API. The plugin provides a new API endpoint 
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-monitoring/releases/latest/download/monitoringEndpoint.zip](https://github.com/programmfabrik/fylr-plugin-monitoring/releases/latest/download/monitoringEndpoint.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-monitoring](https://github.com/programmfabrik/fylr-plugin-monitoring)
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 ## `fylr-plugin-nfis-denkxweb-export`
 
@@ -599,7 +522,6 @@ The plugin provides a new API endpoint under `GET /api/v1/plugin/extension/nfis-
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-nfis-denkxweb-export/releases/latest/download/nfisDenkxwebExport.zip](https://github.com/programmfabrik/fylr-plugin-nfis-denkxweb-export/releases/latest/download/nfisDenkxwebExport.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-nfis-denkxweb-export](https://github.com/programmfabrik/fylr-plugin-nfis-denkxweb-export)
 
-
 ## `fylr-plugin-numeric-id-auto-incrementer`
 
 This server plugin for fylr allows automatically setting the values of numeric ID fields when saving data.
@@ -607,12 +529,9 @@ This server plugin for fylr allows automatically setting the values of numeric I
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-numeric-id-auto-incrementer/releases/latest/download/NumericIdAutoIncrementer.zip](https://github.com/programmfabrik/fylr-plugin-numeric-id-auto-incrementer/releases/latest/download/NumericIdAutoIncrementer.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-numeric-id-auto-incrementer](https://github.com/programmfabrik/fylr-plugin-numeric-id-auto-incrementer)
 
-
 ## `fylr-plugin-obscure-image` (internal name: `obscure-image`)
 
 Obscure (Pixelate/Blur/Blackout) tool for the Fylr AssetVersions editor.
-
-
 
 {% hint style="info" %}
 This plugin does not have a public release URL.
@@ -620,30 +539,25 @@ This plugin does not have a public release URL.
 To get access to this plugin and receive a URL, please contact our support.
 {% endhint %}
 
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-pdf-creator`
 
 Plugin to provide HTML to PDF functionality for fylr.
 
-
-
 {% hint style="info" %}
 This plugin does not have a public release URL.
 
 To get access to this plugin and receive a URL, please contact our support.
 {% endhint %}
 
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 This plugin is a dependency for these plugins:
 
-* [`fylr-scancode-display`](#fylr-scancode-display)
-* [`pdf-creator-custom-value`](#pdf-creator-custom-value)
-* [`user-logo`](#user-logo)
-
+* [`fylr-scancode-display`](overview.md#fylr-scancode-display)
+* [`pdf-creator-custom-value`](overview.md#pdf-creator-custom-value)
+* [`user-logo`](overview.md#user-logo)
 
 ## `fylr-plugin-pdf-creator-custom-value` (internal name: `pdf-creator-custom-value`)
 
@@ -651,13 +565,11 @@ This fylr-plugin allows to use custom javascript in the pdfcreator.
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-pdf-creator-custom-value/releases/latest/download/PDFCreatorCustomValue.zip](https://github.com/programmfabrik/fylr-plugin-pdf-creator-custom-value/releases/latest/download/PDFCreatorCustomValue.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-pdf-creator-custom-value](https://github.com/programmfabrik/fylr-plugin-pdf-creator-custom-value)
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`fylr-plugin-pdf-creator`](#fylr-plugin-pdf-creator)
-
+* [`fylr-plugin-pdf-creator`](overview.md#fylr-plugin-pdf-creator)
 
 ## `fylr-plugin-scancode-display` (internal name: `fylr-scancode-display`)
 
@@ -665,13 +577,11 @@ Custom Mask Splitter for fylr to output scancodes based on data of another field
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-scancode-display/releases/latest/download/ScancodeDisplay.zip](https://github.com/programmfabrik/fylr-plugin-scancode-display/releases/latest/download/ScancodeDisplay.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-scancode-display](https://github.com/programmfabrik/fylr-plugin-scancode-display)
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`fylr-plugin-pdf-creator`](#fylr-plugin-pdf-creator)
-
+* [`fylr-plugin-pdf-creator`](overview.md#fylr-plugin-pdf-creator)
 
 ## `fylr-plugin-sequence`
 
@@ -679,8 +589,7 @@ This plugin allows you to automatically generate a string based on sequential nu
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-sequence/releases/latest/download/fylr-plugin-sequence.zip](https://github.com/programmfabrik/fylr-plugin-sequence/releases/latest/download/fylr-plugin-sequence.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-sequence](https://github.com/programmfabrik/fylr-plugin-sequence)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-server-pdf` (internal name: `server-pdf`)
 
@@ -688,8 +597,7 @@ This plugin allows the conversion of HTML to PDF, using an internal Chromium bin
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-server-pdf](https://github.com/programmfabrik/fylr-plugin-server-pdf)
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-signature-generator` (internal name: `signaturegenerator`)
 
@@ -697,13 +605,11 @@ Allows automatic signature-generation via predefined patterns.
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-signature-generator/releases/latest/download/signaturegenerator.zip](https://github.com/programmfabrik/fylr-plugin-signature-generator/releases/latest/download/signaturegenerator.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-signature-generator](https://github.com/programmfabrik/fylr-plugin-signature-generator)
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`commons-library`](#commons-library)
-
+* [`commons-library`](overview.md#commons-library)
 
 ## `fylr-plugin-tray-link-manager`
 
@@ -714,12 +620,9 @@ The plugin makes it possible to create tray entries in baseconfig and to provide
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-tray-link-manager/releases/latest/download/trayLinkManager.zip](https://github.com/programmfabrik/fylr-plugin-tray-link-manager/releases/latest/download/trayLinkManager.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-tray-link-manager](https://github.com/programmfabrik/fylr-plugin-tray-link-manager)
 
-
 ## `fylr-plugin-typo3`
 
 Integrate fylr in your [TYPO3](https://typo3.org/) to access files stored in fylr from within your TYPO3. The plugin consists of two parts and needs to be installed in fylr and in TYPO3.
-
-
 
 {% hint style="info" %}
 This plugin does not have a public release URL.
@@ -727,8 +630,7 @@ This plugin does not have a public release URL.
 To get access to this plugin and receive a URL, please contact our support.
 {% endhint %}
 
-* This plugin was developed by *Programmfabrik GmbH*.
-
+* This plugin was developed by _Programmfabrik GmbH_.
 
 ## `fylr-plugin-ubhd-3d-viewer`
 
@@ -737,26 +639,21 @@ To get access to this plugin and receive a URL, please contact our support.
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-ubhd-3d-viewer/releases/latest/download/fylr-plugin-ubhd-3d-viewer.zip](https://github.com/programmfabrik/fylr-plugin-ubhd-3d-viewer/releases/latest/download/fylr-plugin-ubhd-3d-viewer.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-ubhd-3d-viewer](https://github.com/programmfabrik/fylr-plugin-ubhd-3d-viewer)
 
-
 ## `fylr-plugin-user-logo` (internal name: `user-logo`)
 
 Uses user-image as logo in frontend and PDF-creator.
 
 * Release URL: [https://github.com/programmfabrik/fylr-plugin-user-logo/releases/latest/download/userLogo.zip](https://github.com/programmfabrik/fylr-plugin-user-logo/releases/latest/download/userLogo.zip)
 * Repository: [https://github.com/programmfabrik/fylr-plugin-user-logo](https://github.com/programmfabrik/fylr-plugin-user-logo)
-* This plugin was developed by *Verbundzentrale des GBV (VZG)*.
-
+* This plugin was developed by _Verbundzentrale des GBV (VZG)_.
 
 This plugin depends on these plugins:
 
-* [`fylr-plugin-pdf-creator`](#fylr-plugin-pdf-creator)
-
+* [`fylr-plugin-pdf-creator`](overview.md#fylr-plugin-pdf-creator)
 
 ## `fylr-plugin-wordpress`
 
 Add your [Wordpress](https://wordpress.com/) page to fylr and send selected files to Wordpress.
-
-
 
 {% hint style="info" %}
 This plugin does not have a public release URL.
@@ -764,4 +661,21 @@ This plugin does not have a public release URL.
 To get access to this plugin and receive a URL, please contact our support.
 {% endhint %}
 
-* This plugin was developed by *Programmfabrik GmbH*.
+* This plugin was developed by _Programmfabrik GmbH_.
+
+
+
+## `fylr-plugin-connector`
+
+Adds the Connection feature which enables you to include other fylr installations in your search.
+
+**Replaces the old** [#easydb-connector-plugin](overview.md#easydb-connector-plugin "mention")**.**&#x20;
+
+{% hint style="info" %}
+This plugin does not have a public release URL.
+
+To get access to this plugin and receive a URL, please contact our support.
+{% endhint %}
+
+* See also: [https://docs.fylr.io/for-users/plugins/connector](https://docs.fylr.io/for-users/plugins/connector)
+* This plugin was developed by _Programmfabrik GmbH_.
