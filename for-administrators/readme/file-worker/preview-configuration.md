@@ -48,7 +48,7 @@ A file larger than the limit that applies to its class is rejected during upload
 
 ## Extensions
 
-For each file class (Audio, Image, Office and Video) you can (de-)activate the allowed file types: only activated extensions may be uploaded, and versions are generated only for them.
+For each file class (3D, Audio, Image, Office and Video) you can (de-)activate the allowed file types: only activated extensions may be uploaded, and versions are generated only for them.
 
 Each class also has its own **Max. upload file size**, in the same `b`/`k`/`m`/`g` format. A non-zero value here applies to that class only and overrides the global limit above. `0` (the default) makes the class fall back to the global limit — so for a class `0` means "use the global setting", whereas the global `0` means "no limit at all".
 

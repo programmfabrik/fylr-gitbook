@@ -33,7 +33,7 @@ All three are **licensed** plugins: they install freely, but your fylr license h
 
 ## Working with the Plugin Manager
 
-Use the **search** to search for the internal or display **names** of plugins and click on a plugin so see all **details**. There, you can also **disable** or **enable** plugins, as well as **upload** a new version or define **automatic updates**:
+Use the **search** to search for the **names** of plugins and click on a plugin so see all **details**. There, you can also **disable** or **enable** plugins, as well as **upload** a new version or define **automatic updates**:
 
 <table><thead><tr><th width="192.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>automatic (daily)</td><td>The plugin source is checked once a day; a new version is installed when one is found. This is the default for a plugin installed from a URL.</td></tr><tr><td>always (development)</td><td>The source is checked every 10 seconds. Meant for developing a plugin, not for production.</td></tr><tr><td>never</td><td>The plugin is not updated automatically. Its source is still probed, so a broken URL is still reported — but a new version is not installed.</td></tr></tbody></table>
 
@@ -43,7 +43,7 @@ A **failed** update attempt (unreachable URL, broken download, invalid ZIP) leav
 
 ### Plugin timestamps
 
-The *General* tab of a plugin shows three timestamps. From fylr **6.35.0** they have a fixed meaning:
+The *Installation* tab of a plugin shows three timestamps. From fylr **6.35.0** they have a fixed meaning:
 
 <table><thead><tr><th width="192.5">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Created At</td><td>When the plugin was installed.</td></tr><tr><td>Updated At</td><td>When the stored plugin <strong>content</strong> last changed: set at install and whenever a new version is stored. Saving <strong>settings</strong> only (<em>Active</em>, the update policy) does <strong>not</strong> change it.</td></tr><tr><td>Last Checked At</td><td>When fylr last <strong>completed</strong> a check of the plugin source for updates. A failed update attempt does not change it.</td></tr></tbody></table>
 

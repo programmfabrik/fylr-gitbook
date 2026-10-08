@@ -2,7 +2,7 @@
 
 Filters allow you to **refine search results** by narrowing them down based on specific field values. Only the entries that are **connected to the records in your current search** are shown, ensuring relevant filtering options.
 
-Every enabled **list, thesaurus, and date field** appears as a separate **panel** within the filter sidebar. Opening a panel displays the **ten most frequently used entries**, providing quick access to the most common values (click "More" for a full list of entries). For h**ierarchical fields,** only the **first level** is initially shown, and clicking a parent entry reveals the **subordinate levels**. In addition to user-defined fields, certain **system fields** such as **"Object Types", "Pools", and "Tags"** are always available.
+Every enabled **list, thesaurus, and date field** appears as a separate **panel** within the filter sidebar. Opening a panel displays the **ten most frequently used entries**, providing quick access to the most common values (click "More" for a full list of entries). For h**ierarchical fields,** only the **first level** is initially shown, and clicking a parent entry reveals the **subordinate levels**. From fylr 6.35.0 an arrow in front of an entry opens its subordinate levels without filtering by it, also for pools and linked object types. In addition to user-defined fields, certain **system fields** such as **"Object Types", "Pools", and "Tags"** are always available.
 
 #### Repeatable / Nested Fields
 

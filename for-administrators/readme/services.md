@@ -137,22 +137,6 @@ Specify after how many days the individual events should be deleted. Enter "0" t
 
 Specify after how many days the IP addresses of users should be deleted from the events. Enter "0" to delete the IP address with every janitor run (every 10 minutes).
 
-### Settings for downloads and exports
-
-{% hint style="info" %}
-From fylr **6.35.0**.
-{% endhint %}
-
-#### Delete downloads after n days
-
-A download the user started is kept as a file until this many days have passed (default **1**). The files behind a download that is gone are released, so the unused-file deletion above can reclaim them once nothing else references them.
-
-#### Expire unscheduled exports after n days
-
-An export that has no schedule and has not run for this many days is expired. Any run — a manual rerun, an empty run, a failed run — renews the period. Scheduled exports and exports whose run is still in progress are never expired. Leave the field empty to keep unscheduled exports indefinitely.
-
-Historic file cleanup runs before export expiration and unused-file deletion in every janitor run, so a file that only a stale download or export still pinned is reclaimed in the same run.
-
 ### Orphaned terms and custom data
 
 {% hint style="info" %}

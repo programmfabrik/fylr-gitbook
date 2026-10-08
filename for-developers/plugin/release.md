@@ -65,7 +65,7 @@ Two ready-made workflows live in the build tool's [`templates/`](https://github.
 
 **A public repository needs no GitHub Pages.** Pages is the private variant, and it exists for one reason: fylr cannot fetch a private repository's release assets, so the artifact has to be served from somewhere reachable without credentials.
 
-Either template becomes a **sealed** release by switching `make zip` to `make seal` — sealing uses a public key only, so no secrets go into CI.
+Either template becomes a **sealed** release by switching `make zip` to `make seal` — sealing uses a public key only, so no secrets go into CI. `fylr-build-plugin seal`, `genkey` and `info` seal a plugin zip, create a key pair and show what a sealed zip holds.
 
 ### Which steps are always needed
 

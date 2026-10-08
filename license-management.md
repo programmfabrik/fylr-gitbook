@@ -47,6 +47,7 @@ Based on the fylr license contract the enabled capabilities are defined in the f
 * CI-Hub-Integration for Adobe and Office products
 * Mobile App connectivity
 * Limit access to Read-Only
+* Video editor (`video_editor`, from fylr **6.35.0**): producing new versions from videos and the video editor of the variant editor. A license issued before 6.35.0 does not carry it and has to be re-issued with it.
 
 ### Plugin capabilities
 
@@ -54,7 +55,7 @@ From fylr **6.35.0**, the license can also determine which **plugins** an instan
 
 * A plugin the license **names and grants** can be enabled normally.
 * A plugin the license **names without granting** it is **force-disabled** at runtime, and enabling it over the API or the [Plugin Manager](for-administrators/plugin-manager/README.md) is refused (`PluginNotLicensed`). Its stored `enabled` flag and configuration are **preserved**, so the plugin re-enables by itself once the license grants it again.
-* Plugins the license does **not name at all** stay **unrestricted**.
+* A plugin the license does **not name at all** stays **unrestricted**, except a **paid** plugin: it can only be enabled when the license grants it.
 
 ## License
 

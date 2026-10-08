@@ -33,10 +33,3 @@ Three keys were added in **6.35.0**: `projection_type` marks 360° media (for ex
 
 {% include "../../.gitbook/includes/file_version.md" %}
 
-|      |   |                                             |
-| ---- | - | ------------------------------------------- |
-| Henk |   | <p>Horst<br>s3ioj<br>osqjwo<br>ijojsqwi</p> |
-|      |   |                                             |
-|      |   |                                             |
-|      |   |                                             |
-|      |   |                                             |

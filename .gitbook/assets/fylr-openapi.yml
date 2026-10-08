@@ -31605,8 +31605,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -31722,8 +31722,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -31832,8 +31832,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -31949,8 +31949,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -32065,8 +32065,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -32188,8 +32188,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -32304,8 +32304,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -32427,8 +32427,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -32544,8 +32544,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -32668,8 +32668,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -32785,8 +32785,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -32909,8 +32909,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -33032,8 +33032,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -33162,8 +33162,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -33285,8 +33285,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |
@@ -33415,8 +33415,8 @@ paths:
                         - png
                         - jpg
                   description: |
-                    The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer
-                    will not support transparency for `PNG`, but use a white background instead.
+                    The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has
+                    no alpha channel, is laid on white.
                 - name: obj_uuid
                   in: query
                   description: |

@@ -269,7 +269,7 @@ Then check the things a plugin contributes to the data model: masks that use a *
 
 ## Installations without internet access
 
-If fylr cannot download a plugin's release, the plugin manager marks the row with a red **warning triangle** and the state **not installed**: the entry is there, the plugin is not running. Open it, go to the **Type** tab, and you get two buttons — **check now**, which asks the server to try the URL again, and **install as ZIP**, which routes the download through your browser instead of the server.
+If fylr cannot download a plugin's release, the plugin manager marks the row with a red **warning triangle** and the state **not installed**: the entry is there, the plugin is not running. Open it, and its *General* tab has two buttons — **Try again**, which asks the server to try the URL again, and **install as ZIP**, which routes the download through your browser instead of the server.
 
 How much that second button does depends on where the plugin is hosted:
 

@@ -15,7 +15,7 @@ The **file worker** takes care of every file that is uploaded to fylr. It has tw
 
 ## File classes
 
-Every uploadable file type belongs to one of four **file classes**. The file worker handles each class with its own tools and its own set of versions:
+Every uploadable file type belongs to one of five **file classes**. The file worker handles each class with its own tools and its own set of versions:
 
 | CLASS | EXAMPLES |
 | ----- | -------- |
@@ -23,6 +23,7 @@ Every uploadable file type belongs to one of four **file classes**. The file wor
 | **Audio** | mp3, wav, flac, m4a, aac, ogg |
 | **Video** | mp4, mov, avi, mkv, webm, mpeg |
 | **Office** | pdf, doc(x), xls(x), ppt(x), odt, rtf, txt, indd, fonts (ttf, otf) |
+| **3D** | splat, ksplat, spz, ply, stl, obj, 3ds, glb, gltf, nxs, nxz (from 6.35.0) |
 
 For each class you decide which file extensions may be uploaded at all, and which versions are generated for them. See [Preview Configuration](preview-configuration.md).
 
@@ -35,6 +36,8 @@ Some versions are **derived from another version** instead of from the original:
 Up to version 6.34 the previews of ai and eps files were built from that `svg` as well. From version 6.35.0 they are rendered from the original instead, and the `svg` version is only produced for a drawing simple enough to make a usable one. A file handling configuration saved before 6.35.0 still carries the old wiring; the update rewrites it, and the configuration then shows ai and eps sourced from the original.
 
 PostScript files (ps) are accepted from version 6.35.0. Their previews are rendered like eps, from the first page, and as a document they also get a `pdf` version of every page and the `pages` version for the paged viewer, like a PDF upload. A file handling configuration saved before that does not list the extension: enable ps in the image class and add it to the ai/eps versions, or reset the class to the default.
+
+The same holds for everything else 6.35.0 adds to the default: a configuration saved before keeps its classes and versions, so it has no `3d` class and no `pages` version for videos and multi-page TIFFs. The file worker names, per class, what the class lacks against the default, and **Add missing** adds it; **Reset to default** replaces the whole class.
 
 A .ps file can also be a PostScript Type 1 font program, the form FontForge and the Adobe tools write a font in. Such a file defines a font and draws no page, so its versions show a specimen of the font instead: the sample text drawn by the font (the `font_text` option of the recipes, the same lines as the ttf/otf specimen by default), or the font's own glyphs when it does not cover that text, as with an icon font. The `pdf` and `pages` versions are that one specimen page. The metadata carries the font's names and glyph count, as for ttf and otf.
 

@@ -20,7 +20,7 @@ Permission **Access Change History**:
   * If only view permissions for record are present, Usernames are not shown in change history
   * If edit permissions are present usernames are shown in change history
 
-Permission **Access Change History with Users**:
+Permission **Access Change History (Always Including the User)**:
 
 * User always has access to change history **and** usernames
 

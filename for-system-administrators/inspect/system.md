@@ -56,8 +56,8 @@ the legend in the header explains: white is the fylr serving the page, pink a
 fylr on the same database, purple one on another database; an execserver is
 green, yellow when busy, red when full with jobs waiting, grey when down or
 unreachable. The same dot marks the chips in the server list and the cards.
-Execservers are shown by their hostname, the one thing about them that
-survives a restart; the instance id, fresh with every process, stays next to
+Execservers are shown by their hostname, which stays the same across a
+restart; the instance id, fresh with every process, stays next to
 the address. An address nothing answers on is drawn as its own box, with the
 error on its card.
 

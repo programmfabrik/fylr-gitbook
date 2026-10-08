@@ -62,6 +62,8 @@ reports it too.
 
 ## What is checked, and what is not
 
+Besides unknown and deprecated keys, startup and `fylr config check` warn about two settings that slow down or stop work without an error: `fylr.db.maxIdleConns` at 0, which also results from a `db:` block without the `+` (write `db+:` to keep the shipped value), and a `services:` line with nothing below it under `execserver+:`, which leaves the execserver without services.
+
 Every file is checked on its own, so the file a stale key stands in is named
 even when a later file overwrites the key or removes it again.
 

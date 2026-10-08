@@ -82,7 +82,7 @@ From fylr 6.35.0, the required statement and the rights may contain placeholders
 When exporting records as xml, a default FYLR structure is used. If you want to export data in a specific xml format, you can use XSLT. You can define multiple transformations that can be accessed in the xml export settings.
 
 {% hint style="info" %}
-Please note: FYLR currently only support XSLT 1.0.
+Stylesheets run in Saxon-HE 12, which supports XSLT 1.0 to 3.0.
 {% endhint %}
 
 ### XSLT File
