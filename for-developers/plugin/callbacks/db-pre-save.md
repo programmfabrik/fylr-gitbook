@@ -66,7 +66,7 @@ The callback receives one JSON document (on STDIN with `stdin: { type: body }`):
 }
 ```
 
-* `info` carries the [callback contract](contract.md) — `api_url`, tokens, `request` (the triggering HTTP request), `config` (base config + the plugin's own config).
+* `info` carries the [callback contract](contract.md) — `api_url`, tokens, `request` (the triggering HTTP request), `config` (base config + the plugin's own config), and — from fylr 6.35.0 — [`api_tx_url`](contract.md#writing-inside-the-save-transaction-api_tx_url) to read and write **inside the open save transaction**.
 * `objects` are the objects being saved, rendered with the **`_all_fields` mask**, including empty fields.
 
 Each object additionally carries:

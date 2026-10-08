@@ -4,10 +4,10 @@ description: How to install fylr on Microsoft Windows
 
 # Windows
 
-There are now two ways to do this:
+There are two ways to install fylr on Windows:
 
 * The fully automated installer made by Attention Solutions: [https://attention.dk/docs/att/doku.php?id=winfylr:start](https://attention.dk/docs/att/doku.php?id=winfylr:start) - needs a paid subscription with Attention Solutions.
-* Use fylr directly from the developer Programmfabrik GmbH and download the 3rd party tools by yourself. This is what the rest of this page guides you through:
+* fylr directly from the developer Programmfabrik GmbH, with the 3rd party tools downloaded by yourself. The rest of this page guides you through this.
 
 ## Download fylr.exe
 
@@ -21,7 +21,28 @@ It contains:
 * `fylr.example.yml` most configuration parameters. Look here for reference.
 * `fylr.default.yml` compiled-in default values. Just as a copy for you to look them up.
 * `LICENSE` legal information on who may use fylr.
-* A folder with plugins.
+* `README.md` pointing to this page.
+
+Up to 6.34 the archive also contained an `easydb-plugins` folder. From 6.35 plugins come from the plugin manager.
+
+## Updating from 6.34 to 6.35
+
+No new third-party tool and no newer version of the tools on this page is required: an installation set up with them for 6.34 keeps them. These steps are needed:
+
+1. **Replace `fylr.exe` and take over the corrections of the new `fylr.yml`** into yours:
+   * `db+:` instead of `db:` — a bare `db:` drops the connection pool defaults,
+   * delete a `services:` line under `execserver+:` that has nothing below it — it replaces the shipped service list with an empty one, so the execserver converts nothing and runs no plugin,
+   * `update_policy` instead of `update` in the per-plugin entries under `plugin.defaults`; `plugin.default`, the setting for all new plugins, already uses `update_policy`,
+   * no `plugin.paths` entries for `easydb-plugins` and no `server-pdf` entry under `plugin.urls`.
+
+   Then run `.\fylr.exe config check fylr.yml`: it reports the `update` key as unknown and former execserver settings such as `waitgroups` as deprecated, and warns about a bare `db:` and an empty `services:`.
+2. **Delete the `easydb-plugins` folder.** The upgrade converts the enabled plugins to their marketplace releases and downloads them, so fylr needs outbound HTTPS to `github.com`, `*.githubusercontent.com` and `programmfabrik.github.io`; without it, install them as ZIP, see [Disk to URL plugin migration](../../plugins/disk-to-url-migration.md). The PDF Server (`server-pdf`) is switched off where PDF Creator is enabled, and PDF Creator renders with the Chrome named in `SERVER_PDF_CHROME`, see [chrome](windows.md#chrome).
+3. **Ghostscript must be found as `gs`.** fylr renders EPS, AI and PS with Ghostscript itself: keep the `gs.exe` copy or name `gswin64c.exe` in `fylr.yml`, see [Ghostscript](windows.md#ghostscript). Inkscape stays, for SVG and WMF.
+4. **Check that mutool has ICC color management**, see [mupdf tools](windows.md#mupdf-tools). Updating MuPDF to 1.28.0, the version in the Docker image, is recommended: mutool reads every uploaded PDF, and the newer release contains security fixes.
+5. **Writing HEIC** (since 6.34.2) needs the x265 encoder in the libheif that ImageMagick embeds, see [ImageMagick](windows.md#magick.exe-imagemagick).
+6. **Saxon runs with `saxon.xml`.** Save the file next to the Saxon jar and add its `-config:` argument to the `saxon` command, see [Saxon](windows.md#saxon).
+
+The same changes for Linux and macOS: [Updating a self-installation to 6.35](README.md#updating-a-self-installation-to-6.35).
 
 ## Windows path length
 
@@ -31,33 +52,34 @@ The shorter the path of your fylr installation directory, the less likely your i
 
 Bare bone minimum: Elasticsearch or OpenSearch
 
+The versions named below are the ones tested. Other versions should also be fine, unless a section names a minimum.
+
 ### OpenSearch
 
-OpenSearch is our default and recommendation.
+OpenSearch is the default and recommended indexer.
 
-We installed OpenSearch as described in [https://opensearch.org/docs/latest/install-and-configure/install-opensearch/windows/](https://opensearch.org/docs/latest/install-and-configure/install-opensearch/windows/)
+Install OpenSearch as described in [https://opensearch.org/docs/latest/install-and-configure/install-opensearch/windows/](https://opensearch.org/docs/latest/install-and-configure/install-opensearch/windows/) (tested with version 3.6.0, downloaded and unzipped):
 
-* Version 3.6.0, downloaded and unzipped.
-* We disabled security and let it explicitly listen only on localhost, thus protecting it, in `opensearch-3.6.0\config\opensearch.yml`:
+* Disable security and let OpenSearch listen only on localhost, which protects it, in `opensearch-3.6.0\config\opensearch.yml`:
 
 ```
 network.host: 127.0.0.1
 plugins.security.disabled: true
 ```
 
-* We extended one limit for fylr in `opensearch-3.6.0\config\jvm.options`:
+* Raise one limit for fylr in `opensearch-3.6.0\config\jvm.options`:
 
 ```
 -Dopensearch.xcontent.depth.max=10000
 ```
 
-* We installed the one needed plugin:
+* Install the one plugin fylr needs:
 
 ```
 opensearch-3.6.0> .\bin\opensearch-plugin install analysis-icu
 ```
 
-* Started OpenSearch with
+* Start OpenSearch:
 
 ```
 opensearch-3.6.0> .\opensearch-windows-install.bat
@@ -65,38 +87,31 @@ opensearch-3.6.0> .\opensearch-windows-install.bat
 
 ### Elasticsearch
 
-Elasticsearch has been the default until 2023. Now we recommend OpenSearch instead.
+Elasticsearch was the default until 2023. OpenSearch is recommended instead, especially for a new instance or when Elasticsearch causes problems.
 
-What we tested:
+If you use Elasticsearch, use version `7.17`: versions `8.5` and newer have a <mark style="background-color:red;">problem</mark> indexing the letters _Q_ and _W_, of all things. The steps below were tested with `8.6.1`:
 
 * Download from [https://www.elastic.co/guide/en/elasticsearch/reference/current/zip-windows.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/zip-windows.html)
-* We recommend Elasticsearch `7.17`.
-* If you start a new instance or have problems with ElasticSearch, we recommend OpenSearch, see above.
-* Since writing the next lines, we found a <mark style="background-color:red;">problem</mark> with Versions `8.5` and newer, about indexing letters _Q_ and _W_, of all things. Thus our recommendation for Elasticsearch `7.17`. The remainder of the text still mentions `8.6.1`, to stay true to what we actually did under Windows.
-*   Unpack official windows release file elasticsearch-8.6.1-windows-x86\_64.zip
-
-    Other Versions should also be fine. This is true for all the below mentioned tools.
-* Disable security with ...
+* Unpack the official Windows release file `elasticsearch-8.6.1-windows-x86_64.zip`.
+* Disable security in `elasticsearch-8.6.1\config\elasticsearch.yml`:
 
 ```
 xpack.security.enabled: false
 ```
 
-... in elasticsearch-8.6.1\config\elasticsearch.yml
-
-* Got the analysis-icu plugin from [https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu.html](https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu.html) for offline installation (it was https://artifacts.elastic.co/downloads/elasticsearch-plugins/analysis-icu/analysis-icu-8.6.1.zip)
-* Unpacked into `elasticsearch-8.6.1\plugins\analysis-icu\` (no further subfolders).
-* Start, for example in a Windows powershell:
+* Get the analysis-icu plugin from [https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu.html](https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu.html) for offline installation (for 8.6.1: https://artifacts.elastic.co/downloads/elasticsearch-plugins/analysis-icu/analysis-icu-8.6.1.zip).
+* Unpack it into `elasticsearch-8.6.1\plugins\analysis-icu\` (no further subfolders).
+* Start Elasticsearch, for example in a Windows PowerShell:
 
 ```
 .\elasticsearch-8.6.1\bin\elasticsearch.bat
 ```
 
-Elasticsearch then used the default address `http://localhost:9200`, which is also configured in `fylr.yml`.
+Elasticsearch then listens on the default address `http://localhost:9200`, which is also configured in `fylr.yml`.
 
 ### Start fylr with minimal dependencies
 
-Edit fylr.yml to not use any 3rd part tools for the moment if you want to test/start with minimal effort:
+To test or start with minimal effort, edit `fylr.yml` to use no 3rd party tools for the moment:
 
 ```
 fylr+:
@@ -108,16 +123,13 @@ fylr+:
       commands:
         fylr:
           prog: fylr.exe
-      services:
 ```
 
-You are now ready to start fylr, although most asset processing tools are still missing: (no previews)
+Then start fylr in the folder where `fylr.exe` is. Most asset processing tools are still missing, so there are no previews yet:
 
 ```
 .\fylr.exe server -c fylr.yml
 ```
-
-... in the folder where fylr.exe is.
 
 Output lines with `WRN` can usually be ignored.
 
@@ -136,29 +148,27 @@ Default login credentials are:
 
 ### More than bare bone minimum
 
-For a full installation it is recommended to install all of the following and un-comment them in `fylr.yml`.
-
-"Un-comment" = turning the comments into configuration.
+For a full installation, install all of the following and add a command for each tool to `fylr.yml`, see [Configure the tools in fylr.yml](windows.md#configure-the-tools-in-fylr.yml).
 
 ### PostgreSQL
 
-* We installed 15.2 from [https://www.enterprisedb.com/downloads/postgres-postgresql-downloads](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
-* We started pgadmin and created a role "fylr" (with LOGIN and INHERIT, the defaults), with password "fylr"; and a database "fylr" owned by role "fylr".
-* We un-commented these lines in fylr.yml:
+* Install PostgreSQL from [https://www.enterprisedb.com/downloads/postgres-postgresql-downloads](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads) (tested with 15.2).
+* In pgAdmin, create a role "fylr" (with LOGIN and INHERIT, the defaults) with the password "fylr", and a database "fylr" owned by role "fylr".
+* Un-comment these lines in `fylr.yml`, that is, turn the comments into configuration:
 
 ```
     driver: postgres
     dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
 ```
 
-* And we disabled the lines configuring sqlite, by turning them into comments:
+* Disable the lines configuring sqlite by turning them into comments:
 
 ```
     #driver: sqlite3
     #dsn: "data\\sqlite.db"
 ```
 
-* For a consistent state we also did the next step: cleanup.
+* For a consistent state, also do the next step: cleanup.
 
 #### cleanup
 
@@ -171,14 +181,14 @@ If you want to go back to a fresh state between two test runs:
 
 ### pdf tools
 
-* We downloaded the newest release zip (at the time `Release-26.02.0-0.zip`) from [https://github.com/oschwartz10612/poppler-windows](https://github.com/oschwartz10612/poppler-windows/releases) (_not_ xpdf-tools from https://www.xpdfreader.com)
+* Download the newest release zip (tested with `Release-26.02.0-0.zip`) from [https://github.com/oschwartz10612/poppler-windows](https://github.com/oschwartz10612/poppler-windows/releases) (_not_ xpdf-tools from https://www.xpdfreader.com).
 * fylr only uses `pdfinfo.exe` from poppler: PDF text extraction is done by tika, PDF page rendering by mupdf's mutool (both below).
-* We unpacked the release and configured the path to pdfinfo.exe in fylr.yml. Alternatively, we tested successfully to add the containing directory to the PATH.
+* Unpack the release and configure the path to `pdfinfo.exe` in `fylr.yml`, or add the containing directory to the PATH.
 
 ### magick.exe (ImageMagick)
 
-* We downloaded the newest portable archive (at the time `ImageMagick-7.1.2-26-portable-Q16-HDRI-x64.7z`) from [https://imagemagick.org/script/download.php#windows](https://imagemagick.org/script/download.php#windows)
-* We put `magick.exe` from the download into `C:\fylr\utils`. It is the only ImageMagick binary fylr needs; compositing etc. run as subcommands of `magick.exe`. (`convert.exe` and `composite.exe` are not used by fylr and are no longer part of current ImageMagick anyway.)
+* Download the newest portable archive (tested with `ImageMagick-7.1.2-26-portable-Q16-HDRI-x64.7z`) from [https://imagemagick.org/script/download.php#windows](https://imagemagick.org/script/download.php#windows)
+* Put `magick.exe` from the download into `C:\fylr\utils`. It is the only ImageMagick binary fylr needs; compositing etc. run as subcommands of `magick.exe`. (`convert.exe` and `composite.exe` are not used by fylr and are no longer part of current ImageMagick anyway.)
 
 **Use a current ImageMagick, and fylr v6.34.0 or newer.** Version traps around ImageMagick:
 
@@ -198,43 +208,35 @@ Hint from the [download page](https://imagemagick.org/script/download.php#window
 
 ### Exiftool.exe
 
-We downloaded the newest 64-bit Windows Executable (at the time `exiftool-13.59_64.zip`) from [https://exiftool.org](https://exiftool.org)
+Download the newest 64-bit Windows Executable (tested with `exiftool-13.59_64.zip`) from [https://exiftool.org](https://exiftool.org).
 
-We have put the contents of the zip — exiftool(-k).exe and (in newer packages) the `exiftool_files` folder next to it — into `C:\fylr\utils`.
-
-We renamed exiftool(-k).exe to exiftool.exe as recommended by the ExifTool install notes.
+Put the contents of the zip — exiftool(-k).exe and (in newer packages) the `exiftool_files` folder next to it — into `C:\fylr\utils`, and rename exiftool(-k).exe to exiftool.exe, as the ExifTool install notes recommend.
 
 ### Ffmpeg.exe and ffprobe.exe
 
-We downloaded a current release build (at the time `ffmpeg-n8.1-latest-win64-gpl-8.1.zip`) from [https://github.com/BtbN/FFmpeg-Builds/releases](https://github.com/BtbN/FFmpeg-Builds/releases)
+Download a current release build (tested with `ffmpeg-n8.1-latest-win64-gpl-8.1.zip`) from [https://github.com/BtbN/FFmpeg-Builds/releases](https://github.com/BtbN/FFmpeg-Builds/releases). Avoid the LGPL version: it lacks features such as x264 and x265.
 
-We suggest you avoid the LGPL version as testing showed it has less features (x264 and x265).
+Put ffmpeg.exe and ffprobe.exe into `C:\fylr\utils`.
 
-We have put ffmpeg.exe and ffprobe.exe into `C:\fylr\utils`.
+An encode runs FFmpeg with the CPUs the execserver has free when it starts, often one while other versions are produced. `FYLR_CONVERT_VIDEO_MP4_THREADS` sets the thread count of every MP4 encode, see [Long videos encode with one thread](../configuration/performance-tuning.md#long-videos-encode-with-one-thread).
 
 ### Node
 
-We downloaded the current LTS version (at the time `node-v24.18.0-win-x64.7z`) from [https://nodejs.org/en/download](https://nodejs.org/en/download)
-
-We put just node.exe into `C:\fylr\utils`.
+Download the current LTS version (tested with `node-v24.18.0-win-x64.7z`) from [https://nodejs.org/en/download](https://nodejs.org/en/download) and put just node.exe into `C:\fylr\utils`.
 
 ### Python
 
-We downloaded "Windows embeddable package (64-bit)" at [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/) (explained [here](https://docs.python.org/3/using/windows.html#windows-embeddable))
-
-We unpacked the whole package as the folder "python3" inside `C:\fylr\utils`.
+Download the "Windows embeddable package (64-bit)" from [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/) (explained [here](https://docs.python.org/3/using/windows.html#windows-embeddable)) and unpack the whole package as the folder "python3" inside `C:\fylr\utils`.
 
 ### Java
 
-For extracting information from assets, fylr needs a "java" command. We made sure to have java installed and that it can be started by the command `java` (for that, it has to be in the system environment variable PATH, which already was the case after java installation).
+To extract information from assets, fylr needs a "java" command. Install Java and make sure the command `java` starts it: it has to be in the system environment variable PATH, which the Java installation usually takes care of.
 
 ### Saxon
 
-This replaces _xsltproc_ in fylr v6.19.
+This replaces _xsltproc_ since fylr v6.19.
 
-We downloaded **SaxonJ-HE 12.5** from [https://www.saxonica.com/download/java.xml](https://www.saxonica.com/download/java.xml)
-
-* The unpacked file was `C:\fylr\utils\saxon\saxon-he-12.5.jar` .
+Download **SaxonJ-HE 12.5** from [https://www.saxonica.com/download/java.xml](https://www.saxonica.com/download/java.xml) and unpack it, here to `C:\fylr\utils\saxon\saxon-he-12.5.jar`. From fylr 6.35.0, Saxon runs with the configuration file `saxon.xml`: save it with the content shown in [XSLT with Saxon](README.md#xslt-with-saxon), here as `C:\fylr\utils\saxon\saxon.xml`. Configure both in `fylr.yml`:
 
 ```
 fylr+:
@@ -246,17 +248,16 @@ fylr+:
           args:
             - "-jar"
             - "C:\\fylr\\utils\\saxon\\saxon-he-12.5.jar"
+            - "-config:C:\\fylr\\utils\\saxon\\saxon.xml"
 ```
 
 ### Ghostscript
 
-We downloaded `Ghostscript 10.05.0 for Windows (64 bit)` from [https://ghostscript.com/releases/gsdnld.html](https://ghostscript.com/releases/gsdnld.html)
+From 6.35 fylr renders EPS, AI and PS with Ghostscript itself and calls it as `gs`.
 
-We installed to `C:\Program Files\gs\gs10.05.0` .
+Download `Ghostscript 10.05.0 for Windows (64 bit)` (tested version) from [https://ghostscript.com/releases/gsdnld.html](https://ghostscript.com/releases/gsdnld.html) and install it, here to `C:\Program Files\gs\gs10.05.0`. The installer adds the `bin` directory to the system `%PATH%`.
 
-The `bin` directory was added automatically to the system `%PATH%` by the Ghostscript installer.
-
-We then copied `gswin64c.exe` to `gs.exe` so that other programs are able to find it in `%PATH%`.
+Copy `gswin64c.exe` to `gs.exe`, so that fylr and other programs find it in the `%PATH%`:
 
 ```
 PS C:\Program Files\gs\gs10.05.0\bin> dir
@@ -266,15 +267,24 @@ Mode                 LastWriteTime         Length Name
 -a----    Mi, 12.03.2025     13:58          93696 gswin64c.exe
 ```
 
-We also added to the system path: `C:\Program Files\gs\gs10.05.0\lib`.
+Instead of the copy, the program can be named in `fylr.yml`:
 
-The latter is needed for the generation of previews for `.eps`-files via `ps2pdf` and [inkscape](windows.md#inkscape).
+```
+fylr+:
+  services+:
+    execserver+:
+      commands:
+        gs:
+          prog: "C:\\Program Files\\gs\\gs10.05.0\\bin\\gswin64c.exe"
+```
+
+A command declared there whose program is missing keeps fylr from starting, so add it once Ghostscript is installed.
+
+Up to fylr 6.34, `.eps` previews went through `ps2pdf` and [Inkscape](windows.md#inkscape), which also needed `C:\Program Files\gs\gs10.05.0\lib` in the system path.
 
 ### Libreoffice
 
-We installed LibreOffice ([ https://de.libreoffice.org/donate/dl/win-x86\_64/24.8.4/de/LibreOffice\_24.8.4\_Win\_x86-64.msi ](https://de.libreoffice.org/donate/dl/win-x86_64/24.8.4/de/LibreOffice_24.8.4_Win_x86-64.msi))
-
-and configured in fylr.yml:
+Install LibreOffice ([https://de.libreoffice.org/donate/dl/win-x86\_64/24.8.4/de/LibreOffice\_24.8.4\_Win\_x86-64.msi](https://de.libreoffice.org/donate/dl/win-x86_64/24.8.4/de/LibreOffice_24.8.4_Win_x86-64.msi)) and configure it in `fylr.yml`:
 
 ```
 fylr+:
@@ -285,38 +295,29 @@ fylr+:
           prog: "C:\\Program Files\\LibreOffice\\program\\soffice.exe"
 ```
 
-\
-As an alternative we successfully tested `LibreOfficePortable_7.4.5_MultilingualStandard.paf.exe` from [https://www.libreoffice.org/download/portable-versions/](https://www.libreoffice.org/download/portable-versions/) to `C:\LibreOfficePortable`.
+The portable version works as well (tested with `LibreOfficePortable_7.4.5_MultilingualStandard.paf.exe` from [https://www.libreoffice.org/download/portable-versions/](https://www.libreoffice.org/download/portable-versions/), installed to `C:\LibreOfficePortable`); configure the path to its `soffice.exe` in `fylr.yml`.
 
-Fair warning: If you make your installation path too long, libre office will not work.
-
-Example for too long: `C:\Users\Klaus Thorn\Desktop\pf\fylr_v6.2.4_windows_amd64\utils\LibreOfficePortable\`.
-
-We then configured the path to `soffice.exe` in `fylr.yml`.
+Fair warning: If you make your installation path too long, LibreOffice will not work. Too long, for example: `C:\Users\Jane Doe\Desktop\pf\fylr_v6.2.4_windows_amd64\utils\LibreOfficePortable\`.
 
 ### Inkscape
 
-We installed Inkscape 1.4 via its default Installer.
+Install Inkscape 1.4 with its default installer. From 6.35 fylr uses it for SVG and WMF, and [Ghostscript](windows.md#ghostscript) for the PostScript family; up to 6.34, version 1.4 was needed for `.eps` previews via `ps2pdf` and Inkscape.
 
-Version 1.4 is needed for the generation of previews for `.eps`-files via `ps2pdf` and inkscape.
+Add Inkscape's `bin` directory to the Windows system `%PATH%`:
 
-We added Inkscape's `bin` directory to the Windows System `%PATH%` like this:
+1. In the Windows Start Menu, type `env`, then select `Edit the system environment variables`.
+2. Click the `Environment Variables...` button.
+3. In the lower section titled `System variables`, select the line starting with `Path`.
+4. Click `Edit...`.
+5. In the new window, click `New` and paste `C:\Program Files\Inkscape\bin`.
+6. Click `OK`.
+7. Close and open a new window for `fylr.exe`, so that the window, and with it fylr, knows the new `%PATH%`.
 
-1. In the Windows Start Menu, we typed `env`, then selected `Edit the system environment variables`
-2. We clicked the `Environment Variables...` button
-3. In the lower section titled `System variables` , we selected the line starting with `Path`.
-4. We clicked `Edit...`
-5. In the new window, we clicked `New` and pasted `C:\Program Files\Inkscape\bin` .
-6. We clicked `OK`.
-7. We closed and opened a new window for `fylr.exe` so that the new `%PATH%` is known to the window and thus to fylr.
-
-We tested Inkscape integration by uploading a svg file into fylr and check whether a preview is generated.
+To test the integration, upload an SVG file into fylr and check that a preview is generated.
 
 ### tika
 
-We downloaded from [https://tika.apache.org/download.html](https://tika.apache.org/download.html) the newest tika-app jar file (at the time `tika-app-3.3.1.jar`).
-
-We configured in fylr.yml:
+Download the newest tika-app jar file (tested with `tika-app-3.3.1.jar`) from [https://tika.apache.org/download.html](https://tika.apache.org/download.html) and configure it in `fylr.yml`:
 
 ```
 fylr+:
@@ -332,11 +333,11 @@ fylr+:
 
 ### tesseract
 
-From [https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki) we downloaded and started the installer `tesseract-ocr-w64-setup-5.5.0.20241111.exe` (64 bit)
+From [https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki) download and start the installer (tested with `tesseract-ocr-w64-setup-5.5.0.20241111.exe`, 64 bit):
 
-* In the installer dialogs we chose all languages and script data
-* We installed to `C:\fylr\utils\tesseract`
-* We configured in `fylr.yml`:
+* In the installer dialogs, choose all languages and script data.
+* Install to `C:\fylr\utils\tesseract`.
+* Configure it in `fylr.yml`:
 
 ```
 fylr+:
@@ -349,9 +350,7 @@ fylr+:
 
 ### mupdf tools
 
-We downloaded `mupdf-1.25.2-windows.zip` from [https://mupdf.com/releases](https://mupdf.com/releases) and unpacked it into `C:\fylr\utils\mupdf\` .
-
-In `fylr.yml` we configured:
+Download the Windows build (tested with `mupdf-1.25.2-windows.zip`) from [https://mupdf.com/releases](https://mupdf.com/releases), unpack it into `C:\fylr\utils\mupdf\` and configure it in `fylr.yml`:
 
 ```
 fylr+:
@@ -360,6 +359,12 @@ fylr+:
       commands:
         mutool:
           prog: "C:\\fylr\\utils\\mupdf\\mutool.exe"
+```
+
+mutool must be built with ICC color management, or CMYK PDFs render with oversaturated colors. A build without it prints `warning: ICC support is not available` when it renders a PDF:
+
+```
+C:\fylr\utils\mupdf> .\mutool.exe draw -o check.png any.pdf
 ```
 
 ### dot
@@ -374,11 +379,9 @@ from [https://calibre-ebook.com/download\_windows](https://calibre-ebook.com/dow
 
 Optional but recommended. fylr requires libvips 8.16 or newer.
 
-From [https://www.libvips.org](https://www.libvips.org/) we followed `Download` and `Windows binaries` to then download the newest `vips-dev-w64-all-`X.Y.Z`.zip` (at the time [vips-dev-w64-all-8.18.3.zip](https://github.com/libvips/build-win64-mxe/releases/download/v8.18.3/vips-dev-w64-all-8.18.3.zip)). Use the `all` variant — it includes the loaders (e.g. HEIF) that fylr benefits from.
+On [https://www.libvips.org](https://www.libvips.org/), follow `Download` and `Windows binaries` and download the newest `vips-dev-w64-all-`X.Y.Z`.zip` (tested with [vips-dev-w64-all-8.18.3.zip](https://github.com/libvips/build-win64-mxe/releases/download/v8.18.3/vips-dev-w64-all-8.18.3.zip)). Use the `all` variant — it includes the loaders (e.g. HEIF) that fylr benefits from.
 
-We unpacked this zip file to `C:\fylr\utils\vips-dev-8.18`.
-
-In `fylr.yml` :
+Unpack it, here to `C:\fylr\utils\vips-dev-8.18`, and configure it in `fylr.yml`:
 
 ```
 fylr+:
@@ -391,9 +394,8 @@ fylr+:
 
 ### chrome
 
-**Optional**. Only needed for the plugin called `server-pdf` in the plugin manager. this plugin is not packaged with fylr by default. We mention it here to show the config under Windows as an example.
+**Optional**. Needed only to render PDFs — the **PDF Creator** plugin (`pdf-creator`), installed from the plugin manager. The Linux distribution brings its own Chromium; under Windows you supply the browser.
 
-* If you have at least version 1.1.0 of the plugin: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/tag/v1.1.0](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/tag/v1.1.0) it is ready for fylr under Windows.
 * Install the browser **Chrome**
 * configure the location of chrome in `fylr.yml`:
 
@@ -403,11 +405,13 @@ fylr+:
     SERVER_PDF_CHROME: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
 ```
 
-To update the plugin automatically, use this URL: [https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip](https://github.com/programmfabrik/fylr-plugin-server-pdf/releases/latest/download/fylr-plugin-server-pdf.zip)
+{% hint style="info" %}
+Up to fylr 6.34 the Windows `fylr.yml` installed the **PDF Server** (`server-pdf`) for this, and it did the rendering. PDF Creator renders the PDF itself from version 1.1.0, so 6.35 no longer installs `server-pdf` — and switches it off where both are enabled, because the two declare the same custom events. See [PDF Creator and the PDF Server](../../plugins/disk-to-url-migration.md#pdf-creator-and-the-pdf-server).
+{% endhint %}
 
 ## Configure the tools in fylr.yml
 
-Here is how to configure all these tools in fylr.yml:
+All tools together in `fylr.yml`:
 
 * _**before**_, the tools in `fylr.yml` look like this (minimal, no 3rd party tools):
 
@@ -421,11 +425,10 @@ fylr+:
       commands:
         fylr:
           prog: fylr.exe
-      services:
       
 ```
 
-* _**after**_ we have added the tools: (remember to instead use paths valid on _your_ installation)
+* _**after**_ adding the tools (use the paths valid on _your_ installation):
 
 ```
 fylr+:
@@ -468,6 +471,7 @@ fylr+:
           args:
             - "-jar"
             - "C:\\fylr\\utils\\saxon\\saxon-he-12.5.jar"
+            - "-config:C:\\fylr\\utils\\saxon\\saxon.xml"
         dot:
           prog: "C:\\fylr\\utils\\Graphviz\\bin\\dot.exe"
         tika:

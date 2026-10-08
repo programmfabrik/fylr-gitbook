@@ -57,6 +57,26 @@ The label of the required statement.
 
 The text for the required statement, this is formatted as [Markdown](https://commonmark.org) with Table, Strikethrough, Linkify and TaskList enabled.
 
+From fylr 6.35.0, label and value may contain [placeholders](#iiif-placeholders).
+
+### IIIF RIGHTS (URL)
+
+From fylr 6.35.0. The URL of a license or rights statement, for example `https://creativecommons.org/licenses/by/4.0/` or `http://rightsstatements.org/vocab/InC/1.0/`. It becomes the manifest's [`rights`](https://iiif.io/api/presentation/3.0/#rights) property. The Presentation API allows only a URI there, so a value that does not start with `http://` or `https://` once its placeholders are replaced is left out. The value may contain [placeholders](#iiif-placeholders); a localized field resolves in the first database language.
+
+### IIIF MASK
+
+From fylr 6.35.0. The name of the mask whose fields fill the metadata of the IIIF manifest. An object type without a mask of that name uses the best mask of the requesting user. A mask named in the deep link (`mask/<name>`) takes precedence.
+
+### IIIF PLACEHOLDERS
+
+From fylr 6.35.0, the required statement and the rights may contain placeholders in the form `%<object type>.<field>%`, for example `%foto.rights%`. They are replaced with the values of the record:
+
+* On the manifest, a placeholder resolves against the fields of the record itself.
+* On a canvas (one file of the record), it also resolves against the fields along the path from the file to the record, such as the nested or reverse-nested record that holds the file.
+* When the record's own fields leave the required statement or the rights empty and every canvas resolves it to the same value, the manifest takes that value. A canvas carries its own required statement or rights only where it differs from the manifest's.
+* A placeholder resolves only for fields the manifest's mask shows; for an embedded object type that is the mask set for the embedding field.
+* A placeholder that does not resolve is removed. Each language of the required statement is filled with the values of that database language.
+
 ## XSL Transformations
 
 When exporting records as xml, a default FYLR structure is used. If you want to export data in a specific xml format, you can use XSLT. You can define multiple transformations that can be accessed in the xml export settings.
@@ -68,6 +88,8 @@ Please note: FYLR currently only support XSLT 1.0.
 ### XSLT File
 
 Upload a valid XSLT file.
+
+From version 6.35.0, the stylesheet works on the exported XML alone: it loads no other document, file or URL (`document()`, `doc()`, `unparsed-text()`, `xsl:include`, `xsl:import`) and cannot use `xsl:result-document`. Keep lookup tables in variables of the stylesheet itself. Files of a folder or URLs can be opened to stylesheets by the system administrator, see [Allowing files or URLs](../../for-system-administrators/installation/README.md#allowing-files-or-urls).
 
 ### Name
 
@@ -104,7 +126,7 @@ Allow this XSLT to be used in the [Deep Link interface](#deep-link-settings).
 
 ### Use for OAI/PMH
 
-Allow this XSLT to be used in the [OAI/PMH interface](#oaipmh).
+Allow this XSLT to be used in the [OAI/PMH interface](#oai-pmh).
 
 {% hint style="info" %}
 Please note: since the OAI/PMH standard requires XML, make sure that the XSLT produces valid XML. Otherwise an internal parsing error can occur in the OAI/PMH endpoint.

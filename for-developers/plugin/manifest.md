@@ -25,6 +25,8 @@ plugin:
   displayname:
     en-US: "Name of the Plugin"
   l10n: l10n/loca.csv               # optional localization CSV
+  dependencies:                     # optional — plugins this plugin requires
+    - commons-library
   webfrontend:
     url: plugin_name.js             # frontend entry point (optional)
     css: plugin_name.css            # frontend stylesheet (optional)
@@ -32,14 +34,28 @@ plugin:
 base_url_prefix: "webfrontend"
 ```
 
+#### `dependencies`
+
+From fylr **6.35.0**, `dependencies` lists the internal names (the `plugin.name`) of other plugins this plugin requires. fylr enforces the declaration:
+
+* **Installing** the plugin is refused with `PluginDependencyNotInstalled` while a dependency is not installed. Installing through the [marketplace](../../for-administrators/plugin-manager/README.md) offers the missing dependencies for installation first.
+* **Enabling** the plugin is refused with `PluginDependencyNotEnabled` while a dependency is disabled.
+* Conversely, a plugin that an enabled plugin depends on can not be **disabled** or **deleted** (`PluginRequiredByOthers`).
+* The frontend assets of all enabled plugins (`bundle.js`, `bundle.css`) are concatenated in dependency order, so a dependency's JavaScript is loaded before its dependents'. A plugin with unmet or cyclic dependencies is not loaded at all.
+
+{% hint style="info" %}
+Older plugins declare their frontend load order as a `dependencies` list **inside** `plugin.webfrontend`. That list is still honoured, but deprecated — declare dependencies at the `plugin` level instead.
+{% endhint %}
+
 ## The `exec` map
 
-Both `extensions` and `callbacks` describe **how fylr runs the plugin program** with the same `exec` map. fylr runs it through the [execserver](../execserver.md) file-worker tool chain, so the program is any executable the execserver has a `service` for (`node`, `python3`, `exec` for standalone binaries, …).
+Both `extensions` and `callbacks` describe **how fylr runs the plugin program** with the same `exec` map. fylr runs it as a job on an [execserver](../execserver.md), so the program is any executable the execserver has a `service` for (`node`, `python3`, `exec` for standalone binaries, …).
 
 ```yaml
 exec:
   service: "node"          # an execserver service
-  timeout: "60s"           # optional — default is fylr.execserver.pluginJobTimeoutSec (30 s)
+  timeout: "60s"           # optional — default is fylr.execserver.pluginJobTimeoutSec (2400 s)
+  stallTimeout: "20m"      # optional — default is fylr.services.execserver.stallTimeoutSec (600 s), "0" = off
   commands:
     - prog: "node"
       stdin:

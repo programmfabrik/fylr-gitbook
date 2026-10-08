@@ -44,7 +44,7 @@ Add pairs of Client IDs and Secrets for the [OAuth2 Authentication](../../for-de
 
 ## OpenID Userinfo
 
-Select which user information should be returned over the OpenID endpoint `oauth2/userinfo`.
+Select which user information should be returned by the `oauth2/userinfo` endpoint. (The section keeps its "OpenID" name for the conventional endpoint path; fylr is not an OpenID Connect provider.)
 
 ***
 

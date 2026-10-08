@@ -32,14 +32,14 @@ The mutable collection data sits under the `collection` key; counts, ACL, tree i
 | `_level` | `int` (read-only) | Depth in the collection tree (a user's top level is `3`). |
 | `_path` | `array<object>` (read-only) | Minimal records of the parent collections, for building the tree. |
 | `_has_children` | `bool` (read-only) | Has sub-collections (independent of the caller's permissions). |
-| `_has_remote_objects` | `bool` (read-only) | Contains at least one object from a foreign collection. |
+| `_has_remote_objects` | `bool` (read-only) | Contains at least one record of another instance, added by a connector. |
 | `_acl` | `array` (read-only unless sharing) | ACL grants on this collection. |
 | `_private_acl` | `bool` | Private ACL — ignore the parent's ACL except a `sticky` grant. |
 | `_has_acl` | `bool` (read-only) | Has an active ACL (including an inherited one). |
 | `_invalid_acl` | `bool` (read-only) | Sharing is disabled because the owner lacks the rights needed to grant it. |
 | `_create_object_compiled` | `object` (read-only) | The effective `create_object`, from this collection or the nearest parent that sets one. |
 | `_has_pin` | `bool` (read-only) | The collection has a pin code set. |
-| `_pin_ok` | `bool` (read-only) | The current user has entered the correct pin. |
+| `_pin_ok` | `bool` (read-only) | The current user has entered the correct pin, or is not asked for it: root, the owner and holders of `bag_acl` (from 6.35.0). |
 | `_hotfolder_upload_urls` | `array<object {type, url}>` (read-only) | WebDAV upload URLs for the collection. |
 | `_objects` | `array` (read-only) | The linked objects, as returned in a response. |
 | `_created_at` / `_updated_at` | `date-time` (read-only) | Create / last-update timestamps. |
@@ -47,6 +47,17 @@ The mutable collection data sits under the `collection` key; counts, ACL, tree i
 ## In the API
 
 The collection record is read and written through [`/api/v1/collection`](../api/endpoints/collection/README.md). The object list is not edited by re-saving the whole record: it is fetched with [`/list`](../api/endpoints/collection/list.md) / [`/objects`](../api/endpoints/collection/objects.md) and modified with [`/push`](../api/endpoints/collection/push.md), [`/remove`](../api/endpoints/collection/remove.md) and [`/splice`](../api/endpoints/collection/splice.md). On a full `PUT` the object list is supplied under the key `objects`, while responses return it under `_objects`.
+
+From fylr 6.35.0, a search of `type: collection` finds the collections that contain a record of another instance: `in` on `_remote_objects` with the record's `_global_object_id`. `_remote_objects` holds the global object ids of those records only; it can be searched, but a collection in a response does not carry it. The collections of a local record are its `_collections`. The fields a collection search accepts are listed in the API documentation of the search request's `type`.
+
+```json
+{
+  "type": "collection",
+  "search": [
+    { "type": "in", "bool": "must", "fields": ["_remote_objects"], "in": ["120831@4f561f03-2c14-4fd5-81d1-d5582c84fef1"] }
+  ]
+}
+```
 
 See [Collections and publishing](../concepts/collections-and-publishing.md) for the concept.
 

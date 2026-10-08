@@ -35,7 +35,7 @@ Each tool is a page under `/inspect/<tool>/`. The ones with settings or actions 
 | Tool                                                             | Shows                                                        | Page                          |
 | ---------------------------------------------------------------- | ------------------------------------------------------------ | ----------------------------- |
 | `config`                                                         | the compiled base config                                     |                               |
-| `datamodel`                                                      | objecttypes, masks, fields                                   |                               |
+| `datamodel`                                                      | objecttypes, masks, fields; **from version 6.35.0** a model explorer that draws them and what links them | [Datamodel](datamodel.md)     |
 | `objects`                                                        | object dump — render an object against any datamodel version | [Objects](objects.md)         |
 | `objecttypes`                                                    | objecttype list and per-type stats                           |                               |
 | `files`                                                          | file-production state, filters and actions, IIIF viewer      | [Files](files.md)             |
@@ -52,13 +52,13 @@ Each tool is a page under `/inspect/<tool>/`. The ones with settings or actions 
 | `users`, `groups`, `rights`, `presets`         | the ACL model        |
 | `tokens`                                       | issued OAuth tokens  |
 | `saml-sessions`                                | active SAML sessions |
-| `events`, `messages`, `notifications`, `tasks` | per-entity dumps     |
+| `events`, `messages`, `notifications`, `tasks` | per-entity dumps. **From version 6.35.0** an event that carries the job receipt of a produce or metadata run shows it under **Run** — the shell-quoted command line with a copy button, the arguments one per row, and stdout and stderr — and a task log links the event of each metadata recipe run as `event #<id>`. |
 
 ### System & maintenance
 
 | Tool          | Shows / does                                                                     | Page                                        |
 | ------------- | -------------------------------------------------------------------------------- | ------------------------------------------- |
-| `system`      | reindex, purge, janitor, queues, execserver, backups, locations, console, status | [System](system.md)                         |
+| `system`      | reindex, purge, janitor, queues, execserver, topology, backups, locations, console, status | [System](system.md)                         |
 | `migration`   | backup & restore in the browser                                                  | [Migration](migration.md)                   |
 | `recalcterms` | rebuild the suggestion term list                                                 | [Term Recalculation](term-recalculation.md) |
 | `sqlquery`    | an arbitrary-SQL console (only when enabled)                                     | [SQL Query](sql-query.md)                   |

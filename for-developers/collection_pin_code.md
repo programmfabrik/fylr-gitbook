@@ -60,3 +60,4 @@ Sonstiges:
 * PIN code nicht eingegeben oder nicht korrekt für eine Collection die einen PIN hat erlaubt für den Nutzer erstmal nur BAG\_READ, wenn der Nutzer dieses über eine ACL bekommt. Alle anderen Rechte die über die ACL kommen werden erst dann aktiv wenn der PIN Code korrekt hinterlegt ist.
 * \_has\_pin: true, \_pin\_ok: true
 * collection.pin\_code is read/writable nur bei BAG\_ACL recht
+* Ab 6.35.0: Eigentümer und Nutzer mit BAG\_ACL (direkt oder von der übergeordneten Mappe geerbt) müssen den PIN nicht eingeben (`_pin_ok: true`); der PIN einer Kind-Mappe wird gegen die Kind-Mappe geprüft, auch wenn die Rechte von der Mutter-Mappe kommen.

@@ -146,3 +146,22 @@ This is the default.
 ## Further reading
 
 Related topic: [Multiple DNS domains and changing DNS domains](dns-domains.md)
+
+## Security headers and CORS
+
+From fylr **6.35.0** every response carries `Referrer-Policy: strict-origin-when-cross-origin` (the full URL — file signatures, OAuth codes, one-time page tokens — never leaves the origin) and `X-Content-Type-Options: nosniff` (a browser trusts the `Content-Type` fylr declares). By default fylr also sends `X-Frame-Options: SAMEORIGIN` and the equivalent `Content-Security-Policy: frame-ancestors 'self'`: fylr's own login frames itself, so same-origin framing stays allowed, and no other site may embed it.
+
+A portal that embeds fylr in a **cross-origin iframe** lists its origin in
+
+```yaml
+fylr:
+  services:
+    webapp:
+      frameAncestors:
+        - https://portal.example.com
+        - https://*.portal-customers.example
+```
+
+The entries extend `frame-ancestors`, and `X-Frame-Options` is then omitted, since it cannot express an allow-list. Browsers validate the whole ancestor chain, so the portal origin has to be listed even though fylr's internal iframes are same-origin.
+
+**CORS.** A cross-origin request that carries credentials is admitted only from the origins the configuration already names: the `fylr.externalURL` origin, an origin matching a `fylr.services.webapp.loginAllowRedirects` pattern (cross-server web frontends), or the origin of a redirect URI of a registered OAuth2 client. Those receive their `Origin` reflected together with `Access-Control-Allow-Credentials: true`. Every other origin receives `Access-Control-Allow-Origin: *` and authenticates with a bearer token. A request without an `Origin` header gets no CORS headers, every response carries `Vary: Origin`, and `Access-Control-Allow-Private-Network` is no longer sent. No new configuration is needed for the web frontend in split or cross-server deployments.

@@ -120,7 +120,7 @@ The file worker chain (formerly the easydb asset server) has been redesigned —
 
 Authentication has been rebuilt from scratch on top of [OAuth 2.0](api/oauth2.md) — for connecting software this is the biggest break with easydb 5. The easydb 5 login flow (fetch a session token via `GET /api/v1/session`, then `POST /api/v1/session/authenticate` with login and password, then pass `token=` with every request) **no longer works**: `/api/v1/session` is gone. Every API client must instead obtain an OAuth 2.0 access token — via the authorization code, password, or client credentials grant — and send it as `Authorization: Bearer <token>` (or `?access_token=`). See [OAuth 2.0](api/oauth2.md) for the flows and [API changes](changes-easydb5-fylr.md#api-v1-session) below.
 
-fylr also acts as an OAuth 2.0 / OpenID Connect *provider* for third-party software (discovery under `/.well-known/openid-configuration`). Logging fylr in against an external identity provider is supported via SAML and LDAP; there is no OIDC client.
+fylr also acts as an OAuth 2.0 *authorization server* for third-party software (endpoint discovery under `/.well-known/openid-configuration`); it is not an OpenID Connect provider — no `id_token` is issued. Logging fylr in against an external identity provider is supported via SAML and LDAP; there is no OIDC client.
 
 ### Export
 
@@ -135,7 +135,6 @@ Capabilities in fylr that have no equivalent in easydb 5:
 * **Field inheritance in hierarchies**: unset fields can inherit their value from the parent object, configured per mask field; the search/db output formats `long_inheritance` and `full_inheritance` include the inherited values.
 * **Automatic numbering**, e.g. for building archival tectonics.
 * **Inspect** (`/inspect`): a bare-metal database view of the structures and data in fylr, including a visual backup tool — see [The /inspect backend](../for-system-administrators/inspect/README.md).
-* The **supervisor**: run and manage a fleet of fylr instances from one binary.
 
 ## Upgrading from easydb 5
 

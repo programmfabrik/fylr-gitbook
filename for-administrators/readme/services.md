@@ -68,11 +68,19 @@ And enables all the following:
 
 ### Settings for Files
 
-Specify after how many days unused files should be deleted from the storage. Unused files are files that has been uploaded to FYLR but have never been linked to a record. Enter "0" to remove unused files with every janitor run (every 10 minutes).
+Specify after how many days unused files should be deleted from the storage. Unused files include uploads never linked to a record and files whose record, historic-version, and export references have all been removed. Enter "0" to remove unused files with every janitor run (every 10 minutes).
 
 {% hint style="danger" %}
 Please note, this also applies to files which where uploaded but not yet been saved. We recommend to use at least an interval of 1 day.
 {% endhint %}
+
+### Settings for Exports and Downloads
+
+Since fylr 6.35, these options are grouped under **Settings for Exports and Downloads** in the Janitor configuration. **Delete downloads after n days without a run** controls download retention for all users while the Janitor is active. It defaults to `1` day; clearing the field restores this default. Set it to `0` to make idle downloads eligible on the next Janitor pass. **Delete exports after n days without a run** sets a separate retention period for unscheduled exports, for all users. Leave it empty (the default) to keep exports indefinitely, or set it to `0` to make idle exports eligible on the next Janitor pass.
+
+The period starts when the most recent run started, including failed runs and runs with no new output. For exports never run, it starts at creation. Rerunning an export resets the period; viewing it or downloading existing output does not. Scheduled exports and exports that are pending or processing are kept.
+
+Cleanup removes the expired export or download, including its output references and transport links. File storage is reclaimed only when no other references remain and the separate file expiration setting allows deletion. Each file cleanup pass removes eligible historic file links, purges eligible deleted records, removes expired exports and downloads, and finally deletes unused files. Read-only storage stays protected.
 
 ### Settings for Objects
 
@@ -128,6 +136,37 @@ Specify after how many days the individual events should be deleted. Enter "0" t
 #### Delete IP Address From Events After n Days
 
 Specify after how many days the IP addresses of users should be deleted from the events. Enter "0" to delete the IP address with every janitor run (every 10 minutes).
+
+### Settings for downloads and exports
+
+{% hint style="info" %}
+From fylr **6.35.0**.
+{% endhint %}
+
+#### Delete downloads after n days
+
+A download the user started is kept as a file until this many days have passed (default **1**). The files behind a download that is gone are released, so the unused-file deletion above can reclaim them once nothing else references them.
+
+#### Expire unscheduled exports after n days
+
+An export that has no schedule and has not run for this many days is expired. Any run — a manual rerun, an empty run, a failed run — renews the period. Scheduled exports and exports whose run is still in progress are never expired. Leave the field empty to keep unscheduled exports indefinitely.
+
+Historic file cleanup runs before export expiration and unused-file deletion in every janitor run, so a file that only a stale download or export still pinned is reclaimed in the same run.
+
+### Orphaned terms and custom data
+
+{% hint style="info" %}
+From fylr **6.35.0**.
+{% endhint %}
+
+Two janitor tasks remove what a purge or a re-saved record leaves behind:
+
+* **terms\_delete** removes terms that no record links to any more and takes them out of the suggest index, so word suggestions stop offering values that no record carries.
+* **custom\_data\_delete** removes custom data entries that no field value refers to any more, so the [custom-data-type updater](#custom-data-type-updater) stops refreshing entries nobody uses.
+
+Both only take rows older than **one hour**: a term or custom data entry is created before the record that references it is committed, and the age gate keeps a sweep from removing a row a save is about to reference. Existing rows count as old after the upgrade, so the first runs clear the backlog in batches.
+
+The next batch of both is listed on `/inspect/system/janitor/`, where they can be run by hand. A manual run may carry a `run_time` (RFC 3339): every age gate of that run then treats the given instant as "now", which is how a test drives the sweeps past the hour.
 
 
 

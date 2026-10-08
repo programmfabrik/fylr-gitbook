@@ -2,14 +2,15 @@
 description: >-
   A technical walk-through of how the fylr file worker turns an uploaded file
   into a stored original and its rendered versions — the upload entry points,
-  the queue and worker pools, the state machine, r
+  the queue and worker pools, the state machine, recipes and produce config,
+  metadata extraction, the execserver and storage.
 ---
 
-# File Worker
+# The File Worker
 
 When a file is uploaded, fylr does not process it inside the request. The request only stores the bytes and records the work to be done; a pool of background **file workers** then picks the work up and runs it — producing renditions, extracting metadata, copying remote files into storage — until every part of the file is finished.
 
-This page follows one file through that pipeline end to end. It is the technical companion to the vocabulary-level [Files and assets](concepts/files-and-assets.md) concept and the operational [Files and version production](../for-system-administrators/inspect/files.md) page (the `/inspect/files` UI). The building blocks it references have their own pages: the [Exec server](execserver.md) protocol and the [File versions](fileversions/) row model.
+This page follows one file through that pipeline end to end. It is the technical companion to the vocabulary-level [Files and assets](concepts/files-and-assets.md) concept and the operational [Files and version production](../for-system-administrators/inspect/files.md) page (the `/inspect/files` UI). The building blocks it references have their own pages: the [Exec server](execserver.md) protocol and the [File versions](fileversions/README.md) row model.
 
 ## The pipeline at a glance
 
@@ -43,24 +44,26 @@ Each creates a `File` row — an **original** (`is_original = true`) or a named 
 
 ## 2. The worker pools and the queue
 
-Work is a row in the `file_queue` table. Two pools of workers drain it, started at boot:
+Work is a row in the `file_queue` table. From 6.35.0 one **file dispatcher** per fylr server drains it (the `parallel` and `parallelHigh` worker pools of earlier versions are gone; `parallel: 0` still switches file processing off on an API-only node). The dispatcher holds a bounded number of items in flight — its **admission** — and hands each claimed item to its own goroutine:
 
-* **normal** workers — `fylr.execserver.parallel` of them;
-* **high-priority-only** workers — `fylr.execserver.parallelHigh` of them.
+* the base admission is this server's share of the connected execservers' slots plus its CPU count;
+* above that it adapts to what the execservers absorb: every execserver reports the slots that idled through its last second, and the dispatcher raises the admission by that count while the queue is deep and none of its jobs waits for a slot, lowers it by the jobs that queue at the execservers — so an item that spends most of its life fetching, writing and indexing does not leave the execservers idle;
+* `fylr.execserver.maxInFlight` caps it, 0 (the default) meaning automatic: four times the base, at least 32, at most twice `fylr.db.maxOpenConns`;
+* a few slots are reserved for high-priority items, so interactive work (an upload someone is watching) is never stuck behind a big background reprocessing run.
 
-The startup line `file worker: 18 normal and 10 high priority started` is just these two numbers. Each worker polls about once a second and, per tick, claims one job with roughly:
+The dispatcher claims once a second and the moment an item finishes, per claim roughly:
 
 ```sql
 SELECT … FROM file_queue
 WHERE status = 'new' AND start_after < now()
-  -- high-priority workers additionally: AND priority % 2 != 0
+  -- for the reserved slots additionally: AND priority % 2 != 0
 ORDER BY priority DESC, id ASC
-LIMIT 1 FOR UPDATE SKIP LOCKED;
+LIMIT <free admission> FOR UPDATE SKIP LOCKED;
 ```
 
-`FOR UPDATE SKIP LOCKED` (PostgreSQL) lets many workers pull from the same queue without stepping on each other. **High-priority jobs have an odd priority**, which is exactly what the high-priority workers filter on — so interactive work (an upload someone is watching) is never stuck behind a big background reprocessing run. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant.
+`FOR UPDATE SKIP LOCKED` (PostgreSQL) lets several fylr servers pull from the same queue without stepping on each other. **High-priority jobs have an odd priority**, which is exactly what the reserved slots filter on. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant. `/inspect/system/queues` shows the admission and its parts.
 
-A worker loads the full `File` (parent, children, metadata, source) and runs the job's **action**. On success the queue row is deleted; a _requeueable_ failure (for example an execserver that is momentarily busy) reschedules the row a minute later; a hard failure sets the file to `error` and re-indexes the objects that carry it.
+The item's goroutine loads the full `File` (parent, children, metadata, source) and runs the job's **action**. On success the queue row is deleted. A *requeueable* failure puts the row back into the queue a minute later, as often as it takes: no execserver slot within `fylr.execserver.connectTimeoutSec`, no execserver reachable at all, an execserver that stopped the job while shutting down — so a large batch of videos is worked through however long it waits for the slots. A remote source (`/eas/rput`) that answers 429, 502, 503 or 504 is asked again after its `Retry-After` (at most ten minutes, otherwise a minute) and given up on an hour after the job was queued. An item interrupted by the fylr server's own shutdown goes back into the queue at once. The items of a fylr server that was killed go back within a minute, once the others see it gone; each claimed row names the backend that holds it. A hard failure sets the file to `error` and re-indexes the objects that carry it.
 
 The actions are `metadata`, `produce`, `sync`, `sync_check`, `copy_move`, `copy_move_produce`, `produce_versions` and `checksum`. They are documented from the execserver's side in [Exec server → File Queue](execserver.md#file-queue).
 
@@ -68,7 +71,7 @@ The actions are `metadata`, `produce`, `sync`, `sync_check`, `copy_move`, `copy_
 
 A file moves through a set of internal states. The important transitions:
 
-1. **`pending`** → an original is set to _pending original-produce_ or _pending metadata_ before the first job is queued.
+1. **`pending`** → an original is set to *pending original-produce* or *pending metadata* before the first job is queued.
 2. **produce** (on an original) → on success the file goes to **`sync`** and a **sync** job is queued.
 3. **metadata** → an original goes to `sync`; a produced version goes straight to `done`.
 4. **sync** → creates the version rows and, once every child version is `done` or `error`, sets the original to **`done`** (or `error` if a `leave_on_remote` URL turned out to be unreachable) and re-indexes the objects.
@@ -89,22 +92,22 @@ stateDiagram-v2
 
 The public API does not expose the internal states verbatim. It collapses them:
 
-| internal                                                   | API `status` |
-| ---------------------------------------------------------- | ------------ |
-| `pending`                                                  | `pending`    |
-| `pending_*produce*`, `pending_metadata`, `processing`      | `processing` |
-| `sync`, `pending_copy`, `pending_checksum`, `pending_move` | `sync`       |
-| `done`                                                     | `done`       |
-| `error`                                                    | `failed`     |
+| internal | API `status` |
+| --- | --- |
+| `pending` | `pending` |
+| `pending_*produce*`, `pending_metadata`, `processing` | `processing` |
+| `sync`, `pending_copy`, `pending_checksum`, `pending_move` | `sync` |
+| `done` | `done` |
+| `error` | `failed` |
 
 A file may be **exported** only in `sync`, `pending_checksum` or `done` — early enough that the bytes exist, before every last rendition is necessarily finished.
 
 ## 4. Recipes, cookbooks and the produce configuration
 
-What a worker actually _does_ to a file is decided by the **produce configuration**, which binds file **classes** to **recipes**.
+What a worker actually *does* to a file is decided by the **produce configuration**, which binds file **classes** to **recipes**.
 
 * A **recipe** is one production step: which input `class` and `extensions` it accepts, which `produce_class` it outputs, its `params`, the external-tool `execs` it runs, and any metadata files it reads back. Its fully-qualified name is `cookbook:recipe` (or `plugin:cookbook:recipe`).
-* A **cookbook** is a named group of recipes for a kind of file, loaded from YAML. The shipped cookbooks are `imageconverter`, `officeconverter`, `pdfconverter`, `video`, `audio`, `iiif`, `metadata`, `produce`, `xslt` and `dot`; plugins can contribute more.
+* A **cookbook** is a named group of recipes for a kind of file, loaded from YAML. The shipped cookbooks are `imageconverter`, `officeconverter`, `pdfconverter`, `video`, `audio`, `splat` (3D), `iiif`, `metadata`, `produce`, `xslt` and `dot`; plugins can contribute more.
 * The **produce configuration** maps, per class, a set of named **versions** (renditions) to the recipe that produces each. A version carries its `name`, the `recipe`, the recipe `params` (format, size, quality, colour profile, watermark…), an optional `source_version` (empty = built from the original, otherwise chained off another version), whether it is part of `_standard`, and a front-end `group` (`thumbnail` / `preview` / `huge`).
 
 The produce configuration is **layered**, compiled in this order:
@@ -121,29 +124,51 @@ The produce configuration is validated when it is compiled, but leniently at sta
 
 ## 5. Originals and versions
 
-The parent/child model is on the `File` row (`id_parent`, `id_source`, `is_original`, `version_name`, `version_autogenerated`, `produce_hash`). The [File versions](fileversions/) page has the full matrix; in short:
+The parent/child model is on the `File` row (`id_parent`, `id_source`, `is_original`, `version_name`, `version_autogenerated`, `produce_hash`). The [File versions](fileversions/README.md) page has the full matrix; in short:
 
-* **Auto-generated versions** are created by the _sync_ action from the produce configuration. Each carries a `produce_hash` (version name + the exec's hash). That hash makes syncing **idempotent**: a child that already matches is not re-produced, and a child whose hash is no longer wanted is deleted. Versions can chain — a watermarked preview is produced from the plain preview, not from the original.
+* **Auto-generated versions** are created by the *sync* action from the produce configuration. Each carries a `produce_hash` (version name + the exec's hash). That hash makes syncing **idempotent**: a child that already matches is not re-produced, and a child whose hash is no longer wanted is deleted. Versions can chain — a watermarked preview is produced from the plain preview, not from the original.
 * **Manual versions** are uploaded with a `version_name` onto an original (not allowed while that original auto-produces versions).
-* A **modified original** (`/eas/produce`) is a _new original_ (`is_original = true`) derived from another, carrying the rotate/crop/format options — a "produced original".
+* A **modified original** (`/eas/produce`) is a *new original* (`is_original = true`) derived from another, carrying the rotate/crop/format options — from 6.35.0 also the trim/mute/scale/color options of a video parent — a "produced original".
+
+### The `pages` version: many images in one version
+
+A `pages` version is a single version whose file is a **`pages.zip`** holding many images plus an `info.json` that indexes them. Documents (PDF, INDD, and the office formats through their PDF version) have had one for a while; **from 6.35.0 a video has one too**, holding up to 100 frames spaced at least half a second apart, each rendered at 200 and 320 px, plus tiled **contact sheets** that carry all of them — the frame strip a player scrubs along. A **multi-page TIFF** gets one as well from 6.35.0 — one image per page, so a scan reads page by page; a single-page TIFF does not. All are produced by the same recipe step, `fylr convert --format pages.zip` (which replaces the former `fylr pdf2pages` command — a custom recipe calling it has to be changed).
+
+Because it is an ordinary version, nothing about rights or URL signing is special:
+
+* `GET /api/v1/eas` returns the zip's `info.json` in the version's metadata, so a client gets the page/frame list without downloading the zip: every page lists one entry per rendered size with its `path` inside the zip and its technical metadata (dimensions, mime type, blurhash), a video frame additionally its `time` in seconds, and each contact sheet its `path` and grid (`columns`, `rows`, `tile_height`) to cut the tiles from.
+* A single entry is served straight out of the zip by appending its path to the download URL: `/api/v1/eas/download/<file_id>/<hash>/<version>/<path-inside-zip>`, range requests included. Build these URLs from the ones the API returns so they keep their signature and `obj_uuid` query parameters — a relative reference (as in a WebVTT thumbnail track) drops them and breaks share links and guest access.
+
+### 3D assets
+
+From **6.35.0** the extensions `splat`, `spz`, `ksplat`, `ply`, `ply.zip`, `ply.gz`, `stl`, `obj`, `3ds`, `glb`, `gltf`, `nxs` and `nxz` belong to the file class **`3d`**. fylr renders the preview images of a 3D file itself — a CPU rasterizer in `fylr convert` draws the scene and picks a viewpoint automatically — for everything it can decode:
+
+* **gaussian splatting scenes**: `splat`, `spz` and `ply`, also zipped or gzipped, binary and ascii;
+* **polygon meshes**: `ply` carrying faces, `stl`, `obj`.
+
+A `.ply` can be either; its content decides. Decoded sources additionally get a compact **`splat` interchange rendition**, which the web frontend's 3D viewer loads — it carries gaussians or triangles, whatever the original was. The remaining extensions are accepted and classified as `3d` but not decoded, so they get no rendered previews.
+
+The rendering camera can be stored per asset through the `splat-view-select` produce parameter (the 3D viewer's "store view" does this), and `fylr convert --splat-view` accepts COLMAP/3DGS camera matrices for a script that sets it. A 3D file uploaded before 6.35.0 keeps its previous file class until it is re-produced.
 
 ## 6. Metadata extraction
 
 Metadata is itself a recipe (`_metadata:_read`), run by the **metadata** action. It shells out to **ExifTool**, writing an `fylr_metadata.json` that fylr merges into the `File` row's `metadata` and `technical_metadata` columns; `filesize`, `hash` and `mimetype` are taken from the parsed technical metadata.
 
-From **6.35.0**, the read also recognizes **360° media**: a spherical video or a panoramic image gets the technical-metadata key `projection_type`, for example `equirectangular`. It is compiled from the Spherical Video metadata — the V1 XML block ExifTool reports as `XMP-GSpherical`, plus the V2 `sv3d` box and the Matroska `Projection` element, which fylr reads from ffprobe's stream side data — and from the XMP GPano tags for images. Flat media has no such key. Only the **original** carries it: transcoding drops the spherical metadata, so produced versions are unmarked and a 360° viewer has to read the projection from the original.
+From **6.35.0**, the read also recognizes **360° media**: a spherical video or a panoramic image gets the technical-metadata key `projection_type`, for example `equirectangular`. It is compiled from the Spherical Video metadata — the V1 XML block ExifTool reports as `XMP-GSpherical`, plus the V2 `sv3d` box and the Matroska `Projection` element, which fylr reads from ffprobe's stream side data — and from the XMP GPano tags for images. Flat media has no such key. **Produced versions** keep the marker: the production re-adds the Spherical Video V1 box to MP4 renditions and the XMP GPano tags to image renditions (even with `strip`), as long as the conversion keeps the full equirectangular frame (no crop, rotate or mirror).
+
+Two further technical-metadata keys arrive with **6.35.0**. `alpha` is present, and `true`, only for a file or rendition that carries an alpha channel — the way to tell whether a conversion kept a logo's transparent ground or laid it on white. `vector` holds, for an EPS or AI file, the counts of embedded images and shadings; the file worker uses them to decide whether an SVG rendition would be usable at all (flattened artwork would turn into an SVG no browser opens, so no SVG version is scheduled for it), and a custom produce configuration can gate on the same counts through the recipe replacer `%_source.technical_metadata.vector.images%`. EPS and AI rasters themselves render from the original with ghostscript, or from an embedded preview large enough for the requested version; WMF still goes through inkscape. Files already in the system keep their versions until they are resynced.
 
 The read also produces the file's **full-text** (OCR text and embedded textual metadata), capped by `fylr.elastic.metadataFulltextLimit`. This text is indexed under a record's `metadata_fulltext`, kept separate from the ordinary `_fulltext`. It participates only in **full-text / expert `match`** queries — which is why, from **6.34.0**, a file's extracted content is searchable only when the file field has its expert search enabled (see [Search in Text of Images or Office Files](../help/tutorials/for-administrators/search-text-in-images-or-office-files.md)). OCR is an opt-in recipe (`tesseract`) enabled per extension.
 
 ## 7. The execserver
 
-The external tools — `magick`/`libvips` (images and the `fylr convert` command), LibreOffice (`soffice`), `ffmpeg`, ExifTool, the OCR engine, the PDF-to-pages and IIIF converters — do not run in the fylr process. They run on the **execserver**, which fylr calls per job over a two-step token handshake (reserve a slot, then run the job). Concurrency is bounded per service by waitgroup semaphores, and the execserver can run standalone and be scaled to several load-balanced instances. The protocol and the per-action jobs are documented on the [Exec server](execserver.md) page and, for scaling, [Scaling the execserver](../for-system-administrators/installation/scaling-the-execserver.md).
+The external tools — `magick`/`libvips` (images and the `fylr convert` command), LibreOffice (`soffice`), `ffmpeg`, ExifTool, the OCR engine, the pages.zip and IIIF converters — do not run in the fylr process. They run on the **execserver**, which fylr drives over a fylr-initiated websocket, the *slot broker* (before 6.35: a two-step token handshake): jobs are pushed onto free slots the moment they open. Concurrency is auto-balanced over one pool of slots shared by every service (a `maxSlots` on a service holds it back), and the execserver can run standalone and be scaled to several load-balanced instances. The protocol and the per-action jobs are documented on the [Exec server](execserver.md) page and, for scaling, [Scaling the execserver](../for-system-administrators/installation/scaling-the-execserver.md).
 
 ## 8. Storage and the produce cache
 
 Produced files are written to a **storage location** — a local `file` directory, S3 or Azure (S3/Azure secrets can be encrypted with `fylr.encryptionKey`). Originals and versions go to separate logical buckets. A `leave_on_remote` file is never copied in; fylr keeps only the reference and re-checks that the remote URL is reachable at the end of the sync, marking the file `error` if it is not.
 
-The execserver keeps a **produce cache** for expensive intermediates (for example the large bitmap behind an IIIF zoom). Cached outputs are written **atomically**: the tool produces into a temporary sibling file that is renamed into place only on success, so an interrupted production (a worker killed mid-render) never leaves a partial file for a later request to pick up; concurrent producers of the same cache key are serialized by a file lock. See the _File-production cache_ note in the 6.34.0 release for the customer-visible effect.
+The execserver keeps a **produce cache** for expensive intermediates (for example the large bitmap behind an IIIF zoom). Cached outputs are written **atomically**: the tool produces into a temporary sibling file that is renamed into place only on success, so an interrupted production (a worker killed mid-render) never leaves a partial file for a later request to pick up; concurrent producers of the same cache key are serialized by a file lock. See the *File-production cache* note in the 6.34.0 release for the customer-visible effect.
 
 ## 9. On-demand renditions
 
@@ -153,14 +178,15 @@ Not every rendition is pre-produced and stored. A download can ask for a **custo
 
 **`fylr.yml`**
 
-| Key                                         | Effect                                                              |
-| ------------------------------------------- | ------------------------------------------------------------------- |
-| `fylr.execserver.parallel` / `parallelHigh` | number of normal / high-priority file workers                       |
-| `fylr.execserver.addresses`                 | execserver URLs (round-robin, busy-failover)                        |
-| `fylr.execserver.connectTimeoutSec`         | how long a client retries a busy execserver                         |
-| `fylr.eas.rput.blockedHosts`                | SSRF blocklist for `/eas/rput` targets                              |
-| `fylr.elastic.metadataFulltextLimit`        | byte cap on a file's indexed full-text                              |
-| `fylr.services.execserver.*`                | the execserver's own definition (tools, waitgroups, tempDir, cache) |
+| Key | Effect |
+| --- | --- |
+| `fylr.execserver.parallel: 0` | switches file processing off on this fylr (any other value, and `parallelHigh`, are deprecated and ignored) |
+| `fylr.execserver.addresses` | the execservers, or a load balancer in front of a fleet of them; fylr keeps a broker connection to every execserver it reaches there and parks each exec job on all that announce its service. A `/job/<service>` path is refused at startup |
+| `fylr.execserver.connectTimeoutSec` | the most an exec job waits for a free execserver slot (120 as shipped). A file job that gets none goes back into the queue and is tried again a minute later, as often as it takes; a request waiting for its job (a plugin callback, a custom download version) fails with an error instead |
+| `fylr.execserver.maxInFlight` | ceiling of the dispatcher's admission; 0 (the default) is automatic |
+| `fylr.eas.rput.blockedHosts` | SSRF blocklist for `/eas/rput` targets |
+| `fylr.elastic.metadataFulltextLimit` | byte cap on a file's indexed full-text |
+| `fylr.services.execserver.*` | the execserver's own definition: `commands` and `env`, the `services` it offers (with `maxSlots` per service), the slot pool (`slots`, `fastReserve`, `heavyThreshold`, `unknownShare`), `drainTimeoutSec`, `stallTimeoutSec`, and `tempDir`, which also holds the produce cache |
 
 **Base configuration** (admin-editable): `produce_config` (classes → versions → recipe + params, allowed upload extensions, max file size), `custom_version_presets` (on-demand download presets), `colorprofiles` (custom ICC profiles referenced by recipe params). Cookbooks and recipes are also extended by enabled plugins.
 
@@ -168,5 +194,5 @@ Not every rendition is pre-produced and stored. A download can ask for a **custo
 
 * [Files and assets](concepts/files-and-assets.md) — the concept: records, files, variants, originals and renditions.
 * [Files and version production](../for-system-administrators/inspect/files.md) — the `/inspect/files` operations view: states, actions, the queue.
-* [File versions](fileversions/) — the file-row types and their columns.
+* [File versions](fileversions/README.md) — the file-row types and their columns.
 * [Exec server](execserver.md) — the job protocol and the per-action jobs.

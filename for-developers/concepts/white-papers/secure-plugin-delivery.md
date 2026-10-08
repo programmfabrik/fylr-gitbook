@@ -14,14 +14,14 @@ Implemented — tracked internally as ticket #80126, shipping together with lice
 
 `GET /plugin/marketplace` returns the catalog of installable plugins to an administrator holding `system.plugin` (or `system.root`). The interface uses it to present what can be installed.
 
-The catalog is not a single baked-in file. It is a **named source list in `fylr.yml`** (`plugin.marketplace.sources`), editable by the system administrator. Each source has:
+Beyond Programmfabrik's catalog, the offer is extended by a **named source list in `fylr.yml`** (`plugin.marketplace.sources`), editable by the system administrator. Each source has:
 
 * a **name**, so the interface can attribute every offered plugin to where it came from;
 * a **body**, which is either **inline** JSON listing plugins directly, or a **URL** that returns that same JSON.
 
-`GET /plugin/marketplace` merges all configured sources into one offered list. Programmfabrik's curated catalog ships bundled with fylr as the default source; an organisation can add its own — a shared internal URL, or a few inline entries for plugins it develops itself. A source that fails to load is skipped with a warning, so one broken source never hides the rest.
+`GET /plugin/marketplace` merges all configured sources into one offered list. Programmfabrik's curated catalog comes first: since #80537 its content is no longer compiled into the fylr binary but **pulled from a published catalog sheet** (CSV) and cached with a refresh window — the offer changes without a fylr release. The sheet's location is built into fylr, deliberately not a documented config value: the sheet leads to the private release urls the API withholds. A stale copy keeps serving while a refresh runs, and a failed refresh keeps the last good copy; only while no copy could be loaded at all do the marketplace endpoints answer `503` (`PluginMarketplaceUnavailable`), which the interface reports as "temporarily unavailable". An organisation can add its own sources — a shared internal URL, or a few inline entries for plugins it develops itself. A source that fails to load is skipped with a warning, so one broken source never hides the rest.
 
-Each catalog entry names the plugin (by its internal name, as shown in the plugin manager), its install URL, and three facts the marketplace machinery runs on:
+Each catalog entry names the plugin (by its internal name, as shown in the plugin manager), its install URL, and three facts the marketplace machinery runs on. The install URL of a **private** repository's plugin is **withheld** from the served catalog (#80537): such an entry is installed **by name** — `POST /plugin/marketplace/{name}/install` resolves the URL on the server, so private release URLs never leave it. The facts:
 
 * **`licensed`** — a paid plugin: installable by anyone, enabled only under a license that grants it;
 * **`dependencies`** — internal names of plugins it requires;
@@ -36,7 +36,7 @@ Which plugins cost money is declared **in the catalog** (the `fylr licensed` col
 
 This keeps old licenses working (their bought plugins were always granted by name), and introducing a new paid plugin is a catalog change — no license reissue, no enumeration of what a customer did *not* buy. `GET /plugin/marketplace` stamps every `licensed` entry with `license_enabled`, so the marketplace shows up front whether the instance's license grants it.
 
-At install time the server matches the install URL against the catalog and records `licensed` on the plugin — sticky, so a paid plugin does not silently become free when a source is unreachable. The plugin manager shows both this and the delivery state (`encrypted`) per installed plugin.
+At install time the server matches the plugin by **name** against the catalog and records `licensed` on the plugin — sticky, so a paid plugin does not silently become free when a source is unreachable. The plugin manager shows both this and the delivery state (`encrypted`) per installed plugin. The **stored url** of an installed catalog-private plugin is likewise withheld from the manage API (`url_hidden`, #80537) and the interface presents such a plugin as sealed — the private release url never reaches a client, before or after the install.
 
 ## Encrypted (sealed) delivery
 
@@ -100,7 +100,7 @@ Licensed and encrypted are deliberately **two separate facts**: the catalog flag
 
 A plugin can require other plugins — by **name only**, no version constraints. Dependencies are declared in two places that meet in one union: the plugin manifest (`plugin.dependencies`, superseding the webfrontend-only list, which stays honoured) and the marketplace catalog entry.
 
-The **marketplace resolves**: installing a plugin with missing dependencies offers to install them too, dependency-first, using the catalog — including `hidden` library entries. The **server enforces** the full lifecycle:
+The **marketplace resolves**: `POST /plugin/marketplace/{name}/install` resolves missing dependencies from the catalog — including `hidden` library entries — and installs them first, dependency-first, in the same request (#80537); the interface only confirms the list. The **server enforces** the full lifecycle:
 
 | Action | Rule | Error |
 | --- | --- | --- |

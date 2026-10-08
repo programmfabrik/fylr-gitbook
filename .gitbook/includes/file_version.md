@@ -43,10 +43,6 @@ title: file version
         <td><code>string<code></td>
         <td></td>
     </tr><tr>
-        <td><code>delete_url</code></td>
-        <td><code>string<code></td>
-        <td></td>
-    </tr><tr>
         <td><code>dpi</code></td>
         <td><code>string<code></td>
         <td></td>
