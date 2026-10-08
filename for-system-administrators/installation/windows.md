@@ -218,7 +218,7 @@ Download a current release build (tested with `ffmpeg-n8.1-latest-win64-gpl-8.1.
 
 Put ffmpeg.exe and ffprobe.exe into `C:\fylr\utils`.
 
-An encode runs FFmpeg with the CPUs the execserver has free when it starts, often one while other versions are produced. `FYLR_CONVERT_VIDEO_MP4_THREADS` sets the thread count of every MP4 encode, see [Long videos encode with one thread](../configuration/performance-tuning.md#long-videos-encode-with-one-thread).
+Two video encodes run at a time, each on every CPU; `threads` and `maxSlots` on the `ffmpeg` service change that, see [Videos take long to encode](../configuration/performance-tuning.md#videos-take-long-to-encode).
 
 ### Node
 

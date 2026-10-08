@@ -1081,21 +1081,15 @@ fylr:
       # limits when an operating-system-enforced memory bound is needed.
 
       # One pool of slots for every service. A job holds one slot while it
-      # runs; a command that asks for a temporary CPU allocation holds more,
-      # and gives them back when its subprocess ends. fylr convert asks
-      # around FFmpeg: when FFmpeg starts it borrows the slots free outside
-      # fastReserve, and FFmpeg runs with that many threads until it ends -
-      # the count does not grow when other jobs finish. Encodes started
-      # together, like the 360p, 720p and 1080p versions of one upload,
-      # compete for the free slots: the first takes them, the others often
-      # run with one thread. FYLR_CONVERT_VIDEO_MP4_THREADS in env below gives
-      # every MP4 encode a fixed thread count instead.
+      # runs, however many threads its command uses: a video encode runs
+      # FFmpeg with the threads of its service (see services below) and
+      # still holds one slot. The operating system shares the CPUs between
+      # the encode and the jobs next to it.
       #
       # The balancer classifies each service light or heavy by its measured
       # runtime, and heavy jobs never take the last fastReserve slots, so
       # short interactive work (metadata, plugins, IIIF) always finds one
-      # however busy the conversions are. Borrowed slots count like heavy
-      # jobs: while an encode holds them, further heavy jobs wait.
+      # however busy the conversions are.
       #
       # slots is the size of the pool. 0 is GOMAXPROCS, the number of CPUs
       # the Go runtime may use: the core count on a bare host, the CPU limit
@@ -1114,8 +1108,8 @@ fylr:
       fastReserve: -1
       heavyThreshold: 10s
       unknownShare: 0.5  # pool share for services not measured yet
-      # What one service may hold of the pool is set per service below
-      # (maxSlots), jobs and temporary allocations together.
+      # How many jobs one service runs at once is set per service below
+      # (maxSlots).
 
       # Graceful shutdown: on SIGTERM/Ctrl-C running jobs may finish for this
       # long; jobs still running are interrupted with a "stopped, retry
@@ -1156,14 +1150,6 @@ fylr:
       # os environment
       env:
         - FYLR_METADATA_BLURHASH=1g
-        # FFmpeg threads of every MP4 encode. FFmpeg runs with this many
-        # threads even when the pool has fewer slots free: the encode borrows
-        # what is free up to this count, and the threads above that are not
-        # counted in the pool. A -threads N in the ffmpeg command's args still
-        # caps it. 0 or unset: the slots borrowed when FFmpeg starts, at
-        # least one (without an execserver: all cores). Thumbnails, timeline
-        # frames and audio are not affected.
-        - FYLR_CONVERT_VIDEO_MP4_THREADS=4
         # overwrite to use a different binary, defaults to "chromium" for the PDF plugin
         - SERVER_PDF_CHROME=chromium
 
@@ -1216,14 +1202,26 @@ fylr:
       # alone lists nothing but ffmpeg, and the execserver next to fylr
       # removes ffmpeg ("ffmpeg:" with nothing behind it).
       services:
-        # maxSlots caps what a service holds of the pool at once, jobs and
-        # temporary CPU allocations together. soffice runs one job at a time
-        # because LibreOffice misbehaves in parallel; ffmpeg holds at most
-        # four slots, as four encodes or fewer encodes that borrowed slots.
+        # maxSlots caps how many jobs of a service run at once. soffice runs
+        # one job at a time because LibreOffice misbehaves in parallel.
+        #
+        # threads is the thread count of a service's jobs, handed to every
+        # command it runs as FYLR_CONVERT_THREADS, the environment of
+        # fylr convert --threads, which runs its MP4 encodes with it. 0 is
+        # every CPU (as for slots: 0), N is N threads, -N every CPU but N,
+        # N% that share of the CPUs and -N% every CPU but that share, at
+        # least one. The count is fixed, whatever else runs.
+        #
+        # ffmpeg as shipped runs two encodes at a time, each on every CPU,
+        # and has the operating system share the CPUs with the jobs next to
+        # them. One encode at a time on every CPU, so each video is done
+        # sooner and the others wait: maxSlots: 1. Two at a time, half the
+        # CPUs each: threads: 50%.
         soffice:
           maxSlots: 1
         ffmpeg:
-          maxSlots: 4
+          maxSlots: 2
+          threads: 0
         # every other service: no cap beyond the pool
         exec: {}
         node: {}

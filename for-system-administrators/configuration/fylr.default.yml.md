@@ -163,13 +163,11 @@ fylr:
       jobRemovalPolicy: "done"
       janitorFileAge: "24h"
       # One pool of slots for every service. A slot is a unit of
-      # admission, not a core: a job holds one. A video encode also borrows
-      # the slots free outside fastReserve when FFmpeg starts and runs FFmpeg
-      # with that many threads until it ends; FYLR_CONVERT_VIDEO_MP4_THREADS
-      # in env sets the thread count instead. The balancer classifies each
-      # service light or heavy by its measured runtime, and heavy jobs never
-      # take the last fastReserve slots, so short interactive work always
-      # finds one. See fylr.example.yml for the reasoning behind each value.
+      # admission, not a core: a job holds one, however many threads its
+      # command runs. The balancer classifies each service light or heavy by
+      # its measured runtime, and heavy jobs never take the last fastReserve
+      # slots, so short interactive work always finds one. See
+      # fylr.example.yml for the reasoning behind each value.
       slots: 0             # size of the pool, 0 = GOMAXPROCS, the CPUs available to fylr
       fastReserve: -1      # slots only light jobs may take, -1 = max(1, slots/4), 0 = none
       heavyThreshold: 10s  # a service slower than this counts as heavy
@@ -183,9 +181,6 @@ fylr:
       # common environment to be used for all program exec
       env:
         - FYLR_METADATA_BLURHASH=10M
-        # FFmpeg threads of every MP4 encode, unset = the slots borrowed
-        # when FFmpeg starts, see fylr.example.yml
-        # - FYLR_CONVERT_VIDEO_MP4_THREADS=4
 
       commands:
         fylr:
@@ -232,9 +227,10 @@ fylr:
 
 
       # What this execserver offers. A service may carry "maxSlots: N", the
-      # most slots it holds at once, jobs and temporary CPU allocations
-      # together; "name:" with nothing behind it removes a service, which
-      # is how a dedicated execserver limits itself to some services.
+      # most jobs it runs at once, and "threads:", the thread count of its
+      # jobs: 0 = every CPU, N, -N = every CPU but N, N% = that share of
+      # them. "name:" with nothing behind it removes a service, which is how
+      # a dedicated execserver limits itself to some services.
       services:
         # this service allows to execute arbitrary binaries
         exec: {}
@@ -246,7 +242,8 @@ fylr:
         # is calling "fylr convert" which then calls ffmpeg
         convert: {}
         ocr: {}
-        ffmpeg: {}
+        # two video encodes at a time, each on every CPU
+        ffmpeg: { maxSlots: 2, threads: 0 }
         inkscape: {}
         soffice: {}
         pdf2pages: {}

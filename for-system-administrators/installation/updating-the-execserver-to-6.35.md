@@ -80,9 +80,8 @@ execserver log, instead of landing on a sibling replica later, inside a job.
 ## 3. Decide how concurrency is sized
 
 Every service draws from **one pool of slots**. A slot is a unit of admission,
-not a core: a job holds one while it runs, and a command that leased a
-temporary CPU allocation for a subprocess — `fylr convert` does this around
-FFmpeg — holds more. Each service is classified *light* or *heavy* from the
+not a core: a job holds one while it runs, however many threads its program
+uses. Each service is classified *light* or *heavy* from the
 runtime the execserver measures for it, and heavy jobs — long conversions,
 ffmpeg, LibreOffice, ImageMagick — may never occupy the last `fastReserve`
 slots. Short interactive work (metadata, plugins, IIIF) therefore always finds
@@ -90,11 +89,11 @@ a slot, however busy the conversions are. A service that has not been measured
 often enough yet counts as *unknown* and is capped at `unknownShare` of the
 pool until its first jobs classify it.
 
-A video encode runs FFmpeg with the slots it holds when FFmpeg starts, often
-one while the other versions of the same upload are produced; in 6.34 FFmpeg
-used all cores. `FYLR_CONVERT_VIDEO_MP4_THREADS` sets the thread count of every
-MP4 encode, see
-[Long videos encode with one thread](../configuration/performance-tuning.md#long-videos-encode-with-one-thread).
+Video encodes run as in 6.34: two at a time, each with one FFmpeg thread per
+CPU. The `ffmpeg` service ships with `maxSlots: 2` and `threads: 0`;
+`threads` replaces `FYLR_CONVERT_VIDEO_MP4_THREADS`, which is no longer read —
+fylr warns at startup and in `fylr config check` where it is still set. See
+[Videos take long to encode](../configuration/performance-tuning.md#videos-take-long-to-encode).
 
 These are the shipped defaults; set a key only to change it:
 
@@ -119,8 +118,8 @@ slots.
 ### Holding one service back, and dedicated execservers
 
 The per-service isolation of earlier versions — a waitgroup of its own — is one
-key now, `maxSlots`: the most slots a service holds at once, jobs and temporary
-CPU allocations together.
+key now, `maxSlots`: the most jobs of a service that run at once. One video
+encode at a time instead of the shipped two:
 
 ```yaml
 fylr+:
@@ -128,7 +127,7 @@ fylr+:
     execserver+:
       services+:
         ffmpeg:
-          maxSlots: 2
+          maxSlots: 1
 ```
 
 An execserver that should run only some services lists exactly those: the
