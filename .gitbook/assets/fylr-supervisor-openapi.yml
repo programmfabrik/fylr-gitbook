@@ -1,0 +1,1628 @@
+openapi: "3.0.3"
+# The fylr supervisor management API. Maintained here, next to the supervisor
+# code (internal/supervisor); a copy is committed to the fylr-gitbook repo
+# (.gitbook/assets/fylr-supervisor-openapi.yml) and rendered on docs.fylr.io
+# via GitBook's OpenAPI blocks — update both together.
+info:
+  title: fylr supervisor management API
+  version: "6.34"
+  description: |
+    The management API of the fylr supervisor — the service that runs and
+    manages a fleet of fylr instances on one machine: child processes,
+    provisioning (PostgreSQL, OpenSearch), a host-routing reverse proxy with
+    on-demand TLS, centralized licenses, storage backends, rate limits,
+    managed base config, backups and restores.
+
+    The API is served on the private management listener (`listen` setting,
+    default `:8090`) and — when the `management_host` setting is set — through
+    the public router under that host (HTTPS enforced when TLS is on).
+
+    All responses are JSON. Errors use one envelope: `{"error": "<message>"}`.
+servers:
+  - url: http://localhost:8090/api
+    description: private management listener (default)
+  - url: https://supervisor.example.com/api
+    description: through the public router (management_host setting)
+security:
+  - basicAuth: []
+tags:
+  - name: health
+    description: Liveness probe.
+  - name: instances
+    description: >-
+      The fleet: create, inspect, edit, delete instances; start/stop,
+      hibernate/wake; per-instance logs, metrics and overrides.
+  - name: binaries
+    description: >-
+      A docker-registry-style store of fylr binaries: immutable
+      sha256-identified artifacts, movable names (branches, release tags,
+      aliases like `latest`). Instances follow a name; repointing a name
+      rolls its running followers onto the new artifact.
+  - name: backups
+    description: >-
+      The central backup store. Backup and restore are separate actions: a
+      backup pulls a remote fylr into the store, a restore pushes a catalog
+      entry into an existing or new instance. Only a restore purges its
+      target.
+  - name: storage
+    description: >-
+      Named file backends (S3 buckets, shared directories) assigned to
+      instances as storage locations.
+  - name: licenses
+    description: Centrally stored fylr licenses, routed to instances.
+  - name: certificates
+    description: Manual TLS certificates for the public router (ACME handles the rest).
+  - name: limits
+    description: Request rate limits enforced by the public router.
+  - name: managed-baseconfig
+    description: >-
+      Base-config values managed centrally and pushed into instances; managed
+      values are locked in the instance's own base-config editor.
+  - name: settings
+    description: Supervisor settings (control-DB backed, applied live).
+  - name: cluster
+    description: Shared infrastructure panes — OpenSearch, PostgreSQL, execserver, host machine.
+  - name: logs
+    description: The supervisor's own log.
+paths:
+  /healthz:
+    get:
+      tags: [health]
+      summary: Liveness probe
+      description: >-
+        Returns ok while the supervisor runs. Like every route, it sits
+        behind HTTP basic auth once `basic_auth_user` is set.
+      responses:
+        "200":
+          description: Supervisor is alive.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: ok }
+  /fleet:
+    get:
+      tags: [instances]
+      summary: Fleet summary
+      description: Aggregated dashboard numbers over all instances.
+      responses:
+        "200":
+          description: Fleet summary.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instances: { type: integer, description: Total instances. }
+                  running: { type: integer, description: Instances running or starting. }
+                  stopped: { type: integer }
+                  total_rss_kb: { type: integer, description: Summed resident memory of running instances (KiB). }
+                  pg_connections: { type: integer, description: Indicative pooled PostgreSQL connections. }
+                  files_bytes:
+                    type: integer
+                    format: int64
+                    description: Summed file storage (file.filesize) over ALL instances, including stopped and hibernated ones (last persisted content-stats probe).
+        "500": { $ref: "#/components/responses/Error" }
+  /instances:
+    get:
+      tags: [instances]
+      summary: List instances
+      responses:
+        "200":
+          description: All instances with live runtime state.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Instance" }
+        "500": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [instances]
+      summary: Create an instance
+      description: >-
+        Creates an instance and — unless `desired_state` is `stopped` —
+        provisions its database and starts it.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateInstance" }
+      responses:
+        "201":
+          description: The created instance.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Instance" }
+        "400": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /instances/{id}:
+    get:
+      tags: [instances]
+      summary: Get one instance
+      parameters:
+        - $ref: "#/components/parameters/instanceId"
+      responses:
+        "200":
+          description: The instance.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Instance" }
+        "404": { $ref: "#/components/responses/Error" }
+    patch:
+      tags: [instances]
+      summary: Edit an instance
+      description: >-
+        Partial update — absent fields stay unchanged. Changes apply live
+        where possible; fields the child bakes in at startup (host, basic
+        auth, replicas, license, label) trigger a gentle rolling restart, so
+        the instance keeps serving. A non-empty `root_password` is applied
+        live (or on the next boot when stopped).
+      parameters:
+        - $ref: "#/components/parameters/instanceId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EditInstance" }
+      responses:
+        "200":
+          description: The updated instance.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Instance" }
+        "400": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [instances]
+      summary: Delete an instance
+      description: Stops the children and removes the instance row.
+      parameters:
+        - $ref: "#/components/parameters/instanceId"
+        - name: drop_db
+          in: query
+          required: false
+          description: Also drop the instance's database.
+          schema: { type: boolean, default: false }
+      responses:
+        "200":
+          description: Deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted: { type: integer, description: The instance id. }
+                  db_dropped: { type: boolean }
+        "404": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /instances/{id}/start:
+    post:
+      tags: [instances]
+      summary: Start an instance
+      description: Sets the desired state to running and starts the children.
+      parameters:
+        - $ref: "#/components/parameters/instanceId"
+      responses:
+        "200":
+          description: The instance (starting).
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Instance" }
+        "404": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /instances/{id}/stop:
+    post:
+      tags: [instances]
+      summary: Stop an instance
+      description: Sets the desired state to stopped and stops the children.
+      parameters:
+        - $ref: "#/components/parameters/instanceId"
+      responses:
+        "200":
+          description: The instance (stopping).
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Instance" }
+        "404": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /instances/{id}/hibernate:
+    post:
+      tags: [instances]
+      summary: Hibernate an instance
+      description: >-
+        Stops the children but keeps the desired state running: the next
+        request for the instance's host on the public router wakes it
+        (wake-on-request). Idle instances hibernate automatically after the
+        `hibernate_after` setting.
+      parameters:
+        - $ref: "#/components/parameters/instanceId"
+      responses:
+        "200":
+          description: The instance (hibernated).
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Instance" }
+        "400": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /instances/{id}/wake:
+    post:
+      tags: [instances]
+      summary: Wake a hibernated instance
+      parameters:
+        - $ref: "#/components/parameters/instanceId"
+      responses:
+        "200":
+          description: The instance (waking).
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Instance" }
+        "404": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /instances/{id}/logs:
+    get:
+      tags: [instances]
+      summary: Instance log tail
+      description: The last lines of the child's server log, ANSI colors stripped.
+      parameters:
+        - $ref: "#/components/parameters/instanceId"
+        - name: lines
+          in: query
+          required: false
+          description: Number of lines (1–2000).
+          schema: { type: integer, default: 200 }
+      responses:
+        "200":
+          description: Log lines, oldest first.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lines:
+                    type: array
+                    items: { type: string }
+        "404": { $ref: "#/components/responses/Error" }
+  /instances/{id}/insights:
+    get:
+      tags: [instances]
+      summary: Instance insights
+      description: >-
+        Per-instance metrics: database counts, search indices, event
+        activity, memory series and runtime state. Best-effort — metrics the
+        instance cannot provide are omitted.
+      parameters:
+        - $ref: "#/components/parameters/instanceId"
+      responses:
+        "200":
+          description: Insights.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  counts:
+                    type: object
+                    additionalProperties: { type: integer }
+                    description: >-
+                      Row counts by area, e.g. objects, users, objecttypes,
+                      collections, pools, groups, events, active_users_24h.
+                  indices:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        index: { type: string }
+                        docs: { type: integer }
+                        size_bytes: { type: integer, format: int64 }
+                  events_by_type:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        label: { type: string }
+                        count: { type: integer }
+                  events_over_time:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        bucket: { type: string }
+                        count: { type: integer }
+                  memory_series:
+                    type: array
+                    items: { type: object }
+                  runtime:
+                    type: object
+                    description: Live process state (replicas, rss_kb, status, pid, uptime_sec, restarts, ports, goroutines).
+        "404": { $ref: "#/components/responses/Error" }
+  /instances/{id}/managed-baseconfig:
+    put:
+      tags: [managed-baseconfig]
+      summary: Set an instance's managed base-config override
+      description: >-
+        `override: false` clears the override — the instance inherits the
+        fleet default. `override: true` manages exactly the given values on
+        this instance (an empty config means "manage nothing"). Applied live;
+        a changed managed-name set rolls the instance.
+      parameters:
+        - $ref: "#/components/parameters/instanceId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                override: { type: boolean }
+                config: { $ref: "#/components/schemas/ManagedBaseconfig" }
+      responses:
+        "200":
+          description: The updated instance.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Instance" }
+        "400": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /instances/{id}/limits:
+    put:
+      tags: [limits]
+      summary: Set an instance's rate-limit override
+      description: >-
+        `override: false` clears the override — the instance inherits the
+        fleet default. Applied live to the router's buckets.
+      parameters:
+        - $ref: "#/components/parameters/instanceId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                override: { type: boolean }
+                limits: { $ref: "#/components/schemas/Limits" }
+      responses:
+        "200":
+          description: The updated instance.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Instance" }
+        "400": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /binaries:
+    get:
+      tags: [binaries]
+      summary: List the binary store
+      description: >-
+        Every stored artifact with its names and followers, plus the
+        supervisor's own platform — CI preflights `os`/`arch` here to decide
+        which binary to push.
+      responses:
+        "200":
+          description: The store.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  os: { type: string, description: The supervisor's GOOS — uploads must match. }
+                  arch: { type: string, description: The supervisor's GOARCH — uploads must match. }
+                  default_binary:
+                    type: string
+                    description: The fleet default name (setting); "" = legacy binary path setting / the supervisor executable.
+                  binaries:
+                    type: array
+                    items: { $ref: "#/components/schemas/Binary" }
+        "500": { $ref: "#/components/responses/Error" }
+  /binaries/{name}:
+    put:
+      tags: [binaries]
+      summary: Push a binary / repoint a name
+      description: >-
+        Registers the request body — a BARE fylr binary, no archive (`curl -T
+        fylr`) — under the name and rolls every running follower. The binary
+        is validated via its Go build info: it must be a fylr build for the
+        supervisor's platform, anything else is rejected with 422. Content is
+        stored sha256-addressed and deduped; re-pushing known content only
+        refreshes its timestamp. With `?sha256=` and an empty body the name is
+        repointed at an already-stored artifact instead (rollback, or
+        aliasing without re-uploading). Maximum upload 2 GiB.
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: "Binary name: a branch, release tag, alias or instance host (`[a-zA-Z0-9._/-]`, max 100 chars)."
+          schema: { type: string }
+        - name: sha256
+          in: query
+          description: Repoint mode — point the name at this stored artifact, no upload.
+          schema: { type: string }
+        - name: managed
+          in: query
+          description: >-
+            `true` keeps a standing instance for this name — the name IS the
+            instance's public host, so it must be host-shaped
+            (`main.branch.fylr.io`, every dot-label with a letter; `v6.35.0`
+            is rejected — push `v6-35-0.branch.fylr.io`). Created on the
+            first push (random admin password returned once), rolled on
+            every later one. `false` releases the flag (the instance stays);
+            omitted = unchanged. When the `managed_master_id` setting names
+            an instance, a NEWLY created standing instance is seeded as a
+            copy of that master (database and files, visible as a `seed-…`
+            entry in the backup catalog); it keeps its own admin password.
+          schema: { type: boolean }
+        - name: version
+          in: query
+          description: Informational version label stored on first push (e.g. `git describe`).
+          schema: { type: string }
+        - name: source
+          in: query
+          description: Informational origin label stored on first push (e.g. `ci-apitest`, `release`).
+          schema: { type: string }
+      requestBody:
+        required: false
+        content:
+          application/octet-stream:
+            schema: { type: string, format: binary }
+      responses:
+        "200":
+          description: Push result.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name: { type: string }
+                  action: { type: string, enum: [created, updated, unchanged] }
+                  sha256: { type: string }
+                  os: { type: string }
+                  arch: { type: string }
+                  version: { type: string }
+                  size: { type: integer }
+                  rolling:
+                    type: array
+                    items: { type: string }
+                    description: Instances rolling onto the new artifact.
+                  instance:
+                    type: object
+                    description: >-
+                      managed=true only — standing-instance result: carries
+                      `root_password` once when the instance was just created
+                      unseeded, `seeding_from` when a master copy was kicked
+                      off (credentials are then the master's), or `conflict`
+                      when the derived instance name is taken by a foreign
+                      instance.
+        "400": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [binaries]
+      summary: Delete a binary name
+      description: >-
+        Removes the name. A managed name takes its standing instance
+        (children, database, row) with it — the full deployment teardown.
+        The artifact and its file are removed once no name points at them
+        anymore. Refused (409) while a foreign instance follows the name or
+        it is the fleet default_binary.
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted: { type: string }
+                  instance_deleted: { type: string, description: Managed names only — the torn-down instance. }
+                  binary_removed: { type: boolean }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /backups:
+    get:
+      tags: [backups]
+      summary: List backups
+      description: >-
+        The catalog is a live scan of the backup store directory
+        (`backup_dir` setting) — anything placed there shows up, including
+        rsync'ed foreign backup directories. Each entry carries its sidecar
+        metadata plus the detected kind and, when a job runs on it, the
+        current phase.
+      responses:
+        "200":
+          description: The catalog.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dir: { type: string, description: Absolute store directory. }
+                  backups:
+                    type: array
+                    items: { $ref: "#/components/schemas/Backup" }
+        "500": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [backups]
+      summary: Backup from a server
+      description: >-
+        Pulls a source fylr into the store — no target instance is involved,
+        nothing is purged. Engine `api` replicates object-by-object via the
+        fylr backup tool (works for easydb 5 sources too; file packing per
+        `include_files`); engine `db` runs the source's own database dump
+        (`/api/v1/system/backup`, fylr sources only) and downloads the
+        `fylr-backup-*.sql.gz` — files stay in the source's storage. The
+        backup name is derived from the source host and timestamp. Runs
+        asynchronously; watch the catalog entry and its `backup.log`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [source_url, login]
+              properties:
+                engine:
+                  type: string
+                  enum: [api, db]
+                  default: api
+                  description: >-
+                    api = object replication (easydb 5 capable), db = a
+                    genuine pg_dump run by the source next to its database,
+                    for a 1:1 restore (fylr sources only).
+                source_url:
+                  type: string
+                  description: Absolute http(s) URL of the source; HTTP basic auth as userinfo (`https://user:pass@host`).
+                login:
+                  type: string
+                  description: Source user allowed to read everything — typically root.
+                password: { type: string }
+                include_files:
+                  type: string
+                  enum: ["", original, with-versions]
+                  description: >-
+                    api engine only. Empty = links only (the restore target
+                    fetches files from the source), `original` = pack
+                    originals (renditions regenerate on restore),
+                    `with-versions` = pack originals and renditions.
+                all_versions:
+                  type: boolean
+                  description: api engine only — include all object versions.
+                include_events:
+                  type: boolean
+                  description: >-
+                    Include the event log in the backup (both engines; the
+                    event table can be huge on busy instances, default off).
+                insecure:
+                  type: boolean
+                  description: Skip TLS verification towards the source.
+      responses:
+        "202":
+          description: Backup started.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name: { type: string, description: The catalog name. }
+                  status: { type: string, example: running }
+        "400": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /backups/{name}/restore:
+    post:
+      tags: [backups]
+      summary: Restore a backup into an instance
+      description: >-
+        Pushes one catalog entry into an existing instance (`instance_id`) or
+        a NEW one (`new_instance` — created, started and restored into). The
+        target is PURGED as the first step of the restore — all its current
+        data is deleted. The backup kind is detected from the directory
+        content: `manifest.json` = api backup, replayed via the fylr restore
+        tool through the target's public URL; `fylr-backup-*.sql.gz` = db
+        dump, restored 1:1 via the child's RestoreDB (purge, psql, schema
+        migrations, full reindex) followed by the storage reconcile that
+        reconnects restored locations with assigned storage backends. Every
+        restore ends with a license reset: the source's stored license is
+        deleted from the target's base config so the supervisor-routed
+        license applies. A failed or still-running backup is refused. Runs asynchronously;
+        watch the catalog entry and its `restore.log`.
+      parameters:
+        - $ref: "#/components/parameters/backupName"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                instance_id:
+                  type: integer
+                  format: int64
+                  description: Existing target instance.
+                new_instance:
+                  type: object
+                  description: Create this instance and restore into it (exactly one of the two).
+                  properties:
+                    name: { type: string }
+                    host: { type: string, description: "Default: <name>.localhost." }
+                encryption_key:
+                  type: string
+                  minLength: 32
+                  maxLength: 32
+                  description: >-
+                    Optional: the SOURCE's fylr.encryptionKey (32 characters,
+                    from the source's fylr.yml). The target instance adopts it
+                    before the restore (running children restart), so
+                    key-encrypted data in a db dump — 2FA/TOTP secrets,
+                    passkeys, storage-location secrets — survives the 1:1
+                    copy. Without it those secrets are unreadable on the copy;
+                    s3 locations matching an assigned storage backend are
+                    re-credentialed by the storage reconcile regardless.
+                    Stored in the control database, never in the backup dir.
+      responses:
+        "202":
+          description: Restore started.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name: { type: string }
+                  status: { type: string, example: running }
+                  target: { type: string, description: Target instance name. }
+        "400": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /backups/{name}/log:
+    get:
+      tags: [backups]
+      summary: Backup / restore log tail
+      parameters:
+        - $ref: "#/components/parameters/backupName"
+        - name: file
+          in: query
+          required: false
+          description: "`restore` selects restore.log; anything else backup.log."
+          schema: { type: string, enum: [backup, restore] }
+      responses:
+        "200":
+          description: The last 128 KiB of the log (empty string when the file does not exist).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  log: { type: string }
+        "400": { $ref: "#/components/responses/Error" }
+  /backups/{name}:
+    delete:
+      tags: [backups]
+      summary: Delete a backup
+      description: Removes the backup directory. Refused while a job runs on it.
+      parameters:
+        - $ref: "#/components/parameters/backupName"
+      responses:
+        "200":
+          description: Deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: deleted }
+        "400": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /storage-backends:
+    get:
+      tags: [storage]
+      summary: List storage backends
+      responses:
+        "200":
+          description: All backends with usage.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  backends:
+                    type: array
+                    items: { $ref: "#/components/schemas/StorageBackend" }
+        "500": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [storage]
+      summary: Create a storage backend
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/StorageBackendBody" }
+      responses:
+        "201":
+          description: The created backend.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/StorageBackend" }
+        "400": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /storage-backends/{id}:
+    put:
+      tags: [storage]
+      summary: Update a storage backend
+      description: >-
+        Updates the backend and converges every instance it is assigned to
+        (running ones live). An empty `secret_key` keeps the stored secret.
+        A backend that is some instance's (or the fleet's) default storage
+        cannot become read-only.
+      parameters:
+        - $ref: "#/components/parameters/storageBackendId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/StorageBackendBody" }
+      responses:
+        "200":
+          description: The updated backend.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/StorageBackend" }
+        "400": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [storage]
+      summary: Delete a storage backend
+      description: >-
+        Refused while the backend is the fleet default or assigned to any
+        instance. Locations already created on children stay — their data
+        lives there.
+      parameters:
+        - $ref: "#/components/parameters/storageBackendId"
+      responses:
+        "200":
+          description: Deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: deleted }
+        "400": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /licenses:
+    get:
+      tags: [licenses]
+      summary: List licenses
+      responses:
+        "200":
+          description: All stored licenses with parsed details and usage.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  licenses:
+                    type: array
+                    items: { $ref: "#/components/schemas/License" }
+        "500": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [licenses]
+      summary: Upload a license
+      description: >-
+        The request body is the raw signed fylr license file (max 1 MiB).
+        The signature is verified on upload; expired licenses with a valid
+        signature are accepted (and flagged in `problems`).
+      parameters:
+        - name: name
+          in: query
+          required: false
+          description: Display name; defaults to the license holder.
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "201":
+          description: The stored license.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/License" }
+        "400": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /licenses/{id}:
+    delete:
+      tags: [licenses]
+      summary: Delete a license
+      description: Refused while it is the fleet default or selected by instances.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer, format: int64 }
+      responses:
+        "200":
+          description: Deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: deleted }
+        "400": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /certs:
+    get:
+      tags: [certificates]
+      summary: List certificates
+      description: >-
+        The actual certificates: every manual upload (wildcards included) with
+        the number of instances it serves, plus the issued ACME certificates
+        still in use. Per-instance certificate status is on the instance
+        itself (`cert_source`/`cert_host`/`cert_not_after`).
+      responses:
+        "200":
+          description: The certificates.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  certs:
+                    type: array
+                    items: { $ref: "#/components/schemas/Cert" }
+                  tls_listen:
+                    type: string
+                    description: The router_tls setting (empty = TLS off).
+        "500": { $ref: "#/components/responses/Error" }
+  /certs/inspect:
+    post:
+      tags: [certificates]
+      summary: Inspect a PEM certificate
+      description: >-
+        Returns the hosts (SAN DNS names, CN fallback) and expiry of a PEM
+        certificate without storing anything — the UI prefills the upload
+        form's host field from it.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [cert_pem]
+              properties:
+                cert_pem: { type: string }
+      responses:
+        "200":
+          description: Parsed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hosts:
+                    type: array
+                    items: { type: string }
+                  not_after: { type: string, description: Certificate expiry (RFC3339). }
+        "400": { $ref: "#/components/responses/Error" }
+  /certs/{host}:
+    put:
+      tags: [certificates]
+      summary: Store a manual certificate
+      description: >-
+        Stores a PEM certificate + key for a host and applies it live (the
+        affected running instances roll, since their external URL scheme may
+        flip to https). The host may be a wildcard (`*.fylr.io`) covering one
+        label, TLS-style; an exact-host certificate wins over a covering
+        wildcard. Hosts without a manual certificate use on-demand ACME when
+        enabled — a covering wildcard takes the host out of ACME issuance.
+      parameters:
+        - $ref: "#/components/parameters/certHost"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [cert_pem, key_pem]
+              properties:
+                cert_pem: { type: string }
+                key_pem: { type: string }
+      responses:
+        "200":
+          description: Stored.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  host: { type: string }
+                  not_after: { type: string, description: Certificate expiry (RFC3339). }
+        "400": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [certificates]
+      summary: Delete a manual certificate
+      parameters:
+        - $ref: "#/components/parameters/certHost"
+      responses:
+        "200":
+          description: Deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted: { type: string, description: The host. }
+        "500": { $ref: "#/components/responses/Error" }
+  /limits:
+    get:
+      tags: [limits]
+      summary: Get fleet rate limits
+      responses:
+        "200":
+          description: The fleet default limits.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  limits: { $ref: "#/components/schemas/Limits" }
+        "500": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [limits]
+      summary: Set fleet rate limits
+      description: Applied live to every instance without an override.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                limits: { $ref: "#/components/schemas/Limits" }
+      responses:
+        "200":
+          description: The stored limits.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  limits: { $ref: "#/components/schemas/Limits" }
+        "400": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /managed-baseconfig:
+    get:
+      tags: [managed-baseconfig]
+      summary: Get the fleet managed base config
+      responses:
+        "200":
+          description: The fleet-wide managed values.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  config: { $ref: "#/components/schemas/ManagedBaseconfig" }
+        "500": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [managed-baseconfig]
+      summary: Set the fleet managed base config
+      description: >-
+        Replaces the fleet-wide managed values, pushes them live into every
+        inheriting instance and rolls instances whose managed-name set
+        changed (the lock marker is baked at startup).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                config: { $ref: "#/components/schemas/ManagedBaseconfig" }
+      responses:
+        "200":
+          description: The stored config.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  config: { $ref: "#/components/schemas/ManagedBaseconfig" }
+        "400": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /settings:
+    get:
+      tags: [settings]
+      summary: Get supervisor settings
+      description: >-
+        A flat string map. Write-only keys (`basic_auth_pass`, `plugin_dir`,
+        `opensearch_pass`, `acme_eab_hmac_key`) are accepted by PUT but never
+        returned.
+      responses:
+        "200":
+          description: The settings.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Settings" }
+    put:
+      tags: [settings]
+      summary: Update supervisor settings
+      description: >-
+        Partial update — only provided keys change; unknown keys are ignored.
+        Everything applies live: listener rebinds, port-range retunes, auth,
+        TLS/ACME, hibernation. No restart needed.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Settings" }
+      responses:
+        "200":
+          description: The refreshed settings.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Settings" }
+        "400": { $ref: "#/components/responses/Error" }
+        "500": { $ref: "#/components/responses/Error" }
+  /logs:
+    get:
+      tags: [logs]
+      summary: Supervisor log
+      description: The supervisor's own captured log, newest first.
+      parameters:
+        - name: q
+          in: query
+          required: false
+          description: Case-insensitive substring match against message or fields.
+          schema: { type: string }
+        - name: level
+          in: query
+          required: false
+          description: Minimum level.
+          schema: { type: string, enum: [debug, info, warn, error], default: info }
+        - name: instance
+          in: query
+          required: false
+          description: >-
+            Only entries of this instance (exact match on the instance
+            column — every instance-scoped supervisor log line carries it).
+          schema: { type: string }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer, default: 300, maximum: 2000 }
+      responses:
+        "200":
+          description: Log entries.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ts: { type: string, format: date-time }
+                        level: { type: string }
+                        message: { type: string }
+                        fields: { type: string, description: '"key=value" rendering of structured fields.' }
+                        instance: { type: string, description: Instance the entry belongs to ("" = fleet-level). }
+        "500": { $ref: "#/components/responses/Error" }
+  /cluster/opensearch:
+    get:
+      tags: [cluster]
+      summary: OpenSearch pane
+      description: Health and usage of the shared OpenSearch cluster.
+      responses:
+        "200":
+          description: Cluster state (index/node details best-effort).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  address: { type: string }
+                  shard_limit: { type: integer }
+                  health: { type: object, description: Raw _cluster/health response. }
+                  indices_total: { type: integer }
+                  docs_total: { type: integer, format: int64 }
+                  size_bytes_total: { type: integer, format: int64 }
+                  nodes:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: { type: string }
+        "502": { $ref: "#/components/responses/Error" }
+  /cluster/postgres:
+    get:
+      tags: [cluster]
+      summary: PostgreSQL pane
+      description: Version, connections and per-database sizes (uses the postgres_admin_dsn setting).
+      responses:
+        "200":
+          description: Cluster state.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version: { type: string }
+                  max_connections: { type: integer }
+                  connections: { type: integer }
+                  active: { type: integer }
+                  databases:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name: { type: string }
+                        size_bytes: { type: integer, format: int64 }
+                        connections: { type: integer }
+        "400": { $ref: "#/components/responses/Error" }
+        "502": { $ref: "#/components/responses/Error" }
+  /cluster/execserver:
+    get:
+      tags: [cluster]
+      summary: Execserver pane
+      description: State of the shared execserver (file conversions for all children).
+      responses:
+        "200":
+          description: Execserver state.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  running: { type: boolean }
+                  adopted: { type: boolean, description: Re-adopted from a previous supervisor run. }
+                  url: { type: string }
+                  port: { type: integer }
+                  pid: { type: integer }
+                  uptime_sec: { type: integer }
+                  consumers: { type: integer, description: Running/starting instances using it. }
+                  cpus: { type: integer, description: CPU cap (0 = all cores). }
+                  cpus_total: { type: integer }
+                  log:
+                    type: array
+                    items: { type: string }
+  /cluster/machine:
+    get:
+      tags: [cluster]
+      summary: Machine pane
+      description: Host metrics — CPU, memory, filesystems, a time series and the top processes.
+      responses:
+        "200":
+          description: Host metrics (missing metrics are absent).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hostname: { type: string }
+                  os: { type: string }
+                  kernel: { type: string }
+                  uptime_sec: { type: integer, format: int64 }
+                  procs: { type: integer, format: int64 }
+                  cpu_threads: { type: integer }
+                  cpu_cores: { type: integer }
+                  cpu_model: { type: string }
+                  mem_total_kb: { type: integer, format: int64 }
+                  mem_used_kb: { type: integer, format: int64 }
+                  mem_available_kb: { type: integer, format: int64 }
+                  swap_total_kb: { type: integer, format: int64 }
+                  swap_used_kb: { type: integer, format: int64 }
+                  filesystems:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        mount: { type: string }
+                        fstype: { type: string }
+                        total_kb: { type: integer, format: int64 }
+                        used_kb: { type: integer, format: int64 }
+                  series:
+                    type: array
+                    items: { type: object }
+                  processes:
+                    type: object
+                    properties:
+                      total: { type: integer }
+                      top:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            pid: { type: integer }
+                            name: { type: string }
+                            instance: { type: string, description: Owning instance, when the process is a supervisor child. }
+                            cpu_pct: { type: number }
+                            rss_kb: { type: integer, format: int64 }
+                            cmdline: { type: string }
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: >-
+        HTTP basic auth with the `basic_auth_user` / `basic_auth_pass`
+        settings. While `basic_auth_user` is empty, authentication is
+        disabled and every request passes.
+  parameters:
+    instanceId:
+      name: id
+      in: path
+      required: true
+      description: Instance id.
+      schema: { type: integer, format: int64 }
+    backupName:
+      name: name
+      in: path
+      required: true
+      description: Backup name (a directory in the store).
+      schema: { type: string }
+    storageBackendId:
+      name: id
+      in: path
+      required: true
+      description: Storage backend id.
+      schema: { type: integer, format: int64 }
+    certHost:
+      name: host
+      in: path
+      required: true
+      description: The host the certificate serves.
+      schema: { type: string }
+  responses:
+    Error:
+      description: Error.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message.
+    Binary:
+      type: object
+      description: One immutable artifact in the binary store.
+      properties:
+        id: { type: integer, format: int64 }
+        sha256: { type: string }
+        os: { type: string }
+        arch: { type: string }
+        version: { type: string, description: Caller-provided version label (informational). }
+        vcs_revision: { type: string, description: Git commit from the Go build info, when stamped. }
+        vcs_time: { type: string }
+        size: { type: integer }
+        source: { type: string, description: 'Caller-provided origin label (e.g. "ci-apitest", "release").' }
+        names:
+          type: array
+          description: The names pointing at this artifact.
+          items:
+            type: object
+            properties:
+              name: { type: string }
+              binary_id: { type: integer, format: int64 }
+              managed: { type: integer, description: 1 = a standing instance is kept for this name (its host = the name). }
+              updated_at: { type: string }
+        used_by:
+          type: array
+          items: { type: string }
+          description: Instances following one of the names.
+        created_at: { type: string }
+        last_pushed_at: { type: string, description: Refreshed on every (deduped) re-push. }
+    Instance:
+      type: object
+      description: >-
+        An instance with live runtime state. Runtime fields (ports, pid,
+        uptime, memory, queues) are only present while it runs.
+      properties:
+        id: { type: integer, format: int64 }
+        name: { type: string }
+        host: { type: string, description: The host the public router routes to this instance. }
+        db_backend: { type: string, enum: [postgres, sqlite] }
+        basic_auth_user: { type: string, description: The instance's own HTTP basic auth on the router. }
+        replicas: { type: integer }
+        running_replicas: { type: integer }
+        rolling: { type: boolean, description: A rolling restart is in progress. }
+        hibernated: { type: boolean }
+        hibernate_after: { type: string, description: 'Per-instance hibernation override: "" = inherit the fleet setting, "off" = never hibernate, or an idle window like "10m".' }
+        effective_hibernate_after: { type: string, description: 'Resolved hibernation window the instance runs with ("off" = never).' }
+        binary_name: { type: string, description: 'Registry name this instance follows ("" = the fleet default_binary setting).' }
+        binary: { type: string, description: Effective fylr binary path. }
+        cert_source: { type: string, enum: [manual, acme, none], description: How the router serves TLS for this host. }
+        cert_host: { type: string, description: The covering certificate (may be a wildcard), manual only. }
+        cert_not_after: { type: string, description: Expiry of the covering certificate, manual only. }
+        label: { type: string, description: Explicit modebar label ("" = default). }
+        effective_label: { type: string }
+        encryption_key_hint:
+          type: string
+          description: >-
+            Fingerprint (first…last 4 chars) of the instance's
+            fylr.encryptionKey — comparable against a source's fylr.yml, the
+            key itself is never returned.
+        desired_state: { type: string, enum: [running, stopped] }
+        status: { type: string, enum: [stopped, starting, running, hibernated] }
+        web_port: { type: integer }
+        api_port: { type: integer }
+        backend_port: { type: integer }
+        pid: { type: integer }
+        uptime_sec: { type: integer }
+        rss_kb: { type: integer }
+        restarts: { type: integer }
+        cpu_pct: { type: number, description: CPU percent, summed over replicas. }
+        queued_files: { type: integer, description: file_queue backlog. }
+        not_indexed: { type: integer, description: index_queue backlog. }
+        busy_age_sec: { type: integer, description: Age of the queue probe. }
+        object_count:
+          type: integer
+          format: int64
+          description: Latest-version, non-deleted objects (periodic DB probe, refreshed every few minutes while running; stopped and hibernated instances keep the last persisted value).
+        files_bytes:
+          type: integer
+          format: int64
+          description: Sum of file.filesize — originals plus produced renditions (periodic DB probe; stopped and hibernated instances keep the last persisted value).
+        db_dsn: { type: string, description: Password-redacted database DSN. }
+        frontend_url: { type: string }
+        inspect_url: { type: string }
+        managed_baseconfig: { $ref: "#/components/schemas/ManagedBaseconfig" }
+        managed_baseconfig_override: { type: boolean }
+        limits: { $ref: "#/components/schemas/Limits" }
+        limits_override: { type: boolean }
+        license_id:
+          type: integer
+          format: int64
+          description: "Stored selection: 0 = inherit the fleet default, -1 = instance configured (the supervisor bakes nothing, the instance's own stored license applies — a db restore selects this), >0 = that fleet license."
+        effective_license_id: { type: integer, format: int64 }
+        effective_license_name: { type: string }
+        storage_id:
+          type: integer
+          format: int64
+          description: "Stored selection: 0 = inherit the fleet default, -1 = built-in per-instance disk, >0 = that backend."
+        effective_storage_id: { type: integer, format: int64 }
+        effective_storage_name: { type: string, description: '"file" = the built-in per-instance disk.' }
+        extra_storage_ids:
+          type: array
+          items: { type: integer, format: int64 }
+          description: Additional backends attached as locations without being the default.
+        plugin_urls:
+          type: array
+          items: { type: string }
+          description: >-
+            The child's fylr.plugin.urls — url-type plugins it downloads and
+            keeps registered. A db-engine restore fills this from the source's
+            url plugins (captured at backup time) so the dump's plugin rows
+            survive the child's plugin sync.
+        users_can_login:
+          type: boolean
+          description: >-
+            Live license login gate of the running child (single-instance GET
+            only; absent while stopped/hibernated or on older children).
+            false = no license in service — fylr rejects every login except
+            root. Probed from the child because a license stored inside the
+            instance (e.g. kept by a db restore) shadows the baked fleet
+            license.
+        created_at: { type: string }
+        updated_at: { type: string }
+    CreateInstance:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          description: "Lowercase, `[a-z][a-z0-9_]{1,30}[a-z0-9]`."
+        host: { type: string, description: "Default: <name>.localhost." }
+        db_backend: { type: string, enum: [postgres, sqlite], default: postgres }
+        basic_auth_user: { type: string }
+        basic_auth_pass: { type: string }
+        root_password: { type: string, description: Applied on the first boot. }
+        replicas: { type: integer, default: 1 }
+        desired_state: { type: string, enum: [running, stopped], default: running }
+        license_id: { type: integer, format: int64, description: "0 = inherit fleet default, -1 = instance configured, >0 = that fleet license." }
+        storage_id: { type: integer, format: int64, description: "0 = inherit, -1 = built-in disk, >0 = backend (must be writable)." }
+        binary_name: { type: string, description: 'Registry name to follow (must exist); "" = the fleet default_binary.' }
+        plugin_urls:
+          type: array
+          items: { type: string }
+          description: url-type plugins for the child's fylr.plugin.urls.
+    EditInstance:
+      type: object
+      description: All fields optional — absent fields stay unchanged.
+      properties:
+        host: { type: string }
+        basic_auth_user: { type: string }
+        basic_auth_pass: { type: string }
+        root_password: { type: string, description: "Non-empty = change the root password (live or on next boot)." }
+        encryption_key:
+          type: string
+          minLength: 32
+          maxLength: 32
+          description: >-
+            Non-empty = replace the instance's fylr.encryptionKey (write-only;
+            the instance rolls). DESTRUCTIVE for data encrypted under the
+            current key (2FA/TOTP secrets, passkeys, storage-location
+            secrets) — meant for adopting a migration source's key.
+        replicas: { type: integer, description: Clamped to >= 1. }
+        license_id: { type: integer, format: int64, description: "0 = inherit, -1 = instance configured, >0 = that fleet license." }
+        binary_name: { type: string, description: 'Repin to a registry name (must exist; the instance rolls); "" = follow the fleet default_binary again.' }
+        label: { type: string }
+        hibernate_after: { type: string, description: 'Hibernation override: "" = inherit the fleet setting, "off" = never hibernate (wakes a hibernated instance), or an idle window >= 30s like "10m". Applies live.' }
+        storage_id: { type: integer, format: int64, description: "0 = inherit, -1 = built-in disk, >0 = that backend." }
+        extra_storage_ids:
+          type: array
+          items: { type: integer, format: int64 }
+        plugin_urls:
+          type: array
+          items: { type: string }
+          description: Replace the child's fylr.plugin.urls (the instance rolls).
+    Limits:
+      type: object
+      description: Router-enforced request limits. 0 = unlimited; burst 0 = same as rate.
+      properties:
+        instance:
+          type: object
+          properties:
+            rate: { type: integer, description: Requests per second for the whole instance. }
+            burst: { type: integer }
+            concurrent: { type: integer, description: Concurrent in-flight requests. }
+        ip:
+          type: object
+          properties:
+            rate: { type: integer, description: Requests per second per client IP. }
+            burst: { type: integer }
+    ManagedBaseconfig:
+      type: object
+      description: >-
+        Maps scoped base-config names (`system.<name>` or
+        `plugin.<plugin>.<name>`) to their raw API values. Managed values are
+        pushed into the instances and locked in their base-config editor.
+      additionalProperties: true
+    License:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        name: { type: string }
+        created_at: { type: string }
+        holder: { type: string }
+        type: { type: string }
+        edition: { type: string }
+        domains:
+          type: array
+          items: { type: string }
+        valid_from: { type: string }
+        valid_to: { type: string }
+        signature_verified: { type: boolean }
+        problems:
+          type: array
+          items: { type: string }
+        used_by:
+          type: array
+          items: { type: string }
+          description: Instances selecting this license explicitly.
+        fleet_default: { type: boolean }
+    StorageBackend:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        name: { type: string, description: Also the location name on the instances. }
+        kind: { type: string, enum: [s3, file] }
+        endpoint: { type: string }
+        bucket: { type: string }
+        region: { type: string }
+        access_key: { type: string }
+        ssl: { type: integer, description: 0/1. }
+        path_style: { type: integer, description: 0/1. }
+        prefix: { type: string, description: "S3 key prefix; {name} becomes the instance name." }
+        dir: { type: string, description: "file kind: directory template; {name} becomes the instance name." }
+        read_only: { type: integer, description: 0/1 — read-only backends serve existing blobs and can never be a default storage. }
+        created_at: { type: string }
+        updated_at: { type: string }
+        has_secret: { type: boolean }
+        used_by:
+          type: array
+          items: { type: string }
+          description: Instances with this backend as their default storage.
+        attached_to:
+          type: array
+          items: { type: string }
+          description: Instances attaching this backend as an extra location.
+        fleet_default: { type: boolean }
+    StorageBackendBody:
+      type: object
+      required: [name, kind]
+      properties:
+        name:
+          type: string
+          description: "`[a-z][a-z0-9_-]{0,30}`, not `file` (reserved for the built-in disk)."
+        kind: { type: string, enum: [s3, file] }
+        endpoint: { type: string }
+        bucket: { type: string, description: Required for kind s3. }
+        region: { type: string }
+        access_key: { type: string }
+        secret_key: { type: string, description: Write-only; empty on update keeps the stored secret. }
+        ssl: { type: boolean, default: true }
+        path_style: { type: boolean, default: true }
+        prefix: { type: string, description: "Default {name}/ for s3." }
+        dir: { type: string, description: Required for kind file. }
+        read_only: { type: boolean }
+    Backup:
+      type: object
+      description: One catalog entry (a directory in the backup store).
+      properties:
+        name: { type: string }
+        engine: { type: string, enum: [api, db], description: How the backup was taken (from the sidecar; absent for foreign dirs). }
+        kind:
+          type: string
+          enum: [api, db]
+          description: >-
+            Detected from the directory content — api (manifest.json) or db
+            (fylr-backup-*.sql.gz). Empty when neither is present (not
+            restorable).
+        source_url: { type: string, description: Credentials stripped. }
+        include_files: { type: string, description: api engine file packing mode. }
+        all_versions: { type: boolean }
+        include_events: { type: boolean, description: The event log is part of the backup. }
+        status: { type: string, enum: [running, ok, error], description: The backup phase's result. }
+        error: { type: string }
+        size_bytes: { type: integer, format: int64 }
+        started_at: { type: string }
+        finished_at: { type: string }
+        running: { type: boolean, description: A job (backup or restore) is running on this entry. }
+        phase: { type: string, description: The running job's phase (backup, restore, reindex, storage). }
+        restore:
+          type: object
+          description: The most recent restore of this backup.
+          properties:
+            target_instance: { type: string }
+            phase: { type: string }
+            status: { type: string, enum: [running, ok, error] }
+            error: { type: string }
+            started_at: { type: string }
+            finished_at: { type: string }
+    Cert:
+      type: object
+      description: One actual certificate — a manual upload or an issued ACME cert in use.
+      properties:
+        host: { type: string, description: Certificate identity — the uploaded host (may be a wildcard) or the ACME host. }
+        source: { type: string, enum: [manual, acme] }
+        not_after: { type: string }
+        serves: { type: integer, description: Instances this certificate currently serves (wildcards serve many). }
+    Settings:
+      type: object
+      description: >-
+        Flat string map. Keys: listen, router, router_tls, data_dir,
+        port_range, binary, default_binary, execserver_cpus, hibernate_after,
+        postgres_admin_dsn, basic_auth_user, management_host,
+        default_license_id, default_storage_id, managed_master_id,
+        backup_dir, opensearch_addresses, opensearch_user, acme_enabled,
+        acme_email, acme_ca, acme_eab_key_id — plus the write-only keys
+        basic_auth_pass, plugin_dir, opensearch_pass, acme_eab_hmac_key
+        (accepted on PUT, never returned). managed_master_id names the
+        instance newly created managed branch instances are seeded from
+        (""/"0" = start empty).
+      additionalProperties: { type: string }
