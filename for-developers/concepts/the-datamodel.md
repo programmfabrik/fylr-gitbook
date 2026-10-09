@@ -54,4 +54,3 @@ The datamodel is read and edited through the [`/schema` endpoint](../api/endpoin
 - [Masks](masks.md) — the per-mask layer over the datamodel.
 - [Hierarchies and polyhierarchies](hierarchies-and-polyhierarchies.md) — datamodel choices about how records link.
 - [Search and events](search-and-events.md) — what a reindex does and what events a commit emits.
-- [FOR ADMINISTRATORS](../../for-administrators/) — editing the datamodel in the interface.

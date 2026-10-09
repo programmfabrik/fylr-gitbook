@@ -65,7 +65,7 @@ This list is not complete. There still might be other settings which are not mig
 
 ### Migration of Events
 
-If events are migrated (see parameter [`--include-events`](#--include-events)), there are differences between easydb5 and fylr. For some events, the eventtype or the basetype is changed. Also there are events in easydb5 which have no matching event in fylr, these events are not migrated at all.
+If events are migrated (see parameter [`--include-events`](restore.md#include-events)), there are differences between easydb5 and fylr. For some events, the eventtype or the basetype is changed. Also there are events in easydb5 which have no matching event in fylr, these events are not migrated at all.
 
 The event info block will be migrated without any changes. IDs which relate to objects, files, etc., are replaced during the restore process. This is done for IDs on top level (`object_id`), and known IDs in the info block.
 

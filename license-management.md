@@ -10,7 +10,7 @@ For all installations a fylr license is required, except for [cases explained be
 
 ## License contract & Licenses
 
-Once you have signed a fylr license contract, you will be given a fylr license. Depending on your license contract this can be one license or several licenses. This license has to be entered into the [license management](for-administrators/readme/license-management.md#upload-your-license) in the Base Configuration or has to be made part of the fylr.yml configuration.
+Once you have signed a fylr license contract, you will be given a fylr license. Depending on your license contract this can be one license or several licenses. This license has to be entered into the [license management](for-administrators/readme/license-management.md#license-installation-and-updates) in the Base Configuration or has to be made part of the fylr.yml configuration.
 
 The license contract determines:
 
@@ -122,4 +122,4 @@ To download, install and test fylr see these pages:
 
 * Find the latest [fylr release](releases/) to download it
 * [fylr Installation](for-system-administrators/installation/)
-* [upload your fylr license](for-administrators/readme/license-management.md#upload-your-license)
+* [upload your fylr license](for-administrators/readme/license-management.md#license-installation-and-updates)

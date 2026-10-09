@@ -225,7 +225,7 @@ Create the following two:
   * **Directory** (in container) `/mnt/dest_early`
   * **Remote URL Prefix**: As above, use one of the collected Remote URL Prefixes.\
     Example: `https://easydb.example.com/eas/partitions-inline/2/`
-  * If you have enough free storage space to double all asset **versions** (see explanation in [requirements](migrate-map-to-local-storage-1.md#storage-for-asset-versions), above), then set this location to `Read Only`. Then none of them will be deleted. Otherwise set it as Default Location for `versions` . Then, easydb previews will be deleted as they are replaced with fylr previews. `Read Only` is safer, (especially if you still want to use easydb!) and thus recommended.
+  * If you have enough free storage space to double all asset **versions** (see explanation in [requirements](migrate-map-to-local-storage-1.md#checks-and-requirements), above), then set this location to `Read Only`. Then none of them will be deleted. Otherwise set it as Default Location for `versions` . Then, easydb previews will be deleted as they are replaced with fylr previews. `Read Only` is safer, (especially if you still want to use easydb!) and thus recommended.
 * In case your easydb has more than two partitions, you may have to add more fylr locations.
 
 </details>

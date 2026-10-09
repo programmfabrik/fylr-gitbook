@@ -237,7 +237,7 @@ Fields that are set in the object:
 
 **`pool`**
 
-The pool must be specified for all objects with pool management. We want to add the new objects to the pool ["Migrated Objects"](payloads-for-user-objects.md#pools) by referencing the pool `reference` instead of the `_id`:
+The pool must be specified for all objects with pool management. We want to add the new objects to the pool ["Migrated Objects"](payloads-for-basetypes.md#pools) by referencing the pool `reference` instead of the `_id`:
 
 ```json
 "_pool": {
@@ -514,11 +514,11 @@ Fields that are set in the object:
 
 **`pool`**
 
-Add the new object to the pool ["Migrated Objects"](payloads-for-user-objects.md#pools) by referencing the pool `reference` instead of the `_id`.
+Add the new object to the pool ["Migrated Objects"](payloads-for-basetypes.md#pools) by referencing the pool `reference` instead of the `_id`.
 
 **`tags`**
 
-Tags are set in an array next the object, at the top level key `_tags`. Each object in the array is one tag. Instead of using the tag ID, reference the tag ["Public Access"](payloads-for-user-objects.md#tags) by using the lookup for the reference "public":
+Tags are set in an array next the object, at the top level key `_tags`. Each object in the array is one tag. Instead of using the tag ID, reference the tag ["Public Access"](payloads-for-basetypes.md#tags) by using the lookup for the reference "public":
 
 ```
 "_tags": [

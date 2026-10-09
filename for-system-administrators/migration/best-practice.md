@@ -111,11 +111,11 @@ fylr restore \
 
 For productive migrations, the full set of records from a source instance is stored in the backup files. The amount of records that are loaded from the source can be limited to a specific limit per objecttype. Also the requested records can be filtered by the name of the objecttype.
 
-The [`--limit`](backup.md#limit) parameter can be used to set the upper limit of records that are requested per objecttype. Set a number bigger than `0` to limit the records. By default the limit is `0` which means all records are requested. The limit is applied to all objecttypes.
+The [`--maximum-count`](backup.md#maximum-count) parameter can be used to set the upper limit of records that are requested per objecttype. Set a number bigger than `0` to limit the records. By default the limit is `0` which means all records are requested. The limit is applied to all objecttypes.
 
 To only backup a set of objecttypes with the [`--include`](backup.md#include) parameter a regular expression can be passed. Only records where the name of the objecttype matches the regex are requested, other objecttypes are ignored. By default this parameter is an empty string, which means it is ignored.
 
-`--limit` and `--include` can be combined to control the content and amount of a test backup. For example, if only a maximum of 100 records of objecttypes `asset` and `document` should be included in the backup, the command would look like this:
+`--maximum-count` and `--include` can be combined to control the content and amount of a test backup. For example, if only a maximum of 100 records of objecttypes `asset` and `document` should be included in the backup, the command would look like this:
 
 ```
 fylr backup \
@@ -123,7 +123,7 @@ fylr backup \
   --login 'root' \
   --password '<cleartext>' \
   --dir '<instance folder>/' \
-  --limit 300 \
+  --maximum-count 100 \
   --include '^asset|document$' \
   --purge
 ```
@@ -134,22 +134,7 @@ Any non-empty string is used as a regular expression. There is no validation bef
 
 ## Restoring of a subset of records
 
-To only restore a part of existing payloads, the number of records which are uploaded to the target can also get an upper limit. Use the [`--limit`](restore.md#limit) parameter to set number bigger than `0`. By default this value is `0` which means all records are restored.
-
-To only restore a maximum of 100 records of each objecttype, use a command like this:
-
-```
-fylr restore \
-  --server '<fylr url>/api/v1' \
-  --login 'root'
-  --password '<cleartext>' \
-  --client-id '<client id>' \
-  --client-secret '<client secret>' \
-  --client-token-url '<fylr url>/api/oauth2/token' \
-  --manifest '<instance folder>/manifest.json' \
-  --limit 100 \
-  --purge
-```
+`fylr restore` restores every record of the backup it is given. To test with fewer records, limit the backup instead, see [Backup of a subset of records](#backup-of-a-subset-of-records).
 
 ## Backup and restoring including user passwords
 
@@ -296,7 +281,7 @@ If the numbers match, then all data from the source was migrated into the target
 
 * **Number in source instance is higher than in the target instance:**
   * Check if the backup was complete, or if it was limited:
-    * Parameter `--limit` would only backup a maximum number of each objecttype
+    * Parameter `--maximum-count` would only backup a maximum number of each objecttype
     * Parameter `--include` would only backup specific objecttypes
     * *Solution*: Repeat the backup without these parameters and restore again
   * Was the restore process paused and repeated with `--continue`?

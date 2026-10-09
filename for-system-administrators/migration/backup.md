@@ -166,7 +166,7 @@ The requested size for objects from the source instance. Can be used to control 
 * default: `100`
 
 
-### `--max-count`
+### `--maximum-count`
 
 Set this to a number bigger than `0` to limit the number of objects of each objecttype. This can be used to test or debug, and can be combined with `--include` to only backup a small sample of the source instance.
 
