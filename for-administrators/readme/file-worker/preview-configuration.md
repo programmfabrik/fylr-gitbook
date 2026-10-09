@@ -50,6 +50,8 @@ A file larger than the limit that applies to its class is rejected during upload
 
 For each file class (3D, Audio, Image, Office and Video) you can (de-)activate the allowed file types: only activated extensions may be uploaded, and versions are generated only for them.
 
+The format a version is written in does not need to be activated here. From version 6.35.0 a version belongs to the class its recipe produces: a PNG or WebP version is an image even if PNG or WebP uploads are not activated.
+
 Each class also has its own **Max. upload file size**, in the same `b`/`k`/`m`/`g` format. A non-zero value here applies to that class only and overrides the global limit above. `0` (the default) makes the class fall back to the global limit — so for a class `0` means "use the global setting", whereas the global `0` means "no limit at all".
 
 ## Versions
