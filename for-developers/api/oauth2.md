@@ -44,7 +44,7 @@ An access token is valid for **24 hours** (86400 seconds) by default; the lifeti
 
 ### When a token is rejected
 
-From **fylr 6.35.0** on, a rejected access token is answered with HTTP **`401`** and the error code **`InvalidToken`** on every endpoint — including `GET /api/v1/user/session` and the web frontend's `POST /oauth2/refresh`, which answered `400` before.
+From **fylr 6.35.0** on, a rejected access token is answered with HTTP **`401`** and the error code **`InvalidToken`** wherever a request without a token is answered `401` `UserRequired`, and on `GET /api/v1/user/session` and the web frontend's `POST /oauth2/refresh`, which answered `400` before.
 
 A token is rejected when it is unknown, expired, revoked, bound to a different browser than the one presenting it, or belongs to a user who may no longer log in — archived, disabled, or outside their login validity window.
 
@@ -55,11 +55,13 @@ Two different `401`s exist, and the `code` tells them apart:
 | `UserRequired` | the request carried no access token at all | authenticate, then retry |
 | `InvalidToken` | the token the request carried was rejected | the session is over: discard the token and log in again |
 
+`GET /api/v1/user/session` and `/api/oauth2/userinfo` answer `InvalidToken` also to a request without a token.
+
 An `InvalidToken` does not become valid by being sent again, and refreshing it does not help — a refresh whose token is rejected is itself answered `401` `InvalidToken`. A client that answers this error with a retry or another refresh produces nothing but load.
 
 Before 6.35.0 the answer depended on the endpoint: `400` `InvalidToken` from `/api/v1/user/session` and `/oauth2/refresh`, `401` `UserRequired` from everything else. A client that has to work against both versions should treat status `401` **or** code `InvalidToken` as the end of the session.
 
-Endpoints that serve callers without a user are not affected — deep links under `/api/v1/objects` and signed asset downloads under `/api/v1/eas/download` answer a request carrying a dead token exactly as they always did, because the token is irrelevant to them.
+Endpoints that also serve callers without a user answer a request carrying a rejected token as if it carried none: deep links under `/api/v1/objects` and signed asset downloads under `/api/v1/eas/download` exactly as they always did, and endpoints that check rights instead of requiring a user with what an anonymous caller gets, such as `403` from `GET /api/v1/eas` or an empty list from `GET /api/v1/group`.
 
 ## Configuring Client ID and Secret
 
@@ -75,11 +77,13 @@ fylr:
       oauth2Server:
         clients:
           my-client:
-            secret: 'my-secret'
+            secret: '$2y$10$64tMY.7PmUAInS2xupV2i.j1FcB7SoGlxsK3.qmuRHwyXZ2S5nlIy' # bcrypt hash of my-secret
             redirectURIs:
               - http://my-callback-server/oauth2/callback
 ```
 {% endcode %}
+
+The secret is stored as a **bcrypt hash** with at most 14 rounds, in `fylr.yml` as in the base configuration; the client sends the secret itself. `htpasswd -bnBC 10 "" my-secret | tr -d ':\n'` prints such a hash.
 
 The default clients in fylr are **public** and thus neither need nor have a secret. A public client must omit `client_secret`.
 
@@ -312,7 +316,7 @@ External documentation: [https://www.oauth.com/oauth2-servers/access-tokens/clie
 The behaviour of this grant **changed in fylr 6.33.0**.
 {% endhint %}
 
-As of 6.33.0 the client-credentials grant returns a token for the **anonymous user** bound to the browser client — so a public frontend can obtain an anonymous session without any user credentials. This requires **guest access** to be enabled in the base configuration (`login.guest`); with guest access off the request is rejected and a warning is written to the fylr log. Anonymous logins are recorded as `USER_LOGIN` / `USER_LOGIN_FAILED` events.
+As of 6.33.0 the client-credentials grant returns a token for the **anonymous user** — so a client with a secret can obtain an anonymous session without any user credentials. A public client is refused with `invalid_grant`; the web frontend's guest login uses the authorization code flow instead. This requires **guest access** to be enabled in the base configuration (`login.guest`); with guest access off the request is rejected and a warning is written to the fylr log. Anonymous logins are recorded as `USER_LOGIN` / `USER_LOGIN_FAILED` events.
 
 <mark style="color:green;">`POST`</mark> `fylr-instance/api/oauth2/token`
 
@@ -322,7 +326,7 @@ As of 6.33.0 the client-credentials grant returns a token for the **anonymous us
 | --- | --- | --- |
 | `grant_type`<mark style="color:red;">\*</mark> | string | fixed value: `"client_credentials"` |
 | `client_id`<mark style="color:red;">\*</mark> | string | **Client ID** |
-| `client_secret` | string | **Client Secret** — omit for public clients |
+| `client_secret`<mark style="color:red;">\*</mark> | string | **Client Secret** |
 
 The response contains `access_token`, `token_type` (`"bearer"`), `scope` and `expires_in`; when the `offline` scope was granted it also contains a `refresh_token` (new in 6.35.0 — earlier versions never returned one on this grant).
 
@@ -354,8 +358,10 @@ Revoke an access or refresh token ([RFC 7009](https://datatracker.ietf.org/doc/h
 | --- | --- | --- |
 | `token`<mark style="color:red;">\*</mark> | string | The access or refresh token to revoke |
 | `token_type_hint` | string | Optional: `access_token` or `refresh_token` |
+| `client_id`<mark style="color:red;">\*</mark> | string | **Client ID** the token was issued to |
+| `client_secret` | string | **Client Secret** — omit for public clients |
 
-Per RFC 7009 the endpoint returns `200` even for an unknown token.
+The client can authenticate with HTTP Basic instead of `client_id` and `client_secret`; without a client the request is refused with `401` `invalid_client`. Per RFC 7009 the endpoint returns `200` even for an unknown token, and for a token issued to another client, which it leaves valid.
 
 ### Logging out the browser: `/logout`
 
@@ -391,5 +397,7 @@ Inspect the state of a token ([RFC 7662](https://datatracker.ietf.org/doc/html/r
 | --- | --- | --- |
 | `token`<mark style="color:red;">\*</mark> | string | The token to introspect |
 | `token_type_hint` | string | Optional: `access_token` or `refresh_token` |
+
+The caller authenticates with a valid access token (`Authorization: Bearer …`) or as a client with a secret, by `client_id` and `client_secret` or HTTP Basic; a public client is refused.
 
 The response reports `active` (boolean) and, when active, `scope`, `client_id`, `sub`, `exp`, `iat` and `token_type`.

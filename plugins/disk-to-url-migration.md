@@ -256,7 +256,7 @@ A further set of easydb plugins has **no successor either**, but fylr **stopped 
 | `webhook-plugin` | no fylr successor |
 | `example-plugin` | the developer example, continued as [`fylr-plugin-example`](https://github.com/programmfabrik/fylr-plugin-example) |
 
-One case is deliberately **not** covered by any of this: a plugin from the easydb set that you load from **your own** `plugin.paths` directory. The upgrade does not touch it and fylr goes on loading it from that directory — it is your copy, not the distribution's.
+A plugin from the easydb set that you load from **your own** `plugin.paths` directory is converted as well, because the upgrade matches by name. Remove its entry from `plugin.paths`: fylr goes on reading that directory, skips a copy that has the name of its url plugin with a warning in the log, but adds a renamed one, such as `easydb-barcode-display`, as a plugin of its own next to its successor, and keeps one that has none.
 
 If you actively use one of these, talk to us before upgrading.
 

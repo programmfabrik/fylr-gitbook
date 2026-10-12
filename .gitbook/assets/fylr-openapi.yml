@@ -23,10 +23,12 @@ info:
         cases it is: a request that carried **no** token is answered with
         `UserRequired`, a request whose token was **rejected** — unknown,
         expired, revoked, or bound to a different browser — with
-        `InvalidToken`. A rejected token is `401` on every endpoint, so the
-        status alone is enough for a client to end the session; the token
-        will not become valid by being sent again, and refreshing it fails
-        the same way.
+        `InvalidToken`. A rejected token is `401` wherever a missing one is,
+        so the status alone is enough for a client to end the session; the
+        token will not become valid by being sent again, and refreshing it
+        fails the same way. `GET /user/session` and `/api/oauth2/userinfo`
+        answer `InvalidToken` also without a token. An endpoint that also
+        serves anonymous callers answers a rejected token like no token.
 
         **Caching.** Responses default to `Cache-Control: no-store,
         no-cache` — most carry data specific to the authenticated user,

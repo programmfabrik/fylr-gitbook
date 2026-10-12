@@ -17,8 +17,9 @@ responses carry a signature (`?x-fylr-signature=…`; IIIF and zoom URLs carry i
 as a path segment) that authorizes that one file on its own until it expires,
 so a browser loads files without the access token in the URL. The
 `file_url_expire` query parameter sets the validity in days, `0` returns
-unsigned URLs. A client that appends its own path or query to such a URL
-inserts it in front of the signature, or asks for unsigned URLs. Since fylr
+unsigned URLs. A client that extends such a URL adds query parameters
+with `&` and puts a path, such as a file inside a ZIP, in front of the `?`, or
+asks for unsigned URLs. Since fylr
 6.35, export and backup downloads work the same way: load the export or backup
 with `?sign_url=1` and pass the returned `_download_signature` /
 `download_signature` as `?x-fylr-signature=`; it is valid for one day.

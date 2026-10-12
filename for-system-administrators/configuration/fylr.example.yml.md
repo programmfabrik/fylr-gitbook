@@ -612,10 +612,11 @@ fylr:
     # callbackApiInternalURL does the same for the API base handed to plugins.
     # callbackApiInternalURL: "http://localhost:8080"
     #
-    # callbackBackendOwnURL is the escape hatch: taken verbatim, port included,
-    # and nothing overrides it. Set it where fylr cannot name the address an
-    # execserver reaches it on — NAT between the two, with a forwarded port.
-    # callbackBackendOwnURL: ""
+    # callbackBackendOwnURL is the escape hatch: the backend base as a full URL,
+    # taken verbatim, scheme and port included, and nothing overrides it. The
+    # API base takes only its host. Set it where fylr cannot name the address
+    # an execserver reaches it on — NAT between the two, with a forwarded port.
+    # callbackBackendOwnURL: "http://fylr.example.com:8081"
 
 
   # eas (External Asset Store) settings.

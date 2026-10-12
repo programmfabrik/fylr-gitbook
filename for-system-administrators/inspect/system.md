@@ -16,7 +16,7 @@ Re-index and purge are **instance-wide** and, on the backend port, **unauthentic
 
 ### Re-index
 
-Rebuilds the search index for every object from the database. Reachable as `GET /inspect/system/?reindex=1`; add `&blockFrontend=1` to put the instance into the `reindex` status — only `/inspect/` stays reachable — until the new index is built and switched in. Use it after a change that alters what is indexed (the release notes call these out) or to recover a corrupted index.
+Rebuilds the search index for every object from the database. Reachable as `GET /inspect/system/?reindex=1`; add `&blockFrontend=1` to put the instance into the `reindex` status until the new index is built and switched in: the web frontend and the API answer `503`, apart from the login, `/api/v1/settings`, `/api/v1/system` and `/api/oauth2`, and `/inspect/` stays reachable. Use it after a change that alters what is indexed (the release notes call these out) or to recover a corrupted index.
 
 ### Purge
 

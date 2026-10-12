@@ -56,7 +56,7 @@ This is for fylr run from the downloadable archives or [built from source](from-
 
 **XSLT runs with `saxon.xml` and needs Saxon-HE 12.** Saxon 9.9, the version of Debian's and Ubuntu's `libsaxonhe-java`, ignores the file's `allowedProtocols`. See [XSLT with Saxon](#xslt-with-saxon).
 
-**The archives no longer contain the plugins.** The `easydb-plugins` folder is gone: the upgrade converts the enabled plugins to their marketplace releases, which fylr then downloads, see [Disk to URL plugin migration](../../plugins/disk-to-url-migration.md). Remove the `easydb-plugins` entries from `plugin.paths` in your `fylr.yml` and delete the folder; otherwise fylr warns about the old copies at every start and brings back the plugins the upgrade removed.
+**The archives no longer contain the plugins.** The `easydb-plugins` folder is gone: the upgrade converts the enabled plugins to their marketplace releases, which fylr then downloads, see [Disk to URL plugin migration](../../plugins/disk-to-url-migration.md). Remove the `easydb-plugins` entries from `plugin.paths` in your `fylr.yml` and delete the folder; otherwise fylr warns about the old copies at every start, brings back the plugins the upgrade removed and adds the old copy of a renamed plugin next to its successor.
 
 **Check `fylr.yml` before the restart.** `fylr config check fylr.yml` names the keys 6.35 no longer knows or ignores, among them several execserver settings, see [Updating the execserver to 6.35](updating-the-execserver-to-6.35.md). The `fylr.yml` of the Windows archive was corrected in 6.35. If yours started from an earlier one, take over:
 
