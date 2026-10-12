@@ -1,10 +1,10 @@
 ---
-description: Most settings possible in fylr.yml and explanations as comments
+description: Every setting of fylr.yml with its default, explained in comments
 ---
 
 # fylr.example.yml
 
-This is NOT a coherent fylr.yml, do not use for an installation; use [this](https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/fylr.yml) instead.
+Every key shows the default fylr runs with; sample values are comments next to their key. For an installation, start from [this](https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/fylr.yml) instead.
 
 If you start your hierarchy in fylr.yml with `fylr+:` instead of `fylr:`, then defaults are used where not explicilty overwritten. Defaults see [fylr.default.yml](fylr.default.yml.md)
 
@@ -53,7 +53,7 @@ fylr:
   # names and elastic indexes. The name must match regexp [a-z][a-z0-9\-_]*[a-z0-9]:
   # All small letters, start with a letter, followed by small letter, a number, dash or
   # underscores, ending in letter or number. Must be between 3 and 32 bytes.
-  name: "myfylr"
+  name: "fylr"
 
   # Public external url of the server. This url needs to be fully qualified. If
   # you change this url for an existing database, a re-index is needed to update
@@ -93,15 +93,15 @@ fylr:
 
   # The license file can also be uploaded into the fylr webfrontend as root.
 
-  # licenseFile (default: none). Path to license file. This is used as default
-  # if nothing is set in the baseconfig. This setting is mutually exclusive with
-  # fylr.license.
-  # licenseFile: "license.json"
+  # licenseFile (default: none). Path to license file, e.g. "license.json".
+  # This is used as default if nothing is set in the baseconfig. This setting
+  # is mutually exclusive with fylr.license.
+  licenseFile: ""
 
   # license: Inline JSON of license.  This is used as default if nothing is set
   # in the baseconfig. This setting is mutually exclusive with fylr.licenseFile
   # above, so only one of the two can be set at a time.
-  # license: "<JSON>"
+  license: ""
 
   # encryptionKey is used to AES-encrypt sensitive information before writing it
   # to the database. It must be 32 bytes long. The encryptionKey must be
@@ -123,8 +123,8 @@ fylr:
     # source that answers headers and then trickles the body, and the
     # probe's retry loop. Meant for the apitests (see url_source_simulate)
     # — 0 or unset = defaults: probe 60, download 900 seconds.
-    pluginProbeTimeoutSec: 0
-    pluginDownloadTimeoutSec: 0
+    pluginProbeTimeoutSec: 60
+    pluginDownloadTimeoutSec: 900
     # http tunes fylr's outbound http client, used app-wide (plugin source
     # fetches, webhooks, execserver callbacks, emails, backups, ...; only
     # eas/rput keeps its own SSRF-guarding client). Connect, TLS handshake
@@ -132,9 +132,9 @@ fylr:
     # cannot hang fylr. 0 or unset = defaults: dial 10, TLS handshake 10,
     # response header 30 seconds.
     http:
-      dialTimeoutSec: 0
-      tlsHandshakeTimeoutSec: 0
-      responseHeaderTimeoutSec: 0
+      dialTimeoutSec: 10
+      tlsHandshakeTimeoutSec: 10
+      responseHeaderTimeoutSec: 30
       # disableHttp2 turns off http/2 for this client (successor of
       # debug.disableHttp2Client, which is still honored). Default: http/2 on.
       disableHttp2: false
@@ -219,7 +219,7 @@ fylr:
     inspectShowEnvironment: false
     # Outputs object loader timing and load depth information. This setting can also
     # be set in the base config.
-    logTimings: true
+    logTimings: false
     # Set to true to disable loading standard from cache. This can help to
     # investigate indexer problems.
     objectLoadDisableCache: false
@@ -233,11 +233,12 @@ fylr:
     indexerNestedNotIncludeInRoot: false
     # disableOpenapiDocsCache can be set to not cache OpenAPI specs. This is useful
     # when writing documentation.
-    disableOpenapiDocsCache: true
+    disableOpenapiDocsCache: false
     # disableHttp2Client disables HTTP2 for client connections. Set this to true
     # if you are experiencing difficulties connecting to certain web servers for
     # file upload. E.g. with "stream error". DEPRECATED, use the successor
-    # debug.http.disableHttp2 above (this one is still honored).
+    # debug.http.disableHttp2 above (this one is still honored). Not set
+    # here, as fylr reports every deprecated key it finds.
     # disableHttp2Client: false
     # twoFactorTestCodes puts the currently valid authenticator code into an
     # X-Fylr-Totp-Code header on the 2FA setup and verify pages, so an
@@ -253,7 +254,7 @@ fylr:
     # whatever this says; the heartbeat is the fallback for claims a fylr
     # before 6.35 made. Meant for the topology apitests, which shrink it to see
     # that killing a fylr does not strand its claimed jobs.
-    fileQueueStaleAfterSec: 0
+    fileQueueStaleAfterSec: 900
     # fileActionDelayMs makes every file-queue item sleep this long before its
     # action runs, outside any execserver slot — a load test's stand-in for
     # slow storage, where an item spends most of its life fetching and
@@ -265,14 +266,16 @@ fylr:
     # automatically typically stamps the binary's name and version here.
     label: ""
 
-  # optional, set environment. This can be used to set FYLR_CMD_* inside the fylr.yml
-  env:
-    # FYLR_CMD_PG_DUMP: ./services/bin/pg_dump
+  # optional, set environment. This can be used to set FYLR_CMD_* inside the
+  # fylr.yml, e.g.
+  #   env:
+  #     FYLR_CMD_PG_DUMP: ./services/bin/pg_dump
+  env: {}
 
   # tempDir is used by api/system/backup and the export to during a TAR
   # production. With no tempDir given the system defaults temp dir is used. This
   # tempDir gets not cleaned up automatically by FYLR.
-  tempDir: _tmp_workdir
+  tempDir: ""
 
   # Settings for the "logger" (we use https://github.com/rs/zerolog)
   logger:
@@ -303,22 +306,25 @@ fylr:
 
   # data is stored in a database, FYLR supports sqlite & postgres
   db:
-    # driver: sqlite3
-    # dsn: "../../_data/sqlite/fylr.db"
-    driver: postgres
+    # driver is "sqlite3" or "postgres"
+    driver: sqlite3
 
-    # specify a PostgreSQL user owning the given db (with LOGIN and INHERIT, which are defaults for CREATE USER anyway).
-    dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
+    # dsn is the sqlite file, or the connection string of a PostgreSQL user
+    # owning the given db (with LOGIN and INHERIT, which are defaults for
+    # CREATE USER anyway), e.g.
+    #   driver: postgres
+    #   dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
+    dsn: "fylr.db"
 
-    # https://golang.org/pkg/database/sql/#DB.SetMaxOpenConns default: 100 At
-    # least: 4 + elastic.parallel (the file dispatcher sizes itself). Two of
-    # these connections will be dedicated to a separate
-    # connection pool managing the sequences. The recommended setting for this
-    # is 100. It is not recommended to set it to 0 (unlimited), as this can
+    # https://golang.org/pkg/database/sql/#DB.SetMaxOpenConns default: 90, below
+    # PostgreSQL's default max_connections of 100. At least: 4 +
+    # elastic.parallel (the file dispatcher sizes itself). Two of these
+    # connections will be dedicated to a separate connection pool managing
+    # the sequences. It is not recommended to set it to 0 (unlimited), as this can
     # possibly open too many connections for the OS to handle. Also, since each
     # request to the API will query the database at least once, this setting
     # doubles as a rate throttler. (Postgres only)
-    maxOpenConns: 100
+    maxOpenConns: 90
 
     # https://golang.org/pkg/database/sql/#DB.SetMaxIdleConns, default: 10
     # This has to be not more than maxOpenConns. 0 keeps no idle connection,
@@ -362,9 +368,9 @@ fylr:
           config:
             # location_defaults map accepts location ids as well as names:
             location_defaults:
-              originals: mys3
-              versions: mys3
-              backups: myfile
+              originals: file
+              versions: file
+              backups: file
       # To setup purgeable locations:
       #       purge:
       #         allow_purge: true
@@ -383,15 +389,15 @@ fylr:
         # The driver "file" will create directories inside the configured
         # top level directory but never remove them. So, if you use purge
         # a lot, FYLR will leave empty directories on disk.
-        myfile:
+        file:
           # The kind is either "file" or "s3" or "azure" (see below)
           kind: file
           # Each location can configure a prefix which will
           # be attached before the file to be created
-          prefix: "apitest/"
+          prefix: ""
           # Set to true if files in this location can be
           # purged by FYLR (if the purge api call is used)
-          allow_purge: true
+          allow_purge: false
           # For "file" storage backend allow_redirect is a dangerous
           # setting and should be used for development purposes only.
           # Default is the safe false.
@@ -403,58 +409,64 @@ fylr:
           read_only: false
           config:
             file:
-              dir: "_files"
+              dir: "files"
               # remote_url_prefix maps remote URLs back onto this location:
               # /inspect/files, run with the option
               # "map_to_local_file_storage", treats a file whose remote URL
               # starts with this prefix as already lying in this location
               # instead of fetching it again. Default empty (no mapping).
               remote_url_prefix: ""
-        mys3:
-          kind: s3
-          prefix: "apitest/"
-          allow_purge: true
-          # Set allow_redirect to true to expose download URLs directly to the s3 provider.
-          # Default is false.
-          # false uses fylr URLs instead, which might be less performant.
-          allow_redirect: false
-          config:
-            s3:
-              bucket: apitest
-              endpoint: "127.0.0.1:9000"
-              accesskey: "minioadmin"
-              secretkey: "minioadmin"
-              region: "us-east-1"
-              ssl: false
-              # pathstyle addresses the bucket as <endpoint>/<bucket>/<key>
-              # instead of the virtual-host form <bucket>.<endpoint>/<key>.
-              # Defaults to TRUE (also for locations configured before this
-              # key existed), which is what minio, ceph radosgw and most
-              # S3-compatible servers want. Set it to false for providers that
-              # require virtual-host addressing, e.g. AWS S3 itself.
-              pathstyle: true
-        myazure:
-          kind: azure
-          allow_purge: true
-          config:
-            azure:
-              # The name of the container is required. It is created if it doesn't exist.
-              container: fylr
-              # You can provide a connection string OR the single settings account_name, account_key and endpoint_suffix
-              connection_string: "DefaultEndpointsProtocol=https;AccountName=azure;AccountKey=l/fnF4kp...==;EndpointSuffix=core.windows.net"
-              account_name: "azure"
-              account_key: "l/fnF4kp..."
-              # optional endpoint suffix (default to core.windows.net)
-              endpoint_suffix: "core.windows.net"
+        # Further locations are further entries, e.g. an S3 bucket and an
+        # Azure container:
+        #
+        #   mys3:
+        #     kind: s3
+        #     prefix: "apitest/"
+        #     allow_purge: true
+        #     # Set allow_redirect to true to expose download URLs directly to the s3 provider.
+        #     # Default is false.
+        #     # false uses fylr URLs instead, which might be less performant.
+        #     allow_redirect: false
+        #     config:
+        #       s3:
+        #         bucket: apitest
+        #         endpoint: "127.0.0.1:9000"
+        #         accesskey: "minioadmin"
+        #         secretkey: "minioadmin"
+        #         region: "us-east-1"
+        #         ssl: false
+        #         # pathstyle addresses the bucket as <endpoint>/<bucket>/<key>
+        #         # instead of the virtual-host form <bucket>.<endpoint>/<key>.
+        #         # Defaults to TRUE (also for locations configured before this
+        #         # key existed), which is what minio, ceph radosgw and most
+        #         # S3-compatible servers want. Set it to false for providers that
+        #         # require virtual-host addressing, e.g. AWS S3 itself.
+        #         pathstyle: true
+        #   myazure:
+        #     kind: azure
+        #     allow_purge: true
+        #     config:
+        #       azure:
+        #         # The name of the container is required. It is created if it doesn't exist.
+        #         container: fylr
+        #         # You can provide a connection string OR the single settings account_name, account_key and endpoint_suffix
+        #         connection_string: "DefaultEndpointsProtocol=https;AccountName=azure;AccountKey=l/fnF4kp...==;EndpointSuffix=core.windows.net"
+        #         account_name: "azure"
+        #         account_key: "l/fnF4kp..."
+        #         # optional endpoint suffix (default to core.windows.net)
+        #         endpoint_suffix: "core.windows.net"
 
   plugin:
     # load plugins at startup. the loader crawls the given directories
     # and loads given files for plugin config files, ending in ".yml".
-    # Missing paths are logged as warnings and skipped.
-    paths:
-      - ../../../fylr-plugins/fylr_example
-    urls:
-      - https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/download/v0.1.2/fylr-plugin-formula-columns.zip
+    # Missing paths are logged as warnings and skipped. e.g.
+    #   paths:
+    #     - ../../../fylr-plugins/fylr_example
+    paths: []
+    # urls load plugins from zip files at startup, e.g.
+    #   urls:
+    #     - https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/download/v0.1.2/fylr-plugin-formula-columns.zip
+    urls: []
     # marketplace configures the in-app plugin marketplace (the plugin shop,
     # GET /plugin/marketplace). Programmfabrik's curated catalog is built
     # into fylr and pulled at request time (cached), so the offer can change
@@ -466,32 +478,34 @@ fylr:
       # sources offer additional catalogs on top of the built-in one, each
       # either inline or a URL to a JSON document of the same shape. An
       # optional privateKey (base64 X25519) opens sealed plugins the source
-      # offers.
-      # sources:
-      #   - name: "my-company"
-      #     url: "https://plugins.example.com/catalog.json"
-      #   - name: "local"
-      #     inline:
-      #       plugins:
-      #         - name: "my-plugin"
-      #           url: "https://example.com/my-plugin.zip"
+      # offers. e.g.
+      #   sources:
+      #     - name: "my-company"
+      #       url: "https://plugins.example.com/catalog.json"
+      #     - name: "local"
+      #       inline:
+      #         plugins:
+      #           - name: "my-plugin"
+      #             url: "https://example.com/my-plugin.zip"
+      sources: []
     # default defines the generic default for new plugins. Plugins are new when they are inserted into the database.
     default:
       enabled: false
       update_policy: "automatic"
     # defaults is a map setting defaults for the plugin registration.
-    # This is configured as map with the plugin name as key.
-    defaults:
-      # default for fylr_example plugin
-      fylr_example:
-        # enabled when the plugin is first registered; unset uses
-        # plugin.default.enabled, which is false unless set
-        enabled: false
-        # update_policy: automatic, always, never, defaults to automatic
-        update_policy: "never"
+    # This is configured as map with the plugin name as key, e.g.
+    #   defaults:
+    #     # default for fylr_example plugin
+    #     fylr_example:
+    #       # enabled when the plugin is first registered; unset uses
+    #       # plugin.default.enabled, which is false unless set
+    #       enabled: false
+    #       # update_policy: automatic, always, never, defaults to automatic
+    #       update_policy: "never"
+    defaults: {}
 
   # Set to true to allow /api/settings/purge. dont use on production systems!
-  allowpurge: true
+  allowpurge: false
 
   # Optional path to resources, that are all files needed by FLYR during runtime
   # (inspect, pages, etc..) If unset, fylr uses binary embedded resources (so no
@@ -514,8 +528,9 @@ fylr:
     # file make sure to base it on the default
     # resources/index/index_settings.json which is included in the distribution.
     settings: ""
-    # number of parallel workers to index documents, defaults to 4, set to 0 to disable
-    parallel: 1
+    # number of parallel workers to index documents, defaults to 4 (2 with
+    # sqlite, unless set), set to 0 to disable
+    parallel: 4
     # number of objects per job passed to the indexer worker
     objectsPerJob: 100
     # maxMem is the cut-off JSON size in bytes for objects sent to the indexer.
@@ -606,17 +621,20 @@ fylr:
     #
     # callbackBackendInternalURL overrides scheme and port for the backend
     # callbacks — for a proxy in front of the listener. The host is still this
-    # fylr's own, so a Kubernetes Service name here has no effect.
-    # callbackBackendInternalURL: "http://localhost:8081"
+    # fylr's own, so a Kubernetes Service name here has no effect. e.g.
+    # "http://localhost:8081"
+    callbackBackendInternalURL: ""
     #
-    # callbackApiInternalURL does the same for the API base handed to plugins.
-    # callbackApiInternalURL: "http://localhost:8080"
+    # callbackApiInternalURL does the same for the API base handed to plugins,
+    # e.g. "http://localhost:8080"
+    callbackApiInternalURL: ""
     #
     # callbackBackendOwnURL is the escape hatch: the backend base as a full URL,
     # taken verbatim, scheme and port included, and nothing overrides it. The
     # API base takes only its host. Set it where fylr cannot name the address
-    # an execserver reaches it on — NAT between the two, with a forwarded port.
-    # callbackBackendOwnURL: "http://fylr.example.com:8081"
+    # an execserver reaches it on — NAT between the two, with a forwarded
+    # port. e.g. "http://fylr.example.com:8081"
+    callbackBackendOwnURL: ""
 
 
   # eas (External Asset Store) settings.
@@ -784,22 +802,69 @@ fylr:
         # The default clients are built into the web app and other apps.
         # They are public and thus do neither need nor have a secret.
         # see https://docs.fylr.io/for-system-administrators/configuration/fylr.default
+        # A client without redirectURIs gets fylr.externalURL + /oauth2/callback.
+        # A client of your own, with a secret:
+        #
+        #   web-client:
+        #     # secret must be given as bcrypt hash
+        #     secret: $2y$04$81xGNnm8PS1uiIzjbos6Le3NzFaNB0goNqnBpOx7S/EyrayzJCNAq # foo
+        #     # this must point to the public URL or the webapp (/oauth2/callback)
+        #     redirectURIs:
+        #       - http://localhost/oauth2/callback
+        #     # the scopes this client needs to be granted
+        #     # offline is mandatory to issue refresh tokens
+        #     # others will be used in rights management
+        #     scopes:
+        #       - "read"
+        #       - "write"
+        #       - "offline"
+        #     # public, set to true if this client is publicly known
+        #     public: false
+        #
+        # In a config layered over fylr.default.yml, "clients+:" keeps the
+        # default clients and "clients:" replaces them.
         clients:
-          web-client:
-            # secret must be given as bcrypt hash
-            secret: $2y$04$81xGNnm8PS1uiIzjbos6Le3NzFaNB0goNqnBpOx7S/EyrayzJCNAq # foo
-            # this must point to the public URL or the webapp (/oauth2/callback)
-            redirectURIs:
-              - http://localhost/oauth2/callback
-            # the scopes this client needs to be granted
-            # offline is mandatory to issue refresh tokens
-            # others will be used in rights management
+          fylr-web-frontend:
+            public: true
+            redirectURIs: []
             scopes:
               - "read"
               - "write"
               - "offline"
-            # public, set to true if this client is publicly known
-            public: false
+          fylr-mobile-app:
+            public: true
+            redirectURIs:
+              - "fylr.app.scheme:///"
+            scopes:
+              - "read"
+              - "write"
+              - "offline"
+          ci-hub:
+            public: true
+            redirectURIs:
+              - "https://live.ci-hub.com/api/v1/auth/login/fylr"
+              - "https://dev.ci-hub.com/api/v1/auth/login/fylr"
+              - "https://stage.ci-hub.com/api/v1/auth/login/fylr"
+              - "https://ci-hub.net/api/v1/auth/login/fylr"
+              - "https://api.ci-hub.com/auth/login/fylr"
+              - "https://identity.ci-hub.com/auth/login/fylr"
+              - "https://ci-hub.azurewebsites.net/api/v1/auth/login/fylr"
+              - "https://ci-hub-beta.azurewebsites.net/api/v1/auth/login/fylr"
+              - "https://ci-hub-test.azurewebsites.net/api/v1/auth/login/fylr"
+              - "http://localhost:8080/api/v1/auth/login/fylr"
+            scopes:
+              - "read"
+              - "write"
+              - "offline"
+          linkrui:
+            public: true
+            redirectURIs:
+              - "https://fylr.linkrui.com/oauth"
+              - "https://stage-fylr.linkrui.com/oauth"
+            scopes:
+              - "read"
+              - "write"
+              - "offline"
 
     # service backend is used for /inspect and by the execserver as callback
     # to get installed plugins and to update progress during execution
@@ -820,14 +885,14 @@ fylr:
         certFile: ""
         keyFile: ""
       # provide the /inspect URL endpoint
-      inspect+:
+      inspect:
         # backup: if configured, /inspect/migration can be used to migrate
         # instances.
-        backup+:
+        backup:
           # Path is needed if you want to use /inspect/migration of this
-          # instance. Disk path to backup. Is created if not present. Each
-          # backup gets its own subdirectory.
-          path: /tmp/migration
+          # instance. Disk path to backup, e.g. /tmp/migration. Is created if
+          # not present. Each backup gets its own subdirectory.
+          path: ""
 
     # oauth2 client + web client
     webapp:
@@ -835,9 +900,12 @@ fylr:
       addr: ":80"
       # For tls support ("addr" only), provide a cert and key file
       tls:
-        # certFile contains the certificate in pem Format and optionally intermediate chain certificates below in the same file.
-        certFile: "server.crt"
-        keyFile: "server.key"
+        # certFile contains the certificate in pem Format and optionally
+        # intermediate chain certificates below in the same file, e.g.
+        # "server.crt" and "server.key". The listener serves https when both
+        # are set.
+        certFile: ""
+        keyFile: ""
 
         # forward requests to fylr.services.webapp.addr (the port of the) webserver.
         # Typically you use ":80" for the forward http and ":443" for webapp.addr.
@@ -845,51 +913,53 @@ fylr:
         # With letsEncrypt configured below, this is used for:
         #forwardHttpAddr: ""    # use port 443, letsencrypt challenge_type=tls-alpn-01
         #forwardHttpAddr: ":80" # use port  80, letsencrpyt challenge_type=http-01
-        forwardHttpAddr: ":80"
+        forwardHttpAddr: ""
 
         # Automatic certificate management can be enabled using the "letsencrypt"
         # property. With this setting, fylr automatically retrieves and renews
         # an certificate for the domain of fylr.externalURL.
-        letsEncrypt:
-          # email is used to register the certificate with Let's Encrypt
-          email: you@example.com
-
-          # CA overwrites the default CA für Let's Encrypt. If unset, the
-          # default CA is "https://acme-v02.api.letsencrypt.org/directory"
-          CA: ""
-
-          #  EAB (External Account Binding) contains information
-          #  necessary to bind or map an ACME account to some
-          #  other account known by the CA.
-          #
-          #  External account bindings are "used to associate an
-          #  ACME account with an existing account in a non-ACME
-          #  system, such as a CA customer database."
-          #
-          #  "To enable ACME account binding, the CA operating the
-          #  ACME server needs to provide the ACME client with a
-          #  MAC key and a key identifier, using some mechanism
-          #  outside of ACME." §7.3.4
-          externalAccount:
-            # "The key identifier MUST be an ASCII string." §7.3.4
-            keyId: ""
-
-            # "The HMAC key SHOULD be provided in base64url-encoded
-            # form, to maximize compatibility between non-ACME
-            # provisioning systems and ACME clients." §7.3.4
-            hmacKey: ""
-
-          # useStagingCA sets the staging server of Let's Encrypt which has a higher
-          # quota than the production server. However, these certificates are for
-          # testing purposes only. They are not signed for official use, so browser
-          # will recognise them as being insecure.
-          # This will use "https://acme-staging-v02.api.letsencrypt.org/directory"
-          useStagingCA: false
-
-          # additionalDomains can be given to get additional certificates for the given
-          # domains.
-          # additionalDomains:
-          # - "www.database.de"
+        # The letsEncrypt block switches this on by being there, so it is
+        # shown commented out:
+        #
+        # letsEncrypt:
+        #   # email is used to register the certificate with Let's Encrypt
+        #   email: you@example.com
+        #
+        #   # CA overwrites the default CA für Let's Encrypt. If unset, the
+        #   # default CA is "https://acme-v02.api.letsencrypt.org/directory"
+        #   CA: ""
+        #
+        #   #  EAB (External Account Binding) contains information
+        #   #  necessary to bind or map an ACME account to some
+        #   #  other account known by the CA.
+        #   #
+        #   #  External account bindings are "used to associate an
+        #   #  ACME account with an existing account in a non-ACME
+        #   #  system, such as a CA customer database."
+        #   #
+        #   #  "To enable ACME account binding, the CA operating the
+        #   #  ACME server needs to provide the ACME client with a
+        #   #  MAC key and a key identifier, using some mechanism
+        #   #  outside of ACME." §7.3.4
+        #   externalAccount:
+        #     # "The key identifier MUST be an ASCII string." §7.3.4
+        #     keyId: ""
+        #
+        #     # "The HMAC key SHOULD be provided in base64url-encoded
+        #     # form, to maximize compatibility between non-ACME
+        #     # provisioning systems and ACME clients." §7.3.4
+        #     hmacKey: ""
+        #
+        #   # useStagingCA sets the staging server of Let's Encrypt which has a higher
+        #   # quota than the production server. However, these certificates are for
+        #   # testing purposes only. They are not signed for official use, so browser
+        #   # will recognise them as being insecure.
+        #   # This will use "https://acme-staging-v02.api.letsencrypt.org/directory"
+        #   useStagingCA: false
+        #
+        #   # additionalDomains can be given to get additional certificates for the given
+        #   # domains, e.g. ["www.database.de"].
+        #   additionalDomains: []
 
       # alternativ path to the webfrontend code. if configured the files here
       # overload the included webfrontend files. see fylr.resources for more
@@ -899,9 +969,9 @@ fylr:
       # server. This must match the configuration above.
       oauth2:
         # clientID used to connect to oauth2 server
-        clientID: web-client
-        # clientSecret must be provided in clear
-        clientSecret: foo
+        clientID: fylr-web-frontend
+        # clientSecret must be provided in clear, empty for a public client
+        clientSecret: ""
         # Optional setting of the URL used to build the token url which is used
         # for server to server communication to exchange the auth code for a
         # token defaults to fylr.externalURL
@@ -910,7 +980,7 @@ fylr:
 
       # The reverse proxy can be used to redirect requests to the api
       # and the backend and also for custom servers behind fylr.
-      reverseProxy+:
+      reverseProxy:
         # The webapp can redirect request to /api and /inspect to the respective
         # backend services fylr.services.api and fylr.services.backend if
         # configured in the reverseProxy.
@@ -920,7 +990,7 @@ fylr:
         # request onto the api server but serving this internally. To activate
         # this mode, the keyword "bind" must be set in reverseProxy.api. This is
         # also the default. These requests will be logged as "webapi".
-        api: "http://localhost:8080"
+        api: "bind"
 
         # The backend serves the /inspect pages and is used to store and
         # retrieve files from file based storage locations. It is recommended to
@@ -934,29 +1004,33 @@ fylr:
         # the : give a path prefix like /system2 or a domain as //example.com/.
         # After the : give the URL of the existing content, may contain :port.
         # The target can omit scheme and host in which case the scheme / host of
-        # the request will be used for the redirection.
-        custom:
-          # show http://localhost:81/system2 at https://externalURL/system2
-          "/system2": "http://localhost:81"
-          # you may need to replace localhost if fylr runs in a container
+        # the request will be used for the redirection. e.g.
+        #   custom:
+        #     # show http://localhost:81/system2 at https://externalURL/system2
+        #     "/system2": "http://localhost:81"
+        #     # you may need to replace localhost if fylr runs in a container
+        #
+        #     # the next line shows http://1.2.3.4:81/ at https://example.com
+        #     "//example.com/": http://1.2.3.4:81/
+        #     # you need the https certificat for example.com, e.g. with additionalDomains
+        custom: {}
 
-          # the next line shows http://1.2.3.4:81/ at https://example.com
-          "//example.com/": http://1.2.3.4:81/
-          # you need the https certificat for example.com, e.g. with additionalDomains
-
-      # http basic auth for all access to the webfrontend
-      basicAuth:
-        root: admin
+      # http basic auth for all access to the webfrontend, user: password,
+      # e.g.
+      #   basicAuth:
+      #     root: admin
+      basicAuth: {}
       # Optional redirect. The requested path & query & hash is matched against
       # the "from" and redirected to "to" using the given statuscode as http
       # status. Variables can be replaced and take the form of "{...}". The
       # variables can contain a-z and A-Z characters and match all characters
       # (non-greedy til the next) given character. Variables at the end match
-      # until the end of the URL.
-      redirects:
-        - from: "/easydb?myeasydb4ID={sid}"
-          to: "/#/detail/{sid}"
-          statuscode: 301
+      # until the end of the URL. e.g.
+      #   redirects:
+      #     - from: "/easydb?myeasydb4ID={sid}"
+      #       to: "/#/detail/{sid}"
+      #       statuscode: 301
+      redirects: []
 
       # loginAllowRedirects extends the allow-list of redirect targets beyond
       # paths on this server and same-origin (fylr.externalURL): the /login
@@ -1004,7 +1078,11 @@ fylr:
       #
       # Intended for setups where every webOnly frontend is operator-controlled
       # (e.g. per-branch staging hosts that share a central fylr).
-      loginAllowRedirects: []
+      loginAllowRedirects:
+        - https://*.web.fylr.dev
+        - https://*.web.fylr.io
+        - http://localhost:*
+        - https://localhost:*
       # loginAllowRedirects:
       #   - https://*.fylr.dev
       #   - http://*.fylr.dev
@@ -1150,49 +1228,81 @@ fylr:
       # this is overwritten by the env set for the specific command and by the
       # os environment
       env:
-        - FYLR_METADATA_BLURHASH=1g
+        - FYLR_METADATA_BLURHASH=10M
         # overwrite to use a different binary, defaults to "chromium" for the PDF plugin
-        - SERVER_PDF_CHROME=chromium
+        # - SERVER_PDF_CHROME=chromium
 
       # The commands the services run. A job names a command; a name this
       # block does not know is run as it is, which is how the "exec" service
       # runs arbitrary binaries. Every prog is also exported to the commands
       # as FYLR_CMD_<PROG>, which is how "fylr convert" finds its helpers.
       # In a config layered over fylr.default.yml, "commands+:" extends the
-      # shipped block and "commands:" replaces it.
+      # shipped block and "commands:" replaces it. A command can also carry
+      # env, args and a startupCheck, e.g.
+      #
+      #   commands+:
+      #     # ImageMagick's own thread pool competes with the execserver's
+      #     # slots; one thread per process keeps the pool honest
+      #     convert:
+      #       prog: convert
+      #       env:
+      #         - "OMP_NUM_THREADS=1"
+      #       startupCheck:
+      #         args:
+      #           - "-version"
+      #         regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+      #     composite:
+      #       prog: composite
+      #       env:
+      #         - "OMP_NUM_THREADS=1"
+      #     ffmpeg:
+      #       prog: ffmpeg
+      #       startupCheck:
+      #         args:
+      #           - "-version"
+      #         regex: "ffmpeg version n?([5-9]|[1-9][0-9])\\."
       commands:
+        fylr:
+          prog: fylr
         exiftool:
           prog: exiftool
-        magick:
-          prog: magick
-        # ImageMagick's own thread pool competes with the execserver's
-        # slots; one thread per process keeps the pool honest
-        convert:
-          prog: convert
-          env:
-            - "OMP_NUM_THREADS=1"
-          startupCheck:
-            args:
-              - "-version"
-            regex: "Version: ImageMagick 7..*?https://imagemagick.org"
-        composite:
-          prog: composite
-          env:
-            - "OMP_NUM_THREADS=1"
         ffmpeg:
           prog: ffmpeg
-          startupCheck:
-            args:
-              - "-version"
-            regex: "ffmpeg version n?([5-9]|[1-9][0-9])\\."
-        ffprobe:
-          prog: ffprobe
-        node:
-          prog: node
-        python3:
-          prog: python3
+        inkscape:
+          prog: inkscape
+        soffice:
+          prog: soffice
+        ebook-convert:
+          prog: ebook-convert
+        ebook-meta:
+          prog: ebook-meta
+        pdftotext:
+          prog: pdftotext
+        mutool:
+          prog: mutool
+        tika:
+          prog: tika
+        tesseract:
+          prog: tesseract
         saxon:
           prog: saxon
+        magick:
+          prog: magick
+        vips:
+          prog: vips
+        ffprobe:
+          prog: ffprobe
+        ffmpegthumbnailer:
+          prog: ffmpegthumbnailer
+        node:
+          prog: node
+        dot:
+          prog: dot
+        python3:
+          prog: python3
+        # used by fylr-plugin-example (Tesseract)
+        java:
+          prog: java
 
       # What this execserver offers: the services jobs are addressed to.
       # fylr.default.yml ships the complete list; "services+:" adjusts it,
@@ -1203,8 +1313,8 @@ fylr:
       # alone lists nothing but ffmpeg, and the execserver next to fylr
       # removes ffmpeg ("ffmpeg:" with nothing behind it).
       services:
-        # maxSlots caps how many jobs of a service run at once. soffice runs
-        # one job at a time because LibreOffice misbehaves in parallel.
+        # maxSlots caps how many jobs of a service run at once, 0 is no cap
+        # beyond the pool.
         #
         # threads is the thread count of a service's jobs, handed to every
         # command it runs as FYLR_CONVERT_THREADS, the environment of
@@ -1218,8 +1328,6 @@ fylr:
         # them. One encode at a time on every CPU, so each video is done
         # sooner and the others wait: maxSlots: 1. Two at a time, half the
         # CPUs each: threads: 50%.
-        soffice:
-          maxSlots: 1
         ffmpeg:
           maxSlots: 2
           threads: 0
@@ -1231,6 +1339,7 @@ fylr:
         convert: {}
         ocr: {}
         inkscape: {}
+        soffice: {}
         pdf2pages: {}
         iiif: {}
         dot: {}
