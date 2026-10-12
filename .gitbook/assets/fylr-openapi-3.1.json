@@ -47496,7 +47496,7 @@
           "url": "/api"
         }
       ],
-      "description": "OAuth2 **token revocation** endpoint (RFC 7009). Revokes an access\nor refresh token; the web-app uses it to log out, and a\n`USER_LOGOUT` audit event is written for the token's user. Per\nRFC 7009 it returns `200` even for an unknown token.\n\nThe client the token was issued to must authenticate (`client_id`,\nplus `client_secret` for confidential clients — form fields or HTTP\nBasic); a token belonging to a different client is left untouched\n(still `200`). Revoking a refresh token also revokes the access\ntoken issued alongside it.\n\nServed at `/api/oauth2/revoke` — **not** under `/api/v1`.\n",
+      "description": "OAuth2 **token revocation** endpoint (RFC 7009). Revokes an access\nor refresh token; the web-app uses it to log out, and a\n`USER_LOGOUT` audit event is written for the token's user. Per\nRFC 7009 it returns `200` even for an unknown token.\n\nThe client the token was issued to must authenticate (`client_id`,\nplus `client_secret` for confidential clients — form fields or HTTP\nBasic). A token issued to a different client is not revoked: the\nrequest is refused with `400` `unauthorized_client` and no\n`USER_LOGOUT` is written. Revoking a refresh token also revokes the\naccess token issued alongside it.\n\nServed at `/api/oauth2/revoke` — **not** under `/api/v1`.\n",
       "post": {
         "summary": "Revoke a token (logout).",
         "security": [
@@ -47537,6 +47537,46 @@
         "responses": {
           "200": {
             "description": "The token was revoked (also returned for an unknown token)."
+          },
+          "400": {
+            "description": "`unauthorized_client`: the token was issued to a different\nclient than the authenticated one; it stays valid.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "error_description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error": "unauthorized_client",
+                  "error_description": "the token was issued to another client"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "`invalid_client`: no client, an unknown client or wrong client\ncredentials; sent with a `WWW-Authenticate` challenge.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "error_description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

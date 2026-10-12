@@ -361,7 +361,7 @@ Revoke an access or refresh token ([RFC 7009](https://datatracker.ietf.org/doc/h
 | `client_id`<mark style="color:red;">\*</mark> | string | **Client ID** the token was issued to |
 | `client_secret` | string | **Client Secret** — omit for public clients |
 
-The client can authenticate with HTTP Basic instead of `client_id` and `client_secret`; without a client the request is refused with `401` `invalid_client`. Per RFC 7009 the endpoint returns `200` even for an unknown token, and for a token issued to another client, which it leaves valid.
+The client can authenticate with HTTP Basic instead of `client_id` and `client_secret`; without a client the request is refused with `401` `invalid_client`. Per RFC 7009 the endpoint returns `200` even for an unknown token. A token issued to another client is not revoked: the request is refused with `400` `unauthorized_client` (before fylr 6.35.0 it was answered `200`).
 
 ### Logging out the browser: `/logout`
 

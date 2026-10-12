@@ -45324,9 +45324,10 @@ paths:
 
             The client the token was issued to must authenticate (`client_id`,
             plus `client_secret` for confidential clients — form fields or HTTP
-            Basic); a token belonging to a different client is left untouched
-            (still `200`). Revoking a refresh token also revokes the access
-            token issued alongside it.
+            Basic). A token issued to a different client is not revoked: the
+            request is refused with `400` `unauthorized_client` and no
+            `USER_LOGOUT` is written. Revoking a refresh token also revokes the
+            access token issued alongside it.
 
             Served at `/api/oauth2/revoke` — **not** under `/api/v1`.
         post:
@@ -45357,6 +45358,35 @@ paths:
             responses:
                 "200":
                     description: The token was revoked (also returned for an unknown token).
+                "400":
+                    description: |
+                        `unauthorized_client`: the token was issued to a different
+                        client than the authenticated one; it stays valid.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                    error_description:
+                                        type: string
+                            example:
+                                error: unauthorized_client
+                                error_description: the token was issued to another client
+                "401":
+                    description: |
+                        `invalid_client`: no client, an unknown client or wrong client
+                        credentials; sent with a `WWW-Authenticate` challenge.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                    error_description:
+                                        type: string
     /oauth2/introspect:
         x-path: /oauth2
         servers:
