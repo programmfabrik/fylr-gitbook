@@ -47608,8 +47608,9 @@
                       "description": "The login name of the token's user."
                     },
                     "sub": {
-                      "type": "integer",
-                      "description": "The fylr user id of the token's user."
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "The UUID of the token's user. It stays the same for every token of that user and across a change of the login.\n"
                     },
                     "exp": {
                       "type": "integer"
@@ -47640,7 +47641,7 @@
                   "scope": "read write offline",
                   "client_id": "fylr-web-frontend",
                   "username": "root",
-                  "sub": 1
+                  "sub": "1f0a6b8e-3c1d-4e2f-9a7b-5c6d8e9f0a1b"
                 }
               }
             }

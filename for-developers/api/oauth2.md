@@ -400,4 +400,4 @@ Inspect the state of a token ([RFC 7662](https://datatracker.ietf.org/doc/html/r
 
 The caller authenticates with a valid access token (`Authorization: Bearer …`) or as a client with a secret, by `client_id` and `client_secret` or HTTP Basic; a public client is refused.
 
-The response reports `active` (boolean) and, when active, `scope`, `client_id`, `sub`, `exp`, `iat` and `token_type`.
+The response reports `active` (boolean) and, when active, `scope`, `client_id`, `username`, `sub`, `exp`, `iat` and `token_type`. `sub` is the UUID of the token's user: the same for every token of that user and across a change of the login, which makes it the value to identify the user by.
