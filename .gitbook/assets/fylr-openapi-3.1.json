@@ -45262,7 +45262,7 @@
     },
     "/task": {
       "x-path": "/task",
-      "description": "Use this endpoint to store \u0026 retrieve tasks. A task is a configuration to\nrun a task module with pre-configured parameters. The tasks are executed in\nthe background. Tasks can be scheduled to run periodically.\n\nTasks are user specific. Like exports, tasks are run under as the user who created the task. When listing tasks, only the creating user can see his tasks.\n\nEvery task operation requires the system right `system.task` (a\n`system.root` user is also accepted). An unauthenticated request returns\n`401` with code `UserRequired`; an authenticated user lacking `system.task`\n(and not `system.root`) returns `403` with code `SystemRightRequired`.\nThe id-addressed operations `GET /task/{taskId}/log`,\n`POST /task/{taskId}/cancel` and `DELETE /task/{taskId}` load the task by\nid and then reject a caller who is neither the task's owner nor a\n`system.root` user with `403` code `InsufficientRights`. The list and\n`GET /task/{taskId}` instead filter by the session user, so another\nuser's tasks are simply not returned (an unknown id yields `404`).\n",
+      "description": "Use this endpoint to store \u0026 retrieve tasks. A task is a configuration to\nrun a task module with pre-configured parameters. The tasks are executed in\nthe background. Tasks can be scheduled to run periodically.\n\nTasks are user specific. Like exports, tasks are run under as the user who created the task. When listing tasks, only the creating user can see his tasks.\n\nEvery task operation requires the system right `system.task` (a\n`system.root` user is also accepted). An unauthenticated request returns\n`401` with code `UserRequired`; an authenticated user lacking `system.task`\n(and not `system.root`) returns `403` with code `SystemRightRequired`.\nThe id-addressed operations `GET`, `PATCH` and `DELETE /task/{taskId}`,\n`GET /task/{taskId}/log` and `POST /task/{taskId}/cancel` load the task by\nid and then reject a caller who is neither the task's owner nor a\n`system.root` user with `403` code `InsufficientRights`. The list returns\nthe session user's own tasks only, for a `system.root` user too.\n",
       "get": {
         "parameters": [
           {
@@ -46717,17 +46717,24 @@
             }
           },
           "403": {
-            "description": "The authenticated user lacks the `system.task` system right (and is\nnot `system.root`). Raised with code `SystemRightRequired`\n(`parameters.rights` lists the rights that would have satisfied the\ncheck).\n",
+            "description": "The authenticated user is neither the task's creator nor a\n`system.root` user. Tasks are user-specific; only the user who\ncreated a task (or a `system.root` user) can access it. A user\nwithout the `system.task` system right also receives a `403`.\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SystemRightRequiredError"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SystemRightRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/InsufficientRightsError"
+                    }
+                  ]
                 }
               }
             }
           },
           "404": {
-            "description": "No task with this id exists for the authenticated user. The\n`GET /task/{taskId}` operation raises code `ResourceNotFound`\n(`parameters.resource` carries a `task \u003cid\u003e` token).\n",
+            "description": "No task with this id exists. The `GET /task/{taskId}` operation\nraises code `ResourceNotFound`\n(`parameters.resource` carries a `task \u003cid\u003e` token).\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -46739,7 +46746,7 @@
         }
       },
       "patch": {
-        "description": "Update a task. A task can only be updated if it is not in status\n`running`. The body must carry `_version` one higher than the stored\nversion; a mismatch is rejected with code `VersionMismatch`. The task's\nowner (`_user`) is preserved and cannot be reassigned; ownership is not\nre-checked on update (any holder of `system.task` may patch any task).\nUpdating a task whose id does not exist is reported as a `400`, not a\n`404`.\n",
+        "description": "Update a task. A task can only be updated if it is not in status\n`running`. The body must carry `_version` one higher than the stored\nversion; a mismatch is rejected with code `VersionMismatch`. Only the\ntask's owner or a `system.root` user may update it. The task's owner\n(`_user`) is preserved and cannot be reassigned.\n",
         "parameters": [
           {
             "name": "taskId",
@@ -47010,11 +47017,28 @@
             }
           },
           "403": {
-            "description": "The authenticated user lacks the `system.task` system right (and is\nnot `system.root`). Raised with code `SystemRightRequired`\n(`parameters.rights` lists the rights that would have satisfied the\ncheck).\n",
+            "description": "The authenticated user is neither the task's creator nor a\n`system.root` user. Tasks are user-specific; only the user who\ncreated a task (or a `system.root` user) can access it. A user\nwithout the `system.task` system right also receives a `403`.\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SystemRightRequiredError"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SystemRightRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/InsufficientRightsError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No task with this id exists. The id was not loadable. Raised with\ncode `ObjectNotFound` (`parameters.object` carries a `task \u003cid\u003e`\ntoken, e.g. `task 7`).\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectNotFoundError"
                 }
               }
             }

@@ -43168,12 +43168,11 @@ paths:
             `system.root` user is also accepted). An unauthenticated request returns
             `401` with code `UserRequired`; an authenticated user lacking `system.task`
             (and not `system.root`) returns `403` with code `SystemRightRequired`.
-            The id-addressed operations `GET /task/{taskId}/log`,
-            `POST /task/{taskId}/cancel` and `DELETE /task/{taskId}` load the task by
+            The id-addressed operations `GET`, `PATCH` and `DELETE /task/{taskId}`,
+            `GET /task/{taskId}/log` and `POST /task/{taskId}/cancel` load the task by
             id and then reject a caller who is neither the task's owner nor a
-            `system.root` user with `403` code `InsufficientRights`. The list and
-            `GET /task/{taskId}` instead filter by the session user, so another
-            user's tasks are simply not returned (an unknown id yields `404`).
+            `system.root` user with `403` code `InsufficientRights`. The list returns
+            the session user's own tasks only, for a `system.root` user too.
         get:
             parameters:
                 - name: offset
@@ -44436,18 +44435,20 @@ paths:
                                 $ref: '#/components/schemas/UserRequiredError'
                 "403":
                     description: |
-                        The authenticated user lacks the `system.task` system right (and is
-                        not `system.root`). Raised with code `SystemRightRequired`
-                        (`parameters.rights` lists the rights that would have satisfied the
-                        check).
+                        The authenticated user is neither the task's creator nor a
+                        `system.root` user. Tasks are user-specific; only the user who
+                        created a task (or a `system.root` user) can access it. A user
+                        without the `system.task` system right also receives a `403`.
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SystemRightRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/SystemRightRequiredError'
+                                    - $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        No task with this id exists for the authenticated user. The
-                        `GET /task/{taskId}` operation raises code `ResourceNotFound`
+                        No task with this id exists. The `GET /task/{taskId}` operation
+                        raises code `ResourceNotFound`
                         (`parameters.resource` carries a `task <id>` token).
                     content:
                         application/json:
@@ -44457,11 +44458,9 @@ paths:
             description: |
                 Update a task. A task can only be updated if it is not in status
                 `running`. The body must carry `_version` one higher than the stored
-                version; a mismatch is rejected with code `VersionMismatch`. The task's
-                owner (`_user`) is preserved and cannot be reassigned; ownership is not
-                re-checked on update (any holder of `system.task` may patch any task).
-                Updating a task whose id does not exist is reported as a `400`, not a
-                `404`.
+                version; a mismatch is rejected with code `VersionMismatch`. Only the
+                task's owner or a `system.root` user may update it. The task's owner
+                (`_user`) is preserved and cannot be reassigned.
             parameters:
                 - name: taskId
                   in: path
@@ -44699,14 +44698,25 @@ paths:
                                 $ref: '#/components/schemas/UserRequiredError'
                 "403":
                     description: |
-                        The authenticated user lacks the `system.task` system right (and is
-                        not `system.root`). Raised with code `SystemRightRequired`
-                        (`parameters.rights` lists the rights that would have satisfied the
-                        check).
+                        The authenticated user is neither the task's creator nor a
+                        `system.root` user. Tasks are user-specific; only the user who
+                        created a task (or a `system.root` user) can access it. A user
+                        without the `system.task` system right also receives a `403`.
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SystemRightRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/SystemRightRequiredError'
+                                    - $ref: '#/components/schemas/InsufficientRightsError'
+                "404":
+                    description: |
+                        No task with this id exists. The id was not loadable. Raised with
+                        code `ObjectNotFound` (`parameters.object` carries a `task <id>`
+                        token, e.g. `task 7`).
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ObjectNotFoundError'
     /task/modules:
         x-path: /task
         description: |
