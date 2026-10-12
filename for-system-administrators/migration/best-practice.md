@@ -124,7 +124,7 @@ fylr backup \
   --password '<cleartext>' \
   --dir '<instance folder>/' \
   --maximum-count 100 \
-  --include '^asset|document$' \
+  --include '^(asset|document)$' \
   --purge
 ```
 

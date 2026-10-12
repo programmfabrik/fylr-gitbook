@@ -191,7 +191,7 @@ A job that gets no free execserver slot within `fylr.execserver.connectTimeoutSe
 
 **Claimed By** names the fylr server processing a job (its backend id, as `system/topology` shows it); it is empty while the job waits. When that fylr server stops without finishing its jobs — killed, crashed, out of memory — the other fylr servers put its jobs back into the queue within a minute.
 
-**Empty Queue (new only)** removes every job that waits. A file whose job it removes keeps its pending status: its versions stay in `pending_produce_internal`, the original in `sync`. **From version 6.35.0** a **Resync** of the originals queues the missing jobs again: filter **Version** = `original`, **Status** = `sync` and **Queue Status** = `Not Queued`, then run **Resync** on the **Search result**. Before 6.35.0, run **Resync** on the versions themselves first (**Status** = `pending_produce_internal`, **Search result**), then, once the queue is through, on the originals as above.
+**Empty Queue (new only)** removes every job that waits. A file whose job it removes keeps its pending status: its versions stay in `pending_produce_internal`, the original in `sync`. **From version 6.35.0** a **Resync** of the originals queues the missing jobs again: filter **Version** = `original`, **Status** = `sync` and **Queue Status** = `Not Queued`, then run **Resync** on the **Search result**.
 
 ## File Locations
 

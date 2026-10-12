@@ -27,7 +27,7 @@ For a overview over all publicly available plugins, please click [here](../../pl
 {% hint style="warning" %}
 From fylr **6.34.0**, the WordPress, Drupal and TYPO3 integrations are no longer shipped as bundled "disk" plugins. They are maintained as separate plugins (`fylr-plugin-wordpress`, `fylr-plugin-drupal`, `fylr-plugin-typo3`) and are installed from the marketplace. Instances that relied on the former `easydb-wordpress-plugin`, `easydb-drupal-plugin` or `easydb-typo3-plugin` have to install the corresponding `fylr-plugin-*` plugin after updating — the [disk to URL migration](../../plugins/disk-to-url-migration.md) does it for an instance coming from 6.33 or earlier.
 
-All three are **licensed** plugins: they install freely, but your fylr license has to grant them by name before they can be enabled. If you use one of these connectors, obtain an updated license from Programmfabrik **before** you upgrade.
+All three are **licensed** plugins: they install freely, but your fylr license has to grant them by name before they run. If you use one of these connectors, obtain an updated license from Programmfabrik **before** you upgrade.
 {% endhint %}
 
 
@@ -75,7 +75,7 @@ The catalog is served by `GET /plugin/marketplace`. Programmfabrik's curated cat
 
 ### License-gated plugins
 
-From fylr **6.35.0**, the fylr **license** can determine which plugins an instance may **enable** — see [License management](../../license-management.md). A plugin the license does not permit is flagged in the Plugin Manager with a red **warning triangle** in the *Active* column, its *General* tab shows the license state, and its **Active** toggle is disabled. The plugin's stored configuration is **preserved** and the plugin re-enables by itself once the license grants it again.
+From fylr **6.35.0**, the fylr **license** can determine which plugins an instance may **enable** — see [License management](../../license-management.md). A plugin the license does not permit is flagged in the Plugin Manager with a red **warning triangle** in the *Active* column, its *General* tab shows the license state, and its **Active** toggle is disabled. It stays switched on as stored: `GET /api/v1/plugin/manage` reports `enabled: true` with `state: not_licensed`. The plugin's stored configuration is **preserved** and the plugin re-enables by itself once the license grants it again.
 
 ### Network access in restricted setups
 

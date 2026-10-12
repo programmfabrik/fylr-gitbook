@@ -1082,9 +1082,9 @@ fylr:
       # limits when an operating-system-enforced memory bound is needed.
 
       # One pool of slots for every service. A job holds one slot while it
-      # runs, however many threads its command uses: a video encode runs
-      # FFmpeg with the threads of its service (see services below) and
-      # still holds one slot. The operating system shares the CPUs between
+      # runs, however many threads its command uses: the MP4 encode of a
+      # video version runs FFmpeg with the threads of its service (see
+      # services below) and still holds one slot. The operating system shares the CPUs between
       # the encode and the jobs next to it.
       #
       # The balancer classifies each service light or heavy by its measured

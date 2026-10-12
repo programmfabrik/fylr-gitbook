@@ -39,7 +39,7 @@ fylr+:
 
 A **slot** decides whether a job may start, not how many CPUs it uses. The execserver starts a job when it has a free slot for it, and the job holds that one slot until it ends. `slots: 0` makes as many slots as the machine has CPUs, so by default as many jobs run at once as there are CPUs.
 
-How many CPUs a running job uses is up to its program. ImageMagick, LibreOffice and the other tools use what they use; a video encode runs FFmpeg with the **`threads`** of its service. The operating system shares the CPUs between all programs that run.
+How many CPUs a running job uses is up to its program. ImageMagick, LibreOffice and the other tools use what they use; the MP4 encode of the video versions runs FFmpeg with the **`threads`** of its service. The operating system shares the CPUs between all programs that run.
 
 So the keys answer different questions:
 
@@ -48,7 +48,7 @@ So the keys answer different questions:
 | `slots` | How many jobs run at once, all services together? |
 | `fastReserve` | How many of them are kept for short jobs? |
 | `maxSlots` (per service) | How many jobs of this service run at once? |
-| `threads` (per service) | How many threads does each of its jobs run? |
+| `threads` (per service) | How many threads does each MP4 encode of the service run? Other programs ignore it. |
 
 {% hint style="info" %}
 **Upgrading from before 6.35.** The `fylr.execserver.parallel` / `fylr.execserver.parallelHigh` worker counts no longer size anything (only `parallel: 0`, which switches file processing off on a node, keeps its meaning), and neither do the `waitgroups` block and the per-service `waitgroup` keys. Otherwise they are ignored: `fylr config check` reports `parallelHigh`, `waitgroups` and `waitgroup` as deprecated, and a `parallel` other than `0` gets a warning in the server log at startup. What used to be a dedicated waitgroup is a `maxSlots` on the service. [Updating the execserver to 6.35](../installation/updating-the-execserver-to-6.35.md) walks through the whole change.
@@ -86,8 +86,8 @@ fylr+:
   services+:
     execserver+:
       services+:
-        # each encode on every CPU but two
-        ffmpeg: { threads: -2 }
+        # two encodes at a time, each on every CPU but two
+        ffmpeg: { maxSlots: 2, threads: -2 }
 ```
 
 ### Videos take long to encode
@@ -102,7 +102,7 @@ fylr+:
         ffmpeg: { maxSlots: 2, threads: 0 }
 ```
 
-The thread count is fixed: it does not depend on what else runs. Two encodes together ask for twice the CPUs, and the operating system shares them. While both run, each gets about half; when one ends, the other gets all of them. One upload produces its 360p, 720p and 1080p versions as separate encodes, so they run two at a time.
+Two encodes together ask for twice the CPUs, and the operating system shares them. While both run, each gets about half; when one ends, the other gets all of them. One upload produces its 360p, 720p and 1080p versions as separate encodes, so they run two at a time.
 
 * **One encode at a time, on every CPU.** Each video is done as fast as the machine allows, and the next one waits. This suits many long videos, for example hours of 4K:
 

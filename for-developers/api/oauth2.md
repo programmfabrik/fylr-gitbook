@@ -59,7 +59,7 @@ Two different `401`s exist, and the `code` tells them apart:
 
 An `InvalidToken` does not become valid by being sent again, and refreshing it does not help — a refresh whose token is rejected is itself answered `401` `InvalidToken`. A client that answers this error with a retry or another refresh produces nothing but load.
 
-Before 6.35.0 the answer depended on the endpoint: `400` `InvalidToken` from `/api/v1/user/session` and `/oauth2/refresh`, `401` `UserRequired` from everything else. A client that has to work against both versions should treat status `401` **or** code `InvalidToken` as the end of the session.
+Before 6.35.0 the answer depended on the endpoint: `400` `InvalidToken` from `/api/v1/user/session`, `/api/oauth2/userinfo` and `/oauth2/refresh`, `401` `UserRequired` from most others. A client that has to work against both versions should treat status `401` **or** code `InvalidToken` as the end of the session.
 
 Endpoints that also serve callers without a user answer a request carrying a rejected token as if it carried none: deep links under `/api/v1/objects` and signed asset downloads under `/api/v1/eas/download` exactly as they always did, and endpoints that check rights instead of requiring a user with what an anonymous caller gets, such as `403` from `GET /api/v1/eas` or an empty list from `GET /api/v1/group`.
 
@@ -83,9 +83,9 @@ fylr:
 ```
 {% endcode %}
 
-The secret is stored as a **bcrypt hash** with at most 14 rounds, in `fylr.yml` as in the base configuration; the client sends the secret itself. `htpasswd -bnBC 10 "" my-secret | tr -d ':\n'` prints such a hash.
+The secret is stored as a **bcrypt hash**, in `fylr.yml` as in the base configuration, where at most 14 rounds are accepted; the client sends the secret itself. `htpasswd -bnBC 10 "" my-secret | tr -d ':\n'` prints such a hash.
 
-The default clients in fylr are **public** and thus neither need nor have a secret. A public client must omit `client_secret`.
+The default clients in fylr are **public** and thus neither need nor have a secret. A public client need not send `client_secret`.
 
 Alternatively, add the Client ID and Secret pair(s) in the [Base Configuration](../../for-administrators/readme/user-management.md#oauth-service).
 
@@ -316,7 +316,7 @@ External documentation: [https://www.oauth.com/oauth2-servers/access-tokens/clie
 The behaviour of this grant **changed in fylr 6.33.0**.
 {% endhint %}
 
-As of 6.33.0 the client-credentials grant returns a token for the **anonymous user** — so a client with a secret can obtain an anonymous session without any user credentials. A public client is refused with `invalid_grant`; the web frontend's guest login uses the authorization code flow instead. This requires **guest access** to be enabled in the base configuration (`login.guest`); with guest access off the request is rejected and a warning is written to the fylr log. Anonymous logins are recorded as `USER_LOGIN` / `USER_LOGIN_FAILED` events.
+As of 6.33.0 the client-credentials grant returns a token for the **anonymous user** — so a client with a secret can obtain an anonymous session without any user credentials. A public client is refused with `invalid_grant`; the web frontend's guest login uses the authorization code flow instead. This requires **guest access** to be enabled in the base configuration (`login.guest`); with guest access off the request is rejected and a warning is written to the fylr log. Anonymous logins through this grant are recorded as `USER_LOGIN` events.
 
 <mark style="color:green;">`POST`</mark> `fylr-instance/api/oauth2/token`
 
@@ -344,7 +344,7 @@ It advertises the issuer and the absolute URLs of the authorization, token, intr
 
 <mark style="color:blue;">`GET`</mark> / <mark style="color:green;">`POST`</mark> `fylr-instance/api/oauth2/userinfo`
 
-It requires a valid access token and returns `sub`, the user id as a string, and for a user with a login `preferred_username`, plus whatever claims (email, display name, …) are enabled in the base-config `openid.userinfo` allow-list. Identify the user by `sub`: it never changes and is never given to another user, while a login or an email can change. Before fylr 6.35.0, `sub` was the login, or the email for a user without one.
+It requires a valid access token and returns `sub`, the user id as a string, and for a user with a login `preferred_username`, plus whatever claims (email, display name, …) are enabled in the base-config `openid.userinfo` allow-list. Identify the user by `sub`: it never changes and is never given to another user, while a login or an email can change.
 
 ## Revoking a token (Logout)
 
@@ -400,4 +400,4 @@ Inspect the state of a token ([RFC 7662](https://datatracker.ietf.org/doc/html/r
 
 The caller authenticates with a valid access token (`Authorization: Bearer …`) or as a client with a secret, by `client_id` and `client_secret` or HTTP Basic; a public client is refused.
 
-The response reports `active` (boolean) and, when active, `scope`, `client_id`, `username`, `sub`, `exp`, `iat` and `token_type`. `sub` is the id of the token's user as a string, the same `sub` that `userinfo` returns.
+The response reports `active` (boolean) and, when active, `scope`, `client_id`, `sub`, `iat`, `token_type`, `iss` and `aud`, `username` when the token has one (`<anonymous>` for a guest token), and `exp` when the token expires. `sub` is the id of the token's user as a string, the same `sub` that `userinfo` returns.
