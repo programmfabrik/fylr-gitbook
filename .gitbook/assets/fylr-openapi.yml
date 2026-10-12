@@ -28828,13 +28828,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: x-fylr-signature
                   in: query
                   schema:
@@ -29059,13 +29059,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: x-fylr-signature
                   in: query
                   schema:
@@ -29164,13 +29164,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: x-fylr-signature
                   in: query
                   schema:
@@ -29293,13 +29293,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: x-fylr-signature
                   in: query
                   schema:
@@ -29397,13 +29397,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: zoom_viewport
                   in: path
                   required: true
@@ -29507,13 +29507,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: zoom_tile_size
                   in: path
                   required: true
@@ -29624,13 +29624,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: zoom_viewport
                   in: path
                   required: true
@@ -29734,13 +29734,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: zoom_tile_size
                   in: path
                   required: true
@@ -29851,13 +29851,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: x-fylr-signature
                   in: path
                   required: true
@@ -29967,13 +29967,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: x-fylr-signature
                   in: path
                   required: true
@@ -30090,13 +30090,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: x-fylr-signature
                   in: path
                   required: true
@@ -30206,13 +30206,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: x-fylr-signature
                   in: path
                   required: true
@@ -30329,13 +30329,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: path
                   required: true
@@ -30446,13 +30446,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: path
                   required: true
@@ -30570,13 +30570,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: path
                   required: true
@@ -30687,13 +30687,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: path
                   required: true
@@ -30811,13 +30811,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: path
                   required: true
@@ -30934,13 +30934,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: path
                   required: true
@@ -31064,13 +31064,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: path
                   required: true
@@ -31187,13 +31187,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: path
                   required: true
@@ -31323,7 +31323,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: obj_uuid
                   in: path
                   required: true
@@ -31342,7 +31342,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: query
                   description: |
@@ -31410,7 +31410,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: obj_uuid
                   in: path
                   required: true
@@ -31429,7 +31429,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: query
                   description: |
@@ -31500,7 +31500,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: obj_uuid
                   in: path
                   required: true
@@ -31513,7 +31513,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: query
                   description: |
@@ -31581,7 +31581,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: obj_uuid
                   in: path
                   required: true
@@ -31594,7 +31594,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: query
                   description: |
@@ -31665,7 +31665,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: x-fylr-signature
                   in: path
                   required: true
@@ -31677,7 +31677,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: query
                   description: |
@@ -31745,7 +31745,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: x-fylr-signature
                   in: path
                   required: true
@@ -31757,7 +31757,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: query
                   description: |
@@ -31828,13 +31828,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: query
                   description: |
@@ -31902,13 +31902,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: obj_uuid
                   in: query
                   description: |
@@ -31979,7 +31979,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: obj_uuid
                   in: path
                   required: true
@@ -31998,7 +31998,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: region
                   in: path
                   required: true
@@ -32107,7 +32107,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: obj_uuid
                   in: path
                   required: true
@@ -32126,7 +32126,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: region
                   in: path
                   required: true
@@ -32242,7 +32242,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: obj_uuid
                   in: path
                   required: true
@@ -32255,7 +32255,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: region
                   in: path
                   required: true
@@ -32364,7 +32364,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: obj_uuid
                   in: path
                   required: true
@@ -32377,7 +32377,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: region
                   in: path
                   required: true
@@ -32493,13 +32493,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: x-fylr-signature
                   in: path
                   required: true
@@ -32614,13 +32614,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: x-fylr-signature
                   in: path
                   required: true
@@ -32742,13 +32742,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: region
                   in: path
                   required: true
@@ -32857,13 +32857,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
                 - name: region
                   in: path
                   required: true
@@ -32982,7 +32982,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: obj_uuid
                   in: path
                   required: true
@@ -33001,7 +33001,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
             responses:
                 "303":
                     description: |
@@ -33029,7 +33029,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: obj_uuid
                   in: path
                   required: true
@@ -33048,7 +33048,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
             responses:
                 "303":
                     description: |
@@ -33085,7 +33085,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: obj_uuid
                   in: path
                   required: true
@@ -33098,7 +33098,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
             responses:
                 "303":
                     description: |
@@ -33126,7 +33126,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: obj_uuid
                   in: path
                   required: true
@@ -33139,7 +33139,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
             responses:
                 "303":
                     description: |
@@ -33176,7 +33176,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: x-fylr-signature
                   in: path
                   required: true
@@ -33188,7 +33188,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
             responses:
                 "303":
                     description: |
@@ -33216,7 +33216,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: x-fylr-signature
                   in: path
                   required: true
@@ -33228,7 +33228,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
             responses:
                 "303":
                     description: |
@@ -33265,13 +33265,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
             responses:
                 "303":
                     description: |
@@ -33299,13 +33299,13 @@ paths:
                   required: true
                   schema:
                     type: string
-                  description: The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
                 - name: version
                   in: path
                   required: true
                   schema:
                     type: string
-                  description: The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+                  description: The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
             responses:
                 "303":
                     description: |
@@ -47399,7 +47399,7 @@ components:
                 hash:
                     type: string
                     description: |
-                        The `hash` is a non unique identifier of the file. For remote files, it is the [**md5sum**](https://en.wikipedia.org/wiki/Md5sum) of the URL, for local files it is the [**SHA-256**](https://en.wikipedia.org/wiki/SHA-2) of the binary file data. It is calculated together with the metadata for the file and a copy of `technical_metadata.sha256_hash`. The `hash` is used for duplicate detection.
+                        The `hash` is a non unique identifier of the file: the [**SHA-256**](https://en.wikipedia.org/wiki/SHA-2) of the binary file data, calculated together with the metadata for the file and a copy of `technical_metadata.sha256_hash`. A file left on its remote has the [**md5sum**](https://en.wikipedia.org/wiki/Md5sum) of its URL until it is processed. The `hash` is used for duplicate detection.
                 technical_metadata:
                     type: object
                     description: |

@@ -112,10 +112,10 @@ These GET, HEAD endpoints embed parameters inside a path segment (e.g. `{quality
 **Path parameters**
 
 * `fileId` — The ID of the file.
-* `hash` — The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+* `hash` — The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
 * `obj_uuid` — The `_uuid` of the object the file is linked into. This is used for the permission check.
 * `x-fylr-signature` — The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs.
-* `version` — The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+* `version` — The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
 * `region` — The [IIIF region](https://iiif.io/api/image/3.0/#region) is a string with `x,y,w,h` and other format. Check the link for more information.
 * `size` — The [IIIF size](https://iiif.io/api/image/3.0/#size) parameter determines the dimensions to which the extracted region is to be scaled. Check the link for more information.
 * `rotation` — The [IIIF rotation](https://iiif.io/api/image/3.0/#rotation) specifies mirroring and rotation. A leading exclamation mark (“!”) indicates that the image should be mirrored by reflection on the vertical axis before any rotation is applied. The numerical value represents the number of degrees of clockwise rotation, and may be any number from 0 to 360. **fylr** only supports integer numbers for rotation. More information can be found in the link.
