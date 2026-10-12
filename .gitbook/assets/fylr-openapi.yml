@@ -45422,11 +45422,10 @@ paths:
                                         description: The login name of the token's user.
                                     sub:
                                         type: string
-                                        format: uuid
                                         description: |
-                                            The UUID of the token's user. It stays the same for
+                                            The id of the token's user, as a string: the same for
                                             every token of that user and across a change of the
-                                            login.
+                                            login, and the `sub` that `userinfo` returns.
                                     exp:
                                         type: integer
                                     iat:
@@ -45447,7 +45446,7 @@ paths:
                                 scope: read write offline
                                 client_id: fylr-web-frontend
                                 username: root
-                                sub: 1f0a6b8e-3c1d-4e2f-9a7b-5c6d8e9f0a1b
+                                sub: "1"
     /oauth2/userinfo:
         x-path: /oauth2
         servers:
@@ -45455,8 +45454,9 @@ paths:
         description: |
             OpenID Connect **UserInfo** endpoint. Returns claims about the user
             identified by the presented bearer access token, filtered by the
-            instance's `userinfo` allowlist. `sub` is always returned; every
-            other claim appears only when its name is in the allowlist.
+            instance's `userinfo` allowlist. `sub` (the user id as a string) and,
+            for a user with a login, `preferred_username` are always returned;
+            every other claim appears only when its name is in the allowlist.
 
             The allowlist is configured in the base config under
             `openid.userinfo` — a list of claim names (for example `email`,
@@ -45574,10 +45574,11 @@ paths:
                                         items:
                                             type: string
                                         description: |
-                                            The claim names `userinfo` may return — always `sub`,
-                                            plus every claim enabled in the base config's
-                                            `openid.userinfo` list (`email_verified` is included
-                                            only when `email` is enabled).
+                                            The claim names `userinfo` may return — always `sub`
+                                            and `preferred_username`, plus every claim enabled in
+                                            the base config's `openid.userinfo` list
+                                            (`email_verified` is included only when `email` is
+                                            enabled).
                                     code_challenge_methods_supported:
                                         type: array
                                         items:
@@ -45608,6 +45609,7 @@ paths:
                                     - offline
                                 claims_supported:
                                     - sub
+                                    - preferred_username
                                     - email
                                     - email_verified
                                 code_challenge_methods_supported:
@@ -46663,8 +46665,9 @@ components:
             type: object
             description: |
                 OpenID Connect claims for the authenticated user, returned by
-                `GET`/`POST` `/api/oauth2/userinfo`. `sub` is always present; every
-                other claim is returned only when its name is listed in the instance's
+                `GET`/`POST` `/api/oauth2/userinfo`. `sub` and `preferred_username`
+                are always present (the latter for a user with a login); every other
+                claim is returned only when its name is listed in the instance's
                 `userinfo` allowlist (base-config `OpenIdUserInfo`).
             required:
                 - sub
@@ -46672,9 +46675,15 @@ components:
                 sub:
                     type: string
                     description: |
-                        Subject identifier — the user's login, or email, or the numeric
-                        user id if neither is set. Always present, not gated by the
-                        allowlist.
+                        Subject identifier — the user id as a string, the same `sub` that
+                        `/api/oauth2/introspect` returns. It never changes and is never
+                        given to another user; identify the user by it, not by the login
+                        or the email. Always present, not gated by the allowlist.
+                preferred_username:
+                    type: string
+                    description: |
+                        The user's login. Present for a user who has one, not gated by the
+                        allowlist; it can change, so it does not identify the user.
                 displayname:
                     type: string
                     description: The user's compiled display name.

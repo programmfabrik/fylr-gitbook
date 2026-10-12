@@ -344,7 +344,7 @@ It advertises the issuer and the absolute URLs of the authorization, token, intr
 
 <mark style="color:blue;">`GET`</mark> / <mark style="color:green;">`POST`</mark> `fylr-instance/api/oauth2/userinfo`
 
-It requires a valid access token and returns `sub` plus whatever claims (email, display name, …) are enabled in the base-config `openid.userinfo` allow-list.
+It requires a valid access token and returns `sub`, the user id as a string, and for a user with a login `preferred_username`, plus whatever claims (email, display name, …) are enabled in the base-config `openid.userinfo` allow-list. Identify the user by `sub`: it never changes and is never given to another user, while a login or an email can change. Before fylr 6.35.0, `sub` was the login, or the email for a user without one.
 
 ## Revoking a token (Logout)
 
@@ -400,4 +400,4 @@ Inspect the state of a token ([RFC 7662](https://datatracker.ietf.org/doc/html/r
 
 The caller authenticates with a valid access token (`Authorization: Bearer …`) or as a client with a secret, by `client_id` and `client_secret` or HTTP Basic; a public client is refused.
 
-The response reports `active` (boolean) and, when active, `scope`, `client_id`, `username`, `sub`, `exp`, `iat` and `token_type`. `sub` is the UUID of the token's user: the same for every token of that user and across a change of the login, which makes it the value to identify the user by.
+The response reports `active` (boolean) and, when active, `scope`, `client_id`, `username`, `sub`, `exp`, `iat` and `token_type`. `sub` is the id of the token's user as a string, the same `sub` that `userinfo` returns.

@@ -47609,8 +47609,7 @@
                     },
                     "sub": {
                       "type": "string",
-                      "format": "uuid",
-                      "description": "The UUID of the token's user. It stays the same for every token of that user and across a change of the login.\n"
+                      "description": "The id of the token's user, as a string: the same for\nevery token of that user and across a change of the\nlogin, and the `sub` that `userinfo` returns.\n"
                     },
                     "exp": {
                       "type": "integer"
@@ -47641,7 +47640,7 @@
                   "scope": "read write offline",
                   "client_id": "fylr-web-frontend",
                   "username": "root",
-                  "sub": "1f0a6b8e-3c1d-4e2f-9a7b-5c6d8e9f0a1b"
+                  "sub": "1"
                 }
               }
             }
@@ -47656,7 +47655,7 @@
           "url": "/api"
         }
       ],
-      "description": "OpenID Connect **UserInfo** endpoint. Returns claims about the user\nidentified by the presented bearer access token, filtered by the\ninstance's `userinfo` allowlist. `sub` is always returned; every\nother claim appears only when its name is in the allowlist.\n\nThe allowlist is configured in the base config under\n`openid.userinfo` — a list of claim names (for example `email`,\n`displayname`, `first_name`), bound to the internal `OpenIdUserInfo`\nsetting. The same list drives `claims_supported` in the discovery\ndocument.\n\nServed at `/api/oauth2/userinfo` — **not** under `/api/v1`. Like all\n`/api/oauth2` and `/api/v1` routes, the request runs through the\n`setSessionFromToken` middleware, which accepts the access token via\nthe `Authorization: Bearer` header, the `X-Fylr-Authorization` header\n(a Safari workaround) or the `access_token` query parameter.\n`userinfo` is the only OAuth2 endpoint that consumes the resulting\nsession user; the other endpoints parse the token themselves from the\nform body for their RFC operations.\n",
+      "description": "OpenID Connect **UserInfo** endpoint. Returns claims about the user\nidentified by the presented bearer access token, filtered by the\ninstance's `userinfo` allowlist. `sub` (the user id as a string) and,\nfor a user with a login, `preferred_username` are always returned;\nevery other claim appears only when its name is in the allowlist.\n\nThe allowlist is configured in the base config under\n`openid.userinfo` — a list of claim names (for example `email`,\n`displayname`, `first_name`), bound to the internal `OpenIdUserInfo`\nsetting. The same list drives `claims_supported` in the discovery\ndocument.\n\nServed at `/api/oauth2/userinfo` — **not** under `/api/v1`. Like all\n`/api/oauth2` and `/api/v1` routes, the request runs through the\n`setSessionFromToken` middleware, which accepts the access token via\nthe `Authorization: Bearer` header, the `X-Fylr-Authorization` header\n(a Safari workaround) or the `access_token` query parameter.\n`userinfo` is the only OAuth2 endpoint that consumes the resulting\nsession user; the other endpoints parse the token themselves from the\nform body for their RFC operations.\n",
       "get": {
         "summary": "Get claims for the access-token user.",
         "responses": {
@@ -47775,7 +47774,7 @@
                       "items": {
                         "type": "string"
                       },
-                      "description": "The claim names `userinfo` may return — always `sub`,\nplus every claim enabled in the base config's\n`openid.userinfo` list (`email_verified` is included\nonly when `email` is enabled).\n"
+                      "description": "The claim names `userinfo` may return — always `sub`\nand `preferred_username`, plus every claim enabled in\nthe base config's `openid.userinfo` list\n(`email_verified` is included only when `email` is\nenabled).\n"
                     },
                     "code_challenge_methods_supported": {
                       "type": "array",
@@ -47816,6 +47815,7 @@
                   ],
                   "claims_supported": [
                     "sub",
+                    "preferred_username",
                     "email",
                     "email_verified"
                   ],
@@ -49084,14 +49084,18 @@
       },
       "UserInfo": {
         "type": "object",
-        "description": "OpenID Connect claims for the authenticated user, returned by\n`GET`/`POST` `/api/oauth2/userinfo`. `sub` is always present; every\nother claim is returned only when its name is listed in the instance's\n`userinfo` allowlist (base-config `OpenIdUserInfo`).\n",
+        "description": "OpenID Connect claims for the authenticated user, returned by\n`GET`/`POST` `/api/oauth2/userinfo`. `sub` and `preferred_username`\nare always present (the latter for a user with a login); every other\nclaim is returned only when its name is listed in the instance's\n`userinfo` allowlist (base-config `OpenIdUserInfo`).\n",
         "required": [
           "sub"
         ],
         "properties": {
           "sub": {
             "type": "string",
-            "description": "Subject identifier — the user's login, or email, or the numeric\nuser id if neither is set. Always present, not gated by the\nallowlist.\n"
+            "description": "Subject identifier — the user id as a string, the same `sub` that\n`/api/oauth2/introspect` returns. It never changes and is never\ngiven to another user; identify the user by it, not by the login\nor the email. Always present, not gated by the allowlist.\n"
+          },
+          "preferred_username": {
+            "type": "string",
+            "description": "The user's login. Present for a user who has one, not gated by the\nallowlist; it can change, so it does not identify the user.\n"
           },
           "displayname": {
             "type": "string",
