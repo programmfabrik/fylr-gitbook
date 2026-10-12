@@ -27789,13 +27789,19 @@ paths:
                 - name: format
                   in: query
                   description: |
-                    The format of the output. `standard` is the default and includes the `versions` property. `long` includes `metadata` and `versions`. `short` doesn't include neither. If an unknown format is given `short` is used.
+                    How much of the file is rendered. `standard` (also empty or omitted) adds
+                    `versions`, `long` adds `versions` and `metadata`, `short` has neither.
+                    `versions` renders nothing but `versions`, each with its `url`, `width`
+                    and `height`; `_mapped_metadata` and `_duplicates` are left out. Plugins
+                    get file values of the base configuration in this format. Values are
+                    case-sensitive: any other value (`LONG`, `full`) renders like `short`.
                   schema:
                     type: string
                     enum:
                         - short
                         - long
                         - standard
+                        - versions
                 - name: file_url_expire
                   in: query
                   schema:
@@ -33381,13 +33387,19 @@ paths:
                 - name: format
                   in: query
                   description: |
-                    The format of the output. `standard` is the default and includes the `versions` property. `long` includes `metadata` and `versions`. `short` doesn't include neither. If an unknown format is given `short` is used.
+                    How much of the file is rendered. `standard` (also empty or omitted) adds
+                    `versions`, `long` adds `versions` and `metadata`, `short` has neither.
+                    `versions` renders nothing but `versions`, each with its `url`, `width`
+                    and `height`; `_mapped_metadata` and `_duplicates` are left out. Plugins
+                    get file values of the base configuration in this format. Values are
+                    case-sensitive: any other value (`LONG`, `full`) renders like `short`.
                   schema:
                     type: string
                     enum:
                         - short
                         - long
                         - standard
+                        - versions
                 - name: mapping_recipe_configs
                   in: query
                   description: |

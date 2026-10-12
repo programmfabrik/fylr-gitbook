@@ -28755,13 +28755,14 @@
           {
             "name": "format",
             "in": "query",
-            "description": "The format of the output. `standard` is the default and includes the `versions` property. `long` includes `metadata` and `versions`. `short` doesn't include neither. If an unknown format is given `short` is used.\n",
+            "description": "How much of the file is rendered. `standard` (also empty or omitted) adds\n`versions`, `long` adds `versions` and `metadata`, `short` has neither.\n`versions` renders nothing but `versions`, each with its `url`, `width`\nand `height`; `_mapped_metadata` and `_duplicates` are left out. Plugins\nget file values of the base configuration in this format. Values are\ncase-sensitive: any other value (`LONG`, `full`) renders like `short`.\n",
             "schema": {
               "type": "string",
               "enum": [
                 "short",
                 "long",
-                "standard"
+                "standard",
+                "versions"
               ]
             }
           },
@@ -35210,13 +35211,14 @@
           {
             "name": "format",
             "in": "query",
-            "description": "The format of the output. `standard` is the default and includes the `versions` property. `long` includes `metadata` and `versions`. `short` doesn't include neither. If an unknown format is given `short` is used.\n",
+            "description": "How much of the file is rendered. `standard` (also empty or omitted) adds\n`versions`, `long` adds `versions` and `metadata`, `short` has neither.\n`versions` renders nothing but `versions`, each with its `url`, `width`\nand `height`; `_mapped_metadata` and `_duplicates` are left out. Plugins\nget file values of the base configuration in this format. Values are\ncase-sensitive: any other value (`LONG`, `full`) renders like `short`.\n",
             "schema": {
               "type": "string",
               "enum": [
                 "short",
                 "long",
-                "standard"
+                "standard",
+                "versions"
               ]
             }
           },
