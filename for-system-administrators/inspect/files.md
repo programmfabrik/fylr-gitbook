@@ -183,13 +183,15 @@ From **6.35.0** the file page of an archive — an uploaded `.zip`, or a produce
 
 ## File Queue
 
-Open `<fylr url>/inspect/system/queues/?queue=file` (or follow **→ Show file queue** on the files page). The table shows queued file jobs as well as file jobs which are currently worked on. Each job is defined by a file in a specific state and the current action.
+Open `<fylr url>/inspect/system/queues/?queue=file` (or follow **→ Show File Queue** beside the title of the files page). The table shows queued file jobs as well as file jobs which are currently worked on. Each job is defined by a file in a specific state and the current action.
 
 During the background processing of all file jobs, the queue can grow. This is because original files will produce a number of versions (depending on the recipe). Each new version creates new jobs, so once a single original file job is picked up by a file worker, for each file version which is to be produced, the queue will grow by the number of new jobs. The total number of jobs in the queue is always fluctuating, but should generally get lower over time.
 
 A job that gets no free execserver slot within `fylr.execserver.connectTimeoutSec` (120 seconds as shipped) goes back into the queue and is tried again a minute later — the **Start After** column — as often as it takes, so a large batch of videos is worked through however long it waits; its file is not set to `error`. While no configured execserver is reachable at all, jobs are put back the same way until one connects.
 
 **Claimed By** names the fylr server processing a job (its backend id, as `system/topology` shows it); it is empty while the job waits. When that fylr server stops without finishing its jobs — killed, crashed, out of memory — the other fylr servers put its jobs back into the queue within a minute.
+
+**Empty Queue (new only)** removes every job that waits. A file whose job it removes keeps its pending status: its versions stay in `pending_produce_internal`, the original in `sync`. **From version 6.35.0** a **Resync** of the originals queues the missing jobs again: filter **Version** = `original`, **Status** = `sync` and **Queue Status** = `Not Queued`, then run **Resync** on the **Search result**. Before 6.35.0, run **Resync** on the versions themselves first (**Status** = `pending_produce_internal`, **Search result**), then, once the queue is through, on the originals as above.
 
 ## File Locations
 
@@ -226,6 +228,7 @@ then re-run the matching action. A **version** in `error` is re-rendered by
 | A `done` original shows **Metadata Status = Has No Metadata** | Metadata was never calculated (e.g. imported without it) | **Resync with metadata**; for recipes marked _request only_, use **Resync with metadata (incl. request only)**. |
 | Checksum `error` after a [restore](../migration/restore.md) | The local copy's checksum does not match the checksum recorded on the source | The copy is corrupt or incomplete — copy the file again (re-run the restore for it), then **Check file checksums** again. |
 | A remote file will not copy (`copy_move` / `copy_move_produce` fails) | The Remote URL is unreachable, or the target storage location is down | Verify the Remote URL opens and the target location is connected in the [Location Manager](../../for-administrators/location-manager.md), then retry Copy/Move. |
+| Versions stay in `pending_produce_internal` and their original in `sync`, with no job in the file queue | Their jobs were removed from the queue, e.g. with **Empty Queue (new only)** | **Resync** the originals, see [File Queue](#file-queue). |
 | `produce_versions` does nothing on an original | The original is not in a fylr storage location, has no metadata, or still has a job in the file queue | Copy it into storage and give it metadata first (**Copy/Move**, then **Resync with metadata**), and wait for the queue to drain, then retry. |
 
 If a message does not match any of the above, it comes straight from the
