@@ -24,6 +24,28 @@ For hierarchical lists, you can choose whether you only want results that match 
 
 In addition, you can switch to **more options** to select **relative dates**, such as **"Today"**, **"In 7 days"**, or define a **custom relative range**. This feature enables quick filtering based on dynamic time frames without manually entering exact dates.
 
+For date ranges, the following rules apply:
+
+| MODE                        | WHAT IT FINDS                                                                 |
+| --------------------------- | ----------------------------------------------------------------------------- |
+| Manual Range: from / to     | Records whose range overlaps the searched range, one day in common is enough. |
+| Expand                      | One range for the start of the record and one for its end.                    |
+| Relative Dates: start only  | Records whose **start** date is inside the window of the option.              |
+| Relative Dates: end only    | Records whose **end** date is inside the window of the option.                |
+| Relative Dates: start + end | Both conditions at once.                                                      |
+
+Windows of the options (apply to all date fields):
+
+| OPTION                         | WHAT IT SEARCHES             |
+| ------------------------------ | ---------------------------- |
+| Today                          | Today                        |
+| In 7 days                      | "Today" to "today + 7 days"  |
+| In one month                   | "Today" to "today + 1 month" |
+| Custom, in the future, N units | "Today" to "today + N"       |
+| Custom, in the past, N units   | "Today" - "N to today"       |
+
+
+
 ### String Fields
 
 In the **expert search**, string fields support queries with **multiple values** and **ranges**. You can search for multiple values by separating them with a comma. Values must be entered **without spaces** between the comma and the next value.
