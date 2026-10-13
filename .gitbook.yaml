@@ -4,20 +4,8 @@ structure:
   readme: README.md
   summary: SUMMARY.md
 
-# Pages moved in SUMMARY.md keep their old urls working (6.35: the plugin
-# pages moved from the Plugin Manager and Tutorials to Plugins).
+# GitBook redirects a moved page's old url by itself, except for these two
+# (6.35 moved the plugin pages from the Plugin Manager to Plugins).
 redirects:
-  for-administrators/plugin-manager: for-administrators/plugin-manager/README.md
-  for-administrators/plugin-manager/ai-metadata: for-administrators/plugin-manager/ai-metadata.md
-  for-administrators/plugin-manager/connector: for-administrators/plugin-manager/connector.md
-  for-administrators/plugin-manager/drupal: for-administrators/plugin-manager/drupal.md
   for-administrators/plugin-manager/formula-columns: for-administrators/plugin-manager/formula-columns/README.md
   for-administrators/plugin-manager/formula-columns/examples: for-administrators/plugin-manager/formula-columns/examples/README.md
-  for-administrators/plugin-manager/formula-columns/examples/calculate-from-fields: for-administrators/plugin-manager/formula-columns/examples/calculate-from-fields.md
-  for-administrators/plugin-manager/formula-columns/examples/combine-fields: for-administrators/plugin-manager/formula-columns/examples/combine-fields.md
-  for-administrators/plugin-manager/formula-columns/examples/set-uuid-on-first-save: for-administrators/plugin-manager/formula-columns/examples/set-uuid-on-first-save.md
-  for-administrators/plugin-manager/formula-columns/examples/value-from-linked-object: for-administrators/plugin-manager/formula-columns/examples/value-from-linked-object.md
-  for-administrators/plugin-manager/wordpress: for-administrators/plugin-manager/wordpress.md
-  for-administrators/plugin-manager/zooniverse: for-administrators/plugin-manager/zooniverse.md
-  tutorials/pdf-creator: tutorials/pdf-creator.md
-  tutorials/typo3-plugin: tutorials/typo3-plugin.md
