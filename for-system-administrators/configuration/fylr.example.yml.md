@@ -283,6 +283,9 @@ fylr:
     format: "console"
     # Set zerolog log level: trace, debug, info, warn, error, fatal, panic
     # default to "info".
+    # At debug and trace, the log entry of a failing execserver command lists
+    # the environment the command ran with, values included: configuration and
+    # credentials set as environment variables end up in the log.
     level: "info"
     # timeFormat is the Go representation to format the time in the log output.
     # zerolog's time keeping resolution is always set to milliseconds by FYLR.

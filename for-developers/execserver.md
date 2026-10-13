@@ -81,7 +81,7 @@ From **6.35.0** every command an execserver runs is supervised for time, progres
 
 Every command carries `FYLR_EXEC_SUPERVISED=1`, and the helper programs `fylr convert` and `fylr metadata` start stay in the command's process group, so the memory and stall watchdogs see them and the kill at the end of a command reaps them — a converter step therefore counts toward the per-job memory ceiling. Active job directories are protected from the janitor's temp cleanup while the job runs.
 
-Job receipts distinguish a wall-clock timeout (`TimedOut`), a stall (`Stalled`), a memory abort (`OutOfMemory`) and an operational interruption (`Stopped`); `PeakMemory` is the highest sampled resident memory of the process group in bytes. Cancelling an execution also cancels its transfers.
+Job receipts distinguish a wall-clock timeout (`TimedOut`), a stall (`Stalled`), a memory abort (`OutOfMemory`) and an operational interruption (`Stopped`); `PeakMemory` is the highest sampled resident memory of the process group in bytes. Cancelling an execution also cancels its transfers. A receipt does not record the environment of its commands; at log level `debug` or `trace`, the execserver log entry of a failing command lists it, values included.
 
 ## File Queue
 
