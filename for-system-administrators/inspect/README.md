@@ -24,7 +24,7 @@ Every dump renders an **HTML dashboard** by default, or returns **JSON** when th
 
 ## The home dashboard
 
-Opening `/inspect/` shows the **instance overview**: the **Database** (driver, version, size, roles), the **Indexer** (OpenSearch/Elasticsearch host and status), **Settings** and **System Config**, the **Index Names** in use, the connected **Backends**, the **License**, and — when `fylr.debug.inspectShowEnvironment` is set — the host **Environment** and request headers.
+Opening `/inspect/` shows the **instance overview**. **From version 6.35.0** a card at the top names the database with its size, the indexer, the number of connected backends and the user the page renders for; the tools follow as tiles, and the details fold into sections: **Instance Info**, the **Database** (driver, version, size, roles), the **Indexer**, **Settings** and **System Config**, the **Index Names** in use, the connected **Backends**, the host **Environment** (shown when `fylr.debug.inspectShowEnvironment` is set) and the **Request Header**. A section opens and closes with a click on its heading, and the page remembers which ones are open.
 
 ## The tools
 
