@@ -27,6 +27,10 @@ A short description of this fylr installation. It is used as the HTML meta descr
 
 Upload your own logo to replace our fylr logo in the upper right and in emails.
 
+### Favicon
+
+Upload an SVG or PNG file, from fylr 6.35.0 also an ICO file, to replace the fylr icon in the browser tab.
+
 ### Background Image
 
 Upload an image which will be used as the background on the login and register page.&#x20;

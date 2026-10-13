@@ -22,6 +22,10 @@ Manage user accounts. The required rights differ per operation: listing and read
 
 ### `GET /user/session` — Information about the current session.
 
+#### Automatic groups
+
+From **6.35.0** a user's `_groups` (in `GET /user/{id}` and after a `POST /user`) and the session's `groups` include the memberships that follow from the user's type — *all users*, *local users*, *LDAP users* and the like — marked `_automatic_auth` with the type `implicit`, so they stay distinguishable from a membership an administrator assigned and from one a group rule confers (`system`). Nothing is stored behind these entries; backups and the search index are unchanged, and a restore drops them again.
+
 {% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/user/session" method="get" %}
 [fylr-openapi.yml](../../../.gitbook/assets/fylr-openapi.yml)
 {% endopenapi %}

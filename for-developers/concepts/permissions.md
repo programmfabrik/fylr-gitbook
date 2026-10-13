@@ -44,13 +44,24 @@ A grant carries:
 - **A tag filter** (optional) — limits the grant to records carrying or not carrying particular tags, for example "may read photos tagged Public but not photos tagged Embargoed". See [Tags and transitions](tags-and-transitions.md).
 - **A time window** (optional) — the grant applies only between two times; outside the window it is inactive but not deleted.
 - **An active flag** — suspends or resumes the grant without deleting it, preserving its settings.
-- **A sticky flag** — a sticky grant is kept through a save by a lower-privileged user that omits it. Only a sufficiently privileged user can remove a sticky grant.
+- **A sticky flag** — a sticky grant survives private permissions further down the inheritance: a sub-pool, a sub-collection or a subordinate record that ignores the grants of its parents still gets the sticky ones.
 
 ## Pool grants and record grants
 
 For a record whose objecttype carries its own grants, the effective permissions are the combination of the pool's grants and the record's own. A read grant on the pool is a baseline; a grant on the record can add to it.
 
-A record can be set to **private permissions**, which means the pool's grants no longer apply to it and only the record's own grants count. This suits material that must be restricted regardless of the pool it sits in — a contract in an otherwise open project pool. The same setting exists on a [pool](pools.md): a sub-pool with private permissions does not inherit from its parent. In both cases the setting breaks inheritance at one step.
+In a hierarchical objecttype a record also inherits the grants of its superordinate records: the effective list is every ancestor's grants, from the top level down, followed by the record's own. A record can be set to **private permissions**; it then ignores the grants inherited from its superordinate records, except the sticky ones. The pool's grants apply either way. The same setting exists on a [pool](pools.md): a sub-pool with private permissions does not inherit from its parent pool. In both cases the setting breaks inheritance at one step.
+
+## Hanging records beneath a record
+
+From version 6.35.0 two rights on the **parent** record decide who may change what hangs beneath it:
+
+- **Create or attach child records** — required on the new parent when a record is created beneath it or moved beneath it.
+- **Detach child records** — required on the parent a record leaves, whether it moves to another parent or to the top level.
+
+Both exist only in a record's own grants. A pool or an objecttype cannot grant them; granting them on a top-level record covers its whole subtree through inheritance. They are checked only in a hierarchical objecttype whose records carry their own grants. In every other objecttype, polyhierarchies included, read on the parent is all that is needed, as before 6.35.0.
+
+The owner of the parent holds both rights without a grant. Read on the parent is required in addition, and creating the child needs the create right of its pool or objecttype, which is checked first. Saving a record without changing its parent needs neither right, and deleting a child needs no right on its parent.
 
 ## Right presets
 
@@ -65,6 +76,8 @@ Plugins extend the catalogue. A plugin can register its own rights, after which 
 ## In the API
 
 - Grants ride on the resource they protect, as its `_acl` list — on a pool, a record, a collection.
+- Private permissions are `_private_acl`, the sticky flag of a grant is `sticky`. On a record `_private_acl` is only rendered for hierarchical objecttypes; a save that omits it keeps the stored value, and changing it needs the `acl` right.
+- The two hierarchy rights are `hierarchy_link` and `hierarchy_unlink` in the `object` context of the rights catalogue. A save that lacks one is refused with `403` `ObjectInsufficientRights`; its `right` names the missing right and `systemobjectid` the parent. A record's `_generated_rights` carry both rights when the session user holds them, and always where they are not checked.
 - The rights catalogue is served by the [`/right` endpoint](../api/endpoints/api-right.md); right presets live under `/right/{context}/presets`.
 - A tag filter is an object with `all`, `any` and `not` arrays of tag IDs (see [Tags and transitions](tags-and-transitions.md)).
 

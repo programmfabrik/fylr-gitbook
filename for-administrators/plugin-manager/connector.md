@@ -24,7 +24,7 @@ First, make sure the plugin is added to your fylr and enabled by checking the [P
 
 ## Configuration
 
-Open the [Base Configuration](../readme/), go to "Plugins" and open "fylr-plugin-connector".
+Open the [Base Configuration](../readme/), go to "Plugins" and open "fylr-plugin-connector". On an instance upgraded from fylr 6.34 or earlier the settings you had are already there: the [disk to URL migration](../../plugins/disk-to-url-migration.md) moves them across with the rename.
 
 1. **enable the Connector plugin** by enabling "Activated for users".
 2. Under "easydb instances for Connector", add one or more connections to remote easydb5 and fylr instances.

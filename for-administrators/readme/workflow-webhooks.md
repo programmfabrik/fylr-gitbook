@@ -77,6 +77,7 @@ The **callback** of a workflow **Webhook** action selects *when* the webhook run
 * Runs **after** the records have been committed, asynchronously.
 * The webhook receives the saved records but **cannot modify them** — its response body is not applied. The outcome is recorded as an event: [`WEBHOOK`](../events/event-type-reference.md) on success, or [`WEBHOOK_ERROR`](../events/event-type-reference.md) on failure (a transport error or an HTTP status outside `2xx`). The response body, if any, is stored in the event for inspection.
 * Because the save is already committed, a webhook failure does **not** roll it back.
+* The payload carries the committed records with their field values, loaded for the format the payload itself is rendered in (from 6.35.0 — before, a save asked for in the `short` format, as the file and metadata upload paths do, sent the system fields only).
 
 Use this mode for fire-and-forget notifications and external side effects.
 

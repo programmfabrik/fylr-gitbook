@@ -2,6 +2,8 @@
 
 System-administration endpoints for operating a fylr instance: statistics and status, search-index rebuild, backups, storage locations, share links, sending mail, and wiping the instance (factory reset). Most operations require a `system.*` right (often `system.root`).
 
+Since fylr 6.35, a backup downloads without a session: `GET /system/backup/list`, `GET /system/backup/{id}` and `PUT /system/backup/new` with `?sign_url=1` return a `download_signature`, valid for one day, which `GET /system/backup/{id}/download` accepts as `?x-fylr-signature=`.
+
 ### `GET /system/status` — System object/index/file statistics.
 
 {% openapi src="../../../../.gitbook/assets/fylr-openapi.yml" path="/system/status" method="get" %}

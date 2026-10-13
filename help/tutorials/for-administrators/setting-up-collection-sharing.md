@@ -73,6 +73,10 @@ If the invited user or group should be able to **add records** to the collection
 
 
 
+#### Changing permissions that shared collections rely on
+
+From fylr **6.35.0**, editing or removing a permission of an object type, a pool or a tag asks for confirmation when a collection that shares the affected records can no longer be shared after the change.
+
 #### Opening a shared collection without needing to login again
 
 While creating a new share row, the "Force Login" checkbox toggles the `?login`  parameter in the created share link URL.&#x20;

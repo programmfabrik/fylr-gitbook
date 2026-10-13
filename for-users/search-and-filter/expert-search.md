@@ -24,6 +24,12 @@ For hierarchical lists, you can choose whether you only want results that match 
 
 In addition, you can switch to **more options** to select **relative dates**, such as **"Today"**, **"In 7 days"**, or define a **custom relative range**. This feature enables quick filtering based on dynamic time frames without manually entering exact dates.
 
+For a **date range field**, relative dates search one end of the stored range: **Start** finds records whose range starts within the chosen time frame, **End** records whose range ends within it. The badge of the search says which end is searched.
+
+<figure><img src="../../.gitbook/assets/v6.35-expert-search-relative-dates.png" alt="Relative dates on a date range field in the expert search"><figcaption>Relative dates on a date range field in the expert search</figcaption></figure>
+
+A range whose **To** lies before its **From** is not searched: the error is shown below the inputs and **Add to search** / **Apply** stay disabled until it is corrected, also for a date inside a nested field.
+
 For date ranges, the following rules apply:
 
 | MODE                        | WHAT IT FINDS                                                                 |
@@ -43,7 +49,6 @@ Windows of the options (apply to all date fields):
 | In one month                   | "Today" to "today + 1 month" |
 | Custom, in the future, N units | "Today" to "today + N"       |
 | Custom, in the past, N units   | "Today" - "N to today"       |
-
 
 
 ### String Fields

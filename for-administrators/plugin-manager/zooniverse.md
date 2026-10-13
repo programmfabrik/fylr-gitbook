@@ -8,13 +8,23 @@ description: Integrate data from Zooniverse and use it in fylr.
 Please note: this plugin is licensed as a separate module. If in doubt, please check your license agreement.
 {% endhint %}
 
+{% hint style="warning" %}
+**This plugin is installed by URL.** It is not part of the fylr distribution and it is not offered in the plugin marketplace. The fylr plugin is `fylr-plugin-zooniverse-import`; install it in the [Plugin Manager](README.md) as a **url** plugin from
+
+```
+https://github.com/programmfabrik/fylr-plugin-zooniverse-import/releases/latest/download/fylr-plugin-zooniverse-import.zip
+```
+
+The older easydb plugin, `easydb-plugin-zooniverse-import`, is the predecessor. An instance upgrading from an easydb5 installation that still carries it on disk loses it at the upgrade and has to install the fylr plugin — see [Disk to URL plugin migration](../../plugins/disk-to-url-migration.md#plugins-that-will-be-removed).
+{% endhint %}
+
 ## About
 
 [Zooniverse](https://www.zooniverse.org/) is a platform for people-powered research. This research is made possible by volunteers — more than a million people around the world who come together to assist professional researchers. It offers a CSV export of data, which then can be imported to fylr.
 
 ## Adding the Plugin
 
-First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](README.md). If not, add the plugin. To license and get the plugin, please get in touch with Programmfabrik GmbH.
+First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](README.md). If not, add it as a **url** plugin with the release URL above. To license the plugin, please get in touch with Programmfabrik GmbH.
 
 ## Data Model
 
@@ -22,7 +32,7 @@ Depending on the data you want to copy from Zooniverse, you have to create the c
 
 ## Configuration
 
-After adding and enabling the plugin, go to the [base configuration](../../for-administrators/readme/). There you'll find the "easydb-plugin-zooniverse-import" (under "Plugins").
+After adding and enabling the plugin, go to the [base configuration](../../for-administrators/readme/). There you'll find the plugin under "Plugins".
 
 <figure><img src="../../.gitbook/assets/zooniverse_fylr_en_baseconfig.png" alt=""><figcaption></figcaption></figure>
 
