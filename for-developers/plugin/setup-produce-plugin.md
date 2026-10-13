@@ -116,7 +116,7 @@ Note the asymmetry: on **save** an unsupported extension is rejected, while on *
 
 Upload a matching file. The new version should appear on the asset.
 
-If it does not, look for a [`FILE_PRODUCE_ERROR`](/for-administrators/events/event-type-reference.md#file_produce_error) event. It carries the job receipt: the full command line, stdout and stderr. For a conversion service the usual causes are, in order of likelihood:
+If it does not, look for a [`FILE_PRODUCE_ERROR`](../../for-administrators/events/event-type-reference.md#file_produce_error) event. It carries the job receipt: the full command line, stdout and stderr. For a conversion service the usual causes are, in order of likelihood:
 
 1. the endpoint is not reachable *from the execserver* (see [step 2](#id-2.-check-reachability-from-the-execserver-not-from-your-machine))
 2. the service answered 4xx or 5xx and the recipe did not turn that into a non-zero exit, so the error page gets stored as the rendition and the version exists but is garbage

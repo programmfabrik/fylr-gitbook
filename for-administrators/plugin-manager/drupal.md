@@ -47,6 +47,5 @@ Files land in Drupal's media library.
 ## Related links
 
 * [Plugin overview entry](../../plugins/overview.md#integration)
-* Predecessor easydb plugin: [https://github.com/programmfabrik/easydb-drupal-plugin](https://github.com/programmfabrik/easydb-drupal-plugin)
 * fylr [User docs](../../for-users/additional-features/drupal-integration.md) for the drupal plugin
 

@@ -379,7 +379,7 @@ from [https://calibre-ebook.com/download\_windows](https://calibre-ebook.com/dow
 
 Optional but recommended. fylr requires libvips 8.16 or newer.
 
-On [https://www.libvips.org](https://www.libvips.org/), follow `Download` and `Windows binaries` and download the newest `vips-dev-w64-all-`X.Y.Z`.zip` (tested with [vips-dev-w64-all-8.18.3.zip](https://github.com/libvips/build-win64-mxe/releases/download/v8.18.3/vips-dev-w64-all-8.18.3.zip)). Use the `all` variant — it includes the loaders (e.g. HEIF) that fylr benefits from.
+On [https://www.libvips.org](https://www.libvips.org/), follow `Download` and `Windows binaries` and download the newest `vips-dev-x64-all-`X.Y.Z`.zip` (tested with [vips-dev-x64-all-8.18.3.zip](https://github.com/libvips/build-win64-mxe/releases/download/v8.18.3/vips-dev-x64-all-8.18.3.zip)). Use the `all` variant — it includes the loaders (e.g. HEIF) that fylr benefits from.
 
 Unpack it, here to `C:\fylr\utils\vips-dev-8.18`, and configure it in `fylr.yml`:
 
