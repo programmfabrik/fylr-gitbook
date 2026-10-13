@@ -1105,7 +1105,7 @@
                   "_has_pin": {
                     "type": "boolean",
                     "readOnly": true,
-                    "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
+                    "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users, the owner and users with the `BAG_ACL`.\n"
                   },
                   "_pin_ok": {
                     "type": "boolean",
@@ -2162,7 +2162,7 @@
                     "_has_pin": {
                       "type": "boolean",
                       "readOnly": true,
-                      "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
+                      "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users, the owner and users with the `BAG_ACL`.\n"
                     },
                     "_pin_ok": {
                       "type": "boolean",
@@ -3309,7 +3309,7 @@
                   "_has_pin": {
                     "type": "boolean",
                     "readOnly": true,
-                    "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
+                    "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users, the owner and users with the `BAG_ACL`.\n"
                   },
                   "_pin_ok": {
                     "type": "boolean",
@@ -4366,7 +4366,7 @@
                     "_has_pin": {
                       "type": "boolean",
                       "readOnly": true,
-                      "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
+                      "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users, the owner and users with the `BAG_ACL`.\n"
                     },
                     "_pin_ok": {
                       "type": "boolean",
@@ -5509,7 +5509,7 @@
                     "_has_pin": {
                       "type": "boolean",
                       "readOnly": true,
-                      "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
+                      "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users, the owner and users with the `BAG_ACL`.\n"
                     },
                     "_pin_ok": {
                       "type": "boolean",
@@ -6655,7 +6655,7 @@
                   "_has_pin": {
                     "type": "boolean",
                     "readOnly": true,
-                    "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
+                    "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users, the owner and users with the `BAG_ACL`.\n"
                   },
                   "_pin_ok": {
                     "type": "boolean",
@@ -7712,7 +7712,7 @@
                     "_has_pin": {
                       "type": "boolean",
                       "readOnly": true,
-                      "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
+                      "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users, the owner and users with the `BAG_ACL`.\n"
                     },
                     "_pin_ok": {
                       "type": "boolean",
@@ -8973,7 +8973,7 @@
                       "_has_pin": {
                         "type": "boolean",
                         "readOnly": true,
-                        "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
+                        "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users, the owner and users with the `BAG_ACL`.\n"
                       },
                       "_pin_ok": {
                         "type": "boolean",
@@ -10103,7 +10103,7 @@
                     "_has_pin": {
                       "type": "boolean",
                       "readOnly": true,
-                      "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
+                      "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users, the owner and users with the `BAG_ACL`.\n"
                     },
                     "_pin_ok": {
                       "type": "boolean",
@@ -11164,7 +11164,7 @@
                       "_has_pin": {
                         "type": "boolean",
                         "readOnly": true,
-                        "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
+                        "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users, the owner and users with the `BAG_ACL`.\n"
                       },
                       "_pin_ok": {
                         "type": "boolean",
@@ -12327,7 +12327,7 @@
                       "_has_pin": {
                         "type": "boolean",
                         "readOnly": true,
-                        "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users and users with the `BAG_ACL`.\n"
+                        "description": "This flag indicates that the collection has a pin code. The actual pin code is only visible\nto `system.root` users, the owner and users with the `BAG_ACL`.\n"
                       },
                       "_pin_ok": {
                         "type": "boolean",
@@ -60470,7 +60470,7 @@
             "items": {
               "$ref": "#/components/schemas/UserCollectionPinCodeApi"
             },
-            "description": "Per-collection PIN codes the user holds (for pin-protected\ncollections).\n"
+            "description": "The PINs the user entered for collections protected by a\n`pin_code`. Per collection, a user can have one PIN per browser;\na read shows only the one of the requesting browser. A write\nchanges only this user's PINs:\n\n* Key left out: nothing changes.\n* A collection in the list: its PIN for the requesting browser is\n  set; its PINs for other browsers are kept.\n* A collection not in the list: its PINs for all browsers are\n  removed. So `[]` removes all of the user's PINs.\n"
           },
           "_password_hash": {
             "type": "string",
@@ -63441,7 +63441,7 @@
       },
       "UserCollectionPinCodeApi": {
         "type": "object",
-        "description": "A pin code the user holds for a pin-protected collection. Set by\nthe user when they unlock the collection for the first time;\nre-verified on each subsequent access.\n",
+        "description": "A PIN the user entered for a collection protected by a `pin_code`.\n**fylr** keeps the PINs per browser, identified by the `fylr-browser-id`\ncookie; requests without that cookie share one entry. A PIN unlocks\nthe collection only for requests from the browser it was entered in,\nsee the collection's `_pin_ok`.\n",
         "required": [
           "collection_id",
           "pin_code"
@@ -63450,11 +63450,11 @@
           "collection_id": {
             "type": "integer",
             "format": "int64",
-            "description": "`_id` of the collection the pin applies to. Must be a\npin-protected collection (`pin_required: true`).\n"
+            "description": "`_id` of the collection the PIN applies to. Ids of collections\nthat do not exist are dropped without an error.\n"
           },
           "pin_code": {
             "type": "string",
-            "description": "The pin code as the user entered it. Stored hashed\nserver-side; the cleartext value is only present here on the\nwrite path. Reads return the same shape with the cleartext\nomitted when the requester is not the user themselves.\n"
+            "description": "The PIN as entered. A read returns, for each collection, the PIN\nstored for the requesting browser, `\"\"` if the user entered it\nonly in other browsers. Sending `\"\"` removes only the PIN of the\nrequesting browser.\n"
           }
         }
       },

@@ -1383,7 +1383,7 @@ paths:
                                     readOnly: true
                                     description: |
                                         This flag indicates that the collection has a pin code. The actual pin code is only visible
-                                        to `system.root` users and users with the `BAG_ACL`.
+                                        to `system.root` users, the owner and users with the `BAG_ACL`.
                                 _pin_ok:
                                     type: boolean
                                     readOnly: true
@@ -2671,7 +2671,7 @@ paths:
                                         readOnly: true
                                         description: |
                                             This flag indicates that the collection has a pin code. The actual pin code is only visible
-                                            to `system.root` users and users with the `BAG_ACL`.
+                                            to `system.root` users, the owner and users with the `BAG_ACL`.
                                     _pin_ok:
                                         type: boolean
                                         readOnly: true
@@ -4057,7 +4057,7 @@ paths:
                                     readOnly: true
                                     description: |
                                         This flag indicates that the collection has a pin code. The actual pin code is only visible
-                                        to `system.root` users and users with the `BAG_ACL`.
+                                        to `system.root` users, the owner and users with the `BAG_ACL`.
                                 _pin_ok:
                                     type: boolean
                                     readOnly: true
@@ -5345,7 +5345,7 @@ paths:
                                         readOnly: true
                                         description: |
                                             This flag indicates that the collection has a pin code. The actual pin code is only visible
-                                            to `system.root` users and users with the `BAG_ACL`.
+                                            to `system.root` users, the owner and users with the `BAG_ACL`.
                                     _pin_ok:
                                         type: boolean
                                         readOnly: true
@@ -6703,7 +6703,7 @@ paths:
                                         readOnly: true
                                         description: |
                                             This flag indicates that the collection has a pin code. The actual pin code is only visible
-                                            to `system.root` users and users with the `BAG_ACL`.
+                                            to `system.root` users, the owner and users with the `BAG_ACL`.
                                     _pin_ok:
                                         type: boolean
                                         readOnly: true
@@ -8075,7 +8075,7 @@ paths:
                                     readOnly: true
                                     description: |
                                         This flag indicates that the collection has a pin code. The actual pin code is only visible
-                                        to `system.root` users and users with the `BAG_ACL`.
+                                        to `system.root` users, the owner and users with the `BAG_ACL`.
                                 _pin_ok:
                                     type: boolean
                                     readOnly: true
@@ -9363,7 +9363,7 @@ paths:
                                         readOnly: true
                                         description: |
                                             This flag indicates that the collection has a pin code. The actual pin code is only visible
-                                            to `system.root` users and users with the `BAG_ACL`.
+                                            to `system.root` users, the owner and users with the `BAG_ACL`.
                                     _pin_ok:
                                         type: boolean
                                         readOnly: true
@@ -10805,7 +10805,7 @@ paths:
                                             readOnly: true
                                             description: |
                                                 This flag indicates that the collection has a pin code. The actual pin code is only visible
-                                                to `system.root` users and users with the `BAG_ACL`.
+                                                to `system.root` users, the owner and users with the `BAG_ACL`.
                                         _pin_ok:
                                             type: boolean
                                             readOnly: true
@@ -12162,7 +12162,7 @@ paths:
                                         readOnly: true
                                         description: |
                                             This flag indicates that the collection has a pin code. The actual pin code is only visible
-                                            to `system.root` users and users with the `BAG_ACL`.
+                                            to `system.root` users, the owner and users with the `BAG_ACL`.
                                     _pin_ok:
                                         type: boolean
                                         readOnly: true
@@ -13453,7 +13453,7 @@ paths:
                                             readOnly: true
                                             description: |
                                                 This flag indicates that the collection has a pin code. The actual pin code is only visible
-                                                to `system.root` users and users with the `BAG_ACL`.
+                                                to `system.root` users, the owner and users with the `BAG_ACL`.
                                         _pin_ok:
                                             type: boolean
                                             readOnly: true
@@ -14821,7 +14821,7 @@ paths:
                                             readOnly: true
                                             description: |
                                                 This flag indicates that the collection has a pin code. The actual pin code is only visible
-                                                to `system.root` users and users with the `BAG_ACL`.
+                                                to `system.root` users, the owner and users with the `BAG_ACL`.
                                         _pin_ok:
                                             type: boolean
                                             readOnly: true
@@ -56888,8 +56888,16 @@ components:
                     items:
                         $ref: '#/components/schemas/UserCollectionPinCodeApi'
                     description: |
-                        Per-collection PIN codes the user holds (for pin-protected
-                        collections).
+                        The PINs the user entered for collections protected by a
+                        `pin_code`. Per collection, a user can have one PIN per browser;
+                        a read shows only the one of the requesting browser. A write
+                        changes only this user's PINs:
+
+                        * Key left out: nothing changes.
+                        * A collection in the list: its PIN for the requesting browser is
+                          set; its PINs for other browsers are kept.
+                        * A collection not in the list: its PINs for all browsers are
+                          removed. So `[]` removes all of the user's PINs.
                 _password_hash:
                     type: string
                     description: |
@@ -60141,9 +60149,11 @@ components:
         UserCollectionPinCodeApi:
             type: object
             description: |
-                A pin code the user holds for a pin-protected collection. Set by
-                the user when they unlock the collection for the first time;
-                re-verified on each subsequent access.
+                A PIN the user entered for a collection protected by a `pin_code`.
+                **fylr** keeps the PINs per browser, identified by the `fylr-browser-id`
+                cookie; requests without that cookie share one entry. A PIN unlocks
+                the collection only for requests from the browser it was entered in,
+                see the collection's `_pin_ok`.
             required:
                 - collection_id
                 - pin_code
@@ -60152,15 +60162,15 @@ components:
                     type: integer
                     format: int64
                     description: |
-                        `_id` of the collection the pin applies to. Must be a
-                        pin-protected collection (`pin_required: true`).
+                        `_id` of the collection the PIN applies to. Ids of collections
+                        that do not exist are dropped without an error.
                 pin_code:
                     type: string
                     description: |
-                        The pin code as the user entered it. Stored hashed
-                        server-side; the cleartext value is only present here on the
-                        write path. Reads return the same shape with the cleartext
-                        omitted when the requester is not the user themselves.
+                        The PIN as entered. A read returns, for each collection, the PIN
+                        stored for the requesting browser, `""` if the user entered it
+                        only in other browsers. Sending `""` removes only the PIN of the
+                        requesting browser.
         LocaleApi:
             type: object
             description: |
