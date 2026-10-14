@@ -423,6 +423,7 @@
 * [WebDAV](for-developers/webdav.md)
 * [Plugin](for-developers/plugin.md)
   * [manifest.yml](for-developers/plugin/manifest.md)
+    * [Base config parameters](for-developers/plugin/manifest/base-config.md)
   * [Extensions](for-developers/plugin/extensions.md)
   * [Callbacks](for-developers/plugin/callbacks/README.md)
     * [The callback contract](for-developers/plugin/callbacks/contract.md)

@@ -27,7 +27,7 @@ Notably, the callback runs **before** the constraint and save-right checks — w
 callbacks:
   db_pre_save:
     steps:
-      - name: "set comment"            # display name of the step
+      - name: "set comment"            # label of the step, for the debug log
         callback: set_comment          # references the callbacks map below
         filter:
           type: objecttype

@@ -47,7 +47,7 @@ This page states the rules **fylr itself enforces** on the finished plugin, whic
 
 ## Localization (l10n)
 
-A plugin localizes through the built-in CSV support: the manifest field `plugin.l10n` points to a CSV inside the plugin, and fylr serves the merged localization of all enabled plugins at `/api/v1/plugin/bundle/l10n/<lang>.json`.
+A plugin localizes through the built-in CSV support: the manifest field [`plugin.l10n`](manifest.md#l10n) points to a CSV inside the plugin, and fylr merges the keys of all enabled plugins into its own localization at `/api/v1/l10n/static/<lang>.json`.
 
 **The CSV is a Google Sheets export, committed as it comes.** The master is the "fylr localization" sheet, one tab per plugin; `fylr-build-plugin loca` pulls it. Do not edit it by hand — a hand edit is overwritten by the next pull.
 
@@ -64,7 +64,7 @@ fil,key,de-DE,R,en-US,R,da-DK,R,fi-FI,R,sv-SE,R
 | `fil` | The ticket a row came from. Sheet bookkeeping. |
 | `R` | The "needs review" checkbox that follows each language column. Sheet bookkeeping. |
 
-fylr's loader reads **only `key` and the `xx-XX` language columns** and ignores everything else, which is why the raw export can be committed unchanged. An empty cell falls back to the key; enter `-` to render nothing.
+fylr's loader reads **only `key`, an optional `package` and the `xx-XX` language columns** and ignores everything else, which is why the raw export can be committed unchanged. An empty cell falls back to the key; enter `-` to render nothing.
 
 The conventions that apply to the sheet itself — never delete headers, never leave blank rows, do not translate anything inside `%(...)`, the `R` review flow — are described under [Localization](../localization.md).
 

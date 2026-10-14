@@ -13,11 +13,13 @@ Plugins extend fylr through a **callback system** that runs plugin programs on t
 * **[Callbacks](plugin/callbacks/README.md)** — hooks fylr runs during its own API calls (db pre-save, transitions, collection uploads, export, export transport).
 * **[Custom data types](customdata.md)** — new field types.
 * **Frontend snippets** — JavaScript / CSS loaded into the web frontend.
-* **Base-config additions** — extra configuration parameters (for example a plugin user).
+* **[Base-config additions](plugin/manifest/base-config.md)** — configuration parameters an administrator sets (for example a plugin user).
+* **[File-processing recipes](plugin/setup-produce-plugin.md)** — cookbooks and versions for the file worker.
+* **[System rights](plugin/manifest.md#system_rights)** and **[event types](plugin/manifest.md#custom_events)** of its own.
 
-A finished plugin is delivered as a [`.zip` file](plugin/release.md) and installed in the [Plugin Manager](../for-administrators/plugin-manager/README.md) — from the marketplace, from a release URL, or by uploading the ZIP. fylr serves the resources from within the ZIP, unpacking files on the fly.
+A finished plugin is delivered as a [`.zip` file](plugin/release.md) and installed in the [Plugin Manager](../for-administrators/plugin-manager/README.md) — from the marketplace, from a release URL, or by uploading the ZIP. fylr serves the resources from within the ZIP.
 
-While you are **writing** one, point `plugin.paths` in **`fylr.yml`** at the directory you build into and fylr loads it from there — see [Load Custom Plugins](../for-system-administrators/configuration/custom-plugin.md). From fylr 6.35 that is what `plugin.paths` is for: the distribution itself no longer ships plugins on disk.
+While you are **writing** one, point `plugin.paths` in **`fylr.yml`** at the directory you build into and fylr loads it from there — see [Load Custom Plugins](../for-system-administrators/configuration/custom-plugin.md).
 
 ## How it fits together
 

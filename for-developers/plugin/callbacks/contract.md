@@ -21,7 +21,7 @@ Callbacks run server-side and frequently need to call back into the fylr API —
 | `api_user_access_token` | always¹ | OAuth2 access token to call the API **as the user the current API call runs as**. |
 | `api_user` | when a user context exists | The current API user (the `who`). |
 | `request` | when the hook runs inside an HTTP request | Information about the triggering request: `url`, `host`, `method`, `query`, `header`. |
-| `config` | plugin callbacks² | `config.system` — the base config visible to the plugin — and `config.plugin.<plugin-name>` — the plugin's own base-config additions, decrypted. A file value in it has only the `url`, `width` and `height` of its versions³. |
+| `config` | plugin callbacks² | `config.plugin.<plugin-name>.config.<section>.<parameter>` — the plugin's own [base-config parameters](../manifest/base-config.md#where-the-values-arrive), defaults applied and secrets decrypted — and `config.system`, the sections of fylr's own base config that are visible without a user. A file value in it has only the `url`, `width` and `height` of its versions³. |
 | `plugin_user_access_token` | only if `plugin_user` is configured | Access token of the configured **plugin user** (see below). |
 | `plugin_user` | only if `plugin_user` is configured | The plugin user (the `who`) for `plugin_user_access_token`. |
 | `api_tx_url` | only inside a save transaction | Base URL for the [transactional `/db` surface](#writing-inside-the-save-transaction-api_tx_url): calls back **into the open write transaction** the callback runs in. |

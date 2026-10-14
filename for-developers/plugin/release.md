@@ -26,7 +26,7 @@ fylr enforces one thing about the archive: it must contain a **single top-level 
     * `README.md`
     * `server/`, `webfrontend/`, `l10n/`, … as the plugin needs them
 
-That folder is exactly what `fylr-build-plugin build` assembles into `build/<plugin.name>/`, so the ZIP is the build tree and nothing else. fylr serves the plugin's resources from within the ZIP, unpacking files on the fly.
+That folder is exactly what `fylr-build-plugin build` assembles into `build/<plugin.name>/`, so the ZIP is the build tree and nothing else. fylr serves the plugin's resources from within the ZIP.
 
 ### How the ZIP is named
 
