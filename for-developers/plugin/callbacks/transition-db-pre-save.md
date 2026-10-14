@@ -64,6 +64,8 @@ The [response rules](db-pre-save.md#the-response) are the same: echo `_callback_
 
 An [error returned by the callback](contract.md#errors) **rejects the save** — the transition acts as a gate. A plugin-authored API error (code, parameters, statuscode) is passed to the client verbatim, so the frontend can show a localized message explaining *why* the workflow rejected the object; any other failure surfaces as the generic `DbPreSaveFailed` error naming the plugin.
 
+A matching transition whose action cannot run rejects the save too: its plugin is disabled or deleted, or no longer has the callback.
+
 ## Example
 
 The [fylr example plugin](https://github.com/programmfabrik/fylr-plugin-example) registers `fylr_example:set_comment` (manifest above). The program reads the action's `info` for its parameter:
