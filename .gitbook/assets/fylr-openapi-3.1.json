@@ -13507,7 +13507,7 @@
       }
     },
     "/config": {
-      "description": "Administrators can define base configuration using this API. fylr has a basic\nset of configuration items which are in the core system, such as the name of\nthe instance, administrator's main address, language definitions and so on.\n\nFrontends are required to implement a generic form editor for base\nconfiguration items. The list of items can be retrieved using the\n[config/list](list/) API.\n\nThis list is not stable and can be changed without API change in any new\nversion of fylr. Plugins can extend the list of configuration items. So,\ndepending on the list of loaded plugins in fylr, the list has a various number\nof items.\n",
+      "description": "Administrators can define base configuration using this API. fylr has a basic\nset of configuration items which are in the core system, such as the name of\nthe instance, administrator's main address, language definitions and so on.\n\nFrontends are required to implement a generic form editor for base\nconfiguration items. The list of items can be retrieved using the\n[config/list](list/) API.\n\nThis list is not stable and can be changed without API change in any new\nversion of fylr. Plugins can extend the list of configuration items. So,\ndepending on the list of loaded plugins in fylr, the list has a various number\nof items.\n\nA parameter of type `secret` is never read back in clear. A `POST` that\nsends an empty string for it keeps the stored value. In a `table` that\nholds a secret, every row is read with `_row`, its stored index. Send\n`_row` back unchanged, also after moving or removing rows: an empty secret\nthen keeps the secret of the stored row that `_row` names. A row without\n`_row` is new and keeps no secret. A table sent without any `_row` pairs\nits rows with the stored rows by position.\n",
       "get": {
         "summary": "Get all base configuration",
         "tags": [
@@ -13848,7 +13848,7 @@
                                 "cram_md5_auth": {
                                   "properties": {
                                     "password": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "username": {
@@ -13866,7 +13866,7 @@
                                 "login_auth": {
                                   "properties": {
                                     "password": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "username": {
@@ -13881,7 +13881,7 @@
                                       "type": "string"
                                     },
                                     "password": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "username": {
@@ -14232,7 +14232,7 @@
                             "ldap": {
                               "properties": {
                                 "bindpassword": {
-                                  "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                  "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                   "type": "string"
                                 },
                                 "bindusername": {
@@ -17728,7 +17728,7 @@
                                 "ldap": {
                                   "properties": {
                                     "bindpassword": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "bindusername": {
@@ -18368,7 +18368,7 @@
                               "cram_md5_auth": {
                                 "properties": {
                                   "password": {
-                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                     "type": "string"
                                   },
                                   "username": {
@@ -18386,7 +18386,7 @@
                               "login_auth": {
                                 "properties": {
                                   "password": {
-                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                     "type": "string"
                                   },
                                   "username": {
@@ -18401,7 +18401,7 @@
                                     "type": "string"
                                   },
                                   "password": {
-                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                     "type": "string"
                                   },
                                   "username": {
@@ -18752,7 +18752,7 @@
                           "ldap": {
                             "properties": {
                               "bindpassword": {
-                                "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                 "type": "string"
                               },
                               "bindusername": {
@@ -22248,7 +22248,7 @@
                               "ldap": {
                                 "properties": {
                                   "bindpassword": {
-                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                     "type": "string"
                                   },
                                   "bindusername": {
@@ -22834,7 +22834,7 @@
                                 "cram_md5_auth": {
                                   "properties": {
                                     "password": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "username": {
@@ -22852,7 +22852,7 @@
                                 "login_auth": {
                                   "properties": {
                                     "password": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "username": {
@@ -22867,7 +22867,7 @@
                                       "type": "string"
                                     },
                                     "password": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "username": {
@@ -23218,7 +23218,7 @@
                             "ldap": {
                               "properties": {
                                 "bindpassword": {
-                                  "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                  "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                   "type": "string"
                                 },
                                 "bindusername": {
@@ -26714,7 +26714,7 @@
                                 "ldap": {
                                   "properties": {
                                     "bindpassword": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "bindusername": {
