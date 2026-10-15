@@ -14,19 +14,17 @@ description: >-
 
 ## Where the connections come from
 
-Connections to an S3 storage location are **not** all opened by the fylr process. Depending on your setup up to three different hosts talk to the S3 endpoint:
+Connections to an S3 storage location are **not** all opened by the fylr process. Depending on your setup up to two different hosts talk to the S3 endpoint:
 
 | Traffic                                                                          | Opened by                            | Goes to                       |
 | -------------------------------------------------------------------------------- | ------------------------------------ | ----------------------------- |
-| fylr's own reads and writes: file janitor, copies between locations, exports, and every upload arriving at fylr | the **fylr** process                 | S3 endpoint                   |
+| fylr's own reads and writes: file janitor, copies between locations, exports, every upload arriving at fylr and every download | the **fylr** process                 | S3 endpoint                   |
 | Fetching the source file of a rendition job (`%_source.url%`)                      | the **execserver** host              | S3 endpoint (presigned GET)   |
 | Storing a produced rendition (`%_target.url%`)                                     | the **execserver**                   | fylr's backend — **not** S3; fylr writes it to S3 |
-| Downloads, if the location has `allow_redirect: true`                              | the **end user's browser**           | S3 endpoint (presigned GET)   |
 
-Two consequences:
+If the execserver runs on a separate machine, counting on the fylr host alone under-reports. Count on both.
 
-* If the execserver runs on a separate machine, counting on the fylr host alone under-reports. Count on both.
-* With `allow_redirect: true`, download traffic reaches S3 from many client IPs and never touches fylr's own connection budget at all. It still counts towards a limit that applies to the whole account.
+Up to version 6.35, an S3 location with `allow_redirect: true` sent downloads from the browser straight to S3. The option is removed from version 6.36.0: every download is served by fylr and counts against fylr's own connections to S3.
 
 ## Which limits apply
 
@@ -81,5 +79,4 @@ On Kubernetes the same works from the node, using the PID of the container proce
 ## Reducing the number
 
 * **Run fewer file jobs at once.** Since 6.35 the file dispatcher sizes itself from the slots of the connected execservers and the CPU count: cap it with `fylr.execserver.maxInFlight` (the most file-queue items one fylr works on at once, `0` = automatic), or give the execservers fewer `slots`. Set `fylr.execserver.parallel: 0` on nodes that should not do file work at all (the one value of that key that still has an effect since 6.35). Fewer concurrent rendition jobs means fewer simultaneous fetches from S3.
-* **Check `allow_redirect`.** With `allow_redirect: true` downloads go from the browser straight to S3. That takes them off fylr's connection budget, which helps against a per source IP limit but not against an account wide one. With `false`, all download traffic is served by fylr and counts against fylr's own connections to S3.
 * **Ask what is being counted.** A limit expressed in sockets and a limit expressed in established connections are very different numbers for the same workload.

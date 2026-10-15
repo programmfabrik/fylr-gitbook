@@ -401,10 +401,6 @@ fylr:
           # Set to true if files in this location can be
           # purged by FYLR (if the purge api call is used)
           allow_purge: false
-          # For "file" storage backend allow_redirect is a dangerous
-          # setting and should be used for development purposes only.
-          # Default is the safe false.
-          allow_redirect: false
           # read_only (any kind) lets fylr read what is already in the location
           # but never write or delete there: uploads and purges into it fail
           # with LocationReadOnly. For an archive or a mounted share that must
@@ -426,10 +422,6 @@ fylr:
         #     kind: s3
         #     prefix: "apitest/"
         #     allow_purge: true
-        #     # Set allow_redirect to true to expose download URLs directly to the s3 provider.
-        #     # Default is false.
-        #     # false uses fylr URLs instead, which might be less performant.
-        #     allow_redirect: false
         #     config:
         #       s3:
         #         bucket: apitest
