@@ -24,7 +24,9 @@ Every dump renders an **HTML dashboard** by default, or returns **JSON** when th
 
 ## The home dashboard
 
-Opening `/inspect/` shows the **instance overview**. **From version 6.35.0** a card at the top names the database with its size, the indexer, the number of connected backends and the user the page renders for; the tools follow as tiles, and the details fold into sections: **Instance Info**, the **Database** (driver, version, size, roles), the **Indexer**, **Settings** and **System Config**, the **Index Names** in use, the connected **Backends**, the host **Environment** (shown when `fylr.debug.inspectShowEnvironment` is set) and the **Request Header**. A section opens and closes with a click on its heading, and the page remembers which ones are open.
+Opening `/inspect/` shows the **instance overview**: the tools as tiles, then the details folded into sections: **Instance Info**, the **Database** (driver, version, size, roles), the **Indexer**, **Settings** and **System Config**, the **Index Names** in use, the connected **Backends**, the host **Environment** (shown when `fylr.debug.inspectShowEnvironment` is set) and the **Request Header**. A section opens and closes with a click on its heading, and the page remembers which ones are open.
+
+**From version 6.36.0** the tiles are grouped into **Favorites**, **Sections** and **Utilities**. The star on a tile moves it into Favorites at the top of the page and back; the browser remembers the favorites. The top bar of every inspect page names the instance, its version, the database with its size, the indexer and the number of connected backends; in 6.35 a card at the top of the home page showed these, together with the user the page renders for.
 
 ## The tools
 
