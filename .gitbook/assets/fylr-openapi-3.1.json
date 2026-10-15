@@ -36441,7 +36441,7 @@
     },
     "/system/reindex": {
       "x-path": "/system",
-      "description": "Drops the search index into a freshly created one and starts a full\nreindexing run. The run executes asynchronously; the call returns once\nit has been started. Pass `blockFrontend=true` to serve a maintenance\npage on the frontend until the reindex completes. Requires the\n`system.root` right.\n\nDiffers from easydb 5: no enable flag is needed. In easydb 5 the\nequivalent `POST /api/v1/settings/reindex` additionally required the\nserver-config flag `server.api.settings.reindex` set to `true`.\n",
+      "description": "Drops the search index into a freshly created one and starts a full\nreindexing run. The run executes asynchronously; the call returns once\nit has been started. Pass `blockFrontend=true` to block the frontend\nand most of the API until the new index is switched in, or until the\nre-index fails. Requires the `system.root` right.\n\nDiffers from easydb 5: no enable flag is needed. In easydb 5 the\nequivalent `POST /api/v1/settings/reindex` additionally required the\nserver-config flag `server.api.settings.reindex` set to `true`.\n",
       "post": {
         "summary": "Rebuild the search index from scratch.",
         "description": "Drops the search index into a freshly created one and triggers a\nfull reindexing run. The reindexing work runs asynchronously on\nthe server; the call returns as soon as the run has been started.\nThe frontend can be blocked while the reindex is in progress so\nusers do not see partial results. Requires the `system.root` right.\n",
@@ -36453,7 +36453,7 @@
               "type": "boolean",
               "default": false
             },
-            "description": "If `true`, fylr serves a maintenance page on the frontend\nuntil the reindex completes.\n"
+            "description": "If `true`, the instance goes into the `reindex` status until the\nnew index is switched in: the frontend shows a maintenance page\nand the API answers `503`, apart from OAuth2 (`/api/oauth2`),\n`/settings`, `/system` and the file downloads of `/eas/download`.\nA re-index that fails lifts the block again, its `REINDEX_ERROR`\nevent names the reason.\n"
           }
         ],
         "responses": {
@@ -36474,6 +36474,16 @@
                       ]
                     }
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The run could not be started, for example because the search\nengine refused to create the new index; `error` carries its\nanswer. A block requested with `blockFrontend` is lifted again.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerGenericError"
                 }
               }
             }

@@ -34557,9 +34557,9 @@ paths:
         description: |
             Drops the search index into a freshly created one and starts a full
             reindexing run. The run executes asynchronously; the call returns once
-            it has been started. Pass `blockFrontend=true` to serve a maintenance
-            page on the frontend until the reindex completes. Requires the
-            `system.root` right.
+            it has been started. Pass `blockFrontend=true` to block the frontend
+            and most of the API until the new index is switched in, or until the
+            re-index fails. Requires the `system.root` right.
 
             Differs from easydb 5: no enable flag is needed. In easydb 5 the
             equivalent `POST /api/v1/settings/reindex` additionally required the
@@ -34579,8 +34579,12 @@ paths:
                     type: boolean
                     default: false
                   description: |
-                    If `true`, fylr serves a maintenance page on the frontend
-                    until the reindex completes.
+                    If `true`, the instance goes into the `reindex` status until the
+                    new index is switched in: the frontend shows a maintenance page
+                    and the API answers `503`, apart from OAuth2 (`/api/oauth2`),
+                    `/settings`, `/system` and the file downloads of `/eas/download`.
+                    A re-index that fails lifts the block again, its `REINDEX_ERROR`
+                    event names the reason.
             responses:
                 "200":
                     description: |
@@ -34596,6 +34600,15 @@ paths:
                                         type: string
                                         enum:
                                             - ok
+                "400":
+                    description: |
+                        The run could not be started, for example because the search
+                        engine refused to create the new index; `error` carries its
+                        answer. A block requested with `blockFrontend` is lifted again.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ServerGenericError'
                 "401":
                     description: |
                         No authenticated user. The request must carry a valid access token.
