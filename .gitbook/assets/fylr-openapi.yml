@@ -25940,8 +25940,10 @@ paths:
                 Sets the JSON value sent in the body at the addressed path, using an
                 `sjson` patch on the current stored value, then re-validates and re-saves
                 the whole affected config item. Because the whole item is re-saved, this
-                can raise the same `400` / `202` flows as `POST /config`. An empty body is
-                rejected. Requires `system.config` (`system.root` always satisfies it).
+                can raise the same `400` / `202` flows as `POST /config`. Parameters of
+                type `secret` outside the addressed path keep their stored values. An
+                empty body is rejected. Requires `system.config` (`system.root` always
+                satisfies it).
             requestBody:
                 required: true
                 content:
@@ -26021,7 +26023,8 @@ paths:
                 Removes the value at the addressed path (an `sjson` delete on the current
                 stored value), then re-saves the affected config item through the same
                 path as `POST /config`, so it can raise the same `400` / `202` flows.
-                Sending a request body is rejected (`400`, `code` `ServerGeneric`). A
+                Parameters of type `secret` outside the addressed path keep their stored
+                values. Sending a request body is rejected (`400`, `code` `ServerGeneric`). A
                 `DELETE` on bare `/config` (no sub-path) always returns `404`. Requires
                 `system.config` (`system.root` always satisfies it).
             responses:

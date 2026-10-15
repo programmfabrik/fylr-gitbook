@@ -27073,7 +27073,7 @@
         "tags": [
           "config"
         ],
-        "description": "Sets the JSON value sent in the body at the addressed path, using an\n`sjson` patch on the current stored value, then re-validates and re-saves\nthe whole affected config item. Because the whole item is re-saved, this\ncan raise the same `400` / `202` flows as `POST /config`. An empty body is\nrejected. Requires `system.config` (`system.root` always satisfies it).\n",
+        "description": "Sets the JSON value sent in the body at the addressed path, using an\n`sjson` patch on the current stored value, then re-validates and re-saves\nthe whole affected config item. Because the whole item is re-saved, this\ncan raise the same `400` / `202` flows as `POST /config`. Parameters of\ntype `secret` outside the addressed path keep their stored values. An\nempty body is rejected. Requires `system.config` (`system.root` always\nsatisfies it).\n",
         "requestBody": {
           "required": true,
           "content": {
@@ -27158,7 +27158,7 @@
         "tags": [
           "config"
         ],
-        "description": "Removes the value at the addressed path (an `sjson` delete on the current\nstored value), then re-saves the affected config item through the same\npath as `POST /config`, so it can raise the same `400` / `202` flows.\nSending a request body is rejected (`400`, `code` `ServerGeneric`). A\n`DELETE` on bare `/config` (no sub-path) always returns `404`. Requires\n`system.config` (`system.root` always satisfies it).\n",
+        "description": "Removes the value at the addressed path (an `sjson` delete on the current\nstored value), then re-saves the affected config item through the same\npath as `POST /config`, so it can raise the same `400` / `202` flows.\nParameters of type `secret` outside the addressed path keep their stored\nvalues. Sending a request body is rejected (`400`, `code` `ServerGeneric`). A\n`DELETE` on bare `/config` (no sub-path) always returns `404`. Requires\n`system.config` (`system.root` always satisfies it).\n",
         "responses": {
           "200": {
             "description": "The value at the path was removed. The body is the value at the path\nafter deletion — `null` for a removed leaf.\n",
