@@ -41017,7 +41017,7 @@ paths:
         x-path: /plugin
         description: |
             Serves the front-end translations of all enabled plugins for the
-            requested `{lang}`, merged into one flat translation map. Public:
+            requested `{lang}` as one JSON array, one element per plugin. Public:
             no access token is required.
         get:
             summary: Concatenated plugin translations for a language.
@@ -41031,13 +41031,18 @@ paths:
             responses:
                 "200":
                     description: |
-                        Flat translation map merged across all enabled plugins.
+                        A JSON array with one element per enabled plugin whose manifest
+                        sets `plugin.webfrontend.l10n` and whose dependencies are met.
+                        Each element is the unchanged content of that plugin's
+                        `<webfrontend.l10n>/{lang}.json` file. A plugin whose file cannot
+                        be read contributes `{"_error": "<message>"}` instead.
                     content:
                         application/json:
                             schema:
-                                type: object
-                                additionalProperties:
-                                    type: string
+                                type: array
+                                items:
+                                    type: object
+                                    additionalProperties: true
     /plugin/static/{plugin}/{path}:
         x-path: /plugin
         description: |
@@ -61984,8 +61989,9 @@ components:
                 l10n:
                     type: string
                     description: |
-                        Path (relative to the plugin's static URL) of the plugin's
-                        l10n CSV file.
+                        Path of the plugin's l10n CSV file, relative to the directory
+                        holding `manifest.yml`. The server reads the file when it loads
+                        the plugin.
                 server:
                     type: object
                     description: Server-side compatibility declarations.
@@ -61997,8 +62003,9 @@ components:
                                     type: integer
                                     format: int64
                                     description: |
-                                        The minimum fylr server API version this plugin
-                                        supports.
+                                        The API version the manifest declares, published as-is.
+                                        The server does not compare it with its own version and
+                                        loads the plugin whatever the value.
                 url:
                     type: string
                     description: |

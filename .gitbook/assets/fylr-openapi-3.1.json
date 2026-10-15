@@ -43206,7 +43206,7 @@
     },
     "/plugin/bundle/l10n/{lang}.json": {
       "x-path": "/plugin",
-      "description": "Serves the front-end translations of all enabled plugins for the\nrequested `{lang}`, merged into one flat translation map. Public:\nno access token is required.\n",
+      "description": "Serves the front-end translations of all enabled plugins for the\nrequested `{lang}` as one JSON array, one element per plugin. Public:\nno access token is required.\n",
       "get": {
         "summary": "Concatenated plugin translations for a language.",
         "parameters": [
@@ -43222,13 +43222,14 @@
         ],
         "responses": {
           "200": {
-            "description": "Flat translation map merged across all enabled plugins.\n",
+            "description": "A JSON array with one element per enabled plugin whose manifest\nsets `plugin.webfrontend.l10n` and whose dependencies are met.\nEach element is the unchanged content of that plugin's\n`\u003cwebfrontend.l10n\u003e/{lang}.json` file. A plugin whose file cannot\nbe read contributes `{\"_error\": \"\u003cmessage\u003e\"}` instead.\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
                   }
                 }
               }
@@ -65016,7 +65017,7 @@
           },
           "l10n": {
             "type": "string",
-            "description": "Path (relative to the plugin's static URL) of the plugin's\nl10n CSV file.\n"
+            "description": "Path of the plugin's l10n CSV file, relative to the directory\nholding `manifest.yml`. The server reads the file when it loads\nthe plugin.\n"
           },
           "server": {
             "type": "object",
@@ -65028,7 +65029,7 @@
                   "require": {
                     "type": "integer",
                     "format": "int64",
-                    "description": "The minimum fylr server API version this plugin\nsupports.\n"
+                    "description": "The API version the manifest declares, published as-is.\nThe server does not compare it with its own version and\nloads the plugin whatever the value.\n"
                   }
                 }
               }
