@@ -31,6 +31,10 @@ fylr restore \
   * if the objects are too big or complex, the requests might take too long and cause a timeout
   * in this case, lower this value and continue restoring with `--continue`
 
+{% hint style="info" %}
+A value given as flag is visible to every user of the host in the process list (`ps`). Set the password, the client secret and a `--server` URL with HTTP Basic Auth credentials in the environment instead: `FYLR_PASSWORD`, `FYLR_CLIENT_SECRET` and `FYLR_SERVER`. A flag wins over its environment variable.
+{% endhint %}
+
 
 ## Parameters
 
@@ -46,11 +50,11 @@ Flags:
 -h, --help                      Show context-sensitive help.
 -v, --verbose                   Set to true, to show additional info.
 -n, --log-network               Set to true, to log all network traffic.
-    --server=STRING             Source url (overwrites URL of source instance from config)
+    --server=STRING             Source url (overwrites URL of source instance from config) ($FYLR_SERVER)
 -l, --login=STRING              If --server is set, use as login. Make sure to use the system root user to connect if used together with --purge.
--p, --password=STRING           If --server is set, use as password
+-p, --password=STRING           If --server is set, use as password ($FYLR_PASSWORD)
     --client-id=""              If --server is set, use as OAUTH2 client ID
-    --client-secret=""          If --server is set, use as OAUTH2 client secret
+    --client-secret=""          If --server is set, use as OAUTH2 client secret ($FYLR_CLIENT_SECRET)
     --client-token-url=""       If --server is set, use as OAUTH2 token url. If not set, this is derived from --server
     --insecure                  Set to true, to not verify the server's certificate chain and host name
     --log=STRING                Set output to logfile
@@ -102,6 +106,7 @@ API Url of the target instance. The Url must include the API base endpoint, for 
 
 * this parameter is **mandatory**!
 * type: `string`
+* environment variable: `FYLR_SERVER`
 
 
 ### `--login`
@@ -118,6 +123,7 @@ Password of the user in the target instance.
 
 * this parameter is **mandatory**!
 * type: `string`
+* environment variable: `FYLR_PASSWORD`
 
 
 ### `--purge`
@@ -408,6 +414,7 @@ If the target instance uses OAuth2 for user authentication, this is the configur
 If the target instance uses OAuth2 for user authentication, this is the configured Client Secret. Can be kept empty if the instance is public.
 
 * type: `string`
+* environment variable: `FYLR_CLIENT_SECRET`
 
 
 ### `--client-token-url`

@@ -31,6 +31,7 @@ See also: [Backup Parameters](../migration/backup.md#parameters)
 
 * URL of the source server **without** API base endpoint
 * This sets `--server 'http://example.fylr.xyz/api/v1/'`
+* A URL with HTTP Basic Auth credentials is passed in the environment as `FYLR_SERVER`
 
 #### Login
 
@@ -40,7 +41,7 @@ See also: [Backup Parameters](../migration/backup.md#parameters)
 #### Password
 
 * Password in the source instance
-* This sets `--password '12345'`
+* This sets `--password '12345'`, passed in the environment as `FYLR_PASSWORD`
 
 #### Backup chunk size
 
@@ -96,7 +97,7 @@ This parameter is available in fylr from version **6.34.0**.
   * _OAuth2 Client Secret_
     * Client Secret of the source instance
     * Leave empty if the source instance is public
-    * This sets `--client-secret foo`
+    * This sets `--client-secret foo`, passed in the environment as `FYLR_CLIENT_SECRET`
 
 #### Allow Insecure Connection
 
@@ -156,6 +157,7 @@ See also: [Restore Parameters](../migration/restore.md#parameters)
 
 * URL of the target server **without** API base endpoint
 * This sets `--server 'http://target.fylr.xyz/api/v1/'`
+* A URL with HTTP Basic Auth credentials is passed in the environment as `FYLR_SERVER`
 
 #### Login
 
@@ -165,7 +167,7 @@ See also: [Restore Parameters](../migration/restore.md#parameters)
 #### Password
 
 * Password in the target instance
-* This sets `--password '12345'`
+* This sets `--password '12345'`, passed in the environment as `FYLR_PASSWORD`
 
 #### File Mode
 
@@ -261,7 +263,7 @@ This parameter is available in fylr from version **6.33.0**.
 * _OAuth2 Client Secret_
   * Client Secret of the target instance
   * Leave empty if the target instance is public
-  * This sets `--client-secret foo`
+  * This sets `--client-secret foo`, passed in the environment as `FYLR_CLIENT_SECRET`
 
 #### Allow Insecure Connection
 
