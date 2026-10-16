@@ -27,6 +27,27 @@ A plugin program is run by the [execserver](execserver.md): fylr streams the pro
 
 Because callbacks run server-side, they can [call back into the fylr API](plugin/callbacks/contract.md#calling-back-into-the-api) using short-lived tokens fylr hands them.
 
+## Debugging frontend plugins
+
+The JavaScript and CSS of **all** enabled plugins is served to the web frontend concatenated into a single bundle (`/api/v1/plugin/bundle.js`, `bundle.css`). This is efficient in production, but it has one consequence while developing: **a JavaScript error thrown while one plugin's code is evaluated aborts the rest of the bundle.** Every plugin whose code comes after the failing one in the bundle is then silently not loaded — including plugins you did not touch. A typical symptom is that a [custom data type](customdata.md) stops being recognised in the data model editor and masks (`Unsupported Column Type in Mask`, the field shows `(attrs.undefined missing) (plugin not loaded)`), even for plugins that were working before — because a single broken plugin earlier in the bundle took them all down with it.
+
+To find the culprit, set this in **`fylr.yml`** and restart fylr:
+
+```yaml
+fylr:
+  debug:
+    # Serve each plugin's frontend code separately instead of as one
+    # concatenated bundle. A broken plugin then only breaks itself, and
+    # the browser console names the file it failed in.
+    noPluginsBundle: true
+```
+
+With `noPluginsBundle: true`, fylr stops announcing the bundle and the frontend loads each plugin's frontend files on their own, so one plugin's error no longer affects the others and the browser console points at the specific plugin that failed. Turn it off again for production.
+
+{% hint style="info" %}
+The console error from the bundle is the quickest signal: the **first** `Uncaught …` error that names `bundle.js` is the failing plugin. Look it up by the line number, or disable plugins one at a time in the [Plugin Manager](../for-administrators/plugin-manager/README.md) (reloading after each) until the other plugins reappear.
+{% endhint %}
+
 ## Read next
 
 * **[manifest.yml](plugin/manifest.md)** — the plugin descriptor: keys, the `exec` map, URL replacements.
