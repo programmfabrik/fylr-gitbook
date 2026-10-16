@@ -36961,7 +36961,7 @@
             }
           },
           "400": {
-            "description": "The location could not be created. `code: LocationMustMatchID`\nif the body `id` does not match the create (`0`);\n`code: LocationReadOnlyCannotBeDefault` if a read-only location\nis configured as a default location; other validation codes\n(unknown driver, missing config, ...) surface their own `code`.\nConnection problems with the configured driver do not block the\nsave — the location is stored with a non-`connected` `status`.\n",
+            "description": "The location could not be created. `code: LocationMustMatchID`\nif the body `id` does not match the create (`0`);\n`code: LocationReadOnlyCannotBeDefault` if a read-only location\nis configured as a default location; `code: LocationDirNotAllowed`\nif the `dir` of a `file` location is not inside one of the\ndirectories in `fylr.locations.allowedDirs`; other validation codes\n(unknown driver, missing config, ...) surface their own `code`.\nConnection problems with the configured driver do not block the\nsave — the location is stored with a non-`connected` `status`.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -37134,7 +37134,7 @@
             }
           },
           "400": {
-            "description": "The location could not be saved. `code: LocationMustMatchID`\nif the body `id` does not match the id in the path;\n`code: LocationReadOnlyCannotBeDefault` if a read-only\nlocation is configured as a default location; other\nvalidation codes surface their own `code`.\n",
+            "description": "The location could not be saved. `code: LocationMustMatchID`\nif the body `id` does not match the id in the path;\n`code: LocationReadOnlyCannotBeDefault` if a read-only\nlocation is configured as a default location;\n`code: LocationDirNotAllowed` if a `file` location gets a `dir`\nthat is not inside one of the directories in\n`fylr.locations.allowedDirs` (a location keeping its stored `dir`\nis not checked); other validation codes surface their own `code`.\n",
             "content": {
               "application/json": {
                 "schema": {

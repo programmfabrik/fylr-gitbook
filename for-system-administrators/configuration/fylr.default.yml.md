@@ -55,6 +55,11 @@ fylr:
             file:
               dir: "files"
 
+  locations:
+    # directories a file location saved through the API may use, see
+    # fylr.example.yml
+    allowedDirs: []
+
   elastic:
     parallel: 4
     objectsPerJob: 100

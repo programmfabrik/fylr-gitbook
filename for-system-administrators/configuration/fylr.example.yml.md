@@ -458,6 +458,23 @@ fylr:
         #         # optional endpoint suffix (default to core.windows.net)
         #         endpoint_suffix: "core.windows.net"
 
+  locations:
+    # allowedDirs lists the directories in which a storage location of kind
+    # "file" may keep its files when it is created through the API
+    # (/api/v1/system/location) or its dir is changed there. Its dir must be
+    # one of these directories or lie below one; symlinks are resolved
+    # before the comparison. A relative entry resolves against the directory
+    # of the config file it is written in, like the other paths here, but a
+    # relative location dir resolves beside the fylr executable: where the
+    # two directories differ, write absolute paths. Default empty: no file
+    # location can be created through the API.
+    #
+    # Not checked: the locations under db.init.locations above, and a saved
+    # location whose dir stays what it is.
+    allowedDirs: []
+    # allowedDirs:
+    #   - "/srv/fylr/files"
+
   plugin:
     # load plugins at startup. the loader crawls the given directories
     # and loads given files for plugin config files, ending in ".yml".

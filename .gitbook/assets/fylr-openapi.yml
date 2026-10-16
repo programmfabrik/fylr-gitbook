@@ -35027,7 +35027,9 @@ paths:
                         The location could not be created. `code: LocationMustMatchID`
                         if the body `id` does not match the create (`0`);
                         `code: LocationReadOnlyCannotBeDefault` if a read-only location
-                        is configured as a default location; other validation codes
+                        is configured as a default location; `code: LocationDirNotAllowed`
+                        if the `dir` of a `file` location is not inside one of the
+                        directories in `fylr.locations.allowedDirs`; other validation codes
                         (unknown driver, missing config, ...) surface their own `code`.
                         Connection problems with the configured driver do not block the
                         save — the location is stored with a non-`connected` `status`.
@@ -35164,8 +35166,11 @@ paths:
                         The location could not be saved. `code: LocationMustMatchID`
                         if the body `id` does not match the id in the path;
                         `code: LocationReadOnlyCannotBeDefault` if a read-only
-                        location is configured as a default location; other
-                        validation codes surface their own `code`.
+                        location is configured as a default location;
+                        `code: LocationDirNotAllowed` if a `file` location gets a `dir`
+                        that is not inside one of the directories in
+                        `fylr.locations.allowedDirs` (a location keeping its stored `dir`
+                        is not checked); other validation codes surface their own `code`.
                     content:
                         application/json:
                             schema:
