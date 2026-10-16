@@ -69,8 +69,17 @@ The cryptographically signed license contains:
 * Enabled capabilities
 
 {% hint style="info" %}
-The license check works offline, the license management does not include any online component.
+The license check works offline. From fylr **6.36.0**, fylr can additionally fetch newer versions of its license online, see [Automatic license updates](license-management.md#automatic-license-updates).
 {% endhint %}
+
+## Automatic license updates
+
+From fylr **6.36.0**, fylr keeps its license current by itself. Every 6 hours it sends the installed license to the programmfabrik license server and installs the newer version of that license, if there is one — for example after the license was renewed or extended. Nobody has to upload the renewed license.
+
+* fylr sends the complete signed license, not only the license key, so only an installation that holds a license can fetch its newer versions.
+* fylr needs outgoing HTTPS access to `pfcrm.programmfabrik.de` for this. Without it, fylr logs a warning once a day; switch the update off in the [License Management](for-administrators/readme/license-management.md#automatic-updates) of the Base Configuration.
+* System administrators can point an installation at another license server, or switch the update off for it, with `fylr.licenseServer` in [fylr.yml](for-system-administrators/configuration/fylr.example.yml.md).
+* Every installed update is logged as a [`LICENSE_AUTO_UPDATE`](for-administrators/events/event-type-reference.md#license_auto_update) event.
 
 ## fylr version expiration
 

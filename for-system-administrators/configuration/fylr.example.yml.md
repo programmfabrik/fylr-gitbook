@@ -103,6 +103,13 @@ fylr:
   # above, so only one of the two can be set at a time.
   license: ""
 
+  # licenseServer (default: "https://pfcrm.programmfabrik.de/pfcrm/license").
+  # fylr posts its license to this URL every 6 hours and installs the newer
+  # version the server answers with, if there is one. The update can be turned
+  # off in the base config (license management), e.g. for an instance without
+  # outgoing internet access. An empty value turns it off for this fylr.yml.
+  licenseServer: "https://pfcrm.programmfabrik.de/pfcrm/license"
+
   # encryptionKey is used to AES-encrypt sensitive information before writing it
   # to the database. It must be 32 bytes long. The encryptionKey must be
   # provided to decrypt encrypted data from the database. With no encryption

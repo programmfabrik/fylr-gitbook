@@ -18,6 +18,10 @@ fylr:
   # is always trusted. See fylr.example.yml.
   trustedProxies: []
 
+  # the license auto-update asks here for the current version of the
+  # instance's license, see fylr.example.yml
+  licenseServer: "https://pfcrm.programmfabrik.de/pfcrm/license"
+
   logger:
     format: "console"
     level: "info"
