@@ -54,7 +54,7 @@ Each level also includes all the more severe levels above it — `info` for exam
 | error  | Only errors — something failed and needs attention. |
 | warn   | Warnings and errors, but no regular operational messages. |
 | info   | Normal operational messages plus warnings and errors. This is the usual default. |
-| debug  | Detailed diagnostic messages on top of `info`. Useful when developing plugins or tracking down a problem. |
+| debug  | Detailed diagnostic messages on top of `info`. Useful when developing plugins or tracking down a problem. The log entry of a failing execserver command also lists the environment the command ran with, values included: configuration and credentials set as environment variables end up in the log. |
 | trace  | The most verbose level. Logs very fine-grained internal steps and produces a lot of output — use it only temporarily while diagnosing a specific issue. |
 
 ### Response timings

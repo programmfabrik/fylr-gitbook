@@ -1,10 +1,18 @@
 ---
-description: fylr uses OAuth2 and OpenID Connect for authentication.
+description: fylr uses OAuth2 for authentication.
 ---
 
 # OAuth2
 
-User authentication in a fylr instance is done by obtaining an **Access Token** through one of the implemented OAuth2 flows. fylr is also an **OpenID Connect (OIDC)** provider: requesting the `openid` scope additionally returns an `id_token`, and the instance exposes a [UserInfo endpoint](#openid-connect) and an [OIDC discovery document](#openid-connect).
+User authentication in a fylr instance is done by obtaining an **Access Token** through one of the implemented OAuth2 flows. fylr is an OAuth2 **authorization server** — it is **not** an OpenID Connect provider: no `id_token` is issued. It still exposes a [UserInfo endpoint](#discovery-and-userinfo) and a [discovery document](#discovery-and-userinfo) for endpoint configuration.
+
+{% hint style="warning" %}
+**Changed in fylr 6.35.0**: fylr's OAuth2 server is now its own implementation (previously a library). The wire format, endpoints and grants are unchanged, but:
+
+* The upgrade **logs everyone out once** — all stored access, refresh and "stay logged in" tokens are deleted. Scripts simply fetch a fresh token on their next run.
+* The `openid` scope is **no longer accepted**: a request carrying it fails with `invalid_scope`. Earlier versions minted an `id_token` alongside the access token; that is gone — remove the scope from client configurations and scripts that still send it.
+* `offline_access` (the OIDC-style alias for `offline`) is no longer accepted either — use the literal `offline`.
+{% endhint %}
 
 {% hint style="info" %}
 The exact request and response of every endpoint below — `/api/oauth2/auth`, `/api/oauth2/token`, `/api/oauth2/revoke`, `/api/oauth2/introspect`, `/api/oauth2/userinfo` — is also available as interactive reference panels under [API → Endpoints → /api/oauth2](endpoints/api-oauth2.md).
@@ -34,6 +42,27 @@ X-Fylr-Authorization: Bearer <access_token>
 
 An access token is valid for **24 hours** (86400 seconds) by default; the lifetime is configurable in the base configuration.
 
+### When a token is rejected
+
+From **fylr 6.35.0** on, a rejected access token is answered with HTTP **`401`** and the error code **`InvalidToken`** wherever a request without a token is answered `401` `UserRequired`, and on `GET /api/v1/user/session` and the web frontend's `POST /oauth2/refresh`, which answered `400` before.
+
+A token is rejected when it is unknown, expired, revoked, bound to a different browser than the one presenting it, or belongs to a user who may no longer log in — archived, disabled, or outside their login validity window.
+
+Two different `401`s exist, and the `code` tells them apart:
+
+| `code` | what happened | what the client should do |
+| --- | --- | --- |
+| `UserRequired` | the request carried no access token at all | authenticate, then retry |
+| `InvalidToken` | the token the request carried was rejected | the session is over: discard the token and log in again |
+
+`GET /api/v1/user/session` and `/api/oauth2/userinfo` answer `InvalidToken` also to a request without a token.
+
+An `InvalidToken` does not become valid by being sent again, and refreshing it does not help — a refresh whose token is rejected is itself answered `401` `InvalidToken`. A client that answers this error with a retry or another refresh produces nothing but load.
+
+Before 6.35.0 the answer depended on the endpoint: `400` `InvalidToken` from `/api/v1/user/session`, `/api/oauth2/userinfo` and `/oauth2/refresh`, `401` `UserRequired` from most others. A client that has to work against both versions should treat status `401` **or** code `InvalidToken` as the end of the session.
+
+Endpoints that also serve callers without a user answer a request carrying a rejected token as if it carried none: deep links under `/api/v1/objects` and signed asset downloads under `/api/v1/eas/download` exactly as they always did, and endpoints that check rights instead of requiring a user with what an anonymous caller gets, such as `403` from `GET /api/v1/eas` or an empty list from `GET /api/v1/group`.
+
 ## Configuring Client ID and Secret
 
 The descriptions of the OAuth2 flows below use `my-client` and `my-secret` as placeholders for configured Client IDs and Client Secrets. Replace these with the OAuth2 client information of your fylr instance.
@@ -48,27 +77,30 @@ fylr:
       oauth2Server:
         clients:
           my-client:
-            secret: 'my-secret'
+            secret: '$2y$10$64tMY.7PmUAInS2xupV2i.j1FcB7SoGlxsK3.qmuRHwyXZ2S5nlIy' # bcrypt hash of my-secret
             redirectURIs:
               - http://my-callback-server/oauth2/callback
 ```
 {% endcode %}
 
-The default clients in fylr are **public** and thus neither need nor have a secret. A public client must omit `client_secret`.
+The secret is stored as a **bcrypt hash**, in `fylr.yml` as in the base configuration, where at most 14 rounds are accepted; the client sends the secret itself. `htpasswd -bnBC 10 "" my-secret | tr -d ':\n'` prints such a hash.
+
+The default clients in fylr are **public** and thus neither need nor have a secret. A public client need not send `client_secret`.
 
 Alternatively, add the Client ID and Secret pair(s) in the [Base Configuration](../../for-administrators/readme/user-management.md#oauth-service).
 
 ## Scopes
 
-fylr understands four scopes, passed as a **space-separated** list in the `scope` parameter (e.g. `openid offline`):
+fylr understands three scopes, passed as a **space-separated** list in the `scope` parameter (e.g. `read write offline`):
 
 | Scope | Meaning |
 | --- | --- |
-| `offline` | Requests a **refresh token** (the OIDC alias `offline_access` works too). Without it no refresh token is issued. Only the Authorization Code and Password grants can return one. |
-| `openid` | Marks an [OpenID Connect](#openid-connect) request: the token response then also contains an `id_token`. |
-| `read`, `write` | Accepted labels only — they do **not** govern API access. What a user may do is decided by fylr's per-user / per-pool **ACL rights**, not by the token scope. |
+| `offline` | Requests a **refresh token**. Without it no refresh token is issued. Only the literal `offline` is recognised — the OIDC-style `offline_access` is rejected. |
+| `read`, `write` | Accepted labels only — they do **not** govern API access. What a user may do is decided by fylr's per-user / per-pool **ACL rights**, not by the token scope. A token granted `read` without `write` (or neither) is just as writable as any other token today; a future release may start enforcing `read`-without-`write` as a read-only token, so request the scopes you actually intend (the fylr web frontend requests `read write offline`). |
 
-A client with no `scopes` configured may request any of the four; a scope outside the client's allowed set is rejected. The `scope` value in the token response **echoes the scopes that were granted** (for example `read write openid offline`), it is not a fixed value.
+The `openid` scope is **rejected** with `invalid_scope` since fylr 6.35.0 — fylr is not an OpenID Provider.
+
+A client with no `scopes` configured may request any of the three; a scope outside the client's allowed set is rejected. Omitting the `scope` parameter grants no scopes — the token then works for every API call its user may make, but no refresh token is issued. The `scope` value in the token response **echoes the scopes that were granted** (for example `read write offline`), it is not a fixed value.
 
 ## OAuth2 Flows
 
@@ -97,7 +129,7 @@ sequenceDiagram
     Browser->>fylr: login + password
     fylr->>App: Step 2 — GET callback?state&code
     App->>fylr: Step 3 — POST /api/oauth2/token (code, client_id, secret)
-    fylr-->>App: access_token (+ refresh_token, id_token)
+    fylr-->>App: access_token (+ refresh_token)
 ```
 
 #### **Step 1**: client calls fylr
@@ -111,7 +143,7 @@ sequenceDiagram
 | `response_type`<mark style="color:red;">\*</mark> | string | fixed value: `"code"` |
 | `client_id`<mark style="color:red;">\*</mark> | string | **Client ID**, e.g. `"my-client"` |
 | `state`<mark style="color:red;">\*</mark> | string | Client state string (min. 8 characters), e.g. `"Authorization_Code_Grant_Login"` |
-| `scope` | string | Space-separated [scopes](#scopes). Include `offline` to receive a refresh token, `openid` to receive an `id_token`. |
+| `scope` | string | Space-separated [scopes](#scopes). Include `offline` to receive a refresh token. |
 | `auth_method` | string | Login method (see [auth\_method](#auth_method) below). Defaults to `auto`. |
 | `redirect_uri` | string | Callback URL; must match a `redirectURIs` entry of the client. Required if the client has more than one. |
 
@@ -177,10 +209,9 @@ fylr returns a JSON object:
 | --- | --- |
 | `access_token` | **Access Token** |
 | `token_type` | `"bearer"` |
-| `scope` | The granted scopes, e.g. `"read write openid offline"` |
+| `scope` | The granted scopes, e.g. `"read write offline"` |
 | `expires_in` | Seconds until the **Access Token** expires |
 | `refresh_token` | **Refresh Token** — only when the `offline` scope was granted |
-| `id_token` | OpenID Connect **ID Token** (RS256 JWT) — only when the `openid` scope was granted |
 {% endtab %}
 
 {% tab title="400 Error" %}
@@ -239,7 +270,7 @@ Log directly into fylr with a user **login** and **password**.
 
 {% tabs %}
 {% tab title="200 OK" %}
-Same response as the Authorization Code Grant: `access_token`, `token_type` (`"bearer"`), `scope`, `expires_in`, plus `refresh_token` (with `offline`) and `id_token` (with `openid`).
+Same response as the Authorization Code Grant: `access_token`, `token_type` (`"bearer"`), `scope`, `expires_in`, plus `refresh_token` (with `offline`).
 {% endtab %}
 
 {% tab title="400 Error" %}
@@ -285,7 +316,7 @@ External documentation: [https://www.oauth.com/oauth2-servers/access-tokens/clie
 The behaviour of this grant **changed in fylr 6.33.0**.
 {% endhint %}
 
-As of 6.33.0 the client-credentials grant returns a token for the **anonymous user** bound to the browser client — so a public frontend can obtain an anonymous session without any user credentials. This requires **guest access** to be enabled in the base configuration (`login.guest`); with guest access off the request is rejected and a warning is written to the fylr log. Anonymous logins are recorded as `USER_LOGIN` / `USER_LOGIN_FAILED` events.
+As of 6.33.0 the client-credentials grant returns a token for the **anonymous user** — so a client with a secret can obtain an anonymous session without any user credentials. A public client is refused with `invalid_grant`; the web frontend's guest login uses the authorization code flow instead. This requires **guest access** to be enabled in the base configuration (`login.guest`); with guest access off the request is rejected and a warning is written to the fylr log. Anonymous logins through this grant are recorded as `USER_LOGIN` events.
 
 <mark style="color:green;">`POST`</mark> `fylr-instance/api/oauth2/token`
 
@@ -295,25 +326,25 @@ As of 6.33.0 the client-credentials grant returns a token for the **anonymous us
 | --- | --- | --- |
 | `grant_type`<mark style="color:red;">\*</mark> | string | fixed value: `"client_credentials"` |
 | `client_id`<mark style="color:red;">\*</mark> | string | **Client ID** |
-| `client_secret` | string | **Client Secret** — omit for public clients |
+| `client_secret`<mark style="color:red;">\*</mark> | string | **Client Secret** |
 
-The response contains `access_token`, `token_type` (`"bearer"`), `scope` and `expires_in`. This grant does not return a refresh token.
+The response contains `access_token`, `token_type` (`"bearer"`), `scope` and `expires_in`; when the `offline` scope was granted it also contains a `refresh_token` (new in 6.35.0 — earlier versions never returned one on this grant).
 
-## OpenID Connect
+## Discovery and UserInfo
 
-fylr is also an **OpenID Connect** provider. Request the `openid` scope (alongside `offline` etc.) and the token response additionally contains an **`id_token`** — a JWT signed with `RS256`.
+fylr is **not** an OpenID Connect provider — no `id_token` is issued, and the `openid` scope is rejected. Two endpoints associated with OIDC nevertheless exist, because they are useful plain-OAuth2 facilities:
 
-**Discovery document** — a public, unauthenticated metadata document served at the server root (not under `/api`):
+**Discovery document** — a public, unauthenticated metadata document served at the server root (not under `/api`), under the path OIDC clients conventionally probe:
 
 <mark style="color:blue;">`GET`</mark> `fylr-instance/.well-known/openid-configuration`
 
-It advertises the issuer and the absolute URLs of the authorization, token, introspection, revocation and userinfo endpoints, plus the supported response types, grant types, scopes and claims — so an OIDC client can configure itself automatically. See the [discovery reference panel](endpoints/api-well-known.md).
+It advertises the issuer and the absolute URLs of the authorization, token, introspection, revocation and userinfo endpoints, plus the supported response types (`code`), grant types, scopes and claims — OAuth2 endpoint discovery in the sense of RFC 8414, so a client can configure itself automatically. It carries no id-token signing metadata. See the [discovery reference panel](endpoints/api-well-known.md).
 
 **UserInfo endpoint** — returns claims about the user identified by the bearer access token:
 
 <mark style="color:blue;">`GET`</mark> / <mark style="color:green;">`POST`</mark> `fylr-instance/api/oauth2/userinfo`
 
-It requires a valid access token and returns `sub` plus whatever claims (email, display name, …) are enabled in the base-config `openid.userinfo` allow-list.
+It requires a valid access token and returns `sub`, the user id as a string, and for a user with a login `preferred_username`, plus whatever claims (email, display name, …) are enabled in the base-config `openid.userinfo` allow-list. Identify the user by `sub`: it never changes and is never given to another user, while a login or an email can change.
 
 ## Revoking a token (Logout)
 
@@ -327,8 +358,10 @@ Revoke an access or refresh token ([RFC 7009](https://datatracker.ietf.org/doc/h
 | --- | --- | --- |
 | `token`<mark style="color:red;">\*</mark> | string | The access or refresh token to revoke |
 | `token_type_hint` | string | Optional: `access_token` or `refresh_token` |
+| `client_id`<mark style="color:red;">\*</mark> | string | **Client ID** the token was issued to |
+| `client_secret` | string | **Client Secret** — omit for public clients |
 
-Per RFC 7009 the endpoint returns `200` even for an unknown token.
+The client can authenticate with HTTP Basic instead of `client_id` and `client_secret`; without a client the request is refused with `401` `invalid_client`. Per RFC 7009 the endpoint returns `200` even for an unknown token. A token issued to another client is not revoked: the request is refused with `400` `unauthorized_client` (before fylr 6.35.0 it was answered `200`).
 
 ### Logging out the browser: `/logout`
 
@@ -365,4 +398,6 @@ Inspect the state of a token ([RFC 7662](https://datatracker.ietf.org/doc/html/r
 | `token`<mark style="color:red;">\*</mark> | string | The token to introspect |
 | `token_type_hint` | string | Optional: `access_token` or `refresh_token` |
 
-The response reports `active` (boolean) and, when active, `scope`, `client_id`, `sub`, `exp`, `iat` and `token_type`.
+The caller authenticates with a valid access token (`Authorization: Bearer …`) or as a client with a secret, by `client_id` and `client_secret` or HTTP Basic; a public client is refused.
+
+The response reports `active` (boolean) and, when active, `scope`, `client_id`, `sub`, `iat`, `token_type`, `iss` and `aud`, `username` when the token has one (`<anonymous>` for a guest token), and `exp` when the token expires. `sub` is the id of the token's user as a string, the same `sub` that `userinfo` returns.

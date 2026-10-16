@@ -54,17 +54,19 @@ With **Use scheduler**, configure recurring runs in the schedule editor. Presets
 
 ## Modules
 
-<table><thead><tr><th width="227.875">Module</th><th>Purpose</th></tr></thead><tbody><tr><td><code>delete_objects</code></td><td>Delete all records matching a search. Also supports permanently deleting or restoring records from the trash.</td></tr><tr><td><code>metadata</code></td><td>Apply a metadata mapping to records matching a search.</td></tr><tr><td><code>search</code></td><td>Run a search and report the number of matching records.</td></tr><tr><td><code>set_unset_tags</code></td><td>Set or remove tags on records matching a search.</td></tr><tr><td><code>consolidate_objects</code></td><td>Merge duplicate records into one target record.</td></tr></tbody></table>
+<table><thead><tr><th width="227.875">Module</th><th>Purpose</th></tr></thead><tbody><tr><td><code>delete_objects</code></td><td>Delete all records matching a search. Also supports permanently deleting or restoring records from the trash. From fylr 6.35.0, records of one search result that link each other are deleted together: such a link neither blocks the task nor is unlinked.</td></tr><tr><td><code>metadata</code></td><td>Apply a metadata mapping to records matching a search.</td></tr><tr><td><code>search</code></td><td>Run a search and report the number of matching records.</td></tr><tr><td><code>set_unset_tags</code></td><td>Set or remove tags on records matching a search.</td></tr><tr><td><code>consolidate_objects</code></td><td>Merge duplicate records into one target record.</td></tr></tbody></table>
 
 ### **delete\_objects**
 
 Deletes — or restores — the records matching the configured **Search**. The **Delete Policy** controls what happens:
 
-<table><thead><tr><th width="151.8046875">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Unlink</strong> (<code>setnull</code>)</td><td>Delete the records and set links that point at them in other records to null. The default.</td></tr><tr><td><strong>Delete</strong> (<code>remove</code>)</td><td>Also delete the subordinate or reverse-linked records of the deleted records.</td></tr><tr><td><strong>Purge</strong> (<code>purge</code>)</td><td>Permanently delete the records from the trash — not recoverable.</td></tr><tr><td><strong>Restore</strong> (<code>undelete</code>)</td><td>Restore matched, soft-deleted records from the trash.</td></tr></tbody></table>
+<table><thead><tr><th width="151.8046875">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Unlink</strong> (<code>setnull</code>)</td><td>Delete the records and clear the links that point at them in other records. A NOT NULL link in a nested table row takes its row with it when the link is the row's only field; a row with further fields keeps its record from being deleted and the task stops with "Unable to delete objects, there are N objects linking to them". The default.</td></tr><tr><td><strong>Delete</strong> (<code>remove</code>)</td><td>Also delete the subordinate or reverse-linked records of the deleted records, and remove every nested table row whose NOT NULL link points at a deleted record, together with the other fields of the row.</td></tr><tr><td><strong>Purge</strong> (<code>purge</code>)</td><td>Permanently delete the records from the trash — not recoverable.</td></tr><tr><td><strong>Restore</strong> (<code>undelete</code>)</td><td>Restore matched, soft-deleted records from the trash.</td></tr></tbody></table>
 
 {% hint style="warning" %}
 Review the search carefully before scheduling this module — every record matching the search is deleted on every run. Deleted records are moved to the trash and can be restored from there (see [deleting records](../asset-records-management/deleting-records.md)).
 {% endhint %}
+
+A link the policy cannot remove stops the task: a NOT NULL link in a top-level field, a NOT NULL link in a row with further fields under **Unlink**, and any link whose removal would leave a nested table empty that is set to NOT NULL itself. Records that link each other within the search result do not stop it, they go to the trash together.
 
 ### **metadata**
 
@@ -72,7 +74,11 @@ Applies an existing **Metadata Mapping** to all records matching the **Search** 
 
 Additional parameters:
 
-<table><thead><tr><th width="212.93359375">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Override Values</strong></td><td>Allow the mapping to replace existing field values; otherwise only empty fields are filled.</td></tr><tr><td><strong>Merge Values</strong></td><td>Merge mapped values with existing ones instead of replacing them.</td></tr><tr><td><strong>Set/Unset Tags</strong></td><td>Set or remove tags on each record after it was successfully updated.</td></tr></tbody></table>
+<table><thead><tr><th width="212.93359375">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Override Values</strong></td><td>Allow the mapping to replace existing field values; otherwise only empty fields are filled.</td></tr><tr><td><strong>Merge Values</strong></td><td>Merge mapped values with existing ones instead of replacing them.</td></tr><tr><td><strong>Set/Unset Tags</strong></td><td>Set or remove tags on each record after it was successfully updated.</td></tr><tr><td><strong>Set/Unset Tags on Failure</strong></td><td>Set or remove tags on each record the mapping could not be applied to (from version 6.35.0).</td></tr></tbody></table>
+
+**From version 6.35.0** a record the run did not update can be tagged as well, with **Set/Unset Tags on Failure**: no mapping for its objecttype, no file in the mapped field, a file that does not load, a recipe that fails or does not support the file, or a recipe that returned nothing to map. The record is saved as a new version whose comment names the reason, and its line in the task log ends with the tags set. A **Search** that excludes such a tag keeps the record out of the next run — an image an AI service rejects is sent to it once, not on every run; remove the tag to have the record tried again. The log's closing line counts updated and failed records.
+
+**From version 6.35.0** the task log also reports what a mapping's recipe had to say about its own run, one **WARNING** line per remark, naming the recipe. An AI recipe uses this to report a prompt it could not fill in as configured, for example — the mapping still applies, so a run that produced values and a run that produced the values you meant are told apart in the log rather than only in the result. Each updated record's line additionally names the event of the run behind its values, which an administrator can open in `/inspect` to see the command that was executed.
 
 ### **search**
 

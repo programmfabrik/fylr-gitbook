@@ -24,7 +24,7 @@ flowchart TD
 
 * **api / webapp** — the public HTTP surface: the JSON API under `/api/v1` and the web frontend. Clients authenticate here ([OAuth2](../for-developers/api/oauth2.md)) and send their requests.
 * **backend** — does the actual work: reads and writes objects in PostgreSQL, keeps the OpenSearch index in sync, and runs the [file workers](../for-developers/file-worker.md). It also serves the unauthenticated [`/inspect`](inspect/) surface, so it must stay on a private network.
-* **execserver** — runs the external media tools out-of-process, on demand, over a token-guarded protocol (see [Exec server](../for-developers/execserver.md)). It can run standalone and be scaled to several instances.
+* **execserver** — runs the external media tools out-of-process, on demand. Every fylr server keeps a websocket to each execserver, the slot broker, and the execserver hands its free slots to the waiting jobs by priority (see [Exec server](../for-developers/execserver.md)). It can run standalone and be scaled to several instances, also behind one load-balanced address; an execserver and the fylr servers that use it are upgraded together.
 
 **Datastores:**
 

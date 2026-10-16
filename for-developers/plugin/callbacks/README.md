@@ -48,17 +48,19 @@ Older plugins and older versions of this documentation used `stdin: { url: "%_in
 
 ## Timeouts
 
-A callback job must finish within the configured plugin job timeout — `fylr.execserver.pluginJobTimeoutSec`, default **30 seconds**. A single callback can override this in its manifest entry with `exec.timeout` (a duration string such as `"120s"`) or per command with `timeoutSec`. Waiting for a free execserver slot is bounded separately by `fylr.execserver.connectTimeoutSec` (default 60 seconds).
+A callback job must finish within the configured plugin job timeout — `fylr.execserver.pluginJobTimeoutSec`, default **2400 seconds** (40 minutes); `0` is not unlimited but 30 seconds. A single callback sets its own limit in its manifest entry with `exec.timeout`, a duration string such as `"2h"` (the older `exec.timeoutSec` in seconds still works; `"0"` or no value means the plugin job timeout). A command's `timeoutSec` limits that one command, within the job's limit. The execserver also stops a command that shows no progress for ten minutes (see [Execution limits](../../execserver.md#execution-limits)); `exec.stallTimeout` (for example `"20m"`, `"0"` turns it off) changes that for the callback.
 
 ```yaml
 callbacks:
   export:
     md5_sums:
       exec:
-        timeoutSec: 120        # this export procedure may take longer
+        timeout: "2h"          # this export procedure may take longer
         service: "node"
         commands: [ … ]
 ```
+
+Before it runs, the callback waits for a free execserver slot, for at most `fylr.execserver.connectTimeoutSec` (default **120 seconds**); the wait does not count toward the job timeout. A callback that gets no slot in that time does not run, and the operation fails as on a callback error: a save, a workflow transition or a collection upload is rejected with `DbPreSaveFailed` (HTTP 400), an export fails. When none of the configured execservers can be reached, the callback fails at once.
 
 ## Errors
 

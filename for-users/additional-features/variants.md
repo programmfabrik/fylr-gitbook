@@ -42,7 +42,7 @@ you want fylr to treat one of them as the representative file:
 
 When each file needs its **own descriptive metadata** (its own caption,
 photographer, usage right), variants are the wrong tool — use a
-[nested table](https://docs.fylr.io/for-developers/concepts/nested-and-reverse-nested.md)
+[nested table](../../for-developers/concepts/nested-and-reverse-nested.md)
 instead, with one file field per row. Variants share the field; they carry no
 per-file description beyond the file's own technical data.
 
@@ -136,7 +136,7 @@ works with any filename; only the automatic on-upload matching depends on the
 
 ## See also
 
-- [Files and assets](https://docs.fylr.io/for-developers/concepts/files-and-assets.md)
+- [Files and assets](../../for-developers/concepts/files-and-assets.md)
   — the concept behind records, files, variants, originals and renditions.
 - [Custom Renditions & Crop Tool](custom-renditions-and-crop-tool.md) — deriving
   additional sized/cropped versions of a single file.
