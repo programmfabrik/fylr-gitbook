@@ -40972,15 +40972,18 @@ paths:
     /plugin/bundle.js:
         x-path: /plugin
         description: |
-            Serves the concatenated JavaScript of every enabled plugin, in
-            dependency load-order. Public (no access token) and cached
-            client-side via the standard fylr cache-id header.
+            Serves the JavaScript of every enabled plugin in one file, in
+            load-order. Public (no access token) and cached client-side via
+            the standard fylr cache-id header.
         get:
-            summary: Concatenated plugin JavaScript bundle.
+            summary: Plugin JavaScript bundle.
             description: |
-                Returns the JavaScript bundle of every enabled plugin, in
-                load-order. Cached client-side using the standard fylr
-                cache-id header.
+                Returns the JavaScript of every enabled plugin in one file:
+                plugins come after the plugins they depend on, otherwise in name
+                order. Each plugin runs as a script of its own, so a plugin that
+                fails to parse or throws while loading stops only itself; the
+                browser console names it. Cached client-side using the standard
+                fylr cache-id header.
             responses:
                 "200":
                     description: The JavaScript bundle.

@@ -261,7 +261,7 @@ fylr merges the keys of all enabled plugins into its own localization, served at
 * **Installing** the plugin is refused with `PluginDependencyNotInstalled` while a dependency is not installed. Installing through the [marketplace](../../for-administrators/plugin-manager/README.md) offers the missing dependencies for installation first.
 * **Enabling** the plugin is refused with `PluginDependencyNotEnabled` while a dependency is disabled.
 * A plugin that an enabled plugin depends on can not be **disabled** or **deleted** (`PluginRequiredByOthers`).
-* The frontend files of all enabled plugins are combined in dependency order, so a dependency's JavaScript is loaded before its dependents'. A plugin whose dependencies are unmet or cyclic is left out of the combined files.
+* The frontend files of all enabled plugins are combined in dependency order, so a dependency's JavaScript is loaded before its dependents'. Plugins without a dependency between them follow in the order of their names (from fylr 6.36.0; before, in reverse order). A plugin whose dependencies are unmet or cyclic is left out of the combined files.
 
 Older plugins declare `dependencies` inside `plugin.webfrontend`. fylr treats that list exactly like `plugin.dependencies`; declare it at the `plugin` level.
 
@@ -277,6 +277,8 @@ Older plugins declare `dependencies` inside `plugin.webfrontend`. fylr treats th
 | `dependencies` | list | Older form of [`plugin.dependencies`](#dependencies). |
 
 fylr combines the files of all enabled plugins into `/api/v1/plugin/bundle.js`, `/api/v1/plugin/bundle.css`, `/api/v1/plugin/bundle.html` and `/api/v1/plugin/bundle/l10n/<lang>.json`, which the web frontend loads. A file that does not exist is skipped with a warning in the server log.
+
+From fylr 6.36.0, each plugin's JavaScript in `bundle.js` runs as a script of its own: a plugin that fails to parse or throws while loading stops only itself, the browser console names it (`Plugin "<name>" failed to load`), and the plugins after it load as before. Top-level declarations of a plugin stay visible to the plugins loaded after it, as with separately loaded files. Before 6.36.0, such a plugin stopped every plugin after it in `bundle.js`.
 
 ```yaml
 webfrontend:

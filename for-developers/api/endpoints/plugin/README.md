@@ -8,7 +8,7 @@ Read information about installed plugins, and download the bundled plugin assets
 [fylr-openapi.yml](../../../../.gitbook/assets/fylr-openapi.yml)
 {% endopenapi %}
 
-### `GET /plugin/bundle.js` — Concatenated plugin JavaScript bundle.
+### `GET /plugin/bundle.js` — Plugin JavaScript bundle.
 
 {% openapi src="../../../../.gitbook/assets/fylr-openapi.yml" path="/plugin/bundle.js" method="get" %}
 [fylr-openapi.yml](../../../../.gitbook/assets/fylr-openapi.yml)

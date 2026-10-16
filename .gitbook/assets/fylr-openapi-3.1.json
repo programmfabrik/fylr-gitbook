@@ -43148,10 +43148,10 @@
     },
     "/plugin/bundle.js": {
       "x-path": "/plugin",
-      "description": "Serves the concatenated JavaScript of every enabled plugin, in\ndependency load-order. Public (no access token) and cached\nclient-side via the standard fylr cache-id header.\n",
+      "description": "Serves the JavaScript of every enabled plugin in one file, in\nload-order. Public (no access token) and cached client-side via\nthe standard fylr cache-id header.\n",
       "get": {
-        "summary": "Concatenated plugin JavaScript bundle.",
-        "description": "Returns the JavaScript bundle of every enabled plugin, in\nload-order. Cached client-side using the standard fylr\ncache-id header.\n",
+        "summary": "Plugin JavaScript bundle.",
+        "description": "Returns the JavaScript of every enabled plugin in one file:\nplugins come after the plugins they depend on, otherwise in name\norder. Each plugin runs as a script of its own, so a plugin that\nfails to parse or throws while loading stops only itself; the\nbrowser console names it. Cached client-side using the standard\nfylr cache-id header.\n",
         "responses": {
           "200": {
             "description": "The JavaScript bundle.",
