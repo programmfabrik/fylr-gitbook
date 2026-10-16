@@ -26836,6 +26836,15 @@ paths:
                   schema:
                     type: string
                     format: boolean
+                - name: keep_deleted
+                  in: query
+                  description: |
+                    If set, an object posted with `_latest_version_deleted_at` is stored
+                    as deleted. `fylr restore` sets it to keep the deleted state of the
+                    backed up objects. Requires the `system.root` permission.
+                  schema:
+                    type: string
+                    format: boolean
                 - name: confirmTransition
                   in: query
                   description: |

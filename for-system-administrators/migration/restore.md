@@ -76,7 +76,7 @@ Flags:
     --file-api=""               API used to upload files. Leave empty to not upload files. "put": restore tool uploads files synchronous. "rput": target server loads files from remote URLs. "rput_leave": target server stores remote URLs, no data is copied to storage. "rput" and "rput_leave" are faster, "put" might take long.
     --file-version=""           Set to version to use for upload. "original" might take long for "put". Use "preview" for test runs.
     --upload-versions           Set to true, to upload the preview versions (renditions) instead of regenerating them on the target, so it keeps byte-identical renditions. For an --include-files=with-versions backup the renditions are uploaded from the backup; otherwise they are fetched from the source, which must stay reachable during the restore. Cannot be combined with an --include-files=original backup (its renditions are not packed).
-    --include-deleted-linked    By default, linked fields whose target carries _latest_version_deleted_at are dropped during restore — the target won't be re-imported, so the link would become a deferred 'Purged / Deferred object'. Set this to keep them, e.g. for a partial restore where the deleted targets are imported in a separate run.
+    --include-deleted-linked    By default, links whose target will not be present after the restore are dropped, since they would otherwise show as '(Purged / Deferred object)'. This covers links to soft-deleted objects, and links to objects purged from all but a historic version. A nested row whose dropped link is required is dropped as a whole. Set this to keep such links. For soft-deleted targets this only helps when the backup was taken with --include-deleted, so the targets are present to resolve against. Purged targets are gone, so their links are kept as deferred ghosts.
     --skip-reindex              If set, skip reindex at the end of the restore.
     --rename-versions=,...      Rename versions before uploading. This affects uploaded rights as well as file versions. The versions need to be given in the notation "<cls>.<version>:<new version>", e.g. "image.preview:640px" would replace the "preview" version of image to "640px". If the "<new version>" is omitted, the version is removed.
 ```
@@ -192,6 +192,10 @@ Only use `--datamodel=-` if the target instance already has a matching datamodel
 
 Skip constraints during restore.
 
+{% hint style="info" %}
+Objects that are soft-deleted in the backup are restored as soft-deleted with or without this flag. Before fylr **6.36.0**, they were only kept soft-deleted with `--skip-constraints`, and came back as live objects without it.
+{% endhint %}
+
 * type: `bool`
 * default: `false`
 
@@ -215,6 +219,12 @@ This parameter is available in fylr from version **6.33.0**.
 {% endhint %}
 
 By default the restore ignores linked objects whose target was soft-deleted in the source. The restored object then simply has no value for that field, so the frontend does not render a "(Purged / Deferred object)" placeholder.
+
+If that link is a required field of a nested row, the restore leaves out the whole row. A required link at the top level of an object is left empty, so the restore stops unless `--skip-constraints` is set.
+
+{% hint style="info" %}
+Before fylr **6.36.0**, a required link in a nested row was left empty as well, and the restore stopped with a `NotNullViolation`.
+{% endhint %}
 
 Set to `true` to keep those wrappers. Two cases to be aware of:
 
