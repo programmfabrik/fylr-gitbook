@@ -37,6 +37,12 @@ From fylr **6.35.0**, the migration tool `fylr restore` needs data extracted wit
 
 This is about migrating between instances. For safety backups of an instance, see [Backups & Restore](../backup.md).
 
+{% hint style="info" %}
+From fylr **6.36.0**, every flag can also be set as the environment variable `FYLR_CLI_<FLAG>`: the flag name in upper case, with `_` for `-`. `--password` is `FYLR_CLI_PASSWORD`, `--client-secret` is `FYLR_CLI_CLIENT_SECRET`, `--server` is `FYLR_CLI_SERVER`; `fylr restore -h` names the variable of every flag. A flag on the command line takes precedence over its variable, and a variable set to an empty value counts as set.
+
+The command line is visible to every user of the host in the process list (`ps`): set the password, the client secret and a `--server` URL with HTTP Basic Auth credentials in the environment instead.
+{% endhint %}
+
 ## Parameters
 
 This is a complete overview of the command line parameters (run `fylr restore -h`):
@@ -106,6 +112,7 @@ API Url of the target instance. The Url must include the API base endpoint, for 
 
 * this parameter is **mandatory**!
 * type: `string`
+* environment variable: `FYLR_CLI_SERVER`, from fylr **6.36.0**
 
 
 ### `--login`
@@ -122,6 +129,7 @@ Password of the user in the target instance.
 
 * this parameter is **mandatory**!
 * type: `string`
+* environment variable: `FYLR_CLI_PASSWORD`, from fylr **6.36.0**
 
 
 ### `--purge`
@@ -424,6 +432,7 @@ If the target instance uses OAuth2 for user authentication, this is the configur
 If the target instance uses OAuth2 for user authentication, this is the configured Client Secret. Can be kept empty if the instance is public.
 
 * type: `string`
+* environment variable: `FYLR_CLI_CLIENT_SECRET`, from fylr **6.36.0**
 
 
 ### `--client-token-url`

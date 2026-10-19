@@ -23,6 +23,12 @@ fylr backup \
 
 The base configuration is copied as it is, the SAML settings included. From fylr **6.35.0** neither `fylr backup` nor `fylr restore` fetches the identity provider's metadata, so an identity provider that cannot be reached from where the backup runs does not stop it.
 
+{% hint style="info" %}
+From fylr **6.36.0**, every flag can also be set as the environment variable `FYLR_CLI_<FLAG>`: the flag name in upper case, with `_` for `-`. `--password` is `FYLR_CLI_PASSWORD`, `--client-secret` is `FYLR_CLI_CLIENT_SECRET`, `--server` is `FYLR_CLI_SERVER`; `fylr backup -h` names the variable of every flag. A flag on the command line takes precedence over its variable, and a variable set to an empty value counts as set.
+
+The command line is visible to every user of the host in the process list (`ps`): set the password, the client secret and a `--server` URL with HTTP Basic Auth credentials in the environment instead.
+{% endhint %}
+
 {% hint style="warning" %}
 `--purge` deletes a backup in `--dir` in case there is already one. All existing files in this directory are deleted!
 {% endhint %}
@@ -106,6 +112,7 @@ API Url of the source instance. The Url must include the API base endpoint, for 
 
 * this parameter is **mandatory**!
 * type: `string`
+* environment variable: `FYLR_CLI_SERVER`, from fylr **6.36.0**
 
 
 ### `--login`
@@ -122,6 +129,7 @@ Password of the user in the source instance.
 
 * this parameter is **mandatory**!
 * type: `string`
+* environment variable: `FYLR_CLI_PASSWORD`, from fylr **6.36.0**
 
 
 ### `--purge`
@@ -337,6 +345,7 @@ If the source instance uses OAuth2 for user authentication, this is the configur
 If the source instance uses OAuth2 for user authentication, this is the configured Client Secret. Can be kept empty if the instance is public.
 
 * type: `string`
+* environment variable: `FYLR_CLI_CLIENT_SECRET`, from fylr **6.36.0**
 
 
 ### `--client-token-url`
