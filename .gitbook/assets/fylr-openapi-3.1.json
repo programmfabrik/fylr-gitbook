@@ -61457,7 +61457,7 @@
               "done_with_warnings",
               "failed"
             ],
-            "description": "Current export run state. `new` after create/update; `pending`\nonce a run is scheduled; `processing` while a run is active;\n`done` / `done_with_warnings` on success; `failed` on error or\nafter a stop.\n"
+            "description": "Current export run state. `new` after create/update; `pending`\nonce a run is scheduled; `processing` while a run is active;\n`done` / `done_with_warnings` on success; `failed` on error or\nafter a stop. A file requested in `eas_fields` that is not in status\n`done` is left out of the run, which then ends in\n`done_with_warnings`; the `FileNotDone` warning is in the\n`EXPORT_FINISH` event.\n"
           },
           "_plugin_log": {
             "type": "array",

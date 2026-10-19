@@ -57959,7 +57959,10 @@ components:
                         Current export run state. `new` after create/update; `pending`
                         once a run is scheduled; `processing` while a run is active;
                         `done` / `done_with_warnings` on success; `failed` on error or
-                        after a stop.
+                        after a stop. A file requested in `eas_fields` that is not in status
+                        `done` is left out of the run, which then ends in
+                        `done_with_warnings`; the `FileNotDone` warning is in the
+                        `EXPORT_FINISH` event.
                 _plugin_log:
                     type: array
                     items:
