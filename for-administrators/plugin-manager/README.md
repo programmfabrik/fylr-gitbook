@@ -73,6 +73,16 @@ From fylr **6.35.0**, the **plus** button opens the **marketplace** — a curate
 The catalog is served by `GET /plugin/marketplace`. Programmfabrik's curated catalog is **pulled from a published catalog sheet** at request time and cached, so the offer can change without a fylr update; a system administrator can configure additional sources in `fylr.yml` (`plugin.marketplace.sources`). Should the catalog be unreachable before fylr ever loaded it, the marketplace reports itself as **temporarily unavailable** — try again a little later. For the design behind sealed delivery, see the [white paper](../../for-developers/concepts/white-papers/secure-plugin-delivery.md).
 {% endhint %}
 
+### Marketplace plugins only
+
+From fylr **6.36.0**, a system administrator can limit an instance to the plugins of the [marketplace](#plugin-marketplace) with `plugin.sources: marketplace` in `fylr.yml`; the default, `any`, keeps every way to install a plugin. On such an instance:
+
+* the **plus** button opens only the marketplace: there is no **ZIP** upload, **disk** path or other **URL**, and the URL of an installed plugin cannot be changed. The API refuses such an install with `PluginSourceNotAllowed`.
+* a plugin that was installed another way is flagged with a red **warning triangle** in the *Active* column, its *General* tab says why, and its **Active** toggle is disabled. It stays switched on as stored (`GET /api/v1/plugin/manage` reports `state: not_marketplace`) and runs again once it is installed from the marketplace.
+* plugins configured in `fylr.yml` under `plugin.paths` and `plugin.urls` are always accepted.
+
+Where the marketplace catalog lists a **checksum** for a plugin, fylr installs and updates a plugin installed from the marketplace only with a ZIP that matches it, whatever `plugin.sources` says. A download that does not match is refused (`PluginSHA256Mismatch`): an installed plugin keeps running with its current version, the plugin manager shows a warning triangle that says why, and fylr tries again every 10 minutes. The catalog, not the download URL, decides when such a plugin updates.
+
 ### License-gated plugins
 
 From fylr **6.35.0**, the fylr **license** can determine which plugins an instance may **enable** — see [License management](../../license-management.md). A plugin the license does not permit is flagged in the Plugin Manager with a red **warning triangle** in the *Active* column, its *General* tab shows the license state, and its **Active** toggle is disabled. It stays switched on as stored: `GET /api/v1/plugin/manage` reports `enabled: true` with `state: not_licensed`. The plugin's stored configuration is **preserved** and the plugin re-enables by itself once the license grants it again.

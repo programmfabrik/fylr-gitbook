@@ -522,6 +522,18 @@ fylr:
     #       # update_policy: automatic, always, never, defaults to automatic
     #       update_policy: "never"
     defaults: {}
+    # sources limits where installed plugins may come from:
+    #   any:         zip uploads, disk paths and any url (the default)
+    #   marketplace: only plugins of the marketplace catalog. The plugin
+    #                manager installs no zip, disk path or other url, and
+    #                installed plugins that were not checked against the
+    #                catalog stay disabled until they are (state
+    #                "not_marketplace"). The plugins of paths and urls above
+    #                are always accepted.
+    # In both modes a plugin installed from a catalog url whose entry names
+    # a sha256 is installed and updated only when the zip matches it; the
+    # catalog, not the url's checksum, then decides when it updates.
+    sources: any
 
   # Set to true to allow /api/settings/purge. dont use on production systems!
   allowpurge: false

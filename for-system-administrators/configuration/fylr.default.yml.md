@@ -68,6 +68,11 @@ fylr:
     addresses:
       - "http://localhost:9200"
 
+  plugin:
+    # where installed plugins may come from: "any" (zip upload, disk path,
+    # any url) or "marketplace" (catalog plugins only, see fylr.example.yml)
+    sources: any
+
   execserver:
     addresses:
       - http://localhost:8083/

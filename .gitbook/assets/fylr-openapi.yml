@@ -41331,23 +41331,30 @@ paths:
                     description: |
                         The catalog cannot resolve a dependency of the named entry
                         (`code: PluginDependencyNotInstalled`), the entry carries no
-                        install URL, or the marketplace is disabled in the server
+                        install URL, the marketplace is disabled in the server
                         configuration (`plugin.marketplace.enabled`,
-                        `code: PluginMarketplaceDisabled`).
+                        `code: PluginMarketplaceDisabled`), or the zip of the install URL
+                        does not match the sha256 the catalog names
+                        (`code: PluginSHA256Mismatch`).
                     content:
                         application/json:
                             schema:
                                 oneOf:
                                     - $ref: '#/components/schemas/PluginDependencyNotInstalledError'
                                     - $ref: '#/components/schemas/PluginMarketplaceDisabledError'
+                                    - $ref: '#/components/schemas/PluginSHA256MismatchError'
                 "403":
                     description: |
                         The user holds neither `system.root` nor `system.plugin`
-                        (`code: SystemRightRequired`).
+                        (`code: SystemRightRequired`), or the server only accepts marketplace
+                        plugins and the zip of the catalog url carries another plugin
+                        (`code: PluginSourceNotAllowed`).
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SystemRightRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/SystemRightRequiredError'
+                                    - $ref: '#/components/schemas/PluginSourceNotAllowedError'
                 "404":
                     description: |
                         The catalog offers no entry of that name
@@ -41428,7 +41435,9 @@ paths:
                         (`code: PluginDuplicateName`), a declared dependency is not
                         installed (`code: PluginDependencyNotInstalled`) or not
                         enabled while `enabled` was requested
-                        (`code: PluginDependencyNotEnabled`), the instance is
+                        (`code: PluginDependencyNotEnabled`), the `url` is a
+                        marketplace catalog url and its zip does not match the sha256
+                        the catalog names (`code: PluginSHA256Mismatch`), the instance is
                         read-only (`code: ReadOnlyMode`), or the payload could not be
                         parsed.
                     content:
@@ -41438,19 +41447,24 @@ paths:
                                     - $ref: '#/components/schemas/PluginDuplicateNameError'
                                     - $ref: '#/components/schemas/PluginDependencyNotInstalledError'
                                     - $ref: '#/components/schemas/PluginDependencyNotEnabledError'
+                                    - $ref: '#/components/schemas/PluginSHA256MismatchError'
                                     - $ref: '#/components/schemas/ReadOnlyModeError'
                 "403":
                     description: |
                         The user holds neither `system.root` nor `system.plugin`
                         (`code: SystemRightRequired`), or the payload requests
                         `enabled: true` for a plugin the installed license does not
-                        allow to be enabled (`code: PluginNotLicensed`).
+                        allow to be enabled (`code: PluginNotLicensed`), or the server only
+                        accepts marketplace plugins and the payload installs another source
+                        or enables a plugin not checked against the catalog
+                        (`code: PluginSourceNotAllowed`).
                     content:
                         application/json:
                             schema:
                                 oneOf:
                                     - $ref: '#/components/schemas/SystemRightRequiredError'
                                     - $ref: '#/components/schemas/PluginNotLicensedError'
+                                    - $ref: '#/components/schemas/PluginSourceNotAllowedError'
     /plugin/manage/{id}:
         x-path: /plugin/manage
         description: |
@@ -41527,7 +41541,9 @@ paths:
                         (`code: PluginDependencyNotInstalled`) or not enabled while
                         `enabled` was requested (`code: PluginDependencyNotEnabled`),
                         the plugin is being disabled while an enabled plugin depends
-                        on it (`code: PluginRequiredByOthers`), the instance is
+                        on it (`code: PluginRequiredByOthers`), the changed `url` is a
+                        marketplace catalog url and its zip does not match the sha256 the
+                        catalog names (`code: PluginSHA256Mismatch`), the instance is
                         read-only (`code: ReadOnlyMode`), or the payload could not be
                         parsed.
                     content:
@@ -41537,19 +41553,24 @@ paths:
                                     - $ref: '#/components/schemas/PluginDependencyNotInstalledError'
                                     - $ref: '#/components/schemas/PluginDependencyNotEnabledError'
                                     - $ref: '#/components/schemas/PluginRequiredByOthersError'
+                                    - $ref: '#/components/schemas/PluginSHA256MismatchError'
                                     - $ref: '#/components/schemas/ReadOnlyModeError'
                 "403":
                     description: |
                         The user holds neither `system.root` nor `system.plugin`
                         (`code: SystemRightRequired`), or the update requests
                         `enabled: true` for a plugin the installed license does not
-                        allow to be enabled (`code: PluginNotLicensed`).
+                        allow to be enabled (`code: PluginNotLicensed`), or the server only
+                        accepts marketplace plugins and the payload installs another source
+                        or enables a plugin not checked against the catalog
+                        (`code: PluginSourceNotAllowed`).
                     content:
                         application/json:
                             schema:
                                 oneOf:
                                     - $ref: '#/components/schemas/SystemRightRequiredError'
                                     - $ref: '#/components/schemas/PluginNotLicensedError'
+                                    - $ref: '#/components/schemas/PluginSourceNotAllowedError'
                 "404":
                     description: |
                         No plugin with this id (`code: PluginNotFound`).
@@ -41657,11 +41678,15 @@ paths:
                 "403":
                     description: |
                         The user holds neither `system.root` nor `system.plugin`
-                        (`code: SystemRightRequired`).
+                        (`code: SystemRightRequired`), or the server only accepts marketplace
+                        plugins (`plugin.sources: marketplace`)
+                        (`code: PluginSourceNotAllowed`).
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SystemRightRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/SystemRightRequiredError'
+                                    - $ref: '#/components/schemas/PluginSourceNotAllowedError'
     /plugin/manage/{id}/upload:
         x-path: /plugin/manage
         description: |
@@ -41706,11 +41731,15 @@ paths:
                 "403":
                     description: |
                         The user holds neither `system.root` nor `system.plugin`
-                        (`code: SystemRightRequired`).
+                        (`code: SystemRightRequired`), or the server only accepts marketplace
+                        plugins (`plugin.sources: marketplace`)
+                        (`code: PluginSourceNotAllowed`).
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SystemRightRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/SystemRightRequiredError'
+                                    - $ref: '#/components/schemas/PluginSourceNotAllowedError'
     /plugin/manage/{id}/zip:
         x-path: /plugin/manage
         description: |
@@ -48635,10 +48664,13 @@ components:
                                 - url_unreachable
                                 - url_http_error
                                 - zip_invalid
+                                - sha256_mismatch
                             description: |
                                 `url_unreachable`: the url could not be reached (network/TLS
                                 failure). `url_http_error`: the server answered with a non-2xx
                                 status. `zip_invalid`: the download is not a valid plugin zip.
+                                `sha256_mismatch`: the download does not match the sha256 the
+                                marketplace catalog names for it; the plugin keeps its zip.
                         error:
                             type: string
                             description: The underlying error text.
@@ -48655,7 +48687,10 @@ components:
                         `not_installed` for a `url` plugin whose zip has never arrived —
                         such a plugin is force-disabled at runtime (like an unlicensed one;
                         the stored `enabled` keeps the user's intent) and the frontend
-                        offers the install-as-zip rescue. Response only, absent otherwise.
+                        offers the install-as-zip rescue. `not_marketplace` when the server
+                        only accepts marketplace plugins (`plugin.sources: marketplace`) and
+                        this plugin's zip was not checked against the catalog; it stays
+                        disabled until it is. Response only, absent otherwise.
                 last_checked_at:
                     type: string
                     format: date-time
@@ -48701,6 +48736,18 @@ components:
                     properties:
                         enabled:
                             type: boolean
+                sources:
+                    type: string
+                    enum:
+                        - any
+                        - marketplace
+                    description: |
+                        Where installed plugins may come from (`plugin.sources` in the server
+                        configuration). With `marketplace` only marketplace catalog plugins
+                        are installed and enabled — no zip upload, `disk` path or other
+                        `url` — and the frontend offers only the marketplace install.
+                        Plugins of the server configuration (`plugin.paths`, `plugin.urls`)
+                        are always accepted.
         PluginDeleteAck:
             type: object
             description: |
@@ -48853,6 +48900,14 @@ components:
                                     Publish date of that release (RFC 3339 date or datetime).
                                     Absent when unknown.
                                 example: "2026-07-23"
+                            sha256:
+                                type: string
+                                description: |
+                                    Hex sha256 of the plugin zip `url` serves for that release, as
+                                    downloaded. A plugin installed from `url` is installed and
+                                    updated only with a zip that matches it; with
+                                    `plugin.sources: marketplace` that holds for every plugin of
+                                    this name. Absent when the catalog names none.
                             hidden:
                                 type: boolean
                                 description: |
@@ -53288,6 +53343,108 @@ components:
                     enum:
                         - 403
                     description: The HTTP status code, repeated here. Always `403`.
+        PluginSourceNotAllowedError:
+            type: object
+            description: |
+                Error returned with `code` `PluginSourceNotAllowed` (HTTP `403`).
+            required:
+                - code
+                - error
+                - package
+                - parameters
+                - realm
+                - statuscode
+            properties:
+                code:
+                    type: string
+                    description: |
+                        Stable, machine-readable error code:
+
+                          * `PluginSourceNotAllowed` — the server only accepts marketplace
+                            plugins (`plugin.sources: marketplace` in the server
+                            configuration): a zip upload, a `disk` plugin, a `url` that is not
+                            a marketplace catalog url, or enabling a plugin that was not
+                            checked against the catalog (HTTP 403).
+                    enum:
+                        - PluginSourceNotAllowed
+                error:
+                    type: string
+                    description: |
+                        Human-readable message, localized to the caller's preferred language.
+                        If no translation exists for this error key, the untranslated message
+                        is returned with a `Package` / `Code` footer appended.
+                package:
+                    type: string
+                    enum:
+                        - api
+                    description: |
+                        Internal origin marker for **fylr** support; not part of the API
+                        contract. Branch on `code`, not `package`.
+                parameters:
+                    type: object
+                    additionalProperties: true
+                    description: |
+                        Machine-readable details: `plugin`.
+                realm:
+                    type: string
+                    enum:
+                        - api
+                    description: The realm the error originates from. Always `api`.
+                statuscode:
+                    type: integer
+                    enum:
+                        - 403
+                    description: The HTTP status code, repeated here. Always `403`.
+        PluginSHA256MismatchError:
+            type: object
+            description: |
+                Error returned with `code` `PluginSHA256Mismatch` (HTTP `400`).
+            required:
+                - code
+                - error
+                - package
+                - parameters
+                - realm
+                - statuscode
+            properties:
+                code:
+                    type: string
+                    description: |
+                        Stable, machine-readable error code:
+
+                          * `PluginSHA256Mismatch` — the zip the marketplace catalog url
+                            served does not match the sha256 the catalog names for it; it was
+                            discarded and the plugin was not installed (HTTP 400).
+                    enum:
+                        - PluginSHA256Mismatch
+                error:
+                    type: string
+                    description: |
+                        Human-readable message, localized to the caller's preferred language.
+                        If no translation exists for this error key, the untranslated message
+                        is returned with a `Package` / `Code` footer appended.
+                package:
+                    type: string
+                    enum:
+                        - api
+                    description: |
+                        Internal origin marker for **fylr** support; not part of the API
+                        contract. Branch on `code`, not `package`.
+                parameters:
+                    type: object
+                    additionalProperties: true
+                    description: |
+                        Machine-readable details: `plugin`.
+                realm:
+                    type: string
+                    enum:
+                        - api
+                    description: The realm the error originates from. Always `api`.
+                statuscode:
+                    type: integer
+                    enum:
+                        - 400
+                    description: The HTTP status code, repeated here. Always `400`.
         PluginRequiredByOthersError:
             type: object
             description: |
