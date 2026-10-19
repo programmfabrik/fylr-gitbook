@@ -62933,7 +62933,9 @@ components:
                 filter_parent:
                     type: integer
                     format: int64
-                    description: Restrict buckets to children of this parent object.
+                    nullable: true
+                    description: |
+                        For a `linked_object` aggregation over a hierarchical objecttype: restrict the buckets to the direct children of this parent, given by its `_id` (not its `_system_object_id`). `null` or `0` returns the top level; in a polyhierarchy that includes the records that also hang from the virtual top level. A child below a parent with several paths is returned once per path, each bucket carrying its `_path`. Without the key, the buckets of all levels are returned.
                 precision:
                     type: integer
                     description: Grid precision, for the `geotile_grid` aggregation.
