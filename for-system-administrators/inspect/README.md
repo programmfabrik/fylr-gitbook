@@ -13,10 +13,10 @@ description: >-
 
 /inspect is reachable on two ports with very different access rules:
 
-* **Backend port — no authentication.** The backend port mounts /inspect directly, with no login gate (it also serves `/metrics`, `/debug/pprof/`, `/healthz`). It is meant to run on a **private network only** — never expose it publicly.
+* **Backend port — the instance's backend secret.** The backend port mounts /inspect directly and, from fylr 6.36.0, answers it only to a request that carries the instance's backend secret in the `X-Fylr-Backend-Secret` header. fylr creates the secret at setup and keeps it in the database (system config `BACKEND_SECRET`); the webapp sends it when it proxies /inspect. `/debug/pprof/` on that port needs the secret as well, `/healthz` and `/metrics` answer without it. Before 6.36.0 the backend port needs no secret, so keep it on a **private network** — never expose it publicly.
 * **Webapp port — session + `system.root`.** The public webapp port reverse-proxies /inspect behind a session check: the logged-in user must hold the **`system.root`** right, otherwise the request is redirected to `/login`. This is how an administrator reaches /inspect in a browser.
 
-So administrators use /inspect through the **webapp URL** (needs `system.root`); monitoring or tooling on a trusted host can hit the **backend port** directly.
+So administrators, monitoring and tools use /inspect through the **webapp URL** with a `system.root` session or token.
 
 ## HTML dashboards or JSON
 
@@ -70,7 +70,7 @@ Each tool is a page under `/inspect/<tool>/`. The ones with settings or actions 
 
 ## Read-only vs mutating
 
-Most /inspect routes are **read-only** dumps. The ones that change state — and that the no-auth backend port therefore exposes to anyone who can reach it — are the System actions (`purge`, `reindex`), Term Recalculation, Migration (backup / restore), the email test send, and the SQL Query console. This is the reason the backend port must stay private; each is called out on its page.
+Most /inspect routes are **read-only** dumps. The ones that change state are the System actions (`purge`, `reindex`), Term Recalculation, Migration (backup / restore), the email test send, and the SQL Query console; each is called out on its page. Before fylr 6.36.0 the backend port serves them without authentication, which is why it has to stay private there.
 
 ## See also
 

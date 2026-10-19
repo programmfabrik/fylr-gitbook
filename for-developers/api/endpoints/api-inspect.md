@@ -14,8 +14,10 @@ fields, never more.
 
 These endpoints are **not** under `/api/v1` and are **not** token-authenticated.
 On the public **webapp port** /inspect is reverse-proxied behind a session check
-and requires the **`system.root`** right; on the **backend port** it is mounted
-with no authentication and must stay on a private network. For the console itself
+and requires the **`system.root`** right; on the **backend port** it needs the
+instance's backend secret in the `X-Fylr-Backend-Secret` header from fylr 6.36.0
+(before, it is mounted without authentication and must stay on a private
+network). For the console itself
 — the dashboards, filters and actions — see
 [The /inspect Backend](../../../for-system-administrators/inspect/README.md).
 

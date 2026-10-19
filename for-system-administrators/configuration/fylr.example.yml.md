@@ -886,7 +886,11 @@ fylr:
               - "offline"
 
     # service backend is used for /inspect and by the execserver as callback
-    # to get installed plugins and to update progress during execution
+    # to get installed plugins and to update progress during execution.
+    # Every request needs the instance's BACKEND_SECRET (system config, created
+    # at setup) in the X-Fylr-Backend-Secret header or a url fylr signed with
+    # it; /, /healthz and /metrics are open. The webapp's /inspect proxy sends
+    # the secret for root sessions.
     backend:
       # address of the server listener
       # if omitted, this server is not started

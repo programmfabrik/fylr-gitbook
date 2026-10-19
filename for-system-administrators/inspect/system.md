@@ -9,7 +9,7 @@ description: >-
 The **System** page (`/inspect/system/`) is the maintenance dashboard for a running instance. It surfaces the runtime state and hosts the two most consequential actions — **re-index** and **purge**.
 
 {% hint style="danger" %}
-Re-index and purge are **instance-wide** and, on the backend port, **unauthenticated**. Keep the backend port on a private network. In the browser (webapp port) they require `system.root`.
+Re-index and purge are **instance-wide**. In the browser (webapp port) they require `system.root`; on the backend port they need the instance's backend secret from fylr 6.36.0, and nothing before, so keep that port on a private network.
 {% endhint %}
 
 ## Actions
