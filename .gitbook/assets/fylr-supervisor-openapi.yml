@@ -177,13 +177,38 @@ paths:
     delete:
       tags: [instances]
       summary: Delete an instance
-      description: Stops the children and removes the instance row.
+      description: >-
+        Stops the children and removes the instance row. With `drop_data` the
+        instance's data goes too — its files in its storage locations, its
+        database, its directory and its OpenSearch indices — and the request
+        returns once all of that is done, which for a large bucket takes a
+        while.
       parameters:
         - $ref: "#/components/parameters/instanceId"
-        - name: drop_db
+        - name: drop_data
           in: query
           required: false
-          description: Also drop the instance's database.
+          description: >-
+            Destroy the instance's data. First the instance purges its own
+            storage locations through fylr's `system/purgeall` (the supervisor
+            enables `purge.allow_purge` and `purge.purge_storage` for it): in
+            each writable location with `allow_purge` on, fylr deletes
+            `<prefix>fylr-<system uuid>/`. A stopped or hibernated instance is
+            started for this and given 5 minutes to answer. A copy made by a
+            database restore has `allow_purge` off on the locations it brought
+            from its source (the restore switches it off), so it never empties
+            the source's files — but deleting a source empties files a database
+            copy still reads through such a location: delete the copies first.
+            Then the database is dropped and the directory
+            under `data_dir` removed — the rendered config, the server logs,
+            `_tmp`, `_backup`, the `_files` of the builtin disk location while
+            it still points there, and for a SQLite instance the database file
+            itself. Last, the instance's OpenSearch indices are deleted: every
+            `<name>-<uuid>-…` index, never those of an instance `<name>-x`. A
+            purge or removal that fails does not stop the delete; the response
+            reports what was left. Without this, nothing on disk, in storage or
+            in OpenSearch is touched and the database is kept. The former name
+            `drop_db` is refused with 400.
           schema: { type: boolean, default: false }
       responses:
         "200":
@@ -195,7 +220,72 @@ paths:
                 properties:
                   deleted: { type: integer, description: The instance id. }
                   db_dropped: { type: boolean }
+                  dir_removed:
+                    type: boolean
+                    description: >-
+                      Whether the instance's directory was removed. False
+                      without `drop_data`, and false when the removal failed —
+                      the delete itself still succeeded, and the leftover is
+                      named in the log.
+                  indices_removed:
+                    type: boolean
+                    description: >-
+                      Whether the instance's OpenSearch indices are gone (true
+                      as well when it had none). False without `drop_data`, and
+                      false when OpenSearch refused or could not be reached —
+                      the delete itself still succeeded, and the error is in
+                      the log.
+                  storage_purged:
+                    type: boolean
+                    description: >-
+                      True when every writable storage location with
+                      `allow_purge` on was emptied of the instance's files, also
+                      when there was none outside the instance directory.
+                      False without `drop_data`,
+                      and false when files were left: the purge could not run
+                      (see `storage_error`) or a location was not purged (see
+                      `storage`). The delete itself still succeeded, and every
+                      leftover is named in the supervisor log.
+                  storage_error:
+                    type: string
+                    description: >-
+                      Why the purge did not run or failed. Only with `drop_data`,
+                      and only on failure.
+                  storage:
+                    type: array
+                    description: >-
+                      Only with `drop_data`: every storage location of the
+                      instance and what the delete did with it. Empty when
+                      nothing lies outside the instance directory.
+                    items:
+                      type: object
+                      properties:
+                        location: { type: string, description: The location's name on the instance. }
+                        kind: { type: string, enum: [s3, file, azure] }
+                        where:
+                          type: string
+                          description: >-
+                            Where its files are, e.g.
+                            `s3://bucket/prefix/fylr-<system uuid>/` or a
+                            directory.
+                        own:
+                          type: boolean
+                          description: >-
+                            Whether the purge was to empty it: writable with
+                            `allow_purge` on. Any other location (read-only, or
+                            a location a database restore brought from its
+                            source) is never purged and does not affect
+                            `storage_purged`.
+                        purged: { type: boolean }
+                        reason:
+                          type: string
+                          description: >-
+                            Why it was not purged, e.g. `read-only`,
+                            `allow_purge is off`, `purge failed: …`,
+                            `purge not confirmed in the instance log`.
+        "400": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
         "500": { $ref: "#/components/responses/Error" }
   /instances/{id}/start:
     post:
@@ -630,8 +720,11 @@ paths:
         content: `manifest.json` = api backup, replayed via the fylr restore
         tool through the target's public URL; `fylr-backup-*.sql.gz` = db
         dump, restored 1:1 via the child's RestoreDB (purge, psql, schema
-        migrations, full reindex) followed by the storage reconcile that
-        reconnects restored locations with assigned storage backends. Every
+        migrations, full reindex); then `allow_purge` is switched off on
+        every restored location (they point at the source's files), and the
+        storage reconcile reconnects restored locations with assigned storage
+        backends and switches `allow_purge` back on only for the locations
+        provisioned for this instance. Every
         restore ends with a license reset: the source's stored license is
         deleted from the target's base config so the supervisor-routed
         license applies. A failed or still-running backup is refused. Runs asynchronously;
