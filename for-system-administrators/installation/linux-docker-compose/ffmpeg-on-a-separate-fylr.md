@@ -97,9 +97,11 @@ fylr+:
     # two shipped values are repeated here
     pluginJobTimeoutSec: 2400 # the longest a plugin callback may run
     connectTimeoutSec: 120    # the longest a job waits for a free execserver slot
-    # where both execservers call back to the main fylr: fylr runs in a
-    # container here and cannot see the address main.example.com itself
+    # where both execservers and their plugins call back to the main fylr:
+    # fylr runs in a container here and cannot see the address
+    # main.example.com itself
     callbackBackendOwnURL: "http://main.example.com:8081"
+    callbackApiOwnURL: "http://main.example.com:8080"
 
 [...]
   services+:
@@ -114,7 +116,7 @@ Each execserver announces the services it offers when it connects, and fylr rout
 
 `connectTimeoutSec` is how long a job waits for a free slot, not a connection timeout. A file job that gets no slot in that time — a big batch of videos queued for _ff_.example.com — goes back into the file queue and is tried again a minute later, as often as it takes.
 
-The two execservers call back on the one address in `callbackBackendOwnURL`, so it has to reach the main fylr from both of them, also from the execserver inside the main fylr's own container. Before 6.35 this was set with `callbackBackendInternalURL` and `callbackApiInternalURL`; from 6.35 these two keep only scheme and port, never the host, see [Updating the execserver to 6.35](../updating-the-execserver-to-6.35.md).
+The two execservers call back on the address in `callbackBackendOwnURL`, and their plugins on the one in `callbackApiOwnURL`, so both have to reach the main fylr from both execservers, also from the execserver inside the main fylr's own container. Each is taken verbatim and sets its own address only; fylr 6.35 does not know `callbackApiOwnURL` yet and takes the API host from `callbackBackendOwnURL`. Before 6.35 these addresses were set with `callbackBackendInternalURL` and `callbackApiInternalURL`, which 6.36 ignores.
 
 * use a `docker-compose.yml` with these changes, the rest remains as in [the default installation](../linux-docker-compose.md#installation):
 
