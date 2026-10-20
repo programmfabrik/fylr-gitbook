@@ -76,6 +76,8 @@ From fylr 6.35.0, the required statement and the rights may contain placeholders
 * When the record's own fields leave the required statement or the rights empty and every canvas resolves it to the same value, the manifest takes that value. A canvas carries its own required statement or rights only where it differs from the manifest's.
 * A placeholder resolves only for fields the manifest's mask shows; for an embedded object type that is the mask set for the embedding field.
 * A placeholder that does not resolve is removed. Each language of the required statement is filled with the values of that database language.
+* From fylr 6.36.0, a value in which no placeholder resolves counts as empty, also when it has text between its placeholders, such as `%foto.rights%, %foto.license._standard%`: the manifest then takes the value its canvases share instead of showing only `,`, and a rights URL around an empty placeholder is left out.
+* From fylr 6.36.0, a field of a custom data type offers its standard as `%<object type>.<field>._standard%` and each sub field its plugin maps as `%<object type>.<field>.<sub field>%`. For a weblink, `%foto.rights_link.url%` is its URL, also when a link text is entered (the link text becomes the weblink's standard). A localized standard or sub field resolves in each language of the required statement; `%foto.rights_link._standard.de-DE%` names one language. The field alone, `%foto.rights_link%`, names no value.
 
 ## XSL Transformations
 
