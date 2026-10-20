@@ -64531,7 +64531,7 @@
             "items": {
               "type": "string"
             },
-            "description": "If set, the engine also returns `linked_objects` — full\n`ObjectApi` entries of the named objecttypes that match the\nquery. By default every match is returned, referenced or not;\nset `linked_objects_referenced_by_objecttypes` to keep only the\nones actually in use. Useful for autocomplete pickers that need\nto show the target object inline.\n"
+            "description": "If set, the engine also returns `linked_objects` — full\n`ObjectApi` entries of the named objecttypes that match the\nquery. By default every match is returned, referenced or not;\nset `linked_objects_referenced_by_objecttypes` to keep only the\nones actually in use. Useful for autocomplete pickers that need\nto show the target object inline.\n\nThe named objecttypes share the `limit` slots: they take turns\nadding their next best match, so one objecttype with many\nmatches cannot fill the whole list, and slots an objecttype\ncannot fill go to the others. The list is ordered by `_score`:\nan object which has the query as a whole word (\"Halle\" in\n\"Halle (Saale)\") ranks above one which only has it inside a\nword (\"Hallesche Straße\"); equal scores are ordered by\n`_system_object_id`.\n"
           },
           "linked_objects_referenced_by_objecttypes": {
             "type": "array",

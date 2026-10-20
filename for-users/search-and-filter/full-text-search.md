@@ -6,6 +6,8 @@ When typing a word into the search field, you get suggestions where you can pick
 
 <table><thead><tr><th width="218.359375">OPTION</th><th>EXPLANATION</th></tr></thead><tbody><tr><td>Fulltext</td><td>Automatically adds wildcards left and right. Example: <code>*turm*</code></td></tr><tr><td>Exact Match</td><td>A case-sensitive search that only finds records where the whole value of a field match. Example: <code>`Fernsehturm`</code></td></tr><tr><td>Word Suggestions</td><td>Shows words from the index and searches without wildcards. Example: <code>'Berlin'</code></td></tr><tr><td>Lists</td><td>Shows entries from lists, vocabularies and thesauri.</td></tr></tbody></table>
 
+**From version 6.36.0** the lists share the places for their entries: a list with many matching entries no longer fills them all, and the places one list cannot fill go to the others. Entries which contain the typed text as a whole word come first, e.g. `Halle (Saale)` before `Hallesche Straße` when typing `halle`.
+
 ### Searching for a Specific Word
 
 #### Case Sensitivity

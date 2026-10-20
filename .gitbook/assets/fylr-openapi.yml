@@ -61470,6 +61470,15 @@ components:
                         set `linked_objects_referenced_by_objecttypes` to keep only the
                         ones actually in use. Useful for autocomplete pickers that need
                         to show the target object inline.
+
+                        The named objecttypes share the `limit` slots: they take turns
+                        adding their next best match, so one objecttype with many
+                        matches cannot fill the whole list, and slots an objecttype
+                        cannot fill go to the others. The list is ordered by `_score`:
+                        an object which has the query as a whole word ("Halle" in
+                        "Halle (Saale)") ranks above one which only has it inside a
+                        word ("Hallesche Straße"); equal scores are ordered by
+                        `_system_object_id`.
                 linked_objects_referenced_by_objecttypes:
                     type: array
                     nullable: true
