@@ -235,6 +235,15 @@ paths:
                       false when OpenSearch refused or could not be reached —
                       the delete itself still succeeded, and the error is in
                       the log.
+                  opensearch_user_removed:
+                    type: boolean
+                    description: >-
+                      Whether the instance's own OpenSearch user, role and role
+                      mapping are gone (true as well without per-instance
+                      users, `opensearch_admin_user` unset). False without
+                      `drop_data`, and false when the security API refused or
+                      could not be reached — the delete itself still
+                      succeeded, and the error is in the log.
                   storage_purged:
                     type: boolean
                     description: >-
@@ -1447,6 +1456,8 @@ components:
         hibernate_after: { type: string, description: 'Per-instance hibernation override: "" = inherit the fleet setting, "off" = never hibernate, or an idle window like "10m".' }
         effective_hibernate_after: { type: string, description: 'Resolved hibernation window the instance runs with ("off" = never).' }
         binary_name: { type: string, description: 'Registry name this instance follows ("" = the fleet default_binary setting).' }
+        plugin_sources: { type: string, enum: ["", any, marketplace], description: 'fylr.plugin.sources of the instance; "" = the plugin_sources setting.' }
+        effective_plugin_sources: { type: string, enum: [any, marketplace], description: 'What the instance runs with.' }
         binary: { type: string, description: Effective fylr binary path. }
         cert_source: { type: string, enum: [manual, acme, none], description: How the router serves TLS for this host. }
         cert_host: { type: string, description: The covering certificate (may be a wildcard), manual only. }
@@ -1539,6 +1550,7 @@ components:
         license_id: { type: integer, format: int64, description: "0 = inherit fleet default, -1 = instance configured, >0 = that fleet license." }
         storage_id: { type: integer, format: int64, description: "0 = inherit, -1 = built-in disk, >0 = backend (must be writable)." }
         binary_name: { type: string, description: 'Registry name to follow (must exist); "" = the fleet default_binary.' }
+        plugin_sources: { type: string, enum: ["", any, marketplace], description: 'fylr.plugin.sources for the new instance; "" or omitted = the plugin_sources setting.' }
         plugin_urls:
           type: array
           items: { type: string }
@@ -1563,6 +1575,7 @@ components:
         replicas: { type: integer, description: Clamped to >= 1. }
         license_id: { type: integer, format: int64, description: "0 = inherit, -1 = instance configured, >0 = that fleet license." }
         binary_name: { type: string, description: 'Repin to a registry name (must exist; the instance rolls); "" = follow the fleet default_binary again.' }
+        plugin_sources: { type: string, enum: ["", any, marketplace], description: 'fylr.plugin.sources ("" = the plugin_sources setting). Baked at startup — a change rolls the instance.' }
         label: { type: string }
         hibernate_after: { type: string, description: 'Hibernation override: "" = inherit the fleet setting, "off" = never hibernate (wakes a hibernated instance), or an idle window >= 30s like "10m". Applies live.' }
         storage_id: { type: integer, format: int64, description: "0 = inherit, -1 = built-in disk, >0 = that backend." }
@@ -1712,10 +1725,25 @@ components:
         port_range, binary, default_binary, execserver_cpus, hibernate_after,
         postgres_admin_dsn, basic_auth_user, management_host,
         default_license_id, default_storage_id, managed_master_id,
-        backup_dir, opensearch_addresses, opensearch_user, acme_enabled,
-        acme_email, acme_ca, acme_eab_key_id — plus the write-only keys
-        basic_auth_pass, plugin_dir, opensearch_pass, acme_eab_hmac_key
-        (accepted on PUT, never returned). managed_master_id names the
+        backup_dir, opensearch_addresses, opensearch_user,
+        opensearch_admin_user, sandbox, sandbox_connect_ports,
+        plugin_sources, acme_enabled, acme_email, acme_ca, acme_eab_key_id —
+        plus the write-only keys basic_auth_pass, plugin_dir,
+        opensearch_pass, opensearch_admin_pass, acme_eab_hmac_key (accepted
+        on PUT, never returned). With opensearch_admin_user set (a user of
+        the OpenSearch security plugin that may manage users and roles) every
+        instance runs as an OpenSearch user of its own, fylr_<name>, limited
+        to the instance's indices; a change rolls the running instances.
+        postgres_admin_dsn is returned with its password as password=***; a
+        PUT that sends that value back keeps the stored password. sandbox
+        ("on"/"off", Linux with Landlock only) confines every instance and
+        the shared execserver: an instance writes only its own directories
+        and connects only to its own ports, Postgres, OpenSearch, the
+        execserver and sandbox_connect_ports (comma-separated ports and
+        low-high ranges); changing either rolls the running instances.
+        plugin_sources ("any"/"marketplace") is fylr.plugin.sources for
+        instances without their own; branch instances are created with
+        "any"; a change rolls the running instances. managed_master_id names the
         instance newly created managed branch instances are seeded from
         (""/"0" = start empty).
       additionalProperties: { type: string }
