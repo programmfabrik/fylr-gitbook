@@ -61498,8 +61498,10 @@ components:
                         suggestion is kept only if at least one record of these
                         objecttypes links to it (directly, nested or reverse — the
                         `_linked.<ot>._id` closure the "in" filter queries when a
-                        suggestion is clicked), so selecting the suggestion as a search
-                        filter over these objecttypes always yields results. Absent /
+                        suggestion is clicked) or, for a hierarchical objecttype,
+                        to a record below it (the "in" filter with `include_path`), so
+                        selecting the suggestion as a search filter over these
+                        objecttypes always yields results. Absent /
                         empty returns every match. Pass the objecttypes the caller will
                         actually filter on click — kept separate from `objecttypes` on
                         purpose, since `objecttypes` may be widened with the linked
@@ -61599,7 +61601,12 @@ components:
                                             (front-end uses this for keyboard navigation).
                                     count:
                                         type: integer
-                                        description: Number of indexed documents the term occurs in.
+                                        description: |
+                                            Number of records a `match` search in `token` mode
+                                            for the term finds within the request's
+                                            `objecttypes`, `pool_ids`, `fields` and search
+                                            languages. A record counts once, however many fields
+                                            or languages carry the term.
                         fields:
                             type: array
                             nullable: true

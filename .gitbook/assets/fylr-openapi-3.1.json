@@ -64539,7 +64539,7 @@
             "items": {
               "type": "string"
             },
-            "description": "Opt-in filter for `linked_objects`. When set, a linked-object\nsuggestion is kept only if at least one record of these\nobjecttypes links to it (directly, nested or reverse — the\n`_linked.\u003cot\u003e._id` closure the \"in\" filter queries when a\nsuggestion is clicked), so selecting the suggestion as a search\nfilter over these objecttypes always yields results. Absent /\nempty returns every match. Pass the objecttypes the caller will\nactually filter on click — kept separate from `objecttypes` on\npurpose, since `objecttypes` may be widened with the linked\nobjecttypes so token matches inside linked objects are found.\n"
+            "description": "Opt-in filter for `linked_objects`. When set, a linked-object\nsuggestion is kept only if at least one record of these\nobjecttypes links to it (directly, nested or reverse — the\n`_linked.\u003cot\u003e._id` closure the \"in\" filter queries when a\nsuggestion is clicked) or, for a hierarchical objecttype,\nto a record below it (the \"in\" filter with `include_path`), so\nselecting the suggestion as a search filter over these\nobjecttypes always yields results. Absent /\nempty returns every match. Pass the objecttypes the caller will\nactually filter on click — kept separate from `objecttypes` on\npurpose, since `objecttypes` may be widened with the linked\nobjecttypes so token matches inside linked objects are found.\n"
           },
           "analyze_wildcards": {
             "type": "boolean",
@@ -64618,7 +64618,7 @@
                     },
                     "count": {
                       "type": "integer",
-                      "description": "Number of indexed documents the term occurs in."
+                      "description": "Number of records a `match` search in `token` mode\nfor the term finds within the request's\n`objecttypes`, `pool_ids`, `fields` and search\nlanguages. A record counts once, however many fields\nor languages carry the term.\n"
                     }
                   }
                 }
