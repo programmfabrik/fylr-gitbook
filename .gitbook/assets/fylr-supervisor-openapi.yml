@@ -208,7 +208,9 @@ paths:
             purge or removal that fails does not stop the delete; the response
             reports what was left. Without this, nothing on disk, in storage or
             in OpenSearch is touched and the database is kept. The former name
-            `drop_db` is refused with 400.
+            `drop_db` is refused with 400 unless `drop_data` comes along
+            (a caller that also talks to older supervisors sends both;
+            `drop_data` decides).
           schema: { type: boolean, default: false }
       responses:
         "200":
