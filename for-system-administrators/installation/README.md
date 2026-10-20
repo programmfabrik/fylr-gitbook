@@ -44,6 +44,29 @@ Please note: We do all of our automated and manual software testing based on Lin
 
 * We are regularly testing fylr with **Opensearch 3** and **PostgreSQL 18** and recommend them with fylr. Customers with problems and earlier versions may be asked to upgrade first.
 
+### OpenSearch user per instance
+
+From fylr **6.36.0**, fylr runs with an OpenSearch user whose rights cover only the instance's own indices, so several fylr instances can share one OpenSearch without reaching each other's indices. fylr names every index it creates `<fylr.name>-<uuid>-…`, with `fylr.name` from `fylr.yml` and the UUID of the instance's database. A role for such a user, for the security plugin of OpenSearch, with `EXAMPLE` replaced by the instance's `fylr.name`:
+
+```json
+{
+  "cluster_permissions": [
+    "cluster:monitor/main",
+    "cluster:monitor/health",
+    "cluster_composite_ops",
+    "indices:data/read/point_in_time/delete"
+  ],
+  "index_permissions": [
+    {
+      "index_patterns": ["/EXAMPLE-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}-.*/"],
+      "allowed_actions": ["indices_all"]
+    }
+  ]
+}
+```
+
+fylr logs in with `fylr.elastic.username` and `fylr.elastic.password` of its `fylr.yml`. Such a user may not read the cluster settings: fylr then keeps `fylr.elastic.maxMem` (25mb by default) as configured and logs a warning at startup, instead of lowering it below the cluster's `http.max_content_length`. On a cluster whose `http.max_content_length` is set below `maxMem`, lower `maxMem` yourself.
+
 ### Download binaries
 
 From fylr **6.34.0**, the downloadable macOS, Windows and Linux binaries are compiled without cgo: they are **statically linked** and use the pure-Go SQLite driver, so they run on any host of their platform without a C toolchain or extra system libraries. The official **Docker image is unchanged** — it keeps cgo and the C-based SQLite driver — and PostgreSQL deployments are unaffected either way.
