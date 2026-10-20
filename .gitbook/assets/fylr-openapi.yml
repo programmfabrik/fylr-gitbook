@@ -27048,8 +27048,11 @@ paths:
                         subordinate objects of a deleted object.
                       * `setnull`: keep the reverse-linked and subordinate objects and
                         clear their link to the deleted object.
-                      * `create_collection`: collect the affected objects in a new
-                        collection instead of deleting them.
+                      * `create_collection`: delete nothing, create a new collection
+                        below the user's collections with the objects to be deleted
+                        instead. Its child collections hold the objects preventing the
+                        deletion and the objects deleted along or unlinked by `remove`
+                        or `setnull`, each only when not empty.
                       * `undelete`: restore previously deleted objects. Links explicitly
                         removed during deletion remain removed, including both sides of
                         bidirectional relations.
@@ -27068,9 +27071,12 @@ paths:
                     any link whose removal would leave a nested table empty that is NOT
                     NULL itself.
 
-                    When omitted, **fylr** answers with a `202` response describing the
-                    choices instead of deleting anything; a choice such a link blocks is
-                    marked `disabled`.
+                    When omitted, objects which have no reverse-linked or subordinate
+                    objects and which no other object links are deleted right away,
+                    the answer names `remove` as the applied policy. Otherwise
+                    **fylr** answers with a `202` response describing the choices
+                    instead of deleting anything; a choice such a link blocks is marked
+                    `disabled`.
                   schema:
                     type: string
                     enum:
@@ -27196,11 +27202,14 @@ paths:
                         button supplies, in its `name` and `value`, the query parameter to add
                         when re-sending the request. The cases here:
 
-                          * **No `delete_policy` was given and the objects are still linked**
-                            from others — the task offers a `delete_policy` choice: `remove`
-                            (also delete the linking objects), `setnull` (keep them but clear
-                            their link) or `create_collection` (collect the affected objects
-                            instead of deleting them). Re-send with `delete_policy=<choice>`.
+                          * **No `delete_policy` was given and the deletion affects other
+                            objects** — objects linking the deleted ones, or their
+                            reverse-linked or subordinate objects. The task offers a
+                            `delete_policy` choice: `remove` (also delete the reverse-linked
+                            and subordinate objects), `setnull` (keep those and clear their
+                            link) or `create_collection` (collect the objects in a new
+                            collection instead of deleting them). Re-send with
+                            `delete_policy=<choice>`.
                           * **A workflow transition needs confirmation** — re-send with
                             `confirmTransition=<value>`; a `delete_policy` already chosen is
                             carried over automatically.
