@@ -4,15 +4,15 @@ The Supervisor's JSON management API. Everything the web UI does goes through th
 
 ## Base URL and authentication
 
-The API is served under `/api` on the private management listener (`listen` setting, default `:8090`) and — when the `management_host` setting is set — through the public router under that host, e.g. `https://supervisor.example.com/api`.
+The API is served under `/api` on the private management listener (`listen` setting, default `127.0.0.1:8090`, local only) and — when the `management_host` setting is set — through the public router under that host, e.g. `https://supervisor.example.com/api`.
 
-All endpoints use HTTP basic auth with the `basic_auth_user` / `basic_auth_pass` settings; while `basic_auth_user` is empty, authentication is disabled. Errors use a single JSON envelope:
+Authentication is always on and backed by the supervisor's own users; every user is an administrator. Two credentials work: the session cookie `POST /login` mints (the web UI; it enforces two-factor authentication when armed) and a named API token sent as `Authorization: Bearer svt_…` (for machines: CI, monitoring, scripts). A fresh installation seeds `root` / `admin` with a forced password change on the first login. Only `GET /healthz` and `POST /login` answer without credentials. Errors use a single JSON envelope:
 
 ```json
 { "error": "<message>" }
 ```
 
-The OpenAPI specification is maintained in the fylr repository (`internal/supervisor/apidocs/fylr-supervisor-openapi.yml`) and can be downloaded here:
+The OpenAPI specification is maintained in the fylr-supervisor repository (`internal/supervisor/apidocs/fylr-supervisor-openapi.yml`) and can be downloaded here:
 
 {% file src="../../.gitbook/assets/fylr-supervisor-openapi.yml" %}
 fylr Supervisor OpenAPI 3.0 specification
@@ -25,6 +25,102 @@ Liveness probe.
 ### `GET /healthz` — Liveness probe
 
 {% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/healthz" method="get" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+## Login and session
+
+Login and logout, the caller's own session, password change and two-factor (TOTP) self-service.
+
+### `POST /login` — Log in (mint a browser session)
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/login" method="post" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+### `POST /logout` — Log out
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/logout" method="post" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+### `GET /session` — Who am I
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/session" method="get" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+### `POST /session/password` — Change my password
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/session/password" method="post" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+### `POST /session/totp` — Start my TOTP enrollment
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/session/totp" method="post" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+### `POST /session/totp/confirm` — Confirm and arm my TOTP
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/session/totp/confirm" method="post" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+### `DELETE /session/totp` — Turn my TOTP off
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/session/totp" method="delete" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+## Users
+
+Management users. Every user is an administrator; permissions inside an instance are the instance's own business.
+
+### `GET /users` — List users
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/users" method="get" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+### `POST /users` — Create a user
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/users" method="post" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+### `PATCH /users/{id}` — Edit a user
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/users/{id}" method="patch" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+### `DELETE /users/{id}` — Delete a user
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/users/{id}" method="delete" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+## API tokens
+
+Named bearer tokens for automation. The secret is returned once, at creation; revoking a token ends its access immediately.
+
+### `GET /tokens` — List API tokens
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/tokens" method="get" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+### `POST /tokens` — Create an API token
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/tokens" method="post" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+### `DELETE /tokens/{id}` — Revoke an API token
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/tokens/{id}" method="delete" %}
 [fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
 {% endopenapi %}
 
@@ -257,6 +353,22 @@ Request rate limits enforced by the public router.
 ### `PUT /limits` — Set fleet rate limits
 
 {% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/limits" method="put" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+## Client-error strikes
+
+The router's per-IP penalty: client errors count as strikes, and 20 without a success within 10 minutes ban the address for 15 minutes. A correct credential (an instance's basic auth, or a management session or token) lifts a ban. Strikes are kept in memory only.
+
+### `GET /strikes` — List client-error strikes per IP
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/strikes" method="get" %}
+[fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
+{% endopenapi %}
+
+### `DELETE /strikes/{ip}` — Forgive an IP (unban)
+
+{% openapi src="../../.gitbook/assets/fylr-supervisor-openapi.yml" path="/strikes/{ip}" method="delete" %}
 [fylr-supervisor-openapi.yml](../../.gitbook/assets/fylr-supervisor-openapi.yml)
 {% endopenapi %}
 

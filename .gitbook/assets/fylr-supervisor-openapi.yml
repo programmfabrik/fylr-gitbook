@@ -14,8 +14,17 @@ info:
     managed base config, backups and restores.
 
     The API is served on the private management listener (`listen` setting,
-    default `:8090`) and — when the `management_host` setting is set — through
+    default `127.0.0.1:8090` — local only, so a fresh installation is not on
+    the internet) and — when the `management_host` setting is set — through
     the public router under that host (HTTPS enforced when TLS is on).
+
+    **Authentication** is always on and backed by the supervisor's own user
+    table (every user is an administrator). Two credentials work: the
+    session cookie minted by `POST /login` (the web UI; enforces TOTP when
+    armed) and a named API token as `Authorization: Bearer` (the way for
+    machines — CI, monitoring, scripts). A fresh installation seeds
+    `root`/`admin` with a forced password change on the first login. Only
+    `GET /healthz` and `POST /login` are reachable without credentials.
 
     All responses are JSON. Errors use one envelope: `{"error": "<message>"}`.
 servers:
@@ -24,10 +33,23 @@ servers:
   - url: https://supervisor.example.com/api
     description: through the public router (management_host setting)
 security:
-  - basicAuth: []
+  - bearerToken: []
+  - sessionCookie: []
 tags:
   - name: health
     description: Liveness probe.
+  - name: auth
+    description: >-
+      Login/logout, the caller's own session, password change and two-factor
+      (TOTP) self-service.
+  - name: users
+    description: >-
+      Management users. One role — every user is an administrator;
+      per-instance permissions are the instances' own business.
+  - name: tokens
+    description: >-
+      Named static bearer tokens for automation. The secret is returned once
+      at creation; revoking a token cuts its access immediately.
   - name: instances
     description: >-
       The fleet: create, inspect, edit, delete instances; start/stop,
@@ -54,10 +76,20 @@ tags:
     description: Manual TLS certificates for the public router (ACME handles the rest).
   - name: limits
     description: Request rate limits enforced by the public router.
+  - name: strikes
+    description: >-
+      The router's per-IP abuse penalty (fail2ban style): client errors
+      accumulate as strikes, 20 without a success within 10 minutes ban the
+      address for 15 minutes. A correct credential (an instance's basic
+      auth, or admin session/token) lifts a ban. Strikes live in memory
+      only.
   - name: managed-baseconfig
     description: >-
-      Base-config values managed centrally and pushed into instances; managed
-      values are locked in the instance's own base-config editor.
+      Base-config values held by the supervisor and pushed into inheriting
+      instances as the master copy: on every change, on instance readiness
+      (deploys, boots) and after restores, overwriting the instance's local
+      values. Nothing is locked instance-side; local edits last until the
+      next push.
   - name: settings
     description: Supervisor settings (control-DB backed, applied live).
   - name: cluster
@@ -69,9 +101,8 @@ paths:
     get:
       tags: [health]
       summary: Liveness probe
-      description: >-
-        Returns ok while the supervisor runs. Like every route, it sits
-        behind HTTP basic auth once `basic_auth_user` is set.
+      description: Returns ok while the supervisor runs. Needs no credentials.
+      security: []
       responses:
         "200":
           description: Supervisor is alive.
@@ -81,6 +112,329 @@ paths:
                 type: object
                 properties:
                   status: { type: string, example: ok }
+  /login:
+    post:
+      tags: [auth]
+      summary: Log in (mint a browser session)
+      description: >-
+        Verifies name and password and sets the HttpOnly session cookie the
+        web UI runs on. When the user has TOTP armed, a current one-time
+        code is required too: a 401 with `otp_required: true` asks for it.
+        The response's `must_change_password` announces a pending forced
+        change (fresh `root`/`admin` bootstrap, or an admin-set password) —
+        until the change is done every other route answers 403.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, password]
+              properties:
+                name: { type: string }
+                password: { type: string }
+                otp: { type: string, description: Current TOTP code — required once the user's TOTP is armed. }
+      responses:
+        "200":
+          description: Logged in; the session cookie is set.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user: { $ref: "#/components/schemas/User" }
+        "401":
+          description: >-
+            Wrong credentials — or, with `otp_required: true`, a missing or
+            wrong one-time code.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: { type: string }
+                  otp_required: { type: boolean }
+  /logout:
+    post:
+      tags: [auth]
+      summary: Log out
+      description: Ends the calling session and expires its cookie.
+      responses:
+        "200": { description: Logged out. }
+        "401": { $ref: "#/components/responses/Error" }
+  /session:
+    get:
+      tags: [auth]
+      summary: Who am I
+      description: >-
+        The caller's identity and how it authenticated — `session` or
+        `token`. Users get their `user` object, tokens their
+        `token_name`.
+      responses:
+        "200":
+          description: The caller.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  method: { type: string, enum: [session, token] }
+                  user: { $ref: "#/components/schemas/User" }
+                  token_name: { type: string }
+        "401": { $ref: "#/components/responses/Error" }
+  /session/password:
+    post:
+      tags: [auth]
+      summary: Change my password
+      description: >-
+        Changes the CALLER's password (this is the forced-change endpoint:
+        it stays reachable while `must_change_password` is pending). The new
+        password must differ from the current one (400 otherwise); the
+        replaced hash is retired into the password history. Other sessions
+        of the user end; the calling session survives.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [old_password, new_password]
+              properties:
+                old_password: { type: string }
+                new_password: { type: string, description: Minimum 8 characters. }
+      responses:
+        "200":
+          description: Password changed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user: { $ref: "#/components/schemas/User" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+  /session/totp:
+    post:
+      tags: [auth]
+      summary: Start my TOTP enrollment
+      description: >-
+        Confirms the caller's password and mints a fresh TOTP secret
+        (SHA1, 30s period, 6 digits — the authenticator-app default). The
+        secret stays UNARMED until the confirm step proves the app works;
+        logins are unaffected until then. Replacing a TOTP that is already
+        armed additionally requires a current one-time code: the fresh secret
+        is stored unarmed, so abandoning the dialog would otherwise leave the
+        account with no second factor.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [password]
+              properties:
+                password: { type: string }
+                otp: { type: string, description: A current one-time code. Required only when TOTP is already armed. }
+      responses:
+        "200":
+          description: Enrollment started.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  secret: { type: string, description: The base32 secret, for manual entry. }
+                  otpauth_url: { type: string, description: otpauth:// provisioning link (QR-code content). }
+        "400": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [auth]
+      summary: Turn my TOTP off
+      description: >-
+        Disarms the caller's TOTP. Password AND a current one-time code are
+        required, so a hijacked session alone cannot weaken the account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [password, otp]
+              properties:
+                password: { type: string }
+                otp: { type: string }
+      responses:
+        "200":
+          description: TOTP is off.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user: { $ref: "#/components/schemas/User" }
+        "400": { $ref: "#/components/responses/Error" }
+  /session/totp/confirm:
+    post:
+      tags: [auth]
+      summary: Confirm and arm my TOTP
+      description: >-
+        Validates a current code against the pending enrollment and arms
+        TOTP: from now on `POST /login` requires a one-time code. The
+        the bearer-token path stays 2FA-free by design.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [otp]
+              properties:
+                otp: { type: string }
+      responses:
+        "200":
+          description: TOTP armed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user: { $ref: "#/components/schemas/User" }
+        "400": { $ref: "#/components/responses/Error" }
+  /users:
+    get:
+      tags: [users]
+      summary: List users
+      responses:
+        "200":
+          description: All management users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/User" }
+    post:
+      tags: [users]
+      summary: Create a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, password]
+              properties:
+                name: { type: string, description: 1-64 characters, no spaces/colons/slashes/quotes. }
+                email: { type: string }
+                password: { type: string, description: Minimum 8 characters. }
+                must_change_password: { type: boolean, default: false, description: Force a change on the first login (handover credential). Opt-in here; the UI's create form ticks it by default. }
+      responses:
+        "201":
+          description: The created user.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/User" }
+        "400": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /users/{id}:
+    patch:
+      tags: [users]
+      summary: Edit a user
+      description: >-
+        Partial edit: `email`, `active`, `password` (an admin-set password
+        forces a change on the next login unless `must_change_password` is
+        explicitly false, and ends the user's sessions), `must_change_password`,
+        `totp_reset: true` (disarm a lost authenticator). Deactivating cuts
+        the user's sessions and logins immediately; the last active user
+        cannot be deactivated.
+      parameters:
+        - $ref: "#/components/parameters/userId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: { type: string }
+                active: { type: boolean }
+                password: { type: string }
+                must_change_password: { type: boolean }
+                totp_reset: { type: boolean }
+      responses:
+        "200":
+          description: The updated user.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/User" }
+        "400": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [users]
+      summary: Delete a user
+      description: >-
+        Deletes the user and their sessions. The last active user cannot be
+        deleted (lockout guard).
+      parameters:
+        - $ref: "#/components/parameters/userId"
+      responses:
+        "200": { description: Deleted. }
+        "400": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /tokens:
+    get:
+      tags: [tokens]
+      summary: List API tokens
+      description: Names, prefixes and usage — never the secrets.
+      responses:
+        "200":
+          description: All tokens.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/APIToken" }
+    post:
+      tags: [tokens]
+      summary: Create an API token
+      description: >-
+        Mints a named bearer token. The response's `token` is the ONLY time
+        the secret is ever returned — store it now.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+      responses:
+        "201":
+          description: The token, secret included.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/APIToken"
+                  - type: object
+                    properties:
+                      token: { type: string, description: The bearer secret (svt_…) — shown exactly once. }
+        "400": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /tokens/{id}:
+    delete:
+      tags: [tokens]
+      summary: Revoke an API token
+      description: Everything using the token stops authenticating immediately.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Token id.
+          schema: { type: integer, format: int64 }
+      responses:
+        "200": { description: Revoked. }
+        "404": { $ref: "#/components/responses/Error" }
   /fleet:
     get:
       tags: [instances]
@@ -157,7 +511,8 @@ paths:
         where possible; fields the child bakes in at startup (host, basic
         auth, replicas, license, label) trigger a gentle rolling restart, so
         the instance keeps serving. A non-empty `root_password` is applied
-        live (or on the next boot when stopped).
+        live (or on the next boot when stopped). A `host` another instance
+        already serves is rejected, as it is when creating or restoring one.
       parameters:
         - $ref: "#/components/parameters/instanceId"
       requestBody:
@@ -365,26 +720,62 @@ paths:
   /instances/{id}/logs:
     get:
       tags: [instances]
-      summary: Instance log tail
-      description: The last lines of the child's server log, ANSI colors stripped.
+      summary: Instance log
+      description: >-
+        The instance's fylr server log — `/logs?source=<name>` addressed by
+        instance id, with the same filters (`q`, `level`, `date`, `limit`)
+        and the same entries contract. Falls back to tailing the log FILE
+        while nothing of this instance has been ingested yet (a just-created
+        instance, or `log_ingest_level` set to "off").
       parameters:
         - $ref: "#/components/parameters/instanceId"
-        - name: lines
+        - name: q
           in: query
           required: false
-          description: Number of lines (1–2000).
-          schema: { type: integer, default: 200 }
+          description: Case-insensitive substring match against message or fields.
+          schema: { type: string }
+        - name: level
+          in: query
+          required: false
+          schema: { type: string, enum: [debug, info, warn, error], default: info }
+        - name: date
+          in: query
+          required: false
+          description: Only entries of this server-local calendar day.
+          schema: { type: string, format: date }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer, default: 300, maximum: 2000 }
       responses:
         "200":
-          description: Log lines, oldest first.
+          description: Log entries, newest first.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  lines:
+                  entries:
                     type: array
-                    items: { type: string }
+                    items:
+                      type: object
+                      properties:
+                        ts: { type: string, format: date-time }
+                        level: { type: string }
+                        message: { type: string }
+                        fields:
+                          type: array
+                          description: >-
+                            The event's remaining Key=value fields, in the
+                            order logged, with the console quoting undone. A
+                            token that was no field at all carries an empty
+                            key.
+                          items:
+                            type: object
+                            properties:
+                              k: { type: string }
+                              v: { type: string }
+                        ip: { type: string, description: Client ip of a request line. }
         "404": { $ref: "#/components/responses/Error" }
   /instances/{id}/insights:
     get:
@@ -515,7 +906,7 @@ paths:
                   arch: { type: string, description: The supervisor's GOARCH — uploads must match. }
                   default_binary:
                     type: string
-                    description: The fleet default name (setting); "" = legacy binary path setting / the supervisor executable.
+                    description: 'The fleet default_binary setting: what instances without an attachment follow — the virtual "<default>" (the supervisor''s own binary), a registry name, or an alias like "unstable".' 
                   binaries:
                     type: array
                     items: { $ref: "#/components/schemas/Binary" }
@@ -546,17 +937,35 @@ paths:
         - name: managed
           in: query
           description: >-
-            `true` keeps a standing instance for this name — the name IS the
-            instance's public host, so it must be host-shaped
-            (`main.branch.fylr.io`, every dot-label with a letter; `v6.35.0`
-            is rejected — push `v6-35-0.branch.fylr.io`). Created on the
-            first push (random admin password returned once), rolled on
-            every later one. `false` releases the flag (the instance stays);
-            omitted = unchanged. When the `managed_master_id` setting names
-            an instance, a NEWLY created standing instance is seeded as a
-            copy of that master (database and files, visible as a `seed-…`
-            entry in the backup catalog); it keeps its own admin password.
+            Push-time instruction (nothing is stored): `true` also ensures a
+            standing instance for this name, publicly served at `?host=`.
+            Created on the first such push (fylr's root/admin default login
+            unless seeded); as a follower of the name it rolls with every
+            later one.
+            When the `managed_master_id` setting names an instance, a NEWLY
+            created standing instance is seeded as a copy of that master
+            (database and files, visible as a `seed-…` entry in the backup
+            catalog) and runs with the master's credentials.
           schema: { type: boolean }
+        - name: host
+          in: query
+          description: >-
+            The standing instance's public host for a `managed=true` push
+            (`main` + `host=main.branch.fylr.io`) — host-shaped, every
+            dot-label with a letter. A managed push of a host-shaped NAME
+            without this parameter is normalized: the first label becomes
+            the registry name, the full string the host. Ignored-with-400
+            on pushes without `managed=true`.
+          schema: { type: string }
+        - name: aliases
+          in: query
+          description: >-
+            Comma-separated additional names moved onto the same artifact in
+            this push (e.g. `unstable` or `latest`). The pushed name is the
+            PRIMARY (branch or tag); aliases are plain registry names marked
+            `alias_of` the primary — never managed. Running followers of the
+            primary and its aliases roll together.
+          schema: { type: string }
         - name: version
           in: query
           description: Informational version label stored on first push (e.g. `git describe`).
@@ -584,6 +993,7 @@ paths:
                   os: { type: string }
                   arch: { type: string }
                   version: { type: string }
+                  fylr_version: { type: string, description: The fylr version read from the pushed binary. }
                   size: { type: integer }
                   rolling:
                     type: array
@@ -596,8 +1006,8 @@ paths:
                       `root_password` once when the instance was just created
                       unseeded, `seeding_from` when a master copy was kicked
                       off (credentials are then the master's), or `conflict`
-                      when the derived instance name is taken by a foreign
-                      instance.
+                      when the derived instance name or the host is taken by
+                      a foreign instance.
         "400": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
         "422": { $ref: "#/components/responses/Error" }
@@ -606,11 +1016,14 @@ paths:
       tags: [binaries]
       summary: Delete a binary name
       description: >-
-        Removes the name. A managed name takes its standing instance
-        (children, database, row) with it — the full deployment teardown.
-        The artifact and its file are removed once no name points at them
-        anymore. Refused (409) while a foreign instance follows the name or
-        it is the fleet default_binary.
+        Removes the name; aliases belong to their primary and are deleted
+        with it. Instances are NEVER removed by this: the delete is refused
+        (409) while any instance follows the name or one of its aliases —
+        switch the followers to a replacement binary first (the UI dialog
+        does; the supervisor's own binary is always a valid target, so this
+        always works). Also refused for the fleet default_binary. The
+        artifact and its file are removed once no name points at them
+        anymore.
       parameters:
         - name: name
           in: path
@@ -1038,8 +1451,11 @@ paths:
         affected running instances roll, since their external URL scheme may
         flip to https). The host may be a wildcard (`*.fylr.io`) covering one
         label, TLS-style; an exact-host certificate wins over a covering
-        wildcard. Hosts without a manual certificate use on-demand ACME when
-        enabled — a covering wildcard takes the host out of ACME issuance.
+        wildcard. Hosts without a manual certificate get an ACME certificate
+        when enabled: it is obtained as soon as an instance takes the host
+        (created, restored, pushed by CI, renamed) and otherwise on demand at
+        the first HTTPS request — a covering wildcard takes the host out of
+        ACME issuance entirely.
       parameters:
         - $ref: "#/components/parameters/certHost"
       requestBody:
@@ -1116,6 +1532,48 @@ paths:
                   limits: { $ref: "#/components/schemas/Limits" }
         "400": { $ref: "#/components/responses/Error" }
         "500": { $ref: "#/components/responses/Error" }
+  /strikes:
+    get:
+      tags: [strikes]
+      summary: List client-error strikes per IP
+      description: >-
+        The live strike table — why an address is (about to be) banned:
+        counts, ban state and the last 10 strikes with their reasons
+        (scanner path, failed basic auth, unknown host, child 4xx). Banned
+        entries sort first; stale runs (outside the strike window, not
+        banned) are omitted.
+      responses:
+        "200":
+          description: The strike table.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  strikes:
+                    type: array
+                    items: { $ref: "#/components/schemas/StrikeInfo" }
+  /strikes/{ip}:
+    delete:
+      tags: [strikes]
+      summary: Forgive an IP (unban)
+      description: >-
+        Clears the address's strikes and any active ban — the API unban, no
+        supervisor restart needed.
+      parameters:
+        - name: ip
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Forgiven.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  forgiven: { type: string, description: The IP. }
   /managed-baseconfig:
     get:
       tags: [managed-baseconfig]
@@ -1161,9 +1619,8 @@ paths:
       tags: [settings]
       summary: Get supervisor settings
       description: >-
-        A flat string map. Write-only keys (`basic_auth_pass`, `plugin_dir`,
-        `opensearch_pass`, `acme_eab_hmac_key`) are accepted by PUT but never
-        returned.
+        A flat string map. Write-only keys (`plugin_dir`, `opensearch_pass`,
+        `acme_eab_hmac_key`) are accepted by PUT but never returned.
       responses:
         "200":
           description: The settings.
@@ -1193,8 +1650,13 @@ paths:
   /logs:
     get:
       tags: [logs]
-      summary: Supervisor log
-      description: The supervisor's own captured log, newest first.
+      summary: Log
+      description: >-
+        Every log on this machine, newest first: the supervisor's own stream
+        and — kept in the same table by the log ingester — each instance's
+        fylr server log and the shared execserver's. `source` picks one
+        writer; omitted, the response is all of them merged (and each entry
+        carries the `source` that wrote it).
       parameters:
         - name: q
           in: query
@@ -1206,13 +1668,26 @@ paths:
           required: false
           description: Minimum level.
           schema: { type: string, enum: [debug, info, warn, error], default: info }
+        - name: source
+          in: query
+          required: false
+          description: >-
+            Who wrote the lines: "supervisor", "execserver" or an instance
+            name. Omitted = every source, merged.
+          schema: { type: string }
         - name: instance
           in: query
           required: false
           description: >-
-            Only entries of this instance (exact match on the instance
+            Only entries ABOUT this instance (exact match on the instance
             column — every instance-scoped supervisor log line carries it).
+            Orthogonal to `source`, which is who WROTE the line.
           schema: { type: string }
+        - name: date
+          in: query
+          required: false
+          description: Only entries of this server-local calendar day.
+          schema: { type: string, format: date }
         - name: limit
           in: query
           required: false
@@ -1234,7 +1709,8 @@ paths:
                         level: { type: string }
                         message: { type: string }
                         fields: { type: string, description: '"key=value" rendering of structured fields.' }
-                        instance: { type: string, description: Instance the entry belongs to ("" = fleet-level). }
+                        instance: { type: string, description: Instance a supervisor line is ABOUT ("" = fleet-level). }
+                        source: { type: string, description: 'Who wrote the line: "supervisor", "execserver" or an instance name. Omitted in a single-source response.' }
         "500": { $ref: "#/components/responses/Error" }
   /cluster/opensearch:
     get:
@@ -1368,14 +1844,26 @@ paths:
                             cmdline: { type: string }
 components:
   securitySchemes:
-    basicAuth:
+    bearerToken:
       type: http
-      scheme: basic
+      scheme: bearer
       description: >-
-        HTTP basic auth with the `basic_auth_user` / `basic_auth_pass`
-        settings. While `basic_auth_user` is empty, authentication is
-        disabled and every request passes.
+        A named API token (`svt_…`) minted via `POST /tokens` — the intended
+        credential for machines.
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: fylr-supervisor-session
+      description: >-
+        The HttpOnly browser session minted by `POST /login` (the web UI).
+        The only path that enforces TOTP.
   parameters:
+    userId:
+      name: id
+      in: path
+      required: true
+      description: User id.
+      schema: { type: integer, format: int64 }
     instanceId:
       name: id
       in: path
@@ -1422,6 +1910,13 @@ components:
         os: { type: string }
         arch: { type: string }
         version: { type: string, description: Caller-provided version label (informational). }
+        fylr_version:
+          type: string
+          description: >-
+            The fylr version the artifact reports for itself, measured at push time by
+            running `fylr version` (fylr carries no version in its Go build info). Empty
+            when the binary could not be asked. This is the authoritative version — the
+            `version` field above is only what the pusher claimed.
         vcs_revision: { type: string, description: Git commit from the Go build info, when stamped. }
         vcs_time: { type: string }
         size: { type: integer }
@@ -1434,7 +1929,7 @@ components:
             properties:
               name: { type: string }
               binary_id: { type: integer, format: int64 }
-              managed: { type: integer, description: 1 = a standing instance is kept for this name (its host = the name). }
+              alias_of: { type: string, description: 'Set when this name is maintained as an alias riding on that primary name''s pushes (`?aliases=`).' }
               updated_at: { type: string }
         used_by:
           type: array
@@ -1453,15 +1948,21 @@ components:
         host: { type: string, description: The host the public router routes to this instance. }
         db_backend: { type: string, enum: [postgres, sqlite] }
         basic_auth_user: { type: string, description: The instance's own HTTP basic auth on the router. }
+        basic_auth_pass: { type: string, description: The basic auth password, in clear — the management API is where operators look it up. }
         replicas: { type: integer }
         running_replicas: { type: integer }
         rolling: { type: boolean, description: A rolling restart is in progress. }
         hibernated: { type: boolean }
         hibernate_after: { type: string, description: 'Per-instance hibernation override: "" = inherit the fleet setting, "off" = never hibernate, or an idle window like "10m".' }
         effective_hibernate_after: { type: string, description: 'Resolved hibernation window the instance runs with ("off" = never).' }
-        binary_name: { type: string, description: 'Registry name this instance follows ("" = the fleet default_binary setting).' }
+        binary_name: { type: string, description: 'Attachment: a registry name or alias, the virtual "<default>" (the supervisor''s own binary), or "" = the fleet default_binary setting.' }
+        effective_binary_name: { type: string, description: 'The registry name the instance actually follows: binary_name if set, else the fleet default_binary setting.' }
+        execserver: { type: string, enum: ["", shared, own], description: 'Which execserver runs this instance''s jobs — a purely per-instance choice: "" or "shared" = the supervisor''s shared execserver (the default), "own" = every replica runs its own in-process execserver and dispatches to itself.' }
+        effective_execserver: { type: string, enum: [shared, own], description: The resolved execserver mode the instance runs with. }
+        log_level: { type: string, enum: ["", trace, debug, info, warn, error], description: 'fylr.logger.level baked into the instance''s generated config; "" = fylr''s own default (info).' }
         plugin_sources: { type: string, enum: ["", any, marketplace], description: 'fylr.plugin.sources of the instance; "" = the plugin_sources setting.' }
         effective_plugin_sources: { type: string, enum: [any, marketplace], description: 'What the instance runs with.' }
+        login_redirects: { type: array, items: { type: string }, description: 'Extra origins a cross-server webfrontend may log in from, appended to fylr''s baked-in loginAllowRedirects list.' }
         binary: { type: string, description: Effective fylr binary path. }
         cert_source: { type: string, enum: [manual, acme, none], description: How the router serves TLS for this host. }
         cert_host: { type: string, description: The covering certificate (may be a wildcard), manual only. }
@@ -1498,6 +1999,9 @@ components:
         db_dsn: { type: string, description: Password-redacted database DSN. }
         frontend_url: { type: string }
         inspect_url: { type: string }
+        web_only:
+          type: boolean
+          description: The host is covered by the fleet's `web_only_hosts`, so its entry page is the cross-server frontend rather than this instance's application. Omitted when false. The management UI offers `/webOnly` for such an instance and neither a root session in its frontend nor inspect.
         managed_baseconfig: { $ref: "#/components/schemas/ManagedBaseconfig" }
         managed_baseconfig_override: { type: boolean }
         limits: { $ref: "#/components/schemas/Limits" }
@@ -1518,14 +2022,6 @@ components:
           type: array
           items: { type: integer, format: int64 }
           description: Additional backends attached as locations without being the default.
-        plugin_urls:
-          type: array
-          items: { type: string }
-          description: >-
-            The child's fylr.plugin.urls — url-type plugins it downloads and
-            keeps registered. A db-engine restore fills this from the source's
-            url plugins (captured at backup time) so the dump's plugin rows
-            survive the child's plugin sync.
         users_can_login:
           type: boolean
           description: >-
@@ -1535,8 +2031,17 @@ components:
             root. Probed from the child because a license stored inside the
             instance (e.g. kept by a db restore) shadows the baked fleet
             license.
+        created_by: { type: string, description: Audit attribution — the acting credential (a user name or token:<name>). }
+        updated_by: { type: string, description: Last change's actor; background work never overwrites it. }
         created_at: { type: string }
         updated_at: { type: string }
+        last_used:
+          type: integer
+          format: int64
+          description: >-
+            Unix seconds of the last router request the instance answered
+            successfully (live while running, last persisted value
+            otherwise). 0 = never served.
     CreateInstance:
       type: object
       required: [name]
@@ -1553,12 +2058,23 @@ components:
         desired_state: { type: string, enum: [running, stopped], default: running }
         license_id: { type: integer, format: int64, description: "0 = inherit fleet default, -1 = instance configured, >0 = that fleet license." }
         storage_id: { type: integer, format: int64, description: "0 = inherit, -1 = built-in disk, >0 = backend (must be writable)." }
-        binary_name: { type: string, description: 'Registry name to follow (must exist); "" = the fleet default_binary.' }
+        binary_name: { type: string, description: 'Attachment: a registry name/alias (must exist) or "<default>"; "" = the fleet default_binary setting.' }
+        execserver: { type: string, enum: ["", shared, own], description: 'Execserver choice: "" (= shared, the default), "shared", "own".' }
+        log_level: { type: string, enum: ["", trace, debug, info, warn, error], description: 'fylr.logger.level for the new instance; omitted = the managed_log_level preset, "" = fylr''s own default (info).' }
         plugin_sources: { type: string, enum: ["", any, marketplace], description: 'fylr.plugin.sources for the new instance; "" or omitted = the plugin_sources setting.' }
-        plugin_urls:
-          type: array
-          items: { type: string }
-          description: url-type plugins for the child's fylr.plugin.urls.
+        login_redirects: { type: array, items: { type: string }, description: 'Extra loginAllowRedirects patterns (absolute URLs; "*" allowed as the leftmost host label, ":*" as the port). Rejected with 400 if fylr cannot parse one.' }
+        copy_from_id:
+          type: integer
+          format: int64
+          description: >-
+            Seed the new instance as a copy of this instance (database and files, like the managed-master
+            seeding) once both serve; the copy carries the source's encryption key, root password and
+            (unless overridden) license. Requires the new instance to start running. A HIBERNATED source is
+            woken and awaited (up to 30s) rather than refused. Answered 400 when the source cannot deliver —
+            stopped, not enough disk, or no root access at the source. A source
+            whose files live on a storage backend is copied through `fylr backup`, which authenticates with
+            the STORED root password: when that no longer matches the source (a restored instance keeps the
+            source's users), set a root password on the source and retry.
     EditInstance:
       type: object
       description: All fields optional — absent fields stay unchanged.
@@ -1578,18 +2094,17 @@ components:
             secrets) — meant for adopting a migration source's key.
         replicas: { type: integer, description: Clamped to >= 1. }
         license_id: { type: integer, format: int64, description: "0 = inherit, -1 = instance configured, >0 = that fleet license." }
-        binary_name: { type: string, description: 'Repin to a registry name (must exist; the instance rolls); "" = follow the fleet default_binary again.' }
+        binary_name: { type: string, description: 'Re-attach to a registry name/alias (must exist; the instance rolls) or "<default>"; "" = the fleet default_binary setting again.' }
+        execserver: { type: string, enum: ["", shared, own], description: 'Execserver choice ("" = shared, the default). Baked at startup — a change rolls the instance.' }
+        log_level: { type: string, enum: ["", trace, debug, info, warn, error], description: 'fylr.logger.level ("" = fylr''s own default, info). Baked at startup — a change rolls the instance.' }
         plugin_sources: { type: string, enum: ["", any, marketplace], description: 'fylr.plugin.sources ("" = the plugin_sources setting). Baked at startup — a change rolls the instance.' }
+        login_redirects: { type: array, items: { type: string }, description: 'Replaces the instance''s loginAllowRedirects additions (empty array clears them). Baked at startup — a change rolls the instance.' }
         label: { type: string }
         hibernate_after: { type: string, description: 'Hibernation override: "" = inherit the fleet setting, "off" = never hibernate (wakes a hibernated instance), or an idle window >= 30s like "10m". Applies live.' }
         storage_id: { type: integer, format: int64, description: "0 = inherit, -1 = built-in disk, >0 = that backend." }
         extra_storage_ids:
           type: array
           items: { type: integer, format: int64 }
-        plugin_urls:
-          type: array
-          items: { type: string }
-          description: Replace the child's fylr.plugin.urls (the instance rolls).
     Limits:
       type: object
       description: Router-enforced request limits. 0 = unlimited; burst 0 = same as rate.
@@ -1605,12 +2120,36 @@ components:
           properties:
             rate: { type: integer, description: Requests per second per client IP. }
             burst: { type: integer }
+    StrikeInfo:
+      type: object
+      description: One IP's abuse-strike state (in-memory, router-observed).
+      properties:
+        ip: { type: string }
+        count: { type: integer, description: Direct client-error strikes in the current run (20 ban). }
+        weight_401: { type: integer, description: Weighted upstream-401 points (60 ban; failed token grants weigh 3). }
+        banned: { type: boolean }
+        banned_until: { type: string, description: RFC 3339; only while banned. }
+        auth_tries: { type: integer, description: Credential lift attempts spent on the current ban (capped at 20). }
+        first: { type: string, description: Start of the current strike run (RFC 3339). }
+        recent:
+          type: array
+          description: The last 10 strikes, oldest first.
+          items:
+            type: object
+            properties:
+              time: { type: string }
+              reason:
+                type: string
+                description: >-
+                  E.g. "scanner path /wp-login.php", "failed basic auth for
+                  demo.example", "child 404 GET /x".
     ManagedBaseconfig:
       type: object
       description: >-
         Maps scoped base-config names (`system.<name>` or
-        `plugin.<plugin>.<name>`) to their raw API values. Managed values are
-        pushed into the instances and locked in their base-config editor.
+        `plugin.<plugin>.<name>`) to their raw API values. The values are
+        pushed into inheriting instances, overwriting their local values;
+        nothing is locked instance-side.
       additionalProperties: true
     License:
       type: object
@@ -1722,32 +2261,82 @@ components:
         source: { type: string, enum: [manual, acme] }
         not_after: { type: string }
         serves: { type: integer, description: Instances this certificate currently serves (wildcards serve many). }
+    User:
+      type: object
+      description: A management user (always an administrator).
+      properties:
+        id: { type: integer, format: int64 }
+        name: { type: string }
+        email: { type: string }
+        active: { type: boolean }
+        must_change_password: { type: boolean, description: A forced password change is pending — every route but whoami/change/logout answers 403. }
+        totp_enabled: { type: boolean, description: TOTP is armed — browser logins require a one-time code. }
+        password_changed_at: { type: string, description: Stamped on every password write after creation; absent = still on the initial password. }
+        created_by: { type: string, description: Audit attribution — the acting credential (a user name or token:<name>). }
+        updated_by: { type: string }
+        created_at: { type: string }
+    APIToken:
+      type: object
+      description: A named static bearer token (secret never included — it is returned once at creation).
+      properties:
+        id: { type: integer, format: int64 }
+        name: { type: string }
+        prefix: { type: string, description: The secret's first characters, for identification. }
+        created_by: { type: string, description: User who minted the token. }
+        created_at: { type: string }
+        last_used: { type: integer, format: int64, description: Unix seconds of the last use (0 = never), stamped at most once a minute. }
     Settings:
       type: object
       description: >-
-        Flat string map. Keys: listen, router, router_tls, data_dir,
-        port_range, binary, default_binary, execserver_cpus, hibernate_after,
-        postgres_admin_dsn, basic_auth_user, management_host,
-        default_license_id, default_storage_id, managed_master_id,
-        backup_dir, opensearch_addresses, opensearch_user,
-        opensearch_admin_user, sandbox, sandbox_connect_ports,
-        plugin_sources, acme_enabled, acme_email, acme_ca, acme_eab_key_id —
-        plus the write-only keys basic_auth_pass, plugin_dir,
+        Flat string map. Keys: listen, router, router_tls, router_routes, data_dir,
+        port_range, default_binary, execserver_cpus, hibernate_after,
+        postgres_admin_dsn, management_host,
+        trusted_proxies, default_license_id, default_storage_id,
+        managed_master_id, managed_execserver, managed_log_level,
+        managed_storage_id, log_ingest_level, log_keep_per_source, backup_dir,
+        opensearch_addresses,
+        opensearch_user, opensearch_admin_user, sandbox, sandbox_connect_ports, plugin_sources, acme_enabled, acme_email, acme_ca, acme_eab_key_id
+        — plus the write-only keys plugin_dir,
         opensearch_pass, opensearch_admin_pass, acme_eab_hmac_key (accepted
         on PUT, never returned). With opensearch_admin_user set (a user of
         the OpenSearch security plugin that may manage users and roles) every
         instance runs as an OpenSearch user of its own, fylr_<name>, limited
-        to the instance's indices; a change rolls the running instances.
-        postgres_admin_dsn is returned with its password as password=***; a
-        PUT that sends that value back keeps the stored password. sandbox
-        ("on"/"off", Linux with Landlock only) confines every instance and
-        the shared execserver: an instance writes only its own directories
-        and connects only to its own ports, Postgres, OpenSearch, the
-        execserver and sandbox_connect_ports (comma-separated ports and
-        low-high ranges); changing either rolls the running instances.
+        to the instance's indices; a change rolls the running instances. postgres_admin_dsn is returned with its password as
+        password=***; a PUT that sends that value back keeps the stored
+        password. The former basic_auth_user/basic_auth_pass are retired:
+        management access is user-table backed (see /users); an existing
+        credential is adopted as the first user at boot.
+        managed_master_id names the instance newly created
+        managed branch instances are seeded from (""/"0" = start empty);
+        managed_execserver ("", "shared", "own") is the execserver preset
+        stamped onto newly created managed instances — creation-time only,
+        the execserver itself is a per-instance setting.
+        sandbox ("on"/"off", Linux with Landlock only) confines every
+        instance and the shared execserver: an instance writes only its own
+        directories and connects only to its own ports, Postgres,
+        OpenSearch, the execserver and sandbox_connect_ports (comma-separated
+        ports and low-high ranges); changing either rolls the running
+        instances.
         plugin_sources ("any"/"marketplace") is fylr.plugin.sources for
         instances without their own; branch instances are created with
-        "any"; a change rolls the running instances. managed_master_id names the
-        instance newly created managed branch instances are seeded from
-        (""/"0" = start empty).
+        "any"; a change rolls the running instances.
+        managed_log_level ("" = fylr's default, else trace/debug/info/warn/
+        error) is the fylr.logger.level stamped into the generated config of
+        newly created instances — creation-time only like the two above.
+        log_ingest_level gates what the log ingester stores from the fleet's
+        log files ("" = everything the children write, a level = a floor,
+        "off" = no ingestion); log_keep_per_source caps the log table per
+        source (supervisor, execserver, each instance).
+        trusted_proxies: comma-separated IPs/CIDRs whose x-real-ip /
+        x-forwarded-for the router believes for client identity (rate
+        limits, abuse bans); empty — the default, correct when the router
+        is the edge — ignores and strips those headers.
+        router_routes: newline-separated `host = upstream` lines that make the
+        public router the front door for a neighbour on the same machine that
+        is not a fylr instance (`crm.fylr.io = http://127.0.0.1:10100`).
+        Upstreams must be loopback or private addresses; a route is matched
+        after the abuse/ban gate and before the instance chain, so a routed
+        host cannot also be an instance host: instance create, edit and restore
+        refuse it with 409, and so does a managed binary push
+        (`?managed=true&host=`) that would stand an instance up on it.
       additionalProperties: { type: string }
