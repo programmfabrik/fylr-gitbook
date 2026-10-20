@@ -730,8 +730,10 @@ paths:
         data is deleted. The backup kind is detected from the directory
         content: `manifest.json` = api backup, replayed via the fylr restore
         tool through the target's public URL; `fylr-backup-*.sql.gz` = db
-        dump, restored 1:1 via the child's RestoreDB (purge, psql, schema
-        migrations, full reindex); then `allow_purge` is switched off on
+        dump, restored 1:1 by the supervisor (the instance is stopped, its
+        OpenSearch indices and database schema are dropped, the dump is
+        loaded with psql and the instance is started again, which runs the
+        schema migrations and a full reindex); then `allow_purge` is switched off on
         every restored location (they point at the source's files), and the
         storage reconcile reconnects restored locations with assigned storage
         backends and switches `allow_purge` back on only for the locations
@@ -1701,7 +1703,7 @@ components:
         started_at: { type: string }
         finished_at: { type: string }
         running: { type: boolean, description: A job (backup or restore) is running on this entry. }
-        phase: { type: string, description: The running job's phase (backup, restore, reindex, storage). }
+        phase: { type: string, description: "The running job's phase (backup, restore, stop, purge, psql, reindex, storage)." }
         restore:
           type: object
           description: The most recent restore of this backup.
