@@ -22,8 +22,7 @@ How to install fylr on a linux server via docker compose
     Circa two times the storage space of you assets. So if you want to manage 1 TB of assets with fylr, have _another_ 1 TB for preview images. If you tend to have big assets, you might need much less, as the previews then are much smaller in comparison to your asset files.\
     Add fast storage (SSD/NVME) for database and indices: 4% of what your assets need. So for 1 TB of assets have 40 GB. Most installations need a lot less than 4%.\
     The following also benefits from fast storage, especially during asset processing:\
-    Ca. 100 GB for temporary file systems of containers. (default `/var/lib/docker`)\
-    40 GB for container images. (default `/var/lib/docker`)
+    Ca. 100 GB for temporary file systems of containers and 40 GB for container images. (default `/var/lib/docker` and `/var/lib/containerd`, we tend to change both of these to `/srv/`)
 *   **Network Storage**
 
     At most, put assets, previews and database dumps on network storage. Do not put other data on network storage as features may collide (e.g. overlay file system by docker).\
@@ -181,20 +180,27 @@ and in `local_limits.conf`:
 
 ```
 [Journal]
-# do not fill the entire disk
+# do not fill the entire disk. Needs SystemMaxFileSize to not be 0
 SystemKeepFree=10G
-# keep for ...
-MaxRetentionSec=2month
 # rotate files after ...
 MaxFileSec=1day
 
-# no other limits, but hardcoded maximum file size is 4G
-SystemMaxUse=0
-SystemMaxFileSize=0
-SystemMaxFiles=0
-# no rate limits
-RateLimitIntervalSec=0
-RateLimitBurst=0
+# Generous other limits, so not much can be lost:
+
+# Increase SystemMaxUse/MaxRetentionSec if you have lots of space in /var/log/journal.
+SystemMaxUse=10G
+# keep for ...
+MaxRetentionSec=2month
+# NOTE: SystemMaxFileSize=0 does NOT mean "unlimited":
+# instead it rotates every ~0.5 MB and also disables the SystemKeepFree
+# check (that check only runs once a file grows past 512 KiB).
+SystemMaxFileSize=100M
+# More than 7168 files would be written but then ignored when showing logs.
+SystemMaxFiles=7000
+# rate limits: upstream defaults. per unit and per priority class; the kernel
+# is exempt. effective burst is scaled up by log2(available space).
+RateLimitIntervalSec=30s
+RateLimitBurst=10000
 ```
 
 Load the changes:

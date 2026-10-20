@@ -70,3 +70,20 @@ These permissions can be assigned in one of the following ways:
 * **Granting custom permissions directly in the sharing dialog**. This option is only available to users who have the system permission "**Allow to Set Custom Sharing Permissions"**.
 
 If the invited user or group should be able to **add records** to the collection, the permission "**Add Records to Collection**" need to be granted.
+
+
+
+#### Changing permissions that shared collections rely on
+
+From fylr **6.35.0**, editing or removing a permission of an object type, a pool or a tag asks for confirmation when a collection that shares the affected records can no longer be shared after the change.
+
+#### Opening a shared collection without needing to login again
+
+While creating a new share row, the "Force Login" checkbox toggles the `?login`  parameter in the created share link URL.&#x20;
+
+When opening a new tab and pasting a received collection share link, a user doesn't need to login again when that link has no present  `?login`  parameter in the share link URL and the user choose to "Stay logged in for 7 days" during login.
+
+
+
+
+

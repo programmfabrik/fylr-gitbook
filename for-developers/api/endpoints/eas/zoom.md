@@ -28,12 +28,12 @@ These GET endpoints embed parameters inside a path segment (e.g. `{quality}.{for
 **Path parameters**
 
 * `fileId` — The ID of the file.
-* `hash` — The `hash` is the `file.hash` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
-* `version` — The `file.class_extension` as described [here](https://docs.fylr.io/for-developers/system-data-types/file#hash).
+* `hash` — The `hash` of the file as fylr renders it into the file's urls, its [`hash`](https://docs.fylr.io/for-developers/system-data-types/file#fields). A file left on its remote has the MD5 of its remote URL until it is processed, and urls carrying that hash keep working once the content hash is stored.
+* `version` — The version name and the file's extension, joined by a dot, such as `original.jpg`, as fylr renders them into the file's urls; see [File Versions](https://docs.fylr.io/for-developers/system-data-types/file#file-versions).
 * `zoom_viewport` — The viewport is the width of the desired rectangle for the tile selection. The minimum is 100. If the original image width is 4000px and the viewport is 40000px, the zoom factor will be 10. The image is zoomed so that the width of the resulting image is as large as this parameter.
 * `zoom_x` — Within the viewport zoomed image `zoom_x` is the tile number on the x-axis on a tought grid. The tile size is 320 unless given otherwise. If an image is 3200px (width) x 16000px (height) and the viewport is 32000px, we have a zoom factor of 10. With a tile size of 320, this results in a grid of 100 x 50 tiles.
 * `zoom_y` — Within the viewport zoomed image `zoom_y` is the tile number on the y-axis on a tought grid. The tile size is 320 unless given otherwise. If an image is 3200px (width) x 16000px (height) and the viewport is 32000px, we have a zoom factor of 10. With a tile size of 320, this results in a grid of 100 x 50 tiles.
-* `format` — The output format of a tile. The internal compute chain works with a `BMP` without alpha channel. So, the zoomer will not support transparency for `PNG`, but use a white background instead.
+* `format` — The output format of a tile. A `PNG` tile keeps the transparency of a transparent source; a `JPG` tile, which has no alpha channel, is laid on white.
 * `zoom_tile_size` — The tile size for the zoom responses in pixels. Default is `320`.
 * `x-fylr-signature` — The signature to omit file permission checks. It will be added to the URL when retrieved through `/api/db`, `/api/search` or other endpoints which deliver fylr URLs.
 * `obj_uuid` — The `_uuid` of the object the file is linked into. This is used for the permission check.

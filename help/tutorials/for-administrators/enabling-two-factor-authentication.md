@@ -60,6 +60,10 @@ The first time an enforced user logs in, fylr guides them through what is needed
 With more than one method enabled, the user picks one at first login; later logins go straight to the last-used method, with a **"use a different method"** link to switch. Wrong email/TOTP codes are limited (3 attempts by default) before the user has to start the login over.
 
 {% hint style="info" %}
+Both numbers are set in `fylr.yml`, not in the base configuration: `fylr.twoFactor.maxVerifyAttempts` (default 3) is how many wrong codes are accepted before the login starts over, and `fylr.twoFactor.otpLifetimeSec` (default 3600) is how long an emailed code stays valid. The lifetime is deliberately generous — a mail relay that delays externally addressed mail by several minutes must not expire the code before it arrives. See [fylr.example.yml.md](../../../for-system-administrators/configuration/fylr.example.yml.md "mention").
+{% endhint %}
+
+{% hint style="info" %}
 **Passwordless sign-in:** when the passkey method is enabled, the login form also offers **"Sign in with passkey"** — no username or password. Because a passkey combines possession (the device) with biometrics, this counts as a full two-factor login.
 {% endhint %}
 
@@ -84,6 +88,10 @@ This is the part to plan for before you enforce 2FA on real accounts.
 * **Enrollment happens at login.** There is no self-service enrollment before the first login: TOTP and passkey are set up when the enforced user next signs in; the email method just works if an address is present.
 
 The `USER_LOGIN` event records which second factor was used (in its `two_factor` field), so you can verify in the event log that 2FA is actually taking effect.
+
+{% hint style="info" %}
+Choosing a method: the one-time email code depends on timely mail delivery — some mail systems apply greylisting or other delays that can hold up the code past the login window. If that's a concern, prefer the authenticator app (TOTP) or passkey as the primary method, with email only as a fallback.
+{% endhint %}
 
 ## Related pages
 

@@ -504,9 +504,34 @@ Surf to **https://**&#x66;ylr.example.co&#x6D;**/inspect/** - System - `Reindex 
 
 <summary>7.b Remove Apache</summary>
 
-See the [default fylr installation](../../../for-system-administrators/installation/linux-docker-compose.md#installation) and adjust `docker-compose.yml` and `fylr.yml`. for default ports and certificate.
+Without Apache, fylr itself listens on ports 80 and 443 and obtains and renews its certificate from Let's Encrypt. See the [default fylr installation](../../../for-system-administrators/installation/linux-docker-compose.md#installation) and [HTTP and HTTPS](../../../for-system-administrators/configuration/http-and-https.md#automated-https-certificate).
+
+In `docker-compose.yml`, replace fylr's port `127.0.0.1:91:91` (step 1.b) with the default ports:
 
 ```
+    ports:
+      - "443:443"
+      - "80:80"
+```
+
+In `fylr.yml`, replace `addr: ":91"` (step 1.c) and remove any `certFile` and `keyFile`, so fylr manages the certificate:
+
+```
+    webapp+:
+      addr: ":443"
+      tls:
+        forwardHttpAddr: ":80"
+        letsEncrypt:
+          email: you@example.com
+          useStagingCA: false
+```
+
+{% hint style="warning" %}
+**Remove the certbot timers.** certbot's Apache plugin starts Apache on port 80 directly, even when `apache2` is masked. If it runs while fylr restarts (e.g. after a docker upgrade), Apache takes port 80 and fylr fails to start. There may be two timers: one from the Debian package, one from the snap installed in step 2.a.
+{% endhint %}
+
+```
+systemctl disable --now certbot.timer snap.certbot.renew.timer
 systemctl stop apache2
 systemctl disable apache2
 systemctl mask apache2
@@ -514,11 +539,7 @@ cd /srv/fylr
 /srv/fylr/maintain fylr-recreate ; docker-compose logs -f fylr
 ```
 
-Is certbot now also not needed any more? Then consider:
-
-```
-systemctl mask certbot.timer
-```
+Check that fylr obtained its certificate: the log shows `certmagic: certificate obtained successfully`. The certificate is stored in fylr's database, so recreating the container does not request a new one.
 
 </details>
 

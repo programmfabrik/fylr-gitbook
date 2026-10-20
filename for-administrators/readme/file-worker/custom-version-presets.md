@@ -25,7 +25,7 @@ Each preset has the following settings:
 
 The option fields are the same as the custom-version options in the download dialog:
 
-<table data-search="false"><thead><tr><th width="211.109375">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Rendition Name</td><td>Internal name of the rendition.</td></tr><tr><td>Display Name</td><td>Name of the renditions that's shown in the download options.</td></tr><tr><td>Format</td><td>Output file format. "Unchanged" leaves the format of the source file unchanged.</td></tr><tr><td>Size</td><td>"Unchanged" leaves the dimensions unchanged, or choose "Resize/Crop" to scale the rendition.</td></tr><tr><td>Color Space</td><td>Output color space. "Unchanged" leaves the color space unchanged.</td></tr><tr><td>DPI</td><td>Target DPI.</td></tr><tr><td>Color Profile</td><td>Embed one of the configured <a href="custom-.icc-color-profiles.md">.icc color profiles</a>.</td></tr><tr><td>Watermark</td><td>Apply the configured watermark to the rendition.</td></tr></tbody></table>
+<table data-search="false"><thead><tr><th width="211.109375">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Rendition Name</td><td>Internal name of the rendition.</td></tr><tr><td>Display Name</td><td>Name of the renditions that's shown in the download options.</td></tr><tr><td>Format</td><td>Output file format. "Unchanged" leaves the format of the source file unchanged.</td></tr><tr><td>Size</td><td>"Unchanged" leaves the dimensions unchanged, or choose "Resize/Crop" to scale the rendition.</td></tr><tr><td>Color Space</td><td>Output color space. "Unchanged" leaves the color space unchanged.</td></tr><tr><td>DPI</td><td>Target DPI.</td></tr><tr><td>Color Profile</td><td>Embed one of the configured <a href="custom-.icc-color-profiles.md">.icc color profiles</a>.</td></tr><tr><td>Watermark</td><td>Apply the configured watermark to the rendition. It is the watermark of the pool or object type, with everything it was configured with — image, position, transparency, size (in pixels or as a percentage of the rendition) and tiling. See <a href="../../permissions/pools.md#watermarks">Watermarks</a>.</td></tr></tbody></table>
 
 
 
@@ -33,6 +33,16 @@ The option fields are the same as the custom-version options in the download dia
 A preset must have a display name **and** at least one effective option. The editor disables **Apply** for an invalid preset, and the server rejects an invalid preset on save.
 {% endhint %}
 
+### Color space and color profile
+
+From fylr **6.35.0** a **Color Space** an ICC profile can express is converted *through* that profile, and the produced file carries it: `rgb` and `srgb` through `sRGB_IEC61966-2-1_black_scaled`, `gray` and `grey` through `Generic Gray Profile`, `cmyk` through `ISOcoated_v2_eci` — so a CMYK download is what a print shop expects. An image without an embedded color profile is converted as sRGB, or, with CMYK pixels, as `ISOcoated_v2_eci`. A color space no profile expresses (`YCbCr`, `HSL`, …) is converted by channel arithmetic and leaves the file untagged, as before.
+
+Set together, **Color Space** and **Color Profile** have to agree: a `cmyk` color space with an RGB profile is refused when the preset is saved, rather than one of the two being dropped.
+
+`Generic XYZ Profile` and `Generic Lab Profile` are no longer offered. XYZ and Lab describe the space color management converts *through*, not image data; a file tagged with one is refused by color-managed software although the image inside it is intact. A preset that still names either does not save until it is changed to a real profile, for example `sRGB Profile` or `AdobeRGB1998`.
+
+A version written as **BMP** is a 24 bpp TrueColor file with a classic `BITMAPINFOHEADER` and no embedded color profile, so every BMP reader, macOS included, opens it; its pixels are still converted through the chosen color profile.
+
 ## Using a preset
 
-When a preset applies to a file, it appears in the **Renditions** list of the download options alongside the standard renditions. See [Downloading](../../../for-users/download-and-export/downloading.md#custom-version-presets) for the user's perspective.
+When a preset applies to a file, it appears in the **Renditions** list of the download options alongside the standard renditions. See [Downloading](../../../for-users/download-and-export/downloading.md#custom-versions) for the user's perspective.

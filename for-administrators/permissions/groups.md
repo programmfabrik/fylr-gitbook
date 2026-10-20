@@ -45,6 +45,8 @@ Define which parts the users of the user group should be allowed to access and w
 
 Define which other users or user groups should be able to access (read, write, delete) this group and/or the users of this group. Please refer to the general overview of the [permissions](./) for more details.
 
+From fylr **6.35.0**, deleting a group needs **View, Edit & Delete Group** on it. Adding a rule to the group's [Authentication Services](groups.md#authentication-services) mappings needs **Add Users to Group**, removing one needs **Remove Users from Group**. The group's owner and users with `system.root` need neither, and a save that leaves the mappings unchanged needs neither.
+
 {% hint style="info" %}
 If **Group A** should be able to see users of **Group B**, you must edit **Group B** and add **Group A** in the permission. This ensures that users of **Group A** can find and for example share collections with users of **Group B**. See also "[Setting Up Collection Sharing](../../help/tutorials/for-administrators/setting-up-collection-sharing.md)".
 {% endhint %}

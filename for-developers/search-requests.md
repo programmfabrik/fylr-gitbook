@@ -37,7 +37,7 @@ The response carries `count`, `offset`, `limit` and `objects` (each a [record](r
 | `objecttypes` | string[] | Restrict an object search to these object types (empty = all). |
 | `format` | string | Render format of each hit: `standard`, `long`, `short`. |
 | `offset` / `limit` | int | Paging window. |
-| `sort` | array | Sort criteria; sort by the field `_score` for relevance order. |
+| `sort` | array | Sort criteria; sort by the field `_score` for relevance order. See [Sorting](#sorting). |
 | `search_after` | array | Deep-pagination cursor — the `_sort` values of the last hit of the previous page. |
 | `point_in_time` | object | `{id, keep_alive}` — a stable snapshot for consistent deep paging. |
 | `aggregations` | object | Facets / aggregations, keyed by a name you choose (see below). |
@@ -56,7 +56,8 @@ Each element has a `type` and, optionally, a `bool` context and a `boost`. The e
 
 | `type` | Matches | Key fields |
 | --- | --- | --- |
-| `match` / `text` | full-text against one or more fields | `fields`, `string`, `mode` (`fulltext` / `wildcard` / `token`), `phrase` |
+| `text` | full-text against one or more fields, the kind of match set by `query` | `fields`, `string`, `query` |
+| `match` | like `text`, kept for compatibility; takes the kind of match from `mode` and `phrase` | `fields`, `string`, `mode` (`fulltext` / `wildcard` / `token`), `phrase` |
 | `in` | a field against a set of values, an object type, or a sub-search | `fields`, `in` (values), `objecttype`, `subsearch`, `include_path` |
 | `range` | a range on one field | `field`, `from`, `to`, `from_equals`, `to_equals` |
 | `changelog_range` | by change-history entries | `field`, `from`, `to`, `operation`, `comment`, `user` |
@@ -65,7 +66,29 @@ Each element has a `type` and, optionally, a `bool` context and a `boost`. The e
 | `geo_bounding_box` | a geo field inside a box (needs the geo capability) | `field`, `geo_bounding_box` |
 | `geo_shape` | a geo field inside a polygon (needs the geo capability) | `field`, `geo_shape` |
 
-Id lookups use `type: "in"` with `fields: ["_system_object_id"]` (or `["_uuid"]`); there is no separate `ids` element. Full-text is `type: "match"` / `"text"`.
+Id lookups use `type: "in"` with `fields: ["_system_object_id"]` (or `["_uuid"]`); there is no separate `ids` element. Full-text is `type: "text"`, or the older `type: "match"`.
+
+### Full-text: `query`
+
+A `text` element needs `query`, which says how `string` matches the `fields` (the full text when `fields` is empty):
+
+| `query` | Matches |
+| --- | --- |
+| `match` | all words of `string`, in any order |
+| `match_phrase` | the words next to each other, in this order |
+| `intervals_ordered` | the words next to each other, in this order; `*` and `?` in a word are wildcards, a word that is only `*` allows any number of words in between |
+| `intervals` | all words, in any order and at any distance; `*` and `?` in a word are wildcards |
+| `text` | all words, in any order; `*` and `?` in a word are wildcards |
+| `exact` | the whole value, case sensitive; `*` and `?` are wildcards |
+| `token` | one of the field's indexed words, as it is, without wildcards |
+
+The word-based kinds ignore case. `match` and `match_phrase` take no wildcards, a `*` in `string` is dropped. A `text` element without `query`, or with any other value, is rejected, as is a `string` of only wildcards.
+
+```json
+{ "type": "text", "query": "text", "fields": ["person.name"], "string": "mei*" }
+```
+
+`type: "match"` ignores `query` and derives it: `mode` `fulltext` (the default) is `match`, `wildcard` is `text`, `token` is `token`, and `phrase: true` is `intervals_ordered`. For `text`, `mode` and `phrase` are ignored, except that `mode: "wildcard"` with `query` `match` or `match_phrase` is rejected.
 
 ## `bool` contexts
 
@@ -80,6 +103,34 @@ Nest `complex` elements to build `AND` / `OR` trees — a `complex` with `bool: 
 ## `boost`
 
 Every element accepts a `boost` (number, default `1`, from fylr **6.34.0**). A value other than `1` scales how much a matching element contributes to a hit's `_score`; negative values are rejected. Combine `bool: should` elements with different boosts and sort by `_score` to rank preferred matches first. Boost has no effect on `must_not` clauses.
+
+## Sorting
+
+Each `sort` element names a `field` and an `order` (`asc`, the default, or `desc`); later elements order the hits that tie on the earlier ones. Besides record fields and `_score`, the times in a record's change history sort. Each has a plain field next to it for filtering:
+
+| Sort and `fields` | Filter (`in`, `range`) | The time the record … |
+| --- | --- | --- |
+| `_changelog.date_created` | `_created` | was created |
+| `_changelog.date_last_updated` | `_last_modified` | was last saved |
+| `_changelog.date_deleted` (from fylr **6.35.0**) | `_latest_version_deleted_at` | was moved to the trash (with `include_deleted`) |
+
+These times and the date fields of the datamodel put the date into `_sort` in epoch seconds. With `width` (`day`, `week`, `month` or `year`) the hits group by the start of that period in the request's `timezone` (UTC if unset), and the following sort elements order the hits within a group; `_sort` then carries the start of the period, and a hit without the date sorts as 1970-01-01. Request the same field in `fields` to label the groups — the trash, newest deletion day first:
+
+```json
+{
+  "include_deleted": true,
+  "search": [
+    { "type": "in", "bool": "must_not", "fields": ["_latest_version_deleted_at"], "in": [null] }
+  ],
+  "sort": [
+    { "field": "_changelog.date_deleted", "order": "desc", "width": "day" },
+    { "field": "_changelog.date_deleted", "order": "desc" }
+  ],
+  "fields": [{ "field": "_changelog.date_deleted", "key": "deleted" }]
+}
+```
+
+Each hit then carries its deletion time in `_fields.deleted`, for example `["2026-09-24T13:32:07Z"]`.
 
 ## Aggregations (facets)
 

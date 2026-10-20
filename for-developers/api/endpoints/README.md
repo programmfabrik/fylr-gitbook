@@ -12,6 +12,18 @@ header (a workaround for Safari, which overwrites `Authorization`). A request
 without a valid token runs as an anonymous session; endpoints that require a
 user then answer `401`.
 
+**Signed file URLs.** File URLs in `/db`, search and, since fylr 6.35, `/eas`
+responses carry a signature (`?x-fylr-signature=…`; IIIF and zoom URLs carry it
+as a path segment) that authorizes that one file on its own until it expires,
+so a browser loads files without the access token in the URL. The
+`file_url_expire` query parameter sets the validity in days, `0` returns
+unsigned URLs. A client that extends such a URL adds query parameters
+with `&` and puts a path, such as a file inside a ZIP, in front of the `?`, or
+asks for unsigned URLs. Since fylr
+6.35, export and backup downloads work the same way: load the export or backup
+with `?sign_url=1` and pass the returned `_download_signature` /
+`download_signature` as `?x-fylr-signature=`; it is valid for one day.
+
 Each page below documents one endpoint group, with an interactive panel per
 operation generated from the OpenAPI specification (`fylr-openapi.yml`). Pages
 are grouped by the first path segment; larger groups — collection, eas, system,

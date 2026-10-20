@@ -124,6 +124,34 @@ If the target field is a so-called nested field, which contains more than one fi
 Alternatively, each record of the repeatable field can also be written into its own column. In our example, there would be a total of 6 columns for the three entries (“OTHER ID 1”, “OTHER ID 1 TYPE”, “OTHER ID 2”, “OTHER ID 2 TYPE”, “OTHER ID 3”, “OTHER ID 3 TYPE”). When importing, however, it should be noted that this must be done in multiple steps, since you may only ever select the target field once during the mapping. So in the first run you map and import the first two columns. In the second run, only the third and fourth, etc. It is important that in this case the option “Append Nested Records” is activated under “Import settings”, so that the entries in the multiple field are supplemented and not overwritten each time.
 {% endhint %}
 
+### Nested Fields inside Nested Fields <a href="#nested-fields-inside-nested-fields" id="nested-fields-inside-nested-fields"></a>
+
+A nested field can contain nested fields of its own. The example below uses a nested field `events`, where every event has an `event_type` and two nested fields of its own, `dates` and `places`. Which event a date or a place belongs to is decided by the column name.
+
+The column name is the path of the field, with brackets for every nested level. Only the innermost brackets stay empty, every level above them carries the number of the entry it belongs to, starting at `0`:
+
+| TITLE           | events\[0].event\_type | events\[0].dates\[].date | events\[0].places\[].place | events\[1].event\_type | events\[1].dates\[].date | events\[1].places\[].place |
+| --------------- | ---------------------- | ------------------------ | -------------------------- | ---------------------- | ------------------------ | -------------------------- |
+| Berlin by Night | Production             | <p>1962<br>1963</p>      | Berlin                     | Publication            | 2014                     | Frankfurt                  |
+
+This record is imported with two events: the first one produced in Berlin with the dates 1962 and 1963, the second one published in Frankfurt in 2014.
+
+Three rules are enough to write such a file:
+
+* **Only the innermost `[]` stays empty.** It is the level that is filled from a single cell: several values separated by line breaks, exactly as described under Nested Fields. In the example, the two dates of the first event share one cell.
+* **Every level above it needs a number.** The number decides where the value goes, not the position of the column. All columns named `events[0]…` fill the first event, all columns named `events[1]…` the second one. Number the entries consecutively, starting at `0`.
+* **Without a number, all columns are written into the first entry.** Column names such as `event1_place` and `event2_place` carry no number in the notation the importer reads, so both columns end up in `events[0]`, and the second event only receives the fields that sit directly in it (see below).
+
+For fields that sit directly in the outer nested field, such as `events[<n>].event_type`, the number is optional: those columns are filled in the order in which they appear. Writing the number anyway keeps the file readable, but keep the columns of an entry together and in order.
+
+{% hint style="info" %}
+In the mapping, the target field is offered with `<n>` as a placeholder for the number, for example `events[<n>].dates[].date`. Replace `<n>` in the column name of your CSV file with the number of the entry, for example `events[0].dates[].date`; columns written this way are mapped automatically.
+{% endhint %}
+
+{% hint style="warning" %}
+Date range fields need the number as well. If two columns for two different entries are mapped as from / to / textual representation without a number, they are indistinguishable for the importer and the import cannot be prepared: _Ranges needs to be unique._
+{% endhint %}
+
 ## Files
 
 The import of files is explained in the [examples](files.md).

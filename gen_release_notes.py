@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
-import sys, os, datetime, json, re, http.client, urllib.parse, tempfile, subprocess
+import sys, os, datetime, json, re, glob, http.client, urllib.parse, tempfile, subprocess
+
+# number of most recent releases fetched from github. releases older than that
+# are kept in the index pages as they are, they are never regenerated.
+RELEASES_PER_PAGE = 10
 
 class Github:
     def __init__(self, token):
@@ -8,7 +12,7 @@ class Github:
 
     def get_releases(self):
         con = http.client.HTTPSConnection('api.github.com')
-        con.request('GET', '/repos/programmfabrik/fylr/releases?per_page=100', headers = {
+        con.request('GET', '/repos/programmfabrik/fylr/releases?per_page={}'.format(RELEASES_PER_PAGE), headers = {
             'User-Agent': 'PF Release Notes Update/1.0',
             'Authorization': 'Bearer ' + self.token })
         res = con.getresponse()
@@ -87,8 +91,37 @@ class Filestore:
                 run.stdout.decode('utf-8'), run.stderr.decode('utf-8')))
 
 
+ENTRY_RE = re.compile(r'^\* \[(?P<name>.*) \((?P<date>\d{4}-\d{2}-\d{2})\)\]\((?P<year>\d{4})/(?P<tag>.*)\.md\)$')
+
+def read_existing_rels():
+    """collect the releases already listed in releases/<year>.md, so that
+    releases which are not fetched from github anymore are not dropped."""
+    rels_per_year = {}
+    for fn in glob.glob('releases/[0-9][0-9][0-9][0-9].md'):
+        year = int(os.path.basename(fn)[:-3])
+        rels = []
+        with open(fn, 'r') as f:
+            for line in f:
+                m = ENTRY_RE.match(line.rstrip('\n'))
+                if m is not None:
+                    rels.append((m.group('tag'), m.group('name'), m.group('date')))
+        rels_per_year[year] = rels
+    return rels_per_year
+
+def merge_rel(rels, tup):
+    """add/update a release in a list ordered by descending date"""
+    for i, old in enumerate(rels):
+        if old[0] == tup[0]:
+            rels[i] = tup   # known release, keep its position
+            return
+    for i, old in enumerate(rels):
+        if old[2] <= tup[2]:
+            rels.insert(i, tup)
+            return
+    rels.append(tup)
+
 gh = Github(sys.argv[1])
-rels_per_year = {}
+rels_per_year = read_existing_rels()
 
 fs = Filestore()
 
@@ -106,7 +139,7 @@ for rel in gh.get_releases():
 
     if year not in rels_per_year:
         rels_per_year[year] = []
-    rels_per_year[year].append((tag, name, rel['published_at'][:10]))
+    merge_rel(rels_per_year[year], (tag, name, rel['published_at'][:10]))
 
     fn = 'releases/{}/{}.md'.format(year, tag)
 
@@ -132,8 +165,11 @@ for rel in gh.get_releases():
     md.add_raw(rel['body'])
     md.write(fn)
 
-# releases summaries
-for year, rels in rels_per_year.items():
+# releases summaries, newest year first
+years = sorted(rels_per_year.keys(), reverse = True)
+
+for year in years:
+    rels = rels_per_year[year]
     md = MDPage()
     md.add_header(str(year))
     for tup in rels:
@@ -151,9 +187,9 @@ with open('SUMMARY.md', 'r') as f:
         if line.startswith('* [Releases]'):
             while (i + 1) < len(inlines) and inlines[i + 1].startswith(' '):
                 i += 1
-            for year, rels in rels_per_year.items():
+            for year in years:
                 lines.append('  * [{}](releases/{}.md)\n'.format(year, year))
-                for tup in rels:
+                for tup in rels_per_year[year]:
                     lines.append('    * [{} ({})](releases/{}/{}.md)\n'.format(tup[1], tup[2], year, tup[0]))
         i += 1
 

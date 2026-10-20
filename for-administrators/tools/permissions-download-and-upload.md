@@ -7,7 +7,7 @@ description: >-
 # Permissions Download & Upload
 
 {% hint style="info" %}
-This feature is a plugin called "[easydb-basemigration-plugin](https://github.com/programmfabrik/easydb-basemigration-plugin)". It's activated by default. If you don't see this feature in the menu, please make sure to have it enabled in the plugin manager.
+This feature is the plugin `fylr-plugin-basemigration`, called `easydb-basemigration-plugin` up to fylr 6.34. If you don't see this feature in the menu, add it from the [plugin marketplace](../plugin-manager/README.md#plugin-marketplace) or enable it in the plugin manager.
 {% endhint %}
 
 

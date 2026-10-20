@@ -23,7 +23,7 @@ callbacks:
       plugin_user:                 # optional — act as a configured user
         base_config: "user.api_user"
       exec:
-        timeoutSec: 120            # exports may exceed the 30 s default
+        timeout: "2h"              # exports may exceed the 2400 s default
         service: "node"
         commands:
           - prog: "node"

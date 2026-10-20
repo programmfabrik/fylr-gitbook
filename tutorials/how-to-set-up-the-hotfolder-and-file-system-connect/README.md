@@ -9,7 +9,7 @@ description: >-
 
 ## Upload Collections
 
-**Collections** can be used to **upload** bulks of **files**. Files can either be **dropped** on the collection in the **frontend** or in the **Hotfolder** or **File System Connect**. All files will be **imported** to FYLR and **linked** to the **collection**. Please refer to the [tutorial](setting-up-an-upload-collection.md) on how to **set up** an upload collection and to the [upload settings](../../for-users/quick-access/collections-and-presentations.md#upload-and-file-system-connect) for all details.
+**Collections** can be used to **upload** bulks of **files**. Files can either be **dropped** on the collection in the **frontend** or in the **Hotfolder** or **File System Connect**. All files will be **imported** to FYLR and **linked** to the **collection**. Please refer to the [tutorial](setting-up-an-upload-collection.md) on how to **set up** an upload collection and to the [upload settings](../../for-users/quick-access/collections-and-presentations.md#upload-settings) for all details.
 
 
 

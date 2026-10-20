@@ -1,6 +1,6 @@
 services:
   opensearch:
-    image: opensearchproject/opensearch:3
+    image: opensearchproject/opensearch:3.8.0
     container_name: opensearch
     restart: always
     environment:
@@ -8,8 +8,8 @@ services:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - network.publish_host=127.0.0.1
-      - plugins.security.disabled=true
-      - "OPENSEARCH_INITIAL_ADMIN_PASSWORD=EXAMPLEq_-945873205"
+      - DISABLE_SECURITY_PLUGIN=true
+      - DISABLE_INSTALL_DEMO_CONFIG=true
       - cluster.routing.allocation.disk.watermark.low=30gb
       - cluster.routing.allocation.disk.watermark.high=25gb
       - cluster.routing.allocation.disk.watermark.flood_stage=20gb
