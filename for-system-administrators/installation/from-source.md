@@ -130,7 +130,7 @@ ttf-mscorefonts-installer fontconfig       # rendering fonts
 ca-certificates tzdata-legacy
 ```
 
-Extra Python modules used by some plugins (`python3-requests`, `python3-requests-oauthlib`, `python3-opencv`, `python3-cssselect`, `python3-tinycss2`, …) are installed with `pip3`.
+Extra Python modules used by some plugins (`python3-requests`, `python3-requests-oauthlib`, `python3-numpy`, `python3-opencv`, `python3-cssselect`, `python3-tinycss2`, …) are installed with `pip3`.
 
 mutool has to be built with ICC color management, or CMYK PDFs render with oversaturated colors. Debian's and Ubuntu's `mupdf-tools` are built without it, so the Docker image builds mutool from source, and so does this:
 

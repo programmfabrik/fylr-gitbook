@@ -14,7 +14,7 @@ FYLR_BUILD_PLUGIN ?= go run github.com/programmfabrik/fylr-build-plugin@latest
 ```
 
 {% hint style="info" %}
-**The canonical reference is the tool's own README:** [fylr-build-plugin](https://github.com/programmfabrik/fylr-build-plugin) — the repository layout, `build.yml`, bundles, npm dependencies, sealing and the release workflow templates. The living example that exercises every feature is [fylr-plugin-example](https://github.com/programmfabrik/fylr-plugin-example); `fylr-build-plugin init` scaffolds a new plugin with the same structure.
+**The canonical reference is the tool's own README:** [fylr-build-plugin](https://github.com/programmfabrik/fylr-build-plugin) — the repository layout, `build.yml`, bundles, npm dependencies, Python packages, sealing and the release workflow templates. The living example that exercises every feature is [fylr-plugin-example](https://github.com/programmfabrik/fylr-plugin-example); `fylr-build-plugin init` scaffolds a new plugin with the same structure.
 
 This page states the rules **fylr itself enforces** on the finished plugin, which is what an author has to satisfy however the plugin is built.
 {% endhint %}
@@ -31,6 +31,7 @@ This page states the rules **fylr itself enforces** on the finished plugin, whic
   * `builddate`
   * At a minimum it must carry the git commit id (`rev`) and the release tag (`release`). fylr treats the file as optional and the plugin manager displays it, so an installed plugin can be traced back to a commit and a release. For Programmfabrik plugins it is required.
 * `fylr-build-plugin check` validates the assembled tree against every path the manifest references — exec programs, `plugin.l10n`, `plugin.webfrontend.*`, `fas_config` files. It runs with every build; a dangling reference is a warning, because it can be deliberate.
+* **Python packages ship with the plugin.** fylr installs no Python package for a plugin: a `python3` program imports what lies in its own folder, where Python looks first, and what the fylr image has. From fylr-build-plugin 1.10.0, `build.yml` lists the packages per folder under `server.python`, and the build delivers them with all their dependencies into that folder. Only pure-Python packages can ship; compiled ones come from the fylr image, which provides `numpy` and `opencv-python`. A fylr installed from source needs those installed for such plugins.
 
 ## Naming
 
