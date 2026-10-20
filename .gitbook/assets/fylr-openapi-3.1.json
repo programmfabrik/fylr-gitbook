@@ -243,7 +243,7 @@
                                         "size": 600,
                                         "format": "png",
                                         "resize_mode": "max",
-                                        "jpegquality": 80,
+                                        "quality": 80,
                                         "strip": true
                                       }
                                     }
@@ -478,7 +478,7 @@
                                     "size": 600,
                                     "format": "png",
                                     "resize_mode": "max",
-                                    "jpegquality": 80,
+                                    "quality": 80,
                                     "strip": true
                                   }
                                 }
@@ -1300,7 +1300,7 @@
                                           "size": 600,
                                           "format": "png",
                                           "resize_mode": "max",
-                                          "jpegquality": 80,
+                                          "quality": 80,
                                           "strip": true
                                         }
                                       }
@@ -1535,7 +1535,7 @@
                                       "size": 600,
                                       "format": "png",
                                       "resize_mode": "max",
-                                      "jpegquality": 80,
+                                      "quality": 80,
                                       "strip": true
                                     }
                                   }
@@ -2447,7 +2447,7 @@
                                         "size": 600,
                                         "format": "png",
                                         "resize_mode": "max",
-                                        "jpegquality": 80,
+                                        "quality": 80,
                                         "strip": true
                                       }
                                     }
@@ -2682,7 +2682,7 @@
                                     "size": 600,
                                     "format": "png",
                                     "resize_mode": "max",
-                                    "jpegquality": 80,
+                                    "quality": 80,
                                     "strip": true
                                   }
                                 }
@@ -3504,7 +3504,7 @@
                                           "size": 600,
                                           "format": "png",
                                           "resize_mode": "max",
-                                          "jpegquality": 80,
+                                          "quality": 80,
                                           "strip": true
                                         }
                                       }
@@ -3739,7 +3739,7 @@
                                       "size": 600,
                                       "format": "png",
                                       "resize_mode": "max",
-                                      "jpegquality": 80,
+                                      "quality": 80,
                                       "strip": true
                                     }
                                   }
@@ -4647,7 +4647,7 @@
                                           "size": 600,
                                           "format": "png",
                                           "resize_mode": "max",
-                                          "jpegquality": 80,
+                                          "quality": 80,
                                           "strip": true
                                         }
                                       }
@@ -4882,7 +4882,7 @@
                                       "size": 600,
                                       "format": "png",
                                       "resize_mode": "max",
-                                      "jpegquality": 80,
+                                      "quality": 80,
                                       "strip": true
                                     }
                                   }
@@ -5793,7 +5793,7 @@
                                         "size": 600,
                                         "format": "png",
                                         "resize_mode": "max",
-                                        "jpegquality": 80,
+                                        "quality": 80,
                                         "strip": true
                                       }
                                     }
@@ -6028,7 +6028,7 @@
                                     "size": 600,
                                     "format": "png",
                                     "resize_mode": "max",
-                                    "jpegquality": 80,
+                                    "quality": 80,
                                     "strip": true
                                   }
                                 }
@@ -6850,7 +6850,7 @@
                                           "size": 600,
                                           "format": "png",
                                           "resize_mode": "max",
-                                          "jpegquality": 80,
+                                          "quality": 80,
                                           "strip": true
                                         }
                                       }
@@ -7085,7 +7085,7 @@
                                       "size": 600,
                                       "format": "png",
                                       "resize_mode": "max",
-                                      "jpegquality": 80,
+                                      "quality": 80,
                                       "strip": true
                                     }
                                   }
@@ -8111,7 +8111,7 @@
                                             "size": 600,
                                             "format": "png",
                                             "resize_mode": "max",
-                                            "jpegquality": 80,
+                                            "quality": 80,
                                             "strip": true
                                           }
                                         }
@@ -8346,7 +8346,7 @@
                                         "size": 600,
                                         "format": "png",
                                         "resize_mode": "max",
-                                        "jpegquality": 80,
+                                        "quality": 80,
                                         "strip": true
                                       }
                                     }
@@ -9241,7 +9241,7 @@
                                           "size": 600,
                                           "format": "png",
                                           "resize_mode": "max",
-                                          "jpegquality": 80,
+                                          "quality": 80,
                                           "strip": true
                                         }
                                       }
@@ -9476,7 +9476,7 @@
                                       "size": 600,
                                       "format": "png",
                                       "resize_mode": "max",
-                                      "jpegquality": 80,
+                                      "quality": 80,
                                       "strip": true
                                     }
                                   }
@@ -10302,7 +10302,7 @@
                                             "size": 600,
                                             "format": "png",
                                             "resize_mode": "max",
-                                            "jpegquality": 80,
+                                            "quality": 80,
                                             "strip": true
                                           }
                                         }
@@ -10537,7 +10537,7 @@
                                         "size": 600,
                                         "format": "png",
                                         "resize_mode": "max",
-                                        "jpegquality": 80,
+                                        "quality": 80,
                                         "strip": true
                                       }
                                     }
@@ -11465,7 +11465,7 @@
                                             "size": 600,
                                             "format": "png",
                                             "resize_mode": "max",
-                                            "jpegquality": 80,
+                                            "quality": 80,
                                             "strip": true
                                           }
                                         }
@@ -11700,7 +11700,7 @@
                                         "size": 600,
                                         "format": "png",
                                         "resize_mode": "max",
-                                        "jpegquality": 80,
+                                        "quality": 80,
                                         "strip": true
                                       }
                                     }
@@ -15913,8 +15913,8 @@
                                                             ],
                                                             "type": "string"
                                                           },
-                                                          "jpegquality": {
-                                                            "description": "JPEG quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. [int]",
+                                                          "quality": {
+                                                            "description": "JPEG and WebP quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. No effect on PNG. [int]",
                                                             "type": "integer"
                                                           },
                                                           "resize_mode": {
@@ -20454,8 +20454,8 @@
                                                           ],
                                                           "type": "string"
                                                         },
-                                                        "jpegquality": {
-                                                          "description": "JPEG quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. [int]",
+                                                        "quality": {
+                                                          "description": "JPEG and WebP quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. No effect on PNG. [int]",
                                                           "type": "integer"
                                                         },
                                                         "resize_mode": {
@@ -24679,8 +24679,8 @@
                                                             ],
                                                             "type": "string"
                                                           },
-                                                          "jpegquality": {
-                                                            "description": "JPEG quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. [int]",
+                                                          "quality": {
+                                                            "description": "JPEG and WebP quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. No effect on PNG. [int]",
                                                             "type": "integer"
                                                           },
                                                           "resize_mode": {
@@ -63972,7 +63972,7 @@
                 "size": 600,
                 "format": "png",
                 "resize_mode": "max",
-                "jpegquality": 80,
+                "quality": 80,
                 "strip": true
               }
             }

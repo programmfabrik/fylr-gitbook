@@ -389,7 +389,7 @@ paths:
                                                                         size: 600
                                                                         format: png
                                                                         resize_mode: max
-                                                                        jpegquality: 80
+                                                                        quality: 80
                                                                         strip: true
                                                             example:
                                                                 imageconverter:browserthumbs:
@@ -747,7 +747,7 @@ paths:
                                                                 size: 600
                                                                 format: png
                                                                 resize_mode: max
-                                                                jpegquality: 80
+                                                                quality: 80
                                                                 strip: true
                                                     example:
                                                         imageconverter:browserthumbs:
@@ -1677,7 +1677,7 @@ paths:
                                                                             size: 600
                                                                             format: png
                                                                             resize_mode: max
-                                                                            jpegquality: 80
+                                                                            quality: 80
                                                                             strip: true
                                                                 example:
                                                                     imageconverter:browserthumbs:
@@ -2035,7 +2035,7 @@ paths:
                                                                     size: 600
                                                                     format: png
                                                                     resize_mode: max
-                                                                    jpegquality: 80
+                                                                    quality: 80
                                                                     strip: true
                                                         example:
                                                             imageconverter:browserthumbs:
@@ -3063,7 +3063,7 @@ paths:
                                                                         size: 600
                                                                         format: png
                                                                         resize_mode: max
-                                                                        jpegquality: 80
+                                                                        quality: 80
                                                                         strip: true
                                                             example:
                                                                 imageconverter:browserthumbs:
@@ -3421,7 +3421,7 @@ paths:
                                                                 size: 600
                                                                 format: png
                                                                 resize_mode: max
-                                                                jpegquality: 80
+                                                                quality: 80
                                                                 strip: true
                                                     example:
                                                         imageconverter:browserthumbs:
@@ -4351,7 +4351,7 @@ paths:
                                                                             size: 600
                                                                             format: png
                                                                             resize_mode: max
-                                                                            jpegquality: 80
+                                                                            quality: 80
                                                                             strip: true
                                                                 example:
                                                                     imageconverter:browserthumbs:
@@ -4709,7 +4709,7 @@ paths:
                                                                     size: 600
                                                                     format: png
                                                                     resize_mode: max
-                                                                    jpegquality: 80
+                                                                    quality: 80
                                                                     strip: true
                                                         example:
                                                             imageconverter:browserthumbs:
@@ -5709,7 +5709,7 @@ paths:
                                                                             size: 600
                                                                             format: png
                                                                             resize_mode: max
-                                                                            jpegquality: 80
+                                                                            quality: 80
                                                                             strip: true
                                                                 example:
                                                                     imageconverter:browserthumbs:
@@ -6067,7 +6067,7 @@ paths:
                                                                     size: 600
                                                                     format: png
                                                                     resize_mode: max
-                                                                    jpegquality: 80
+                                                                    quality: 80
                                                                     strip: true
                                                         example:
                                                             imageconverter:browserthumbs:
@@ -7081,7 +7081,7 @@ paths:
                                                                         size: 600
                                                                         format: png
                                                                         resize_mode: max
-                                                                        jpegquality: 80
+                                                                        quality: 80
                                                                         strip: true
                                                             example:
                                                                 imageconverter:browserthumbs:
@@ -7439,7 +7439,7 @@ paths:
                                                                 size: 600
                                                                 format: png
                                                                 resize_mode: max
-                                                                jpegquality: 80
+                                                                quality: 80
                                                                 strip: true
                                                     example:
                                                         imageconverter:browserthumbs:
@@ -8369,7 +8369,7 @@ paths:
                                                                             size: 600
                                                                             format: png
                                                                             resize_mode: max
-                                                                            jpegquality: 80
+                                                                            quality: 80
                                                                             strip: true
                                                                 example:
                                                                     imageconverter:browserthumbs:
@@ -8727,7 +8727,7 @@ paths:
                                                                     size: 600
                                                                     format: png
                                                                     resize_mode: max
-                                                                    jpegquality: 80
+                                                                    quality: 80
                                                                     strip: true
                                                         example:
                                                             imageconverter:browserthumbs:
@@ -9811,7 +9811,7 @@ paths:
                                                                                 size: 600
                                                                                 format: png
                                                                                 resize_mode: max
-                                                                                jpegquality: 80
+                                                                                quality: 80
                                                                                 strip: true
                                                                     example:
                                                                         imageconverter:browserthumbs:
@@ -10169,7 +10169,7 @@ paths:
                                                                         size: 600
                                                                         format: png
                                                                         resize_mode: max
-                                                                        jpegquality: 80
+                                                                        quality: 80
                                                                         strip: true
                                                             example:
                                                                 imageconverter:browserthumbs:
@@ -11168,7 +11168,7 @@ paths:
                                                                             size: 600
                                                                             format: png
                                                                             resize_mode: max
-                                                                            jpegquality: 80
+                                                                            quality: 80
                                                                             strip: true
                                                                 example:
                                                                     imageconverter:browserthumbs:
@@ -11526,7 +11526,7 @@ paths:
                                                                     size: 600
                                                                     format: png
                                                                     resize_mode: max
-                                                                    jpegquality: 80
+                                                                    quality: 80
                                                                     strip: true
                                                         example:
                                                             imageconverter:browserthumbs:
@@ -12459,7 +12459,7 @@ paths:
                                                                                 size: 600
                                                                                 format: png
                                                                                 resize_mode: max
-                                                                                jpegquality: 80
+                                                                                quality: 80
                                                                                 strip: true
                                                                     example:
                                                                         imageconverter:browserthumbs:
@@ -12817,7 +12817,7 @@ paths:
                                                                         size: 600
                                                                         format: png
                                                                         resize_mode: max
-                                                                        jpegquality: 80
+                                                                        quality: 80
                                                                         strip: true
                                                             example:
                                                                 imageconverter:browserthumbs:
@@ -13827,7 +13827,7 @@ paths:
                                                                                 size: 600
                                                                                 format: png
                                                                                 resize_mode: max
-                                                                                jpegquality: 80
+                                                                                quality: 80
                                                                                 strip: true
                                                                     example:
                                                                         imageconverter:browserthumbs:
@@ -14185,7 +14185,7 @@ paths:
                                                                         size: 600
                                                                         format: png
                                                                         resize_mode: max
-                                                                        jpegquality: 80
+                                                                        quality: 80
                                                                         strip: true
                                                             example:
                                                                 imageconverter:browserthumbs:
@@ -17653,8 +17653,8 @@ paths:
                                                                                                                     - png
                                                                                                                     - webp
                                                                                                                 type: string
-                                                                                                            jpegquality:
-                                                                                                                description: 'JPEG quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. [int]'
+                                                                                                            quality:
+                                                                                                                description: 'JPEG and WebP quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. No effect on PNG. [int]'
                                                                                                                 type: integer
                                                                                                             resize_mode:
                                                                                                                 description: 'How size is applied: "max" longest side (default), "min" shortest side, "width" or "height" fixed dimension. [select]'
@@ -21010,8 +21010,8 @@ paths:
                                                                                                                 - png
                                                                                                                 - webp
                                                                                                             type: string
-                                                                                                        jpegquality:
-                                                                                                            description: 'JPEG quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. [int]'
+                                                                                                        quality:
+                                                                                                            description: 'JPEG and WebP quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. No effect on PNG. [int]'
                                                                                                             type: integer
                                                                                                         resize_mode:
                                                                                                             description: 'How size is applied: "max" longest side (default), "min" shortest side, "width" or "height" fixed dimension. [select]'
@@ -24109,8 +24109,8 @@ paths:
                                                                                                                     - png
                                                                                                                     - webp
                                                                                                                 type: string
-                                                                                                            jpegquality:
-                                                                                                                description: 'JPEG quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. [int]'
+                                                                                                            quality:
+                                                                                                                description: 'JPEG and WebP quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. No effect on PNG. [int]'
                                                                                                                 type: integer
                                                                                                             resize_mode:
                                                                                                                 description: 'How size is applied: "max" longest side (default), "min" shortest side, "width" or "height" fixed dimension. [select]'
@@ -60857,7 +60857,7 @@ components:
                             size: 600
                             format: png
                             resize_mode: max
-                            jpegquality: 80
+                            quality: 80
                             strip: true
                 example:
                     imageconverter:browserthumbs:
