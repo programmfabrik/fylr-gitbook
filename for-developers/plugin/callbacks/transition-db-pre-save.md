@@ -64,7 +64,7 @@ The [response rules](db-pre-save.md#the-response) are the same: echo `_callback_
 
 An [error returned by the callback](contract.md#errors) **rejects the save** — the transition acts as a gate. A plugin-authored API error (code, parameters, statuscode) is passed to the client verbatim, so the frontend can show a localized message explaining *why* the workflow rejected the object; any other failure surfaces as the generic `DbPreSaveFailed` error naming the plugin.
 
-A matching transition whose action cannot run rejects the save too: its plugin is disabled or deleted, or no longer has the callback.
+A matching transition whose action cannot run although its plugin is enabled in the plugin manager rejects the save too, with `TransitionActionUnavailable`: the license does not permit the plugin, its files have not arrived, or it no longer has the callback. The action of a plugin that the admin switched off in the plugin manager, or removed, is skipped and logged.
 
 ## Example
 
