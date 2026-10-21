@@ -12,12 +12,14 @@ renders an HTML dashboard by default and returns **JSON** when the request sends
 is **whitelisted per page** — the operations below expose exactly the whitelisted
 fields, never more.
 
-These endpoints are **not** under `/api/v1` and are **not** token-authenticated.
-On the public **webapp port** /inspect is reverse-proxied behind a session check
-and requires the **`system.root`** right; on the **backend port** it needs the
-instance's backend secret in the `X-Fylr-Backend-Secret` header from fylr 6.36.0
-(before, it is mounted without authentication and must stay on a private
-network). For the console itself
+These endpoints are **not** under `/api/v1`. On the public **webapp port**
+/inspect is reverse-proxied behind a session check and requires the
+**`system.root`** right; a client sends a root user's access token as it does to
+`/api/v1` (`Authorization: Bearer <token>`), and a request without a valid token
+is redirected to `/login`. On the **backend port** every request needs the
+instance's backend secret in the `X-Fylr-Backend-Secret` header from fylr 6.36.0,
+a token does not open it (before, it is mounted without authentication and must
+stay on a private network). For the console itself
 — the dashboards, filters and actions — see
 [The /inspect Backend](../../../for-system-administrators/inspect/README.md).
 

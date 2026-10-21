@@ -13,10 +13,23 @@ description: >-
 
 /inspect is reachable on two ports with very different access rules:
 
-* **Backend port — the instance's backend secret.** The backend port mounts /inspect directly and, from fylr 6.36.0, answers it only to a request that carries the instance's backend secret in the `X-Fylr-Backend-Secret` header. fylr creates the secret at setup and keeps it in the database (system config `BACKEND_SECRET`); the webapp sends it when it proxies /inspect. `/debug/pprof/` on that port needs the secret as well, `/healthz` and `/metrics` answer without it. Before 6.36.0 the backend port needs no secret, so keep it on a **private network** — never expose it publicly.
-* **Webapp port — session + `system.root`.** The public webapp port reverse-proxies /inspect behind a session check: the logged-in user must hold the **`system.root`** right, otherwise the request is redirected to `/login`. This is how an administrator reaches /inspect in a browser.
+* **Backend port — the instance's backend secret.** From fylr 6.36.0 every request to the backend port (`fylr.services.backend.addr`) needs the instance's backend secret in the `X-Fylr-Backend-Secret` header; a user's token does not open it. Only `/`, `/healthz` and `/metrics` answer without the secret. fylr creates the secret at setup and keeps it in the database, in the system config `BACKEND_SECRET` (/inspect shows it masked); the webapp sends it when it proxies /inspect. Before 6.36.0 the backend port needs no secret, so keep it on a **private network** — never expose it publicly.
+* **Webapp port — session + `system.root`.** The public webapp port reverse-proxies /inspect behind a session check: the user must hold the **`system.root`** right. The session comes from the browser login or from the access token of a root user, sent the same way as to `/api/v1`: `Authorization: Bearer <token>`, `X-Fylr-Authorization: Bearer <token>` or the `access_token` query parameter. A request without a valid session or token is redirected to `/login`, a user without `system.root` is refused.
 
-So administrators, monitoring and tools use /inspect through the **webapp URL** with a `system.root` session or token.
+So administrators, monitoring and tools use /inspect through the **webapp URL** with a `system.root` session or token:
+
+```bash
+curl -H "Authorization: Bearer $TOKEN" -H "Accept: application/json" \
+  https://fylr.example.com/inspect/system/status/
+```
+
+A tool that reads the backend port directly takes the secret from the instance's database:
+
+```bash
+SECRET=$(psql -X -qtA -d fylr -c "SELECT value FROM systemconfig WHERE key = 'BACKEND_SECRET'")
+curl -H "X-Fylr-Backend-Secret: $SECRET" -H "Accept: application/json" \
+  http://localhost:8081/inspect/system/status/
+```
 
 ## HTML dashboards or JSON
 
