@@ -36842,12 +36842,13 @@ paths:
                     be re-rendered. Resend with `confirm=resync` to schedule the
                     re-sync, or `confirm=skip` to save without re-rendering.
                     Omitting it on the first request triggers the 202 prompt.
-                - name: confirmReindex
+                - name: confirm_reindex
                   in: query
                   schema:
                     type: string
                     enum:
                         - yes
+                        - skip
                   description: |
                     Confirms the re-index 202 that is raised when `_standard_masks`
                     lists other masks than before — reordering the same masks is
@@ -36868,8 +36869,12 @@ paths:
                     deleted, documents for newly listed masks are written, no new
                     index is built and the frontend is not blocked.
 
-                    Any value other than `yes` is rejected with a generic 400
-                    (`confirmReindex "<value>" not supported`). Sending the
+                    From 6.36.0 a change that affects no record saves without the
+                    202, and `skip` (needs `system.root`) answers the task without
+                    queuing the objects, for a client that re-indexes afterwards.
+
+                    Any value other than `yes` and `skip` is rejected with a generic 400
+                    (`confirm_reindex "<value>" not supported`). Sending the
                     parameter when nothing changed is harmless.
                 - name: allow_invalid_acl
                   in: query
@@ -36926,7 +36931,7 @@ paths:
                         limit — resend with `background_invalid_acl=true` to finish it
                         in the background; (c) the listed `_standard_masks` changed,
                         so the search index has to follow — resend with
-                        `confirmReindex=yes`. Open questions are collected into one
+                        `confirm_reindex=yes`. Open questions are collected into one
                         response, so a single resend can answer several of them.
                     content:
                         application/json:
@@ -36988,12 +36993,13 @@ paths:
                     be re-rendered. Resend with `confirm=resync` to schedule the
                     re-sync, or `confirm=skip` to save without re-rendering.
                     Omitting it on the first request triggers the 202 prompt.
-                - name: confirmReindex
+                - name: confirm_reindex
                   in: query
                   schema:
                     type: string
                     enum:
                         - yes
+                        - skip
                   description: |
                     Confirms the re-index 202 that is raised when `_standard_masks`
                     lists other masks than before — reordering the same masks is
@@ -37014,8 +37020,12 @@ paths:
                     deleted, documents for newly listed masks are written, no new
                     index is built and the frontend is not blocked.
 
-                    Any value other than `yes` is rejected with a generic 400
-                    (`confirmReindex "<value>" not supported`). Sending the
+                    From 6.36.0 a change that affects no record saves without the
+                    202, and `skip` (needs `system.root`) answers the task without
+                    queuing the objects, for a client that re-indexes afterwards.
+
+                    Any value other than `yes` and `skip` is rejected with a generic 400
+                    (`confirm_reindex "<value>" not supported`). Sending the
                     parameter when nothing changed is harmless.
                 - name: allow_invalid_acl
                   in: query
@@ -37072,7 +37082,7 @@ paths:
                         limit — resend with `background_invalid_acl=true` to finish it
                         in the background; (c) the listed `_standard_masks` changed,
                         so the search index has to follow — resend with
-                        `confirmReindex=yes`. Open questions are collected into one
+                        `confirm_reindex=yes`. Open questions are collected into one
                         response, so a single resend can answer several of them.
                     content:
                         application/json:
@@ -37470,7 +37480,7 @@ paths:
                     (never stored, always returned empty).
                   * `_maskfilters` replaces the stored mask filters wholesale, so
                     sending it as `{}` clears them. Any difference to the stored
-                    ones raises the mask-filter 202 (see `confirmReindex`),
+                    ones raises the mask-filter 202 (see `confirm_reindex`),
                     because the search index only follows the new filters once the
                     objects have been indexed again.
 
@@ -37497,12 +37507,13 @@ paths:
                     now; `skip` saves without recomputing. Any other value is
                     rejected with a generic 400 (`confirm "<value>" not
                     supported`).
-                - name: confirmReindex
+                - name: confirm_reindex
                   in: query
                   schema:
                     type: string
                     enum:
                         - yes
+                        - skip
                   description: |
                     Confirms the re-index 202 that is raised when the submitted
                     `_maskfilters` differ from the stored ones, or when
@@ -37523,8 +37534,12 @@ paths:
                     included ones are written, no new index is built and the
                     frontend is not blocked.
 
-                    Any value other than `yes` is rejected with a generic 400
-                    (`confirmReindex "<value>" not supported`). Sending the
+                    From 6.36.0 a change that affects no record saves without the
+                    202, and `skip` (needs `system.root`) answers the task without
+                    queuing the objects, for a client that re-indexes afterwards.
+
+                    Any value other than `yes` and `skip` is rejected with a generic 400
+                    (`confirm_reindex "<value>" not supported`). Sending the
                     parameter when nothing changed is harmless.
                 - name: allow_invalid_acl
                   in: query
@@ -37590,7 +37605,7 @@ paths:
                         parameter named by each task's form option or button appended
                         — for example `allow_invalid_acl=true`,
                         `background_invalid_acl=true`, `confirm=resync` /
-                        `confirm=skip`, or `confirmReindex=requeue`. More than one
+                        `confirm=skip`, or `confirm_reindex=requeue`. More than one
                         task can be open at a time; answer them all in one resend.
                     content:
                         application/json:
@@ -37628,8 +37643,8 @@ paths:
 
                         Generic 400s (`code: ServerGeneric` or a bare message) also
                         surface here for: an unsupported `confirm` value (`confirm
-                        "<value>" not supported`); an unsupported `confirmReindex`
-                        value (`confirmReindex "<value>" not supported`); an
+                        "<value>" not supported`); an unsupported `confirm_reindex`
+                        value (`confirm_reindex "<value>" not supported`); an
                         unknown `_standard_masks` /
                         `_maskfilters` mask id (`Objecttype: Mask <id> not found in
                         Datamodel`); a `watermark.gravity` outside the allowed set
@@ -49452,15 +49467,15 @@ components:
                   * `confirm=resync` / `confirm=skip` — recompute or skip renditions
                     when a watermark / caption change requires it (form field
                     `confirm`).
-                  * `confirmReindex=yes` — confirms the re-index that a changed
+                  * `confirm_reindex=yes` — confirms the re-index that a changed
                     `_maskfilters` or `_standard_masks` entails (button
-                    `confirmReindex`). There is no opt-out; `data.object_count` says
+                    `confirm_reindex`). There is no opt-out; `data.object_count` says
                     how many objects are queued into the running index.
 
                 More than one task can be returned at once; answer them all in the
                 same resend.
 
-                See the `confirm`, `confirmReindex`, `allow_invalid_acl`,
+                See the `confirm`, `confirm_reindex`, `allow_invalid_acl`,
                 `background_invalid_acl` and `background_invalid_acl_timelimit` query
                 parameters on the operation.
             example:
@@ -49490,16 +49505,16 @@ components:
                   * `_standard_masks` lists other masks than before (reordering is
                     not a change), or the pool was moved to a different parent.
                     Objects are indexed once per standard mask of their pool, so the
-                    index has to follow. The task carries a `confirmReindex`
+                    index has to follow. The task carries a `confirm_reindex`
                     field and a `data.object_count` — resend with
-                    `confirmReindex=yes` to save. There is no opt-out: the objects of
+                    `confirm_reindex=yes` to save. There is no opt-out: the objects of
                     this pool and its sub-pools are queued into the running index.
                   * The post-save collection-ACL re-check exceeded its time limit
                     (default 30s, overridable via `background_invalid_acl_timelimit`).
                     The task's button carries `background_invalid_acl`=`true` — resend
                     with that parameter to finish the check in the background.
 
-                See the `confirm`, `confirmReindex`, `background_invalid_acl` and
+                See the `confirm`, `confirm_reindex`, `background_invalid_acl` and
                 `background_invalid_acl_timelimit` query parameters on the operation.
             example:
                 tasks:
@@ -57437,7 +57452,7 @@ components:
                         inherits the list from its parent pool, and the root pool falls
                         back to the objecttype's `_standard_masks`, which in turn falls
                         back to every mask of the objecttype. Adding or removing a mask
-                        therefore raises the re-index 202 (see `confirmReindex`); pure
+                        therefore raises the re-index 202 (see `confirm_reindex`); pure
                         reordering does not, it only picks the preferred mask.
                 _created_at:
                     type: string
@@ -58935,7 +58950,7 @@ components:
                         none inherits from its parent, and the root pool falls back to this
                         list — which in turn falls back to every mask of the objecttype.
                         Adding or removing a mask therefore raises the re-index 202 (see
-                        `confirmReindex`); pure reordering does not, it only picks the
+                        `confirm_reindex`); pure reordering does not, it only picks the
                         preferred mask.
                 _export_asset_filenames:
                     type: object

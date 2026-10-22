@@ -14,7 +14,7 @@ Differs from easydb 5: writes that touch collection ACLs are confirmed with the 
 
 ### `POST /objecttype` — Create or update the settings of one or more objecttypes.
 
-From **6.35.0** a change to an objecttype's standard masks is answered with `202` and a count of the records it re-indexes; repeat the request with `confirmReindex=yes` to queue them into the running index. See [Masks](../../concepts/masks.md#standard-masks-decide-what-is-indexed).
+From **6.35.0** a change to an objecttype's standard masks is answered with `202` and a count of the records it re-indexes; repeat the request with `confirm_reindex=yes` (`confirmReindex=yes` in 6.35) to queue them into the running index. From **6.36.0** a change that affects no record saves without the `202`, and `confirm_reindex=skip` (needs `system.root`) saves without queuing the records, for a client that re-indexes afterwards, like `fylr restore`. See [Masks](../../concepts/masks.md#standard-masks-decide-what-is-indexed).
 
 {% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/objecttype" method="post" %}
 [fylr-openapi.yml](../../../.gitbook/assets/fylr-openapi.yml)

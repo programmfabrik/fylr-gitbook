@@ -14,7 +14,7 @@ Differs from easydb 5: there is no separate `system.rights_management` right for
 
 ### `POST /pool` — Create or update one or more pools.
 
-From **6.35.0** a change to a pool's standard masks is answered with `202` and a count of the records it re-indexes, because a record is indexed only under the standard masks of its pool. Repeat the request with the query parameter `confirmReindex=yes` to apply it; the affected records — of the pool and its sub-pools — are then queued into the running index at low priority. See [Masks](../../concepts/masks.md#standard-masks-decide-what-is-indexed).
+From **6.35.0** a change to a pool's standard masks is answered with `202` and a count of the records it re-indexes, because a record is indexed only under the standard masks of its pool. Repeat the request with the query parameter `confirm_reindex=yes` (`confirmReindex=yes` in 6.35) to apply it; the affected records — of the pool and its sub-pools — are then queued into the running index at low priority. From **6.36.0** a change that affects no record saves without the `202`, and `confirm_reindex=skip` (needs `system.root`) saves without queuing the records, for a client that re-indexes afterwards, like `fylr restore`. See [Masks](../../concepts/masks.md#standard-masks-decide-what-is-indexed).
 
 {% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/pool" method="post" %}
 [fylr-openapi.yml](../../../.gitbook/assets/fylr-openapi.yml)
