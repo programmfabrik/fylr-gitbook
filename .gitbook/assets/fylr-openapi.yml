@@ -19254,6 +19254,33 @@ paths:
                         - skip
                         - reindex
                         - reindex_block
+                - name: produce_resync
+                  in: query
+                  description: |
+                    Answer to the re-sync question raised when the save changes how
+                    renditions are produced (`system.produce_config`) while originals
+                    have renditions the new config produces differently. `now` = save
+                    and queue the re-sync of those originals; `tonight` = save and queue
+                    it to start at 22:00 in `timezone`; `estimate` = save nothing yet,
+                    produce a few originals as a trial with the posted config and ask
+                    again with the estimated size and time; `skip` = save only, the renditions
+                    stay as they are and [`/eas/resync`](../eas/resync/) keeps reporting
+                    them. See [`/eas/resync`](../eas/resync/) for what a re-sync does.
+                  schema:
+                    type: string
+                    enum:
+                        - now
+                        - tonight
+                        - skip
+                        - estimate
+                - name: timezone
+                  in: query
+                  description: |
+                    IANA time zone of the user, for example `Europe/Berlin`. `tonight`
+                    is the night there; without it, the server's. An unknown zone is
+                    rejected with `UrlParameterNotSupported`.
+                  schema:
+                    type: string
             requestBody:
                 required: true
                 content:
@@ -25832,12 +25859,16 @@ paths:
                                 type: object
                 "202":
                     description: |
-                        The save needs confirmation before it can complete. Two cases:
+                        The save needs confirmation before it can complete. Three cases:
                         (1) the config has errors that are individually savable (for example
                         an LDAP connection that fails to dial) — resend with
                         `save=ignore_errors` (button `name`=`save`, `value`=`ignore_errors`);
                         (2) the frontend or database languages changed — resend with
-                        `reindex=skip|reindex|reindex_block` and `confirm=yes`.
+                        `reindex=skip|reindex|reindex_block` and `confirm=yes`;
+                        (3) from version 6.36.0, the save changes how renditions are produced
+                        (`system.produce_config`) while files have renditions the new config
+                        produces differently — resend with `produce_resync=now|tonight|skip|estimate`,
+                        see [`/eas/resync`](../eas/resync/).
                     content:
                         application/json:
                             schema:
@@ -28164,6 +28195,176 @@ paths:
                                 oneOf:
                                     - $ref: '#/components/schemas/InsufficientRightsError'
                                     - $ref: '#/components/schemas/RightRequiredError'
+    /eas/resync:
+        x-path: /eas/resync
+        description: |
+            Compare the produce config the renditions of the existing files were
+            produced with against the produce config fylr runs now, and produce the
+            renditions that differ again.
+
+            fylr keeps a fingerprint of the produce config per class, rendition and
+            extension: the recipe, the values of the params its commands use (an
+            empty or missing param counts as its default), the source rendition and
+            the custom metadata of the entry that produces the rendition for the
+            extension (a class can configure a rendition more than once, each entry
+            for its own extensions). Display settings (display name, group, standard,
+            rights management, watermark marker) and timeouts are not part of it.
+            The fingerprint moves on when a re-sync is queued, or when no file is left
+            whose renditions differ. A `POST /config` that changes the produce config
+            asks the same question as `POST /eas/resync` (see the `produce_resync`
+            parameter there).
+
+            An instance that updates from a fylr before 6.36 on the default produce
+            config compares against the 6.35 default, so the defaults an update
+            changes are offered for a re-sync. Nothing is re-synced on its own.
+
+            Requires the `system.config` system right (`system.root` always
+            satisfies it).
+        get:
+            summary: Report the renditions that differ from the produce config
+            tags:
+                - eas
+            description: |
+                Read only: neither asks nor queues anything.
+            responses:
+                "200":
+                    description: |
+                        The renditions that differ, `files` `0` and an empty `versions` list
+                        if there are none.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProduceResync'
+                "403":
+                    description: |
+                        * `SystemRightRequired`: the caller holds neither `system.config` nor
+                          `system.root`.
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/Error'
+                                    - type: object
+                                      properties:
+                                        code:
+                                            type: string
+                                            enum:
+                                                - SystemRightRequired
+                                            description: |
+                                                * `SystemRightRequired`: The caller holds none of the system rights the operation requires. Parameters: `rights`.
+
+                                                Other codes can occur, too.
+                                        statuscode:
+                                            type: integer
+                                            description: The HTTP status code, repeated here.
+                                            enum:
+                                                - 403
+        post:
+            summary: Produce the renditions that differ from the produce config again
+            tags:
+                - eas
+            description: |
+                Without `produce_resync` and with renditions that differ, the answer is a
+                `202` asking how to go on. `now` and `tonight` queue a sync check for every
+                original of the affected extensions at background priority, behind
+                uploads; a sync check produces only the renditions whose produce hash
+                changed and deletes the renditions the config no longer has. An original
+                that already has a sync check waiting is not queued again. `skip` changes
+                nothing, the next check asks again.
+            parameters:
+                - name: produce_resync
+                  in: query
+                  description: |
+                    Answer to the `202`. `now` = queue the re-sync to start at once;
+                    `tonight` = queue it to start at 22:00 in `timezone` (at once between
+                    22:00 and 06:00 there); `skip` = do nothing; `estimate` = produce up to 3 originals per changed rendition as a trial,
+                    with the new config, and answer with the same `202` again, now with the
+                    estimated size and time (the trials wait at most 30 seconds, their
+                    output is dropped).
+                  schema:
+                    type: string
+                    enum:
+                        - now
+                        - tonight
+                        - skip
+                        - estimate
+                - name: timezone
+                  in: query
+                  description: |
+                    IANA time zone of the user, for example `Europe/Berlin`. `tonight`
+                    is the night there; without it, the server's. An unknown zone is
+                    rejected with `UrlParameterNotSupported`.
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: |
+                        Nothing differs, or the answer was followed. `queued` is the number of
+                        originals queued, `start_after` when their sync checks start.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProduceResync'
+                "202":
+                    description: |
+                        Renditions differ and `produce_resync` was not given, or was
+                        `estimate`. Resend with `produce_resync=now|tonight|skip` (or
+                        `estimate`, offered until it was answered).
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProduceResync202'
+                "400":
+                    description: |
+                        * `ReadOnlyMode`: the instance is read-only.
+                        * `UrlParameterNotSupported`: `produce_resync` or `timezone` has an
+                          unknown value.
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/Error'
+                                    - type: object
+                                      properties:
+                                        code:
+                                            type: string
+                                            enum:
+                                                - ReadOnlyMode
+                                                - UrlParameterNotSupported
+                                            description: |
+                                                * `ReadOnlyMode`: The instance is in read-only mode and rejects writes.
+                                                * `UrlParameterNotSupported`: A URL parameter is not supported. Parameters: `param`.
+
+                                                Other codes can occur, too.
+                                        statuscode:
+                                            type: integer
+                                            description: The HTTP status code, repeated here.
+                                            enum:
+                                                - 400
+                "403":
+                    description: |
+                        * `SystemRightRequired`: the caller holds neither `system.config` nor
+                          `system.root`.
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/Error'
+                                    - type: object
+                                      properties:
+                                        code:
+                                            type: string
+                                            enum:
+                                                - SystemRightRequired
+                                            description: |
+                                                * `SystemRightRequired`: The caller holds none of the system rights the operation requires. Parameters: `rights`.
+
+                                                Other codes can occur, too.
+                                        statuscode:
+                                            type: integer
+                                            description: The HTTP status code, repeated here.
+                                            enum:
+                                                - 403
     /eas/put:
         x-path: /eas/put
         description: |
@@ -48554,6 +48755,10 @@ components:
                 `save=ignore_errors` to persist despite the recoverable error. The
                 language-change case uses the same shape with a `form` field named `reindex`
                 (options `skip` / `reindex` / `reindex_block`) and a button `confirm`=`yes`.
+                From version 6.36.0, a save that changes how renditions are produced
+                while files have renditions the new config produces differently adds a
+                `ProduceResync202` task (form field `produce_resync`), also next to the
+                language task.
             example:
                 tasks:
                     - title: Basis-Konfiguration
@@ -48567,6 +48772,291 @@ components:
                         - text: Speichern
                           name: save
                           value: ignore_errors
+        ProduceResync:
+            type: object
+            description: |
+                The renditions that differ from the produce config fylr runs,
+                see `/eas/resync`.
+            properties:
+                files:
+                    type: integer
+                    format: int64
+                    description: |
+                        The number of originals whose renditions may change: the originals with
+                        `produce_versions`, status `done` and an extension any of the
+                        renditions is produced for. An upper bound, a rendition may skip an
+                        original (for example by its size).
+                versions:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            class:
+                                type: string
+                                description: The file class, for example `image`.
+                            version:
+                                type: string
+                                description: The name of the rendition, `name` in the produce config.
+                            change:
+                                type: string
+                                enum:
+                                    - new
+                                    - changed
+                                    - removed
+                                    - source
+                                description: |
+                                    `new`: the rendition was added. `changed`: it is produced
+                                    differently, or for other extensions. `removed`: the rendition is
+                                    gone, a re-sync deletes its renditions. `source`: it is produced
+                                    from a rendition that changed.
+                            files:
+                                type: integer
+                                format: int64
+                                description: The number of originals the rendition may change for.
+                            size:
+                                type: integer
+                                format: int64
+                                description: |
+                                    The size in bytes of these renditions of the originals today,
+                                    `0` for a new rendition.
+                            estimate:
+                                type: integer
+                                format: int64
+                                description: |
+                                    After `produce_resync=estimate`: the size in bytes these
+                                    renditions are estimated to take after the re-sync, roughly: the
+                                    average size of the trial productions times the number of files.
+                                    Missing when no trial finished, and for removed renditions and
+                                    those produced from a changed rendition.
+                            samples:
+                                type: integer
+                                description: The number of trial productions the estimate is from.
+                queued:
+                    type: integer
+                    format: int64
+                    description: The number of originals queued for a sync check.
+                start_after:
+                    type: string
+                    format: date-time
+                    description: When the queued sync checks start. Only set when queued.
+                estimate:
+                    type: object
+                    description: |
+                        After `produce_resync=estimate`: what the trial productions came to.
+                        The time assumes the execserver slots do nothing else.
+                    properties:
+                        samples:
+                            type: integer
+                            description: The number of trial productions, `0` if none finished.
+                        size:
+                            type: integer
+                            format: int64
+                            description: The estimated size in bytes of the renditions with an estimate.
+                        size_today:
+                            type: integer
+                            format: int64
+                            description: The size in bytes these renditions take today.
+                        seconds:
+                            type: integer
+                            format: int64
+                            description: |
+                                A rough time to produce them, in seconds: the wall clock of the
+                                trials per file, times the number of files, spread over the slots.
+                        slots:
+                            type: integer
+                            description: The execserver slots the time is spread over.
+            example:
+                files: 2
+                versions:
+                    - class: image
+                      version: small
+                      change: changed
+                      files: 2
+                      size: 14980
+                queued: 2
+                start_after: "2026-10-21T22:00:00+02:00"
+        ProduceResync202:
+            allOf:
+                - type: object
+                  additionalProperties: false
+                  description: |
+                    A confirm-and-resend payload (HTTP 202): the request was understood but needs
+                    the client to confirm one or more decisions first. For each task the client
+                    derives the query parameter(s) it implies and re-sends the **same** request
+                    with them appended. Those parameters come from the task's `form` (the chosen
+                    option's `value` under the field `name`) and from the button used
+                    (`name`=`value`); `hidden` buttons carry parameters that must be sent even
+                    though they are not shown. The `name`/`value` properties below are what a
+                    frontend turns into the confirmation URL.
+                  required:
+                    - tasks
+                  properties:
+                    tasks:
+                        type: array
+                        description: |
+                            The decisions the request raised. Every task must be resolved — its
+                            parameter(s) added to the re-sent request — for the request to complete.
+                        items:
+                            type: object
+                            additionalProperties: false
+                            required:
+                                - title
+                                - message
+                                - buttons
+                            properties:
+                                title:
+                                    type: string
+                                    description: Short, localized heading for the confirmation.
+                                message:
+                                    type: string
+                                    description: |
+                                        Localized explanation of what is being confirmed (for example that
+                                        the save removes the user's own access, or that the records being
+                                        deleted are still linked from other records).
+                                data:
+                                    type: object
+                                    additionalProperties: true
+                                    description: |
+                                        Optional machine-readable values behind the message, so a client
+                                        need not parse the text (for example `object_count` of the
+                                        re-index task of `POST /objecttype`). Absent when the task has
+                                        none.
+                                form:
+                                    type: array
+                                    description: |
+                                        Optional input fields the user chooses from. The selected option's
+                                        `value` is sent as the query parameter named by the field's `name`
+                                        when the request is re-sent — this is how `delete_policy` and
+                                        `reverse_pool_changed_mode` are chosen. Absent for a plain
+                                        button-only confirmation such as revoke.
+                                    items:
+                                        type: object
+                                        additionalProperties: false
+                                        required:
+                                            - label
+                                            - type
+                                            - name
+                                            - options
+                                            - horizontal
+                                        properties:
+                                            label:
+                                                type: string
+                                                description: Localized label for the field. May be empty.
+                                            type:
+                                                type: string
+                                                description: |
+                                                    Input-control type of the field — `options` for a single
+                                                    choice out of `options`.
+                                            name:
+                                                type: string
+                                                description: |
+                                                    **Query-parameter name** under which the chosen option's
+                                                    `value` is sent when re-sending the request (for example
+                                                    `delete_policy`, `reverse_pool_changed_mode`). One of the two
+                                                    values a frontend reads to build the confirmation request.
+                                            options:
+                                                type: array
+                                                description: The selectable choices for this field.
+                                                items:
+                                                    type: object
+                                                    additionalProperties: false
+                                                    required:
+                                                        - text
+                                                        - value
+                                                        - disabled
+                                                    properties:
+                                                        text:
+                                                            type: string
+                                                            description: Localized label shown for this choice.
+                                                        value:
+                                                            type: string
+                                                            description: |
+                                                                **Value to send** for the field's `name` parameter when
+                                                                this choice is selected (for example `remove`,
+                                                                `setnull`, `create_collection`). The other half — with
+                                                                the field `name` — of the confirmation parameter.
+                                                        disabled:
+                                                            type: boolean
+                                                            description: |
+                                                                When true the choice is shown but not selectable (for
+                                                                example a delete policy that other records prevent).
+                                            horizontal:
+                                                type: boolean
+                                                description: Display hint — lay the options out in a row.
+                                buttons:
+                                    type: array
+                                    description: |
+                                        The actions offered for the task. A button whose `name` is set adds
+                                        `name`=`value` to the re-sent request. `revoke`, `confirmTransition`
+                                        and `revoke:confirmTransition` are parameters the server acts on;
+                                        a generic submit button carries `name: confirm`, which each
+                                        endpoint reads on its own: `POST /schema/commit` runs only with
+                                        `confirm=yes`. A button without `name` adds nothing: the answer
+                                        is the option chosen in the `form` (the resync task of
+                                        `POST /objecttype`).
+                                    items:
+                                        type: object
+                                        additionalProperties: false
+                                        properties:
+                                            text:
+                                                type: string
+                                                description: Localized button label.
+                                            hidden:
+                                                type: boolean
+                                                description: |
+                                                    When true the button is not shown, but its `name`=`value` is a
+                                                    parameter the client must still include when re-sending — used
+                                                    to carry an already-chosen parameter across a second
+                                                    confirmation (for example a `delete_policy` preserved while a
+                                                    workflow transition is confirmed).
+                                            name:
+                                                type: string
+                                                description: |
+                                                    **Query-parameter name** to add to the re-sent request when
+                                                    this button is used (Go `ConfirmKey`), for example `revoke`,
+                                                    `confirmTransition`, `revoke:confirmTransition` or `confirm`.
+                                            value:
+                                                type: string
+                                                description: |
+                                                    **Value** for the `name` parameter (Go `ConfirmValue`) — for
+                                                    example `yes` for `revoke`, or the confirmation token for
+                                                    `confirmTransition`.
+            description: |
+                Returned (HTTP 202) by `POST /eas/resync`, and by a `POST /config` (or a
+                sub-path config patch) that changes the produce config, while originals
+                have renditions the new config produces differently. The task lists the
+                renditions, its `data` carries the same numbers as a `ProduceResync`. Resend
+                with the form field `produce_resync` set to `now`, `tonight` or `skip`.
+            example:
+                tasks:
+                    - title: Produce renditions again
+                      message: |
+                        These renditions now have a different configuration than the existing ones:
+
+                        * image · small (changed): up to 2 files, 14.6 KB today
+
+                        Up to 2 files are affected. The renditions are produced in the background, after uploads, and only where they change. This can take long and use a lot of disk space.
+                      form:
+                        - type: options
+                          name: produce_resync
+                          options:
+                            - text: Produce now, in the background
+                              value: now
+                            - text: Produce tonight, from 22:00 CEST
+                              value: tonight
+                            - text: Not now, only new uploads and saved records
+                              value: skip
+                      buttons:
+                        - text: Continue
+                      data:
+                        files: 2
+                        versions:
+                            - class: image
+                              version: small
+                              change: changed
+                              files: 2
+                              size: 14980
+                        queued: 0
         PluginManageApi:
             type: object
             description: |

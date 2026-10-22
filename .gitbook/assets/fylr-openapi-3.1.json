@@ -18033,6 +18033,28 @@
                 "reindex_block"
               ]
             }
+          },
+          {
+            "name": "produce_resync",
+            "in": "query",
+            "description": "Answer to the re-sync question raised when the save changes how\nrenditions are produced (`system.produce_config`) while originals\nhave renditions the new config produces differently. `now` = save\nand queue the re-sync of those originals; `tonight` = save and queue\nit to start at 22:00 in `timezone`; `estimate` = save nothing yet,\nproduce a few originals as a trial with the posted config and ask\nagain with the estimated size and time; `skip` = save only, the renditions\nstay as they are and [`/eas/resync`](../eas/resync/) keeps reporting\nthem. See [`/eas/resync`](../eas/resync/) for what a re-sync does.\n",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "now",
+                "tonight",
+                "skip",
+                "estimate"
+              ]
+            }
+          },
+          {
+            "name": "timezone",
+            "in": "query",
+            "description": "IANA time zone of the user, for example `Europe/Berlin`. `tonight`\nis the night there; without it, the server's. An unknown zone is\nrejected with `UrlParameterNotSupported`.\n",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
@@ -26967,7 +26989,7 @@
             }
           },
           "202": {
-            "description": "The save needs confirmation before it can complete. Two cases:\n(1) the config has errors that are individually savable (for example\nan LDAP connection that fails to dial) — resend with\n`save=ignore_errors` (button `name`=`save`, `value`=`ignore_errors`);\n(2) the frontend or database languages changed — resend with\n`reindex=skip|reindex|reindex_block` and `confirm=yes`.\n",
+            "description": "The save needs confirmation before it can complete. Three cases:\n(1) the config has errors that are individually savable (for example\nan LDAP connection that fails to dial) — resend with\n`save=ignore_errors` (button `name`=`save`, `value`=`ignore_errors`);\n(2) the frontend or database languages changed — resend with\n`reindex=skip|reindex|reindex_block` and `confirm=yes`;\n(3) from version 6.36.0, the save changes how renditions are produced\n(`system.produce_config`) while files have renditions the new config\nproduces differently — resend with `produce_resync=now|tonight|skip|estimate`,\nsee [`/eas/resync`](../eas/resync/).\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -29059,6 +29081,182 @@
                     },
                     {
                       "$ref": "#/components/schemas/RightRequiredError"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/eas/resync": {
+      "x-path": "/eas/resync",
+      "description": "Compare the produce config the renditions of the existing files were\nproduced with against the produce config fylr runs now, and produce the\nrenditions that differ again.\n\nfylr keeps a fingerprint of the produce config per class, rendition and\nextension: the recipe, the values of the params its commands use (an\nempty or missing param counts as its default), the source rendition and\nthe custom metadata of the entry that produces the rendition for the\nextension (a class can configure a rendition more than once, each entry\nfor its own extensions). Display settings (display name, group, standard,\nrights management, watermark marker) and timeouts are not part of it.\nThe fingerprint moves on when a re-sync is queued, or when no file is left\nwhose renditions differ. A `POST /config` that changes the produce config\nasks the same question as `POST /eas/resync` (see the `produce_resync`\nparameter there).\n\nAn instance that updates from a fylr before 6.36 on the default produce\nconfig compares against the 6.35 default, so the defaults an update\nchanges are offered for a re-sync. Nothing is re-synced on its own.\n\nRequires the `system.config` system right (`system.root` always\nsatisfies it).\n",
+      "get": {
+        "summary": "Report the renditions that differ from the produce config",
+        "tags": [
+          "eas"
+        ],
+        "description": "Read only: neither asks nor queues anything.\n",
+        "responses": {
+          "200": {
+            "description": "The renditions that differ, `files` `0` and an empty `versions` list\nif there are none.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProduceResync"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "* `SystemRightRequired`: the caller holds neither `system.config` nor\n  `system.root`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Error"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "SystemRightRequired"
+                          ],
+                          "description": "* `SystemRightRequired`: The caller holds none of the system rights the operation requires. Parameters: `rights`.\n\nOther codes can occur, too.\n"
+                        },
+                        "statuscode": {
+                          "type": "integer",
+                          "description": "The HTTP status code, repeated here.",
+                          "enum": [
+                            403
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Produce the renditions that differ from the produce config again",
+        "tags": [
+          "eas"
+        ],
+        "description": "Without `produce_resync` and with renditions that differ, the answer is a\n`202` asking how to go on. `now` and `tonight` queue a sync check for every\noriginal of the affected extensions at background priority, behind\nuploads; a sync check produces only the renditions whose produce hash\nchanged and deletes the renditions the config no longer has. An original\nthat already has a sync check waiting is not queued again. `skip` changes\nnothing, the next check asks again.\n",
+        "parameters": [
+          {
+            "name": "produce_resync",
+            "in": "query",
+            "description": "Answer to the `202`. `now` = queue the re-sync to start at once;\n`tonight` = queue it to start at 22:00 in `timezone` (at once between\n22:00 and 06:00 there); `skip` = do nothing; `estimate` = produce up to 3 originals per changed rendition as a trial,\nwith the new config, and answer with the same `202` again, now with the\nestimated size and time (the trials wait at most 30 seconds, their\noutput is dropped).\n",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "now",
+                "tonight",
+                "skip",
+                "estimate"
+              ]
+            }
+          },
+          {
+            "name": "timezone",
+            "in": "query",
+            "description": "IANA time zone of the user, for example `Europe/Berlin`. `tonight`\nis the night there; without it, the server's. An unknown zone is\nrejected with `UrlParameterNotSupported`.\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Nothing differs, or the answer was followed. `queued` is the number of\noriginals queued, `start_after` when their sync checks start.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProduceResync"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Renditions differ and `produce_resync` was not given, or was\n`estimate`. Resend with `produce_resync=now|tonight|skip` (or\n`estimate`, offered until it was answered).\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProduceResync202"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "* `ReadOnlyMode`: the instance is read-only.\n* `UrlParameterNotSupported`: `produce_resync` or `timezone` has an\n  unknown value.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Error"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "ReadOnlyMode",
+                            "UrlParameterNotSupported"
+                          ],
+                          "description": "* `ReadOnlyMode`: The instance is in read-only mode and rejects writes.\n* `UrlParameterNotSupported`: A URL parameter is not supported. Parameters: `param`.\n\nOther codes can occur, too.\n"
+                        },
+                        "statuscode": {
+                          "type": "integer",
+                          "description": "The HTTP status code, repeated here.",
+                          "enum": [
+                            400
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "* `SystemRightRequired`: the caller holds neither `system.config` nor\n  `system.root`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Error"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "SystemRightRequired"
+                          ],
+                          "description": "* `SystemRightRequired`: The caller holds none of the system rights the operation requires. Parameters: `rights`.\n\nOther codes can occur, too.\n"
+                        },
+                        "statuscode": {
+                          "type": "integer",
+                          "description": "The HTTP status code, repeated here.",
+                          "enum": [
+                            403
+                          ]
+                        }
+                      }
                     }
                   ]
                 }
@@ -51277,7 +51475,7 @@
             }
           }
         ],
-        "description": "The `202` body of `POST /config` (and of a sub-path config patch) — a\n`response_202` confirm-and-resend task. The example shows the savable-config-\nerror case (here an LDAP connection that does not dial): resend with\n`save=ignore_errors` to persist despite the recoverable error. The\nlanguage-change case uses the same shape with a `form` field named `reindex`\n(options `skip` / `reindex` / `reindex_block`) and a button `confirm`=`yes`.\n",
+        "description": "The `202` body of `POST /config` (and of a sub-path config patch) — a\n`response_202` confirm-and-resend task. The example shows the savable-config-\nerror case (here an LDAP connection that does not dial): resend with\n`save=ignore_errors` to persist despite the recoverable error. The\nlanguage-change case uses the same shape with a `form` field named `reindex`\n(options `skip` / `reindex` / `reindex_block`) and a button `confirm`=`yes`.\nFrom version 6.36.0, a save that changes how renditions are produced\nwhile files have renditions the new config produces differently adds a\n`ProduceResync202` task (form field `produce_resync`), also next to the\nlanguage task.\n",
         "example": {
           "tasks": [
             {
@@ -51290,6 +51488,290 @@
                   "value": "ignore_errors"
                 }
               ]
+            }
+          ]
+        }
+      },
+      "ProduceResync": {
+        "type": "object",
+        "description": "The renditions that differ from the produce config fylr runs,\nsee `/eas/resync`.\n",
+        "properties": {
+          "files": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The number of originals whose renditions may change: the originals with\n`produce_versions`, status `done` and an extension any of the\nrenditions is produced for. An upper bound, a rendition may skip an\noriginal (for example by its size).\n"
+          },
+          "versions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "class": {
+                  "type": "string",
+                  "description": "The file class, for example `image`."
+                },
+                "version": {
+                  "type": "string",
+                  "description": "The name of the rendition, `name` in the produce config."
+                },
+                "change": {
+                  "type": "string",
+                  "enum": [
+                    "new",
+                    "changed",
+                    "removed",
+                    "source"
+                  ],
+                  "description": "`new`: the rendition was added. `changed`: it is produced\ndifferently, or for other extensions. `removed`: the rendition is\ngone, a re-sync deletes its renditions. `source`: it is produced\nfrom a rendition that changed.\n"
+                },
+                "files": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The number of originals the rendition may change for."
+                },
+                "size": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The size in bytes of these renditions of the originals today,\n`0` for a new rendition.\n"
+                },
+                "estimate": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "After `produce_resync=estimate`: the size in bytes these\nrenditions are estimated to take after the re-sync, roughly: the\naverage size of the trial productions times the number of files.\nMissing when no trial finished, and for removed renditions and\nthose produced from a changed rendition.\n"
+                },
+                "samples": {
+                  "type": "integer",
+                  "description": "The number of trial productions the estimate is from."
+                }
+              }
+            }
+          },
+          "queued": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The number of originals queued for a sync check."
+          },
+          "start_after": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the queued sync checks start. Only set when queued."
+          },
+          "estimate": {
+            "type": "object",
+            "description": "After `produce_resync=estimate`: what the trial productions came to.\nThe time assumes the execserver slots do nothing else.\n",
+            "properties": {
+              "samples": {
+                "type": "integer",
+                "description": "The number of trial productions, `0` if none finished."
+              },
+              "size": {
+                "type": "integer",
+                "format": "int64",
+                "description": "The estimated size in bytes of the renditions with an estimate."
+              },
+              "size_today": {
+                "type": "integer",
+                "format": "int64",
+                "description": "The size in bytes these renditions take today."
+              },
+              "seconds": {
+                "type": "integer",
+                "format": "int64",
+                "description": "A rough time to produce them, in seconds: the wall clock of the\ntrials per file, times the number of files, spread over the slots.\n"
+              },
+              "slots": {
+                "type": "integer",
+                "description": "The execserver slots the time is spread over."
+              }
+            }
+          }
+        },
+        "example": {
+          "files": 2,
+          "versions": [
+            {
+              "class": "image",
+              "version": "small",
+              "change": "changed",
+              "files": 2,
+              "size": 14980
+            }
+          ],
+          "queued": 2,
+          "start_after": "2026-10-21T22:00:00+02:00"
+        }
+      },
+      "ProduceResync202": {
+        "allOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "A confirm-and-resend payload (HTTP 202): the request was understood but needs\nthe client to confirm one or more decisions first. For each task the client\nderives the query parameter(s) it implies and re-sends the **same** request\nwith them appended. Those parameters come from the task's `form` (the chosen\noption's `value` under the field `name`) and from the button used\n(`name`=`value`); `hidden` buttons carry parameters that must be sent even\nthough they are not shown. The `name`/`value` properties below are what a\nfrontend turns into the confirmation URL.\n",
+            "required": [
+              "tasks"
+            ],
+            "properties": {
+              "tasks": {
+                "type": "array",
+                "description": "The decisions the request raised. Every task must be resolved — its\nparameter(s) added to the re-sent request — for the request to complete.\n",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "title",
+                    "message",
+                    "buttons"
+                  ],
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "description": "Short, localized heading for the confirmation."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Localized explanation of what is being confirmed (for example that\nthe save removes the user's own access, or that the records being\ndeleted are still linked from other records).\n"
+                    },
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": true,
+                      "description": "Optional machine-readable values behind the message, so a client\nneed not parse the text (for example `object_count` of the\nre-index task of `POST /objecttype`). Absent when the task has\nnone.\n"
+                    },
+                    "form": {
+                      "type": "array",
+                      "description": "Optional input fields the user chooses from. The selected option's\n`value` is sent as the query parameter named by the field's `name`\nwhen the request is re-sent — this is how `delete_policy` and\n`reverse_pool_changed_mode` are chosen. Absent for a plain\nbutton-only confirmation such as revoke.\n",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "label",
+                          "type",
+                          "name",
+                          "options",
+                          "horizontal"
+                        ],
+                        "properties": {
+                          "label": {
+                            "type": "string",
+                            "description": "Localized label for the field. May be empty."
+                          },
+                          "type": {
+                            "type": "string",
+                            "description": "Input-control type of the field — `options` for a single\nchoice out of `options`.\n"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "**Query-parameter name** under which the chosen option's\n`value` is sent when re-sending the request (for example\n`delete_policy`, `reverse_pool_changed_mode`). One of the two\nvalues a frontend reads to build the confirmation request.\n"
+                          },
+                          "options": {
+                            "type": "array",
+                            "description": "The selectable choices for this field.",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "text",
+                                "value",
+                                "disabled"
+                              ],
+                              "properties": {
+                                "text": {
+                                  "type": "string",
+                                  "description": "Localized label shown for this choice."
+                                },
+                                "value": {
+                                  "type": "string",
+                                  "description": "**Value to send** for the field's `name` parameter when\nthis choice is selected (for example `remove`,\n`setnull`, `create_collection`). The other half — with\nthe field `name` — of the confirmation parameter.\n"
+                                },
+                                "disabled": {
+                                  "type": "boolean",
+                                  "description": "When true the choice is shown but not selectable (for\nexample a delete policy that other records prevent).\n"
+                                }
+                              }
+                            }
+                          },
+                          "horizontal": {
+                            "type": "boolean",
+                            "description": "Display hint — lay the options out in a row."
+                          }
+                        }
+                      }
+                    },
+                    "buttons": {
+                      "type": "array",
+                      "description": "The actions offered for the task. A button whose `name` is set adds\n`name`=`value` to the re-sent request. `revoke`, `confirmTransition`\nand `revoke:confirmTransition` are parameters the server acts on;\na generic submit button carries `name: confirm`, which each\nendpoint reads on its own: `POST /schema/commit` runs only with\n`confirm=yes`. A button without `name` adds nothing: the answer\nis the option chosen in the `form` (the resync task of\n`POST /objecttype`).\n",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "text": {
+                            "type": "string",
+                            "description": "Localized button label."
+                          },
+                          "hidden": {
+                            "type": "boolean",
+                            "description": "When true the button is not shown, but its `name`=`value` is a\nparameter the client must still include when re-sending — used\nto carry an already-chosen parameter across a second\nconfirmation (for example a `delete_policy` preserved while a\nworkflow transition is confirmed).\n"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "**Query-parameter name** to add to the re-sent request when\nthis button is used (Go `ConfirmKey`), for example `revoke`,\n`confirmTransition`, `revoke:confirmTransition` or `confirm`.\n"
+                          },
+                          "value": {
+                            "type": "string",
+                            "description": "**Value** for the `name` parameter (Go `ConfirmValue`) — for\nexample `yes` for `revoke`, or the confirmation token for\n`confirmTransition`.\n"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "description": "Returned (HTTP 202) by `POST /eas/resync`, and by a `POST /config` (or a\nsub-path config patch) that changes the produce config, while originals\nhave renditions the new config produces differently. The task lists the\nrenditions, its `data` carries the same numbers as a `ProduceResync`. Resend\nwith the form field `produce_resync` set to `now`, `tonight` or `skip`.\n",
+        "example": {
+          "tasks": [
+            {
+              "title": "Produce renditions again",
+              "message": "These renditions now have a different configuration than the existing ones:\n\n* image · small (changed): up to 2 files, 14.6 KB today\n\nUp to 2 files are affected. The renditions are produced in the background, after uploads, and only where they change. This can take long and use a lot of disk space.\n",
+              "form": [
+                {
+                  "type": "options",
+                  "name": "produce_resync",
+                  "options": [
+                    {
+                      "text": "Produce now, in the background",
+                      "value": "now"
+                    },
+                    {
+                      "text": "Produce tonight, from 22:00 CEST",
+                      "value": "tonight"
+                    },
+                    {
+                      "text": "Not now, only new uploads and saved records",
+                      "value": "skip"
+                    }
+                  ]
+                }
+              ],
+              "buttons": [
+                {
+                  "text": "Continue"
+                }
+              ],
+              "data": {
+                "files": 2,
+                "versions": [
+                  {
+                    "class": "image",
+                    "version": "small",
+                    "change": "changed",
+                    "files": 2,
+                    "size": 14980
+                  }
+                ],
+                "queued": 0
+              }
             }
           ]
         }

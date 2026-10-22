@@ -351,6 +351,7 @@
       * [/download](for-developers/api/endpoints/eas/download.md)
       * [/iiif](for-developers/api/endpoints/eas/iiif.md)
       * [/produce](for-developers/api/endpoints/eas/produce.md)
+      * [/resync](for-developers/api/endpoints/eas/resync.md)
       * [/put](for-developers/api/endpoints/eas/put.md)
       * [/rput](for-developers/api/endpoints/eas/rput.md)
       * [/rput/bulk](for-developers/api/endpoints/eas/rput-bulk.md)
