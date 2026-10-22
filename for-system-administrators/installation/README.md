@@ -46,7 +46,7 @@ Please note: We do all of our automated and manual software testing based on Lin
 
 ### OpenSearch user per instance
 
-From fylr **6.36.0**, fylr runs with an OpenSearch user whose rights cover only the instance's own indices, so several fylr instances can share one OpenSearch without reaching each other's indices. fylr names every index it creates `<fylr.name>-<uuid>-…`, with `fylr.name` from `fylr.yml` and the UUID of the instance's database. A role for such a user, for the security plugin of OpenSearch, with `EXAMPLE` replaced by the instance's `fylr.name`:
+From fylr **6.35.1**, fylr runs with an OpenSearch user whose rights cover only the instance's own indices, so several fylr instances can share one OpenSearch without reaching each other's indices. fylr names every index it creates `<fylr.name>-<uuid>-…`, with `fylr.name` from `fylr.yml` and the UUID of the instance's database. A role for such a user, for the security plugin of OpenSearch, with `EXAMPLE` replaced by the instance's `fylr.name`:
 
 ```json
 {

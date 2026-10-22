@@ -103,7 +103,7 @@ There is no worker count to configure on _main_.example.com: from 6.35 one file 
 
 `connectTimeoutSec` is how long a job waits for a free slot, not a connection timeout. A file job that gets no slot in that time goes back into the file queue and is tried again a minute later, as often as it takes; a request whose client waits for the job, such as a plugin callback, fails with an error instead.
 
-`callbackBackendOwnURL` is the backend address the execserver calls back on, `callbackApiOwnURL` the API address handed to plugins. Each is taken verbatim, port included, and sets its own address only. fylr 6.35 does not know `callbackApiOwnURL` yet, reports it as an unknown key and takes the API host from `callbackBackendOwnURL`. Before 6.35 these addresses were set with `callbackBackendInternalURL` and `callbackApiInternalURL`, which 6.36 ignores.
+`callbackBackendOwnURL` is the backend address the execserver calls back on, `callbackApiOwnURL` the API address handed to plugins. Each is taken verbatim, port included, and sets its own address only. fylr 6.35.0 does not know `callbackApiOwnURL` yet, reports it as an unknown key and takes the API host from `callbackBackendOwnURL`. Before 6.35 these addresses were set with `callbackBackendInternalURL` and `callbackApiInternalURL`, which 6.35.1 ignores.
 
 * use a `docker-compose.yml` with these changes, the rest remains as in [the default installation](../linux-docker-compose.md#installation):
 

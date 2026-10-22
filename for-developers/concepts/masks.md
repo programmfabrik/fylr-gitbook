@@ -33,7 +33,7 @@ The choice is usually automatic: the interface uses the pool's preferred mask, o
 
 A pool can list the **standard masks** of an objecttype — the masks under which records in that pool are offered. From **6.35.0** this list is an indexing rule, not only a search-time filter: a record is written to the search index only under the standard masks of its pool. The list is inherited from the parent pools, falls back to the objecttype's own standard masks, and finally to all of its masks, so an instance that configures no standard masks anywhere is unaffected.
 
-A mask right that names an excluded mask does not bring it back: the pool decides whether the record is findable under that mask at all. Because the standard masks and the mask filters are evaluated while indexing, changing the list re-indexes the records of the pool — and of its sub-pools — which is why saving a pool or an objecttype with a changed list asks for confirmation first, from 6.36.0 only when the change affects records (see [Pools](pools.md#in-the-api)). Reordering the masks changes nothing: the order picks the best mask per search request and is not stored in the index.
+A mask right that names an excluded mask does not bring it back: the pool decides whether the record is findable under that mask at all. Because the standard masks and the mask filters are evaluated while indexing, changing the list re-indexes the records of the pool — and of its sub-pools — which is why saving a pool or an objecttype with a changed list asks for confirmation first, from 6.35.1 only when the change affects records (see [Pools](pools.md#in-the-api)). Reordering the masks changes nothing: the order picks the best mask per search request and is not stored in the index.
 
 ## Reaching past the objecttype
 

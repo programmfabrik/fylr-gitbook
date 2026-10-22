@@ -24,7 +24,7 @@ _Already existing_ files are still used in all locations, not only the default l
 
 A location that cannot be connected when fylr starts — an object store or its credentials arriving moments after fylr does, as a fresh Helm install with the bundled minio does every time — is retried in the background every 5 to 30 seconds until it connects (from **6.35.0**); the recovery is logged, and `status_msg` clears when the location is back. A write to a location that is not connected names the cause, not only the status.
 
-fylr delivers every download itself, from every kind of location. Up to version 6.35, an S3 location could redirect the client to a signed storage URL instead (**Allow Redirect**); the option is removed **from version 6.36.0**.
+fylr delivers every download itself, from every kind of location. In version 6.35.0, an S3 location could redirect the client to a signed storage URL instead (**Allow Redirect**); the option is removed **from version 6.35.1**.
 
 fylr tests the connection to each storage location and shows the result in the **Status** column of the list, and in the location's detail form. `connected` is the working state. `error` means the location could not be reached, and the message shown next to it is the reason the storage reported — a bucket that does not exist, credentials that are refused, a directory that cannot be created. The same status and message are shown for every location under `/inspect/system/locations/`.
 

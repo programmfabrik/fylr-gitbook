@@ -51,7 +51,7 @@ Some objecttypes are not pooled: the [datamodel](the-datamodel.md), users, group
 - A record names its pool in the `_pool` field of its content; the pool rides along as a linked object.
 - Pools are managed through the [`/pool` endpoint](../api/endpoints/api-pool.md): `/pool`, `/pool/{poolID}`, and `/pool/{poolID}/stats` for record counts.
 - A pool's grants are its `_acl` list, and the inheritance-breaking switch is `_private_acl` (see [Permissions](permissions.md)).
-- From 6.35.0 `POST /pool` and `POST /objecttype` answer a change of the standard masks with a `202` that names how many records it re-indexes; repeating the request with `confirm_reindex=yes` (`confirmReindex=yes` in 6.35) queues those records into the running index at low priority, without building a new index. From 6.36.0 a change that affects no record saves without the `202`.
+- From 6.35.0 `POST /pool` and `POST /objecttype` answer a change of the standard masks with a `202` that names how many records it re-indexes; repeating the request with `confirm_reindex=yes` (`confirmReindex=yes` in 6.35.0) queues those records into the running index at low priority, without building a new index. From 6.35.1 a change that affects no record saves without the `202`.
 
 ## See also
 

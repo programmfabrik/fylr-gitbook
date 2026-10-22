@@ -24,7 +24,7 @@ Connections to an S3 storage location are **not** all opened by the fylr process
 
 If the execserver runs on a separate machine, counting on the fylr host alone under-reports. Count on both.
 
-Up to version 6.35, an S3 location with `allow_redirect: true` sent downloads from the browser straight to S3. The option is removed from version 6.36.0: every download is served by fylr and counts against fylr's own connections to S3.
+In version 6.35.0, an S3 location with `allow_redirect: true` sent downloads from the browser straight to S3. The option is removed from version 6.35.1: every download is served by fylr and counts against fylr's own connections to S3.
 
 ## Which limits apply
 
