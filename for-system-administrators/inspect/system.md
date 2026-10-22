@@ -9,14 +9,14 @@ description: >-
 The **System** page (`/inspect/system/`) is the maintenance dashboard for a running instance. It surfaces the runtime state and hosts the two most consequential actions — **re-index** and **purge**.
 
 {% hint style="danger" %}
-Re-index and purge are **instance-wide** and, on the backend port, **unauthenticated**. Keep the backend port on a private network. In the browser (webapp port) they require `system.root`.
+Re-index and purge are **instance-wide**. In the browser (webapp port) they require `system.root`; on the backend port they need the instance's backend secret from fylr 6.36.0, and nothing before, so keep that port on a private network.
 {% endhint %}
 
 ## Actions
 
 ### Re-index
 
-Rebuilds the search index for every object from the database. Reachable as `GET /inspect/system/?reindex=1`; add `&blockFrontend=1` to put the instance into the `reindex` status until the new index is built and switched in: the web frontend and the API answer `503`, apart from the login, `/api/v1/settings`, `/api/v1/system` and `/api/oauth2`, and `/inspect/` stays reachable. Use it after a change that alters what is indexed (the release notes call these out) or to recover a corrupted index.
+Rebuilds the search index for every object from the database. Reachable as `GET /inspect/system/?reindex=1`; add `&blockFrontend=1` to put the instance into the `reindex` status until the new index is built and switched in: the web frontend and the API answer `503`, apart from the login, `/api/v1/settings`, `/api/v1/system`, `/api/oauth2` and, from 6.36, the file downloads of `/api/v1/eas/download`, and `/inspect/` stays reachable. From 6.36 a re-index that fails lifts the block again, and its `REINDEX_ERROR` event names the reason. Use it after a change that alters what is indexed (the release notes call these out) or to recover a corrupted index.
 
 ### Purge
 

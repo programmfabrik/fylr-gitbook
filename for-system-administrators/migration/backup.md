@@ -23,6 +23,12 @@ fylr backup \
 
 The base configuration is copied as it is, the SAML settings included. From fylr **6.35.0** neither `fylr backup` nor `fylr restore` fetches the identity provider's metadata, so an identity provider that cannot be reached from where the backup runs does not stop it.
 
+{% hint style="info" %}
+From fylr **6.36.0**, every flag can also be set as the environment variable `FYLR_CLI_<FLAG>`: the flag name in upper case, with `_` for `-`. `--password` is `FYLR_CLI_PASSWORD`, `--client-secret` is `FYLR_CLI_CLIENT_SECRET`, `--server` is `FYLR_CLI_SERVER`; `fylr backup -h` names the variable of every flag. A flag on the command line takes precedence over its variable, and a variable set to an empty value counts as set.
+
+The command line is visible to every user of the host in the process list (`ps`): set the password, the client secret and a `--server` URL with HTTP Basic Auth credentials in the environment instead.
+{% endhint %}
+
 {% hint style="warning" %}
 `--purge` deletes a backup in `--dir` in case there is already one. All existing files in this directory are deleted!
 {% endhint %}
@@ -78,7 +84,7 @@ Flags:
     --retry-sleep-between=30    Wait time in seconds between retries for failed requests.
     --pretty                    Output pretty JSON.
     --file-url-expire-days=365  How many days the file urls stored in the backup stay valid. The source signs every file url it renders for the backup, and the restore hands those urls to the target, which fetches the bytes from them. The signature is what authorizes that fetch, so the backup is only restorable while it holds. The horizon is baked in when the backup is taken and cannot be extended afterwards — a backup whose urls expired has to be taken again. Set 0 to store unsigned urls, which only restore when the source grants the target access to the files by other means.
-    --include-files=""          How to store file bytes in the backup. Empty (default): store only the file URLs, the restore fetches the bytes from the source (which must stay reachable). "original": pack each non-leave file's original bytes into the backup directory (files/<id-floored-to-1e6>/<id-floored-to-1e3>/<id>-<filename>), so the backup is self-contained and byte-for-byte and the source need not stay reachable; renditions (preview versions) are not packed, the restore regenerates them, so such a backup cannot be restored with --upload-versions. "with-versions": also pack the renditions, so that a restore with --upload-versions uploads them from the backup (byte-identical) instead of regenerating them. Files kept on the remote (leave) are never packed; their upstream URL is preserved.
+    --include-files=""          How to store file bytes in the backup. Empty (default): store only the file URLs, the restore fetches the bytes from the source (which must stay reachable). "original": pack each non-leave file's original bytes into the backup directory (files/<id-floored-to-1e6>/<id-floored-to-1e3>/<id>-<filename>, the filename sanitized like an export filename and shortened in the middle to keep <id>-<filename> within 100 bytes; the restore uploads the file under its original name), so the backup is self-contained and byte-for-byte and the source need not stay reachable; renditions (preview versions) are not packed, the restore regenerates them, so such a backup cannot be restored with --upload-versions. "with-versions": also pack the renditions, so that a restore with --upload-versions uploads them from the backup (byte-identical) instead of regenerating them. Files kept on the remote (leave) are never packed; their upstream URL is preserved.
 ```
 
 
@@ -106,6 +112,7 @@ API Url of the source instance. The Url must include the API base endpoint, for 
 
 * this parameter is **mandatory**!
 * type: `string`
+* environment variable: `FYLR_CLI_SERVER`, from fylr **6.36.0**
 
 
 ### `--login`
@@ -122,6 +129,7 @@ Password of the user in the source instance.
 
 * this parameter is **mandatory**!
 * type: `string`
+* environment variable: `FYLR_CLI_PASSWORD`, from fylr **6.36.0**
 
 
 ### `--purge`
@@ -283,6 +291,8 @@ By default a backup only stores the file **URLs**, and the restore fetches the b
 
 Files stored _leave on remote_ are never packed: the backup keeps their real upstream URL (it requests `files_real_url=1` on the `/db` list, which needs the _root_ system right), and the restore re-creates them as references to that upstream. Their renditions are ordinary local files, so with `with-versions` a leave original's renditions are packed and uploaded from the backup too.
 
+From version **6.36.0**, a packed file is named `<id>-<filename>` with its original filename sanitized like an export filename: `/ \ : * ? " < > |`, `#`, `%` and control characters become `_`, so the path works wherever it ends up in a URL. A name that would make `<id>-<filename>` longer than 100 bytes loses its middle to `...`, keeping its start, its end and its extension, so the backup's paths also stay within the limits of Windows. A rendition is named `<id>-<original>-<version>.<extension>` next to its original. The name is only for orientation: the restore finds each file by the `path` the payload stores for it and uploads it under its original filename. A backup made by an earlier version, whose packed names may still contain `#`, `?` or `%`, restores from 6.36.0 on as it is.
+
 The backup form under `/inspect/migration` offers this as an **Include Files** selector, and its backup viewer browses the nested `files/` directories.
 
 * type: `string` (one of `""`, `original`, `with-versions`)
@@ -337,6 +347,7 @@ If the source instance uses OAuth2 for user authentication, this is the configur
 If the source instance uses OAuth2 for user authentication, this is the configured Client Secret. Can be kept empty if the instance is public.
 
 * type: `string`
+* environment variable: `FYLR_CLI_CLIENT_SECRET`, from fylr **6.36.0**
 
 
 ### `--client-token-url`

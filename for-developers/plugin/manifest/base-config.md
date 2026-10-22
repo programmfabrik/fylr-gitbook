@@ -147,6 +147,7 @@ A parameter of type `secret` holds a password or key:
 
 * `GET /api/v1/config` shows it masked: `*****` when it is stored encrypted (with `fylr.encryptionKey` set), `***` when stored plain, an empty string when there is none.
 * Posting an empty string keeps the stored value, posting `-` deletes it, and any other value replaces it. A posted section that leaves out the secret deletes it, like any parameter it leaves out.
+* **From version 6.36.0**, every row of a `table` with a `secret` field carries `_row`, the position the row is stored at, in `GET /api/v1/config` and in a plugin program's `%info.json%`. Post the rows back with their `_row`, also after moving or removing rows: an empty secret then keeps the secret of the row that `_row` names. A row without `_row` is new and keeps no secret. A table posted without any `_row` pairs its rows with the stored rows by position, as before 6.36.0.
 * A plugin program receives the secret decrypted.
 * A collection upload callback receives `collection_config` with secrets masked, so a collection upload's `config` cannot pass a secret to its program.
 * `fylr restore` leaves secrets out; they are entered again after a restore.

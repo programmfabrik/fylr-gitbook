@@ -255,6 +255,16 @@ Created when a reminder email is sent because the installed fylr binary is newer
 * `valid_to` — the license's valid-to date (if present)
 * `external_url` — URL of the instance
 
+### LICENSE_AUTO_UPDATE
+
+Created from fylr **6.36.0** when fylr installs a newer version of its license from the license server ([automatic license updates](../../license-management.md#automatic-license-updates)). With several fylr backends, only the one that installs the license creates the event.
+
+`info`:
+
+* `Key` — the license key
+* `CreatedAt`, `ValidTo` — creation date and end date of the installed license
+* `PreviousCreatedAt`, `PreviousValidTo` — the same for the license it replaced
+
 ### OBJECT_INSERT / OBJECT_UPDATE / OBJECT_DELETE
 
 _"Record Created" / "Record Updated" / "Record Deleted"_
@@ -652,7 +662,7 @@ Created when an export finishes successfully with at least one exported record.
 `info`:
 
 * `totalCount` — number of exported records
-* `warnings` — warnings, if any
+* `warnings` — warnings, if any, e.g. for a requested file that was left out because it is not in status `done` (from 6.36.0)
 * `plugin_log` — log of the export plugin, if one ran
 
 ### EXPORT_FINISH_EMPTY

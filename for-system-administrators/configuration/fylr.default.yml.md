@@ -18,6 +18,10 @@ fylr:
   # is always trusted. See fylr.example.yml.
   trustedProxies: []
 
+  # the license auto-update asks here for the current version of the
+  # instance's license, see fylr.example.yml
+  licenseServer: "https://pfcrm.programmfabrik.de/pfcrm/license"
+
   logger:
     format: "console"
     level: "info"
@@ -47,10 +51,14 @@ fylr:
         file:
           kind: file
           # allow_purge: true
-          # allow_redirect: false
           config:
             file:
               dir: "files"
+
+  locations:
+    # directories a file location saved through the API may use, see
+    # fylr.example.yml
+    allowedDirs: []
 
   elastic:
     parallel: 4
@@ -59,6 +67,11 @@ fylr:
     maxMem: 25mb
     addresses:
       - "http://localhost:9200"
+
+  plugin:
+    # where installed plugins may come from: "any" (zip upload, disk path,
+    # any url) or "marketplace" (catalog plugins only, see fylr.example.yml)
+    sources: any
 
   execserver:
     addresses:

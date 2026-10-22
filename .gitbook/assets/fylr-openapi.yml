@@ -389,7 +389,7 @@ paths:
                                                                         size: 600
                                                                         format: png
                                                                         resize_mode: max
-                                                                        jpegquality: 80
+                                                                        quality: 80
                                                                         strip: true
                                                             example:
                                                                 imageconverter:browserthumbs:
@@ -747,7 +747,7 @@ paths:
                                                                 size: 600
                                                                 format: png
                                                                 resize_mode: max
-                                                                jpegquality: 80
+                                                                quality: 80
                                                                 strip: true
                                                     example:
                                                         imageconverter:browserthumbs:
@@ -1677,7 +1677,7 @@ paths:
                                                                             size: 600
                                                                             format: png
                                                                             resize_mode: max
-                                                                            jpegquality: 80
+                                                                            quality: 80
                                                                             strip: true
                                                                 example:
                                                                     imageconverter:browserthumbs:
@@ -2035,7 +2035,7 @@ paths:
                                                                     size: 600
                                                                     format: png
                                                                     resize_mode: max
-                                                                    jpegquality: 80
+                                                                    quality: 80
                                                                     strip: true
                                                         example:
                                                             imageconverter:browserthumbs:
@@ -3063,7 +3063,7 @@ paths:
                                                                         size: 600
                                                                         format: png
                                                                         resize_mode: max
-                                                                        jpegquality: 80
+                                                                        quality: 80
                                                                         strip: true
                                                             example:
                                                                 imageconverter:browserthumbs:
@@ -3421,7 +3421,7 @@ paths:
                                                                 size: 600
                                                                 format: png
                                                                 resize_mode: max
-                                                                jpegquality: 80
+                                                                quality: 80
                                                                 strip: true
                                                     example:
                                                         imageconverter:browserthumbs:
@@ -4351,7 +4351,7 @@ paths:
                                                                             size: 600
                                                                             format: png
                                                                             resize_mode: max
-                                                                            jpegquality: 80
+                                                                            quality: 80
                                                                             strip: true
                                                                 example:
                                                                     imageconverter:browserthumbs:
@@ -4709,7 +4709,7 @@ paths:
                                                                     size: 600
                                                                     format: png
                                                                     resize_mode: max
-                                                                    jpegquality: 80
+                                                                    quality: 80
                                                                     strip: true
                                                         example:
                                                             imageconverter:browserthumbs:
@@ -5709,7 +5709,7 @@ paths:
                                                                             size: 600
                                                                             format: png
                                                                             resize_mode: max
-                                                                            jpegquality: 80
+                                                                            quality: 80
                                                                             strip: true
                                                                 example:
                                                                     imageconverter:browserthumbs:
@@ -6067,7 +6067,7 @@ paths:
                                                                     size: 600
                                                                     format: png
                                                                     resize_mode: max
-                                                                    jpegquality: 80
+                                                                    quality: 80
                                                                     strip: true
                                                         example:
                                                             imageconverter:browserthumbs:
@@ -7081,7 +7081,7 @@ paths:
                                                                         size: 600
                                                                         format: png
                                                                         resize_mode: max
-                                                                        jpegquality: 80
+                                                                        quality: 80
                                                                         strip: true
                                                             example:
                                                                 imageconverter:browserthumbs:
@@ -7439,7 +7439,7 @@ paths:
                                                                 size: 600
                                                                 format: png
                                                                 resize_mode: max
-                                                                jpegquality: 80
+                                                                quality: 80
                                                                 strip: true
                                                     example:
                                                         imageconverter:browserthumbs:
@@ -8369,7 +8369,7 @@ paths:
                                                                             size: 600
                                                                             format: png
                                                                             resize_mode: max
-                                                                            jpegquality: 80
+                                                                            quality: 80
                                                                             strip: true
                                                                 example:
                                                                     imageconverter:browserthumbs:
@@ -8727,7 +8727,7 @@ paths:
                                                                     size: 600
                                                                     format: png
                                                                     resize_mode: max
-                                                                    jpegquality: 80
+                                                                    quality: 80
                                                                     strip: true
                                                         example:
                                                             imageconverter:browserthumbs:
@@ -9811,7 +9811,7 @@ paths:
                                                                                 size: 600
                                                                                 format: png
                                                                                 resize_mode: max
-                                                                                jpegquality: 80
+                                                                                quality: 80
                                                                                 strip: true
                                                                     example:
                                                                         imageconverter:browserthumbs:
@@ -10169,7 +10169,7 @@ paths:
                                                                         size: 600
                                                                         format: png
                                                                         resize_mode: max
-                                                                        jpegquality: 80
+                                                                        quality: 80
                                                                         strip: true
                                                             example:
                                                                 imageconverter:browserthumbs:
@@ -11168,7 +11168,7 @@ paths:
                                                                             size: 600
                                                                             format: png
                                                                             resize_mode: max
-                                                                            jpegquality: 80
+                                                                            quality: 80
                                                                             strip: true
                                                                 example:
                                                                     imageconverter:browserthumbs:
@@ -11526,7 +11526,7 @@ paths:
                                                                     size: 600
                                                                     format: png
                                                                     resize_mode: max
-                                                                    jpegquality: 80
+                                                                    quality: 80
                                                                     strip: true
                                                         example:
                                                             imageconverter:browserthumbs:
@@ -12459,7 +12459,7 @@ paths:
                                                                                 size: 600
                                                                                 format: png
                                                                                 resize_mode: max
-                                                                                jpegquality: 80
+                                                                                quality: 80
                                                                                 strip: true
                                                                     example:
                                                                         imageconverter:browserthumbs:
@@ -12817,7 +12817,7 @@ paths:
                                                                         size: 600
                                                                         format: png
                                                                         resize_mode: max
-                                                                        jpegquality: 80
+                                                                        quality: 80
                                                                         strip: true
                                                             example:
                                                                 imageconverter:browserthumbs:
@@ -13827,7 +13827,7 @@ paths:
                                                                                 size: 600
                                                                                 format: png
                                                                                 resize_mode: max
-                                                                                jpegquality: 80
+                                                                                quality: 80
                                                                                 strip: true
                                                                     example:
                                                                         imageconverter:browserthumbs:
@@ -14185,7 +14185,7 @@ paths:
                                                                         size: 600
                                                                         format: png
                                                                         resize_mode: max
-                                                                        jpegquality: 80
+                                                                        quality: 80
                                                                         strip: true
                                                             example:
                                                                 imageconverter:browserthumbs:
@@ -15896,6 +15896,14 @@ paths:
             version of fylr. Plugins can extend the list of configuration items. So,
             depending on the list of loaded plugins in fylr, the list has a various number
             of items.
+
+            A parameter of type `secret` is never read back in clear. A `POST` that
+            sends an empty string for it keeps the stored value. In a `table` that
+            holds a secret, every row is read with `_row`, its stored index. Send
+            `_row` back unchanged, also after moving or removing rows: an empty secret
+            then keeps the secret of the stored row that `_row` names. A row without
+            `_row` is new and keeps no secret. A table sent without any `_row` pairs
+            its rows with the stored rows by position.
         get:
             summary: Get all base configuration
             tags:
@@ -16139,7 +16147,7 @@ paths:
                                                             cram_md5_auth:
                                                                 properties:
                                                                     password:
-                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                                         type: string
                                                                     username:
                                                                         type: string
@@ -16151,7 +16159,7 @@ paths:
                                                             login_auth:
                                                                 properties:
                                                                     password:
-                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                                         type: string
                                                                     username:
                                                                         type: string
@@ -16161,7 +16169,7 @@ paths:
                                                                     identity:
                                                                         type: string
                                                                     password:
-                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                                         type: string
                                                                     username:
                                                                         type: string
@@ -16398,7 +16406,7 @@ paths:
                                                     ldap:
                                                         properties:
                                                             bindpassword:
-                                                                description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                                description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                                 type: string
                                                             bindusername:
                                                                 type: string
@@ -17645,8 +17653,8 @@ paths:
                                                                                                                     - png
                                                                                                                     - webp
                                                                                                                 type: string
-                                                                                                            jpegquality:
-                                                                                                                description: 'JPEG quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. [int]'
+                                                                                                            quality:
+                                                                                                                description: 'JPEG and WebP quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. No effect on PNG. [int]'
                                                                                                                 type: integer
                                                                                                             resize_mode:
                                                                                                                 description: 'How size is applied: "max" longest side (default), "min" shortest side, "width" or "height" fixed dimension. [select]'
@@ -19026,7 +19034,7 @@ paths:
                                                             ldap:
                                                                 properties:
                                                                     bindpassword:
-                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                                         type: string
                                                                     bindusername:
                                                                         type: string
@@ -19473,7 +19481,7 @@ paths:
                                                         cram_md5_auth:
                                                             properties:
                                                                 password:
-                                                                    description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                                    description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                                     type: string
                                                                 username:
                                                                     type: string
@@ -19485,7 +19493,7 @@ paths:
                                                         login_auth:
                                                             properties:
                                                                 password:
-                                                                    description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                                    description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                                     type: string
                                                                 username:
                                                                     type: string
@@ -19495,7 +19503,7 @@ paths:
                                                                 identity:
                                                                     type: string
                                                                 password:
-                                                                    description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                                    description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                                     type: string
                                                                 username:
                                                                     type: string
@@ -19732,7 +19740,7 @@ paths:
                                                 ldap:
                                                     properties:
                                                         bindpassword:
-                                                            description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                            description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                             type: string
                                                         bindusername:
                                                             type: string
@@ -21002,8 +21010,8 @@ paths:
                                                                                                                 - png
                                                                                                                 - webp
                                                                                                             type: string
-                                                                                                        jpegquality:
-                                                                                                            description: 'JPEG quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. [int]'
+                                                                                                        quality:
+                                                                                                            description: 'JPEG and WebP quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. No effect on PNG. [int]'
                                                                                                             type: integer
                                                                                                         resize_mode:
                                                                                                             description: 'How size is applied: "max" longest side (default), "min" shortest side, "width" or "height" fixed dimension. [select]'
@@ -22360,7 +22368,7 @@ paths:
                                                         ldap:
                                                             properties:
                                                                 bindpassword:
-                                                                    description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                                    description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                                     type: string
                                                                 bindusername:
                                                                     type: string
@@ -22762,7 +22770,7 @@ paths:
                                                             cram_md5_auth:
                                                                 properties:
                                                                     password:
-                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                                         type: string
                                                                     username:
                                                                         type: string
@@ -22774,7 +22782,7 @@ paths:
                                                             login_auth:
                                                                 properties:
                                                                     password:
-                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                                         type: string
                                                                     username:
                                                                         type: string
@@ -22784,7 +22792,7 @@ paths:
                                                                     identity:
                                                                         type: string
                                                                     password:
-                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                                         type: string
                                                                     username:
                                                                         type: string
@@ -23021,7 +23029,7 @@ paths:
                                                     ldap:
                                                         properties:
                                                             bindpassword:
-                                                                description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                                description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                                 type: string
                                                             bindusername:
                                                                 type: string
@@ -24101,8 +24109,8 @@ paths:
                                                                                                                     - png
                                                                                                                     - webp
                                                                                                                 type: string
-                                                                                                            jpegquality:
-                                                                                                                description: 'JPEG quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. [int]'
+                                                                                                            quality:
+                                                                                                                description: 'JPEG and WebP quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. No effect on PNG. [int]'
                                                                                                                 type: integer
                                                                                                             resize_mode:
                                                                                                                 description: 'How size is applied: "max" longest side (default), "min" shortest side, "width" or "height" fixed dimension. [select]'
@@ -25649,7 +25657,7 @@ paths:
                                                             ldap:
                                                                 properties:
                                                                     bindpassword:
-                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.
+                                                                        description: The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.
                                                                         type: string
                                                                     bindusername:
                                                                         type: string
@@ -25940,8 +25948,10 @@ paths:
                 Sets the JSON value sent in the body at the addressed path, using an
                 `sjson` patch on the current stored value, then re-validates and re-saves
                 the whole affected config item. Because the whole item is re-saved, this
-                can raise the same `400` / `202` flows as `POST /config`. An empty body is
-                rejected. Requires `system.config` (`system.root` always satisfies it).
+                can raise the same `400` / `202` flows as `POST /config`. Parameters of
+                type `secret` outside the addressed path keep their stored values. An
+                empty body is rejected. Requires `system.config` (`system.root` always
+                satisfies it).
             requestBody:
                 required: true
                 content:
@@ -26021,7 +26031,8 @@ paths:
                 Removes the value at the addressed path (an `sjson` delete on the current
                 stored value), then re-saves the affected config item through the same
                 path as `POST /config`, so it can raise the same `400` / `202` flows.
-                Sending a request body is rejected (`400`, `code` `ServerGeneric`). A
+                Parameters of type `secret` outside the addressed path keep their stored
+                values. Sending a request body is rejected (`400`, `code` `ServerGeneric`). A
                 `DELETE` on bare `/config` (no sub-path) always returns `404`. Requires
                 `system.config` (`system.root` always satisfies it).
             responses:
@@ -27037,8 +27048,11 @@ paths:
                         subordinate objects of a deleted object.
                       * `setnull`: keep the reverse-linked and subordinate objects and
                         clear their link to the deleted object.
-                      * `create_collection`: collect the affected objects in a new
-                        collection instead of deleting them.
+                      * `create_collection`: delete nothing, create a new collection
+                        below the user's collections with the objects to be deleted
+                        instead. Its child collections hold the objects preventing the
+                        deletion and the objects deleted along or unlinked by `remove`
+                        or `setnull`, each only when not empty.
                       * `undelete`: restore previously deleted objects. Links explicitly
                         removed during deletion remain removed, including both sides of
                         bidirectional relations.
@@ -27057,9 +27071,12 @@ paths:
                     any link whose removal would leave a nested table empty that is NOT
                     NULL itself.
 
-                    When omitted, **fylr** answers with a `202` response describing the
-                    choices instead of deleting anything; a choice such a link blocks is
-                    marked `disabled`.
+                    When omitted, objects which have no reverse-linked or subordinate
+                    objects and which no other object links are deleted right away,
+                    the answer names `remove` as the applied policy. Otherwise
+                    **fylr** answers with a `202` response describing the choices
+                    instead of deleting anything; a choice such a link blocks is marked
+                    `disabled`.
                   schema:
                     type: string
                     enum:
@@ -27185,11 +27202,14 @@ paths:
                         button supplies, in its `name` and `value`, the query parameter to add
                         when re-sending the request. The cases here:
 
-                          * **No `delete_policy` was given and the objects are still linked**
-                            from others — the task offers a `delete_policy` choice: `remove`
-                            (also delete the linking objects), `setnull` (keep them but clear
-                            their link) or `create_collection` (collect the affected objects
-                            instead of deleting them). Re-send with `delete_policy=<choice>`.
+                          * **No `delete_policy` was given and the deletion affects other
+                            objects** — objects linking the deleted ones, or their
+                            reverse-linked or subordinate objects. The task offers a
+                            `delete_policy` choice: `remove` (also delete the reverse-linked
+                            and subordinate objects), `setnull` (keep those and clear their
+                            link) or `create_collection` (collect the objects in a new
+                            collection instead of deleting them). Re-send with
+                            `delete_policy=<choice>`.
                           * **A workflow transition needs confirmation** — re-send with
                             `confirmTransition=<value>`; a `delete_policy` already chosen is
                             carried over automatically.
@@ -29003,26 +29023,6 @@ paths:
                                 type: string
                                 format: binary
                                 description: The binary data of the file.
-                "308":
-                    description: |
-                        The file is stored in an `s3` location configured with
-                        `allow_redirect`, and the client is sent to a signed url of
-                        that storage instead of receiving the bytes from **fylr**. The
-                        url expires after one hour and carries the same
-                        `Content-Disposition` a direct delivery would have sent.
-                        A delivery that writes metadata into the file on the fly is
-                        never redirected.
-                    headers:
-                        Location:
-                            description: The signed storage url the client is sent to.
-                            schema:
-                                type: string
-                        X-Fylr-Storage-Location:
-                            description: |
-                                The numeric ID of the storage location the file is
-                                redirected to.
-                            schema:
-                                type: string
                 "403":
                     description: |
                         Access to the file is denied (`code` `InsufficientRights`):
@@ -29096,15 +29096,6 @@ paths:
                                 Indicates the storage location of the file.
                                 * If stored locally: contains the numeric ID of the storage location.
                                 * If stored remotely: contains the string `remote`.
-                            schema:
-                                type: string
-                "308":
-                    description: |
-                        The file is stored in a location configured with
-                        `allow_redirect`, see the `GET` of this path.
-                    headers:
-                        Location:
-                            description: The signed storage url the client is sent to.
                             schema:
                                 type: string
                 "403":
@@ -34554,9 +34545,9 @@ paths:
         description: |
             Drops the search index into a freshly created one and starts a full
             reindexing run. The run executes asynchronously; the call returns once
-            it has been started. Pass `blockFrontend=true` to serve a maintenance
-            page on the frontend until the reindex completes. Requires the
-            `system.root` right.
+            it has been started. Pass `blockFrontend=true` to block the frontend
+            and most of the API until the new index is switched in, or until the
+            re-index fails. Requires the `system.root` right.
 
             Differs from easydb 5: no enable flag is needed. In easydb 5 the
             equivalent `POST /api/v1/settings/reindex` additionally required the
@@ -34576,8 +34567,12 @@ paths:
                     type: boolean
                     default: false
                   description: |
-                    If `true`, fylr serves a maintenance page on the frontend
-                    until the reindex completes.
+                    If `true`, the instance goes into the `reindex` status until the
+                    new index is switched in: the frontend shows a maintenance page
+                    and the API answers `503`, apart from OAuth2 (`/api/oauth2`),
+                    `/settings`, `/system` and the file downloads of `/eas/download`.
+                    A re-index that fails lifts the block again, its `REINDEX_ERROR`
+                    event names the reason.
             responses:
                 "200":
                     description: |
@@ -34593,6 +34588,15 @@ paths:
                                         type: string
                                         enum:
                                             - ok
+                "400":
+                    description: |
+                        The run could not be started, for example because the search
+                        engine refused to create the new index; `error` carries its
+                        answer. A block requested with `blockFrontend` is lifted again.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ServerGenericError'
                 "401":
                     description: |
                         No authenticated user. The request must carry a valid access token.
@@ -35032,7 +35036,9 @@ paths:
                         The location could not be created. `code: LocationMustMatchID`
                         if the body `id` does not match the create (`0`);
                         `code: LocationReadOnlyCannotBeDefault` if a read-only location
-                        is configured as a default location; other validation codes
+                        is configured as a default location; `code: LocationDirNotAllowed`
+                        if the `dir` of a `file` location is not inside one of the
+                        directories in `fylr.locations.allowedDirs`; other validation codes
                         (unknown driver, missing config, ...) surface their own `code`.
                         Connection problems with the configured driver do not block the
                         save — the location is stored with a non-`connected` `status`.
@@ -35169,8 +35175,11 @@ paths:
                         The location could not be saved. `code: LocationMustMatchID`
                         if the body `id` does not match the id in the path;
                         `code: LocationReadOnlyCannotBeDefault` if a read-only
-                        location is configured as a default location; other
-                        validation codes surface their own `code`.
+                        location is configured as a default location;
+                        `code: LocationDirNotAllowed` if a `file` location gets a `dir`
+                        that is not inside one of the directories in
+                        `fylr.locations.allowedDirs` (a location keeping its stored `dir`
+                        is not checked); other validation codes surface their own `code`.
                     content:
                         application/json:
                             schema:
@@ -38791,8 +38800,12 @@ paths:
                         with an unknown `callback` (not `pre_save` /
                         `after_commit_async`; `WebhookCallbackUnknown`, parameter
                         `callback`); a `change_owner` action without an owner
-                        (`ChangeOwnerNotSelected`). Everything else is code
-                        `ServerGeneric`: unparseable JSON; an entry whose `_id`
+                        (`ChangeOwnerNotSelected`); an `email` action with a `null`
+                        in `recipients` (`EmailRecipientEmpty`, parameters
+                        `workflow` and `recipient`, both counted from 1). Everything
+                        else is code `ServerGeneric`, and its message names the
+                        workflow (`workflow <n>`): a `null` entry in the body or in
+                        `who`; unparseable JSON; an entry whose `_id`
                         matches no existing transition in the database; an unknown
                         transition `type` (not one of `resolve`, `reject`,
                         `exit_resolve`, `exit_reject`, `process`); an unknown
@@ -40968,15 +40981,18 @@ paths:
     /plugin/bundle.js:
         x-path: /plugin
         description: |
-            Serves the concatenated JavaScript of every enabled plugin, in
-            dependency load-order. Public (no access token) and cached
-            client-side via the standard fylr cache-id header.
+            Serves the JavaScript of every enabled plugin in one file, in
+            load-order. Public (no access token) and cached client-side via
+            the standard fylr cache-id header.
         get:
-            summary: Concatenated plugin JavaScript bundle.
+            summary: Plugin JavaScript bundle.
             description: |
-                Returns the JavaScript bundle of every enabled plugin, in
-                load-order. Cached client-side using the standard fylr
-                cache-id header.
+                Returns the JavaScript of every enabled plugin in one file:
+                plugins come after the plugins they depend on, otherwise in name
+                order. Each plugin runs as a script of its own, so a plugin that
+                fails to parse or throws while loading stops only itself; the
+                browser console names it. Cached client-side using the standard
+                fylr cache-id header.
             responses:
                 "200":
                     description: The JavaScript bundle.
@@ -41018,7 +41034,7 @@ paths:
         x-path: /plugin
         description: |
             Serves the front-end translations of all enabled plugins for the
-            requested `{lang}`, merged into one flat translation map. Public:
+            requested `{lang}` as one JSON array, one element per plugin. Public:
             no access token is required.
         get:
             summary: Concatenated plugin translations for a language.
@@ -41032,13 +41048,18 @@ paths:
             responses:
                 "200":
                     description: |
-                        Flat translation map merged across all enabled plugins.
+                        A JSON array with one element per enabled plugin whose manifest
+                        sets `plugin.webfrontend.l10n` and whose dependencies are met.
+                        Each element is the unchanged content of that plugin's
+                        `<webfrontend.l10n>/{lang}.json` file. A plugin whose file cannot
+                        be read contributes `{"_error": "<message>"}` instead.
                     content:
                         application/json:
                             schema:
-                                type: object
-                                additionalProperties:
-                                    type: string
+                                type: array
+                                items:
+                                    type: object
+                                    additionalProperties: true
     /plugin/static/{plugin}/{path}:
         x-path: /plugin
         description: |
@@ -41319,23 +41340,30 @@ paths:
                     description: |
                         The catalog cannot resolve a dependency of the named entry
                         (`code: PluginDependencyNotInstalled`), the entry carries no
-                        install URL, or the marketplace is disabled in the server
+                        install URL, the marketplace is disabled in the server
                         configuration (`plugin.marketplace.enabled`,
-                        `code: PluginMarketplaceDisabled`).
+                        `code: PluginMarketplaceDisabled`), or the zip of the install URL
+                        does not match the sha256 the catalog names
+                        (`code: PluginSHA256Mismatch`).
                     content:
                         application/json:
                             schema:
                                 oneOf:
                                     - $ref: '#/components/schemas/PluginDependencyNotInstalledError'
                                     - $ref: '#/components/schemas/PluginMarketplaceDisabledError'
+                                    - $ref: '#/components/schemas/PluginSHA256MismatchError'
                 "403":
                     description: |
                         The user holds neither `system.root` nor `system.plugin`
-                        (`code: SystemRightRequired`).
+                        (`code: SystemRightRequired`), or the server only accepts marketplace
+                        plugins and the zip of the catalog url carries another plugin
+                        (`code: PluginSourceNotAllowed`).
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SystemRightRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/SystemRightRequiredError'
+                                    - $ref: '#/components/schemas/PluginSourceNotAllowedError'
                 "404":
                     description: |
                         The catalog offers no entry of that name
@@ -41416,7 +41444,9 @@ paths:
                         (`code: PluginDuplicateName`), a declared dependency is not
                         installed (`code: PluginDependencyNotInstalled`) or not
                         enabled while `enabled` was requested
-                        (`code: PluginDependencyNotEnabled`), the instance is
+                        (`code: PluginDependencyNotEnabled`), the `url` is a
+                        marketplace catalog url and its zip does not match the sha256
+                        the catalog names (`code: PluginSHA256Mismatch`), the instance is
                         read-only (`code: ReadOnlyMode`), or the payload could not be
                         parsed.
                     content:
@@ -41426,19 +41456,24 @@ paths:
                                     - $ref: '#/components/schemas/PluginDuplicateNameError'
                                     - $ref: '#/components/schemas/PluginDependencyNotInstalledError'
                                     - $ref: '#/components/schemas/PluginDependencyNotEnabledError'
+                                    - $ref: '#/components/schemas/PluginSHA256MismatchError'
                                     - $ref: '#/components/schemas/ReadOnlyModeError'
                 "403":
                     description: |
                         The user holds neither `system.root` nor `system.plugin`
                         (`code: SystemRightRequired`), or the payload requests
                         `enabled: true` for a plugin the installed license does not
-                        allow to be enabled (`code: PluginNotLicensed`).
+                        allow to be enabled (`code: PluginNotLicensed`), or the server only
+                        accepts marketplace plugins and the payload installs another source
+                        or enables a plugin not checked against the catalog
+                        (`code: PluginSourceNotAllowed`).
                     content:
                         application/json:
                             schema:
                                 oneOf:
                                     - $ref: '#/components/schemas/SystemRightRequiredError'
                                     - $ref: '#/components/schemas/PluginNotLicensedError'
+                                    - $ref: '#/components/schemas/PluginSourceNotAllowedError'
     /plugin/manage/{id}:
         x-path: /plugin/manage
         description: |
@@ -41515,7 +41550,9 @@ paths:
                         (`code: PluginDependencyNotInstalled`) or not enabled while
                         `enabled` was requested (`code: PluginDependencyNotEnabled`),
                         the plugin is being disabled while an enabled plugin depends
-                        on it (`code: PluginRequiredByOthers`), the instance is
+                        on it (`code: PluginRequiredByOthers`), the changed `url` is a
+                        marketplace catalog url and its zip does not match the sha256 the
+                        catalog names (`code: PluginSHA256Mismatch`), the instance is
                         read-only (`code: ReadOnlyMode`), or the payload could not be
                         parsed.
                     content:
@@ -41525,19 +41562,24 @@ paths:
                                     - $ref: '#/components/schemas/PluginDependencyNotInstalledError'
                                     - $ref: '#/components/schemas/PluginDependencyNotEnabledError'
                                     - $ref: '#/components/schemas/PluginRequiredByOthersError'
+                                    - $ref: '#/components/schemas/PluginSHA256MismatchError'
                                     - $ref: '#/components/schemas/ReadOnlyModeError'
                 "403":
                     description: |
                         The user holds neither `system.root` nor `system.plugin`
                         (`code: SystemRightRequired`), or the update requests
                         `enabled: true` for a plugin the installed license does not
-                        allow to be enabled (`code: PluginNotLicensed`).
+                        allow to be enabled (`code: PluginNotLicensed`), or the server only
+                        accepts marketplace plugins and the payload installs another source
+                        or enables a plugin not checked against the catalog
+                        (`code: PluginSourceNotAllowed`).
                     content:
                         application/json:
                             schema:
                                 oneOf:
                                     - $ref: '#/components/schemas/SystemRightRequiredError'
                                     - $ref: '#/components/schemas/PluginNotLicensedError'
+                                    - $ref: '#/components/schemas/PluginSourceNotAllowedError'
                 "404":
                     description: |
                         No plugin with this id (`code: PluginNotFound`).
@@ -41645,11 +41687,15 @@ paths:
                 "403":
                     description: |
                         The user holds neither `system.root` nor `system.plugin`
-                        (`code: SystemRightRequired`).
+                        (`code: SystemRightRequired`), or the server only accepts marketplace
+                        plugins (`plugin.sources: marketplace`)
+                        (`code: PluginSourceNotAllowed`).
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SystemRightRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/SystemRightRequiredError'
+                                    - $ref: '#/components/schemas/PluginSourceNotAllowedError'
     /plugin/manage/{id}/upload:
         x-path: /plugin/manage
         description: |
@@ -41694,11 +41740,15 @@ paths:
                 "403":
                     description: |
                         The user holds neither `system.root` nor `system.plugin`
-                        (`code: SystemRightRequired`).
+                        (`code: SystemRightRequired`), or the server only accepts marketplace
+                        plugins (`plugin.sources: marketplace`)
+                        (`code: PluginSourceNotAllowed`).
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SystemRightRequiredError'
+                                oneOf:
+                                    - $ref: '#/components/schemas/SystemRightRequiredError'
+                                    - $ref: '#/components/schemas/PluginSourceNotAllowedError'
     /plugin/manage/{id}/zip:
         x-path: /plugin/manage
         description: |
@@ -42853,15 +42903,22 @@ paths:
             manifest's `rights` and `requiredStatement` come from the base
             config (`deep_link_access.iiif_rights` and
             `...iiif_required_statement`); both may contain
-            `%<objecttype>.<field>%` placeholders, resolved against the
+            `%<objecttype>.<field>%` placeholders (for a custom datatype field
+            `%<objecttype>.<field>._standard%` and
+            `%<objecttype>.<field>.<subfield>%` for each subfield its plugin
+            maps, e.g. the `url` of a weblink), resolved against the
             object's top-level values for the manifest and against the values
-            along the path from each file to the object for its canvas. A
-            property the manifest's own values leave empty takes the value all
-            its canvases share (e.g. a field of an embedded objecttype); a canvas
-            carries a property only where it differs from the manifest's. A
-            placeholder resolves only for fields the manifest's mask renders;
-            for an embedded objecttype that is the sub-mask of the embedding
-            field.
+            along the path from each file to the object for its canvas. A value
+            whose placeholders all stay empty counts as empty, the text around
+            them (`%foto.a%, %foto.b%`) is not used on its own. A property the
+            manifest's own values leave empty takes the value all its canvases
+            share (e.g. a field of an embedded objecttype); a canvas carries a
+            property only where it differs from the manifest's. A placeholder
+            resolves only for fields the manifest's mask renders; for an
+            embedded objecttype that is the sub-mask of the embedding field.
+            In the manifest's `metadata`, a custom datatype value whose standard
+            is localized carries one entry per database language, otherwise its
+            language is `none`.
 
             **Differs from easydb 5:** **fylr** also serves `html` and `iiif`
             (`iiif/v3/manifest.json`). easydb 5 documents only `json`,
@@ -48623,10 +48680,13 @@ components:
                                 - url_unreachable
                                 - url_http_error
                                 - zip_invalid
+                                - sha256_mismatch
                             description: |
                                 `url_unreachable`: the url could not be reached (network/TLS
                                 failure). `url_http_error`: the server answered with a non-2xx
                                 status. `zip_invalid`: the download is not a valid plugin zip.
+                                `sha256_mismatch`: the download does not match the sha256 the
+                                marketplace catalog names for it; the plugin keeps its zip.
                         error:
                             type: string
                             description: The underlying error text.
@@ -48643,7 +48703,10 @@ components:
                         `not_installed` for a `url` plugin whose zip has never arrived —
                         such a plugin is force-disabled at runtime (like an unlicensed one;
                         the stored `enabled` keeps the user's intent) and the frontend
-                        offers the install-as-zip rescue. Response only, absent otherwise.
+                        offers the install-as-zip rescue. `not_marketplace` when the server
+                        only accepts marketplace plugins (`plugin.sources: marketplace`) and
+                        this plugin's zip was not checked against the catalog; it stays
+                        disabled until it is. Response only, absent otherwise.
                 last_checked_at:
                     type: string
                     format: date-time
@@ -48689,6 +48752,18 @@ components:
                     properties:
                         enabled:
                             type: boolean
+                sources:
+                    type: string
+                    enum:
+                        - any
+                        - marketplace
+                    description: |
+                        Where installed plugins may come from (`plugin.sources` in the server
+                        configuration). With `marketplace` only marketplace catalog plugins
+                        are installed and enabled — no zip upload, `disk` path or other
+                        `url` — and the frontend offers only the marketplace install.
+                        Plugins of the server configuration (`plugin.paths`, `plugin.urls`)
+                        are always accepted.
         PluginDeleteAck:
             type: object
             description: |
@@ -48841,6 +48916,14 @@ components:
                                     Publish date of that release (RFC 3339 date or datetime).
                                     Absent when unknown.
                                 example: "2026-07-23"
+                            sha256:
+                                type: string
+                                description: |
+                                    Hex sha256 of the plugin zip `url` serves for that release, as
+                                    downloaded. A plugin installed from `url` is installed and
+                                    updated only with a zip that matches it; with
+                                    `plugin.sources: marketplace` that holds for every plugin of
+                                    this name. Absent when the catalog names none.
                             hidden:
                                 type: boolean
                                 description: |
@@ -53276,6 +53359,108 @@ components:
                     enum:
                         - 403
                     description: The HTTP status code, repeated here. Always `403`.
+        PluginSourceNotAllowedError:
+            type: object
+            description: |
+                Error returned with `code` `PluginSourceNotAllowed` (HTTP `403`).
+            required:
+                - code
+                - error
+                - package
+                - parameters
+                - realm
+                - statuscode
+            properties:
+                code:
+                    type: string
+                    description: |
+                        Stable, machine-readable error code:
+
+                          * `PluginSourceNotAllowed` — the server only accepts marketplace
+                            plugins (`plugin.sources: marketplace` in the server
+                            configuration): a zip upload, a `disk` plugin, a `url` that is not
+                            a marketplace catalog url, or enabling a plugin that was not
+                            checked against the catalog (HTTP 403).
+                    enum:
+                        - PluginSourceNotAllowed
+                error:
+                    type: string
+                    description: |
+                        Human-readable message, localized to the caller's preferred language.
+                        If no translation exists for this error key, the untranslated message
+                        is returned with a `Package` / `Code` footer appended.
+                package:
+                    type: string
+                    enum:
+                        - api
+                    description: |
+                        Internal origin marker for **fylr** support; not part of the API
+                        contract. Branch on `code`, not `package`.
+                parameters:
+                    type: object
+                    additionalProperties: true
+                    description: |
+                        Machine-readable details: `plugin`.
+                realm:
+                    type: string
+                    enum:
+                        - api
+                    description: The realm the error originates from. Always `api`.
+                statuscode:
+                    type: integer
+                    enum:
+                        - 403
+                    description: The HTTP status code, repeated here. Always `403`.
+        PluginSHA256MismatchError:
+            type: object
+            description: |
+                Error returned with `code` `PluginSHA256Mismatch` (HTTP `400`).
+            required:
+                - code
+                - error
+                - package
+                - parameters
+                - realm
+                - statuscode
+            properties:
+                code:
+                    type: string
+                    description: |
+                        Stable, machine-readable error code:
+
+                          * `PluginSHA256Mismatch` — the zip the marketplace catalog url
+                            served does not match the sha256 the catalog names for it; it was
+                            discarded and the plugin was not installed (HTTP 400).
+                    enum:
+                        - PluginSHA256Mismatch
+                error:
+                    type: string
+                    description: |
+                        Human-readable message, localized to the caller's preferred language.
+                        If no translation exists for this error key, the untranslated message
+                        is returned with a `Package` / `Code` footer appended.
+                package:
+                    type: string
+                    enum:
+                        - api
+                    description: |
+                        Internal origin marker for **fylr** support; not part of the API
+                        contract. Branch on `code`, not `package`.
+                parameters:
+                    type: object
+                    additionalProperties: true
+                    description: |
+                        Machine-readable details: `plugin`.
+                realm:
+                    type: string
+                    enum:
+                        - api
+                    description: The realm the error originates from. Always `api`.
+                statuscode:
+                    type: integer
+                    enum:
+                        - 400
+                    description: The HTTP status code, repeated here. Always `400`.
         PluginRequiredByOthersError:
             type: object
             description: |
@@ -57947,7 +58132,10 @@ components:
                         Current export run state. `new` after create/update; `pending`
                         once a run is scheduled; `processing` while a run is active;
                         `done` / `done_with_warnings` on success; `failed` on error or
-                        after a stop.
+                        after a stop. A file requested in `eas_fields` that is not in status
+                        `done` is left out of the run, which then ends in
+                        `done_with_warnings`; the `FileNotDone` warning is in the
+                        `EXPORT_FINISH` event.
                 _plugin_log:
                     type: array
                     items:
@@ -58261,17 +58449,6 @@ components:
                     description: |
                         Whether `POST /api/v1/system/purgeall` may delete files from
                         this location. Disable to keep an archival location intact.
-                allow_redirect:
-                    type: boolean
-                    description: |
-                        Whether downloads from this location answer with `308` and a
-                        `Location:` header pointing at a signed storage url, instead of
-                        being copied through **fylr**. Only `kind` `s3` can do this, where
-                        the signed url also carries the `Content-Disposition` **fylr**
-                        would have sent, so the client still receives the right filename.
-                        On the other kinds the option has no effect: a `file` url
-                        addresses the internal backend listener and cannot be reached by a
-                        client, and an `azure` SAS cannot carry the filename.
                 read_only:
                     type: boolean
                     description: |
@@ -58435,7 +58612,10 @@ components:
                                     Type-specific parameters. Shapes for built-in types:
                                     `set_tags` -> `{"tags":[{"_id":<tag id>,"set":true|false}]}`;
                                     `change_owner` -> `{"owner":<WhoApi>}`;
-                                    `email` -> `{"subject":<LocaValue>,"message":<LocaValue>,"batchable":<bool>,"recipients":[<WhoApi>]}`;
+                                    `email` -> `{"subject":<LocaValue>,"message":<LocaValue>,"batchable":<bool>,"recipients":[<WhoApi>]}`
+                                    (a recipient sent without `_id` as
+                                    `{"_basetype":"user","user":{"login":<address>,"type":"email"}}`
+                                    is created as an e-mail user when the set is saved);
                                     `webhook` -> `{"name":<configured webhook name>,"callback":"pre_save"|"after_commit_async"}`
                                     (callback defaults to `after_commit_async`).
                                     Plugin action types carry whatever the plugin declares.
@@ -58834,7 +59014,11 @@ components:
                         names of the objecttype's files fields; each value is the list of
                         placeholder tokens (e.g. `%_asset.original_filename%`,
                         `%<field>%`) available for that field's `_export_asset_filenames`
-                        template. Output only — ignored if sent in a `POST` body.
+                        template. A custom datatype field offers its standard as
+                        `%<field>._standard%` and each subfield its plugin maps as
+                        `%<field>.<subfield>%`, localized ones also per database language
+                        (`%<field>._standard.de-DE%`). Output only — ignored if sent in a
+                        `POST` body.
         XmlMappingProfile:
             type: object
             description: |
@@ -60682,7 +60866,7 @@ components:
                             size: 600
                             format: png
                             resize_mode: max
-                            jpegquality: 80
+                            quality: 80
                             strip: true
                 example:
                     imageconverter:browserthumbs:
@@ -61295,6 +61479,15 @@ components:
                         set `linked_objects_referenced_by_objecttypes` to keep only the
                         ones actually in use. Useful for autocomplete pickers that need
                         to show the target object inline.
+
+                        The named objecttypes share the `limit` slots: they take turns
+                        adding their next best match, so one objecttype with many
+                        matches cannot fill the whole list, and slots an objecttype
+                        cannot fill go to the others. The list is ordered by `_score`:
+                        an object which has the query as a whole word ("Halle" in
+                        "Halle (Saale)") ranks above one which only has it inside a
+                        word ("Hallesche Straße"); equal scores are ordered by
+                        `_system_object_id`.
                 linked_objects_referenced_by_objecttypes:
                     type: array
                     nullable: true
@@ -61305,8 +61498,10 @@ components:
                         suggestion is kept only if at least one record of these
                         objecttypes links to it (directly, nested or reverse — the
                         `_linked.<ot>._id` closure the "in" filter queries when a
-                        suggestion is clicked), so selecting the suggestion as a search
-                        filter over these objecttypes always yields results. Absent /
+                        suggestion is clicked) or, for a hierarchical objecttype,
+                        to a record below it (the "in" filter with `include_path`), so
+                        selecting the suggestion as a search filter over these
+                        objecttypes always yields results. Absent /
                         empty returns every match. Pass the objecttypes the caller will
                         actually filter on click — kept separate from `objecttypes` on
                         purpose, since `objecttypes` may be widened with the linked
@@ -61406,7 +61601,12 @@ components:
                                             (front-end uses this for keyboard navigation).
                                     count:
                                         type: integer
-                                        description: Number of indexed documents the term occurs in.
+                                        description: |
+                                            Number of records a `match` search in `token` mode
+                                            for the term finds within the request's
+                                            `objecttypes`, `pool_ids`, `fields` and search
+                                            languages. A record counts once, however many fields
+                                            or languages carry the term.
                         fields:
                             type: array
                             nullable: true
@@ -61993,8 +62193,9 @@ components:
                 l10n:
                     type: string
                     description: |
-                        Path (relative to the plugin's static URL) of the plugin's
-                        l10n CSV file.
+                        Path of the plugin's l10n CSV file, relative to the directory
+                        holding `manifest.yml`. The server reads the file when it loads
+                        the plugin.
                 server:
                     type: object
                     description: Server-side compatibility declarations.
@@ -62006,8 +62207,9 @@ components:
                                     type: integer
                                     format: int64
                                     description: |
-                                        The minimum fylr server API version this plugin
-                                        supports.
+                                        The API version the manifest declares, published as-is.
+                                        The server does not compare it with its own version and
+                                        loads the plugin whatever the value.
                 url:
                     type: string
                     description: |
@@ -62760,14 +62962,16 @@ components:
                     description: Render format for objects reported in buckets.
                 include:
                     type: string
-                    description: Regular expression limiting which bucket keys are returned.
+                    description: 'Regular expression limiting which buckets are returned, in Lucene syntax, case-sensitive and anchored: it has to match the whole value. A `term` aggregation matches it against the bucket key, a `linked_object` aggregation against the name of each entry, the standard text of the linked record or the pool name.'
                 language:
                     type: string
                     description: For localized fields, the language to aggregate.
                 filter_parent:
                     type: integer
                     format: int64
-                    description: Restrict buckets to children of this parent object.
+                    nullable: true
+                    description: |
+                        For a `linked_object` aggregation over a hierarchical objecttype: restrict the buckets to the direct children of this parent, given by its `_id` (not its `_system_object_id`). `null` or `0` returns the top level; in a polyhierarchy that includes the records that also hang from the virtual top level. A child below a parent with several paths is returned once per path, each bucket carrying its `_path`. Sorted by `term`, the entries of a level are ordered by their own names, the records below the virtual top level among the others. Without the key, the buckets of all levels are returned, sorted by `term` along their paths.
                 precision:
                     type: integer
                     description: Grid precision, for the `geotile_grid` aggregation.

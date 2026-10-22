@@ -87,9 +87,11 @@ networks:
     # two shipped values are repeated here
     pluginJobTimeoutSec: 2400 # the longest a plugin callback may run
     connectTimeoutSec: 120    # the longest a job waits for a free execserver slot
-    # where the execserver calls back to the main fylr: fylr runs in a
-    # container here and cannot see the address main.example.com itself
+    # where the execserver and its plugins call back to the main fylr: fylr
+    # runs in a container here and cannot see the address main.example.com
+    # itself
     callbackBackendOwnURL: "http://main.example.com:8081"
+    callbackApiOwnURL: "http://main.example.com:8080"
 
   services+:
     execserver: # this empty yaml branch with no leaves disables the execserver
@@ -101,7 +103,7 @@ There is no worker count to configure on _main_.example.com: from 6.35 one file 
 
 `connectTimeoutSec` is how long a job waits for a free slot, not a connection timeout. A file job that gets no slot in that time goes back into the file queue and is tried again a minute later, as often as it takes; a request whose client waits for the job, such as a plugin callback, fails with an error instead.
 
-`callbackBackendOwnURL` is taken verbatim, port included. The API address handed to plugins takes its host from it and its port from the API listener, here `http://main.example.com:8080`. Before 6.35 this was set with `callbackBackendInternalURL` and `callbackApiInternalURL`; from 6.35 these two keep only scheme and port, never the host, see [Updating the execserver to 6.35](../updating-the-execserver-to-6.35.md).
+`callbackBackendOwnURL` is the backend address the execserver calls back on, `callbackApiOwnURL` the API address handed to plugins. Each is taken verbatim, port included, and sets its own address only. fylr 6.35 does not know `callbackApiOwnURL` yet, reports it as an unknown key and takes the API host from `callbackBackendOwnURL`. Before 6.35 these addresses were set with `callbackBackendInternalURL` and `callbackApiInternalURL`, which 6.36 ignores.
 
 * use a `docker-compose.yml` with these changes, the rest remains as in [the default installation](../linux-docker-compose.md#installation):
 

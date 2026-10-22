@@ -243,7 +243,7 @@
                                         "size": 600,
                                         "format": "png",
                                         "resize_mode": "max",
-                                        "jpegquality": 80,
+                                        "quality": 80,
                                         "strip": true
                                       }
                                     }
@@ -478,7 +478,7 @@
                                     "size": 600,
                                     "format": "png",
                                     "resize_mode": "max",
-                                    "jpegquality": 80,
+                                    "quality": 80,
                                     "strip": true
                                   }
                                 }
@@ -1300,7 +1300,7 @@
                                           "size": 600,
                                           "format": "png",
                                           "resize_mode": "max",
-                                          "jpegquality": 80,
+                                          "quality": 80,
                                           "strip": true
                                         }
                                       }
@@ -1535,7 +1535,7 @@
                                       "size": 600,
                                       "format": "png",
                                       "resize_mode": "max",
-                                      "jpegquality": 80,
+                                      "quality": 80,
                                       "strip": true
                                     }
                                   }
@@ -2447,7 +2447,7 @@
                                         "size": 600,
                                         "format": "png",
                                         "resize_mode": "max",
-                                        "jpegquality": 80,
+                                        "quality": 80,
                                         "strip": true
                                       }
                                     }
@@ -2682,7 +2682,7 @@
                                     "size": 600,
                                     "format": "png",
                                     "resize_mode": "max",
-                                    "jpegquality": 80,
+                                    "quality": 80,
                                     "strip": true
                                   }
                                 }
@@ -3504,7 +3504,7 @@
                                           "size": 600,
                                           "format": "png",
                                           "resize_mode": "max",
-                                          "jpegquality": 80,
+                                          "quality": 80,
                                           "strip": true
                                         }
                                       }
@@ -3739,7 +3739,7 @@
                                       "size": 600,
                                       "format": "png",
                                       "resize_mode": "max",
-                                      "jpegquality": 80,
+                                      "quality": 80,
                                       "strip": true
                                     }
                                   }
@@ -4647,7 +4647,7 @@
                                           "size": 600,
                                           "format": "png",
                                           "resize_mode": "max",
-                                          "jpegquality": 80,
+                                          "quality": 80,
                                           "strip": true
                                         }
                                       }
@@ -4882,7 +4882,7 @@
                                       "size": 600,
                                       "format": "png",
                                       "resize_mode": "max",
-                                      "jpegquality": 80,
+                                      "quality": 80,
                                       "strip": true
                                     }
                                   }
@@ -5793,7 +5793,7 @@
                                         "size": 600,
                                         "format": "png",
                                         "resize_mode": "max",
-                                        "jpegquality": 80,
+                                        "quality": 80,
                                         "strip": true
                                       }
                                     }
@@ -6028,7 +6028,7 @@
                                     "size": 600,
                                     "format": "png",
                                     "resize_mode": "max",
-                                    "jpegquality": 80,
+                                    "quality": 80,
                                     "strip": true
                                   }
                                 }
@@ -6850,7 +6850,7 @@
                                           "size": 600,
                                           "format": "png",
                                           "resize_mode": "max",
-                                          "jpegquality": 80,
+                                          "quality": 80,
                                           "strip": true
                                         }
                                       }
@@ -7085,7 +7085,7 @@
                                       "size": 600,
                                       "format": "png",
                                       "resize_mode": "max",
-                                      "jpegquality": 80,
+                                      "quality": 80,
                                       "strip": true
                                     }
                                   }
@@ -8111,7 +8111,7 @@
                                             "size": 600,
                                             "format": "png",
                                             "resize_mode": "max",
-                                            "jpegquality": 80,
+                                            "quality": 80,
                                             "strip": true
                                           }
                                         }
@@ -8346,7 +8346,7 @@
                                         "size": 600,
                                         "format": "png",
                                         "resize_mode": "max",
-                                        "jpegquality": 80,
+                                        "quality": 80,
                                         "strip": true
                                       }
                                     }
@@ -9241,7 +9241,7 @@
                                           "size": 600,
                                           "format": "png",
                                           "resize_mode": "max",
-                                          "jpegquality": 80,
+                                          "quality": 80,
                                           "strip": true
                                         }
                                       }
@@ -9476,7 +9476,7 @@
                                       "size": 600,
                                       "format": "png",
                                       "resize_mode": "max",
-                                      "jpegquality": 80,
+                                      "quality": 80,
                                       "strip": true
                                     }
                                   }
@@ -10302,7 +10302,7 @@
                                             "size": 600,
                                             "format": "png",
                                             "resize_mode": "max",
-                                            "jpegquality": 80,
+                                            "quality": 80,
                                             "strip": true
                                           }
                                         }
@@ -10537,7 +10537,7 @@
                                         "size": 600,
                                         "format": "png",
                                         "resize_mode": "max",
-                                        "jpegquality": 80,
+                                        "quality": 80,
                                         "strip": true
                                       }
                                     }
@@ -11465,7 +11465,7 @@
                                             "size": 600,
                                             "format": "png",
                                             "resize_mode": "max",
-                                            "jpegquality": 80,
+                                            "quality": 80,
                                             "strip": true
                                           }
                                         }
@@ -11700,7 +11700,7 @@
                                         "size": 600,
                                         "format": "png",
                                         "resize_mode": "max",
-                                        "jpegquality": 80,
+                                        "quality": 80,
                                         "strip": true
                                       }
                                     }
@@ -13507,7 +13507,7 @@
       }
     },
     "/config": {
-      "description": "Administrators can define base configuration using this API. fylr has a basic\nset of configuration items which are in the core system, such as the name of\nthe instance, administrator's main address, language definitions and so on.\n\nFrontends are required to implement a generic form editor for base\nconfiguration items. The list of items can be retrieved using the\n[config/list](list/) API.\n\nThis list is not stable and can be changed without API change in any new\nversion of fylr. Plugins can extend the list of configuration items. So,\ndepending on the list of loaded plugins in fylr, the list has a various number\nof items.\n",
+      "description": "Administrators can define base configuration using this API. fylr has a basic\nset of configuration items which are in the core system, such as the name of\nthe instance, administrator's main address, language definitions and so on.\n\nFrontends are required to implement a generic form editor for base\nconfiguration items. The list of items can be retrieved using the\n[config/list](list/) API.\n\nThis list is not stable and can be changed without API change in any new\nversion of fylr. Plugins can extend the list of configuration items. So,\ndepending on the list of loaded plugins in fylr, the list has a various number\nof items.\n\nA parameter of type `secret` is never read back in clear. A `POST` that\nsends an empty string for it keeps the stored value. In a `table` that\nholds a secret, every row is read with `_row`, its stored index. Send\n`_row` back unchanged, also after moving or removing rows: an empty secret\nthen keeps the secret of the stored row that `_row` names. A row without\n`_row` is new and keeps no secret. A table sent without any `_row` pairs\nits rows with the stored rows by position.\n",
       "get": {
         "summary": "Get all base configuration",
         "tags": [
@@ -13848,7 +13848,7 @@
                                 "cram_md5_auth": {
                                   "properties": {
                                     "password": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "username": {
@@ -13866,7 +13866,7 @@
                                 "login_auth": {
                                   "properties": {
                                     "password": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "username": {
@@ -13881,7 +13881,7 @@
                                       "type": "string"
                                     },
                                     "password": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "username": {
@@ -14232,7 +14232,7 @@
                             "ldap": {
                               "properties": {
                                 "bindpassword": {
-                                  "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                  "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                   "type": "string"
                                 },
                                 "bindusername": {
@@ -15913,8 +15913,8 @@
                                                             ],
                                                             "type": "string"
                                                           },
-                                                          "jpegquality": {
-                                                            "description": "JPEG quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. [int]",
+                                                          "quality": {
+                                                            "description": "JPEG and WebP quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. No effect on PNG. [int]",
                                                             "type": "integer"
                                                           },
                                                           "resize_mode": {
@@ -17728,7 +17728,7 @@
                                 "ldap": {
                                   "properties": {
                                     "bindpassword": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "bindusername": {
@@ -18368,7 +18368,7 @@
                               "cram_md5_auth": {
                                 "properties": {
                                   "password": {
-                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                     "type": "string"
                                   },
                                   "username": {
@@ -18386,7 +18386,7 @@
                               "login_auth": {
                                 "properties": {
                                   "password": {
-                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                     "type": "string"
                                   },
                                   "username": {
@@ -18401,7 +18401,7 @@
                                     "type": "string"
                                   },
                                   "password": {
-                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                     "type": "string"
                                   },
                                   "username": {
@@ -18752,7 +18752,7 @@
                           "ldap": {
                             "properties": {
                               "bindpassword": {
-                                "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                 "type": "string"
                               },
                               "bindusername": {
@@ -20454,8 +20454,8 @@
                                                           ],
                                                           "type": "string"
                                                         },
-                                                        "jpegquality": {
-                                                          "description": "JPEG quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. [int]",
+                                                        "quality": {
+                                                          "description": "JPEG and WebP quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. No effect on PNG. [int]",
                                                           "type": "integer"
                                                         },
                                                         "resize_mode": {
@@ -22248,7 +22248,7 @@
                               "ldap": {
                                 "properties": {
                                   "bindpassword": {
-                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                    "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                     "type": "string"
                                   },
                                   "bindusername": {
@@ -22834,7 +22834,7 @@
                                 "cram_md5_auth": {
                                   "properties": {
                                     "password": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "username": {
@@ -22852,7 +22852,7 @@
                                 "login_auth": {
                                   "properties": {
                                     "password": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "username": {
@@ -22867,7 +22867,7 @@
                                       "type": "string"
                                     },
                                     "password": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "username": {
@@ -23218,7 +23218,7 @@
                             "ldap": {
                               "properties": {
                                 "bindpassword": {
-                                  "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                  "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                   "type": "string"
                                 },
                                 "bindusername": {
@@ -24679,8 +24679,8 @@
                                                             ],
                                                             "type": "string"
                                                           },
-                                                          "jpegquality": {
-                                                            "description": "JPEG quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. [int]",
+                                                          "quality": {
+                                                            "description": "JPEG and WebP quality: 1 (worst) to 100 (best). Use 0 to not explicitly set the quality. No effect on PNG. [int]",
                                                             "type": "integer"
                                                           },
                                                           "resize_mode": {
@@ -26714,7 +26714,7 @@
                                 "ldap": {
                                   "properties": {
                                     "bindpassword": {
-                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text.",
+                                      "description": "The string will be encrypted in the server if fylr.encryptionKey is set in fylr.yml. In API responses, if a value is set, the response will always be *** or ***** to indicate that an encrypted value is stored. ***** mean that the value is actually stored encrypted, whereas *** means the value is stored as plain text. Send an empty string to keep the stored value, or - to remove it.",
                                       "type": "string"
                                     },
                                     "bindusername": {
@@ -27073,7 +27073,7 @@
         "tags": [
           "config"
         ],
-        "description": "Sets the JSON value sent in the body at the addressed path, using an\n`sjson` patch on the current stored value, then re-validates and re-saves\nthe whole affected config item. Because the whole item is re-saved, this\ncan raise the same `400` / `202` flows as `POST /config`. An empty body is\nrejected. Requires `system.config` (`system.root` always satisfies it).\n",
+        "description": "Sets the JSON value sent in the body at the addressed path, using an\n`sjson` patch on the current stored value, then re-validates and re-saves\nthe whole affected config item. Because the whole item is re-saved, this\ncan raise the same `400` / `202` flows as `POST /config`. Parameters of\ntype `secret` outside the addressed path keep their stored values. An\nempty body is rejected. Requires `system.config` (`system.root` always\nsatisfies it).\n",
         "requestBody": {
           "required": true,
           "content": {
@@ -27158,7 +27158,7 @@
         "tags": [
           "config"
         ],
-        "description": "Removes the value at the addressed path (an `sjson` delete on the current\nstored value), then re-saves the affected config item through the same\npath as `POST /config`, so it can raise the same `400` / `202` flows.\nSending a request body is rejected (`400`, `code` `ServerGeneric`). A\n`DELETE` on bare `/config` (no sub-path) always returns `404`. Requires\n`system.config` (`system.root` always satisfies it).\n",
+        "description": "Removes the value at the addressed path (an `sjson` delete on the current\nstored value), then re-saves the affected config item through the same\npath as `POST /config`, so it can raise the same `400` / `202` flows.\nParameters of type `secret` outside the addressed path keep their stored\nvalues. Sending a request body is rejected (`400`, `code` `ServerGeneric`). A\n`DELETE` on bare `/config` (no sub-path) always returns `404`. Requires\n`system.config` (`system.root` always satisfies it).\n",
         "responses": {
           "200": {
             "description": "The value at the path was removed. The body is the value at the path\nafter deletion — `null` for a removed leaf.\n",
@@ -27959,7 +27959,7 @@
           {
             "name": "delete_policy",
             "in": "query",
-            "description": "Decides what happens to objects and links affected by the deletion.\n  * `remove`: also delete the reverse-linked and the hierarchically\n    subordinate objects of a deleted object.\n  * `setnull`: keep the reverse-linked and subordinate objects and\n    clear their link to the deleted object.\n  * `create_collection`: collect the affected objects in a new\n    collection instead of deleting them.\n  * `undelete`: restore previously deleted objects. Links explicitly\n    removed during deletion remain removed, including both sides of\n    bidirectional relations.\n  * `purge`: permanently remove objects from the trash.\n\nWith `remove` and `setnull`, other objects linking a deleted object\nare unlinked. A link in a column that allows null is cleared. A NOT\nNULL link in a nested table row takes the whole row with it: under\nboth policies when the link is the row's only column, under\n`remove` only when the row has further columns. For bidirectional\nrelations, the reciprocal link is removed as well.\n\nA link that cannot be removed this way blocks the deletion with\n`UnableToDeleteObjects`: a NOT NULL link on the top level, a NOT\nNULL link in a nested row with further columns under `setnull`, and\nany link whose removal would leave a nested table empty that is NOT\nNULL itself.\n\nWhen omitted, **fylr** answers with a `202` response describing the\nchoices instead of deleting anything; a choice such a link blocks is\nmarked `disabled`.\n",
+            "description": "Decides what happens to objects and links affected by the deletion.\n  * `remove`: also delete the reverse-linked and the hierarchically\n    subordinate objects of a deleted object.\n  * `setnull`: keep the reverse-linked and subordinate objects and\n    clear their link to the deleted object.\n  * `create_collection`: delete nothing, create a new collection\n    below the user's collections with the objects to be deleted\n    instead. Its child collections hold the objects preventing the\n    deletion and the objects deleted along or unlinked by `remove`\n    or `setnull`, each only when not empty.\n  * `undelete`: restore previously deleted objects. Links explicitly\n    removed during deletion remain removed, including both sides of\n    bidirectional relations.\n  * `purge`: permanently remove objects from the trash.\n\nWith `remove` and `setnull`, other objects linking a deleted object\nare unlinked. A link in a column that allows null is cleared. A NOT\nNULL link in a nested table row takes the whole row with it: under\nboth policies when the link is the row's only column, under\n`remove` only when the row has further columns. For bidirectional\nrelations, the reciprocal link is removed as well.\n\nA link that cannot be removed this way blocks the deletion with\n`UnableToDeleteObjects`: a NOT NULL link on the top level, a NOT\nNULL link in a nested row with further columns under `setnull`, and\nany link whose removal would leave a nested table empty that is NOT\nNULL itself.\n\nWhen omitted, objects which have no reverse-linked or subordinate\nobjects and which no other object links are deleted right away,\nthe answer names `remove` as the applied policy. Otherwise\n**fylr** answers with a `202` response describing the choices\ninstead of deleting anything; a choice such a link blocks is marked\n`disabled`.\n",
             "schema": {
               "type": "string",
               "enum": [
@@ -28076,7 +28076,7 @@
             }
           },
           "202": {
-            "description": "The deletion cannot be completed until the client confirms a decision.\nThe body is a `response_202`: a list of `tasks`, each with a `title`,\na `message`, optional `form` fields and `buttons`; a form option or\nbutton supplies, in its `name` and `value`, the query parameter to add\nwhen re-sending the request. The cases here:\n\n  * **No `delete_policy` was given and the objects are still linked**\n    from others — the task offers a `delete_policy` choice: `remove`\n    (also delete the linking objects), `setnull` (keep them but clear\n    their link) or `create_collection` (collect the affected objects\n    instead of deleting them). Re-send with `delete_policy=\u003cchoice\u003e`.\n  * **A workflow transition needs confirmation** — re-send with\n    `confirmTransition=\u003cvalue\u003e`; a `delete_policy` already chosen is\n    carried over automatically.\n",
+            "description": "The deletion cannot be completed until the client confirms a decision.\nThe body is a `response_202`: a list of `tasks`, each with a `title`,\na `message`, optional `form` fields and `buttons`; a form option or\nbutton supplies, in its `name` and `value`, the query parameter to add\nwhen re-sending the request. The cases here:\n\n  * **No `delete_policy` was given and the deletion affects other\n    objects** — objects linking the deleted ones, or their\n    reverse-linked or subordinate objects. The task offers a\n    `delete_policy` choice: `remove` (also delete the reverse-linked\n    and subordinate objects), `setnull` (keep those and clear their\n    link) or `create_collection` (collect the objects in a new\n    collection instead of deleting them). Re-send with\n    `delete_policy=\u003cchoice\u003e`.\n  * **A workflow transition needs confirmation** — re-send with\n    `confirmTransition=\u003cvalue\u003e`; a `delete_policy` already chosen is\n    carried over automatically.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -30065,23 +30065,6 @@
               }
             }
           },
-          "308": {
-            "description": "The file is stored in an `s3` location configured with\n`allow_redirect`, and the client is sent to a signed url of\nthat storage instead of receiving the bytes from **fylr**. The\nurl expires after one hour and carries the same\n`Content-Disposition` a direct delivery would have sent.\nA delivery that writes metadata into the file on the fly is\nnever redirected.\n",
-            "headers": {
-              "Location": {
-                "description": "The signed storage url the client is sent to.",
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "X-Fylr-Storage-Location": {
-                "description": "The numeric ID of the storage location the file is\nredirected to.\n",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
           "403": {
             "description": "Access to the file is denied (`code` `InsufficientRights`):\nthe caller holds neither `asset_show` nor `asset_download` on the\nfile (holding either one is enough; anonymous requests are checked\nagainst the `deep_link` user), or the request `hash` / `version`\ndoes not match the stored file, or the `x-fylr-signature` is\ninvalid or expired. This endpoint returns no `401`; a missing or\ninvalid token is treated as an anonymous request.\n",
             "content": {
@@ -30165,17 +30148,6 @@
             "headers": {
               "X-Fylr-Storage-Location": {
                 "description": "Indicates the storage location of the file.\n* If stored locally: contains the numeric ID of the storage location.\n* If stored remotely: contains the string `remote`.\n",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "308": {
-            "description": "The file is stored in a location configured with\n`allow_redirect`, see the `GET` of this path.\n",
-            "headers": {
-              "Location": {
-                "description": "The signed storage url the client is sent to.",
                 "schema": {
                   "type": "string"
                 }
@@ -36441,7 +36413,7 @@
     },
     "/system/reindex": {
       "x-path": "/system",
-      "description": "Drops the search index into a freshly created one and starts a full\nreindexing run. The run executes asynchronously; the call returns once\nit has been started. Pass `blockFrontend=true` to serve a maintenance\npage on the frontend until the reindex completes. Requires the\n`system.root` right.\n\nDiffers from easydb 5: no enable flag is needed. In easydb 5 the\nequivalent `POST /api/v1/settings/reindex` additionally required the\nserver-config flag `server.api.settings.reindex` set to `true`.\n",
+      "description": "Drops the search index into a freshly created one and starts a full\nreindexing run. The run executes asynchronously; the call returns once\nit has been started. Pass `blockFrontend=true` to block the frontend\nand most of the API until the new index is switched in, or until the\nre-index fails. Requires the `system.root` right.\n\nDiffers from easydb 5: no enable flag is needed. In easydb 5 the\nequivalent `POST /api/v1/settings/reindex` additionally required the\nserver-config flag `server.api.settings.reindex` set to `true`.\n",
       "post": {
         "summary": "Rebuild the search index from scratch.",
         "description": "Drops the search index into a freshly created one and triggers a\nfull reindexing run. The reindexing work runs asynchronously on\nthe server; the call returns as soon as the run has been started.\nThe frontend can be blocked while the reindex is in progress so\nusers do not see partial results. Requires the `system.root` right.\n",
@@ -36453,7 +36425,7 @@
               "type": "boolean",
               "default": false
             },
-            "description": "If `true`, fylr serves a maintenance page on the frontend\nuntil the reindex completes.\n"
+            "description": "If `true`, the instance goes into the `reindex` status until the\nnew index is switched in: the frontend shows a maintenance page\nand the API answers `503`, apart from OAuth2 (`/api/oauth2`),\n`/settings`, `/system` and the file downloads of `/eas/download`.\nA re-index that fails lifts the block again, its `REINDEX_ERROR`\nevent names the reason.\n"
           }
         ],
         "responses": {
@@ -36474,6 +36446,16 @@
                       ]
                     }
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The run could not be started, for example because the search\nengine refused to create the new index; `error` carries its\nanswer. A block requested with `blockFrontend` is lifted again.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerGenericError"
                 }
               }
             }
@@ -36979,7 +36961,7 @@
             }
           },
           "400": {
-            "description": "The location could not be created. `code: LocationMustMatchID`\nif the body `id` does not match the create (`0`);\n`code: LocationReadOnlyCannotBeDefault` if a read-only location\nis configured as a default location; other validation codes\n(unknown driver, missing config, ...) surface their own `code`.\nConnection problems with the configured driver do not block the\nsave — the location is stored with a non-`connected` `status`.\n",
+            "description": "The location could not be created. `code: LocationMustMatchID`\nif the body `id` does not match the create (`0`);\n`code: LocationReadOnlyCannotBeDefault` if a read-only location\nis configured as a default location; `code: LocationDirNotAllowed`\nif the `dir` of a `file` location is not inside one of the\ndirectories in `fylr.locations.allowedDirs`; other validation codes\n(unknown driver, missing config, ...) surface their own `code`.\nConnection problems with the configured driver do not block the\nsave — the location is stored with a non-`connected` `status`.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -37152,7 +37134,7 @@
             }
           },
           "400": {
-            "description": "The location could not be saved. `code: LocationMustMatchID`\nif the body `id` does not match the id in the path;\n`code: LocationReadOnlyCannotBeDefault` if a read-only\nlocation is configured as a default location; other\nvalidation codes surface their own `code`.\n",
+            "description": "The location could not be saved. `code: LocationMustMatchID`\nif the body `id` does not match the id in the path;\n`code: LocationReadOnlyCannotBeDefault` if a read-only\nlocation is configured as a default location;\n`code: LocationDirNotAllowed` if a `file` location gets a `dir`\nthat is not inside one of the directories in\n`fylr.locations.allowedDirs` (a location keeping its stored `dir`\nis not checked); other validation codes surface their own `code`.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -40844,7 +40826,7 @@
             }
           },
           "400": {
-            "description": "Read-only mode is enabled (code `ReadOnlyMode`, checked\nbefore the right and before parsing), or the payload is\ninvalid. Invalid workflow actions carry their own codes\n(package `transition`): a `webhook` action with no webhook\nselected (`WebhookNotSelected`), with a `name` not declared\nin the base config (`WebhookUnknown`, parameter `name`), or\nwith an unknown `callback` (not `pre_save` /\n`after_commit_async`; `WebhookCallbackUnknown`, parameter\n`callback`); a `change_owner` action without an owner\n(`ChangeOwnerNotSelected`). Everything else is code\n`ServerGeneric`: unparseable JSON; an entry whose `_id`\nmatches no existing transition in the database; an unknown\ntransition `type` (not one of `resolve`, `reject`,\n`exit_resolve`, `exit_reject`, `process`); an unknown\n`operations` value (not `INSERT` / `UPDATE` / `DELETE`); a\n`tagfilter:before` / `tagfilter:after` that lists the same\ntag id more than once; a `who` entry whose `_basetype` is\nneither `user` nor `group`, or that mixes the wrong key for\nits basetype; or an action `type` that matches no built-in\n(`email`, `set_tags`, `webhook`, `change_owner`) and resolves\nto no registered plugin callback.\n",
+            "description": "Read-only mode is enabled (code `ReadOnlyMode`, checked\nbefore the right and before parsing), or the payload is\ninvalid. Invalid workflow actions carry their own codes\n(package `transition`): a `webhook` action with no webhook\nselected (`WebhookNotSelected`), with a `name` not declared\nin the base config (`WebhookUnknown`, parameter `name`), or\nwith an unknown `callback` (not `pre_save` /\n`after_commit_async`; `WebhookCallbackUnknown`, parameter\n`callback`); a `change_owner` action without an owner\n(`ChangeOwnerNotSelected`); an `email` action with a `null`\nin `recipients` (`EmailRecipientEmpty`, parameters\n`workflow` and `recipient`, both counted from 1). Everything\nelse is code `ServerGeneric`, and its message names the\nworkflow (`workflow \u003cn\u003e`): a `null` entry in the body or in\n`who`; unparseable JSON; an entry whose `_id`\nmatches no existing transition in the database; an unknown\ntransition `type` (not one of `resolve`, `reject`,\n`exit_resolve`, `exit_reject`, `process`); an unknown\n`operations` value (not `INSERT` / `UPDATE` / `DELETE`); a\n`tagfilter:before` / `tagfilter:after` that lists the same\ntag id more than once; a `who` entry whose `_basetype` is\nneither `user` nor `group`, or that mixes the wrong key for\nits basetype; or an action `type` that matches no built-in\n(`email`, `set_tags`, `webhook`, `change_owner`) and resolves\nto no registered plugin callback.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -43166,10 +43148,10 @@
     },
     "/plugin/bundle.js": {
       "x-path": "/plugin",
-      "description": "Serves the concatenated JavaScript of every enabled plugin, in\ndependency load-order. Public (no access token) and cached\nclient-side via the standard fylr cache-id header.\n",
+      "description": "Serves the JavaScript of every enabled plugin in one file, in\nload-order. Public (no access token) and cached client-side via\nthe standard fylr cache-id header.\n",
       "get": {
-        "summary": "Concatenated plugin JavaScript bundle.",
-        "description": "Returns the JavaScript bundle of every enabled plugin, in\nload-order. Cached client-side using the standard fylr\ncache-id header.\n",
+        "summary": "Plugin JavaScript bundle.",
+        "description": "Returns the JavaScript of every enabled plugin in one file:\nplugins come after the plugins they depend on, otherwise in name\norder. Each plugin runs as a script of its own, so a plugin that\nfails to parse or throws while loading stops only itself; the\nbrowser console names it. Cached client-side using the standard\nfylr cache-id header.\n",
         "responses": {
           "200": {
             "description": "The JavaScript bundle.",
@@ -43224,7 +43206,7 @@
     },
     "/plugin/bundle/l10n/{lang}.json": {
       "x-path": "/plugin",
-      "description": "Serves the front-end translations of all enabled plugins for the\nrequested `{lang}`, merged into one flat translation map. Public:\nno access token is required.\n",
+      "description": "Serves the front-end translations of all enabled plugins for the\nrequested `{lang}` as one JSON array, one element per plugin. Public:\nno access token is required.\n",
       "get": {
         "summary": "Concatenated plugin translations for a language.",
         "parameters": [
@@ -43240,13 +43222,14 @@
         ],
         "responses": {
           "200": {
-            "description": "Flat translation map merged across all enabled plugins.\n",
+            "description": "A JSON array with one element per enabled plugin whose manifest\nsets `plugin.webfrontend.l10n` and whose dependencies are met.\nEach element is the unchanged content of that plugin's\n`\u003cwebfrontend.l10n\u003e/{lang}.json` file. A plugin whose file cannot\nbe read contributes `{\"_error\": \"\u003cmessage\u003e\"}` instead.\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
                   }
                 }
               }
@@ -43533,7 +43516,7 @@
             }
           },
           "400": {
-            "description": "The catalog cannot resolve a dependency of the named entry\n(`code: PluginDependencyNotInstalled`), the entry carries no\ninstall URL, or the marketplace is disabled in the server\nconfiguration (`plugin.marketplace.enabled`,\n`code: PluginMarketplaceDisabled`).\n",
+            "description": "The catalog cannot resolve a dependency of the named entry\n(`code: PluginDependencyNotInstalled`), the entry carries no\ninstall URL, the marketplace is disabled in the server\nconfiguration (`plugin.marketplace.enabled`,\n`code: PluginMarketplaceDisabled`), or the zip of the install URL\ndoes not match the sha256 the catalog names\n(`code: PluginSHA256Mismatch`).\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -43543,6 +43526,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/PluginMarketplaceDisabledError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginSHA256MismatchError"
                     }
                   ]
                 }
@@ -43550,11 +43536,18 @@
             }
           },
           "403": {
-            "description": "The user holds neither `system.root` nor `system.plugin`\n(`code: SystemRightRequired`).\n",
+            "description": "The user holds neither `system.root` nor `system.plugin`\n(`code: SystemRightRequired`), or the server only accepts marketplace\nplugins and the zip of the catalog url carries another plugin\n(`code: PluginSourceNotAllowed`).\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SystemRightRequiredError"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SystemRightRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginSourceNotAllowedError"
+                    }
+                  ]
                 }
               }
             }
@@ -43636,7 +43629,7 @@
             }
           },
           "400": {
-            "description": "A plugin with this name already exists\n(`code: PluginDuplicateName`), a declared dependency is not\ninstalled (`code: PluginDependencyNotInstalled`) or not\nenabled while `enabled` was requested\n(`code: PluginDependencyNotEnabled`), the instance is\nread-only (`code: ReadOnlyMode`), or the payload could not be\nparsed.\n",
+            "description": "A plugin with this name already exists\n(`code: PluginDuplicateName`), a declared dependency is not\ninstalled (`code: PluginDependencyNotInstalled`) or not\nenabled while `enabled` was requested\n(`code: PluginDependencyNotEnabled`), the `url` is a\nmarketplace catalog url and its zip does not match the sha256\nthe catalog names (`code: PluginSHA256Mismatch`), the instance is\nread-only (`code: ReadOnlyMode`), or the payload could not be\nparsed.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -43651,6 +43644,9 @@
                       "$ref": "#/components/schemas/PluginDependencyNotEnabledError"
                     },
                     {
+                      "$ref": "#/components/schemas/PluginSHA256MismatchError"
+                    },
+                    {
                       "$ref": "#/components/schemas/ReadOnlyModeError"
                     }
                   ]
@@ -43659,7 +43655,7 @@
             }
           },
           "403": {
-            "description": "The user holds neither `system.root` nor `system.plugin`\n(`code: SystemRightRequired`), or the payload requests\n`enabled: true` for a plugin the installed license does not\nallow to be enabled (`code: PluginNotLicensed`).\n",
+            "description": "The user holds neither `system.root` nor `system.plugin`\n(`code: SystemRightRequired`), or the payload requests\n`enabled: true` for a plugin the installed license does not\nallow to be enabled (`code: PluginNotLicensed`), or the server only\naccepts marketplace plugins and the payload installs another source\nor enables a plugin not checked against the catalog\n(`code: PluginSourceNotAllowed`).\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -43669,6 +43665,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/PluginNotLicensedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginSourceNotAllowedError"
                     }
                   ]
                 }
@@ -43753,7 +43752,7 @@
             }
           },
           "400": {
-            "description": "The body `id` does not match the path `{id}`, a declared\ndependency is not installed\n(`code: PluginDependencyNotInstalled`) or not enabled while\n`enabled` was requested (`code: PluginDependencyNotEnabled`),\nthe plugin is being disabled while an enabled plugin depends\non it (`code: PluginRequiredByOthers`), the instance is\nread-only (`code: ReadOnlyMode`), or the payload could not be\nparsed.\n",
+            "description": "The body `id` does not match the path `{id}`, a declared\ndependency is not installed\n(`code: PluginDependencyNotInstalled`) or not enabled while\n`enabled` was requested (`code: PluginDependencyNotEnabled`),\nthe plugin is being disabled while an enabled plugin depends\non it (`code: PluginRequiredByOthers`), the changed `url` is a\nmarketplace catalog url and its zip does not match the sha256 the\ncatalog names (`code: PluginSHA256Mismatch`), the instance is\nread-only (`code: ReadOnlyMode`), or the payload could not be\nparsed.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -43768,6 +43767,9 @@
                       "$ref": "#/components/schemas/PluginRequiredByOthersError"
                     },
                     {
+                      "$ref": "#/components/schemas/PluginSHA256MismatchError"
+                    },
+                    {
                       "$ref": "#/components/schemas/ReadOnlyModeError"
                     }
                   ]
@@ -43776,7 +43778,7 @@
             }
           },
           "403": {
-            "description": "The user holds neither `system.root` nor `system.plugin`\n(`code: SystemRightRequired`), or the update requests\n`enabled: true` for a plugin the installed license does not\nallow to be enabled (`code: PluginNotLicensed`).\n",
+            "description": "The user holds neither `system.root` nor `system.plugin`\n(`code: SystemRightRequired`), or the update requests\n`enabled: true` for a plugin the installed license does not\nallow to be enabled (`code: PluginNotLicensed`), or the server only\naccepts marketplace plugins and the payload installs another source\nor enables a plugin not checked against the catalog\n(`code: PluginSourceNotAllowed`).\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -43786,6 +43788,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/PluginNotLicensedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginSourceNotAllowedError"
                     }
                   ]
                 }
@@ -43923,11 +43928,18 @@
             }
           },
           "403": {
-            "description": "The user holds neither `system.root` nor `system.plugin`\n(`code: SystemRightRequired`).\n",
+            "description": "The user holds neither `system.root` nor `system.plugin`\n(`code: SystemRightRequired`), or the server only accepts marketplace\nplugins (`plugin.sources: marketplace`)\n(`code: PluginSourceNotAllowed`).\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SystemRightRequiredError"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SystemRightRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginSourceNotAllowedError"
+                    }
+                  ]
                 }
               }
             }
@@ -43976,11 +43988,18 @@
             }
           },
           "403": {
-            "description": "The user holds neither `system.root` nor `system.plugin`\n(`code: SystemRightRequired`).\n",
+            "description": "The user holds neither `system.root` nor `system.plugin`\n(`code: SystemRightRequired`), or the server only accepts marketplace\nplugins (`plugin.sources: marketplace`)\n(`code: PluginSourceNotAllowed`).\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SystemRightRequiredError"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SystemRightRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PluginSourceNotAllowedError"
+                    }
+                  ]
                 }
               }
             }
@@ -44993,7 +45012,7 @@
     },
     "/objects/{path+}": {
       "x-path": "/objects",
-      "description": "**Deep link** access to a stored object or one of its files via a\n**structured path grammar** (not an opaque token). The path after\n`/objects/` is an ordered sequence of selectors that **fylr** parses\nsegment by segment and resolves directly against the object store.\n\nMust be enabled in the base config\n(`system.deep_link_access.enabled`); when it is off every request\nreturns 400 with `code: DeepLinkAccessDisabled`.\n\nNo system right is required to call the endpoint and no token is\nmandatory: if the request carries a valid session that user is used,\notherwise the request runs as the built-in `deep_link` system user.\n\n**Differs from easydb 5:** there is no `auth` query parameter. easydb 5\ndocuments an `auth` parameter to select the system user (`deep_link`,\ndefault, or `oai_pmh`); **fylr** always uses the session user and falls\nback only to the `deep_link` system user — `oai_pmh` cannot be selected\nhere.\n\nObject-level rights are still enforced once the object is resolved —\na caller lacking the object read right, the mask right for the mask\nof a `mask/\u003cname\u003e` selector, or (when no `mask/\u003cname\u003e` is given) any\naccessible mask, gets 403 `ObjectInsufficientRights`, and a missing\nasset-download right on a `file/...` selector gets 403\n`ObjectInsufficientAssetDownloadRight`.\n\nExactly **one** object selector is required:\n\n  * `id/\u003csystem-object-id\u003e` — requires\n    `system.deep_link_access.allow_access_by_id`.\n  * `uuid/\u003cuuid\u003e`.\n  * `column/\u003cobjecttype\u003e/\u003ccolumn\u003e/\u003cvalue\u003e` — requires\n    `system.deep_link_access.allow_access_by_column`. A value that\n    matches more than one object is rejected.\n\n**Differs from easydb 5:** the config keys are\n`system.deep_link_access.allow_access_by_id` and\n`...allow_access_by_column`. easydb 5 documents these as\n`allow_access_by_ids` (plural) and `allow_access_by_unique_columns`.\n\nOptional selectors (each at most once):\n\n  * `mask/\u003cmask-name\u003e` — render through a named mask.\n  * a version qualifier after an `id`/`uuid` object selector:\n    `/latest` or `/version/\u003cn\u003e`.\n  * a file selector: `file/standard/\u003cn\u003e`, `file/all/\u003cn\u003e`,\n    `file/id/\u003cn\u003e`, or `file/column/\u003ccolumn\u003e[/\u003cnth\u003e]`.\n  * `file_browser/preferred` or `file_browser/\u003cn\u003e`.\n  * `file_version/name/\u003cname\u003e` or `file_version/group/\u003cgroup\u003e`.\n  * `format/\u003cfmt\u003e` (see below).\n  * `disposition/inline` or `disposition/attachment`.\n\nSupported `format` values: `json` (the default when no `format` and\nno `file/...` selector are given), `xml_easydb`, `csv`, `html`,\n`xslt/\u003csheet-name\u003e` (the sheet must be enabled for `/api/objects`),\nand `iiif` (only as `format/iiif/v3/manifest.json`, with no `file/...`\nselector). When a `file/...` selector is present and no `format` is\ngiven, the raw file bytes are served.\n\nFor `iiif`, when no `mask/\u003cname\u003e` selector is given and the base\nconfig `deep_link_access.iiif_mask` names a mask that exists for the\nobjecttype, that mask is used instead of the best mask. The\nmanifest's `rights` and `requiredStatement` come from the base\nconfig (`deep_link_access.iiif_rights` and\n`...iiif_required_statement`); both may contain\n`%\u003cobjecttype\u003e.\u003cfield\u003e%` placeholders, resolved against the\nobject's top-level values for the manifest and against the values\nalong the path from each file to the object for its canvas. A\nproperty the manifest's own values leave empty takes the value all\nits canvases share (e.g. a field of an embedded objecttype); a canvas\ncarries a property only where it differs from the manifest's. A\nplaceholder resolves only for fields the manifest's mask renders;\nfor an embedded objecttype that is the sub-mask of the embedding\nfield.\n\n**Differs from easydb 5:** **fylr** also serves `html` and `iiif`\n(`iiif/v3/manifest.json`). easydb 5 documents only `json`,\n`xml_easydb`, `xslt`, and `csv`.\n\nThe response `Content-Type` is set by the chosen format or the\nunderlying EAS file's MIME type.\n\nExamples:\n\n  * `GET /api/v1/objects/id/42`\n  * `GET /api/v1/objects/uuid/nes1/format/html`\n  * `GET /api/v1/objects/column/keywords/keyword/Gold`\n  * `GET /api/v1/objects/id/42/latest/file/all/1`\n  * `GET /api/v1/objects/id/42/version/1/format/xslt/style1`\n  * `GET /api/v1/objects/id/42/mask/images__all_fields/format/iiif/v3/manifest.json`\n",
+      "description": "**Deep link** access to a stored object or one of its files via a\n**structured path grammar** (not an opaque token). The path after\n`/objects/` is an ordered sequence of selectors that **fylr** parses\nsegment by segment and resolves directly against the object store.\n\nMust be enabled in the base config\n(`system.deep_link_access.enabled`); when it is off every request\nreturns 400 with `code: DeepLinkAccessDisabled`.\n\nNo system right is required to call the endpoint and no token is\nmandatory: if the request carries a valid session that user is used,\notherwise the request runs as the built-in `deep_link` system user.\n\n**Differs from easydb 5:** there is no `auth` query parameter. easydb 5\ndocuments an `auth` parameter to select the system user (`deep_link`,\ndefault, or `oai_pmh`); **fylr** always uses the session user and falls\nback only to the `deep_link` system user — `oai_pmh` cannot be selected\nhere.\n\nObject-level rights are still enforced once the object is resolved —\na caller lacking the object read right, the mask right for the mask\nof a `mask/\u003cname\u003e` selector, or (when no `mask/\u003cname\u003e` is given) any\naccessible mask, gets 403 `ObjectInsufficientRights`, and a missing\nasset-download right on a `file/...` selector gets 403\n`ObjectInsufficientAssetDownloadRight`.\n\nExactly **one** object selector is required:\n\n  * `id/\u003csystem-object-id\u003e` — requires\n    `system.deep_link_access.allow_access_by_id`.\n  * `uuid/\u003cuuid\u003e`.\n  * `column/\u003cobjecttype\u003e/\u003ccolumn\u003e/\u003cvalue\u003e` — requires\n    `system.deep_link_access.allow_access_by_column`. A value that\n    matches more than one object is rejected.\n\n**Differs from easydb 5:** the config keys are\n`system.deep_link_access.allow_access_by_id` and\n`...allow_access_by_column`. easydb 5 documents these as\n`allow_access_by_ids` (plural) and `allow_access_by_unique_columns`.\n\nOptional selectors (each at most once):\n\n  * `mask/\u003cmask-name\u003e` — render through a named mask.\n  * a version qualifier after an `id`/`uuid` object selector:\n    `/latest` or `/version/\u003cn\u003e`.\n  * a file selector: `file/standard/\u003cn\u003e`, `file/all/\u003cn\u003e`,\n    `file/id/\u003cn\u003e`, or `file/column/\u003ccolumn\u003e[/\u003cnth\u003e]`.\n  * `file_browser/preferred` or `file_browser/\u003cn\u003e`.\n  * `file_version/name/\u003cname\u003e` or `file_version/group/\u003cgroup\u003e`.\n  * `format/\u003cfmt\u003e` (see below).\n  * `disposition/inline` or `disposition/attachment`.\n\nSupported `format` values: `json` (the default when no `format` and\nno `file/...` selector are given), `xml_easydb`, `csv`, `html`,\n`xslt/\u003csheet-name\u003e` (the sheet must be enabled for `/api/objects`),\nand `iiif` (only as `format/iiif/v3/manifest.json`, with no `file/...`\nselector). When a `file/...` selector is present and no `format` is\ngiven, the raw file bytes are served.\n\nFor `iiif`, when no `mask/\u003cname\u003e` selector is given and the base\nconfig `deep_link_access.iiif_mask` names a mask that exists for the\nobjecttype, that mask is used instead of the best mask. The\nmanifest's `rights` and `requiredStatement` come from the base\nconfig (`deep_link_access.iiif_rights` and\n`...iiif_required_statement`); both may contain\n`%\u003cobjecttype\u003e.\u003cfield\u003e%` placeholders (for a custom datatype field\n`%\u003cobjecttype\u003e.\u003cfield\u003e._standard%` and\n`%\u003cobjecttype\u003e.\u003cfield\u003e.\u003csubfield\u003e%` for each subfield its plugin\nmaps, e.g. the `url` of a weblink), resolved against the\nobject's top-level values for the manifest and against the values\nalong the path from each file to the object for its canvas. A value\nwhose placeholders all stay empty counts as empty, the text around\nthem (`%foto.a%, %foto.b%`) is not used on its own. A property the\nmanifest's own values leave empty takes the value all its canvases\nshare (e.g. a field of an embedded objecttype); a canvas carries a\nproperty only where it differs from the manifest's. A placeholder\nresolves only for fields the manifest's mask renders; for an\nembedded objecttype that is the sub-mask of the embedding field.\nIn the manifest's `metadata`, a custom datatype value whose standard\nis localized carries one entry per database language, otherwise its\nlanguage is `none`.\n\n**Differs from easydb 5:** **fylr** also serves `html` and `iiif`\n(`iiif/v3/manifest.json`). easydb 5 documents only `json`,\n`xml_easydb`, `xslt`, and `csv`.\n\nThe response `Content-Type` is set by the chosen format or the\nunderlying EAS file's MIME type.\n\nExamples:\n\n  * `GET /api/v1/objects/id/42`\n  * `GET /api/v1/objects/uuid/nes1/format/html`\n  * `GET /api/v1/objects/column/keywords/keyword/Gold`\n  * `GET /api/v1/objects/id/42/latest/file/all/1`\n  * `GET /api/v1/objects/id/42/version/1/format/xslt/style1`\n  * `GET /api/v1/objects/id/42/mask/images__all_fields/format/iiif/v3/manifest.json`\n",
       "parameters": [
         {
           "name": "path",
@@ -51363,9 +51382,10 @@
                 "enum": [
                   "url_unreachable",
                   "url_http_error",
-                  "zip_invalid"
+                  "zip_invalid",
+                  "sha256_mismatch"
                 ],
-                "description": "`url_unreachable`: the url could not be reached (network/TLS\nfailure). `url_http_error`: the server answered with a non-2xx\nstatus. `zip_invalid`: the download is not a valid plugin zip.\n"
+                "description": "`url_unreachable`: the url could not be reached (network/TLS\nfailure). `url_http_error`: the server answered with a non-2xx\nstatus. `zip_invalid`: the download is not a valid plugin zip.\n`sha256_mismatch`: the download does not match the sha256 the\nmarketplace catalog names for it; the plugin keeps its zip.\n"
               },
               "error": {
                 "type": "string",
@@ -51380,7 +51400,7 @@
           },
           "state": {
             "type": "string",
-            "description": "`not_installed` for a `url` plugin whose zip has never arrived —\nsuch a plugin is force-disabled at runtime (like an unlicensed one;\nthe stored `enabled` keeps the user's intent) and the frontend\noffers the install-as-zip rescue. Response only, absent otherwise.\n"
+            "description": "`not_installed` for a `url` plugin whose zip has never arrived —\nsuch a plugin is force-disabled at runtime (like an unlicensed one;\nthe stored `enabled` keeps the user's intent) and the frontend\noffers the install-as-zip rescue. `not_marketplace` when the server\nonly accepts marketplace plugins (`plugin.sources: marketplace`) and\nthis plugin's zip was not checked against the catalog; it stays\ndisabled until it is. Response only, absent otherwise.\n"
           },
           "last_checked_at": {
             "type": "string",
@@ -51425,6 +51445,14 @@
                 "type": "boolean"
               }
             }
+          },
+          "sources": {
+            "type": "string",
+            "enum": [
+              "any",
+              "marketplace"
+            ],
+            "description": "Where installed plugins may come from (`plugin.sources` in the server\nconfiguration). With `marketplace` only marketplace catalog plugins\nare installed and enabled — no zip upload, `disk` path or other\n`url` — and the frontend offers only the marketplace install.\nPlugins of the server configuration (`plugin.paths`, `plugin.urls`)\nare always accepted.\n"
           }
         }
       },
@@ -51559,6 +51587,10 @@
                   "examples": [
                     "2026-07-23"
                   ]
+                },
+                "sha256": {
+                  "type": "string",
+                  "description": "Hex sha256 of the plugin zip `url` serves for that release, as\ndownloaded. A plugin installed from `url` is installed and\nupdated only with a zip that matches it; with\n`plugin.sources: marketplace` that holds for every plugin of\nthis name. Absent when the catalog names none.\n"
                 },
                 "hidden": {
                   "type": "boolean",
@@ -56443,6 +56475,108 @@
               403
             ],
             "description": "The HTTP status code, repeated here. Always `403`."
+          }
+        }
+      },
+      "PluginSourceNotAllowedError": {
+        "type": "object",
+        "description": "Error returned with `code` `PluginSourceNotAllowed` (HTTP `403`).\n",
+        "required": [
+          "code",
+          "error",
+          "package",
+          "parameters",
+          "realm",
+          "statuscode"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Stable, machine-readable error code:\n\n  * `PluginSourceNotAllowed` — the server only accepts marketplace\n    plugins (`plugin.sources: marketplace` in the server\n    configuration): a zip upload, a `disk` plugin, a `url` that is not\n    a marketplace catalog url, or enabling a plugin that was not\n    checked against the catalog (HTTP 403).\n",
+            "enum": [
+              "PluginSourceNotAllowed"
+            ]
+          },
+          "error": {
+            "type": "string",
+            "description": "Human-readable message, localized to the caller's preferred language.\nIf no translation exists for this error key, the untranslated message\nis returned with a `Package` / `Code` footer appended.\n"
+          },
+          "package": {
+            "type": "string",
+            "enum": [
+              "api"
+            ],
+            "description": "Internal origin marker for **fylr** support; not part of the API\ncontract. Branch on `code`, not `package`.\n"
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Machine-readable details: `plugin`.\n"
+          },
+          "realm": {
+            "type": "string",
+            "enum": [
+              "api"
+            ],
+            "description": "The realm the error originates from. Always `api`."
+          },
+          "statuscode": {
+            "type": "integer",
+            "enum": [
+              403
+            ],
+            "description": "The HTTP status code, repeated here. Always `403`."
+          }
+        }
+      },
+      "PluginSHA256MismatchError": {
+        "type": "object",
+        "description": "Error returned with `code` `PluginSHA256Mismatch` (HTTP `400`).\n",
+        "required": [
+          "code",
+          "error",
+          "package",
+          "parameters",
+          "realm",
+          "statuscode"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Stable, machine-readable error code:\n\n  * `PluginSHA256Mismatch` — the zip the marketplace catalog url\n    served does not match the sha256 the catalog names for it; it was\n    discarded and the plugin was not installed (HTTP 400).\n",
+            "enum": [
+              "PluginSHA256Mismatch"
+            ]
+          },
+          "error": {
+            "type": "string",
+            "description": "Human-readable message, localized to the caller's preferred language.\nIf no translation exists for this error key, the untranslated message\nis returned with a `Package` / `Code` footer appended.\n"
+          },
+          "package": {
+            "type": "string",
+            "enum": [
+              "api"
+            ],
+            "description": "Internal origin marker for **fylr** support; not part of the API\ncontract. Branch on `code`, not `package`.\n"
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Machine-readable details: `plugin`.\n"
+          },
+          "realm": {
+            "type": "string",
+            "enum": [
+              "api"
+            ],
+            "description": "The realm the error originates from. Always `api`."
+          },
+          "statuscode": {
+            "type": "integer",
+            "enum": [
+              400
+            ],
+            "description": "The HTTP status code, repeated here. Always `400`."
           }
         }
       },
@@ -61474,7 +61608,7 @@
               "done_with_warnings",
               "failed"
             ],
-            "description": "Current export run state. `new` after create/update; `pending`\nonce a run is scheduled; `processing` while a run is active;\n`done` / `done_with_warnings` on success; `failed` on error or\nafter a stop.\n"
+            "description": "Current export run state. `new` after create/update; `pending`\nonce a run is scheduled; `processing` while a run is active;\n`done` / `done_with_warnings` on success; `failed` on error or\nafter a stop. A file requested in `eas_fields` that is not in status\n`done` is left out of the run, which then ends in\n`done_with_warnings`; the `FileNotDone` warning is in the\n`EXPORT_FINISH` event.\n"
           },
           "_plugin_log": {
             "type": "array",
@@ -61773,10 +61907,6 @@
             "type": "boolean",
             "description": "Whether `POST /api/v1/system/purgeall` may delete files from\nthis location. Disable to keep an archival location intact.\n"
           },
-          "allow_redirect": {
-            "type": "boolean",
-            "description": "Whether downloads from this location answer with `308` and a\n`Location:` header pointing at a signed storage url, instead of\nbeing copied through **fylr**. Only `kind` `s3` can do this, where\nthe signed url also carries the `Content-Disposition` **fylr**\nwould have sent, so the client still receives the right filename.\nOn the other kinds the option has no effect: a `file` url\naddresses the internal backend listener and cannot be reached by a\nclient, and an `azure` SAS cannot carry the filename.\n"
-          },
           "read_only": {
             "type": "boolean",
             "description": "Whether this location accepts writes. If true, new files are\nsent to the next writable location and only reads come from\nhere.\n"
@@ -61912,7 +62042,7 @@
                 "info": {
                   "type": "object",
                   "additionalProperties": true,
-                  "description": "Type-specific parameters. Shapes for built-in types:\n`set_tags` -\u003e `{\"tags\":[{\"_id\":\u003ctag id\u003e,\"set\":true|false}]}`;\n`change_owner` -\u003e `{\"owner\":\u003cWhoApi\u003e}`;\n`email` -\u003e `{\"subject\":\u003cLocaValue\u003e,\"message\":\u003cLocaValue\u003e,\"batchable\":\u003cbool\u003e,\"recipients\":[\u003cWhoApi\u003e]}`;\n`webhook` -\u003e `{\"name\":\u003cconfigured webhook name\u003e,\"callback\":\"pre_save\"|\"after_commit_async\"}`\n(callback defaults to `after_commit_async`).\nPlugin action types carry whatever the plugin declares.\n"
+                  "description": "Type-specific parameters. Shapes for built-in types:\n`set_tags` -\u003e `{\"tags\":[{\"_id\":\u003ctag id\u003e,\"set\":true|false}]}`;\n`change_owner` -\u003e `{\"owner\":\u003cWhoApi\u003e}`;\n`email` -\u003e `{\"subject\":\u003cLocaValue\u003e,\"message\":\u003cLocaValue\u003e,\"batchable\":\u003cbool\u003e,\"recipients\":[\u003cWhoApi\u003e]}`\n(a recipient sent without `_id` as\n`{\"_basetype\":\"user\",\"user\":{\"login\":\u003caddress\u003e,\"type\":\"email\"}}`\nis created as an e-mail user when the set is saved);\n`webhook` -\u003e `{\"name\":\u003cconfigured webhook name\u003e,\"callback\":\"pre_save\"|\"after_commit_async\"}`\n(callback defaults to `after_commit_async`).\nPlugin action types carry whatever the plugin declares.\n"
                 }
               }
             },
@@ -62231,7 +62361,7 @@
               }
             },
             "readOnly": true,
-            "description": "Read-only helper, computed server-side. Keys are the full api\nnames of the objecttype's files fields; each value is the list of\nplaceholder tokens (e.g. `%_asset.original_filename%`,\n`%\u003cfield\u003e%`) available for that field's `_export_asset_filenames`\ntemplate. Output only — ignored if sent in a `POST` body.\n"
+            "description": "Read-only helper, computed server-side. Keys are the full api\nnames of the objecttype's files fields; each value is the list of\nplaceholder tokens (e.g. `%_asset.original_filename%`,\n`%\u003cfield\u003e%`) available for that field's `_export_asset_filenames`\ntemplate. A custom datatype field offers its standard as\n`%\u003cfield\u003e._standard%` and each subfield its plugin maps as\n`%\u003cfield\u003e.\u003csubfield\u003e%`, localized ones also per database language\n(`%\u003cfield\u003e._standard.de-DE%`). Output only — ignored if sent in a\n`POST` body.\n"
           }
         }
       },
@@ -63842,7 +63972,7 @@
                 "size": 600,
                 "format": "png",
                 "resize_mode": "max",
-                "jpegquality": 80,
+                "quality": 80,
                 "strip": true
               }
             }
@@ -64401,7 +64531,7 @@
             "items": {
               "type": "string"
             },
-            "description": "If set, the engine also returns `linked_objects` — full\n`ObjectApi` entries of the named objecttypes that match the\nquery. By default every match is returned, referenced or not;\nset `linked_objects_referenced_by_objecttypes` to keep only the\nones actually in use. Useful for autocomplete pickers that need\nto show the target object inline.\n"
+            "description": "If set, the engine also returns `linked_objects` — full\n`ObjectApi` entries of the named objecttypes that match the\nquery. By default every match is returned, referenced or not;\nset `linked_objects_referenced_by_objecttypes` to keep only the\nones actually in use. Useful for autocomplete pickers that need\nto show the target object inline.\n\nThe named objecttypes share the `limit` slots: they take turns\nadding their next best match, so one objecttype with many\nmatches cannot fill the whole list, and slots an objecttype\ncannot fill go to the others. The list is ordered by `_score`:\nan object which has the query as a whole word (\"Halle\" in\n\"Halle (Saale)\") ranks above one which only has it inside a\nword (\"Hallesche Straße\"); equal scores are ordered by\n`_system_object_id`.\n"
           },
           "linked_objects_referenced_by_objecttypes": {
             "type": "array",
@@ -64409,7 +64539,7 @@
             "items": {
               "type": "string"
             },
-            "description": "Opt-in filter for `linked_objects`. When set, a linked-object\nsuggestion is kept only if at least one record of these\nobjecttypes links to it (directly, nested or reverse — the\n`_linked.\u003cot\u003e._id` closure the \"in\" filter queries when a\nsuggestion is clicked), so selecting the suggestion as a search\nfilter over these objecttypes always yields results. Absent /\nempty returns every match. Pass the objecttypes the caller will\nactually filter on click — kept separate from `objecttypes` on\npurpose, since `objecttypes` may be widened with the linked\nobjecttypes so token matches inside linked objects are found.\n"
+            "description": "Opt-in filter for `linked_objects`. When set, a linked-object\nsuggestion is kept only if at least one record of these\nobjecttypes links to it (directly, nested or reverse — the\n`_linked.\u003cot\u003e._id` closure the \"in\" filter queries when a\nsuggestion is clicked) or, for a hierarchical objecttype,\nto a record below it (the \"in\" filter with `include_path`), so\nselecting the suggestion as a search filter over these\nobjecttypes always yields results. Absent /\nempty returns every match. Pass the objecttypes the caller will\nactually filter on click — kept separate from `objecttypes` on\npurpose, since `objecttypes` may be widened with the linked\nobjecttypes so token matches inside linked objects are found.\n"
           },
           "analyze_wildcards": {
             "type": "boolean",
@@ -64488,7 +64618,7 @@
                     },
                     "count": {
                       "type": "integer",
-                      "description": "Number of indexed documents the term occurs in."
+                      "description": "Number of records a `match` search in `token` mode\nfor the term finds within the request's\n`objecttypes`, `pool_ids`, `fields` and search\nlanguages. A record counts once, however many fields\nor languages carry the term.\n"
                     }
                   }
                 }
@@ -65038,7 +65168,7 @@
           },
           "l10n": {
             "type": "string",
-            "description": "Path (relative to the plugin's static URL) of the plugin's\nl10n CSV file.\n"
+            "description": "Path of the plugin's l10n CSV file, relative to the directory\nholding `manifest.yml`. The server reads the file when it loads\nthe plugin.\n"
           },
           "server": {
             "type": "object",
@@ -65050,7 +65180,7 @@
                   "require": {
                     "type": "integer",
                     "format": "int64",
-                    "description": "The minimum fylr server API version this plugin\nsupports.\n"
+                    "description": "The API version the manifest declares, published as-is.\nThe server does not compare it with its own version and\nloads the plugin whatever the value.\n"
                   }
                 }
               }
@@ -65701,16 +65831,16 @@
           },
           "include": {
             "type": "string",
-            "description": "Regular expression limiting which bucket keys are returned."
+            "description": "Regular expression limiting which buckets are returned, in Lucene syntax, case-sensitive and anchored: it has to match the whole value. A `term` aggregation matches it against the bucket key, a `linked_object` aggregation against the name of each entry, the standard text of the linked record or the pool name."
           },
           "language": {
             "type": "string",
             "description": "For localized fields, the language to aggregate."
           },
           "filter_parent": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "format": "int64",
-            "description": "Restrict buckets to children of this parent object."
+            "description": "For a `linked_object` aggregation over a hierarchical objecttype: restrict the buckets to the direct children of this parent, given by its `_id` (not its `_system_object_id`). `null` or `0` returns the top level; in a polyhierarchy that includes the records that also hang from the virtual top level. A child below a parent with several paths is returned once per path, each bucket carrying its `_path`. Sorted by `term`, the entries of a level are ordered by their own names, the records below the virtual top level among the others. Without the key, the buckets of all levels are returned, sorted by `term` along their paths.\n"
           },
           "precision": {
             "type": "integer",

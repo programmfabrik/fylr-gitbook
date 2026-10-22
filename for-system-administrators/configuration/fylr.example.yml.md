@@ -103,6 +103,13 @@ fylr:
   # above, so only one of the two can be set at a time.
   license: ""
 
+  # licenseServer (default: "https://pfcrm.programmfabrik.de/pfcrm/license").
+  # fylr posts its license to this URL every 6 hours and installs the newer
+  # version the server answers with, if there is one. The update can be turned
+  # off in the base config (license management), e.g. for an instance without
+  # outgoing internet access. An empty value turns it off for this fylr.yml.
+  licenseServer: "https://pfcrm.programmfabrik.de/pfcrm/license"
+
   # encryptionKey is used to AES-encrypt sensitive information before writing it
   # to the database. It must be 32 bytes long. The encryptionKey must be
   # provided to decrypt encrypted data from the database. With no encryption
@@ -323,7 +330,9 @@ fylr:
     # PostgreSQL's default max_connections of 100. At least: 4 +
     # elastic.parallel (the file dispatcher sizes itself). Two of these
     # connections will be dedicated to a separate connection pool managing
-    # the sequences. It is not recommended to set it to 0 (unlimited), as this can
+    # the sequences. One more connection, not counted here, holds fylr's
+    # server-wide locks while one is held or awaited (config saves, indexing,
+    # WebDAV locks). It is not recommended to set it to 0 (unlimited), as this can
     # possibly open too many connections for the OS to handle. Also, since each
     # request to the API will query the database at least once, this setting
     # doubles as a rate throttler. (Postgres only)
@@ -401,10 +410,6 @@ fylr:
           # Set to true if files in this location can be
           # purged by FYLR (if the purge api call is used)
           allow_purge: false
-          # For "file" storage backend allow_redirect is a dangerous
-          # setting and should be used for development purposes only.
-          # Default is the safe false.
-          allow_redirect: false
           # read_only (any kind) lets fylr read what is already in the location
           # but never write or delete there: uploads and purges into it fail
           # with LocationReadOnly. For an archive or a mounted share that must
@@ -426,10 +431,6 @@ fylr:
         #     kind: s3
         #     prefix: "apitest/"
         #     allow_purge: true
-        #     # Set allow_redirect to true to expose download URLs directly to the s3 provider.
-        #     # Default is false.
-        #     # false uses fylr URLs instead, which might be less performant.
-        #     allow_redirect: false
         #     config:
         #       s3:
         #         bucket: apitest
@@ -459,10 +460,29 @@ fylr:
         #         # optional endpoint suffix (default to core.windows.net)
         #         endpoint_suffix: "core.windows.net"
 
+  locations:
+    # allowedDirs lists the directories in which a storage location of kind
+    # "file" may keep its files when it is created through the API
+    # (/api/v1/system/location) or its dir is changed there. Its dir must be
+    # one of these directories or lie below one; symlinks are resolved
+    # before the comparison. A relative entry resolves against the directory
+    # of the config file it is written in, like the other paths here, but a
+    # relative location dir resolves beside the fylr executable: where the
+    # two directories differ, write absolute paths. Default empty: no file
+    # location can be created through the API.
+    #
+    # Not checked: the locations under db.init.locations above, and a saved
+    # location whose dir stays what it is.
+    allowedDirs: []
+    # allowedDirs:
+    #   - "/srv/fylr/files"
+
   plugin:
     # load plugins at startup. the loader crawls the given directories
     # and loads given files for plugin config files, ending in ".yml".
-    # Missing paths are logged as warnings and skipped. e.g.
+    # Missing paths are logged as warnings and skipped. A disk plugin
+    # registered through PUT /api/v1/plugin/manage must lie inside one of
+    # these directories. e.g.
     #   paths:
     #     - ../../../fylr-plugins/fylr_example
     paths: []
@@ -506,6 +526,18 @@ fylr:
     #       # update_policy: automatic, always, never, defaults to automatic
     #       update_policy: "never"
     defaults: {}
+    # sources limits where installed plugins may come from:
+    #   any:         zip uploads, disk paths and any url (the default)
+    #   marketplace: only plugins of the marketplace catalog. The plugin
+    #                manager installs no zip, disk path or other url, and
+    #                installed plugins that were not checked against the
+    #                catalog stay disabled until they are (state
+    #                "not_marketplace"). The plugins of paths and urls above
+    #                are always accepted.
+    # In both modes a plugin installed from a catalog url whose entry names
+    # a sha256 is installed and updated only when the zip matches it; the
+    # catalog, not the url's checksum, then decides when it updates.
+    sources: any
 
   # Set to true to allow /api/settings/purge. dont use on production systems!
   allowpurge: false
@@ -617,27 +649,30 @@ fylr:
     # load balancer in front of several fylr replicas.
     #
     # fylr works it out on its own and none of the keys below need to be set:
-    # the port and scheme come from its own listeners, and the host from the
-    # address the kernel would send from towards a configured execserver (the
-    # same address the execserver sees the broker connection come from, which
-    # it verifies at connect time and reports in /inspect).
+    # there is one base per listener, the backend base for the execserver and
+    # the API base handed to plugins. Scheme and port come from the listener,
+    # the host from the address the kernel would send from towards a
+    # configured execserver (the same address the execserver sees the broker
+    # connection come from, which it verifies at connect time and reports in
+    # /inspect).
     #
-    # callbackBackendInternalURL overrides scheme and port for the backend
-    # callbacks — for a proxy in front of the listener. The host is still this
-    # fylr's own, so a Kubernetes Service name here has no effect. e.g.
-    # "http://localhost:8081"
-    callbackBackendInternalURL: ""
+    # The two keys below set a base verbatim, scheme, host and port, and
+    # nothing overrides them. Set them where fylr cannot name the address an
+    # execserver reaches it on: fylr in a container or behind NAT, with an
+    # execserver on another machine. Each key sets its own base only, so such
+    # a setup sets both. Never a load-balanced name: a callback must reach
+    # this fylr.
     #
-    # callbackApiInternalURL does the same for the API base handed to plugins,
-    # e.g. "http://localhost:8080"
-    callbackApiInternalURL: ""
-    #
-    # callbackBackendOwnURL is the escape hatch: the backend base as a full URL,
-    # taken verbatim, scheme and port included, and nothing overrides it. The
-    # API base takes only its host. Set it where fylr cannot name the address
-    # an execserver reaches it on — NAT between the two, with a forwarded
-    # port. e.g. "http://fylr.example.com:8081"
+    # callbackBackendOwnURL is the backend base, e.g.
+    # "http://fylr.example.com:8081"
     callbackBackendOwnURL: ""
+    #
+    # callbackApiOwnURL is the API base handed to plugins, e.g.
+    # "http://fylr.example.com:8080"
+    callbackApiOwnURL: ""
+    #
+    # callbackBackendInternalURL and callbackApiInternalURL are deprecated
+    # and ignored.
 
 
   # eas (External Asset Store) settings.
@@ -680,7 +715,7 @@ fylr:
       # the original hostname). This closes DNS rebinding.
       #
       # fylr's own internal services are always blocked implicitly: the
-      # backend callback URL (execserver.callbackBackendInternalURL),
+      # backend callback base (see execserver.callbackBackendOwnURL),
       # every Elasticsearch node (elastic.addresses), every execserver
       # (execserver.addresses), and the backend / execserver listener
       # addresses (services.backend.addr, services.execserver.addr).
@@ -870,7 +905,11 @@ fylr:
               - "offline"
 
     # service backend is used for /inspect and by the execserver as callback
-    # to get installed plugins and to update progress during execution
+    # to get installed plugins and to update progress during execution.
+    # Every request needs the instance's BACKEND_SECRET (system config, created
+    # at setup) in the X-Fylr-Backend-Secret header or a url fylr signed with
+    # it; /, /healthz and /metrics are open. The webapp's /inspect proxy sends
+    # the secret for root sessions.
     backend:
       # address of the server listener
       # if omitted, this server is not started

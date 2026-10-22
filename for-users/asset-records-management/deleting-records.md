@@ -38,6 +38,10 @@ Use caution when deleting multiple records at once to avoid accidental loss of i
 
 If you delete a record that is referenced by another record (for example a keyword that is linked in an image record), you will receive a message and have to decide what you want to do.
 
+{% hint style="info" %}
+From **fylr 6.36.0**, a record that no other record references and that has no reverse-linked or subordinate records is deleted right after the confirmation, without this message.
+{% endhint %}
+
 You can delete the record and let fylr remove all references in the other records automatically. A reference in a field that allows empty values is cleared. A reference in a nested table row whose field is set to NOT NULL takes the whole row with it: with "Delete" (policy `remove`, the option "Delete N and unlink M" in the dialog) always, including the other fields of the row; with "Unlink" (policy `setnull`, the default of a background `delete_objects` task, see [background tasks](../additional-features/background-tasks.md#delete_objects)) only when the reference is the row's only field.
 
 A reference that cannot be removed disables the option and the record cannot be deleted:
@@ -58,11 +62,13 @@ From **fylr 6.35.0**, confirming removal of references also removes the reciproc
 
 If you are trying to delete a record from a hierarchical object type that has subordinate records, you can also choose the option to delete the record and delete all subordinate records.
 
-You can also abort the deletion by either clicking on the "X" in the upper right, or you can let fylr create a collection with all records that prevent the deletion. The collection can be found in the quick access. It's named "Deletion \<date & time of the creation>". The record(s) that were tried to be deleted are linked in the top level collection.
+You can also abort the deletion by either clicking on the "X" in the upper right, or you can choose "Create collection with records to be deleted": fylr deletes nothing and creates a collection in the quick access, below your collections. It's named "Deletion \<date & time of the creation> UTC" and holds the record(s) that were tried to be deleted. Below it, fylr creates up to two collections, each only when it is not empty:
 
-The records that prevent the deletion are linked in the following collections:
+<table><thead><tr><th width="244">COLLECTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Preventing the deletion</td><td>Records that reference the records to be deleted in a mandatory field. The reference cannot be removed automatically: edit these records, then delete again.</td></tr><tr><td>Affected by the deletion</td><td>Records that are deleted along with them, or whose reference to them is removed, depending on the option chosen.</td></tr></tbody></table>
 
-<table><thead><tr><th width="244">COLLECTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table>
+{% hint style="info" %}
+From **fylr 6.36.0**, fylr creates these two collections. Before, it created seven collections named after the internal delete policies.
+{% endhint %}
 
 ## Deleting a record with bidirectional links
 
