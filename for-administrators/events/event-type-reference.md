@@ -652,7 +652,7 @@ Created when an export finishes successfully with at least one exported record.
 `info`:
 
 * `totalCount` — number of exported records
-* `warnings` — warnings, if any
+* `warnings` — warnings, if any, e.g. for a requested file that was left out because it is not in status `done` (from 6.35.1)
 * `plugin_log` — log of the export plugin, if one ran
 
 ### EXPORT_FINISH_EMPTY
