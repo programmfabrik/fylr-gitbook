@@ -401,10 +401,6 @@ fylr:
           # Set to true if files in this location can be
           # purged by FYLR (if the purge api call is used)
           allow_purge: false
-          # For "file" storage backend allow_redirect is a dangerous
-          # setting and should be used for development purposes only.
-          # Default is the safe false.
-          allow_redirect: false
           # read_only (any kind) lets fylr read what is already in the location
           # but never write or delete there: uploads and purges into it fail
           # with LocationReadOnly. For an archive or a mounted share that must
@@ -426,10 +422,6 @@ fylr:
         #     kind: s3
         #     prefix: "apitest/"
         #     allow_purge: true
-        #     # Set allow_redirect to true to expose download URLs directly to the s3 provider.
-        #     # Default is false.
-        #     # false uses fylr URLs instead, which might be less performant.
-        #     allow_redirect: false
         #     config:
         #       s3:
         #         bucket: apitest
@@ -617,27 +609,30 @@ fylr:
     # load balancer in front of several fylr replicas.
     #
     # fylr works it out on its own and none of the keys below need to be set:
-    # the port and scheme come from its own listeners, and the host from the
-    # address the kernel would send from towards a configured execserver (the
-    # same address the execserver sees the broker connection come from, which
-    # it verifies at connect time and reports in /inspect).
+    # there is one base per listener, the backend base for the execserver and
+    # the API base handed to plugins. Scheme and port come from the listener,
+    # the host from the address the kernel would send from towards a
+    # configured execserver (the same address the execserver sees the broker
+    # connection come from, which it verifies at connect time and reports in
+    # /inspect).
     #
-    # callbackBackendInternalURL overrides scheme and port for the backend
-    # callbacks — for a proxy in front of the listener. The host is still this
-    # fylr's own, so a Kubernetes Service name here has no effect. e.g.
-    # "http://localhost:8081"
-    callbackBackendInternalURL: ""
+    # The two keys below set a base verbatim, scheme, host and port, and
+    # nothing overrides them. Set them where fylr cannot name the address an
+    # execserver reaches it on: fylr in a container or behind NAT, with an
+    # execserver on another machine. Each key sets its own base only, so such
+    # a setup sets both. Never a load-balanced name: a callback must reach
+    # this fylr.
     #
-    # callbackApiInternalURL does the same for the API base handed to plugins,
-    # e.g. "http://localhost:8080"
-    callbackApiInternalURL: ""
-    #
-    # callbackBackendOwnURL is the escape hatch: the backend base as a full URL,
-    # taken verbatim, scheme and port included, and nothing overrides it. The
-    # API base takes only its host. Set it where fylr cannot name the address
-    # an execserver reaches it on — NAT between the two, with a forwarded
-    # port. e.g. "http://fylr.example.com:8081"
+    # callbackBackendOwnURL is the backend base, e.g.
+    # "http://fylr.example.com:8081"
     callbackBackendOwnURL: ""
+    #
+    # callbackApiOwnURL is the API base handed to plugins, e.g.
+    # "http://fylr.example.com:8080"
+    callbackApiOwnURL: ""
+    #
+    # callbackBackendInternalURL and callbackApiInternalURL are deprecated
+    # and ignored.
 
 
   # eas (External Asset Store) settings.
@@ -680,7 +675,7 @@ fylr:
       # the original hostname). This closes DNS rebinding.
       #
       # fylr's own internal services are always blocked implicitly: the
-      # backend callback URL (execserver.callbackBackendInternalURL),
+      # backend callback base (see execserver.callbackBackendOwnURL),
       # every Elasticsearch node (elastic.addresses), every execserver
       # (execserver.addresses), and the backend / execserver listener
       # addresses (services.backend.addr, services.execserver.addr).

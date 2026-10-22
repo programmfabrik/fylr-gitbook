@@ -47,7 +47,6 @@ fylr:
         file:
           kind: file
           # allow_purge: true
-          # allow_redirect: false
           config:
             file:
               dir: "files"
