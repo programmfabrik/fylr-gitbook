@@ -330,7 +330,9 @@ fylr:
     # PostgreSQL's default max_connections of 100. At least: 4 +
     # elastic.parallel (the file dispatcher sizes itself). Two of these
     # connections will be dedicated to a separate connection pool managing
-    # the sequences. It is not recommended to set it to 0 (unlimited), as this can
+    # the sequences. One more connection, not counted here, holds fylr's
+    # server-wide locks while one is held or awaited (config saves, indexing,
+    # WebDAV locks). It is not recommended to set it to 0 (unlimited), as this can
     # possibly open too many connections for the OS to handle. Also, since each
     # request to the API will query the database at least once, this setting
     # doubles as a rate throttler. (Postgres only)
@@ -478,7 +480,9 @@ fylr:
   plugin:
     # load plugins at startup. the loader crawls the given directories
     # and loads given files for plugin config files, ending in ".yml".
-    # Missing paths are logged as warnings and skipped. e.g.
+    # Missing paths are logged as warnings and skipped. A disk plugin
+    # registered through PUT /api/v1/plugin/manage must lie inside one of
+    # these directories. e.g.
     #   paths:
     #     - ../../../fylr-plugins/fylr_example
     paths: []
