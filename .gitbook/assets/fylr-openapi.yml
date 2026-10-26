@@ -43350,7 +43350,7 @@ paths:
                     description: |
                         Request must be resent and confirmed. Two situations produce this response:
 
-                        - One or more tags that would be deleted are still referenced in places where they can be cleaned up automatically (`collection.create_object`, `objecttype_tag`, `pool_tag`), but an explicit confirmation is required. Resend the identical request with the query parameter `delete_policy=remove_tags` to confirm.
+                        - One or more tags that would be deleted are still referenced in places where they can be cleaned up automatically (`collection.create_object`, `objecttype_tag`, `pool_tag`), but an explicit confirmation is required. Resend the identical request with the query parameter `delete_policy=remove_tags` to confirm. The task's `data.usages` names the places per tag, in the shape of `parameters.usages` of `TagsInUse` (`400`): one entry per tag and `context`, with the sorted `ids` of the collections, object types or pools; its message asks whether to remove and delete the tags.
                         - A changed tag `_acl` triggered collection re-validation that exceeded the time limit. Resend the identical request with `background_invalid_acl=true` to apply the change and run the re-validation in the background.
 
                         The `tasks[].buttons[].name`/`value` of the returned payload name the query parameter to resend with.
@@ -50267,6 +50267,14 @@ components:
                                         Localized explanation of what is being confirmed (for example that
                                         the save removes the user's own access, or that the records being
                                         deleted are still linked from other records).
+                                data:
+                                    type: object
+                                    additionalProperties: true
+                                    description: |
+                                        Optional machine-readable values behind the message, so a client
+                                        need not parse the text (for example `object_count` of the
+                                        re-index task of `POST /objecttype`). Absent when the task has
+                                        none.
                                 form:
                                     type: array
                                     description: |
@@ -50370,21 +50378,36 @@ components:
                 Confirm-and-resend payload returned by `POST /api/v1/tags` when one or more
                 tags that would be deleted are still referenced only in contexts **fylr** can
                 clean up automatically (`collection.create_object`, `objecttype_tag`,
-                `pool_tag`). Resend the identical request with `delete_policy=remove_tags` to
-                confirm.
+                `pool_tag`). `data.usages` names these places per tag, in the shape of
+                `parameters.usages` of `TagsInUse`. Resend the identical request with
+                `delete_policy=remove_tags` to confirm.
             example:
                 tasks:
                     - title: Delete tags in use?
-                      message: |-
-                        The tags which are to be deleted are still in use:
-
-                        - 1 Collection(s)
-
-                        Should the tags automatically be removed and deleted anyways?
+                      message: Should the following tags be removed automatically and deleted anyway?
                       buttons:
                         - text: Delete tags
                           name: delete_policy
                           value: remove_tags
+                      data:
+                        usages:
+                            - tag_id: 3
+                              context: collection.create_object
+                              ids:
+                                - 5
+                                - 6
+                            - tag_id: 4
+                              context: collection.create_object
+                              ids:
+                                - 5
+                            - tag_id: 4
+                              context: objecttype_tag
+                              ids:
+                                - 1
+                            - tag_id: 4
+                              context: pool_tag
+                              ids:
+                                - 4
         XmlMappingDelete202:
             allOf:
                 - type: object

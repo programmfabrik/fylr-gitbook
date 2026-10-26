@@ -45384,7 +45384,7 @@
             "description": "Success"
           },
           "202": {
-            "description": "Request must be resent and confirmed. Two situations produce this response:\n\n- One or more tags that would be deleted are still referenced in places where they can be cleaned up automatically (`collection.create_object`, `objecttype_tag`, `pool_tag`), but an explicit confirmation is required. Resend the identical request with the query parameter `delete_policy=remove_tags` to confirm.\n- A changed tag `_acl` triggered collection re-validation that exceeded the time limit. Resend the identical request with `background_invalid_acl=true` to apply the change and run the re-validation in the background.\n\nThe `tasks[].buttons[].name`/`value` of the returned payload name the query parameter to resend with.\n",
+            "description": "Request must be resent and confirmed. Two situations produce this response:\n\n- One or more tags that would be deleted are still referenced in places where they can be cleaned up automatically (`collection.create_object`, `objecttype_tag`, `pool_tag`), but an explicit confirmation is required. Resend the identical request with the query parameter `delete_policy=remove_tags` to confirm. The task's `data.usages` names the places per tag, in the shape of `parameters.usages` of `TagsInUse` (`400`): one entry per tag and `context`, with the sorted `ids` of the collections, object types or pools; its message asks whether to remove and delete the tags.\n- A changed tag `_acl` triggered collection re-validation that exceeded the time limit. Resend the identical request with `background_invalid_acl=true` to apply the change and run the re-validation in the background.\n\nThe `tasks[].buttons[].name`/`value` of the returned payload name the query parameter to resend with.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -52865,6 +52865,11 @@
                       "type": "string",
                       "description": "Localized explanation of what is being confirmed (for example that\nthe save removes the user's own access, or that the records being\ndeleted are still linked from other records).\n"
                     },
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": true,
+                      "description": "Optional machine-readable values behind the message, so a client\nneed not parse the text (for example `object_count` of the\nre-index task of `POST /objecttype`). Absent when the task has\nnone.\n"
+                    },
                     "form": {
                       "type": "array",
                       "description": "Optional input fields the user chooses from. The selected option's\n`value` is sent as the query parameter named by the field's `name`\nwhen the request is re-sent — this is how `delete_policy` and\n`reverse_pool_changed_mode` are chosen. Absent for a plain\nbutton-only confirmation such as revoke.\n",
@@ -52957,19 +52962,52 @@
             }
           }
         ],
-        "description": "Confirm-and-resend payload returned by `POST /api/v1/tags` when one or more\ntags that would be deleted are still referenced only in contexts **fylr** can\nclean up automatically (`collection.create_object`, `objecttype_tag`,\n`pool_tag`). Resend the identical request with `delete_policy=remove_tags` to\nconfirm.\n",
+        "description": "Confirm-and-resend payload returned by `POST /api/v1/tags` when one or more\ntags that would be deleted are still referenced only in contexts **fylr** can\nclean up automatically (`collection.create_object`, `objecttype_tag`,\n`pool_tag`). `data.usages` names these places per tag, in the shape of\n`parameters.usages` of `TagsInUse`. Resend the identical request with\n`delete_policy=remove_tags` to confirm.\n",
         "example": {
           "tasks": [
             {
               "title": "Delete tags in use?",
-              "message": "The tags which are to be deleted are still in use:\n\n- 1 Collection(s)\n\nShould the tags automatically be removed and deleted anyways?",
+              "message": "Should the following tags be removed automatically and deleted anyway?",
               "buttons": [
                 {
                   "text": "Delete tags",
                   "name": "delete_policy",
                   "value": "remove_tags"
                 }
-              ]
+              ],
+              "data": {
+                "usages": [
+                  {
+                    "tag_id": 3,
+                    "context": "collection.create_object",
+                    "ids": [
+                      5,
+                      6
+                    ]
+                  },
+                  {
+                    "tag_id": 4,
+                    "context": "collection.create_object",
+                    "ids": [
+                      5
+                    ]
+                  },
+                  {
+                    "tag_id": 4,
+                    "context": "objecttype_tag",
+                    "ids": [
+                      1
+                    ]
+                  },
+                  {
+                    "tag_id": 4,
+                    "context": "pool_tag",
+                    "ids": [
+                      4
+                    ]
+                  }
+                ]
+              }
             }
           ]
         }
