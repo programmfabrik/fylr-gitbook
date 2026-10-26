@@ -15,13 +15,9 @@ This service sends emails such as welcome emails, collection share emails or ema
 Please make sure that you set up [emailing](email.md).
 {% endhint %}
 
-
-
 ## Exporter
 
 This service executes automated exports (if a schedule is defined for an export). If not enabled, scheduled exports will not be executed automatically.
-
-
 
 ## Custom-Data-Type Updater
 
@@ -30,8 +26,6 @@ This services automatically updates data stored in custom data type fields. For 
 {% hint style="info" %}
 For more configuration of each plugin, please see "Plugins".
 {% endhint %}
-
-
 
 ## WebDAV
 
@@ -47,8 +41,6 @@ To avoid importing files that have not yet been completely copied, the system ch
 
 Enable the checkbox to activate the [File System Connect](../../tutorials/how-to-set-up-the-hotfolder-and-file-system-connect/) in collections.
 
-
-
 ## Janitor
 
 This service regularly cleans up data.
@@ -59,8 +51,8 @@ Enable/Disable the Janitor.
 
 Deletes all tokens (Access, Refresh, ...) for which:
 
-* No `expired_at`  is set (e.g. authorization codes)&#x20;
-* `expired_at` is in the past&#x20;
+* No `expired_at` is set (e.g. authorization codes)
+* `expired_at` is in the past
 
 `expired_at` is saved when the token is saved for the first time and is calculated based on the lifetime of the tokens; this is defined in the base configuration under "User Management" -> "OAuth Service" -> "Expiration Times" for the various token types.
 
@@ -82,13 +74,17 @@ The period starts when the most recent run started, including failed runs and ru
 
 Cleanup removes the expired export or download, including its output references and transport links. File storage is reclaimed only when no other references remain and the separate file expiration setting allows deletion. Each file cleanup pass removes eligible historic file links, purges eligible deleted records, removes expired exports and downloads, and finally deletes unused files. Read-only storage stays protected.
 
-### Settings for Objects
+### Settings for Records
 
 Control how the Janitor cleans up **deleted records** and the **files linked from historic versions** of records.
 
-#### Final deletion after n days
+#### Purge records after n days
 
 Records that have been deleted are first only marked as deleted and can still be restored. Specify after how many days such a deleted record is **permanently** removed from the database and can no longer be restored. Enter "0" to purge deleted records with every janitor run (every 10 minutes).
+
+{% hint style="info" %}
+If "Allow overwriting in pools and object types" is enabled, this setting can also be overwritten in the [pools](../permissions/pools.md).
+{% endhint %}
 
 #### Removing file links from historic versions
 
@@ -127,8 +123,6 @@ Specify after how many days archived user accounts should be deleted. Enter "0" 
 Attention: deleted users will be removed from the system and can't be re-activated. This also includes the users collections. See also "[User Management](user-management.md)".
 {% endhint %}
 
-
-
 ### Settings For Events
 
 Specify after how many days the individual events should be deleted. Enter "0" to delete the events with every janitor run (every 10 minutes).
@@ -146,19 +140,14 @@ From fylr **6.35.0**.
 Two janitor tasks remove what a purge or a re-saved record leaves behind:
 
 * **terms\_delete** removes terms that no record links to any more and takes them out of the suggest index, so word suggestions stop offering values that no record carries.
-* **custom\_data\_delete** removes custom data entries that no field value refers to any more, so the [custom-data-type updater](#custom-data-type-updater) stops refreshing entries nobody uses.
+* **custom\_data\_delete** removes custom data entries that no field value refers to any more, so the [custom-data-type updater](services.md#custom-data-type-updater) stops refreshing entries nobody uses.
 
 Both only take rows older than **one hour**: a term or custom data entry is created before the record that references it is committed, and the age gate keeps a sweep from removing a row a save is about to reference. Existing rows count as old after the upgrade, so the first runs clear the backlog in batches.
 
 The next batch of both is listed on `/inspect/system/janitor/`, where they can be run by hand. A manual run may carry a `run_time` (RFC 3339): every age gate of that run then treats the given instant as "now", which is how a test drives the sweeps past the hour.
-
-
 
 ## OpenAPI
 
 fylr describes its API as a machine-readable [OpenAPI](https://www.openapis.org/) specification, served at `/api/v1/system/openapi/spec.json`. It is used to render the API documentation and to feed API tooling and client generators.
 
 Enable this service to make the specification endpoint reachable **without authentication**, so it can be fetched anonymously. If not enabled, the endpoint requires a logged-in user.
-
-
-

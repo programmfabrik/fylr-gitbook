@@ -6,7 +6,7 @@ description: >-
 
 # Trash Bin
 
-When you delete a record, fylr does not remove it right away. The record is moved to the trash, where it can be inspected, restored or permanently deleted by users who have the required permission. The trash only exists for users with the system right **Trash Access**; without it, neither the menu entry nor deleted records appear anywhere in the web frontend.
+When you delete a record, fylr does not remove it right away. The record is moved to the trash, where it can be inspected, restored or permanently deleted by users who have the required permission. The trash only exists for users with the system right **Access** **Trash**; without it, neither the menu entry nor deleted records appear anywhere in the web frontend.
 
 {% hint style="info" %}
 The trash is available from fylr 6.22.0. The trash list sorts the most recently deleted records first and can be sorted by deletion date from fylr 6.35.0.
@@ -14,9 +14,9 @@ The trash is available from fylr 6.22.0. The trash list sorts the most recently 
 
 ### Permissions
 
-Access to the trash is controlled by the system right **Trash Access** (`system.trash_access`) and its parameter **Level**:
+Access to the trash is controlled by the system right **Access** **Trash** (`system.trash_access`) and its parameter **Level**:
 
-<table><thead><tr><th width="146.80859375">LEVEL</th><th>WHAT THE USER CAN DO</th></tr></thead><tbody><tr><td>Read</td><td>See deleted records in the trash and in search.</td></tr><tr><td>Undelete</td><td>Everything of "Read", and restore deleted records.</td></tr><tr><td>Purge</td><td>Everything of "Undelete", and permanently delete records.</td></tr></tbody></table>
+<table><thead><tr><th width="247.171875">LEVEL</th><th>WHAT THE USER CAN DO</th></tr></thead><tbody><tr><td>View</td><td>See deleted records in the trash and in search.</td></tr><tr><td>Restore Records</td><td>Everything of "View", and restore deleted records.</td></tr><tr><td>Delete Records Permanently</td><td>Everything of "Restore Records", and permanently delete records.</td></tr></tbody></table>
 
 Ask your system administrator if you need a higher level. Whether you may delete a record in the first place is a separate permission, see [Deleting Records](./).
 
