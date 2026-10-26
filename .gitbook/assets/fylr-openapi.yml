@@ -27909,8 +27909,9 @@ paths:
             Differs from easydb 5: easydb 5 accepts a `description` field
             (optional l10n) in the produce body; **fylr** ignores it — the
             request only reads `eas_parent_id`, `format`, `transform`, `trim`,
-            `mute`, `color`, `height`, `colorspace` and `colorprofile` (the
-            latter two are fylr-only, since 6.34.2).
+            `mute`, `color`, `height`, `colorspace`, `colorprofile` and
+            `background` (fylr-only: `colorspace` and `colorprofile` since
+            6.34.2, `background` since 6.36.0).
         post:
             parameters:
                 - name: obj_uuid
@@ -28053,6 +28054,20 @@ paths:
                                         (`sRGB_IEC61966-2-1_black_scaled`); `-` embeds no profile.
                                         Unknown names are rejected with
                                         `RecipeParamUnsupportedValue`.
+                                background:
+                                    type: string
+                                    example: '#996633'
+                                    description: |
+                                        Image parents only: fill a transparent background, also the
+                                        corners of a rotation, with `white`, `black` or a color
+                                        `#rrggbb` (or `#rgb`) in sRGB. The color is converted into
+                                        the color space of the produced file: through `colorprofile`,
+                                        or for CMYK pixels with `colorprofile` `-` through
+                                        `ISOcoated_v2_eci`. Empty (or omitted) keeps the background
+                                        transparent where the format can be; a `jpg` or `bmp` is
+                                        filled white. Another value is rejected with
+                                        `RecipeParamRegexMatch`, any non-empty value for a video
+                                        parent with `RecipeParamUnsupportedValue`.
                                 trim:
                                     type: object
                                     description: |
@@ -29184,6 +29199,19 @@ paths:
                           format: int
                   description: |
                     Quality is used to set the JPEG quality. **maximum** is 100, **medium** is 75, **small** and **low** are 50.
+                - name: background
+                  in: query
+                  schema:
+                    type: string
+                    example: '#996633'
+                  description: |
+                    Fill a transparent background: `white`, `black` or a color
+                    `#rrggbb` (or `#rgb`) in sRGB, sent as `%23996633`. The color is
+                    converted into the color space of the output, through its
+                    `colorprofile` or, for CMYK pixels without one, through
+                    `ISOcoated_v2_eci`. Empty keeps the background transparent where
+                    the format can be; a `jpg` and a `bmp` are filled white. Another
+                    value is rejected with `400` `UrlParameterInvalid`.
                 - name: dpi
                   in: query
                   schema:
@@ -47299,6 +47327,22 @@ components:
                         `transform.rotate-z` is 90 or 270.
                 transform:
                     $ref: '#/components/schemas/ExportTransform'
+                background:
+                    type: string
+                    default: ""
+                    description: |
+                        Fill a transparent background, also the corners of a
+                        `transform` rotation: `white`, `black` or a color `#rrggbb` (or
+                        `#rgb`) in sRGB. The color is converted into the color space of
+                        the rendition: through `colorprofile`, or for CMYK pixels with
+                        `colorprofile` `-` through `ISOcoated_v2_eci`. `''` (the default)
+                        keeps the background transparent where `format` can be; a `jpg`
+                        or `bmp` is filled white. Another value is refused with
+                        `background "<value>" must be empty, "white", "black" or a color
+                        "#rrggbb"`. A `background` alone makes a preset that changes the
+                        file.
+                    pattern: ^(white|black|#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6})?$
+                    example: '#996633'
         ExportTransform:
             type: object
             description: |

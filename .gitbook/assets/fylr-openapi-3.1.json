@@ -28824,7 +28824,7 @@
     },
     "/eas/produce": {
       "x-path": "/eas/produce",
-      "description": "This endpoint is used to produce a new version of the file. It allows to crop and rotate images, and to trim, crop, rotate, scale, mute and color-correct videos. The new file gets a new id. The `produce_version` setting from the parent is inherited.\n\nThe file is produced asynchronously: the response returns the new file in\n`pending` state, poll its status until it reaches `done` (or `failed`).\n\nDiffers from easydb 5: easydb 5 accepts a `description` field\n(optional l10n) in the produce body; **fylr** ignores it — the\nrequest only reads `eas_parent_id`, `format`, `transform`, `trim`,\n`mute`, `color`, `height`, `colorspace` and `colorprofile` (the\nlatter two are fylr-only, since 6.34.2).\n",
+      "description": "This endpoint is used to produce a new version of the file. It allows to crop and rotate images, and to trim, crop, rotate, scale, mute and color-correct videos. The new file gets a new id. The `produce_version` setting from the parent is inherited.\n\nThe file is produced asynchronously: the response returns the new file in\n`pending` state, poll its status until it reaches `done` (or `failed`).\n\nDiffers from easydb 5: easydb 5 accepts a `description` field\n(optional l10n) in the produce body; **fylr** ignores it — the\nrequest only reads `eas_parent_id`, `format`, `transform`, `trim`,\n`mute`, `color`, `height`, `colorspace`, `colorprofile` and\n`background` (fylr-only: `colorspace` and `colorprofile` since\n6.34.2, `background` since 6.36.0).\n",
       "post": {
         "parameters": [
           {
@@ -28933,6 +28933,11 @@
                   "colorprofile": {
                     "type": "string",
                     "description": "Image parents only: name of the ICC color profile for the\nproduced file — a built-in profile (for example\n`eciRGB_v2`) or a profile uploaded in the base\nconfiguration. The profile is converted to and embedded in\nthe produced file and wins over `colorspace`. Empty (or\nomitted) uses the default sRGB profile\n(`sRGB_IEC61966-2-1_black_scaled`); `-` embeds no profile.\nUnknown names are rejected with\n`RecipeParamUnsupportedValue`.\n"
+                  },
+                  "background": {
+                    "type": "string",
+                    "example": "#996633",
+                    "description": "Image parents only: fill a transparent background, also the\ncorners of a rotation, with `white`, `black` or a color\n`#rrggbb` (or `#rgb`) in sRGB. The color is converted into\nthe color space of the produced file: through `colorprofile`,\nor for CMYK pixels with `colorprofile` `-` through\n`ISOcoated_v2_eci`. Empty (or omitted) keeps the background\ntransparent where the format can be; a `jpg` or `bmp` is\nfilled white. Another value is rejected with\n`RecipeParamRegexMatch`, any non-empty value for a video\nparent with `RecipeParamUnsupportedValue`.\n"
                   },
                   "trim": {
                     "type": "object",
@@ -30212,6 +30217,15 @@
               ]
             },
             "description": "Quality is used to set the JPEG quality. **maximum** is 100, **medium** is 75, **small** and **low** are 50.\n"
+          },
+          {
+            "name": "background",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "#996633"
+            },
+            "description": "Fill a transparent background: `white`, `black` or a color\n`#rrggbb` (or `#rgb`) in sRGB, sent as `%23996633`. The color is\nconverted into the color space of the output, through its\n`colorprofile` or, for CMYK pixels without one, through\n`ISOcoated_v2_eci`. Empty keeps the background transparent where\nthe format can be; a `jpg` and a `bmp` are filled white. Another\nvalue is rejected with `400` `UrlParameterInvalid`.\n"
           },
           {
             "name": "dpi",
@@ -49631,6 +49645,13 @@
           },
           "transform": {
             "$ref": "#/components/schemas/ExportTransform"
+          },
+          "background": {
+            "type": "string",
+            "default": "",
+            "description": "Fill a transparent background, also the corners of a\n`transform` rotation: `white`, `black` or a color `#rrggbb` (or\n`#rgb`) in sRGB. The color is converted into the color space of\nthe rendition: through `colorprofile`, or for CMYK pixels with\n`colorprofile` `-` through `ISOcoated_v2_eci`. `''` (the default)\nkeeps the background transparent where `format` can be; a `jpg`\nor `bmp` is filled white. Another value is refused with\n`background \"\u003cvalue\u003e\" must be empty, \"white\", \"black\" or a color\n\"#rrggbb\"`. A `background` alone makes a preset that changes the\nfile.\n",
+            "pattern": "^(white|black|#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6})?$",
+            "example": "#996633"
           }
         }
       },

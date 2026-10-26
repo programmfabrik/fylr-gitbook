@@ -43,6 +43,14 @@ Set together, **Color Space** and **Color Profile** have to agree: a `cmyk` colo
 
 A version written as **BMP** is a 24 bpp TrueColor file with a classic `BITMAPINFOHEADER` and no embedded color profile, so every BMP reader, macOS included, opens it; its pixels are still converted through the chosen color profile.
 
+### Background
+
+From fylr **6.36.0** a custom version fills a transparent background with its `background`: `white`, `black` or a color `#rrggbb` (or `#rgb`). Empty, the default, keeps the background transparent where the format can be; a JPG or BMP is filled with white, as they cannot be transparent. The corners of a rotation are filled the same way.
+
+The color is an sRGB color, as a color picker gives it, and it is converted into the color space of the file, so it looks the same in an sRGB JPG, a file with another color profile and a CMYK file. A CMYK file without a color profile takes it through `ISOcoated_v2_eci`.
+
+The preset editor does not show the option; it is set through the API, as `background` in the options of a preset (`custom_version_presets` of `POST /api/v1/config`) or of a custom version of an export. A download can override it with the URL parameter `background` (`background=%23996633`), and the crop tool (`POST /api/v1/eas/produce`) takes it as well.
+
 ## Using a preset
 
 When a preset applies to a file, it appears in the **Renditions** list of the download options alongside the standard renditions. See [Downloading](../../../for-users/download-and-export/downloading.md#custom-versions) for the user's perspective.
