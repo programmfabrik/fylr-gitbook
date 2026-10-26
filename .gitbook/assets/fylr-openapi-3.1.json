@@ -50685,6 +50685,11 @@
             "type": "number",
             "format": "int"
           },
+          "iso": {
+            "type": "number",
+            "format": "int",
+            "description": "The ISO speed the picture was taken with, from its EXIF. Available\nfrom version 6.36.0.\n"
+          },
           "max_dimension": {
             "type": "number",
             "format": "int"
@@ -50825,6 +50830,38 @@
                 "type": "number",
                 "format": "int",
                 "description": "Gradient and mesh constructs, which a renderer expands into many\ndiscrete bands.\n"
+              }
+            }
+          },
+          "embedded_previews": {
+            "type": "array",
+            "description": "The previews a camera raw file carries, largest first, one per exiftool\ntag. Set only for a raw file that has one. A version is made from the\nsmallest one big enough for it. A produce config gates on the largest\nthe versions it makes from a preview only (raw_source\n\"preview_or_skip\"). Available from version 6.36.0.\n",
+            "items": {
+              "type": "object",
+              "properties": {
+                "tag": {
+                  "type": "string",
+                  "description": "The exiftool tag holding the preview: \"JpgFromRaw\",\n\"PreviewImage\", \"TIFFPreview\" or \"ThumbnailImage\".\n"
+                },
+                "width": {
+                  "type": "number",
+                  "format": "int",
+                  "description": "Width in pixels, upright like the file.\n"
+                },
+                "height": {
+                  "type": "number",
+                  "format": "int",
+                  "description": "Height in pixels, upright like the file.\n"
+                },
+                "colorspace": {
+                  "type": "string",
+                  "description": "The color space of its pixels, \"sRGB\" or \"Adobe RGB\" (or the\ndescription of an ICC profile it carries), from its EXIF or the\nfile's. An Adobe RGB preview is converted to the version's color\nprofile. Missing when nothing says, which is taken for sRGB.\n"
+                },
+                "quality": {
+                  "type": "number",
+                  "format": "int",
+                  "description": "The estimated JPEG quality, 1 to 100. A preview below 70 serves\nno version near its own size of a picture taken at ISO 800 or\nbelow; that version is developed from the raw data.\n"
+                }
               }
             }
           }

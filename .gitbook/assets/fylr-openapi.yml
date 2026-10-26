@@ -47964,6 +47964,12 @@ components:
                 height:
                     type: number
                     format: int
+                iso:
+                  type: number
+                  format: int
+                  description: |
+                    The ISO speed the picture was taken with, from its EXIF. Available
+                    from version 6.36.0.
                 max_dimension:
                     type: number
                     format: int
@@ -48109,6 +48115,46 @@ components:
                             description: |
                                 Gradient and mesh constructs, which a renderer expands into many
                                 discrete bands.
+                embedded_previews:
+                  type: array
+                  description: |
+                    The previews a camera raw file carries, largest first, one per exiftool
+                    tag. Set only for a raw file that has one. A version is made from the
+                    smallest one big enough for it. A produce config gates on the largest
+                    the versions it makes from a preview only (raw_source
+                    "preview_or_skip"). Available from version 6.36.0.
+                  items:
+                    type: object
+                    properties:
+                      tag:
+                        type: string
+                        description: |
+                          The exiftool tag holding the preview: "JpgFromRaw",
+                          "PreviewImage", "TIFFPreview" or "ThumbnailImage".
+                      width:
+                        type: number
+                        format: int
+                        description: |
+                          Width in pixels, upright like the file.
+                      height:
+                        type: number
+                        format: int
+                        description: |
+                          Height in pixels, upright like the file.
+                      colorspace:
+                        type: string
+                        description: |
+                          The color space of its pixels, "sRGB" or "Adobe RGB" (or the
+                          description of an ICC profile it carries), from its EXIF or the
+                          file's. An Adobe RGB preview is converted to the version's color
+                          profile. Missing when nothing says, which is taken for sRGB.
+                      quality:
+                        type: number
+                        format: int
+                        description: |
+                          The estimated JPEG quality, 1 to 100. A preview below 70 serves
+                          no version near its own size of a picture taken at ISO 800 or
+                          below; that version is developed from the raw data.
         file_version:
             type: object
             properties:
