@@ -23,6 +23,8 @@ fylr backup \
 
 The base configuration is copied as it is, the SAML settings included. From fylr **6.35.0** neither `fylr backup` nor `fylr restore` fetches the identity provider's metadata, so an identity provider that cannot be reached from where the backup runs does not stop it.
 
+From fylr **6.36.0** a backup carries the workflows of pools and object types as well as those of the tag manager, with their email recipients and the owner of a *change owner* action; a backup made with an earlier version restores only the workflows of the tag manager. The restore saves workflows with `skip_constraints`, so a recipient who has lost their email address since the workflow was saved is restored too.
+
 {% hint style="info" %}
 From fylr **6.36.0**, every flag can also be set as the environment variable `FYLR_CLI_<FLAG>`: the flag name in upper case, with `_` for `-`. `--password` is `FYLR_CLI_PASSWORD`, `--client-secret` is `FYLR_CLI_CLIENT_SECRET`, `--server` is `FYLR_CLI_SERVER`; `fylr backup -h` names the variable of every flag. A flag on the command line takes precedence over its variable, and a variable set to an empty value counts as set.
 

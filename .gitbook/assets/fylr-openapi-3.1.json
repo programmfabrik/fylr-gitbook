@@ -39202,6 +39202,15 @@
               "type": "string"
             },
             "description": "Go duration string (e.g. `30s`) bounding the inline\ncollection-ACL re-check. Defaults to `30s`. If the check\nexceeds it, the response is a 202 offering to continue the\ncheck in the background (`background_invalid_acl=true`).\n"
+          },
+          {
+            "name": "skip_constraints",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "boolean"
+            },
+            "description": "`true`, `1` or `yes` (any case) saves e-mail recipients of\n`_transitions` without an e-mail address (no\n`EmailRecipientNoAddress`), as a restore does. Needs\n`system.root`, else `403` `SystemRightRequired` (`rights`\n`system.root`); other values need no right and check the\nrecipients.\n"
           }
         ],
         "requestBody": {
@@ -39242,7 +39251,7 @@
             }
           },
           "400": {
-            "description": "The request could not be processed. Triggers include an\ninvalid payload, the instance being in read-only mode (code\n`ReadOnlyMode`), a save of a non-root pool without a parent\n(code `PoolNeedsParent`), a `custom_data` file the user may\nnot load (code `CustomDataFileNoRights`, `parameters.fileid`),\nand — on `DELETE` — a pool that\nstill holds objects (code `PoolNotEmpty`).\n",
+            "description": "The request could not be processed. Triggers include an\ninvalid payload, the instance being in read-only mode (code\n`ReadOnlyMode`), a save of a non-root pool without a parent\n(code `PoolNeedsParent`), a `custom_data` file the user may\nnot load (code `CustomDataFileNoRights`, `parameters.fileid`),\na user without an e-mail address among the recipients of an\ne-mail action of `_transitions` (code `EmailRecipientNoAddress`,\nsee `POST /transitions`), and — on `DELETE` — a pool that\nstill holds objects (code `PoolNotEmpty`).\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -39342,6 +39351,15 @@
               "type": "string"
             },
             "description": "Go duration string (e.g. `30s`) bounding the inline\ncollection-ACL re-check. Defaults to `30s`. If the check\nexceeds it, the response is a 202 offering to continue the\ncheck in the background (`background_invalid_acl=true`).\n"
+          },
+          {
+            "name": "skip_constraints",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "boolean"
+            },
+            "description": "`true`, `1` or `yes` (any case) saves e-mail recipients of\n`_transitions` without an e-mail address (no\n`EmailRecipientNoAddress`), as a restore does. Needs\n`system.root`, else `403` `SystemRightRequired` (`rights`\n`system.root`); other values need no right and check the\nrecipients.\n"
           }
         ],
         "requestBody": {
@@ -39382,7 +39400,7 @@
             }
           },
           "400": {
-            "description": "The request could not be processed. Triggers include an\ninvalid payload, the instance being in read-only mode (code\n`ReadOnlyMode`), a save of a non-root pool without a parent\n(code `PoolNeedsParent`), a `custom_data` file the user may\nnot load (code `CustomDataFileNoRights`, `parameters.fileid`),\nand — on `DELETE` — a pool that\nstill holds objects (code `PoolNotEmpty`).\n",
+            "description": "The request could not be processed. Triggers include an\ninvalid payload, the instance being in read-only mode (code\n`ReadOnlyMode`), a save of a non-root pool without a parent\n(code `PoolNeedsParent`), a `custom_data` file the user may\nnot load (code `CustomDataFileNoRights`, `parameters.fileid`),\na user without an e-mail address among the recipients of an\ne-mail action of `_transitions` (code `EmailRecipientNoAddress`,\nsee `POST /transitions`), and — on `DELETE` — a pool that\nstill holds objects (code `PoolNotEmpty`).\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -39808,6 +39826,15 @@
               "type": "string"
             },
             "description": "Overrides the synchronous time budget before the timeout 202\nis offered. A Go duration string (e.g. `5s`); an invalid value\nsurfaces as a generic 400.\n"
+          },
+          {
+            "name": "skip_constraints",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "boolean"
+            },
+            "description": "`true`, `1` or `yes` (any case) saves e-mail recipients of\n`_transitions` without an e-mail address (no\n`EmailRecipientNoAddress`), as a restore does. Needs\n`system.root`, else `403` `SystemRightRequired` (`rights`\n`system.root`); other values need no right and check the\nrecipients.\n"
           }
         ],
         "requestBody": {
@@ -39856,7 +39883,7 @@
             }
           },
           "400": {
-            "description": "The request could not be processed. All errors below are\n`realm: api`, `statuscode: 400`. The objecttype-specific codes\n(`package: objecttype`) are `UnknownField` /\n`UnsupportedFieldType`, both raised while resolving an\n`_export_asset_filenames` template against the datamodel.\n\nThe body parse and the `ApiToObject` validation add several\n`package: ferrors` codes:\n\n  * `ReadOnlyMode` — the instance is in read-only mode; the\n    request is rejected before any processing (message\n    `Read-only mode is enabled.`).\n  * `VersionMismatch` — a submitted objecttype's `_version` is\n    not `current + 1`. `parameters.got` / `parameters.expected`\n    carry the values.\n  * `ObjecttypeNeedsStandardMask` — `_standard_masks` was sent\n    as an empty array (`[]`); send `null` to clear the\n    preference instead. `parameters.name` carries the\n    objecttype name.\n  * `UrlParameterNotSupported` — `allow_invalid_acl=true` was\n    sent but the user lacks `bag-acl` on an affected\n    collection. `parameters.param` is `allow_invalid_acl`.\n\n`CustomDataFileNoRights` (`package: rightcheck`): a key ending\nin `:eas_file` in `custom_data` names a file the objecttype does\nnot hold yet and the user may not load. `parameters.fileid`\ncarries the file id.\n\nGeneric 400s (`code: ServerGeneric` or a bare message) also\nsurface here for: an unsupported `confirm` value (`confirm\n\"\u003cvalue\u003e\" not supported`); an unsupported `confirm_reindex`\nvalue (`confirm_reindex \"\u003cvalue\u003e\" not supported`); an\nunknown `_standard_masks` /\n`_maskfilters` mask id (`Objecttype: Mask \u003cid\u003e not found in\nDatamodel`); a `watermark.gravity` outside the allowed set\n(`watermark.gravity \"\u003cvalue\u003e\" not supported`); an out-of-range\n`janitor_policy` bound (a negative value;\n`janitor_policy.file_link_delete.keep_days_history_versions\nmust be null or \u003e 0` and the analogous `keep_count` /\n`min_object_deleted_days` messages); a bad `caption`\n(`caption \"\u003cfield\u003e\": field not found`, `... must not be inside\na reverse nested`, `... is not of type \"file\"`, or a\npool-management mismatch); recipe configs set while\n`mapping_image_import` is `\"none\"` (`mapping recipe configs can\nonly be set for a specific mapping`); own transitions / tags on\nan objecttype whose pool does not allow them (`Objecttype\n\"\u003cname\u003e\" cannot have own transitions` / `... own tags`); a bad\n`background_invalid_acl_timelimit` duration. Datamodel-validation,\nsave-pipeline and DB-driver errors (e.g.\n`DatabaseUniqueKeyViolation`) can appear too. The `code` enum\non the schema lists only the two objecttype codes; it is not\nexhaustive.\n",
+            "description": "The request could not be processed. All errors below are\n`realm: api`, `statuscode: 400`. The objecttype-specific codes\n(`package: objecttype`) are `UnknownField` /\n`UnsupportedFieldType`, both raised while resolving an\n`_export_asset_filenames` template against the datamodel.\n\nThe body parse and the `ApiToObject` validation add several\n`package: ferrors` codes:\n\n  * `ReadOnlyMode` — the instance is in read-only mode; the\n    request is rejected before any processing (message\n    `Read-only mode is enabled.`).\n  * `VersionMismatch` — a submitted objecttype's `_version` is\n    not `current + 1`. `parameters.got` / `parameters.expected`\n    carry the values.\n  * `ObjecttypeNeedsStandardMask` — `_standard_masks` was sent\n    as an empty array (`[]`); send `null` to clear the\n    preference instead. `parameters.name` carries the\n    objecttype name.\n  * `UrlParameterNotSupported` — `allow_invalid_acl=true` was\n    sent but the user lacks `bag-acl` on an affected\n    collection. `parameters.param` is `allow_invalid_acl`.\n\n`CustomDataFileNoRights` (`package: rightcheck`): a key ending\nin `:eas_file` in `custom_data` names a file the objecttype does\nnot hold yet and the user may not load. `parameters.fileid`\ncarries the file id.\n\nGeneric 400s (`code: ServerGeneric` or a bare message) also\nsurface here for: an unsupported `confirm` value (`confirm\n\"\u003cvalue\u003e\" not supported`); an unsupported `confirm_reindex`\nvalue (`confirm_reindex \"\u003cvalue\u003e\" not supported`); an\nunknown `_standard_masks` /\n`_maskfilters` mask id (`Objecttype: Mask \u003cid\u003e not found in\nDatamodel`); a `watermark.gravity` outside the allowed set\n(`watermark.gravity \"\u003cvalue\u003e\" not supported`); an out-of-range\n`janitor_policy` bound (a negative value;\n`janitor_policy.file_link_delete.keep_days_history_versions\nmust be null or \u003e 0` and the analogous `keep_count` /\n`min_object_deleted_days` messages); a bad `caption`\n(`caption \"\u003cfield\u003e\": field not found`, `... must not be inside\na reverse nested`, `... is not of type \"file\"`, or a\npool-management mismatch); recipe configs set while\n`mapping_image_import` is `\"none\"` (`mapping recipe configs can\nonly be set for a specific mapping`); own transitions / tags on\nan objecttype whose pool does not allow them (`Objecttype\n\"\u003cname\u003e\" cannot have own transitions` / `... own tags`); a user without an e-mail address among the\nrecipients of an e-mail action of `_transitions`\n(`EmailRecipientNoAddress`, see `POST /transitions`); a bad\n`background_invalid_acl_timelimit` duration. Datamodel-validation,\nsave-pipeline and DB-driver errors (e.g.\n`DatabaseUniqueKeyViolation`) can appear too. The `code` enum\non the schema lists only the two objecttype codes; it is not\nexhaustive.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -40964,6 +40991,17 @@
       "post": {
         "summary": "Replace the full set of transitions.",
         "description": "Accepts an array of transition descriptors and replaces the\n**global** transition set with them (entries with `_id` are\nupdated; entries without `_id` are created; transitions that\nexist on the server but not in the payload are deleted). A\npartial array therefore removes every omitted global\ntransition. Transitions scoped to a specific pool or objecttype\nare not managed here — they are sent through the corresponding\npool / objecttype endpoints.\n\nRequires the `system.tagmanager` system right. Rejected if the\ninstance is in read-only mode (checked before the right, so a\nread-only instance returns `400 ReadOnlyMode` even to a user\nwithout the right).\n\nThe response echoes the persisted set, with server-issued `_id`s\nfilled in. On success a `X-Fylr-Cache-ID` response header carries\nthe new cache id (format `\u003cstartup-unix\u003e-\u003ccache-id\u003e`), bumped after\nthe transaction commits.\n\nDiffers from easydb 5: **fylr** gates this on `system.tagmanager`\n(easydb 5 used `system.rights_management`); validation failures\nand the read-only rejection surface as `400` with explicit error\n`code`s (`ServerGeneric`, `ReadOnlyMode`) rather than easydb 5's\nbare `400`.\n",
+        "parameters": [
+          {
+            "name": "skip_constraints",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "boolean"
+            },
+            "description": "`true`, `1` or `yes` (any case) saves e-mail recipients without\nan e-mail address (no `EmailRecipientNoAddress`), as a restore\ndoes. Needs `system.root`, else `403` `SystemRightRequired`\n(`rights` `system.root`); other values need no right and check\nthe recipients.\n"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -41027,7 +41065,7 @@
             }
           },
           "400": {
-            "description": "Read-only mode is enabled (code `ReadOnlyMode`, checked\nbefore the right and before parsing), or the payload is\ninvalid. Invalid workflow actions carry their own codes\n(package `transition`): a `webhook` action with no webhook\nselected (`WebhookNotSelected`), with a `name` not declared\nin the base config (`WebhookUnknown`, parameter `name`), or\nwith an unknown `callback` (not `pre_save` /\n`after_commit_async`; `WebhookCallbackUnknown`, parameter\n`callback`); a `change_owner` action without an owner\n(`ChangeOwnerNotSelected`); an `email` action with a `null`\nin `recipients` (`EmailRecipientEmpty`, parameters\n`workflow` and `recipient`, both counted from 1). Everything\nelse is code `ServerGeneric`, and its message names the\nworkflow (`workflow \u003cn\u003e`): a `null` entry in the body or in\n`who`; unparseable JSON; an entry whose `_id`\nmatches no existing transition in the database; an unknown\ntransition `type` (not one of `resolve`, `reject`,\n`exit_resolve`, `exit_reject`, `process`); an unknown\n`operations` value (not `INSERT` / `UPDATE` / `DELETE`); a\n`tagfilter:before` / `tagfilter:after` that lists the same\ntag id more than once; a `who` entry whose `_basetype` is\nneither `user` nor `group`, or that mixes the wrong key for\nits basetype; or an action `type` that matches no built-in\n(`email`, `set_tags`, `webhook`, `change_owner`) and resolves\nto no registered plugin callback.\n",
+            "description": "Read-only mode is enabled (code `ReadOnlyMode`, checked\nbefore the right and before parsing), or the payload is\ninvalid. Invalid workflow actions carry their own codes\n(package `transition`): a `webhook` action with no webhook\nselected (`WebhookNotSelected`), with a `name` not declared\nin the base config (`WebhookUnknown`, parameter `name`), or\nwith an unknown `callback` (not `pre_save` /\n`after_commit_async`; `WebhookCallbackUnknown`, parameter\n`callback`); a `change_owner` action without an owner\n(`ChangeOwnerNotSelected`); an `email` action with a `null`\nin `recipients` (`EmailRecipientEmpty`, parameters\n`workflow` and `recipient`, both counted from 1), or with a\nuser recipient without an e-mail address\n(`EmailRecipientNoAddress`, parameters `workflow`, `recipient`\nand `name`; a user the saved transition with the same `_id`\nalready has passes, groups are not checked, and\n`skip_constraints` saves it). Everything\nelse is code `ServerGeneric`, and its message names the\nworkflow (`workflow \u003cn\u003e`): a `null` entry in the body or in\n`who`; unparseable JSON; an entry whose `_id`\nmatches no existing transition in the database; an unknown\ntransition `type` (not one of `resolve`, `reject`,\n`exit_resolve`, `exit_reject`, `process`); an unknown\n`operations` value (not `INSERT` / `UPDATE` / `DELETE`); a\n`tagfilter:before` / `tagfilter:after` that lists the same\ntag id more than once; a `who` entry whose `_basetype` is\nneither `user` nor `group`, or that mixes the wrong key for\nits basetype; or an action `type` that matches no built-in\n(`email`, `set_tags`, `webhook`, `change_owner`) and resolves\nto no registered plugin callback.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -41047,7 +41085,7 @@
             }
           },
           "403": {
-            "description": "The user lacks `system.tagmanager` (and is not\n`system.root`). Error code `SystemRightRequired`.\n",
+            "description": "The user lacks `system.tagmanager` (and is not\n`system.root`), or sends `skip_constraints` without\n`system.root`. Error code `SystemRightRequired`.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -62602,7 +62640,7 @@
                 "info": {
                   "type": "object",
                   "additionalProperties": true,
-                  "description": "Type-specific parameters. Shapes for built-in types:\n`set_tags` -\u003e `{\"tags\":[{\"_id\":\u003ctag id\u003e,\"set\":true|false}]}`;\n`change_owner` -\u003e `{\"owner\":\u003cWhoApi\u003e}`;\n`email` -\u003e `{\"subject\":\u003cLocaValue\u003e,\"message\":\u003cLocaValue\u003e,\"batchable\":\u003cbool\u003e,\"recipients\":[\u003cWhoApi\u003e]}`\n(a recipient sent without `_id` as\n`{\"_basetype\":\"user\",\"user\":{\"login\":\u003caddress\u003e,\"type\":\"email\"}}`\nis created as an e-mail user when the set is saved);\n`webhook` -\u003e `{\"name\":\u003cconfigured webhook name\u003e,\"callback\":\"pre_save\"|\"after_commit_async\"}`\n(callback defaults to `after_commit_async`).\nPlugin action types carry whatever the plugin declares.\n"
+                  "description": "Type-specific parameters. Shapes for built-in types:\n`set_tags` -\u003e `{\"tags\":[{\"_id\":\u003ctag id\u003e,\"set\":true|false}]}`;\n`change_owner` -\u003e `{\"owner\":\u003cWhoApi\u003e}`;\n`email` -\u003e `{\"subject\":\u003cLocaValue\u003e,\"message\":\u003cLocaValue\u003e,\"batchable\":\u003cbool\u003e,\"recipients\":[\u003cWhoApi\u003e]}`\n(a recipient sent without `_id` as\n`{\"_basetype\":\"user\",\"user\":{\"login\":\u003caddress\u003e,\"type\":\"email\"}}`\nis created as an e-mail user when the set is saved; a user\nrecipient needs an e-mail address, `EmailRecipientNoAddress`,\nunless the saved transition with the same `_id` already has it;\ngroups are not checked);\n`webhook` -\u003e `{\"name\":\u003cconfigured webhook name\u003e,\"callback\":\"pre_save\"|\"after_commit_async\"}`\n(callback defaults to `after_commit_async`).\nPlugin action types carry whatever the plugin declares.\n"
                 }
               }
             },
