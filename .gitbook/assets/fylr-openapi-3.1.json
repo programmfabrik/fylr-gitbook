@@ -51499,7 +51499,7 @@
           "files": {
             "type": "integer",
             "format": "int64",
-            "description": "The number of originals whose renditions may change: the originals with\n`produce_versions`, status `done` and an extension any of the\nrenditions is produced for. An upper bound, a rendition may skip an\noriginal (for example by its size).\n"
+            "description": "The number of originals a re-sync queues for a sync check: the\noriginals with `produce_versions`, status `done` (or in a sync) and an\nextension of the changed renditions. The sync check produces only the\nrenditions that change and deletes the removed ones.\n"
           },
           "versions": {
             "type": "array",
@@ -51522,17 +51522,17 @@
                     "removed",
                     "source"
                   ],
-                  "description": "`new`: the rendition was added. `changed`: it is produced\ndifferently, or for other extensions. `removed`: the rendition is\ngone, a re-sync deletes its renditions. `source`: it is produced\nfrom a rendition that changed.\n"
+                  "description": "Per file extension: `new`: the rendition was added, or is now\nalso produced for these extensions. `changed`: it is produced\ndifferently. `removed`: the rendition is gone, or no longer\nproduced for these extensions, a re-sync deletes its renditions.\n`source`: it is produced from a rendition that changed. A\nrendition that changes in more than one way comes once per\nchange.\n"
                 },
                 "files": {
                   "type": "integer",
                   "format": "int64",
-                  "description": "The number of originals the rendition may change for."
+                  "description": "The number of originals a re-sync checks for this rendition."
                 },
                 "size": {
                   "type": "integer",
                   "format": "int64",
-                  "description": "The size in bytes of these renditions of the originals today,\n`0` for a new rendition.\n"
+                  "description": "The current size in bytes of these renditions of the originals,\n`0` for a new rendition.\n"
                 },
                 "estimate": {
                   "type": "integer",
@@ -51733,7 +51733,7 @@
           "tasks": [
             {
               "title": "Produce renditions again",
-              "message": "These renditions now have a different configuration than the existing ones:\n\n* image · small (changed): up to 2 files, 14.6 KB today\n\nUp to 2 files are affected. The renditions are produced in the background, after uploads, and only where they change. This can take long and use a lot of disk space.\n",
+              "message": "These renditions now have a different configuration than the existing ones:\n\n* image · small (changed): 2 files, current file size 14.6 KB\n\nThe renditions of 2 files are produced again in the background, after uploads, and only where they change. This can take long and use a lot of disk space.\n",
               "form": [
                 {
                   "type": "options",

@@ -48782,10 +48782,10 @@ components:
                     type: integer
                     format: int64
                     description: |
-                        The number of originals whose renditions may change: the originals with
-                        `produce_versions`, status `done` and an extension any of the
-                        renditions is produced for. An upper bound, a rendition may skip an
-                        original (for example by its size).
+                        The number of originals a re-sync queues for a sync check: the
+                        originals with `produce_versions`, status `done` (or in a sync) and an
+                        extension of the changed renditions. The sync check produces only the
+                        renditions that change and deletes the removed ones.
                 versions:
                     type: array
                     items:
@@ -48805,19 +48805,22 @@ components:
                                     - removed
                                     - source
                                 description: |
-                                    `new`: the rendition was added. `changed`: it is produced
-                                    differently, or for other extensions. `removed`: the rendition is
-                                    gone, a re-sync deletes its renditions. `source`: it is produced
-                                    from a rendition that changed.
+                                    Per file extension: `new`: the rendition was added, or is now
+                                    also produced for these extensions. `changed`: it is produced
+                                    differently. `removed`: the rendition is gone, or no longer
+                                    produced for these extensions, a re-sync deletes its renditions.
+                                    `source`: it is produced from a rendition that changed. A
+                                    rendition that changes in more than one way comes once per
+                                    change.
                             files:
                                 type: integer
                                 format: int64
-                                description: The number of originals the rendition may change for.
+                                description: The number of originals a re-sync checks for this rendition.
                             size:
                                 type: integer
                                 format: int64
                                 description: |
-                                    The size in bytes of these renditions of the originals today,
+                                    The current size in bytes of these renditions of the originals,
                                     `0` for a new rendition.
                             estimate:
                                 type: integer
@@ -49033,9 +49036,9 @@ components:
                       message: |
                         These renditions now have a different configuration than the existing ones:
 
-                        * image · small (changed): up to 2 files, 14.6 KB today
+                        * image · small (changed): 2 files, current file size 14.6 KB
 
-                        Up to 2 files are affected. The renditions are produced in the background, after uploads, and only where they change. This can take long and use a lot of disk space.
+                        The renditions of 2 files are produced again in the background, after uploads, and only where they change. This can take long and use a lot of disk space.
                       form:
                         - type: options
                           name: produce_resync

@@ -61,16 +61,16 @@ Versions are generated **when a file is uploaded**. Changing the version configu
 
 ### Producing the versions of existing files again
 
-From version 6.36.0, saving a version configuration under which the versions of existing files would come out different asks whether to produce them again. The dialog **Produce renditions again** lists each version that changes, with the number of files and the space its versions take today, and offers:
+From version 6.36.0, saving a version configuration under which the versions of existing files would come out different asks whether to produce them again. The dialog **Produce renditions again** lists each version that changes, with the number of files it goes over and the current size of their versions, and offers:
 
-* **Produce now, in the background** — the files are queued behind the uploads, and only the versions that change are produced again. A version removed from the configuration is deleted from the files.
+* **Produce now, in the background** — the files are queued behind the uploads, and only the versions that change are produced again. A version removed from the configuration, or no longer configured for the extension of a file, is deleted from those files.
 * **Produce tonight** — the same, starting at 22:00 in your time zone.
 * **Not now** — the configuration is saved, the existing versions stay as they are.
 * **Estimate first** — a few files are produced as a trial (up to 30 seconds), then the dialog asks again with the expected size and a rough duration.
 
 A change of a version's display name, group, *standard*, rights management or watermark setting, or of a timeout, asks nothing, because the versions come out the same.
 
-The block **Renditions of the files** at the top of the file worker lists the versions that differ from the configuration, for example after **Not now**, and **Produce renditions again…** asks the same question later. After an update that changes the default configuration, an instance that uses the default lists the changed versions there; nothing is produced until you answer. Scripts use [`/eas/resync`](../../../for-developers/api/endpoints/eas/resync.md).
+The block **Renditions of the files** at the top of the file worker lists the versions that differ from the configuration and the number of files, for example after **Not now**, and **Produce renditions again…** asks the same question later. After an update that changes the default configuration, an instance that uses the default lists the changed versions there; nothing is produced until you answer. Scripts use [`/eas/resync`](../../../for-developers/api/endpoints/eas/resync.md).
 
 ## In this section
 
