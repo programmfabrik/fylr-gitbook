@@ -46,7 +46,7 @@ Permanently deleting a record cannot be undone. Purged records can no longer be 
 
 ### Automatic clean-up
 
-Administrators can let fylr empty the trash automatically. In the pool (and object type) configuration, the Janitor setting **Purge records after n days** permanently deletes records that have been in the trash for the given number of days. Without this setting, deleted records stay in the trash until a user purges them.
+Administrators can let fylr empty the trash automatically. In the [base configuration](../../../for-administrators/readme/services.md#janitor) or in the pool (and object type) configuration, the Janitor setting **Purge records after n days** permanently deletes records that have been in the trash for the given number of days. Without this setting, deleted records stay in the trash until a user purges them.
 
 ### Background tasks and the API
 
