@@ -11,14 +11,14 @@ The Connector Plugin (`fylr-plugin-connector`) is a frontend plugin which allows
 {% hint style="info" %}
 From fylr v6.34.5 the `easydb-connector-plugin` is deprecated in fylr (still used in easydb)
 
-fylr requires the new `fylr-plugin-connector` instead. The configuration files are compatible. Permissions for the connector users need to be set again.&#x20;
+fylr requires the new `fylr-plugin-connector` instead. The configuration files are compatible. Permissions for the connector users need to be set again.
 
-See also  [#configuration-rights-and-exports](../../plugins/disk-to-url-migration.md#configuration-rights-and-exports "mention")
+See also [#configuration-rights-and-exports](../../plugins/disk-to-url-migration.md#configuration-rights-and-exports "mention")
 {% endhint %}
 
 ## Adding the Plugin
 
-First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](./). If not, add the plugin.&#x20;
+First, make sure the plugin is added to your fylr and enabled by checking the [Plugin Manager](./). If not, add the plugin.
 
 **The plugin needs to be installed and enabled on both the local and the other, remote instances.**
 
@@ -31,7 +31,7 @@ Open the [Base Configuration](../readme/), go to "Plugins" and open "fylr-plugin
 
 {% hint style="info" %}
 * **for connections to easydbs:** if you want to connect to an easydb instance, you need to add your current instances URL to the **allowed sources** in the easydbs base configuration.
-* **plugin versions for fylr and easydb**: the configuration files of the plugin variants  `easydb-connector-plugin` and `fylr-plugin-connector` are compatible.&#x20;
+* **plugin versions for fylr and easydb**: the configuration files of the plugin variants  `easydb-connector-plugin` and `fylr-plugin-connector` are compatible.
 {% endhint %}
 
 For each remote instance, set the following configuration:
