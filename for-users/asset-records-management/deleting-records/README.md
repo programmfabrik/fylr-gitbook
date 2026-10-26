@@ -9,7 +9,7 @@ Deleting records in fylr requires that the user has the necessary permissions. I
 {% endhint %}
 
 {% hint style="info" %}
-Deleted records are moved to the trash and can be restored with the required permissions. Purging records from the trash permanently removes them.
+Deleted records are moved to the [trash](trash-bin.md) and can be restored with the required permissions. Purging records from the trash permanently removes them.
 {% endhint %}
 
 ## **Deleting a Single Record**
@@ -22,7 +22,7 @@ In the editor, open the 3-dot-menu in the upper right and click "Delete". Confir
 
 ## **Deleting Multiple Records**
 
-Use the search functionality to locate the records you wish to delete. You can refine your search to include all the records you want to remove.&#x20;
+Use the search functionality to locate the records you wish to delete. You can refine your search to include all the records you want to remove.
 
 In the search results, select the records you wish to delete. This can be done by using the lasso to select multiple records, by holding CTRL/COMMAND and clicking on the records or by using the "Select Page" / "Select All" options in the 3-dot-menu of the search.
 
@@ -38,7 +38,7 @@ Use caution when deleting multiple records at once to avoid accidental loss of i
 
 If you delete a record that is referenced by another record (for example a keyword that is linked in an image record), you will receive a message and have to decide what you want to do.
 
-You can delete the record and let fylr remove all references in the other records automatically. A reference in a field that allows empty values is cleared. A reference in a nested table row whose field is set to NOT NULL takes the whole row with it: with "Delete" (policy `remove`, the option "Delete N and unlink M" in the dialog) always, including the other fields of the row; with "Unlink" (policy `setnull`, the default of a background `delete_objects` task, see [background tasks](../additional-features/background-tasks.md#delete_objects)) only when the reference is the row's only field.
+You can delete the record and let fylr remove all references in the other records automatically. A reference in a field that allows empty values is cleared. A reference in a nested table row whose field is set to NOT NULL takes the whole row with it: with "Delete" (policy `remove`, the option "Delete N and unlink M" in the dialog) always, including the other fields of the row; with "Unlink" (policy `setnull`, the default of a background `delete_objects` task, see [background tasks](../../additional-features/background-tasks.md#delete_objects)) only when the reference is the row's only field.
 
 A reference that cannot be removed disables the option and the record cannot be deleted:
 
