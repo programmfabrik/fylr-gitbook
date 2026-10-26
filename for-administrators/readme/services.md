@@ -78,6 +78,10 @@ Cleanup removes the expired export or download, including its output references 
 
 Control how the Janitor cleans up **deleted records** and the **files linked from historic versions** of records.
 
+{% hint style="info" %}
+For more information on deletion, please see "[Deleting Records](../../for-users/asset-records-management/deleting-records/)" and "[Trash Bin](../../for-users/asset-records-management/deleting-records/trash-bin.md)".
+{% endhint %}
+
 #### Purge records after n days
 
 Records that have been deleted are first only marked as deleted and can still be restored. Specify after how many days such a deleted record is **permanently** removed from the database and can no longer be restored. Enter "0" to purge deleted records with every janitor run (every 10 minutes).
