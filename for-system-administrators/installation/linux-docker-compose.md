@@ -123,6 +123,8 @@ We recommend to set `restart: always` for fylr in `docker-compose.yml` and resta
 docker compose up --force-recreate --no-deps -d fylr
 ```
 
+From fylr 6.36.0, fylr gets the stop signal itself and uses the stop timeout of the container to finish running requests and execserver jobs (`drainTimeoutSec`, 20 seconds by default) before it exits. The `docker-compose.yml` above gives it 30 seconds with `stop_grace_period`; with `docker stop`, pass the time with `-t 30`.
+
 ### Result
 
 You can now surf to your fylr webfrontend.

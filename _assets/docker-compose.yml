@@ -50,6 +50,7 @@ services:
     image: docker.fylr.io/fylr/fylr:latest
     hostname: fylr.localhost
     container_name: fylr
+    stop_grace_period: 30s # from fylr 6.36.0: time to finish requests and execserver jobs when stopping
     #restart: always # always: recommended after letsencrypt is tested
     ports:
       - "443:443" # main https access to webfrontend
