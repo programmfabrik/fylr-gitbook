@@ -93,6 +93,7 @@ The sections below are the categories the marketplace groups by.
 | Plugin | What it does | Repository |
 | --- | --- | --- |
 | `custom-data-type-link`<br>custom data type | Custom data type for a web link: stores a URL together with its link text. | [fylr-plugin-custom-data-type-weblink](https://github.com/programmfabrik/fylr-plugin-custom-data-type-weblink) |
+| `easydb-remote-plugin` | Loads external JavaScript and CSS files into the web frontend, such as an instance's own CSS. The fylr version of the easydb5 plugin of the same name. | [fylr-plugin-remote](https://github.com/programmfabrik/fylr-plugin-remote) |
 | `fylr-plugin-basemigration`<br>private repository | Plugin for fylr to export and import basetype settings. | `fylr-plugin-basemigration` |
 | `fylr-plugin-coin-viewer` | Adds an interactive 3D coin viewer to the detail sidebar. | [fylr-plugin-coin-viewer](https://github.com/programmfabrik/fylr-plugin-coin-viewer) |
 | `fylr-plugin-connector`<br>private repository | Includes other easydb5 or fylr installations in your search, across several instances at once. Replaces `easydb-connector-plugin`. | `fylr-plugin-connector` |

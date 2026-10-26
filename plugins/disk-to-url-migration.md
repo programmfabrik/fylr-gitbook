@@ -22,7 +22,7 @@ description: >-
 Until now, every fylr release shipped a fixed set of plugins inside the distribution: type `disk`, listed by path in `fylr.yml`, impossible to remove, and updated only by the next fylr release. From **fylr 6.35** on, fylr ships no plugins. Each plugin comes from its own release instead — with its own version, its own release notes and its own update cycle.
 
 {% hint style="info" %}
-fylr 6.35 has not been released yet — this page describes the upgrade it will perform. The mapping below is the one the release carries.
+The migration runs once, when an instance on fylr 6.34 or older is upgraded to 6.35 or any later version.
 {% endhint %}
 
 ## The three kinds of plugins
@@ -37,7 +37,7 @@ fylr 6.35 has not been released yet — this page describes the upgrade it will 
 * **Disabled** distribution plugins are removed. Their stored configuration is kept and applies again if a plugin of the same name is installed later.
 * A plugin **you** maintain yourself under one of the distribution's names is converted as well. The upgrade recognises a distribution plugin by its **name**, wherever it is loaded from — so your own copy of, say, `easydb-orcid-plugin` in your own directory becomes the published `fylr-plugin-orcid` release. If you want to keep running your own build of it, replace the url plugin with your build as a ZIP after the upgrade. A plugin whose name is not in the table below is never touched.
 * Where you had **already installed the successor yourself** from the marketplace, the distribution plugin is left alone rather than renamed onto it — two plugins cannot share a name. The old row is then dropped like any other distribution plugin, and its configuration stays under the old name. Nothing is lost, but the settings the successor uses are the ones you entered for it — see [If you already replaced a shipped plugin by hand](disk-to-url-migration.md#if-you-already-replaced-a-shipped-plugin-by-hand) for carrying the old ones over.
-* Distribution plugins with **no successor** are removed — they are obsolete, or their function is part of fylr itself by now. See [the second table](disk-to-url-migration.md#plugins-that-will-be-removed).
+* Distribution plugins with **no successor** in the table are removed — they are obsolete, or their function is part of fylr itself by now. The exception is `easydb-remote-plugin`, whose fylr version you install yourself after the upgrade. See [the second table](disk-to-url-migration.md#plugins-that-will-be-removed).
 * After the restart, each converted plugin downloads its release once and keeps itself up to date from then on. It is installed from exactly the release the plugin manager offers for a fresh installation — a migrated plugin and a newly installed one are the same package.
 
 {% hint style="info" %}
@@ -239,13 +239,13 @@ Before 6.35 you had to notice the duplicate events yourself.
 
 ### Plugins that will be removed
 
-Three plugins fylr 6.34 still shipped have no successor. They are removed at the upgrade:
+Three plugins fylr 6.34 still shipped are not converted. They are removed at the upgrade:
 
 | Plugin | Why |
 | --- | --- |
 | `easydb-barcode-display-pdf-plugin` | absorbed: [`fylr-plugin-scancode-display`](https://github.com/programmfabrik/fylr-plugin-scancode-display) already contains this PDF Creator element, and the upgrade re-points your templates to it |
 | `easydb-falconio-plugin` | the Falcon.io service no longer exists |
-| `easydb-remote-plugin` | easydb5 infrastructure with no function in fylr |
+| `easydb-remote-plugin` | its fylr version, [`fylr-plugin-remote`](https://github.com/programmfabrik/fylr-plugin-remote), is installed after the upgrade and picks up your settings — see [The remote plugin](disk-to-url-migration.md#the-remote-plugin) |
 
 A further set of easydb plugins has **no successor either**, but fylr **stopped loading them before 6.35**, so an instance that has been running 6.34 no longer has them and nothing happens to them now. They are named here because an upgrade from an older fylr, or an easydb5 migration, can still bring them along:
 
@@ -266,6 +266,17 @@ If you actively use one of these, talk to us before upgrading.
 The plugins **`oai`, `easydb-ldap-plugin` and `easydb-sso-plugin`** are not in this list because fylr already ignores them: OAI-PMH, LDAP login and SSO have been part of fylr itself for some time, and the plugin loader skips these three by name. They are not installed today and nothing changes for them at the upgrade.
 {% endhint %}
 
+### The remote plugin
+
+`easydb-remote-plugin` loads JavaScript and CSS files into the web frontend, from a list of URLs in its configuration — typically a stylesheet with an instance's own CSS. The upgrade removes the plugin, but its settings stay in the database.
+
+Its fylr version is [`fylr-plugin-remote`](https://github.com/programmfabrik/fylr-plugin-remote). It keeps the internal name `easydb-remote-plugin` and reads the same settings, so nothing has to be entered again:
+
+1. Install it from the [marketplace](../for-administrators/plugin-manager/README.md#plugin-marketplace), or by URL from its [release](https://github.com/programmfabrik/fylr-plugin-remote/releases/latest/download/fylr-plugin-remote.zip) with **Enabled** ticked.
+2. Reload the frontend. The files listed under **Remote URLs** in the plugin's **Config** tab load again.
+
+Install it after the upgrade, not before: until then the shipped plugin of the same name is still installed, and two plugins cannot share a name.
+
 ## After the upgrade
 
 Open the **plugin manager** and go down the list:
@@ -277,6 +288,7 @@ Open the **plugin manager** and go down the list:
 * The **custom data types' update settings** are at their defaults, because the new releases define them differently — see [above](disk-to-url-migration.md#the-custom-data-types-configure-their-updates-differently).
 * Connections between fylr instances through `fylr-plugin-connector` work: its service user holds *Allow Connector Connections from Other Instances Via This User* on the instance it connects to, and the users who search connected instances hold *Allow These Users to Search in Other Instances* — see [Configuration, rights and exports](disk-to-url-migration.md#configuration-rights-and-exports).
 * `fylr-plugin-easydb4migration` has a **new system right** that nobody holds yet — see [Configuration, rights and exports](disk-to-url-migration.md#configuration-rights-and-exports).
+* Your own **CSS and JavaScript** from `easydb-remote-plugin` load again: install `fylr-plugin-remote` — see [The remote plugin](disk-to-url-migration.md#the-remote-plugin).
 
 Then check the things a plugin contributes to the data model: masks that use a **custom mask splitter** or a **custom data type**, and PDF Creator templates.
 
