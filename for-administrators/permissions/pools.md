@@ -37,8 +37,6 @@ Pool settings can be extended with custom plugins.
 
 #### Watermarks
 
-
-
 **Watermark** settings can be **inherited** by subordinate pools. If you set up a watermark for a pool, all files in subordinate pools will get a watermark version. To disable this behavior
 
 <table><thead><tr><th width="201.5">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Activate</td><td><ul><li><strong>None:</strong> no watermarks for the current pool</li><li><strong>From Parent Pool:</strong> use configuration from parent pool</li><li><strong>Enabled:</strong> activate watermarks for this specifically the current pool.</li></ul></td></tr><tr><td>Watermark File</td><td>Upload an image that should be used as a watermark for all previews. We recommend using images with a transparent background.</td></tr><tr><td>Opacity</td><td>How visible the watermark is, from 0 (invisible) to 100 (fully opaque).</td></tr><tr><td>Position</td><td>Define where the watermark image should be placed on the previews. Will be ignored if "Tiled" is enabled.</td></tr><tr><td>Size</td><td>Define the size of the watermark image. In pixels (width x height) or a percentage.</td></tr><tr><td>Tiled</td><td>Enable to cover the whole preview image with the watermark file. It will be repeated in the specified size.</td></tr></tbody></table>
@@ -54,7 +52,7 @@ In **fylr**, you can render dynamic captions directly onto **preview images**. C
 <table><thead><tr><th width="206.62890625">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Field</td><td><strong>Select the file field</strong> for which you want to create captions.</td></tr><tr><td>Caption</td><td><strong>Enter the caption text</strong>. This can be static text or include <strong>placeholders</strong> to dynamically render values from the record.</td></tr><tr><td>Size</td><td>Set the <strong>font size</strong> of the caption in <strong>px</strong> or <strong>%</strong>.</td></tr><tr><td>Padding</td><td>Set the <strong>spacing</strong> around the caption in <strong>px</strong>.</td></tr><tr><td>Multiline</td><td>Enable <strong>Multiline</strong> to allow the caption to wrap onto <strong>multiple lines</strong> if the text is too long for a single line. This is especially useful for longer titles or combined field values.</td></tr><tr><td>Overlay</td><td><strong>Enable the overlay option</strong> if you want the caption to be rendered <strong>directly on the image</strong> rather than below it.</td></tr></tbody></table>
 
 {% hint style="info" %}
-Please note that a **resync of all affected records** is necessary after saving the caption configuration. It is **recommended to perform this immediately**. The resync can also be triggered later via **/inspect/files**.&#x20;
+Please note that a **resync of all affected records** is necessary after saving the caption configuration. It is **recommended to perform this immediately**. The resync can also be triggered later via **/inspect/files**.
 {% endhint %}
 
 For a tutorial on setting up captions, please refer to "[Configuring Captions for Image Previews](../../help/tutorials/for-administrators/configuring-captions-for-image-previews.md)".
@@ -86,3 +84,7 @@ Define which **user / user groups** can, for example, **view, download, edit or 
 By **default**, permissions are **inherited** from superordinate pools. If you want to **disable** this for specific pools, you have to enable "**Ignore Permissions from Superordinate Pools**" in the lower right. You then can set up **individual** permissions that only apply for this pool. Permissions that are "**Persistent**" on superordinate pools **will still be applied** to subordinate pools.
 
 Please refer to [Permissions](./) for more details.
+
+### Janitor
+
+If "[Allow overwriting in pools and object types](../readme/services.md#allow-overwriting-in-pools-and-object-types)" in the Base Configuration > Services > Janitor is enabled, you can set the [settings for records](../readme/services.md#settings-for-objects) per pool.
