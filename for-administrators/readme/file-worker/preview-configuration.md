@@ -72,7 +72,7 @@ Internal name of the version.
 
 Recipes define the options available for generating the preview versions. Each file class brings their own recipes.
 
-<table><thead><tr><th width="241">RECIPE</th><th width="559">DESCRIPTION</th></tr></thead><tbody><tr><td><strong>preview</strong> (audioconverter)</td><td>Creates preview images from audio files.</td></tr><tr><td><strong>convert</strong> (audioconverter)</td><td>Converts audio files into a browser-playable audio format. From version 6.35.0 the target format and bitrate are selectable, and embedded cover art is carried over into <code>m4a</code> and <code>mp3</code> outputs.</td></tr><tr><td><strong>vectortosvg</strong> (imageconverter)</td><td>Converts vector files to SVG files.</td></tr><tr><td><strong>browserthumbs</strong> (imageconverter)</td><td>Converts image files.</td></tr><tr><td><strong>preview_pool_watermark</strong> (imageconverter)</td><td>Creates preview images with watermarks.</td></tr><tr><td><strong>browserthumbs</strong> (officeconverter)</td><td>Creates preview images for InDesign (indd) files from their embedded previews.</td></tr><tr><td><strong>font</strong> (officeconverter)</td><td>Creates preview images for font files.</td></tr><tr><td><strong>pdf</strong> (officeconverter)</td><td>Creates a pdf file from a document.</td></tr><tr><td><strong>preview</strong> (officeconverter)</td><td>Creates preview images from office documents (spreadsheets, presentations, text documents).</td></tr><tr><td><strong>pdfpages</strong> (pdfconverter)</td><td>Creates preview images for all pages in a pdf file.</td></tr><tr><td><strong>resize</strong> (videoconverter)</td><td>Converts video files.</td></tr><tr><td><strong>thumbnail</strong> (videoconverter)</td><td>Creates preview images from videos.</td></tr></tbody></table>
+<table><thead><tr><th width="241">RECIPE</th><th width="559">DESCRIPTION</th></tr></thead><tbody><tr><td><strong>preview</strong> (audioconverter)</td><td>Creates preview images from audio files.</td></tr><tr><td><strong>convert</strong> (audioconverter)</td><td>Converts audio files into a browser-playable audio format. From version 6.35.0 the target format and bitrate are selectable, and embedded cover art is carried over into <code>m4a</code> and <code>mp3</code> outputs.</td></tr><tr><td><strong>vectortosvg</strong> (imageconverter)</td><td>Converts vector files to SVG files.</td></tr><tr><td><strong>browserthumbs</strong> (imageconverter)</td><td>Converts image files.</td></tr><tr><td><strong>preview_pool_watermark</strong> (imageconverter)</td><td>Creates preview images with watermarks.</td></tr><tr><td><strong>zoom</strong> (imageconverter)</td><td>From version 6.36.0: creates a zoom version, a TIFF in tiles with reduced copies that the zoomer and IIIF viewers cut their tiles from directly. See <a href="#zoom-versions">Zoom versions</a> below.</td></tr><tr><td><strong>zoom_pool_watermark</strong> (imageconverter)</td><td>From version 6.36.0: the same with the watermark of the record's pool.</td></tr><tr><td><strong>browserthumbs</strong> (officeconverter)</td><td>Creates preview images for InDesign (indd) files from their embedded previews.</td></tr><tr><td><strong>font</strong> (officeconverter)</td><td>Creates preview images for font files.</td></tr><tr><td><strong>pdf</strong> (officeconverter)</td><td>Creates a pdf file from a document.</td></tr><tr><td><strong>preview</strong> (officeconverter)</td><td>Creates preview images from office documents (spreadsheets, presentations, text documents).</td></tr><tr><td><strong>pdfpages</strong> (pdfconverter)</td><td>Creates preview images for all pages in a pdf file.</td></tr><tr><td><strong>resize</strong> (videoconverter)</td><td>Converts video files.</td></tr><tr><td><strong>thumbnail</strong> (videoconverter)</td><td>Creates preview images from videos.</td></tr></tbody></table>
 
 ### Extensions
 
@@ -143,6 +143,45 @@ again, for example with `produce versions` when
 [regenerating their preview images](../../../help/tutorials/for-system-administrators/regenerating-preview-images.md).
 A version with `preview_or_skip` needs their metadata read again first
 (`resync with metadata`).
+{% endhint %}
+
+### Zoom versions
+
+The zoomer of the web frontend and IIIF viewers show an image in tiles. From
+version 6.36.0 every tile is cut from a TIFF stored in tiles with reduced
+copies of the picture, so a tile of the whole picture is read from a small copy
+and a detail from the full size, each as fast as the other. A version that is
+such a TIFF is cut directly; the technical metadata marks it as `zoomable`. Any
+other version is first copied into one in the cache of the execserver, which the
+first tile waits for: about a second for a photo, 20 seconds and more for a
+picture of a gigapixel. Later tiles come from the copy. Up to version 6.35 the
+copy was a BMP, and a version of more than 32000 pixels on a side could not be
+zoomed.
+
+The recipe `zoom` produces such a TIFF as a version: tiles of 512 pixels, WebP
+compressed (deflate where the server's libtiff has no WebP), transparency kept.
+Its options are `size` (`0` keeps the size of the original), `size_minimum`,
+`quality` (of the WebP tiles, 85 by default) and `clip`. The recipe
+`zoom_pool_watermark` puts the watermark of the record's pool on it, like
+`preview_pool_watermark` does for a preview.
+
+The default `zoom` version uses the recipe for images from 10000 pixels, also
+when the original is zoomable itself, as a user may be allowed to see the zoom
+version but not the original. Up to version 6.35 it was a PNG of at most 32000
+pixels. The zoomer of the web frontend starts on a zoomable version; an
+alt-click on its start button lists every version it can zoom and marks those
+whose first tile waits for a copy.
+
+A version has a `zoom_url` and an `iiif_url` when it is a `png`, `jpg`, `jp2`,
+`webp`, `tif` or `tiff` and the user may show it. The right `asset_download`
+alone is no longer enough.
+
+{% hint style="info" %}
+Files already in an instance keep their PNG zoom version, which zooms through a
+copy. An instance on the default configuration offers the changed `zoom`
+version for
+[producing again](README.md#producing-the-versions-of-existing-files-again)
+after the update.
 {% endhint %}
 
 ### Version Settings

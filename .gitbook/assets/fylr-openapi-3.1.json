@@ -50892,6 +50892,61 @@
               }
             }
           },
+          "tiff": {
+            "type": "object",
+            "description": "How a TIFF stores its picture: at full size and in the reduced copies\nthe file carries of it. Absent for any other file.\nAvailable from version 6.36.0.\n",
+            "properties": {
+              "levels": {
+                "type": "array",
+                "description": "The full size picture first, then its reduced copies by descending\nwidth. The pages of a multi-page TIFF are not levels, neither is\nan image of another aspect ratio such as the label of a scanned\nslide.\n",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "number",
+                      "format": "int",
+                      "description": "Directory of the file the level is stored in, counted from\n`0`.\n"
+                    },
+                    "subifd": {
+                      "type": "number",
+                      "format": "int",
+                      "description": "Set for a level stored as a sub directory of `page`: its\nindex among them, counted from `0`.\n"
+                    },
+                    "width": {
+                      "type": "number",
+                      "format": "int"
+                    },
+                    "height": {
+                      "type": "number",
+                      "format": "int"
+                    },
+                    "tile_width": {
+                      "type": "number",
+                      "format": "int",
+                      "description": "Width of the tiles in pixels, if the level is stored in\ntiles. A level in tiles can be read one region at a time.\n"
+                    },
+                    "tile_height": {
+                      "type": "number",
+                      "format": "int"
+                    },
+                    "rows_per_strip": {
+                      "type": "number",
+                      "format": "int",
+                      "description": "Pixel rows per strip, if the level is stored in strips. A\nstrip spans the whole width.\n"
+                    },
+                    "compression": {
+                      "type": "string",
+                      "description": "Compression of the level as exiftool names it, e.g. `JPEG`,\n`LZW`, `Adobe Deflate` or `Uncompressed`.\n"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "zoomable": {
+            "type": "boolean",
+            "description": "Whether IIIF and zoom tiles are cut from the file as it is, which makes\nits `zoom_url` fast. Only present when they are. Tiles of any other file\nare cut from a tiled copy of it, which the first tile waits for, so a\nclient zooming in picks a zoomable version over others; the recipe\n`imageconverter:zoom` produces one. So far only a TIFF is zoomable: every\nlevel (see `tiff`) in tiles and compressed in a way libtiff decodes, the\nreduced copies going down to 2048 pixels in steps of at most 4, the\npicture gray or RGB with at most an alpha channel, 8 or 16 bit, in sRGB\nor without a color profile, and stored upright.\nAvailable from version 6.36.0.\n"
+          },
           "embedded_previews": {
             "type": "array",
             "description": "The previews a camera raw file carries, largest first, one per exiftool\ntag. Set only for a raw file that has one. A version is made from the\nsmallest one big enough for it. A produce config gates on the largest\nthe versions it makes from a preview only (raw_source\n\"preview_or_skip\"). Available from version 6.36.0.\n",

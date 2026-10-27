@@ -2,6 +2,8 @@
 
 The endpoint zoom is used to deliver tiles for images. Use the `/api/db` and `/api/search` endpoints to retrieve the base URL to zoom and add the parameters to pick the tile accordingly. Tiles can be of any size and position. This endpoint uses the default tile size `320`.
 
+From version 6.36.0 the tiles are cut from a TIFF in tiles with reduced copies: a version that is one (`technical_metadata.zoomable`, such as a version of the recipe `imageconverter:zoom`) directly, any other version from such a copy in the execserver cache, which the first tile waits for. The `zoom_url` of a version is given out only to a user who may show it; the right `asset_download` alone is not enough. See [Zoom versions](../../../../for-administrators/readme/file-worker/preview-configuration.md#zoom-versions).
+
 ### URL templates
 
 These GET endpoints embed parameters inside a path segment (e.g. `{quality}.{format}`), which the interactive API panel can't render — they are listed here as URL templates instead. All live under the `/api/v1` base path.
