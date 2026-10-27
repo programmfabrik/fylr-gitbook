@@ -189,6 +189,8 @@ This parameter is not allowed in combination with `--continue`.
 
 Trying to upload a datamodel without `--purge` will not work, if there is already a datamodel on the target instance!
 
+From version **6.36.0**, the restore checks this before the upload and stops with `Target already has a datamodel (version N)`.
+
 Only use `--datamodel=-` if the target instance already has a matching datamodel!
 {% endhint %}
 
