@@ -32,6 +32,20 @@ Enable all event types that should store the user. Otherwise the event will not 
 
 Define which data of the user should be copied to the events. This is independent from the event user. If the user get's deleted or pseudonymized, this data remains in the events.
 
+### New User Notification
+
+From fylr **6.36.0** an email goes to the recipients when fylr creates a user in one of the selected ways. A way can be selected once it is set up:
+
+| OPTION            | DESCRIPTION                                                                                                                                                                                              |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Self-Registration | Someone sends the registration form. The email goes out right away, before the new user has confirmed the address. Selectable while [user registration](access.md#allow-user-registration) is allowed. |
+| First SAML Login  | Someone logs in through [SAML](#saml) for the first time. Selectable while SAML has an IdP metadata URL.                                                                                                 |
+| First LDAP Login  | Someone logs in through [LDAP](#ldap) for the first time. Selectable while LDAP has a connection with a URL.                                                                                             |
+
+**Recipients** are the email addresses that get the email. The list is shown once one of the ways is selected.
+
+The email names the user (name, login, email address), the way they came in and the groups the SAML or LDAP group mapping gave them, and links to the user in the user management. Users that an administrator creates or that a restore brings in are not reported. Nothing is sent while the [server address](email.md#server-address) or the [sender address](email.md#from) of the email configuration is empty.
+
 ## OAuth-Service
 
 Add pairs of Client IDs and Secrets for the [OAuth2 Authentication](../../for-developers/api/oauth2.md#configuring-client-id-and-secret).

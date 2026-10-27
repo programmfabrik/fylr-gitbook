@@ -59,6 +59,7 @@ Every parameter has a `type`. These keys apply to all types:
 | `default` | The value while none is saved, in the type's value format. Defaults inside a `form` apply once the form holds a value. |
 | `placeholder` | `true` shows the loca key `….placeholder` in the empty field. With a `default`, the default is shown instead. |
 | `show_script` | A JavaScript expression; the editor hides the parameter while it is false. `config` holds the plugin's current values as `config.<section>.<parameter>`. |
+| `enable_script` | From fylr **6.36.0**: a JavaScript expression with the same `config` as `show_script`; the editor shows the parameter but disables it while it is false. Its value stays saved. A parameter that `readonly` has locked stays locked. |
 | `plugin_type` | A special editor for the parameter — see [Editors](#editors). |
 | `readonly` | `true` for a `text`: the editor no longer lets the field change once a value is saved. |
 | `unauthenticated_visible` | `false` hides the parameter from sessions without a user, in a section with `unauthenticated_visible: true`. |
