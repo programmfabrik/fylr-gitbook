@@ -38305,10 +38305,10 @@
     },
     "/user/session": {
       "x-path": "/user",
-      "description": "Report the current session. Returns the access token, the\nauthenticated user, their groups, system rights, the resolved\nconfiguration (defaults and base config) and the instance settings.\nRequires an authenticated session, no specific system right; a request\nwith no (or an invalid) token is answered with `401` `InvalidToken`.\n",
+      "description": "Report the current session. Returns the\nauthenticated user, their groups, system rights, the resolved\nconfiguration (defaults and base config) and the instance settings.\nRequires an authenticated session, no specific system right; a request\nwith no (or an invalid) token is answered with `401` `InvalidToken`.\n",
       "get": {
         "summary": "Information about the current session.",
-        "description": "Returns the access token, the authenticated user, their groups,\nsystem rights, the resolved configuration (defaults and base config)\nand the instance settings. Does not require any specific system right\nbeyond being authenticated. Unlike the other `/user` operations,\nwhich answer `UserRequired` when no token was presented at all, an\nunauthenticated request is always rejected with `InvalidToken`.\n",
+        "description": "Returns the authenticated user, their groups,\nsystem rights, the resolved configuration (defaults and base config)\nand the instance settings. Does not require any specific system right\nbeyond being authenticated. Unlike the other `/user` operations,\nwhich answer `UserRequired` when no token was presented at all, an\nunauthenticated request is always rejected with `InvalidToken`.\n",
         "responses": {
           "200": {
             "description": "The current session.",
@@ -61333,15 +61333,8 @@
       },
       "SessionApi": {
         "type": "object",
-        "description": "A **session** descriptor — returned by `GET /api/v1/user/session`.\nCarries the access token, the authenticated user and their groups,\nthe system rights they hold, available authentication methods, and\ninstance-wide defaults the front end needs to render correctly.\n",
-        "required": [
-          "access_token"
-        ],
+        "description": "A **session** descriptor — returned by `GET /api/v1/user/session`.\nCarries the authenticated user and their groups,\nthe system rights they hold, available authentication methods, and\ninstance-wide defaults the front end needs to render correctly.\n",
         "properties": {
-          "access_token": {
-            "type": "string",
-            "description": "The session's access token. Use it as the `Bearer` token (or in\nthe `x-fylr-authorization` / `Authorization` header) for\nsubsequent requests.\n"
-          },
           "user": {
             "$ref": "#/components/schemas/UserApi"
           },

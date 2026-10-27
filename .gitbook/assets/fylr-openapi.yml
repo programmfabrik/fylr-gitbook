@@ -36267,7 +36267,7 @@ paths:
     /user/session:
         x-path: /user
         description: |
-            Report the current session. Returns the access token, the
+            Report the current session. Returns the
             authenticated user, their groups, system rights, the resolved
             configuration (defaults and base config) and the instance settings.
             Requires an authenticated session, no specific system right; a request
@@ -36275,7 +36275,7 @@ paths:
         get:
             summary: Information about the current session.
             description: |
-                Returns the access token, the authenticated user, their groups,
+                Returns the authenticated user, their groups,
                 system rights, the resolved configuration (defaults and base config)
                 and the instance settings. Does not require any specific system right
                 beyond being authenticated. Unlike the other `/user` operations,
@@ -57892,18 +57892,10 @@ components:
             type: object
             description: |
                 A **session** descriptor — returned by `GET /api/v1/user/session`.
-                Carries the access token, the authenticated user and their groups,
+                Carries the authenticated user and their groups,
                 the system rights they hold, available authentication methods, and
                 instance-wide defaults the front end needs to render correctly.
-            required:
-                - access_token
             properties:
-                access_token:
-                    type: string
-                    description: |
-                        The session's access token. Use it as the `Bearer` token (or in
-                        the `x-fylr-authorization` / `Authorization` header) for
-                        subsequent requests.
                 user:
                     $ref: '#/components/schemas/UserApi'
                 groups:
