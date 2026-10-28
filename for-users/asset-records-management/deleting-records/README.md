@@ -62,7 +62,7 @@ You can also abort the deletion by either clicking on the "X" in the upper right
 
 The records that prevent the deletion are linked in the following collections:
 
-<table><thead><tr><th width="244">COLLECTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table>
+<table><thead><tr><th width="244">COLLECTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Deletion &#x3C;date></td><td>This collection contains the record(s) that were attempted to be deleted.</td></tr><tr><td>Affected by the deletion</td><td>Depending on the option chosen, these records are deleted along with them, or their link to the records to be deleted is removed.</td></tr><tr><td>Preventing the deletion</td><td>These records link the records to be deleted in a mandatory field. The link cannot be removed automatically, edit these records before deleting.</td></tr></tbody></table>
 
 ## Deleting a record with bidirectional links
 
