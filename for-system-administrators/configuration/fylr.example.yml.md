@@ -1192,14 +1192,19 @@ fylr:
       janitorFileAge: "24h"
 
       # From 6.35.0, memory supervision derives a shared job budget from 60%
-      # of host RAM, or the lower Linux container limit. A single job may use
-      # half that budget, with a minimum ceiling of 512 MiB. The watchdog
-      # samples process-group resident memory every second and aborts jobs
-      # over their ceiling or to bring the pool back within its budget.
-      # Auto-balancing also admits jobs by their learned memory footprint.
-      # These limits are automatic; there are no memory configuration keys.
-      # Sampling cannot prevent allocations between checks; use container
-      # limits when an operating-system-enforced memory bound is needed.
+      # of host RAM, or of the memory limit of the execserver's cgroup when
+      # that is lower (Linux only). Up to 6.35 only a container's limit
+      # counted. From 6.36.0 it is the lowest limit from the execserver's own
+      # cgroup up to the root, so a systemd unit's MemoryMax counts as well,
+      # and so does the execserver cgroup of the fylr supervisor
+      # (execserver_memory_max). A single job may use half that budget, with
+      # a minimum ceiling of 512 MiB. The watchdog samples process-group
+      # resident memory every second and aborts jobs over their ceiling or to
+      # bring the pool back within its budget. Auto-balancing also admits jobs
+      # by their learned memory footprint. These limits are automatic; there
+      # are no memory configuration keys. Sampling cannot prevent allocations
+      # between checks; use a cgroup limit (a container's, a systemd unit's
+      # MemoryMax) when an operating-system-enforced memory bound is needed.
 
       # One pool of slots for every service. A job holds one slot while it
       # runs, however many threads its command uses: the MP4 encode of a
