@@ -8,7 +8,7 @@ description: >-
 
 ## Use system object ID (instead of UUID)
 
-If enabled the URL of the detail view uses the system object ID instead of the UUID.
+If enabled the URL of the detail view uses the system object ID instead of the UUID. From fylr 6.36.0, the links of [workflow emails](../permissions/tags-and-workflows.md#action) to the detail view follow it too.
 
 ## Deep Link Settings
 
