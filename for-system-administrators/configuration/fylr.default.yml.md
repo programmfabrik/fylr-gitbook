@@ -224,6 +224,9 @@ fylr:
           prog: magick
         vips:
           prog: vips
+        # renders SVG versions
+        rsvg-convert:
+          prog: rsvg-convert
         ffprobe:
           prog: ffprobe
         ffmpegthumbnailer:

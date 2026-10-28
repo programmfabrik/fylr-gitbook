@@ -71,6 +71,12 @@ fylr logs in with `fylr.elastic.username` and `fylr.elastic.password` of its `fy
 
 From fylr **6.34.0**, the downloadable macOS, Windows and Linux binaries are compiled without cgo: they are **statically linked** and use the pure-Go SQLite driver, so they run on any host of their platform without a C toolchain or extra system libraries. The official **Docker image is unchanged** — it keeps cgo and the C-based SQLite driver — and PostgreSQL deployments are unaffected either way.
 
+### Updating a self-installation to 6.36
+
+This is for fylr run from the downloadable archives or [built from source](from-source.md), with the third-party tools installed by you. The Docker image and the Helm chart bring this change with them.
+
+**rsvg-convert renders SVG.** From 6.36 fylr renders the versions of SVG files with `rsvg-convert`, in a fraction of the memory Inkscape needed; Inkscape is left with WMF and with the SVGs `rsvg-convert` cannot read. `rsvg-convert` is one of the execserver's `commands` in `fylr.default.yml`, so the execserver checks for it at startup and does not start without it. On Linux install the `librsvg2-bin` package, on macOS `brew install librsvg`. A `fylr.yml` that lists the `commands` itself, without `+`, as the [Windows](windows.md) one does, replaces the defaults: there fylr keeps rendering SVGs with Inkscape until `rsvg-convert` is added.
+
 ### Updating a self-installation to 6.35
 
 This is for fylr run from the downloadable archives or [built from source](from-source.md) on Linux, macOS or [Windows](windows.md), with the third-party tools installed by you. The Docker image and the Helm chart bring these changes with them. For Windows, the steps are listed in [Updating from 6.34 to 6.35](windows.md#updating-from-6.34-to-6.35).
