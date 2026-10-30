@@ -31,7 +31,7 @@ The **exact search** allows you to find records where a specific field matches *
 
 If the field contains `fylr documentation`:
 
-<table><thead><tr><th width="276.671875">Search Term</th><th>Result</th></tr></thead><tbody><tr><td><code>`FYLR`</code></td><td>❌ No match</td></tr><tr><td><code>`fylr documentation`</code>   </td><td>✅ Match</td></tr><tr><td><code>`documentation`</code></td><td>❌ No match</td></tr><tr><td><code>`Fylr Documentation`</code>  </td><td>❌ No match</td></tr><tr><td><code>`fylr*`</code></td><td>✅ Match</td></tr></tbody></table>
+<table><thead><tr><th width="276.671875">Search Term</th><th>Result</th></tr></thead><tbody><tr><td><code>`FYLR`</code></td><td>❌ No match</td></tr><tr><td><code>`fylr documentation`</code></td><td>✅ Match</td></tr><tr><td><code>`documentation`</code></td><td>❌ No match</td></tr><tr><td><code>`Fylr Documentation`</code></td><td>❌ No match</td></tr><tr><td><code>`fylr*`</code></td><td>✅ Match</td></tr></tbody></table>
 
 ### Phrase Search
 
@@ -170,12 +170,21 @@ A date value can be found by **any of its renderings** — you do not have to kn
 
 <table><thead><tr><th width="276">Search Term</th><th>Finds</th></tr></thead><tbody><tr><td><code>12.03.2026</code>, <code>3/12/2026</code></td><td>The date, rendered in any of the database languages</td></tr><tr><td><code>2026-03-12</code></td><td>The same date in ISO notation</td></tr><tr><td><code>2026</code></td><td>Every record with a date in 2026 — including dates entered as a year only</td></tr><tr><td><code>1000</code> or <code>1000 BC</code></td><td>A B.C. date, by its displayed year or full rendering</td></tr><tr><td><code>1972</code></td><td>A date range like <code>1970 - 1975</code> — every year the range covers matches</td></tr></tbody></table>
 
-Time fields can additionally be found by their rendered date and time. If a date range carries a **textual representation** (for example *frühes 15. Jahrhundert*), its words are searchable like regular text — searching `Jahrhundert` finds the record.
+Time fields can additionally be found by their rendered date and time. If a date range carries a **textual representation** (for example _frühes 15. Jahrhundert_), its words are searchable like regular text — searching `Jahrhundert` finds the record.
 
 **Notes:**
 
 * **Word suggestions** only offer a date the way it is **displayed on the record**: the localized renderings, or the year for a year-only date. The ISO form and the years derived from full dates or ranges still match in the full-text search, but are never offered as suggestions. Typing a year still surfaces the renderings that contain it — typing `2026` offers `12.03.2026`.
 * B.C. dates are found by their **displayed** year: a date stored as ISO `-0999` is found by searching `1000`, not `-0999` or `0999`.
+
+## **List Suggestions**
+
+When you type in the search field, the suggestion drop-down also offers entries from linked records — for example places, keywords or thesauri linked to the record. These suggestions follow a few rules:
+
+* **Main search:** only linked object types that are _not themselves part of the main search_ are suggested. Object types that are in the main search are not offered as list suggestions there; you reach their records through the normal search results.
+* **In "Lists":** every linked object type is suggested, except the object type you are searching in itself.
+* The suggestions have a limited number of slots, **shared across all linked object types**, so a single list with very many values no longer fills every slot.
+* **Whole-word matches rank first:** a value that matches your input as a whole word (for example `Halle`) is offered before one where it only appears inside a longer value (for example `Hallesche Straße`).
 
 ## Others
 
