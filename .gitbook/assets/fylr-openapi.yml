@@ -962,6 +962,15 @@ paths:
                                         Flag that inidicates if this collection contains at least one foreign collection object.
                                         To find the collections that contain a given foreign object, search `_remote_objects` with
                                         `type: collection` (see `SearchRequest`).
+                                _has_upload:
+                                    type: boolean
+                                    readOnly: true
+                                    description: |
+                                        `true` when `_create_object_compiled` names an `eas_field`, set on the
+                                        collection itself or inherited from a parent. Incomplete upload settings
+                                        count too, such as settings whose pool was deleted: an upload into the
+                                        collection then answers `400 CollectionUploadNotConfigured`. Searchable
+                                        in a search of `type` `collection` (see `SearchRequest`).
                                 _level:
                                     type: boolean
                                     readOnly: true
@@ -2250,6 +2259,15 @@ paths:
                                             Flag that inidicates if this collection contains at least one foreign collection object.
                                             To find the collections that contain a given foreign object, search `_remote_objects` with
                                             `type: collection` (see `SearchRequest`).
+                                    _has_upload:
+                                        type: boolean
+                                        readOnly: true
+                                        description: |
+                                            `true` when `_create_object_compiled` names an `eas_field`, set on the
+                                            collection itself or inherited from a parent. Incomplete upload settings
+                                            count too, such as settings whose pool was deleted: an upload into the
+                                            collection then answers `400 CollectionUploadNotConfigured`. Searchable
+                                            in a search of `type` `collection` (see `SearchRequest`).
                                     _level:
                                         type: boolean
                                         readOnly: true
@@ -3636,6 +3654,15 @@ paths:
                                         Flag that inidicates if this collection contains at least one foreign collection object.
                                         To find the collections that contain a given foreign object, search `_remote_objects` with
                                         `type: collection` (see `SearchRequest`).
+                                _has_upload:
+                                    type: boolean
+                                    readOnly: true
+                                    description: |
+                                        `true` when `_create_object_compiled` names an `eas_field`, set on the
+                                        collection itself or inherited from a parent. Incomplete upload settings
+                                        count too, such as settings whose pool was deleted: an upload into the
+                                        collection then answers `400 CollectionUploadNotConfigured`. Searchable
+                                        in a search of `type` `collection` (see `SearchRequest`).
                                 _level:
                                     type: boolean
                                     readOnly: true
@@ -4924,6 +4951,15 @@ paths:
                                             Flag that inidicates if this collection contains at least one foreign collection object.
                                             To find the collections that contain a given foreign object, search `_remote_objects` with
                                             `type: collection` (see `SearchRequest`).
+                                    _has_upload:
+                                        type: boolean
+                                        readOnly: true
+                                        description: |
+                                            `true` when `_create_object_compiled` names an `eas_field`, set on the
+                                            collection itself or inherited from a parent. Incomplete upload settings
+                                            count too, such as settings whose pool was deleted: an upload into the
+                                            collection then answers `400 CollectionUploadNotConfigured`. Searchable
+                                            in a search of `type` `collection` (see `SearchRequest`).
                                     _level:
                                         type: boolean
                                         readOnly: true
@@ -6282,6 +6318,15 @@ paths:
                                             Flag that inidicates if this collection contains at least one foreign collection object.
                                             To find the collections that contain a given foreign object, search `_remote_objects` with
                                             `type: collection` (see `SearchRequest`).
+                                    _has_upload:
+                                        type: boolean
+                                        readOnly: true
+                                        description: |
+                                            `true` when `_create_object_compiled` names an `eas_field`, set on the
+                                            collection itself or inherited from a parent. Incomplete upload settings
+                                            count too, such as settings whose pool was deleted: an upload into the
+                                            collection then answers `400 CollectionUploadNotConfigured`. Searchable
+                                            in a search of `type` `collection` (see `SearchRequest`).
                                     _level:
                                         type: boolean
                                         readOnly: true
@@ -7654,6 +7699,15 @@ paths:
                                         Flag that inidicates if this collection contains at least one foreign collection object.
                                         To find the collections that contain a given foreign object, search `_remote_objects` with
                                         `type: collection` (see `SearchRequest`).
+                                _has_upload:
+                                    type: boolean
+                                    readOnly: true
+                                    description: |
+                                        `true` when `_create_object_compiled` names an `eas_field`, set on the
+                                        collection itself or inherited from a parent. Incomplete upload settings
+                                        count too, such as settings whose pool was deleted: an upload into the
+                                        collection then answers `400 CollectionUploadNotConfigured`. Searchable
+                                        in a search of `type` `collection` (see `SearchRequest`).
                                 _level:
                                     type: boolean
                                     readOnly: true
@@ -8942,6 +8996,15 @@ paths:
                                             Flag that inidicates if this collection contains at least one foreign collection object.
                                             To find the collections that contain a given foreign object, search `_remote_objects` with
                                             `type: collection` (see `SearchRequest`).
+                                    _has_upload:
+                                        type: boolean
+                                        readOnly: true
+                                        description: |
+                                            `true` when `_create_object_compiled` names an `eas_field`, set on the
+                                            collection itself or inherited from a parent. Incomplete upload settings
+                                            count too, such as settings whose pool was deleted: an upload into the
+                                            collection then answers `400 CollectionUploadNotConfigured`. Searchable
+                                            in a search of `type` `collection` (see `SearchRequest`).
                                     _level:
                                         type: boolean
                                         readOnly: true
@@ -10384,6 +10447,15 @@ paths:
                                                 Flag that inidicates if this collection contains at least one foreign collection object.
                                                 To find the collections that contain a given foreign object, search `_remote_objects` with
                                                 `type: collection` (see `SearchRequest`).
+                                        _has_upload:
+                                            type: boolean
+                                            readOnly: true
+                                            description: |
+                                                `true` when `_create_object_compiled` names an `eas_field`, set on the
+                                                collection itself or inherited from a parent. Incomplete upload settings
+                                                count too, such as settings whose pool was deleted: an upload into the
+                                                collection then answers `400 CollectionUploadNotConfigured`. Searchable
+                                                in a search of `type` `collection` (see `SearchRequest`).
                                         _level:
                                             type: boolean
                                             readOnly: true
@@ -11741,6 +11813,15 @@ paths:
                                             Flag that inidicates if this collection contains at least one foreign collection object.
                                             To find the collections that contain a given foreign object, search `_remote_objects` with
                                             `type: collection` (see `SearchRequest`).
+                                    _has_upload:
+                                        type: boolean
+                                        readOnly: true
+                                        description: |
+                                            `true` when `_create_object_compiled` names an `eas_field`, set on the
+                                            collection itself or inherited from a parent. Incomplete upload settings
+                                            count too, such as settings whose pool was deleted: an upload into the
+                                            collection then answers `400 CollectionUploadNotConfigured`. Searchable
+                                            in a search of `type` `collection` (see `SearchRequest`).
                                     _level:
                                         type: boolean
                                         readOnly: true
@@ -13032,6 +13113,15 @@ paths:
                                                 Flag that inidicates if this collection contains at least one foreign collection object.
                                                 To find the collections that contain a given foreign object, search `_remote_objects` with
                                                 `type: collection` (see `SearchRequest`).
+                                        _has_upload:
+                                            type: boolean
+                                            readOnly: true
+                                            description: |
+                                                `true` when `_create_object_compiled` names an `eas_field`, set on the
+                                                collection itself or inherited from a parent. Incomplete upload settings
+                                                count too, such as settings whose pool was deleted: an upload into the
+                                                collection then answers `400 CollectionUploadNotConfigured`. Searchable
+                                                in a search of `type` `collection` (see `SearchRequest`).
                                         _level:
                                             type: boolean
                                             readOnly: true
@@ -14400,6 +14490,15 @@ paths:
                                                 Flag that inidicates if this collection contains at least one foreign collection object.
                                                 To find the collections that contain a given foreign object, search `_remote_objects` with
                                                 `type: collection` (see `SearchRequest`).
+                                        _has_upload:
+                                            type: boolean
+                                            readOnly: true
+                                            description: |
+                                                `true` when `_create_object_compiled` names an `eas_field`, set on the
+                                                collection itself or inherited from a parent. Incomplete upload settings
+                                                count too, such as settings whose pool was deleted: an upload into the
+                                                collection then answers `400 CollectionUploadNotConfigured`. Searchable
+                                                in a search of `type` `collection` (see `SearchRequest`).
                                         _level:
                                             type: boolean
                                             readOnly: true
@@ -63444,6 +63543,7 @@ components:
                         | `_fulltext` |  |  | ✓ |  |
                         | `_has_acl` | ✓ | ✓ |  | ✓ |
                         | `_has_remote_objects` | ✓ | ✓ |  | ✓ |
+                        | `_has_upload` | ✓ | ✓ |  | ✓ |
                         | `_invalid_acl` | ✓ | ✓ |  | ✓ |
                         | `_level` | ✓ | ✓ |  | ✓ |
                         | `_owner.group._id` | ✓ | ✓ |  | ✓ |

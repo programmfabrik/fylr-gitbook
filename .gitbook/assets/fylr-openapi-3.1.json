@@ -667,6 +667,11 @@
                     "readOnly": true,
                     "description": "Flag that inidicates if this collection contains at least one foreign collection object.\nTo find the collections that contain a given foreign object, search `_remote_objects` with\n`type: collection` (see `SearchRequest`).\n"
                   },
+                  "_has_upload": {
+                    "type": "boolean",
+                    "readOnly": true,
+                    "description": "`true` when `_create_object_compiled` names an `eas_field`, set on the\ncollection itself or inherited from a parent. Incomplete upload settings\ncount too, such as settings whose pool was deleted: an upload into the\ncollection then answers `400 CollectionUploadNotConfigured`. Searchable\nin a search of `type` `collection` (see `SearchRequest`).\n"
+                  },
                   "_level": {
                     "type": "boolean",
                     "readOnly": true,
@@ -1723,6 +1728,11 @@
                       "type": "boolean",
                       "readOnly": true,
                       "description": "Flag that inidicates if this collection contains at least one foreign collection object.\nTo find the collections that contain a given foreign object, search `_remote_objects` with\n`type: collection` (see `SearchRequest`).\n"
+                    },
+                    "_has_upload": {
+                      "type": "boolean",
+                      "readOnly": true,
+                      "description": "`true` when `_create_object_compiled` names an `eas_field`, set on the\ncollection itself or inherited from a parent. Incomplete upload settings\ncount too, such as settings whose pool was deleted: an upload into the\ncollection then answers `400 CollectionUploadNotConfigured`. Searchable\nin a search of `type` `collection` (see `SearchRequest`).\n"
                     },
                     "_level": {
                       "type": "boolean",
@@ -2871,6 +2881,11 @@
                     "readOnly": true,
                     "description": "Flag that inidicates if this collection contains at least one foreign collection object.\nTo find the collections that contain a given foreign object, search `_remote_objects` with\n`type: collection` (see `SearchRequest`).\n"
                   },
+                  "_has_upload": {
+                    "type": "boolean",
+                    "readOnly": true,
+                    "description": "`true` when `_create_object_compiled` names an `eas_field`, set on the\ncollection itself or inherited from a parent. Incomplete upload settings\ncount too, such as settings whose pool was deleted: an upload into the\ncollection then answers `400 CollectionUploadNotConfigured`. Searchable\nin a search of `type` `collection` (see `SearchRequest`).\n"
+                  },
                   "_level": {
                     "type": "boolean",
                     "readOnly": true,
@@ -3927,6 +3942,11 @@
                       "type": "boolean",
                       "readOnly": true,
                       "description": "Flag that inidicates if this collection contains at least one foreign collection object.\nTo find the collections that contain a given foreign object, search `_remote_objects` with\n`type: collection` (see `SearchRequest`).\n"
+                    },
+                    "_has_upload": {
+                      "type": "boolean",
+                      "readOnly": true,
+                      "description": "`true` when `_create_object_compiled` names an `eas_field`, set on the\ncollection itself or inherited from a parent. Incomplete upload settings\ncount too, such as settings whose pool was deleted: an upload into the\ncollection then answers `400 CollectionUploadNotConfigured`. Searchable\nin a search of `type` `collection` (see `SearchRequest`).\n"
                     },
                     "_level": {
                       "type": "boolean",
@@ -5070,6 +5090,11 @@
                       "type": "boolean",
                       "readOnly": true,
                       "description": "Flag that inidicates if this collection contains at least one foreign collection object.\nTo find the collections that contain a given foreign object, search `_remote_objects` with\n`type: collection` (see `SearchRequest`).\n"
+                    },
+                    "_has_upload": {
+                      "type": "boolean",
+                      "readOnly": true,
+                      "description": "`true` when `_create_object_compiled` names an `eas_field`, set on the\ncollection itself or inherited from a parent. Incomplete upload settings\ncount too, such as settings whose pool was deleted: an upload into the\ncollection then answers `400 CollectionUploadNotConfigured`. Searchable\nin a search of `type` `collection` (see `SearchRequest`).\n"
                     },
                     "_level": {
                       "type": "boolean",
@@ -6217,6 +6242,11 @@
                     "readOnly": true,
                     "description": "Flag that inidicates if this collection contains at least one foreign collection object.\nTo find the collections that contain a given foreign object, search `_remote_objects` with\n`type: collection` (see `SearchRequest`).\n"
                   },
+                  "_has_upload": {
+                    "type": "boolean",
+                    "readOnly": true,
+                    "description": "`true` when `_create_object_compiled` names an `eas_field`, set on the\ncollection itself or inherited from a parent. Incomplete upload settings\ncount too, such as settings whose pool was deleted: an upload into the\ncollection then answers `400 CollectionUploadNotConfigured`. Searchable\nin a search of `type` `collection` (see `SearchRequest`).\n"
+                  },
                   "_level": {
                     "type": "boolean",
                     "readOnly": true,
@@ -7273,6 +7303,11 @@
                       "type": "boolean",
                       "readOnly": true,
                       "description": "Flag that inidicates if this collection contains at least one foreign collection object.\nTo find the collections that contain a given foreign object, search `_remote_objects` with\n`type: collection` (see `SearchRequest`).\n"
+                    },
+                    "_has_upload": {
+                      "type": "boolean",
+                      "readOnly": true,
+                      "description": "`true` when `_create_object_compiled` names an `eas_field`, set on the\ncollection itself or inherited from a parent. Incomplete upload settings\ncount too, such as settings whose pool was deleted: an upload into the\ncollection then answers `400 CollectionUploadNotConfigured`. Searchable\nin a search of `type` `collection` (see `SearchRequest`).\n"
                     },
                     "_level": {
                       "type": "boolean",
@@ -8535,6 +8570,11 @@
                         "readOnly": true,
                         "description": "Flag that inidicates if this collection contains at least one foreign collection object.\nTo find the collections that contain a given foreign object, search `_remote_objects` with\n`type: collection` (see `SearchRequest`).\n"
                       },
+                      "_has_upload": {
+                        "type": "boolean",
+                        "readOnly": true,
+                        "description": "`true` when `_create_object_compiled` names an `eas_field`, set on the\ncollection itself or inherited from a parent. Incomplete upload settings\ncount too, such as settings whose pool was deleted: an upload into the\ncollection then answers `400 CollectionUploadNotConfigured`. Searchable\nin a search of `type` `collection` (see `SearchRequest`).\n"
+                      },
                       "_level": {
                         "type": "boolean",
                         "readOnly": true,
@@ -9665,6 +9705,11 @@
                       "readOnly": true,
                       "description": "Flag that inidicates if this collection contains at least one foreign collection object.\nTo find the collections that contain a given foreign object, search `_remote_objects` with\n`type: collection` (see `SearchRequest`).\n"
                     },
+                    "_has_upload": {
+                      "type": "boolean",
+                      "readOnly": true,
+                      "description": "`true` when `_create_object_compiled` names an `eas_field`, set on the\ncollection itself or inherited from a parent. Incomplete upload settings\ncount too, such as settings whose pool was deleted: an upload into the\ncollection then answers `400 CollectionUploadNotConfigured`. Searchable\nin a search of `type` `collection` (see `SearchRequest`).\n"
+                    },
                     "_level": {
                       "type": "boolean",
                       "readOnly": true,
@@ -10725,6 +10770,11 @@
                         "type": "boolean",
                         "readOnly": true,
                         "description": "Flag that inidicates if this collection contains at least one foreign collection object.\nTo find the collections that contain a given foreign object, search `_remote_objects` with\n`type: collection` (see `SearchRequest`).\n"
+                      },
+                      "_has_upload": {
+                        "type": "boolean",
+                        "readOnly": true,
+                        "description": "`true` when `_create_object_compiled` names an `eas_field`, set on the\ncollection itself or inherited from a parent. Incomplete upload settings\ncount too, such as settings whose pool was deleted: an upload into the\ncollection then answers `400 CollectionUploadNotConfigured`. Searchable\nin a search of `type` `collection` (see `SearchRequest`).\n"
                       },
                       "_level": {
                         "type": "boolean",
@@ -11888,6 +11938,11 @@
                         "type": "boolean",
                         "readOnly": true,
                         "description": "Flag that inidicates if this collection contains at least one foreign collection object.\nTo find the collections that contain a given foreign object, search `_remote_objects` with\n`type: collection` (see `SearchRequest`).\n"
+                      },
+                      "_has_upload": {
+                        "type": "boolean",
+                        "readOnly": true,
+                        "description": "`true` when `_create_object_compiled` names an `eas_field`, set on the\ncollection itself or inherited from a parent. Incomplete upload settings\ncount too, such as settings whose pool was deleted: an upload into the\ncollection then answers `400 CollectionUploadNotConfigured`. Searchable\nin a search of `type` `collection` (see `SearchRequest`).\n"
                       },
                       "_level": {
                         "type": "boolean",
@@ -66316,7 +66371,7 @@
         "properties": {
           "type": {
             "type": "string",
-            "description": "Domain to search. Omit (or use an empty string) to search indexed\nobjects. Each other domain has its own object shape in the response.\n\nThe fields that search elements and `sort` can use depend on the\ndomain. For objects they come from the datamodel. The other domains\nhave a fixed set, listed below; a `text` element without `fields`\nsearches `_fulltext`.\n\n**pool**\n\n| Field | `in` | `range` | `text` | `sort` |\n|---|:-:|:-:|:-:|:-:|\n| `_fulltext` |  |  | ✓ |  |\n| `_has_children` | ✓ | ✓ |  | ✓ |\n| `_level` | ✓ | ✓ |  | ✓ |\n| `pool._id` | ✓ | ✓ |  | ✓ |\n| `pool._id_parent` | ✓ | ✓ |  | ✓ |\n| `pool.description` | ✓ |  | ✓ | ✓ |\n| `pool.is_system_pool` | ✓ | ✓ |  | ✓ |\n| `pool.name` | ✓ |  | ✓ | ✓ |\n| `pool.reference` | ✓ |  | ✓ | ✓ |\n| `pool.shortname` | ✓ |  | ✓ | ✓ |\n\n**collection**\n\n| Field | `in` | `range` | `text` | `sort` |\n|---|:-:|:-:|:-:|:-:|\n| `_created_at` | ✓ | ✓ |  | ✓ |\n| `_fulltext` |  |  | ✓ |  |\n| `_has_acl` | ✓ | ✓ |  | ✓ |\n| `_has_remote_objects` | ✓ | ✓ |  | ✓ |\n| `_invalid_acl` | ✓ | ✓ |  | ✓ |\n| `_level` | ✓ | ✓ |  | ✓ |\n| `_owner.group._id` | ✓ | ✓ |  | ✓ |\n| `_owner.user._id` | ✓ | ✓ |  | ✓ |\n| `_path.collection._id` | ✓ | ✓ |  | ✓ |\n| `_path.collection._id_parent` | ✓ | ✓ |  | ✓ |\n| `_remote_objects` | ✓ | ✓ |  | ✓ |\n| `_updated_at` | ✓ | ✓ |  | ✓ |\n| `collection._id` | ✓ | ✓ |  | ✓ |\n| `collection._id_parent` | ✓ | ✓ |  | ✓ |\n| `collection.description` | ✓ |  | ✓ | ✓ |\n| `collection.displayname` | ✓ |  | ✓ | ✓ |\n| `collection.reference` | ✓ |  | ✓ | ✓ |\n| `collection.shortname` | ✓ |  | ✓ | ✓ |\n| `collection.type` | ✓ | ✓ |  | ✓ |\n\n`_remote_objects` holds the global object ids of the foreign objects\nin a collection, such as connector records; an `in` on it finds the\ncollections that contain such an object. Local objects are not in it,\nsearch them by their `_collections`. The field can only be searched,\nthe collections in the response do not carry it.\n\n**event**\n\n| Field | `in` | `range` | `text` | `sort` |\n|---|:-:|:-:|:-:|:-:|\n| `_fulltext` |  |  | ✓ |  |\n| `event._id` | ✓ | ✓ |  | ✓ |\n| `event.basetype` | ✓ | ✓ |  | ✓ |\n| `event.group_ids` | ✓ | ✓ |  | ✓ |\n| `event.info_key` | ✓ | ✓ |  | ✓ |\n| `event.object_id` | ✓ | ✓ |  | ✓ |\n| `event.objecttype` | ✓ | ✓ |  | ✓ |\n| `event.pollable` | ✓ | ✓ |  | ✓ |\n| `event.schema` | ✓ | ✓ |  | ✓ |\n| `event.system_object_id` | ✓ | ✓ |  | ✓ |\n| `event.timestamp` | ✓ | ✓ |  | ✓ |\n| `event.type` | ✓ | ✓ |  | ✓ |\n| `event.user_generated_displayname` | ✓ |  | ✓ | ✓ |\n| `event.user_id` | ✓ | ✓ |  | ✓ |\n| `event.user_type` | ✓ | ✓ |  | ✓ |\n\n**message**\n\n| Field | `in` | `range` | `text` | `sort` |\n|---|:-:|:-:|:-:|:-:|\n| `_fulltext` |  |  | ✓ |  |\n| `_groups.group._id` | ✓ | ✓ |  | ✓ |\n| `message._id` | ✓ | ✓ |  | ✓ |\n| `message.confirmation` | ✓ |  | ✓ | ✓ |\n| `message.end_time` | ✓ | ✓ |  | ✓ |\n| `message.message` | ✓ |  | ✓ | ✓ |\n| `message.reference` | ✓ |  | ✓ | ✓ |\n| `message.start_time` | ✓ | ✓ |  | ✓ |\n| `message.title` | ✓ |  | ✓ | ✓ |\n| `message.webfrontend_type` | ✓ | ✓ |  | ✓ |\n\n**user**\n\n| Field | `in` | `range` | `text` | `sort` |\n|---|:-:|:-:|:-:|:-:|\n| `_archived_at` | ✓ | ✓ |  | ✓ |\n| `_basetype` | ✓ | ✓ |  | ✓ |\n| `_fulltext` |  |  | ✓ |  |\n| `_groups.group._id` | ✓ | ✓ |  | ✓ |\n| `_last_seen_at` | ✓ | ✓ |  | ✓ |\n| `_updated_at` | ✓ | ✓ |  | ✓ |\n| `user._generated_displayname` | ✓ |  | ✓ | ✓ |\n| `user._id` | ✓ | ✓ |  | ✓ |\n| `user.address_supplement` | ✓ |  | ✓ | ✓ |\n| `user.company` | ✓ |  | ✓ | ✓ |\n| `user.country` | ✓ |  | ✓ | ✓ |\n| `user.department` | ✓ |  | ✓ | ✓ |\n| `user.displayname` | ✓ |  | ✓ | ✓ |\n| `user.email` | ✓ |  | ✓ | ✓ |\n| `user.first_name` | ✓ |  | ✓ | ✓ |\n| `user.house_number` | ✓ |  | ✓ | ✓ |\n| `user.last_name` | ✓ |  | ✓ | ✓ |\n| `user.login` | ✓ |  | ✓ | ✓ |\n| `user.login_disabled` | ✓ | ✓ |  | ✓ |\n| `user.phone` | ✓ |  | ✓ | ✓ |\n| `user.postal_code` | ✓ |  | ✓ | ✓ |\n| `user.reference` | ✓ |  | ✓ | ✓ |\n| `user.remarks` | ✓ |  | ✓ | ✓ |\n| `user.state` | ✓ |  | ✓ | ✓ |\n| `user.street` | ✓ |  | ✓ | ✓ |\n| `user.town` | ✓ |  | ✓ | ✓ |\n| `user.type` | ✓ | ✓ |  | ✓ |\n\n**group**\n\n| Field | `in` | `range` | `text` | `sort` |\n|---|:-:|:-:|:-:|:-:|\n| `_basetype` | ✓ | ✓ |  | ✓ |\n| `_fulltext` |  |  | ✓ |  |\n| `group._id` | ✓ | ✓ |  | ✓ |\n| `group.category_a` | ✓ | ✓ |  | ✓ |\n| `group.category_b` | ✓ | ✓ |  | ✓ |\n| `group.category_c` | ✓ | ✓ |  | ✓ |\n| `group.comment` | ✓ |  | ✓ | ✓ |\n| `group.displayname` | ✓ |  | ✓ | ✓ |\n| `group.name` | ✓ |  | ✓ | ✓ |\n| `group.reference` | ✓ |  | ✓ | ✓ |\n| `group.type` | ✓ | ✓ |  | ✓ |\n\n**acl** searches users and groups together, with the fields of both.\n",
+            "description": "Domain to search. Omit (or use an empty string) to search indexed\nobjects. Each other domain has its own object shape in the response.\n\nThe fields that search elements and `sort` can use depend on the\ndomain. For objects they come from the datamodel. The other domains\nhave a fixed set, listed below; a `text` element without `fields`\nsearches `_fulltext`.\n\n**pool**\n\n| Field | `in` | `range` | `text` | `sort` |\n|---|:-:|:-:|:-:|:-:|\n| `_fulltext` |  |  | ✓ |  |\n| `_has_children` | ✓ | ✓ |  | ✓ |\n| `_level` | ✓ | ✓ |  | ✓ |\n| `pool._id` | ✓ | ✓ |  | ✓ |\n| `pool._id_parent` | ✓ | ✓ |  | ✓ |\n| `pool.description` | ✓ |  | ✓ | ✓ |\n| `pool.is_system_pool` | ✓ | ✓ |  | ✓ |\n| `pool.name` | ✓ |  | ✓ | ✓ |\n| `pool.reference` | ✓ |  | ✓ | ✓ |\n| `pool.shortname` | ✓ |  | ✓ | ✓ |\n\n**collection**\n\n| Field | `in` | `range` | `text` | `sort` |\n|---|:-:|:-:|:-:|:-:|\n| `_created_at` | ✓ | ✓ |  | ✓ |\n| `_fulltext` |  |  | ✓ |  |\n| `_has_acl` | ✓ | ✓ |  | ✓ |\n| `_has_remote_objects` | ✓ | ✓ |  | ✓ |\n| `_has_upload` | ✓ | ✓ |  | ✓ |\n| `_invalid_acl` | ✓ | ✓ |  | ✓ |\n| `_level` | ✓ | ✓ |  | ✓ |\n| `_owner.group._id` | ✓ | ✓ |  | ✓ |\n| `_owner.user._id` | ✓ | ✓ |  | ✓ |\n| `_path.collection._id` | ✓ | ✓ |  | ✓ |\n| `_path.collection._id_parent` | ✓ | ✓ |  | ✓ |\n| `_remote_objects` | ✓ | ✓ |  | ✓ |\n| `_updated_at` | ✓ | ✓ |  | ✓ |\n| `collection._id` | ✓ | ✓ |  | ✓ |\n| `collection._id_parent` | ✓ | ✓ |  | ✓ |\n| `collection.description` | ✓ |  | ✓ | ✓ |\n| `collection.displayname` | ✓ |  | ✓ | ✓ |\n| `collection.reference` | ✓ |  | ✓ | ✓ |\n| `collection.shortname` | ✓ |  | ✓ | ✓ |\n| `collection.type` | ✓ | ✓ |  | ✓ |\n\n`_remote_objects` holds the global object ids of the foreign objects\nin a collection, such as connector records; an `in` on it finds the\ncollections that contain such an object. Local objects are not in it,\nsearch them by their `_collections`. The field can only be searched,\nthe collections in the response do not carry it.\n\n**event**\n\n| Field | `in` | `range` | `text` | `sort` |\n|---|:-:|:-:|:-:|:-:|\n| `_fulltext` |  |  | ✓ |  |\n| `event._id` | ✓ | ✓ |  | ✓ |\n| `event.basetype` | ✓ | ✓ |  | ✓ |\n| `event.group_ids` | ✓ | ✓ |  | ✓ |\n| `event.info_key` | ✓ | ✓ |  | ✓ |\n| `event.object_id` | ✓ | ✓ |  | ✓ |\n| `event.objecttype` | ✓ | ✓ |  | ✓ |\n| `event.pollable` | ✓ | ✓ |  | ✓ |\n| `event.schema` | ✓ | ✓ |  | ✓ |\n| `event.system_object_id` | ✓ | ✓ |  | ✓ |\n| `event.timestamp` | ✓ | ✓ |  | ✓ |\n| `event.type` | ✓ | ✓ |  | ✓ |\n| `event.user_generated_displayname` | ✓ |  | ✓ | ✓ |\n| `event.user_id` | ✓ | ✓ |  | ✓ |\n| `event.user_type` | ✓ | ✓ |  | ✓ |\n\n**message**\n\n| Field | `in` | `range` | `text` | `sort` |\n|---|:-:|:-:|:-:|:-:|\n| `_fulltext` |  |  | ✓ |  |\n| `_groups.group._id` | ✓ | ✓ |  | ✓ |\n| `message._id` | ✓ | ✓ |  | ✓ |\n| `message.confirmation` | ✓ |  | ✓ | ✓ |\n| `message.end_time` | ✓ | ✓ |  | ✓ |\n| `message.message` | ✓ |  | ✓ | ✓ |\n| `message.reference` | ✓ |  | ✓ | ✓ |\n| `message.start_time` | ✓ | ✓ |  | ✓ |\n| `message.title` | ✓ |  | ✓ | ✓ |\n| `message.webfrontend_type` | ✓ | ✓ |  | ✓ |\n\n**user**\n\n| Field | `in` | `range` | `text` | `sort` |\n|---|:-:|:-:|:-:|:-:|\n| `_archived_at` | ✓ | ✓ |  | ✓ |\n| `_basetype` | ✓ | ✓ |  | ✓ |\n| `_fulltext` |  |  | ✓ |  |\n| `_groups.group._id` | ✓ | ✓ |  | ✓ |\n| `_last_seen_at` | ✓ | ✓ |  | ✓ |\n| `_updated_at` | ✓ | ✓ |  | ✓ |\n| `user._generated_displayname` | ✓ |  | ✓ | ✓ |\n| `user._id` | ✓ | ✓ |  | ✓ |\n| `user.address_supplement` | ✓ |  | ✓ | ✓ |\n| `user.company` | ✓ |  | ✓ | ✓ |\n| `user.country` | ✓ |  | ✓ | ✓ |\n| `user.department` | ✓ |  | ✓ | ✓ |\n| `user.displayname` | ✓ |  | ✓ | ✓ |\n| `user.email` | ✓ |  | ✓ | ✓ |\n| `user.first_name` | ✓ |  | ✓ | ✓ |\n| `user.house_number` | ✓ |  | ✓ | ✓ |\n| `user.last_name` | ✓ |  | ✓ | ✓ |\n| `user.login` | ✓ |  | ✓ | ✓ |\n| `user.login_disabled` | ✓ | ✓ |  | ✓ |\n| `user.phone` | ✓ |  | ✓ | ✓ |\n| `user.postal_code` | ✓ |  | ✓ | ✓ |\n| `user.reference` | ✓ |  | ✓ | ✓ |\n| `user.remarks` | ✓ |  | ✓ | ✓ |\n| `user.state` | ✓ |  | ✓ | ✓ |\n| `user.street` | ✓ |  | ✓ | ✓ |\n| `user.town` | ✓ |  | ✓ | ✓ |\n| `user.type` | ✓ | ✓ |  | ✓ |\n\n**group**\n\n| Field | `in` | `range` | `text` | `sort` |\n|---|:-:|:-:|:-:|:-:|\n| `_basetype` | ✓ | ✓ |  | ✓ |\n| `_fulltext` |  |  | ✓ |  |\n| `group._id` | ✓ | ✓ |  | ✓ |\n| `group.category_a` | ✓ | ✓ |  | ✓ |\n| `group.category_b` | ✓ | ✓ |  | ✓ |\n| `group.category_c` | ✓ | ✓ |  | ✓ |\n| `group.comment` | ✓ |  | ✓ | ✓ |\n| `group.displayname` | ✓ |  | ✓ | ✓ |\n| `group.name` | ✓ |  | ✓ | ✓ |\n| `group.reference` | ✓ |  | ✓ | ✓ |\n| `group.type` | ✓ | ✓ |  | ✓ |\n\n**acl** searches users and groups together, with the fields of both.\n",
             "enum": [
               "pool",
               "collection",
