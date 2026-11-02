@@ -47542,8 +47542,14 @@ components:
                     type: boolean
                     default: false
                     description: |
-                        Whether to ship the actual binary files for this asset field.
-                        If false, only `data` descriptors (if any) are processed.
+                        If true, the versions `classes` (or `assets`) select are exported
+                        as files under `files/`, and the data files name each one with its
+                        path: CSV and XLSX `<column>[<n>].eas-id`, `original_filename`,
+                        `path`, `version`; XML `<version name="…"><path>`; JSON
+                        `versions.<name>.path`. A custom version is named `_custom`, in
+                        JSON `_custom#<n>`, with `<n>` counting the custom versions of the
+                        file in the requested order from 1. Only a version in the export
+                        has a path.
                 include_non_preferred:
                     type: boolean
                     default: false

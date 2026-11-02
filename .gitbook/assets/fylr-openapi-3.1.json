@@ -49787,7 +49787,7 @@
           "files": {
             "type": "boolean",
             "default": false,
-            "description": "Whether to ship the actual binary files for this asset field.\nIf false, only `data` descriptors (if any) are processed.\n"
+            "description": "If true, the versions `classes` (or `assets`) select are exported\nas files under `files/`, and the data files name each one with its\npath: CSV and XLSX `\u003ccolumn\u003e[\u003cn\u003e].eas-id`, `original_filename`,\n`path`, `version`; XML `\u003cversion name=\"…\"\u003e\u003cpath\u003e`; JSON\n`versions.\u003cname\u003e.path`. A custom version is named `_custom`, in\nJSON `_custom#\u003cn\u003e`, with `\u003cn\u003e` counting the custom versions of the\nfile in the requested order from 1. Only a version in the export\nhas a path.\n"
           },
           "include_non_preferred": {
             "type": "boolean",
