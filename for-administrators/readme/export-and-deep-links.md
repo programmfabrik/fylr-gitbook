@@ -61,7 +61,15 @@ From fylr 6.35.0, label and value may contain [placeholders](#iiif-placeholders)
 
 ### IIIF RIGHTS (URL)
 
-From fylr 6.35.0. The URL of a license or rights statement, for example `https://creativecommons.org/licenses/by/4.0/` or `http://rightsstatements.org/vocab/InC/1.0/`. It becomes the manifest's [`rights`](https://iiif.io/api/presentation/3.0/#rights) property. The Presentation API allows only a URI there, so a value that does not start with `http://` or `https://` once its placeholders are replaced is left out. The value may contain [placeholders](#iiif-placeholders); a localized field resolves in the first database language.
+From fylr 6.35.0. The URL of a license or rights statement, for example `https://creativecommons.org/licenses/by/4.0/` or `http://rightsstatements.org/vocab/InC/1.0/`. It becomes the manifest's [`rights`](https://iiif.io/api/presentation/3.0/#rights) property. The value may contain [placeholders](#iiif-placeholders); a localized field resolves in the first database language.
+
+The Presentation API allows only a URI there. From fylr 6.36.0, the value has to result in exactly one `http` or `https` URL once its placeholders are replaced:
+
+* The base configuration marks a value that can never do so, such as text next to the URL, and refuses to save it. A value stored earlier stays until it is changed.
+* A record for which the value results in anything else shows `http://invalid/?error=rights+is+not+a+single+url&value=<value>` as the rights of its manifest, with the value it got. The standard of a weblink is its link text when one is entered, so use `%foto.rights_link.url%` for its URL.
+* Text for the viewer, such as the name of the license, belongs in the [required statement](#iiif-required-statement).
+
+Up to fylr 6.35, a value that does not start with `http://` or `https://` is left out.
 
 ### IIIF MASK
 

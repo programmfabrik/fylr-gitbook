@@ -43352,7 +43352,10 @@ paths:
             object's top-level values for the manifest and against the values
             along the path from each file to the object for its canvas. A value
             whose placeholders all stay empty counts as empty, the text around
-            them (`%foto.a%, %foto.b%`) is not used on its own. A property the
+            them (`%foto.a%, %foto.b%`) is not used on its own. `rights` must
+            resolve to exactly one `http` or `https` URL, any other value comes out
+            as `http://invalid/?error=<message>&value=<value>`; text for the viewer
+            belongs in the required statement. A property the
             manifest's own values leave empty takes the value all its canvases
             share (e.g. a field of an embedded objecttype); a canvas carries a
             property only where it differs from the manifest's. A placeholder
