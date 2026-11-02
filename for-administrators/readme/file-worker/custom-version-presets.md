@@ -54,3 +54,5 @@ The preset editor does not show the option; it is set through the API, as `backg
 ## Using a preset
 
 When a preset applies to a file, it appears in the **Renditions** list of the download options alongside the standard renditions. See [Downloading](../../../for-users/download-and-export/downloading.md#custom-versions) for the user's perspective.
+
+From fylr **6.36.0** users can also save a preset's rendition as a file variant of the record, from the [rendition editor](../../../for-users/additional-features/custom-renditions-and-crop-tool.md#saving-a-rendition-as-a-file-variant). The variant is the file the download gets, a preset with a watermark included, which then is part of the saved file.

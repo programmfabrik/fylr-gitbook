@@ -28879,13 +28879,13 @@
     },
     "/eas/produce": {
       "x-path": "/eas/produce",
-      "description": "This endpoint is used to produce a new version of the file. It allows to crop and rotate images, and to trim, crop, rotate, scale, mute and color-correct videos. The new file gets a new id. The `produce_version` setting from the parent is inherited.\n\nThe file is produced asynchronously: the response returns the new file in\n`pending` state, poll its status until it reaches `done` (or `failed`).\n\nDiffers from easydb 5: easydb 5 accepts a `description` field\n(optional l10n) in the produce body; **fylr** ignores it — the\nrequest only reads `eas_parent_id`, `format`, `transform`, `trim`,\n`mute`, `color`, `height`, `colorspace`, `colorprofile` and\n`background` (fylr-only: `colorspace` and `colorprofile` since\n6.34.2, `background` since 6.36.0).\n",
+      "description": "This endpoint is used to produce a new version of the file. It allows to crop and rotate images, and to trim, crop, rotate, scale, mute and color-correct videos. The new file gets a new id. The `produce_version` setting from the parent is inherited.\n\nThe file is produced asynchronously: the response returns the new file in\n`pending` state, poll its status until it reaches `done` (or `failed`).\n\nSince 6.36.0, with `custom`, or a `custom_version_preset` naming one, the new file is\nthe image a download of that custom version gets from the parent, as `/export`\ndelivers it: crop and rotation, format, size, quality, DPI, color space and profile,\nbackground and, with `watermark`, the watermark and caption of the `obj_uuid` record.\nThe file keeps these options: a resync that produces it anew makes the same image,\nwith the watermark and caption the record has then.\n\nDiffers from easydb 5: easydb 5 accepts a `description` field\n(optional l10n) in the produce body; **fylr** ignores it — the\nrequest only reads `eas_parent_id`, `format`, `transform`, `trim`,\n`mute`, `color`, `height`, `colorspace`, `colorprofile`, `background`,\n`custom` and `custom_version_preset` (fylr-only: `colorspace` and\n`colorprofile` since 6.34.2, `background`, `custom` and\n`custom_version_preset` since 6.36.0).\n",
       "post": {
         "parameters": [
           {
             "name": "obj_uuid",
             "in": "query",
-            "description": "The `_uuid` of the object the file is linked into. This is used for the permission check.\n",
+            "description": "The `_uuid` of the object the file is linked into. This is used for the permission check.\n\nSince 6.36.0, a `custom` version with `watermark` needs it: the file gets the\nwatermark and caption of this record, which has to hold the parent. Without it, or\nwith a record that does not hold the parent, the request is refused with `400`\n`ServerGeneric`.\n",
             "schema": {
               "type": "string"
             }
@@ -28901,6 +28901,7 @@
         ],
         "requestBody": {
           "required": true,
+          "description": "A JSON object. `custom` and `custom_version_preset` together, either of them next to\nanother property than `eas_parent_id`, and the properties only a custom version sets\n(`size`, `width`, `resize_mode`, `quality`, `dpi`, `watermark`, `obj_uuid`) without\none are `400` `RequestParseError`.\n",
           "content": {
             "application/json": {
               "schema": {
@@ -29077,6 +29078,18 @@
                     "type": "number",
                     "format": "int",
                     "description": "Scale the produced file to this height in pixels, keeping the\naspect ratio. `0` (or omitted) keeps the source height.\n"
+                  },
+                  "custom": {
+                    "description": "Image parents only, since 6.36.0: produce the custom version these options describe,\nas `/export` delivers it, in place of the other properties (see the description\nabove). Checked as an export checks them (see `ExportCustomVersion`, `400` with the\ncode given there); a parent of another class is `400`\n`ProduceExtensionNotSupported`. The file is named\n`<parent base name>-produced.<format>`.\n",
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ExportCustomVersion"
+                      }
+                    ]
+                  },
+                  "custom_version_preset": {
+                    "type": "string",
+                    "description": "Since 6.36.0: produce the custom version of this preset from the base config block\n`custom_version_presets`, as `custom` does with its options. An unknown name is\nrefused with `custom version preset \"<name>\" not found` (`400` `ServerGeneric`).\n"
                   }
                 }
               }
@@ -29096,7 +29109,7 @@
             }
           },
           "400": {
-            "description": "The produce request could not be processed — typical reasons are\n`EasNoParentID` (no / zero `eas_parent_id`), `ProduceOriginalOnly`\n(the parent is not an original), `ProduceExtensionNotSupported`,\n`ProduceFormatNotSupported`, `RecipeParamUnsupportedValue`\n(unknown `colorspace` / `colorprofile`) and `LicenseNoVideoEditor`\n(a video original, but the license has no `video_editor`\ncapability). `ReadOnlyMode` is\nreturned if the instance is read-only. An `eas_parent_id` that\ndoes not match any stored file surfaces as a generic `400` error\n(`ServerGeneric`), not a `404`.\n",
+            "description": "The produce request could not be processed — typical reasons are\n`EasNoParentID` (no / zero `eas_parent_id`), `ProduceOriginalOnly`\n(the parent is not an original), `ProduceExtensionNotSupported`,\n`ProduceFormatNotSupported`, `RecipeParamUnsupportedValue`\n(unknown `colorspace` / `colorprofile`) and `LicenseNoVideoEditor`\n(a video original, but the license has no `video_editor`\ncapability). `ReadOnlyMode` is\nreturned if the instance is read-only. An `eas_parent_id` that\ndoes not match any stored file surfaces as a generic `400` error\n(`ServerGeneric`), not a `404`.\n\n`RequestParseError` answers a body that mixes the produce options with `custom` or\n`custom_version_preset`. `ServerGeneric` also answers an unknown\n`custom_version_preset`, a `custom` version the export would refuse with it, and one\nwith `watermark` without an `obj_uuid` record that holds the parent.\n",
             "content": {
               "application/json": {
                 "schema": {

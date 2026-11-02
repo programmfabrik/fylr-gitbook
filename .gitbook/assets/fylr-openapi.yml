@@ -28005,18 +28005,31 @@ paths:
             The file is produced asynchronously: the response returns the new file in
             `pending` state, poll its status until it reaches `done` (or `failed`).
 
+            Since 6.36.0, with `custom`, or a `custom_version_preset` naming one, the new file is
+            the image a download of that custom version gets from the parent, as `/export`
+            delivers it: crop and rotation, format, size, quality, DPI, color space and profile,
+            background and, with `watermark`, the watermark and caption of the `obj_uuid` record.
+            The file keeps these options: a resync that produces it anew makes the same image,
+            with the watermark and caption the record has then.
+
             Differs from easydb 5: easydb 5 accepts a `description` field
             (optional l10n) in the produce body; **fylr** ignores it — the
             request only reads `eas_parent_id`, `format`, `transform`, `trim`,
-            `mute`, `color`, `height`, `colorspace`, `colorprofile` and
-            `background` (fylr-only: `colorspace` and `colorprofile` since
-            6.34.2, `background` since 6.36.0).
+            `mute`, `color`, `height`, `colorspace`, `colorprofile`, `background`,
+            `custom` and `custom_version_preset` (fylr-only: `colorspace` and
+            `colorprofile` since 6.34.2, `background`, `custom` and
+            `custom_version_preset` since 6.36.0).
         post:
             parameters:
                 - name: obj_uuid
                   in: query
                   description: |
                     The `_uuid` of the object the file is linked into. This is used for the permission check.
+
+                    Since 6.36.0, a `custom` version with `watermark` needs it: the file gets the
+                    watermark and caption of this record, which has to hold the parent. Without it, or
+                    with a record that does not hold the parent, the request is refused with `400`
+                    `ServerGeneric`.
                   schema:
                     type: string
                 - name: file_url_expire
@@ -28038,6 +28051,11 @@ paths:
                     URLs its restore can still fetch weeks later.
             requestBody:
                 required: true
+                description: |
+                    A JSON object. `custom` and `custom_version_preset` together, either of them next to
+                    another property than `eas_parent_id`, and the properties only a custom version sets
+                    (`size`, `width`, `resize_mode`, `quality`, `dpi`, `watermark`, `obj_uuid`) without
+                    one are `400` `RequestParseError`.
                 content:
                     application/json:
                         schema:
@@ -28260,6 +28278,22 @@ paths:
                                     description: |
                                         Scale the produced file to this height in pixels, keeping the
                                         aspect ratio. `0` (or omitted) keeps the source height.
+                                custom:
+                                    description: |
+                                        Image parents only, since 6.36.0: produce the custom version these options describe,
+                                        as `/export` delivers it, in place of the other properties (see the description
+                                        above). Checked as an export checks them (see `ExportCustomVersion`, `400` with the
+                                        code given there); a parent of another class is `400`
+                                        `ProduceExtensionNotSupported`. The file is named
+                                        `<parent base name>-produced.<format>`.
+                                    allOf:
+                                        - $ref: '#/components/schemas/ExportCustomVersion'
+                                custom_version_preset:
+                                    type: string
+                                    description: |
+                                        Since 6.36.0: produce the custom version of this preset from the base config block
+                                        `custom_version_presets`, as `custom` does with its options. An unknown name is
+                                        refused with `custom version preset "<name>" not found` (`400` `ServerGeneric`).
             responses:
                 "200":
                     description: |
@@ -28282,6 +28316,11 @@ paths:
                         returned if the instance is read-only. An `eas_parent_id` that
                         does not match any stored file surfaces as a generic `400` error
                         (`ServerGeneric`), not a `404`.
+
+                        `RequestParseError` answers a body that mixes the produce options with `custom` or
+                        `custom_version_preset`. `ServerGeneric` also answers an unknown
+                        `custom_version_preset`, a `custom` version the export would refuse with it, and one
+                        with `watermark` without an `obj_uuid` record that holds the parent.
                     content:
                         application/json:
                             schema:
