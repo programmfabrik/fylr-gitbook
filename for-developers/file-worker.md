@@ -48,20 +48,23 @@ Work is a row in the `file_queue` table. From 6.35.0 one **file dispatcher** per
 
 * the base admission is this server's share of the connected execservers' slots plus its CPU count;
 * above that it adapts to what the execservers absorb: every execserver reports the slots that idled through its last second, and the dispatcher raises the admission by that count while the queue is deep and none of its jobs waits for a slot, lowers it by the jobs that queue at the execservers — so an item that spends most of its life fetching, writing and indexing does not leave the execservers idle;
+* from 6.36.0 the database pool has a say too: anything that queued for a connection, or more connections in use than half of `fylr.db.maxOpenConns`, lowers the admission, below the base if it has to, and a raise stays within what is left of that half, so a resync of all originals leaves the pool to the requests;
+* from 6.36.0 a service capped by `maxSlots` holds at most twice this server's share of its slots plus two items in flight: the rest stays in the queue, and the claim takes the items behind them instead of filling the admission with jobs that cannot start;
 * `fylr.execserver.maxInFlight` caps it, 0 (the default) meaning automatic: four times the base, at least 32, at most twice `fylr.db.maxOpenConns`;
-* a few slots are reserved for high-priority items, so interactive work (an upload someone is watching) is never stuck behind a big background reprocessing run.
+* a few slots are reserved for items that rank above normal, so interactive work (an upload someone is watching) is never stuck behind a big background reprocessing run.
 
 The dispatcher claims once a second and the moment an item finishes, per claim roughly:
 
 ```sql
 SELECT … FROM file_queue
 WHERE status = 'new' AND start_after < now()
-  -- for the reserved slots additionally: AND priority % 2 != 0
+  -- for the reserved slots additionally: AND priority > 0
+  -- from 6.36.0, for the services at their cap: AND service NOT IN (…)
 ORDER BY priority DESC, id ASC
 LIMIT <free admission> FOR UPDATE SKIP LOCKED;
 ```
 
-`FOR UPDATE SKIP LOCKED` (PostgreSQL) lets several fylr servers pull from the same queue without stepping on each other. **High-priority jobs have an odd priority**, which is exactly what the reserved slots filter on. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant. `/inspect/system/queues` shows the admission and its parts.
+`FOR UPDATE SKIP LOCKED` (PostgreSQL) lets several fylr servers pull from the same queue without stepping on each other. The reserved slots take what ranks above `normal`, whatever the band's "high" variant says: a resync queues at `background` high and leaves them free. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant, used for the first steps of a file and its standard versions. `/inspect/system/queues` shows the admission and its parts, and the items in flight of each service capped by `maxSlots`.
 
 The item's goroutine loads the full `File` (parent, children, metadata, source) and runs the job's **action**. On success the queue row is deleted. A *requeueable* failure puts the row back into the queue a minute later, as often as it takes: no execserver slot within `fylr.execserver.connectTimeoutSec`, no execserver reachable at all, an execserver that stopped the job while shutting down — so a large batch of videos is worked through however long it waits for the slots. A remote source (`/eas/rput`) that answers 429, 502, 503 or 504 is asked again after its `Retry-After` (at most ten minutes, otherwise a minute) and given up on an hour after the job was queued. An item interrupted by the fylr server's own shutdown goes back into the queue at once. The items of a fylr server that was killed go back within a minute, once the others see it gone; each claimed row names the backend that holds it. A hard failure sets the file to `error` and re-indexes the objects that carry it.
 

@@ -631,14 +631,17 @@ fylr:
     connectTimeoutSec: 120
     # the most file-queue items this fylr holds claimed at once. The file
     # dispatcher starts from its share of the connected execservers' slots
-    # plus the CPU count and raises that by feedback while the queue is deep
-    # and the execservers have room — an item that spends most of its life
-    # fetching its original, writing versions and indexing would otherwise
-    # leave the execservers idle. 0 is automatic: four times that start, at
-    # least 32, at most twice fylr.db.maxOpenConns when that is set (every
-    # item in flight may hold a database connection for a moment), and never
-    # below the start itself. A value is a hard cap; one below the slots
-    # reserved for high-priority items is raised to leave one normal slot.
+    # plus the CPU count and raises that by feedback while the queue is deep,
+    # the execservers have room and fewer than half of the database
+    # connections are in use — an item that spends most of its life fetching
+    # its original, writing versions and indexing would otherwise leave the
+    # execservers idle. More than half of the connections in use, or anything
+    # waiting for one, lowers it again, below the start if it has to. 0 is
+    # automatic: four times that start, at least 32, at most twice
+    # fylr.db.maxOpenConns when that is set (every item in flight may hold a
+    # database connection for a moment), and never below the start itself. A
+    # value is a hard cap; one below the slots reserved for high-priority items
+    # is raised to leave one normal slot.
     maxInFlight: 0
     # WHERE AN EXECSERVER REACHES THIS FYLR
     #
