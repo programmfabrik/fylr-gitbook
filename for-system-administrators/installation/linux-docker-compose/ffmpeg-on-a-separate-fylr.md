@@ -6,13 +6,13 @@ description: >-
 
 # ffmpeg on a separate fylr
 
-This is a variation of the main installation method described [here](../linux-docker-compose.md#installation). So we will concentrate on the differences. ffmpeg is an example, you could equally do this with other asset processing tools used in fylr.
+This is a variation of the main installation method described [here](./#installation). So we will concentrate on the differences. ffmpeg is an example, you could equally do this with other asset processing tools used in fylr.
 
 ## Goal
 
 1. One server with only the "execserver" part of fylr, which will be doing the heavy lifting of processing assets with **ffmpeg**, typically when big videos are uploaded.\
    We call this installation by its domain _**ff**_.example.com, here.
-2. Another server with all the remaining jobs of fylr: Webfrontend, SQL, Indexing, etc.. \
+2. Another server with all the remaining jobs of fylr: Webfrontend, SQL, Indexing, etc..\
    We call this installation by its domain _**main**_.example.com, here.
 
 ## On the system with ffmpeg
@@ -84,7 +84,7 @@ networks:
 * caveat: this particular case+config has not been tested by us yet, so use it as a starting point
 * security: ensure that only _ff_.example.com and _main_.example.com are allowed to reach port 8080 and 8081 on _main_.example.com (firewall, or private IP address, etc.)
 * pitfalls: on the hand, make sure that DNS and routing works in both execservers, in the container, to reach back to the main fylr. Also that firewalling does not block them.
-* use a `fylr.yml` with these changes, the rest remains as in [the default installation](../linux-docker-compose.md#installation):
+* use a `fylr.yml` with these changes, the rest remains as in [the default installation](./#installation):
 
 ```
 fylr+:
@@ -118,7 +118,7 @@ Each execserver announces the services it offers when it connects, and fylr rout
 
 The two execservers call back on the address in `callbackBackendOwnURL`, and their plugins on the one in `callbackApiOwnURL`, so both have to reach the main fylr from both execservers, also from the execserver inside the main fylr's own container. Each is taken verbatim and sets its own address only; fylr 6.35.0 does not know `callbackApiOwnURL` yet and takes the API host from `callbackBackendOwnURL`. Before 6.35 these addresses were set with `callbackBackendInternalURL` and `callbackApiInternalURL`, which 6.35.1 ignores.
 
-* use a `docker-compose.yml` with these changes, the rest remains as in [the default installation](../linux-docker-compose.md#installation):
+* use a `docker-compose.yml` with these changes, the rest remains as in [the default installation](./#installation):
 
 ```
   fylr:

@@ -320,8 +320,8 @@ See [here](../../../for-system-administrators/inspect/migration.md) if you want 
 * `OAuth2`: This box has to be enabled.
 * `OAuth2 Client Id`: leave the default fylr-web-frontend
 * `Max Parallel`: Choose less than the number of CPU cores.
-* `Purge or Continue`: \
-  `Purge`  will overwrite fylr's contents with easydb, which is the whole point.\
+* `Purge or Continue`:\
+  `Purge` will overwrite fylr's contents with easydb, which is the whole point.\
   `No Purge` is useful if you purged by other means beforehand.\
   `Continue` is useful if your previous attempt aborted with a timeout or network error and should be continued.\
   Start with _either_ `Purge` _or_ `No Purge` and then, if needed, continue with `Continue`.
@@ -504,7 +504,7 @@ Surf to **https://**&#x66;ylr.example.co&#x6D;**/inspect/** - System - `Reindex 
 
 <summary>7.b Remove Apache</summary>
 
-Without Apache, fylr itself listens on ports 80 and 443 and obtains and renews its certificate from Let's Encrypt. See the [default fylr installation](../../../for-system-administrators/installation/linux-docker-compose.md#installation) and [HTTP and HTTPS](../../../for-system-administrators/configuration/http-and-https.md#automated-https-certificate).
+Without Apache, fylr itself listens on ports 80 and 443 and obtains and renews its certificate from Let's Encrypt. See the [default fylr installation](../../../for-system-administrators/installation/linux-docker-compose/#installation) and [HTTP and HTTPS](../../../for-system-administrators/configuration/http-and-https.md#automated-https-certificate).
 
 In `docker-compose.yml`, replace fylr's port `127.0.0.1:91:91` (step 1.b) with the default ports:
 

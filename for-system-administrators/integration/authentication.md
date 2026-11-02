@@ -8,7 +8,7 @@ fylr can use the following authentication services (a.k.a. SSO - Single Sign On)
 
 ### LDAP
 
-fylr can be connected to multiple LDAP servers. With or without TLS. Typically, a bind user (a.k.a. machine user) is used to allow the connection. See [our tutorial](../../tutorials/ldap.md).
+fylr can be connected to multiple LDAP servers. With or without TLS. Typically, a bind user (a.k.a. machine user) is used to allow the connection. See [our tutorial](../../tutorials/auth/ldap.md).
 
 ### SAML
 
@@ -21,13 +21,13 @@ Shibboleth IDentityProviders can be connected via SAML to fylr, which then is a 
 
 ### Active Directory
 
-Microsoft Active Directory, as used in a Local Area network, can be connected via LDAP. See [our LDAP-tutorial](../../tutorials/ldap.md).
+Microsoft Active Directory, as used in a Local Area network, can be connected via LDAP. See [our LDAP-tutorial](../../tutorials/auth/ldap.md).
 
 Microsoft Azure Active Directory can be connected via SAML to fylr. See [our SAML-tutorial](../../tutorials/auth/saml/).
 
 ### Kerberos
 
-Kerberos is not supported by fylr. But if it is used in an Active Directory, LDAP can be connected instead. See [our LDAP-tutorial](../../tutorials/ldap.md).
+Kerberos is not supported by fylr. But if it is used in an Active Directory, LDAP can be connected instead. See [our LDAP-tutorial](../../tutorials/auth/ldap.md).
 
 ### OpenID
 

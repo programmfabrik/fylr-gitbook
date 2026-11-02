@@ -1,5 +1,8 @@
 ---
-description: The db_pre_save callback — validate or modify objects on every POST /api/v1/db save, before they are written. Steps, filters, the object payload, the response rules, skip_plugins.
+description: >-
+  The db_pre_save callback — validate or modify objects on every POST /api/v1/db
+  save, before they are written. Steps, filters, the object payload, the
+  response rules, skip_plugins.
 ---
 
 # db\_pre\_save
@@ -21,7 +24,7 @@ Notably, the callback runs **before** the constraint and save-right checks — w
 
 ## Registering steps
 
-`db_pre_save` is registered in the [manifest](../manifest.md) with a `steps` list and a `callbacks` map. Each step names a callback and can filter by objecttype; the split lets several steps reuse one callback:
+`db_pre_save` is registered in the [manifest](../manifest/) with a `steps` list and a `callbacks` map. Each step names a callback and can filter by objecttype; the split lets several steps reuse one callback:
 
 ```yaml
 callbacks:
@@ -71,11 +74,11 @@ The callback receives one JSON document (on STDIN with `stdin: { type: body }`):
 
 Each object additionally carries:
 
-| Key | Description |
-| --- | --- |
-| `_callback_context.hash` | A unique, server-generated id for this object **in this call**. Echo it back to modify the object. |
-| `_callback_context.original_mask` | The mask of the original request (the objects themselves are rendered with `_all_fields`). |
-| `_current` | The currently stored version of the object, fully rendered — `null` / absent when the object is new. Compare against it to detect what the save changes. |
+| Key                               | Description                                                                                                                                              |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `_callback_context.hash`          | A unique, server-generated id for this object **in this call**. Echo it back to modify the object.                                                       |
+| `_callback_context.original_mask` | The mask of the original request (the objects themselves are rendered with `_all_fields`).                                                               |
+| `_current`                        | The currently stored version of the object, fully rendered — `null` / absent when the object is new. Compare against it to detect what the save changes. |
 
 Further payload properties:
 
@@ -94,7 +97,7 @@ The callback answers (on STDOUT with `stdout: { type: body }`):
 The rules:
 
 * **Only returned objects are updated** — return the objects you changed, matched by their echoed `_callback_context.hash`. Objects you do not return stay exactly as posted.
-* Return `{ "objects": [] }` to signal *no changes* — this is the normal "nothing to do" answer.
+* Return `{ "objects": [] }` to signal _no changes_ — this is the normal "nothing to do" answer.
 * Every returned object must use the **`_all_fields` mask** (`"_mask": "_all_fields"`) and echo a non-empty, unique `_callback_context.hash` that was part of the request.
 * A returned object **replaces** the posted object wholesale — fylr re-reads it as if the plugin's JSON had been the request. Return the object as you received it, with only the intended modifications; do not drop fields. Changed values, `_comment`, `_tags`, `_pool`, `_acl` and `_owner` all take effect; on insert a plugin can also set `_uuid`. The later pipeline steps (constraints, save rights) still apply to the result.
 * **An empty response body is an error** — always return at least `{ "objects": [] }`.
@@ -107,7 +110,7 @@ To reject the save, return an [error](contract.md#errors) instead. The API clien
 
 ## Example
 
-Set a comment on every saved `bilder` object, prefixing a value from the plugin's base config — the manifest entry is shown [above](#registering-steps):
+Set a comment on every saved `bilder` object, prefixing a value from the plugin's base config — the manifest entry is shown [above](db-pre-save.md#registering-steps):
 
 ```javascript
 // server/set_comment.js

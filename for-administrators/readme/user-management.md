@@ -64,7 +64,7 @@ Select which user information should be returned by the `oauth2/userinfo` endpoi
 
 ## LDAP
 
-This big topic has [its own page](../../tutorials/ldap.md) in our Tutorials.
+This big topic has [its own page](../../tutorials/auth/ldap.md) in our Tutorials.
 
 ## SAML
 

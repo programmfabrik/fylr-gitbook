@@ -4,8 +4,6 @@ description: How to overwrite files that are compiled into fylr
 
 # Overlay Resource
 
-
-
 ## Example 1: resource filesystem
 
 Assume that you want to increase the timeout for re-sizing video assets form one hour to two hours.
@@ -14,19 +12,19 @@ This is done in the compiled-in file `baseconfig/fas/cookbooks/video.yml`.
 
 ### Extract original file
 
-For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md), the command would be:
+For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose/), the command would be:
 
 ```
 docker exec fylr /fylr/bin/fylr resources --fs=fylr.resources --copy=- baseconfig/fas/cookbooks/video.yml>video.yml
 ```
 
-This command will extract the compiled-in file `video.yml` even if that is already overlayed via `fylr.yml`. Because the command does not even specify the configuration file (would be done with `-c /fylr/config/fylr.yml`), it will not be read and thus a `resources:` setting there will not be seen.&#x20;
+This command will extract the compiled-in file `video.yml` even if that is already overlayed via `fylr.yml`. Because the command does not even specify the configuration file (would be done with `-c /fylr/config/fylr.yml`), it will not be read and thus a `resources:` setting there will not be seen.
 
 ### Prepare replacement
 
 Find `timeoutSec: 3600` in the extracted file `video.yml` and and change it to `7200`.
 
-Create the directory structure: (in `/srv/fylr`, taken from the [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md))
+Create the directory structure: (in `/srv/fylr`, taken from the [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose/))
 
 ```
 mkdir -p /srv/fylr/config/fylr/resources/baseconfig/fas/cookbooks
@@ -51,7 +49,7 @@ fylr+:
 
 ### Check that overlay is being done
 
-For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md), the command would be:
+For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose/), the command would be:
 
 ```
 docker compose exec fylr /fylr/bin/fylr resources -c /fylr/config/fylr.yml --fs=fylr.resources
@@ -67,11 +65,7 @@ docker compose exec fylr /fylr/bin/fylr resources -c /fylr/config/fylr.yml --fs=
 
 In the `SOURCE` column, `overlay` is now shown, instead of `embed`.
 
-
-
 Please not that in this case, the configuration file _has_ to be specified with `-c /fylr/config/fylr.yml`, because this is the path in the fylr container. Otherwise fylr will start with defaults and thus ignore your `resources:` setting in `fylr.yml`. And `-c` has to be specified _after_ the `resources` command.
-
-
 
 **To extract the overlayed file:**
 
@@ -79,9 +73,7 @@ Please not that in this case, the configuration file _has_ to be specified with 
 docker exec fylr /fylr/bin/fylr resources -c /fylr/config/fylr.yml --fs=fylr.resources --copy=- baseconfig/fas/cookbooks/video.yml
 ```
 
-&#x20;(... with this example command, the file contents is shown as output, due to `--copy=-`, and not saved anywhere)&#x20;
-
-
+(... with this example command, the file contents is shown as output, due to `--copy=-`, and not saved anywhere)
 
 ## Example 2: web filesystem
 
@@ -89,7 +81,7 @@ Let us assume that the file `robots.txt` needs to be changed:
 
 ### Extract original file
 
-For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md), the command to show this, would be:
+For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose/), the command to show this, would be:
 
 ```
 docker compose exec fylr /fylr/bin/fylr resources --fs=fylr.services.webapp.path --copy=- robots.txt>robots.txt
@@ -138,7 +130,7 @@ docker exec fylr /fylr/bin/fylr resources -c /fylr/config/fylr.yml --fs=fylr.ser
 
 How to show the command syntax and options of your fylr version.
 
-For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md), the command to show this, would be:
+For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose/), the command to show this, would be:
 
 ```
 docker compose exec fylr /fylr/bin/fylr resources --help
@@ -148,7 +140,7 @@ docker compose exec fylr /fylr/bin/fylr resources --help
 
 ### Show all resources that can be overlayed
 
-To list all resources, let fylr give you a list of each overlay-able filesystem. Currently (fylr v6.9.3), there are two such filesystems. For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose.md), the commands to list both, would be:
+To list all resources, let fylr give you a list of each overlay-able filesystem. Currently (fylr v6.9.3), there are two such filesystems. For a [recommended Linux installation](../for-system-administrators/installation/linux-docker-compose/), the commands to list both, would be:
 
 ```
 docker compose exec fylr /fylr/bin/fylr resources --fs=fylr.resources

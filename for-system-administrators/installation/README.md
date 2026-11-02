@@ -12,7 +12,7 @@ Please note: We do all of our automated and manual software testing based on Lin
 
 ## Linux
 
-* Instructions and Requirements: [Linux](linux-docker-compose.md)
+* Instructions and Requirements: [Linux](linux-docker-compose/)
 * Uses docker-compose.
 * 3rd party tools for thumbnails are pre-packaged.
 * If unsure, use this method when installing yourself.
@@ -83,7 +83,7 @@ This is for fylr run from the downloadable archives or [built from source](from-
 
 **Ghostscript renders EPS, AI and PS.** fylr runs Ghostscript itself, as `gs`; Inkscape is left with SVG and WMF. Without Ghostscript these files get no previews. On Linux install the `ghostscript` package, on macOS `brew install ghostscript` (Homebrew's ImageMagick does not bring it along). On Windows the program is called `gswin64c.exe`, see [Ghostscript](windows.md#ghostscript).
 
-**XSLT runs with `saxon.xml` and needs Saxon-HE 12.** Saxon 9.9, the version of Debian's and Ubuntu's `libsaxonhe-java`, ignores the file's `allowedProtocols`. See [XSLT with Saxon](#xslt-with-saxon).
+**XSLT runs with `saxon.xml` and needs Saxon-HE 12.** Saxon 9.9, the version of Debian's and Ubuntu's `libsaxonhe-java`, ignores the file's `allowedProtocols`. See [XSLT with Saxon](./#xslt-with-saxon).
 
 **The archives no longer contain the plugins.** The `easydb-plugins` folder is gone: the upgrade converts the enabled plugins to their marketplace releases, which fylr then downloads, see [Disk to URL plugin migration](../../plugins/disk-to-url-migration.md). Remove the `easydb-plugins` entries from `plugin.paths` in your `fylr.yml` and delete the folder; otherwise fylr warns about the old copies at every start, keeps loading the plugins the upgrade would remove and adds the old copy of a renamed plugin, switched off, next to its successor.
 
@@ -99,23 +99,23 @@ This is for fylr run from the downloadable archives or [built from source](from-
 
 **Coming from 6.34.0**, two patch releases changed the tool requirements:
 
-* **mutool needs ICC color management** (6.34.1); without it, CMYK PDFs render with oversaturated colors. Debian's and Ubuntu's `mupdf-tools` are built without it, Homebrew's `mupdf-tools` has it. A build without it prints `warning: ICC support is not available` when it renders a PDF:
+*   **mutool needs ICC color management** (6.34.1); without it, CMYK PDFs render with oversaturated colors. Debian's and Ubuntu's `mupdf-tools` are built without it, Homebrew's `mupdf-tools` has it. A build without it prints `warning: ICC support is not available` when it renders a PDF:
 
-  ```bash
-  mutool draw -o /tmp/check.png any.pdf
-  ```
+    ```bash
+    mutool draw -o /tmp/check.png any.pdf
+    ```
 
-  On Debian and Ubuntu build mutool the way the Docker image does:
+    On Debian and Ubuntu build mutool the way the Docker image does:
 
-  ```bash
-  sudo apt-get install build-essential pkg-config curl
-  curl -fsSL -o mupdf.tar.gz https://mupdf.com/downloads/archive/mupdf-1.28.0-source.tar.gz
-  mkdir mupdf && tar -xzf mupdf.tar.gz -C mupdf --strip-components=1
-  make -C mupdf -j"$(nproc)" HAVE_X11=no HAVE_GLUT=no tools
-  sudo install -m 0755 mupdf/build/release/mutool /usr/local/bin/mutool
-  ```
+    ```bash
+    sudo apt-get install build-essential pkg-config curl
+    curl -fsSL -o mupdf.tar.gz https://mupdf.com/downloads/archive/mupdf-1.28.0-source.tar.gz
+    mkdir mupdf && tar -xzf mupdf.tar.gz -C mupdf --strip-components=1
+    make -C mupdf -j"$(nproc)" HAVE_X11=no HAVE_GLUT=no tools
+    sudo install -m 0755 mupdf/build/release/mutool /usr/local/bin/mutool
+    ```
 
-  Previews produced before keep their colors until the files are produced again.
+    Previews produced before keep their colors until the files are produced again.
 * **Writing HEIC** (6.34.2) needs libheif with its x265 encoder: the `libheif-plugin-x265` package on Debian and Ubuntu; Homebrew's `libheif` includes it; for Windows see [ImageMagick](windows.md#magick.exe-imagemagick).
 
 ### XSLT with Saxon
@@ -137,51 +137,51 @@ The stylesheet itself and the exported XML, which Saxon reads from standard inpu
 The Docker image brings Saxon-HE 12.9 and `saxon.xml` and passes the file itself. A self-installation sets it up:
 
 1. **Saxon-HE 12** and Java 11 or newer. Saxon 9.9, the version of Debian's and Ubuntu's `libsaxonhe-java`, ignores `allowedProtocols`.
-   * Linux: the jars from Maven Central, the ones the Docker image uses:
+   *   Linux: the jars from Maven Central, the ones the Docker image uses:
 
-     ```bash
-     sudo mkdir -p /opt/saxon && cd /opt/saxon
-     sudo curl -fsSLO https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/12.9/Saxon-HE-12.9.jar
-     sudo curl -fsSLO https://repo1.maven.org/maven2/org/xmlresolver/xmlresolver/5.3.3/xmlresolver-5.3.3.jar
-     sudo curl -fsSLO https://repo1.maven.org/maven2/org/xmlresolver/xmlresolver/5.3.3/xmlresolver-5.3.3-data.jar
-     ```
+       ```bash
+       sudo mkdir -p /opt/saxon && cd /opt/saxon
+       sudo curl -fsSLO https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/12.9/Saxon-HE-12.9.jar
+       sudo curl -fsSLO https://repo1.maven.org/maven2/org/xmlresolver/xmlresolver/5.3.3/xmlresolver-5.3.3.jar
+       sudo curl -fsSLO https://repo1.maven.org/maven2/org/xmlresolver/xmlresolver/5.3.3/xmlresolver-5.3.3-data.jar
+       ```
    * macOS: `brew install saxon`; the jars are in `/opt/homebrew/opt/saxon/libexec`.
    * Windows: SaxonJ-HE 12, see [Saxon](windows.md#saxon).
 2. **`saxon.xml`** with the content above, here `/opt/saxon/saxon.xml`.
-3. **The `saxon` command in `fylr.yml`** names the jars and the file:
+3.  **The `saxon` command in `fylr.yml`** names the jars and the file:
 
-   ```yaml
-   fylr+:
-     services+:
-       execserver+:
-         commands+:
-           saxon:
-             prog: java
-             args: ["-cp", "/opt/saxon/*", "net.sf.saxon.Transform", "-config:/opt/saxon/saxon.xml"]
-   ```
+    ```yaml
+    fylr+:
+      services+:
+        execserver+:
+          commands+:
+            saxon:
+              prog: java
+              args: ["-cp", "/opt/saxon/*", "net.sf.saxon.Transform", "-config:/opt/saxon/saxon.xml"]
+    ```
 
-   On macOS the class path is `/opt/homebrew/opt/saxon/libexec/*`. fylr passes the `*` to Java unchanged, and Java reads every jar of the folder.
+    On macOS the class path is `/opt/homebrew/opt/saxon/libexec/*`. fylr passes the `*` to Java unchanged, and Java reads every jar of the folder.
 4. **Restart fylr**, or the execserver where it runs on its own host.
 
 #### Allowing files or URLs
 
 `saxon.xml` allows URI schemes as a whole, not single files or hosts. Where stylesheets need more than their input, a changed `saxon.xml` and `saxon` command open it, for every stylesheet of the instance and on every execserver that runs XSLT:
 
-* **Files of one folder:** put the files into a folder of their own, add the folder to Java's class path and allow the scheme `classpath`:
+*   **Files of one folder:** put the files into a folder of their own, add the folder to Java's class path and allow the scheme `classpath`:
 
-  ```xml
-  <global allowedProtocols="classpath" allowExternalFunctions="false"/>
-  ```
+    ```xml
+    <global allowedProtocols="classpath" allowExternalFunctions="false"/>
+    ```
 
-  Stylesheets address the files relative to the folder:
+    Stylesheets address the files relative to the folder:
 
-  ```xml
-  <xsl:include href="classpath:common.xsl"/>
-  <xsl:variable name="countries" select="document('classpath:lookup/countries.xml')"/>
-  <xsl:variable name="codes" select="unparsed-text('classpath:codes.txt')"/>
-  ```
+    ```xml
+    <xsl:include href="classpath:common.xsl"/>
+    <xsl:variable name="countries" select="document('classpath:lookup/countries.xml')"/>
+    <xsl:variable name="codes" select="unparsed-text('classpath:codes.txt')"/>
+    ```
 
-  A `classpath:` URI reaches the files of the folder and its subfolders and the resources inside the Saxon jars, nothing else.
+    A `classpath:` URI reaches the files of the folder and its subfolders and the resources inside the Saxon jars, nothing else.
 * **URLs:** `allowedProtocols="classpath,https"` lets stylesheets load every `https` URL the execserver's host reaches, internal services included. To limit that to certain hosts, send Java through a proxy that forwards only those, with `-Dhttps.proxyHost=<proxy>` and `-Dhttps.proxyPort=<port>` in front of `-cp` (`-Dhttp.…` for `http`).
 * **Not `file`:** it opens every file the execserver's user may read, fylr's configuration included.
 
