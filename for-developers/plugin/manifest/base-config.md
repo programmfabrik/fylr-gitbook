@@ -7,7 +7,7 @@ description: >-
 
 # Base config parameters
 
-A plugin's [`base_config`](../manifest.md#base_config) is a list of sections, each with its parameters. The same format describes the per-collection [`config` of a collection upload](../manifest.md#collection_upload) and the options of a [custom data type](../manifest.md#custom_types) in the datamodel and mask editors (`config.schema`, `config.mask`).
+A plugin's [`base_config`](./#base_config) is a list of sections, each with its parameters. The same format describes the per-collection [`config` of a collection upload](./#collection_upload) and the options of a [custom data type](./#custom_types) in the datamodel and mask editors (`config.schema`, `config.mask`).
 
 ```yaml
 base_config:
@@ -42,12 +42,12 @@ base_config:
 
 ## Sections
 
-| Key                       | Meaning                                                                                                                                                                                                                                                                                          |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `name`                    | **Required.** The section's name, the key of its values. Its [localization keys](base-config.md#localization) do not contain the plugin name, so they share one namespace with fylr's own sections and other plugins' — start the name with the plugin's name.                                   |
-| `parameters`              | **Required.** A map from parameter name to [parameter](base-config.md#parameters). A section without a parameter of a supported type is left out.                                                                                                                                                |
-| `require_system_right`    | A system right a user needs to read the section's values, such as `system.config` or one of the plugin's own [system rights](../manifest.md#system_rights); `system.config` and `system.root` always suffice. Without it, every logged-in user can read the values, with `secret` values masked. |
-| `unauthenticated_visible` | `true` also delivers the section to sessions without a user.                                                                                                                                                                                                                                     |
+| Key                       | Meaning                                                                                                                                                                                                                                                                              |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`                    | **Required.** The section's name, the key of its values. Its [localization keys](base-config.md#localization) do not contain the plugin name, so they share one namespace with fylr's own sections and other plugins' — start the name with the plugin's name.                       |
+| `parameters`              | **Required.** A map from parameter name to [parameter](base-config.md#parameters). A section without a parameter of a supported type is left out.                                                                                                                                    |
+| `require_system_right`    | A system right a user needs to read the section's values, such as `system.config` or one of the plugin's own [system rights](./#system_rights); `system.config` and `system.root` always suffice. Without it, every logged-in user can read the values, with `secret` values masked. |
+| `unauthenticated_visible` | `true` also delivers the section to sessions without a user.                                                                                                                                                                                                                         |
 
 Saving any section needs the system right `system.config`.
 
@@ -157,7 +157,7 @@ A parameter of type `secret` holds a password or key:
 
 ## Localization
 
-The editor labels a plugin's sections with keys from the plugin's [`l10n`](../manifest.md#l10n) CSV. The keys contain the section name, but not the plugin name:
+The editor labels a plugin's sections with keys from the plugin's [`l10n`](./#l10n) CSV. The keys contain the section name, but not the plugin name:
 
 | Key                                                                | Labels                                                     |
 | ------------------------------------------------------------------ | ---------------------------------------------------------- |
@@ -174,6 +174,6 @@ The editor labels a plugin's sections with keys from the plugin's [`l10n`](../ma
 
 Inside a `table` or `form`, the path to the parameter goes between section and parameter: `server.config.parameter.system.<section>.<form>.<parameter>.label`. Option keys do not take that path.
 
-The heading and introduction fall back to the plugin's [`displayname` and `info`](../manifest.md#plugin).
+The heading and introduction fall back to the plugin's [`displayname` and `info`](./#plugin).
 
 The parameters of a collection upload's `config` are labelled with `collection_upload.parameter.<parameter>.label`.

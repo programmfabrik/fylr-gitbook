@@ -1,5 +1,8 @@
 ---
-description: The export_transport callback — deliver a finished export with a plugin. Transports on the export, the payload with decrypted options, the response, and events.
+description: >-
+  The export_transport callback — deliver a finished export with a plugin.
+  Transports on the export, the payload with decrypted options, the response,
+  and events.
 ---
 
 # export\_transport
@@ -24,11 +27,11 @@ Transports are part of the **export definition**, submitted in its `_transports`
 }
 ```
 
-| Field | Description |
-| --- | --- |
-| `plugin` | `"<plugin-name>:<procedure>"` — an entry under `callbacks.export_transport` in the [manifest](../manifest.md). Empty for a plain download transport (no plugin runs). |
-| `options` | Free-form configuration for the transport. Stored encrypted; keys prefixed `pw:` are treated as secrets. |
-| `email` | Optional — fylr sends a notification mail after the transport. |
+| Field     | Description                                                                                                                                                         |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `plugin`  | `"<plugin-name>:<procedure>"` — an entry under `callbacks.export_transport` in the [manifest](../manifest/). Empty for a plain download transport (no plugin runs). |
+| `options` | Free-form configuration for the transport. Stored encrypted; keys prefixed `pw:` are treated as secrets.                                                            |
+| `email`   | Optional — fylr sends a notification mail after the transport.                                                                                                      |
 
 The manifest side:
 
@@ -51,19 +54,19 @@ callbacks:
 
 The transport plugin receives the same payload as an [export plugin](export.md#the-payload), plus the transport:
 
-| Property | Description |
-| --- | --- |
-| *all properties from **export*** | Including the `export` object — on STDIN as `{ "export": … }` when the command declares `stdin: { type: body }`, otherwise inside `%info.json%`. |
-| `transport` | The transport object, with `options` **decrypted** — including `pw:`-prefixed secrets. |
+| Property                         | Description                                                                                                                                      |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| _all properties from **export**_ | Including the `export` object — on STDIN as `{ "export": … }` when the command declares `stdin: { type: body }`, otherwise inside `%info.json%`. |
+| `transport`                      | The transport object, with `options` **decrypted** — including `pw:`-prefixed secrets.                                                           |
 
 ## The response
 
 The transport reports whether it succeeded and may add log lines to the event fylr writes; nothing else is read back:
 
-| Property | Description |
-| --- | --- |
-| `_state` | **Required** — `done`, `done_with_warnings` or `failed`. |
-| `_transport_log` | `[]string`, merged into the transport event. |
+| Property         | Description                                              |
+| ---------------- | -------------------------------------------------------- |
+| `_state`         | **Required** — `done`, `done_with_warnings` or `failed`. |
+| `_transport_log` | `[]string`, merged into the transport event.             |
 
 A **failed transport does not abort the export** — the export itself degrades to `done_with_warnings`, and fylr writes an `EXPORT_TRANSPORT_FAILED` event (successful transports write `EXPORT_TRANSPORT_FINISH`), each carrying the `_transport_log` — see the [event type reference](../../../for-administrators/events/event-type-reference.md).
 

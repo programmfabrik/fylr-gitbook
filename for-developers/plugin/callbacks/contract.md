@@ -1,5 +1,8 @@
 ---
-description: The unified callback contract — the info map every callback receives, the access tokens to call back into the fylr API, the plugin_user mechanism, and the error format.
+description: >-
+  The unified callback contract — the info map every callback receives, the
+  access tokens to call back into the fylr API, the plugin_user mechanism, and
+  the error format.
 ---
 
 # The callback contract
@@ -10,43 +13,41 @@ Callbacks run server-side and frequently need to call back into the fylr API —
 
 * For **db\_pre\_save**, **transition\_db\_pre\_save**, **collection upload** and the **export** hooks, the payload carries the hook's own data next to the contract fields, which live under the `info` key: `info.api_url`, `info.api_user_access_token`, …
 * For **extensions** the request body is streamed to STDIN as-is, so the contract fields are only available via the `%info.json%` argument.
-* Any callback can *additionally* receive the `info` map as a command argument by passing `%info.json%` in its `exec` args — it is substituted as an inline JSON string (parse `process.argv[n]` directly; it is not a file path).
+* Any callback can _additionally_ receive the `info` map as a command argument by passing `%info.json%` in its `exec` args — it is substituted as an inline JSON string (parse `process.argv[n]` directly; it is not a file path).
 
 ## The `info` map
 
-| Property | Presence | Description |
-| --- | --- | --- |
-| `api_url` | always | Base URL to call back into the API. Append `/api/v1/…` to reach an endpoint. |
-| `external_url` | always | The configured external URL of the fylr instance — for building links meant for humans. |
-| `api_user_access_token` | always¹ | OAuth2 access token to call the API **as the user the current API call runs as**. |
-| `api_user` | when a user context exists | The current API user (the `who`). |
-| `request` | when the hook runs inside an HTTP request | Information about the triggering request: `url`, `host`, `method`, `query`, `header`. |
-| `config` | plugin callbacks² | `config.plugin.<plugin-name>.config.<section>.<parameter>` — the plugin's own [base-config parameters](../manifest/base-config.md#where-the-values-arrive), defaults applied and secrets decrypted — and `config.system`, the sections of fylr's own base config that are visible without a user. A file value in it has only the `url`, `width` and `height` of its versions³. |
-| `plugin_user_access_token` | only if `plugin_user` is configured | Access token of the configured **plugin user** (see below). |
-| `plugin_user` | only if `plugin_user` is configured | The plugin user (the `who`) for `plugin_user_access_token`. |
-| `api_tx_url` | only inside a save transaction | Base URL for the [transactional `/db` surface](#writing-inside-the-save-transaction-api_tx_url): calls back **into the open write transaction** the callback runs in. |
+| Property                   | Presence                                  | Description                                                                                                                                                                                                                                                                                                                                                                     |
+| -------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `api_url`                  | always                                    | Base URL to call back into the API. Append `/api/v1/…` to reach an endpoint.                                                                                                                                                                                                                                                                                                    |
+| `external_url`             | always                                    | The configured external URL of the fylr instance — for building links meant for humans.                                                                                                                                                                                                                                                                                         |
+| `api_user_access_token`    | always¹                                   | OAuth2 access token to call the API **as the user the current API call runs as**.                                                                                                                                                                                                                                                                                               |
+| `api_user`                 | when a user context exists                | The current API user (the `who`).                                                                                                                                                                                                                                                                                                                                               |
+| `request`                  | when the hook runs inside an HTTP request | Information about the triggering request: `url`, `host`, `method`, `query`, `header`.                                                                                                                                                                                                                                                                                           |
+| `config`                   | plugin callbacks²                         | `config.plugin.<plugin-name>.config.<section>.<parameter>` — the plugin's own [base-config parameters](../manifest/base-config.md#where-the-values-arrive), defaults applied and secrets decrypted — and `config.system`, the sections of fylr's own base config that are visible without a user. A file value in it has only the `url`, `width` and `height` of its versions³. |
+| `plugin_user_access_token` | only if `plugin_user` is configured       | Access token of the configured **plugin user** (see below).                                                                                                                                                                                                                                                                                                                     |
+| `plugin_user`              | only if `plugin_user` is configured       | The plugin user (the `who`) for `plugin_user_access_token`.                                                                                                                                                                                                                                                                                                                     |
+| `api_tx_url`               | only inside a save transaction            | Base URL for the [transactional `/db` surface](contract.md#writing-inside-the-save-transaction-api_tx_url): calls back **into the open write transaction** the callback runs in.                                                                                                                                                                                                |
 
-¹ For [workflow webhooks](../../../for-administrators/readme/workflow-webhooks.md) the token is removed from the payload unless the webhook enables *include access token*.
-² Workflow webhooks run without a plugin, so their payload has no `config` key.
-³ From version 6.35.0. A file value, for example the logo at `config.system.config.appearance.logo`, is `{"versions": {"<version>": {"url": …, "width": …, "height": …}}}`: the `versions` format of [`GET /api/v1/eas`](../../api/endpoints/eas/README.md). Earlier versions pass the whole file object. Read the other properties of the file from `GET /api/v1/config`. An extension receives `%info.json%` as one command-line argument, which Windows limits to 32,767 characters.
+¹ For [workflow webhooks](../../../for-administrators/readme/workflow-webhooks.md) the token is removed from the payload unless the webhook enables _include access token_. ² Workflow webhooks run without a plugin, so their payload has no `config` key. ³ From version 6.35.0. A file value, for example the logo at `config.system.config.appearance.logo`, is `{"versions": {"<version>": {"url": …, "width": …, "height": …}}}`: the `versions` format of [`GET /api/v1/eas`](../../api/endpoints/eas/). Earlier versions pass the whole file object. Read the other properties of the file from `GET /api/v1/config`. An extension receives `%info.json%` as one command-line argument, which Windows limits to 32,767 characters.
 
 Individual hooks add more keys — for example the transition action's `info` object ([transition\_db\_pre\_save](transition-db-pre-save.md)), `file` / `collection` / `collection_config` ([collection upload](collection-upload.md)), or `export` / `transport` / `plugin_action` ([export](export.md), [export\_transport](export-transport.md)).
 
 ## Access tokens
 
-A callback always gets a token for the **current API user**, and *additionally* a token for the **plugin user** when one is configured — never one *or* the other.
+A callback always gets a token for the **current API user**, and _additionally_ a token for the **plugin user** when one is configured — never one _or_ the other.
 
 {% hint style="info" %}
 **These tokens are unbound and short-lived.** fylr binds a browser session token to the browser via the `fylr-browser-id` cookie, so a plugin replaying such a token server-side — without that cookie — would be rejected by session binding. fylr therefore mints a fresh, **session-binding-free** token for the callback. **From version 6.35.0 it does so for every caller** — the token a callback receives is never the caller's own, whether that caller is a browser session or an API client whose token would already be unbound. The token is revoked once the callback returns, so treat it as valid only for the duration of the callback and do not persist it.
 {% endhint %}
 
 {% hint style="info" %}
-**From version 6.35.0: groups restricted to an IP range are evaluated at the triggering client's address.** A group can be made visible only from certain IP ranges. A callback connects from the fylr server itself, so the token it uses would otherwise be judged by the *server's* address. The address of the client whose API call triggered the callback therefore travels with the callback token: a plugin acting on `api_user_access_token` sees exactly the groups — and thus the permissions — that the triggering user has, and a `plugin_user` token is evaluated at that same address. The pin lasts only as long as the callback may run; requests a client sends to the API directly are evaluated against the address they arrive from, as before.
+**From version 6.35.0: groups restricted to an IP range are evaluated at the triggering client's address.** A group can be made visible only from certain IP ranges. A callback connects from the fylr server itself, so the token it uses would otherwise be judged by the _server's_ address. The address of the client whose API call triggered the callback therefore travels with the callback token: a plugin acting on `api_user_access_token` sees exactly the groups — and thus the permissions — that the triggering user has, and a `plugin_user` token is evaluated at that same address. The pin lasts only as long as the callback may run; requests a client sends to the API directly are evaluated against the address they arrive from, as before.
 {% endhint %}
 
 ## The plugin user
 
-By default a callback acts as the user who triggered the API call — with that user's permissions. When a callback needs its *own*, well-defined set of permissions (for example to write objects the triggering user cannot), the manifest entry declares a **plugin user**:
+By default a callback acts as the user who triggered the API call — with that user's permissions. When a callback needs its _own_, well-defined set of permissions (for example to write objects the triggering user cannot), the manifest entry declares a **plugin user**:
 
 ```yaml
 callbacks:
@@ -104,26 +105,26 @@ process.stdin.on("end", async () => {
 `api_tx_url` is available from fylr **6.35.0**.
 {% endhint %}
 
-A pre-save callback runs **while the save's write transaction is open**. A call to the regular `api_url` therefore arrives on a *separate* database connection:
+A pre-save callback runs **while the save's write transaction is open**. A call to the regular `api_url` therefore arrives on a _separate_ database connection:
 
 * it cannot see the uncommitted data of the save it is part of, and
 * on a **single-writer backend (SQLite)** it cannot write at all while the save's transaction holds the write lock — such a write fails with `423 DatabaseLockError`.
 
 For this, callbacks that run inside an open save transaction — [db\_pre\_save](db-pre-save.md), [transition\_db\_pre\_save](transition-db-pre-save.md) and the [collection upload](collection-upload.md) `objects` callback — additionally receive `info.api_tx_url`: a base URL whose requests are executed **inside the very transaction the callback runs in**. It is absent for extensions, exports and workflow webhooks. `api_tx_url` is a drop-in for `api_url` — append the same `db/…` paths — but deliberately scoped to the transactional `/db` surface:
 
-| Method & path | Purpose |
-| --- | --- |
-| `POST {api_tx_url}/db/<objecttype>` | insert / update objects |
+| Method & path                                  | Purpose                                                   |
+| ---------------------------------------------- | --------------------------------------------------------- |
+| `POST {api_tx_url}/db/<objecttype>`            | insert / update objects                                   |
 | `GET {api_tx_url}/db/<objecttype>/<mask>/<id>` | load an object (sees the transaction's uncommitted state) |
-| `DELETE {api_tx_url}/db/<objecttype>` | delete objects |
+| `DELETE {api_tx_url}/db/<objecttype>`          | delete objects                                            |
 
 Everything that is not part of the save itself — config, search, files — has no business inside the transaction; use `api_url` for those.
 
 **Semantics**
 
-* Only the tokens handed to *this* callback (`api_user_access_token`, `plugin_user_access_token`) are accepted on `api_tx_url`. The URL is valid only while the callback runs and is revoked when it returns.
+* Only the tokens handed to _this_ callback (`api_user_access_token`, `plugin_user_access_token`) are accepted on `api_tx_url`. The URL is valid only while the callback runs and is revoked when it returns.
 * Writes execute **inside the save's own transaction**: they are immediately visible to the rest of the save and **commit or roll back together with it**. If the save fails after your callback returned, your writes are rolled back with it.
-* **A failed write fails the save as a whole.** When a write request on `api_tx_url` errors, the transaction is marked failed: the save is refused at commit and **nothing** of the request becomes durable — your earlier writes included — even if the callback swallows the error and reports success. Further write requests on the URL are refused immediately, and the save's API client receives the error. Failed *reads* (for example a `404` probe for an object that does not exist) do not have this effect.
+* **A failed write fails the save as a whole.** When a write request on `api_tx_url` errors, the transaction is marked failed: the save is refused at commit and **nothing** of the request becomes durable — your earlier writes included — even if the callback swallows the error and reports success. Further write requests on the URL are refused immediately, and the save's API client receives the error. Failed _reads_ (for example a `404` probe for an object that does not exist) do not have this effect.
 * `await_index` is **not available** on `api_tx_url` (`400`): index jobs written inside the transaction only become visible once the save commits — waiting for them from inside the callback could never finish.
 * `api_tx_url` behaves identically on PostgreSQL and SQLite. Plugins that must run on both backends can simply prefer it for writes from a pre-save callback.
 
@@ -139,7 +140,7 @@ if statuscode == 423:
         resp_text, statuscode = post_to_api(api_tx_url, 'db/linked_object', token, payload)
 ```
 
-An error from the `api_tx_url` write cannot be papered over — the failed write has already failed the save's transaction. Report it as the callback's [error](#errors) so the API client sees the real cause instead of the generic refused commit.
+An error from the `api_tx_url` write cannot be papered over — the failed write has already failed the save's transaction. Report it as the callback's [error](contract.md#errors) so the API client sees the real cause instead of the generic refused commit.
 
 ## Errors
 
@@ -175,6 +176,6 @@ Any other failure (non-zero exit without an error JSON, invalid or empty respons
 
 ## See also
 
-* [Callbacks overview](README.md) — how a callback program is executed.
-* [manifest.yml → errors](../manifest.md#errors) — the API-error JSON in detail.
-* [`/api/v1/config`](../../api/README.md) — the API the tokens are used against.
+* [Callbacks overview](./) — how a callback program is executed.
+* [manifest.yml → errors](../manifest/#errors) — the API-error JSON in detail.
+* [`/api/v1/config`](../../api/) — the API the tokens are used against.

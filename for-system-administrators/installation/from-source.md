@@ -5,15 +5,15 @@ description: >-
   execserver needs.
 ---
 
-# Install from Source (bare metal)
+# From Source (bare metal)
 
-This page covers **building fylr from source** and running it **directly on a host**, without Docker. For the supported turnkey paths see [Linux (docker-compose)](linux-docker-compose.md), [Windows](windows.md) or [Kubernetes (Helm)](helm.md). The [Windows](windows.md) page's per-tool config snippets are a useful companion for wiring up the third-party tools on any bare host.
+This page covers **building fylr from source** and running it **directly on a host**, without Docker. For the supported turnkey paths see [Linux (docker-compose)](linux-docker-compose/), [Windows](windows.md) or [Kubernetes (Helm)](helm.md). The [Windows](windows.md) page's per-tool config snippets are a useful companion for wiring up the third-party tools on any bare host.
 
 {% hint style="info" %}
 Since fylr **6.34.0** the pre-built macOS/Windows/Linux binaries are statically linked (cgo-free, pure-Go SQLite) and run without a C toolchain — so building from source is only needed for development, patched builds, or unsupported platforms.
 {% endhint %}
 
-Updating from 6.34: see [Updating a self-installation to 6.35](README.md#updating-a-self-installation-to-6.35).
+Updating from 6.34: see [Updating a self-installation to 6.35](./#updating-a-self-installation-to-6.35).
 
 ## 1. Build the binary
 
@@ -36,13 +36,13 @@ make all                                     # generate + build frontend + build
 
 Granular / development targets:
 
-| Target | Does |
-| --- | --- |
-| `make generate` | regenerate `errors.go` + CSS (run once on a fresh checkout) |
-| `make webfrontend-ensure` | init the submodule and build the frontend if it is missing |
-| `make build` | just the Go binary (generate + frontend must already exist) |
-| `make server` | config + frontend + generate + build + **run** |
-| `make server-fast` | same as `server` but skips `generate` |
+| Target                    | Does                                                        |
+| ------------------------- | ----------------------------------------------------------- |
+| `make generate`           | regenerate `errors.go` + CSS (run once on a fresh checkout) |
+| `make webfrontend-ensure` | init the submodule and build the frontend if it is missing  |
+| `make build`              | just the Go binary (generate + frontend must already exist) |
+| `make server`             | config + frontend + generate + build + **run**              |
+| `make server-fast`        | same as `server` but skips `generate`                       |
 
 {% hint style="warning" %}
 The web frontend submodule must be initialized **and built** before compiling — `go:embed` embeds `resources/easydb-webfrontend/build`, so that directory has to exist at compile time. `make all` / `make webfrontend-ensure` guarantee this.
@@ -92,7 +92,7 @@ Asset previews and metadata extraction need the third-party tools below.
 
 The [execserver](../../for-developers/execserver.md) shells out to external programs for previews, metadata and plugins. On a bare host each must resolve on `$PATH` or be pointed at in `fylr.services.execserver.commands`; a program that is not in that list, such as `gs` or `pg_dump`, can also be named in a `FYLR_CMD_<PROG>` env var. A command can carry a `startupCheck` — arguments and a regex its output must match, see `fylr.example.yml` — so that a present but wrong version of a tool is reported as a warning in the startup log; fylr still starts.
 
-`tika` and `saxon` are commands of the shipped list but no Debian program: the Docker image runs them with `java`, Tika with the app jar from [tika.apache.org](https://tika.apache.org/download.html), Saxon with Saxon-HE 12.9 from Maven Central and its `saxon.xml`, see [XSLT with Saxon](README.md#xslt-with-saxon). On a bare host name them the same way, with the paths of your jars:
+`tika` and `saxon` are commands of the shipped list but no Debian program: the Docker image runs them with `java`, Tika with the app jar from [tika.apache.org](https://tika.apache.org/download.html), Saxon with Saxon-HE 12.9 from Maven Central and its `saxon.xml`, see [XSLT with Saxon](./#xslt-with-saxon). On a bare host name them the same way, with the paths of your jars:
 
 ```yaml
 fylr+:
@@ -150,7 +150,7 @@ A build without ICC prints `warning: ICC support is not available` when it rende
 
 ## See also
 
-* [Installation](README.md) — the supported install methods and recommended software versions.
+* [Installation](./) — the supported install methods and recommended software versions.
 * [Windows](windows.md) — per-tool download links and `execserver.commands` snippets.
 * [Exec server](../../for-developers/execserver.md) — how fylr runs these tools.
-* [Configuration](../configuration/README.md) — `fylr.yml` in depth.
+* [Configuration](../configuration/) — `fylr.yml` in depth.

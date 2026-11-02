@@ -1,18 +1,20 @@
 ---
-description: Callback reference for fylr plugins — the hooks fylr runs during its own API calls, how a callback program is executed, and how data flows in and out.
+description: >-
+  Callback reference for fylr plugins — the hooks fylr runs during its own API
+  calls, how a callback program is executed, and how data flows in and out.
 ---
 
 # Callbacks
 
 **Callbacks** are predefined hooks in fylr's API. When fylr handles a save, a workflow transition, a collection upload or an export, it runs the plugin program registered for that hook, hands it the relevant data, and reads back the plugin's result. Each hook has its own input and output format — the sub-pages of this section are the reference, one page per hook:
 
-| Hook | Registered under (manifest) | Runs |
-| --- | --- | --- |
-| [db\_pre\_save](db-pre-save.md) | `callbacks.db_pre_save` | on every `POST /api/v1/db` save, before objects are written |
-| [transition\_db\_pre\_save](transition-db-pre-save.md) | `callbacks.transition_db_pre_save.<name>` | as an action of a workflow transition, before the save |
-| [Collection upload](collection-upload.md) | `collection_upload.<name>` (top level) | when files are uploaded into a collection (hotfolder, WebDAV, `/api/v1/eas?collection=…`) |
-| [export](export.md) | `callbacks.export.<procedure>` | after an export has produced its files |
-| [export\_transport](export-transport.md) | `callbacks.export_transport.<procedure>` | once per transport, after an export has finished |
+| Hook                                                   | Registered under (manifest)               | Runs                                                                                      |
+| ------------------------------------------------------ | ----------------------------------------- | ----------------------------------------------------------------------------------------- |
+| [db\_pre\_save](db-pre-save.md)                        | `callbacks.db_pre_save`                   | on every `POST /api/v1/db` save, before objects are written                               |
+| [transition\_db\_pre\_save](transition-db-pre-save.md) | `callbacks.transition_db_pre_save.<name>` | as an action of a workflow transition, before the save                                    |
+| [Collection upload](collection-upload.md)              | `collection_upload.<name>` (top level)    | when files are uploaded into a collection (hotfolder, WebDAV, `/api/v1/eas?collection=…`) |
+| [export](export.md)                                    | `callbacks.export.<procedure>`            | after an export has produced its files                                                    |
+| [export\_transport](export-transport.md)               | `callbacks.export_transport.<procedure>`  | once per transport, after an export has finished                                          |
 
 All hooks share one [callback contract](contract.md) — the `info` map with API URLs and access tokens, the `plugin_user` mechanism, and the error format.
 
@@ -22,9 +24,9 @@ All hooks share one [callback contract](contract.md) — the `info` map with API
 
 ## How a callback program runs
 
-Every callback (and every [extension](../extensions.md)) is described by the same [`exec` map](../manifest.md#the-exec-map) in the manifest. fylr runs the program through the [execserver](../../execserver.md): the `service` names the runtime (`node`, `python3`, `exec` for standalone binaries, …), and `commands` lists the programs to run.
+Every callback (and every [extension](../extensions.md)) is described by the same [`exec` map](../manifest/#the-exec-map) in the manifest. fylr runs the program through the [execserver](../../execserver.md): the `service` names the runtime (`node`, `python3`, `exec` for standalone binaries, …), and `commands` lists the programs to run.
 
-* Commands run **sequentially** in a **transient working directory**; the chain stops at the first failing command. The plugin's own files are *not* in that directory — reference them with the `%_exec.pluginDir%` placeholder.
+* Commands run **sequentially** in a **transient working directory**; the chain stops at the first failing command. The plugin's own files are _not_ in that directory — reference them with the `%_exec.pluginDir%` placeholder.
 * The **payload arrives on STDIN** when the command declares `stdin: { type: body }`.
 * The **response is read from STDOUT** when the command declares `stdout: { type: body }`.
 * The **context** (`info` map) can additionally be passed as a command argument with the `%info.json%` placeholder — it is substituted as an **inline JSON string**, not a file path.
@@ -64,7 +66,7 @@ Before it runs, the callback waits for a free execserver slot, for at most `fylr
 
 ## Errors
 
-A callback signals an error by exiting non-zero, or by writing an [API-error JSON](../manifest.md#errors) wrapped under a top-level `error` key (in which case a zero exit code is fine). The [callback contract](contract.md#errors) page describes the format; each hook's page describes what an error does to the running operation (a pre-save error aborts the whole save, an export error fails the export, …).
+A callback signals an error by exiting non-zero, or by writing an [API-error JSON](../manifest/#errors) wrapped under a top-level `error` key (in which case a zero exit code is fine). The [callback contract](contract.md#errors) page describes the format; each hook's page describes what an error does to the running operation (a pre-save error aborts the whole save, an export error fails the export, …).
 
 ## A minimal callback plugin
 
@@ -114,4 +116,4 @@ process.stdin.on("end", () => {
 * [Workflow Webhooks](../../../for-administrators/readme/workflow-webhooks.md) — the same hooks over plain HTTP, without a plugin.
 * [Collection upload](collection-upload.md) — participate in hotfolder / WebDAV / collection uploads.
 * [export](export.md) and [export\_transport](export-transport.md) — post-process and deliver exports.
-* [manifest.yml](../manifest.md) — the `exec` map and placeholders in detail.
+* [manifest.yml](../manifest/) — the `exec` map and placeholders in detail.

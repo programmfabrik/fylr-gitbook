@@ -9,7 +9,7 @@ description: >-
 
 ## Hotfolder
 
-In a **typical** installation of FYLR, this is already **done**. But in some instances this still has to be done by a **system administrator**. There is no harm in trying to use the Hotfolder without this step first and if FYLR refuses to give you the Hotfolder URL and points out this requirement instead, you know that this needs to be done.&#x20;
+In a **typical** installation of FYLR, this is already **done**. But in some instances this still has to be done by a **system administrator**. There is no harm in trying to use the Hotfolder without this step first and if FYLR refuses to give you the Hotfolder URL and points out this requirement instead, you know that this needs to be done.
 
 You need **access** to the **configuration** of FYLR, typically a file called `fylr.yml` and you need to **restart** FYLR to make it re-read its **configuration**.
 
@@ -22,17 +22,13 @@ fylr+:
       webDAVHotfolderPath: "/srv/hotfolder"
 ```
 
-The **path** given needs to make sense inside the _**container**_**&#x20;filesystem** hierarchy.&#x20;
+The **path** given needs to make sense inside the _**container**_**&#x20;filesystem** hierarchy.
 
-Typically, the path is mapped to the outside of the container to the server file system, for space requirements or persistence. The [docker-compose.yml](../../_assets/docker-compose.yml) given in our [installation instructions](../../for-system-administrators/installation/linux-docker-compose.md) does this implicitly by mapping an outside directory to `/srv` inside the container.
-
-
+Typically, the path is mapped to the outside of the container to the server file system, for space requirements or persistence. The [docker-compose.yml](../../_assets/docker-compose.yml) given in our [installation instructions](../../for-system-administrators/installation/linux-docker-compose/) does this implicitly by mapping an outside directory to `/srv` inside the container.
 
 ## File System Connect
 
-In contrast to `Hotfolder`, the method `File System Connect` **does not need preparation** by the **system administrator** and can be **set up** and **used directly**. It uses no real file system directory but relies only on **WebDAV**.&#x20;
-
-
+In contrast to `Hotfolder`, the method `File System Connect` **does not need preparation** by the **system administrator** and can be **set up** and **used directly**. It uses no real file system directory but relies only on **WebDAV**.
 
 ## Activate Services
 
@@ -42,7 +38,7 @@ In contrast to `Hotfolder`, the method `File System Connect` **does not need pre
 
 ## Permissions
 
-In order for **users** to be **able** to use the **Hotfolder** or **File System Connect**, a few **permissions** still need to be **assigned**.&#x20;
+In order for **users** to be **able** to use the **Hotfolder** or **File System Connect**, a few **permissions** still need to be **assigned**.
 
 The **users** (or user groups) **need** the **system rights** "**Access Search**" with "**Create Collections**" or "**Access Quick Access Only (No Search)**" as well as "**Frontend Features > Show File System Connect URL**" (for the File System Connect). For more details please refer to the [permissions](../../for-administrators/permissions/).
 

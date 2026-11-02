@@ -12,7 +12,7 @@ The following example migrates all from <mark style="color:blue;">https://easydb
 
 ## Checks and Requirements
 
-The requirements of the default recommended installation apply here as well, described [here](../../../for-system-administrators/installation/linux-docker-compose.md)...
+The requirements of the default recommended installation apply here as well, described [here](../../../for-system-administrators/installation/linux-docker-compose/)...
 
 Except:
 
@@ -23,7 +23,7 @@ Except:
 As the common NFS share is used, existing original asset files are already accounted for in storage. So you can ignore that part of the requirements in the default recommended installation.
 
 \
-You may want to have free space for future asset uploads, but that is just the same consideration as with only the easydb5.&#x20;
+You may want to have free space for future asset uploads, but that is just the same consideration as with only the easydb5.
 
 </details>
 
@@ -33,9 +33,9 @@ You may want to have free space for future asset uploads, but that is just the s
 
 The asset versions of _easydb5_ are typically used by fylr for a while and then are replaced by _fylr_ versions, which are slightly different. How long to use them can be decided on demand, later.
 
-For the requirement&#x73;_,_ you have two options:&#x20;
+For the requirement&#x73;_,_ you have two options:
 
-A. If you use easydb5 versions **read-only (recommended)**: This is easier and safer, but needs more storage for assets which have both easydb5 versions and fylr versions. So get the storage amount that your easydb5 asset versions take and make sure you have the same amount of storage free, for fylr versions. To be on the safe side, 50% more than the same amount, in case you have lots of assets which get bigger _fylr_ versions compared to _easydb5_ versions. \
+A. If you use easydb5 versions **read-only (recommended)**: This is easier and safer, but needs more storage for assets which have both easydb5 versions and fylr versions. So get the storage amount that your easydb5 asset versions take and make sure you have the same amount of storage free, for fylr versions. To be on the safe side, 50% more than the same amount, in case you have lots of assets which get bigger _fylr_ versions compared to _easydb5_ versions.\
 Example: 1000 GB for easydb5 versions -> **1500 GB free** for fylr versions recommended.
 
 \
@@ -69,7 +69,7 @@ A standard installation with changed storage configuration.
 
 <summary>1.a Use docker compose for fylr installation</summary>
 
-Use the default recommended installation as described [here](../../../for-system-administrators/installation/linux-docker-compose.md). But before starting fylr, change `docker-compose.yml` and `fylr.yml` as described below.
+Use the default recommended installation as described [here](../../../for-system-administrators/installation/linux-docker-compose/). But before starting fylr, change `docker-compose.yml` and `fylr.yml` as described below.
 
 </details>
 
@@ -79,7 +79,7 @@ Use the default recommended installation as described [here](../../../for-system
 
 * Add the below shown volume paths, without duplicating the hierarchy (so only one services:, only one fylr:, only one volumes:
 * Make shure you adjust the volume paths left of the `:`,\
-  so .e.g. `/srv/easydb/eas/lib/assets/orig` might by instead `/nfs/asset/orig` on your server.&#x20;
+  so .e.g. `/srv/easydb/eas/lib/assets/orig` might by instead `/nfs/asset/orig` on your server.
 * The example below has two volumes for two easydb partitions. Your easydb may have more partitions. Create one fylr volume per easydb partition.
 
 Example (irrelevant lines not shown):
@@ -96,7 +96,7 @@ services:
 
 <details>
 
-<summary>1.c Adjust <code>/srv/fylr/config/fylr/fylr.yml</code> </summary>
+<summary>1.c Adjust <code>/srv/fylr/config/fylr/fylr.yml</code></summary>
 
 ```
 fylr+:
@@ -164,7 +164,7 @@ See [here](../../../for-system-administrators/inspect/migration.md) if you want 
 * `OAuth2`: This box has to be enabled.
 * `OAuth2 Client Id`: leave the default fylr-web-frontend
 * `Max Parallel`: Choose a number that is less of the available CPU cores of the fylr server.
-* `Purge or Continue`: \
+* `Purge or Continue`:\
   `Purge` : This will overwrite fylr's contents with easydb, which is the whole point.\
   `Continue` : Is useful if your previous attempt aborted with a timeout or network error and should be continued.
 
@@ -220,7 +220,7 @@ Create the following two:
   * **Directory** (in container) `/mnt/orig_early`
   * **Remote URL Prefix** example: https://easydb.example.com/eas/partitions-inline/1/\
     Use here one of the prefixes you collected in 5.a.\
-    &#xNAN;_(Do not confuse this with the **Prefix** field. Use **Remote URL Prefix**.)_
+    \&#xNAN;_(Do not confuse this with the **Prefix** field. Use **Remote URL Prefix**.)_
 * Fylr location `easydb versions`
   * **Directory** (in container) `/mnt/dest_early`
   * **Remote URL Prefix**: As above, use one of the collected Remote URL Prefixes.\
@@ -265,7 +265,7 @@ As previews from easydb are different from fylr previews, it is recommended to r
 
 * Is the File queue empty at **https://**&#x66;ylr.example.co&#x6D;**/inspect/system/queues/?queue=file** ?\
   At the top it would show something like:\
-  &#xNAN;_` There are 18 parallel and 10 parallel high priority only file workers active. The queue`` `` `**`contains 0 total entries`**`.`_
+  \&#xNAN;_` There are 18 parallel and 10 parallel high priority only file workers active. The queue`` `` `**`contains 0 total entries`**`.`_
 * Surf to **https://**&#x66;ylr.example.co&#x6D;**/inspect/files/** (login as root)
   * In the drop down menu `location` choose `easydb versions` and click the `Search` button.
   * The Search shows zero results when all have been replaced.
@@ -293,15 +293,11 @@ As previews from easydb are different from fylr previews, it is recommended to r
 
 Make sure that you have uploaded a fylr **license** and tested/configured optional features that you need, e.g. Single Sign On, email sending, schema-sync via objectstore, hotfolder, etc..
 
-
-
 **Stopping easydb**
 
 We recommend stopping all easydb services and Apache and preventing certificate renewal etc..
 
 You may want to stop regular maintenance tasks for easydb, typically in `/etc/cron.d/easydb*`.
-
-
 
 **Change fylr domain**
 

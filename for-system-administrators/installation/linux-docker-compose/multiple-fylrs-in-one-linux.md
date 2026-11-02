@@ -7,12 +7,10 @@ description: Arrange docker and a reverse proxy to avoid conflicts with multiple
 Our default recommended fylr Installation has one fylr directly listening to port 443/80 for http(s). If you want multiple fylrs you need to direct web traffic to the correct one. We present one example here with Apache webserver used as reverse proxy.
 
 {% hint style="info" %}
-This increases the risk to run into resource and performance issues (except for small fylr instances with few traffic on a big server).&#x20;
+This increases the risk to run into resource and performance issues (except for small fylr instances with few traffic on a big server).
 {% endhint %}
 
 To somewhat reduce performance issues, only one indexer and only one PostgreSQL is used for all fylrs in this example.
-
-
 
 ## Prerequisites
 
@@ -28,8 +26,6 @@ To somewhat reduce performance issues, only one indexer and only one PostgreSQL 
     `type -a certbot || ln -s /snap/bin/certbot /usr/local/bin/`
 * install Apache 2\
   e.g. for Debian 12: `apt-get install -y apache2 ; a2enmod ssl rewrite proxy_http`
-
-
 
 ## Prepare Linux for fylr
 
@@ -109,7 +105,7 @@ curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/
 vi $DIR/config/fylr/fylr.yml  # replace string with EXAMPLE
 ```
 
-Replace all strings in `fylr.yml` that have `EXAMPLE` in it. E.g. with vim: \
+Replace all strings in `fylr.yml` that have `EXAMPLE` in it. E.g. with vim:\
 `vim $DIR/config/fylr/fylr.yml`
 
 {% hint style="warning" %}
@@ -149,4 +145,4 @@ Repeat for each additional fylr instance the whole part from "For each fylr inst
 
 ## Remarks
 
-A maintain script and cron job, as in the [default recommended installation](../linux-docker-compose.md), are not provided by us, as we do not have sufficient experience with this multi-fylr-setup. Use the recommended installation instead, when possible.
+A maintain script and cron job, as in the [default recommended installation](./), are not provided by us, as we do not have sufficient experience with this multi-fylr-setup. Use the recommended installation instead, when possible.

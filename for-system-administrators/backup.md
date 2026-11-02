@@ -16,7 +16,7 @@ In this example we call the instances "old" and "new" and the linux servers runn
 
 ### prepare old server
 
-Check that you have access to the SQL backups: In the case of an installation via docker-compose, the access is a mounted volume (e.g. in the [docker-compose.yml](../_assets/docker-compose.yml) of our installation [instructions](installation/linux-docker-compose.md#configuration)):
+Check that you have access to the SQL backups: In the case of an installation via docker-compose, the access is a mounted volume (e.g. in the [docker-compose.yml](../_assets/docker-compose.yml) of our installation [instructions](installation/linux-docker-compose/#configuration)):
 
 ```
 services:
@@ -63,7 +63,7 @@ Now you have all data for a restore on the new server.
 
 ## restore
 
-1. install fylr on the new server, as described in our [installation instructions](installation/linux-docker-compose.md#installation), _<mark style="background-color:yellow;">**but only start postgresql:**</mark>_
+1. install fylr on the new server, as described in our [installation instructions](installation/linux-docker-compose/#installation), _<mark style="background-color:yellow;">**but only start postgresql:**</mark>_
 
 ```
 rm -rf postgres/pgdata/ # if postgres isn't fresh and if there's no other db than this fylr

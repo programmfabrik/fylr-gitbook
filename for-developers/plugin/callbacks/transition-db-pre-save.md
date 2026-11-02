@@ -1,14 +1,17 @@
 ---
-description: The transition_db_pre_save callback — a plugin action inside a workflow transition. Registering callbacks, wiring them into a transition, the payload, and error behavior.
+description: >-
+  The transition_db_pre_save callback — a plugin action inside a workflow
+  transition. Registering callbacks, wiring them into a transition, the payload,
+  and error behavior.
 ---
 
 # transition\_db\_pre\_save
 
-A `transition_db_pre_save` callback is a **plugin action of a workflow transition**. While [db\_pre\_save](db-pre-save.md) runs on *every* save, a transition callback runs only when a save matches a configured transition — a specific objecttype, operation and user set. The administrator decides *where* the callback runs; the plugin provides *what* it does.
+A `transition_db_pre_save` callback is a **plugin action of a workflow transition**. While [db\_pre\_save](db-pre-save.md) runs on _every_ save, a transition callback runs only when a save matches a configured transition — a specific objecttype, operation and user set. The administrator decides _where_ the callback runs; the plugin provides _what_ it does.
 
 ## Registering callbacks
 
-Transition callbacks are a named map in the [manifest](../manifest.md) — no steps, no filters (the transition itself is the filter):
+Transition callbacks are a named map in the [manifest](../manifest/) — no steps, no filters (the transition itself is the filter):
 
 ```yaml
 callbacks:
@@ -30,7 +33,7 @@ callbacks:
 
 ## Wiring a callback into a transition
 
-Transitions are managed in the frontend's workflow configuration or over [`/api/v1/transitions`](../../api/README.md). A transition defines *when* it matches — `type` (`resolve`, `reject`, `exit_resolve`, `exit_reject`, `process`), `operations` (`INSERT`, `UPDATE`, `DELETE`), `objecttype_ids` and `who` — and a list of `actions`.
+Transitions are managed in the frontend's workflow configuration or over [`/api/v1/transitions`](../../api/). A transition defines _when_ it matches — `type` (`resolve`, `reject`, `exit_resolve`, `exit_reject`, `process`), `operations` (`INSERT`, `UPDATE`, `DELETE`), `objecttype_ids` and `who` — and a list of `actions`.
 
 A plugin callback is selected by using **`"<plugin-name>:<callback-name>"` as the action's `type`**. The action's `info` object is free-form and is handed to the callback:
 
@@ -53,7 +56,7 @@ The action types `email`, `set_tags`, `webhook` and `change_owner` are reserved 
 
 ## The payload
 
-The payload is **identical to [db\_pre\_save](db-pre-save.md#the-request-payload)** — `{ "info": …, "objects": … }` with `_callback_context`, `_current`, the `_all_fields` rendering and all response rules. `objects` contains the objects that matched the transition. Two differences:
+The payload is **identical to** [**db\_pre\_save**](db-pre-save.md#the-request-payload) — `{ "info": …, "objects": … }` with `_callback_context`, `_current`, the `_all_fields` rendering and all response rules. `objects` contains the objects that matched the transition. Two differences:
 
 * The **action's `info` object is merged into the payload's `info`** — in the example above the callback sees `info.comment == "checked by workflow"`. This is how one callback serves several transitions with different parameters.
 * The callback runs **after** the regular `db_pre_save` steps of all plugins, still before the save, inside the same write transaction.
@@ -62,7 +65,7 @@ The [response rules](db-pre-save.md#the-response) are the same: echo `_callback_
 
 ## Errors
 
-An [error returned by the callback](contract.md#errors) **rejects the save** — the transition acts as a gate. A plugin-authored API error (code, parameters, statuscode) is passed to the client verbatim, so the frontend can show a localized message explaining *why* the workflow rejected the object; any other failure surfaces as the generic `DbPreSaveFailed` error naming the plugin.
+An [error returned by the callback](contract.md#errors) **rejects the save** — the transition acts as a gate. A plugin-authored API error (code, parameters, statuscode) is passed to the client verbatim, so the frontend can show a localized message explaining _why_ the workflow rejected the object; any other failure surfaces as the generic `DbPreSaveFailed` error naming the plugin.
 
 ## Example
 

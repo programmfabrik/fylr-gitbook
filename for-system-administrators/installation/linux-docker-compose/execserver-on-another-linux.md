@@ -4,13 +4,13 @@ description: How to spread one fylr over two linux servers
 
 # execserver on another linux
 
-This is a variation of the main installation method described [here](../linux-docker-compose.md#installation). So we will concentrate on the differences.
+This is a variation of the main installation method described [here](./#installation). So we will concentrate on the differences.
 
 ## Goal
 
 1. One server with only the "execserver" part of fylr, which will be doing the heavy lifting of processing assets, for example generating preview thumbnails. So it should have some CPU cores.\
    We call this one _**exec**_.example.com, here.
-2. Another server with all the remaining parts of fylr, doing Webfrontend, SQL, Indexing, etc.. \
+2. Another server with all the remaining parts of fylr, doing Webfrontend, SQL, Indexing, etc..\
    We call this one _**main**_.example.com, here.
 
 ## On the system with the execserver
@@ -76,7 +76,7 @@ networks:
 (We call this system _main_.example.com)
 
 * ensure that only _exec_.example.com is allowed to reach port 8080 and 8081 on _main_.example.com (firewall, or private IP address, etc.)
-* use a `fylr.yml` with these changes, the rest remains as in [the default installation](../linux-docker-compose.md#installation):
+* use a `fylr.yml` with these changes, the rest remains as in [the default installation](./#installation):
 
 ```
 [...]
@@ -105,7 +105,7 @@ There is no worker count to configure on _main_.example.com: from 6.35 one file 
 
 `callbackBackendOwnURL` is the backend address the execserver calls back on, `callbackApiOwnURL` the API address handed to plugins. Each is taken verbatim, port included, and sets its own address only. fylr 6.35.0 does not know `callbackApiOwnURL` yet, reports it as an unknown key and takes the API host from `callbackBackendOwnURL`. Before 6.35 these addresses were set with `callbackBackendInternalURL` and `callbackApiInternalURL`, which 6.35.1 ignores.
 
-* use a `docker-compose.yml` with these changes, the rest remains as in [the default installation](../linux-docker-compose.md#installation):
+* use a `docker-compose.yml` with these changes, the rest remains as in [the default installation](./#installation):
 
 ```
   fylr:

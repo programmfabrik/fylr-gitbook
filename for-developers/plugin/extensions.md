@@ -1,5 +1,7 @@
 ---
-description: Plugin extensions add custom HTTP API endpoints to fylr, served under the plugin's base URL.
+description: >-
+  Plugin extensions add custom HTTP API endpoints to fylr, served under the
+  plugin's base URL.
 ---
 
 # Extensions
@@ -14,7 +16,7 @@ For example, the `fylr_example` plugin's `dump/info` extension is reachable at `
 
 ## Defining an extension
 
-The `exec` map is the same as for [callbacks](callbacks/README.md) — it tells fylr how to run the plugin program (see [the exec map](manifest.md#the-exec-map)).
+The `exec` map is the same as for [callbacks](callbacks/) — it tells fylr how to run the plugin program (see [the exec map](manifest/#the-exec-map)).
 
 ```yaml
 extensions:
@@ -57,7 +59,7 @@ curl -H "Authorization: Bearer $TOKEN" \
 
 With `stdout: { type: body }`, whatever the program writes to **STDOUT is streamed to the API client as the response body** (with the response's `Content-Type` forwarded). The response status is `200`; custom response headers cannot be set.
 
-On error — a non-zero exit code, or an [API-error JSON](manifest.md#errors) written by the program — fylr answers with the error's `statuscode` (default `500`) and sets the `X-Execserver-Error` header, plus `X-Fylr-Error-Code` / `X-Fylr-Error` when an API-error JSON was given:
+On error — a non-zero exit code, or an [API-error JSON](manifest/#errors) written by the program — fylr answers with the error's `statuscode` (default `500`) and sets the `X-Execserver-Error` header, plus `X-Fylr-Error-Code` / `X-Fylr-Error` when an API-error JSON was given:
 
 ```json
 {
@@ -69,12 +71,12 @@ On error — a non-zero exit code, or an [API-error JSON](manifest.md#errors) wr
 }
 ```
 
-Once more than 4&nbsp;KB of STDOUT have been sent, the response has started with status `200`; a failure after that only cuts it short.
+Once more than 4 KB of STDOUT have been sent, the response has started with status `200`; a failure after that only cuts it short.
 
-The program runs within the same limits as a callback — see [Timeouts](callbacks/README.md#timeouts). An extension that gets no execserver slot within `fylr.execserver.connectTimeoutSec` (default 120 seconds), or finds no execserver reachable, does not run: fylr answers `ServerGeneric` with status `400`.
+The program runs within the same limits as a callback — see [Timeouts](callbacks/#timeouts). An extension that gets no execserver slot within `fylr.execserver.connectTimeoutSec` (default 120 seconds), or finds no execserver reachable, does not run: fylr answers `ServerGeneric` with status `400`.
 
 ## See also
 
-* [manifest.yml](manifest.md) — the `exec` map and placeholders.
-* [Callbacks](callbacks/README.md) — hooks that run inside fylr's own API calls.
-* [`/api/v1/plugin`](../api/endpoints/plugin/README.md) — the plugin management and extension endpoints.
+* [manifest.yml](manifest/) — the `exec` map and placeholders.
+* [Callbacks](callbacks/) — hooks that run inside fylr's own API calls.
+* [`/api/v1/plugin`](../api/endpoints/plugin/) — the plugin management and extension endpoints.
