@@ -207,6 +207,7 @@ custom_events:
 | [`custom_types`](#custom_types) | Custom data types — see [Custom Data](../customdata.md). |
 | [`system_rights`](#system_rights) | System rights the plugin adds. |
 | [`custom_events`](#custom_events) | Event types the plugin registers. |
+| `task_modules` | Background tasks of the task manager — see [Task modules](task-modules.md). |
 
 A plugin has no `version` key: its version is the tag of its release, delivered as `build_info.release` by `GET /api/v1/plugin`. A `version` left in an older manifest is ignored.
 
@@ -221,6 +222,7 @@ fylr builds the plugin's URLs and identifiers from `plugin.name`:
 | `<plugin>:<name>` | transition actions, exports, export transports and collections that select a [callback](#callbacks) or a [collection upload](#collection_upload) |
 | `<plugin>:<cookbook>:<recipe>` | [recipes](#fas_config) |
 | `custom:base.<plugin>.<type>` | [custom data types](#custom_types) |
+| `<plugin>.<name>` | [task modules](task-modules.md) in the task manager |
 | `plugin.<plugin>.<right>` | [system rights](#system_rights) |
 | `plugin.<plugin>.config.<section>.<parameter>` | [base config](#base_config) values |
 

@@ -11,6 +11,7 @@ Plugins extend fylr through a **callback system** that runs plugin programs on t
 
 * **[Extensions](plugin/extensions.md)** — custom HTTP API endpoints under the plugin's base URL.
 * **[Callbacks](plugin/callbacks/README.md)** — hooks fylr runs during its own API calls (db pre-save, transitions, collection uploads, export, export transport).
+* **[Task modules](plugin/task-modules.md)** — background tasks in the task manager, such as imports and exports on a schedule.
 * **[Custom data types](customdata.md)** — new field types.
 * **Frontend snippets** — JavaScript / CSS loaded into the web frontend.
 * **[Base-config additions](plugin/manifest/base-config.md)** — configuration parameters an administrator sets (for example a plugin user).
@@ -53,6 +54,7 @@ The console error from the bundle is the quickest signal: the **first** `Uncaugh
 * **[manifest.yml](plugin/manifest.md)** — the plugin descriptor: keys, the `exec` map, URL replacements.
 * **[Extensions](plugin/extensions.md)** — add custom API endpoints.
 * **[Callbacks](plugin/callbacks/README.md)** — hook into db saves, transitions, collection uploads and export.
+* **[Task modules](plugin/task-modules.md)** — add background tasks.
 * **[Custom Data](customdata.md)** — add custom data types.
 * **[Plugin Conventions and Standards](plugin/conventions.md)** — build, naming, localization.
 * **[Packaging and Release](plugin/release.md)** — the ZIP structure and GitHub release workflow.

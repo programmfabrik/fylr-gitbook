@@ -435,6 +435,7 @@
     * [Collection upload](for-developers/plugin/callbacks/collection-upload.md)
     * [export](for-developers/plugin/callbacks/export.md)
     * [export\_transport](for-developers/plugin/callbacks/export-transport.md)
+  * [Task modules](for-developers/plugin/task-modules.md)
   * [File Version Produce Plugin](for-developers/plugin/setup-produce-plugin.md)
   * [Plugin Conventions and Standards](for-developers/plugin/conventions.md)
   * [Packaging and Release](for-developers/plugin/release.md)
