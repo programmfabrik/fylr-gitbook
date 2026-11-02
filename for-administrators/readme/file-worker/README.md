@@ -63,7 +63,7 @@ Versions are generated **when a file is uploaded**. Changing the version configu
 
 From version 6.36.0, saving a version configuration under which the versions of existing files would come out different asks whether to produce them again. The dialog **Produce renditions again** lists each version that changes, with the number of files it goes over and the current size of their versions, and offers:
 
-* **Produce now, in the background** — the files are queued behind the uploads, and only the versions that change are produced again. A version removed from the configuration, or no longer configured for the extension of a file, is deleted from those files.
+* **Produce now, in the background** — the files are queued behind the uploads, and only the versions that change are produced again. A version removed from the configuration, or no longer configured for the extension of a file, is deleted from those files. This also starts what an earlier **Produce tonight** left waiting.
 * **Produce tonight** — the same, starting at 22:00 in your time zone.
 * **Not now** — the configuration is saved, the existing versions stay as they are.
 * **Estimate first** — a few files are produced as a trial (up to 30 seconds), then the dialog asks again with the expected size and a rough duration.

@@ -29223,7 +29223,7 @@
         "tags": [
           "eas"
         ],
-        "description": "Without `produce_resync` and with renditions that differ, the answer is a\n`202` asking how to go on. `now` and `tonight` queue a sync check for every\noriginal of the affected extensions at background priority, behind\nuploads; a sync check produces only the renditions whose produce hash\nchanged and deletes the renditions the config no longer has. An original\nthat already has a sync check waiting is not queued again. `skip` changes\nnothing, the next check asks again.\n",
+        "description": "Without `produce_resync` and with renditions that differ, the answer is a\n`202` asking how to go on. `now` and `tonight` queue a sync check for every\noriginal of the affected extensions at background priority, behind\nuploads; a sync check produces only the renditions whose produce hash\nchanged and deletes the renditions the config no longer has. An original\nthat already has a sync check waiting gets no second one, the waiting one\nstarts with this answer if it would start later, so `now` also starts what\nan earlier `tonight` left waiting. `skip` changes nothing, the next check\nasks again.\n",
         "parameters": [
           {
             "name": "produce_resync",

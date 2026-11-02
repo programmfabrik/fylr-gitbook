@@ -28422,8 +28422,10 @@ paths:
                 original of the affected extensions at background priority, behind
                 uploads; a sync check produces only the renditions whose produce hash
                 changed and deletes the renditions the config no longer has. An original
-                that already has a sync check waiting is not queued again. `skip` changes
-                nothing, the next check asks again.
+                that already has a sync check waiting gets no second one, the waiting one
+                starts with this answer if it would start later, so `now` also starts what
+                an earlier `tonight` left waiting. `skip` changes nothing, the next check
+                asks again.
             parameters:
                 - name: produce_resync
                   in: query
