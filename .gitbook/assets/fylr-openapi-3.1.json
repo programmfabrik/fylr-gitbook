@@ -30364,6 +30364,23 @@
                 }
               }
             }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored. This answer\ncarries none of the file's headers and is no `206`. In `parameters`,\n`fileid` is the file and `location` the id of its storage location,\n`remote` for a file left at a url.\n\n* `StorageRefused`: the storage answered with an error other than\n  `404`. `storagestatus` is its status, `storagemessage` what it\n  said, cut to 256 characters, without markup and empty if it said\n  nothing. Of an S3 error document it holds the code and the\n  message.\n* `StorageUnreachable`: the storage gave no answer or broke off, or\n  its storage location is not connected. `reason` says why.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       },
@@ -30453,6 +30470,9 @@
                 }
               }
             }
+          },
+          "502": {
+            "description": "As for `GET`, without a body."
           }
         }
       }
@@ -30829,11 +30849,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -30963,11 +31000,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -31088,11 +31142,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -31222,11 +31293,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -31356,11 +31444,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -31499,11 +31604,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -31633,11 +31755,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -31776,11 +31915,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -31910,11 +32066,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -32053,11 +32226,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -32187,11 +32377,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -32330,11 +32537,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -32473,11 +32697,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -32625,11 +32866,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -32768,11 +33026,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -32920,11 +33195,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -33855,11 +34147,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -34168,11 +34477,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -34472,11 +34798,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -34767,11 +35110,28 @@
             }
           },
           "404": {
-            "description": "The addressed file id does not exist. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
+            "description": "The addressed file id does not exist, or the storage location or the\nurl the file was left at no longer has its content. A wrong `hash`, wrong\n`version`, or an invalid / expired signature is a `403`, not\na `404`.\n",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "**fylr** did not get the file from where it is stored, as for\n`GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the\nstorage answered with an error other than `404`, `StorageUnreachable`\nif it gave no answer. A `404` of the storage is a `404`\n`ResourceNotFound`. Like every error, it has no `ETag` and\n`Cache-Control` is `no-store, no-cache`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/StorageRefusedError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StorageUnreachableError"
+                    }
+                  ]
                 }
               }
             }
@@ -58980,6 +59340,137 @@
           },
           "realm": "api",
           "statuscode": 400
+        }
+      },
+      "StorageRefusedError": {
+        "type": "object",
+        "description": "Error returned with `code` `StorageRefused` (HTTP `502`).\n",
+        "required": [
+          "code",
+          "error",
+          "package",
+          "parameters",
+          "realm",
+          "statuscode"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Stable, machine-readable error code:\n\n  * `StorageRefused` — the storage of the file answered with an error other\n    than `404`. `storagestatus` is its status, `storagemessage` what it said,\n    `location` the id of the storage location or `remote` for a file left at\n    a url.\n",
+            "enum": [
+              "StorageRefused"
+            ]
+          },
+          "error": {
+            "type": "string",
+            "description": "Human-readable message, localized to the caller's preferred language.\nIf no translation exists for this error key, the untranslated message\nis returned with a `Package` / `Code` footer appended.\n"
+          },
+          "package": {
+            "type": "string",
+            "description": "Internal origin marker for **fylr** support; not part of the API\ncontract. Branch on `code`, not `package`.\n",
+            "enum": [
+              "filedownload"
+            ]
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Machine-readable details: `fileid`, `location`, `storagemessage`, `storagestatus`.\n"
+          },
+          "realm": {
+            "type": "string",
+            "description": "The realm the error originates from. Always `api`.",
+            "enum": [
+              "api"
+            ]
+          },
+          "statuscode": {
+            "type": "integer",
+            "description": "The HTTP status code, repeated here. Always `502`.",
+            "enum": [
+              502
+            ]
+          }
+        },
+        "example": {
+          "code": "StorageRefused",
+          "error": "The storage (remote) of file 8 answered 403: signature expired",
+          "package": "filedownload",
+          "parameters": {
+            "fileid": 8,
+            "location": "remote",
+            "realm": "api",
+            "statuscode": 502,
+            "storagemessage": "signature expired",
+            "storagestatus": 403
+          },
+          "realm": "api",
+          "statuscode": 502
+        }
+      },
+      "StorageUnreachableError": {
+        "type": "object",
+        "description": "Error returned with `code` `StorageUnreachable` (HTTP `502`).\n",
+        "required": [
+          "code",
+          "error",
+          "package",
+          "parameters",
+          "realm",
+          "statuscode"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Stable, machine-readable error code:\n\n  * `StorageUnreachable` — the storage of the file gave no answer or broke\n    off, or its storage location is not connected. `reason` says why,\n    `location` is the id of the storage location or `remote` for a file left\n    at a url.\n",
+            "enum": [
+              "StorageUnreachable"
+            ]
+          },
+          "error": {
+            "type": "string",
+            "description": "Human-readable message, localized to the caller's preferred language.\nIf no translation exists for this error key, the untranslated message\nis returned with a `Package` / `Code` footer appended.\n"
+          },
+          "package": {
+            "type": "string",
+            "description": "Internal origin marker for **fylr** support; not part of the API\ncontract. Branch on `code`, not `package`.\n",
+            "enum": [
+              "filedownload"
+            ]
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Machine-readable details: `fileid`, `location`, `reason`.\n"
+          },
+          "realm": {
+            "type": "string",
+            "description": "The realm the error originates from. Always `api`.",
+            "enum": [
+              "api"
+            ]
+          },
+          "statuscode": {
+            "type": "integer",
+            "description": "The HTTP status code, repeated here. Always `502`.",
+            "enum": [
+              502
+            ]
+          }
+        },
+        "example": {
+          "code": "StorageUnreachable",
+          "error": "The storage (remote) of file 8 cannot be reached: connection refused",
+          "package": "filedownload",
+          "parameters": {
+            "fileid": 8,
+            "location": "remote",
+            "realm": "api",
+            "reason": "connection refused",
+            "statuscode": 502
+          },
+          "realm": "api",
+          "statuscode": 502
         }
       },
       "SystemRightRequiredError": {

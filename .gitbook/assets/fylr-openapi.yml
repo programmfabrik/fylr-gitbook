@@ -29412,6 +29412,26 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored. This answer
+                        carries none of the file's headers and is no `206`. In `parameters`,
+                        `fileid` is the file and `location` the id of its storage location,
+                        `remote` for a file left at a url.
+
+                        * `StorageRefused`: the storage answered with an error other than
+                          `404`. `storagestatus` is its status, `storagemessage` what it
+                          said, cut to 256 characters, without markup and empty if it said
+                          nothing. Of an S3 error document it holds the code and the
+                          message.
+                        * `StorageUnreachable`: the storage gave no answer or broke off, or
+                          its storage location is not connected. `reason` says why.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
         head:
             parameters:
                 - name: fileId
@@ -29487,6 +29507,8 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: As for `GET`, without a body.
     /eas/download/{fileId}/{hash}/{version}/{zippath}:
         x-path: /eas/download
         description: |
@@ -29840,13 +29862,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     /eas/zoom/{fileId}/{hash}/{version}/zoom{zoom_viewport}/size{zoom_tile_size}/part{zoom_x}x{zoom_y}.{format}:
         x-path: /eas/zoom
         description: |
@@ -29957,13 +29994,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     /eas/zoom/{fileId}/{hash}/{version}/zoom{zoom_viewport}/avoid_interpolation/part{zoom_x}x{zoom_y}.{format}:
         x-path: /eas/zoom
         description: |
@@ -30067,13 +30119,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     /eas/zoom/{fileId}/{hash}/{version}/zoom{zoom_viewport}/size{zoom_tile_size}/avoid_interpolation/part{zoom_x}x{zoom_y}.{format}:
         x-path: /eas/zoom
         description: |
@@ -30184,13 +30251,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     /eas/zoom/{fileId}/{hash}/{x-fylr-signature}/{version}/zoom{zoom_viewport}/part{zoom_x}x{zoom_y}.{format}:
         x-path: /eas/zoom
         description: |
@@ -30300,13 +30382,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     /eas/zoom/{fileId}/{hash}/{x-fylr-signature}/{version}/zoom{zoom_viewport}/size{zoom_tile_size}/part{zoom_x}x{zoom_y}.{format}:
         x-path: /eas/zoom
         description: |
@@ -30423,13 +30520,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     /eas/zoom/{fileId}/{hash}/{x-fylr-signature}/{version}/zoom{zoom_viewport}/avoid_interpolation/part{zoom_x}x{zoom_y}.{format}:
         x-path: /eas/zoom
         description: |
@@ -30539,13 +30651,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     ? /eas/zoom/{fileId}/{hash}/{x-fylr-signature}/{version}/zoom{zoom_viewport}/size{zoom_tile_size}/avoid_interpolation/part{zoom_x}x{zoom_y}.{format}
     :   x-path: /eas/zoom
         description: |
@@ -30662,13 +30789,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     /eas/zoom/{fileId}/{hash}/obj_uuid/{obj_uuid}/{version}/zoom{zoom_viewport}/part{zoom_x}x{zoom_y}.{format}:
         x-path: /eas/zoom
         description: |
@@ -30779,13 +30921,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     /eas/zoom/{fileId}/{hash}/obj_uuid/{obj_uuid}/{version}/zoom{zoom_viewport}/size{zoom_tile_size}/part{zoom_x}x{zoom_y}.{format}:
         x-path: /eas/zoom
         description: |
@@ -30903,13 +31060,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     /eas/zoom/{fileId}/{hash}/obj_uuid/{obj_uuid}/{version}/zoom{zoom_viewport}/avoid_interpolation/part{zoom_x}x{zoom_y}.{format}:
         x-path: /eas/zoom
         description: |
@@ -31020,13 +31192,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     ? /eas/zoom/{fileId}/{hash}/obj_uuid/{obj_uuid}/{version}/zoom{zoom_viewport}/size{zoom_tile_size}/avoid_interpolation/part{zoom_x}x{zoom_y}.{format}
     :   x-path: /eas/zoom
         description: |
@@ -31144,13 +31331,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     /eas/zoom/{fileId}/{hash}/obj_uuid/{obj_uuid}/{x-fylr-signature}/{version}/zoom{zoom_viewport}/part{zoom_x}x{zoom_y}.{format}:
         x-path: /eas/zoom
         description: |
@@ -31267,13 +31469,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     ? /eas/zoom/{fileId}/{hash}/obj_uuid/{obj_uuid}/{x-fylr-signature}/{version}/zoom{zoom_viewport}/size{zoom_tile_size}/part{zoom_x}x{zoom_y}.{format}
     :   x-path: /eas/zoom
         description: |
@@ -31397,13 +31614,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     ? /eas/zoom/{fileId}/{hash}/obj_uuid/{obj_uuid}/{x-fylr-signature}/{version}/zoom{zoom_viewport}/avoid_interpolation/part{zoom_x}x{zoom_y}.{format}
     :   x-path: /eas/zoom
         description: |
@@ -31520,13 +31752,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     ? /eas/zoom/{fileId}/{hash}/obj_uuid/{obj_uuid}/{x-fylr-signature}/{version}/zoom{zoom_viewport}/size{zoom_tile_size}/avoid_interpolation/part{zoom_x}x{zoom_y}.{format}
     :   x-path: /eas/zoom
         description: |
@@ -31650,13 +31897,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
     /eas/iiif/{fileId}/{hash}/obj_uuid/{obj_uuid}/{x-fylr-signature}/{version}/info.json:
         x-path: /eas/iiif
         description: |
@@ -32441,13 +32703,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
         head:
             description: |
                 Same access checks as `GET` (and the same `403` / `404`
@@ -32698,13 +32975,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
         head:
             description: |
                 Same access checks as `GET` (and the same `403` / `404`
@@ -32948,13 +33240,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
         head:
             description: |
                 Same access checks as `GET` (and the same `403` / `404`
@@ -33191,13 +33498,28 @@ paths:
                                 $ref: '#/components/schemas/InsufficientRightsError'
                 "404":
                     description: |
-                        The addressed file id does not exist. A wrong `hash`, wrong
+                        The addressed file id does not exist, or the storage location or the
+                        url the file was left at no longer has its content. A wrong `hash`, wrong
                         `version`, or an invalid / expired signature is a `403`, not
                         a `404`.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ResourceNotFoundError'
+                "502":
+                    description: |
+                        **fylr** did not get the file from where it is stored, as for
+                        `GET /eas/download/{fileId}/{hash}/{version}`: `StorageRefused` if the
+                        storage answered with an error other than `404`, `StorageUnreachable`
+                        if it gave no answer. A `404` of the storage is a `404`
+                        `ResourceNotFound`. Like every error, it has no `ETag` and
+                        `Cache-Control` is `no-store, no-cache`.
+                    content:
+                        application/json:
+                            schema:
+                                oneOf:
+                                    - $ref: '#/components/schemas/StorageRefusedError'
+                                    - $ref: '#/components/schemas/StorageUnreachableError'
         head:
             description: |
                 Same access checks as `GET` (and the same `403` / `404`
@@ -55814,6 +56136,133 @@ components:
                     statuscode: 400
                 realm: api
                 statuscode: 400
+        StorageRefusedError:
+            type: object
+            description: |
+                Error returned with `code` `StorageRefused` (HTTP `502`).
+            required:
+                - code
+                - error
+                - package
+                - parameters
+                - realm
+                - statuscode
+            properties:
+                code:
+                    type: string
+                    description: |
+                        Stable, machine-readable error code:
+
+                          * `StorageRefused` — the storage of the file answered with an error other
+                            than `404`. `storagestatus` is its status, `storagemessage` what it said,
+                            `location` the id of the storage location or `remote` for a file left at
+                            a url.
+                    enum:
+                        - StorageRefused
+                error:
+                    type: string
+                    description: |
+                        Human-readable message, localized to the caller's preferred language.
+                        If no translation exists for this error key, the untranslated message
+                        is returned with a `Package` / `Code` footer appended.
+                package:
+                    type: string
+                    description: |
+                        Internal origin marker for **fylr** support; not part of the API
+                        contract. Branch on `code`, not `package`.
+                    enum:
+                        - filedownload
+                parameters:
+                    type: object
+                    additionalProperties: true
+                    description: |
+                        Machine-readable details: `fileid`, `location`, `storagemessage`, `storagestatus`.
+                realm:
+                    type: string
+                    description: The realm the error originates from. Always `api`.
+                    enum:
+                        - api
+                statuscode:
+                    type: integer
+                    description: The HTTP status code, repeated here. Always `502`.
+                    enum:
+                        - 502
+            example:
+                code: StorageRefused
+                error: 'The storage (remote) of file 8 answered 403: signature expired'
+                package: filedownload
+                parameters:
+                    fileid: 8
+                    location: remote
+                    realm: api
+                    statuscode: 502
+                    storagemessage: signature expired
+                    storagestatus: 403
+                realm: api
+                statuscode: 502
+        StorageUnreachableError:
+            type: object
+            description: |
+                Error returned with `code` `StorageUnreachable` (HTTP `502`).
+            required:
+                - code
+                - error
+                - package
+                - parameters
+                - realm
+                - statuscode
+            properties:
+                code:
+                    type: string
+                    description: |
+                        Stable, machine-readable error code:
+
+                          * `StorageUnreachable` — the storage of the file gave no answer or broke
+                            off, or its storage location is not connected. `reason` says why,
+                            `location` is the id of the storage location or `remote` for a file left
+                            at a url.
+                    enum:
+                        - StorageUnreachable
+                error:
+                    type: string
+                    description: |
+                        Human-readable message, localized to the caller's preferred language.
+                        If no translation exists for this error key, the untranslated message
+                        is returned with a `Package` / `Code` footer appended.
+                package:
+                    type: string
+                    description: |
+                        Internal origin marker for **fylr** support; not part of the API
+                        contract. Branch on `code`, not `package`.
+                    enum:
+                        - filedownload
+                parameters:
+                    type: object
+                    additionalProperties: true
+                    description: |
+                        Machine-readable details: `fileid`, `location`, `reason`.
+                realm:
+                    type: string
+                    description: The realm the error originates from. Always `api`.
+                    enum:
+                        - api
+                statuscode:
+                    type: integer
+                    description: The HTTP status code, repeated here. Always `502`.
+                    enum:
+                        - 502
+            example:
+                code: StorageUnreachable
+                error: 'The storage (remote) of file 8 cannot be reached: connection refused'
+                package: filedownload
+                parameters:
+                    fileid: 8
+                    location: remote
+                    realm: api
+                    reason: connection refused
+                    statuscode: 502
+                realm: api
+                statuscode: 502
         SystemRightRequiredError:
             type: object
             description: |
