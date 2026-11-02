@@ -210,6 +210,7 @@ custom_events:
 | [`custom_types`](./#custom_types)           | Custom data types — see [Custom Data](../../customdata.md).                                          |
 | [`system_rights`](./#system_rights)         | System rights the plugin adds.                                                                       |
 | [`custom_events`](./#custom_events)         | Event types the plugin registers.                                                                    |
+| `task_modules`                              | Background task modules — see [Task modules](../task-modules.md).                                    |
 
 A plugin has no `version` key: its version is the tag of its release, delivered as `build_info.release` by `GET /api/v1/plugin`. A `version` left in an older manifest is ignored.
 
