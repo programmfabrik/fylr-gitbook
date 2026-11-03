@@ -30,6 +30,8 @@ fylr tests the connection to each storage location and shows the result in the *
 
 **From version 6.35.0**, a location that is not `connected` is retried in the background, every 5 to 30 seconds, for as long as it stays unreachable, and fylr writes a line to its log when the location recovers. A location that was simply not available yet when fylr started — an S3 bucket, or the user fylr authenticates as, being created moments after the instance — therefore turns `connected` on its own. Before 6.35.0 such a location stayed in `error` until the instance was restarted or somebody saved the location again, and every file written to it failed in the meantime.
 
+**From version 6.36.0**, an S3 or Azure location is `connected` only when a storage service answered: an S3 listing names its bucket, an Azure answer carries an `x-ms-request-id` header. When something else answers at the endpoint, or nothing does, the message is `no storage service answered at the endpoint, the fylr log has the error`, and the reason is in the fylr log. A location gets 10 seconds to connect, at startup all locations connect at the same time, and one that is not connected by then is left to the background retry. A location whose storage does not answer therefore no longer holds up the start of fylr.
+
 ## Details
 
 | OPTION            | DESCRIPTION                                                                                                                                                                                                                                                               |
