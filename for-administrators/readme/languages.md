@@ -79,3 +79,17 @@ laptop, notebook, macbook => laptop
 #### Synonym Text File
 
 Alternatively, upload the synonym configuration as a text file.
+
+## Indexer
+
+### Default Analyzer Settings
+
+These settings apply to every field without a language: single-line and multi-line text, string, and the base types such as users, groups and pools.
+
+#### Remove Diacritics
+
+The same folding as **Remove Diacritics** of a data language, for the fields without a language. With it, a search for `Savinon` finds `Saviñon` and `Cadiz` finds `Cádiz`. It is off by default.
+
+The full-text search also matches text fields through the data languages, so there **Remove Diacritics** of a data language already ignores diacritics. This switch is needed for a search in a specific field.
+
+A change applies to existing records only after a full [re-index](../../for-system-administrators/inspect/system.md#re-index).

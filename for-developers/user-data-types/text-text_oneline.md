@@ -22,12 +22,20 @@ The above example has the value _this is the text_ for column `text`.
 
 Normalization is performed as part of the indexer documentation creation where all text is run through a `icu_normalizer`.&#x20;
 
-In the indexer, text is stored using a custom analyzer `icu_text` which works as follows:
+In the indexer, text is stored using a custom analyzer `icu_text`, or `icu_text_folded` when **Remove Diacritics** is switched on for the default analyzer (see [Languages](../../for-administrators/readme/languages.md#indexer)). They work as follows:
 
 ```json
 {
   "analysis": {
    "icu_text": {
+     "type": "custom",
+     "tokenizer": "custom_icu_tokenizer",
+     "filter": [],
+     "char_filter": [
+       "icu_normalizer"
+     ]
+  },
+   "icu_text_folded": {
      "type": "custom",
      "tokenizer": "custom_icu_tokenizer",
      "filter": [
@@ -61,7 +69,9 @@ What causes token separation:
 * Whitespace characters.
 * Other symbols and control characters not specified.
 
-Tokens are then turned into terms using the [`icu_folding`](https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu-folding.html) token filter. The filter removes all punctuation and turns all characters into lower case. So the token _Bär_ is stored as _bar_.
+The `icu_normalizer` also turns all characters into lower case, so the token _Bär_ is stored as _bär_, and a search for _bar_ in the field does not find it. With **Remove Diacritics** switched on, the [`icu_folding`](https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu-folding.html) token filter also removes the diacritics: _Bär_ is stored as _bar_ and found by _bar_ and _bär_. The switch is off by default, and a change applies to existing records only after a re-index.
+
+For the full-text search, text is also indexed with the analyzer of every data language, so the **Remove Diacritics** setting of a data language makes the full-text search ignore diacritics in text too. Multi-language fields (`text_l10n`, `text_l10n_oneline`) are indexed with the analyzer of their data language.
 
 Using the API, searches for text can be performed either on the analysed value (matching the terms), or on the unanalysed value, which is stored alongside with all terms. The unanalysed value stores the data _as is._ There is no normalisation taking place.
 
