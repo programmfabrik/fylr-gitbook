@@ -640,8 +640,11 @@ fylr:
     # automatic: four times that start, at least 32, at most twice
     # fylr.db.maxOpenConns when that is set (every item in flight may hold a
     # database connection for a moment), and never below the start itself. A
-    # value is a hard cap; one below the slots reserved for high-priority items
-    # is raised to leave one normal slot.
+    # value is a hard cap on all claimed items; one below the slots reserved for
+    # high-priority items is raised to leave one normal slot. Items that need no
+    # execserver, such as the sync of a resync, run in a fixed number of workers
+    # of their own instead: twice the CPU count, at most a quarter of
+    # fylr.db.maxOpenConns.
     maxInFlight: 0
     # WHERE AN EXECSERVER REACHES THIS FYLR
     #

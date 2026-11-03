@@ -53,6 +53,8 @@ Work is a row in the `file_queue` table. From 6.35.0 one **file dispatcher** per
 * `fylr.execserver.maxInFlight` caps it, 0 (the default) meaning automatic: four times the base, at least 32, at most twice `fylr.db.maxOpenConns`;
 * a few slots are reserved for items that rank above normal, so interactive work (an upload someone is watching) is never stuck behind a big background reprocessing run.
 
+From 6.36.0 the items that need no execserver — `sync`, `sync_check`, `produce_versions` and the transfers `copy_move`, `copy_move_produce`, `map_to_local_storage` and `checksum` — run in a **local lane** of their own, and the admission holds only the rest. The lane has twice the CPU count of workers, at most a quarter of `fylr.db.maxOpenConns` and at least two (3 on sqlite). A quarter of them, at least one, is kept for items above normal, and transfers take at most half, since each holds its worker for a whole file. While more than half of the pool is in use or anything queued for a connection, the lane takes one normal item at a time, and the kept workers stay open because an upload waits for its sync. So a resync of all originals leaves the requests about as fast as without it, and takes somewhat longer for it. A `fylr.execserver.maxInFlight` caps the items of both together.
+
 The dispatcher claims once a second and the moment an item finishes, per claim roughly:
 
 ```sql
@@ -60,15 +62,18 @@ SELECT … FROM file_queue
 WHERE status = 'new' AND start_after < now()
   -- for the reserved slots additionally: AND priority > 0
   -- from 6.36.0, for the services at their cap: AND service NOT IN (…)
+  -- from 6.36.0, the local lane: AND action IN (…), the admission: AND action NOT IN (…)
 ORDER BY priority DESC, id ASC
 LIMIT <free admission> FOR UPDATE SKIP LOCKED;
 ```
 
-`FOR UPDATE SKIP LOCKED` (PostgreSQL) lets several fylr servers pull from the same queue without stepping on each other. The reserved slots take what ranks above `normal`, whatever the band's "high" variant says: a resync queues at `background` high and leaves them free. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant, used for the first steps of a file and its standard versions. `/inspect/system/queues` shows the admission and its parts, and the items in flight of each service capped by `maxSlots`.
+`FOR UPDATE SKIP LOCKED` (PostgreSQL) lets several fylr servers pull from the same queue without stepping on each other. The reserved slots take what ranks above `normal`, whatever the band's "high" variant says: a resync queues at `background` high and leaves them free. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant, used for the first steps of a file and its standard versions. `/inspect/system/queues` shows the admission and its parts, the items in flight of each service capped by `maxSlots`, and the busy workers of the local lane.
+
+From 6.36.0 `/metrics` says where an item's time goes. `fylr_server_file_item_seconds` on fylr, per action and phase: `prep` up to the first job, `wait` for a slot, `job` in the slot, `rest` for writing the result and for all of an item without a job. `fylr_execserver_job_phase_seconds` on the execserver, per service and phase: `file_in`, `command` and `file_out`.
 
 The item's goroutine loads the full `File` (parent, children, metadata, source) and runs the job's **action**. On success the queue row is deleted. A *requeueable* failure puts the row back into the queue a minute later, as often as it takes: no execserver slot within `fylr.execserver.connectTimeoutSec`, no execserver reachable at all, an execserver that stopped the job while shutting down — so a large batch of videos is worked through however long it waits for the slots. A remote source (`/eas/rput`) that answers 429, 502, 503 or 504 is asked again after its `Retry-After` (at most ten minutes, otherwise a minute) and given up on an hour after the job was queued. An item interrupted by the fylr server's own shutdown goes back into the queue at once. The items of a fylr server that was killed go back within a minute, once the others see it gone; each claimed row names the backend that holds it. A hard failure sets the file to `error` and re-indexes the objects that carry it.
 
-The actions are `metadata`, `produce`, `sync`, `sync_check`, `copy_move`, `copy_move_produce`, `produce_versions` and `checksum`. They are documented from the execserver's side in [Exec server → File Queue](execserver.md#file-queue).
+The actions are `metadata`, `produce`, `sync`, `sync_check`, `copy_move`, `copy_move_produce`, `map_to_local_storage`, `produce_versions` and `checksum`. They are documented from the execserver's side in [Exec server → File Queue](execserver.md#file-queue).
 
 ## 3. The state machine
 
