@@ -23,6 +23,13 @@ String values are normalised and lowercased for the index document.&#x20;
   "analyzer": {
     "keyword_lowercase": {
       "tokenizer": "keyword",
+      "filter": [],
+      "char_filter": [
+         "icu_normalizer"
+      ]
+   },
+    "keyword_folded": {
+      "tokenizer": "keyword",
       "filter": [
         "icu_folding"
       ],
@@ -33,7 +40,7 @@ String values are normalised and lowercased for the index document.&#x20;
 }
 ```
 
-Strings are normalized using the [`icu_normalizer`](https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu-normalization-charfilter.html) and converted to lower case using the  using the [`icu_folding`](https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu-folding.html) token filter.
+Strings are normalized and converted to lower case using the [`icu_normalizer`](https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu-normalization-charfilter.html) (`keyword_lowercase`). With **Remove Diacritics** switched on for the default analyzer (see [Languages](../../for-administrators/readme/languages.md#indexer)), strings are indexed with `keyword_folded`, which also removes the diacritics using the [`icu_folding`](https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu-folding.html) token filter. The switch is off by default, and a change applies to existing records only after a re-index.
 
 All strings for indexed documents is split into chunks of 8000 UTF-8 characters. When matching full texts in analysed form, text cannot easily be matched if they exceed 8000 characters.
 
