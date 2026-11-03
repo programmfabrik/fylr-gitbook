@@ -10,23 +10,7 @@ description: frequently asked questions
 
 <summary>Can I use keyboard shortcuts?</summary>
 
-Yes, shortcuts are available to all users for faster navigation and efficiency.
-
-Action keys:
-
-* **Windows**: Control, Alt, Win-Key
-* **MacOS**: Control, Option, Command
-
-| Shortcut           | Description                         |
-| ------------------ | ----------------------------------- |
-| **Action key + N** | Create new record                   |
-| **Action key + A** | Select all records                  |
-| **Action key + D** | Open download popover for selection |
-| **Action key + E** | Open expert search                  |
-| **Action key + S** | Save                                |
-| **Action key + E** | Open export popover for selection   |
-
-The user account needs the permissions to execute the underlying function.
+Yes. [Keyboard Shortcuts](../for-users/keyboard-shortcuts.md) lists them, with the keys they need and where they work.
 
 </details>
 
