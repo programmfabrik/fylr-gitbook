@@ -116,7 +116,7 @@ If you don't have a license key at all, or don't have a valid license key, you c
 
 fylr can be used without or with an expired license if **one** of the following applies:
 
-* The external URL `fylr.externalURL` is set to _localhost_ or ends in _.localhost_. This is aimed at development of fylr and of plugins.
+* The external URL `fylr.externalURL` is set to _localhost_ or ends in _.localhost_. This is aimed at development of fylr and of plugins. From fylr 6.36.0, [licensed plugins](plugins/overview.md) can be enabled there as well, unless the license names them without granting them.
 * The fylr user account **root** is used. This makes sure that you can always reach the part of fylr where to uplaod licenses. Other users can only log into localhost (see above).
 
 In case of an expired license, no data ist lost.

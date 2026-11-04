@@ -19,7 +19,7 @@ The name in the first column is the plugin's **internal name** — what the plug
 
 | Mark | Meaning |
 | --- | --- |
-| **licensed** | A paid plugin. It installs freely, but your fylr **license** has to grant it by name before it can be **enabled** — see [License management](../license-management.md). |
+| **licensed** | A paid plugin. It installs freely, but your fylr **license** has to grant it by name before it can be **enabled** — see [License management](../license-management.md). From fylr 6.36.0, a fylr at _localhost_ enables it without a grant. |
 | private repository | The source is not public, so the repository link is omitted. The plugin itself installs normally: private and paid plugins are delivered **sealed** and fylr decrypts them during the install. |
 | custom data type | The plugin contributes a new field type to the data model. |
 | needs `…` | The plugin requires another plugin. Installing it from the marketplace offers the missing one first; it cannot be enabled without it. |

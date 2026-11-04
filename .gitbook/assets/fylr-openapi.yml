@@ -49791,6 +49791,9 @@ components:
                         `"enabled": true` for the plugin to be allowed; otherwise the
                         plugin cannot be enabled and is force-disabled at runtime. Plugins
                         the license does not mention are unrestricted and omit this field.
+                        Exception: when `fylr.externalURL` is _localhost_, a `licensed`
+                        plugin the license does not mention carries `{"enabled": true}`, as
+                        it may be enabled there.
                     additionalProperties: true
                 encrypted:
                     type: boolean
@@ -49804,8 +49807,11 @@ components:
                         `true` when the marketplace catalog marks the plugin as paid: it can be
                         installed freely, but the instance license must grant it by name
                         (`"enabled": true` in the license's `plugins` block) before it can
-                        be enabled. Read-only: stamped from the catalog at install, values
-                        sent in requests are ignored.
+                        be enabled. When `fylr.externalURL` is _localhost_ (or ends in
+                        _.localhost_, or is `127.0.0.1`), such a plugin may be enabled
+                        unless the license mentions it without granting it, just like every
+                        license capability is on there. Read-only: stamped from the catalog
+                        at install, values sent in requests are ignored.
                 auto_added:
                     type: boolean
                     description: |
@@ -50084,7 +50090,8 @@ components:
                                 type: boolean
                                 description: |
                                     Only on `licensed` entries: whether the instance license
-                                    currently grants the plugin. Stamped by the server when the
+                                    currently grants the plugin (on _localhost_ also `true` when
+                                    the license does not mention it). Stamped by the server when the
                                     shop is served, so the client can show up front whether an
                                     installed plugin could be enabled.
                             custom_data_type:

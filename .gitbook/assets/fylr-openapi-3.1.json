@@ -52380,7 +52380,7 @@
           },
           "license": {
             "type": "object",
-            "description": "The license info block for this plugin, present **only** when the\nlicense mentions the plugin by its internal name (possibly as an\nempty object `{}`). When this block is present it must carry\n`\"enabled\": true` for the plugin to be allowed; otherwise the\nplugin cannot be enabled and is force-disabled at runtime. Plugins\nthe license does not mention are unrestricted and omit this field.\n",
+            "description": "The license info block for this plugin, present **only** when the\nlicense mentions the plugin by its internal name (possibly as an\nempty object `{}`). When this block is present it must carry\n`\"enabled\": true` for the plugin to be allowed; otherwise the\nplugin cannot be enabled and is force-disabled at runtime. Plugins\nthe license does not mention are unrestricted and omit this field.\nException: when `fylr.externalURL` is _localhost_, a `licensed`\nplugin the license does not mention carries `{\"enabled\": true}`, as\nit may be enabled there.\n",
             "additionalProperties": true
           },
           "encrypted": {
@@ -52389,7 +52389,7 @@
           },
           "licensed": {
             "type": "boolean",
-            "description": "`true` when the marketplace catalog marks the plugin as paid: it can be\ninstalled freely, but the instance license must grant it by name\n(`\"enabled\": true` in the license's `plugins` block) before it can\nbe enabled. Read-only: stamped from the catalog at install, values\nsent in requests are ignored.\n"
+            "description": "`true` when the marketplace catalog marks the plugin as paid: it can be\ninstalled freely, but the instance license must grant it by name\n(`\"enabled\": true` in the license's `plugins` block) before it can\nbe enabled. When `fylr.externalURL` is _localhost_ (or ends in\n_.localhost_, or is `127.0.0.1`), such a plugin may be enabled\nunless the license mentions it without granting it, just like every\nlicense capability is on there. Read-only: stamped from the catalog\nat install, values sent in requests are ignored.\n"
           },
           "auto_added": {
             "type": [
@@ -52625,7 +52625,7 @@
                 },
                 "license_enabled": {
                   "type": "boolean",
-                  "description": "Only on `licensed` entries: whether the instance license\ncurrently grants the plugin. Stamped by the server when the\nshop is served, so the client can show up front whether an\ninstalled plugin could be enabled.\n"
+                  "description": "Only on `licensed` entries: whether the instance license\ncurrently grants the plugin (on _localhost_ also `true` when\nthe license does not mention it). Stamped by the server when the\nshop is served, so the client can show up front whether an\ninstalled plugin could be enabled.\n"
                 },
                 "custom_data_type": {
                   "type": "boolean",
