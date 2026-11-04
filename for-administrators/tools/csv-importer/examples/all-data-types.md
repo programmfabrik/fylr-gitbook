@@ -22,6 +22,11 @@ If you want to import tags, please make sure, that the tags are available in you
 
 In the import mapping, select “\_tags” for the column containing the tag and the “ID” or “Display Name” field, depending on what you used in your CSV file. On the "Import Settings" tab choose, if the tags should be added to existing tags or should replace them when updating existing records.
 
+## Owner
+
+The owner can be given as user id, login, email or reference, or as group id or reference.\
+Only offered when the mask allows editing the owner.
+
 ## Single Line & Multi Line Text, Simple Text (String) <a href="#single-line--multi-line-text-simple-text-string" id="single-line--multi-line-text-simple-text-string"></a>
 
 It is recommended to enclose the texts in double quotation marks. If a text contains a comma, semicolon, backslash, tab or a break, double quotes must be used so that they are not interpreted as column separators.
