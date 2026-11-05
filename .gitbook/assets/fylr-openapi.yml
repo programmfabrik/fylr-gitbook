@@ -50495,12 +50495,47 @@ components:
             allOf:
                 - $ref: '#/components/schemas/response_202'
             description: |
-                Returned (HTTP 202) by a collection write that shares rights when the
-                collection's `_owner` lacks a grantable right for one of the linked objects
-                and the caller has `BAG_ACL`. The task offers to store the collection anyway
-                with sharing disabled: re-send the same request with `allow_invalid_acl=true`
-                (the button's `name`=`value`). When stored this way the collection is flagged
-                `_invalid_acl: true` and its ACL is not applied.
+                The `202` of the grant check of shared collections: the owner of a
+                collection cannot grant a record right its shares pass on for a record
+                linked in it. One task, whose button sends the same request again with
+                `allow_invalid_acl=true`. `title`, `message` and `text` are in the frontend
+                language of the caller. Nothing is saved.
+
+                The check:
+
+                * covers the collection and all collections below it, with all records
+                  linked there in their latest, not deleted version, not only the records
+                  the request sends;
+                * takes every share that applies to a collection, its own `_acl` items and
+                  the inherited ones (`_private_acl` cuts off those not `sticky`), also
+                  inactive shares and shares outside their `when` window;
+                * for each of the record rights `read`, `write`, `delete`, `asset_show`,
+                  `asset_download` and `asset_upload` in a share, the owner needs the same
+                  right with `_grantable` on the record, in the `rights` of a grant or
+                  through the right preset a grant names; `asset_show` and
+                  `asset_download` for every version the share lists (none for
+                  `versions` `[]`); `asset_show`, `asset_download` and `asset_upload`
+                  for every file column the share lists, for `column_ids` `[]` for every
+                  file column of the record's objecttype, its nested tables included
+                  (an owner holding the right with `column_ids` `[]` has them all). The
+                  collection rights (`bag_*`, `link`, `unlink`,
+                  `create_in_collection`) are not checked;
+                * skips records owned by the collection's owner, foreign records (linked
+                  by the `_global_object_id` of another instance) and collections whose
+                  owner has the system right `system.root`.
+
+                The first failing record ends the check of its collection. A caller with
+                `BAG_ACL` on every collection with a failing record (a collection's owner
+                and `system.root` have it) gets this `202`; its message names one of these
+                collections, its owner, the right and the record's system object id. A
+                caller without `BAG_ACL` on one of them gets `403`
+                `CollectionObjectInsufficientRights` with these details for such a
+                collection. Sent again with `allow_invalid_acl=true`, the request is saved
+                and every collection with a failing record gets `_invalid_acl: true`.
+
+                The example: the owner (frontend language `en-US`) pushes record 1401, on
+                which it has `read` without `_grantable`, into its collection "Shared",
+                which is shared with another user with `bag_read` and `read`.
             example:
                 tasks:
                     - title: Collection
