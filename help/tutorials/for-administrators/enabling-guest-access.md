@@ -14,7 +14,7 @@ In the base configuration under access, enable the checkbox for **Guest Access**
 Here you could also setup custom labels for the user login or setup self registration.
 {% endhint %}
 
-With this flag enabled, the instance is now publicly available and any user with knowledge of the URL can navigate to the instance without the need to login. In fylr those users are part of the group **Anonymous Users.**&#x20;
+With this flag enabled, the instance is now publicly available and any user with knowledge of the URL can navigate to the instance without the need to login. In fylr those users are part of the group **Anonymous Users.**
 
 See also [#allow-guest-access](../../../for-administrators/readme/access.md#allow-guest-access "mention")
 
@@ -22,7 +22,7 @@ See also [#allow-guest-access](../../../for-administrators/readme/access.md#allo
 
 To actually see and browse content in a fylr instance the anonymous user group needs permissions defining what they can see and interact with.
 
-Provide the user with the required permissions to interact with your instance:&#x20;
+Provide the user with the required permissions to interact with your instance:
 
 * **System Rights** (what features are available?)
   * set in Rights Management > Groups: Anonymous User > Tab: "System Rights"
@@ -46,3 +46,13 @@ Linked object types used in your main Object Type need explicit permissions to b
 
 Read more about [permissions](../../../for-administrators/permissions/ "mention")
 
+### Welcome Message in Search
+
+fylr allows to configure a custom **welcome message** in search, read more in[messages.md](../../../for-administrators/messages.md "mention").  It's possible to write custom HTML and provide a landing page for guests:
+
+* links to external documents relevant to your organization
+* links to fylr-internal pages such as search results, pools etc. &#x20;
+
+{% hint style="info" %}
+When such a message is active, the initial search result is deferred until the user applies a search.
+{% endhint %}
