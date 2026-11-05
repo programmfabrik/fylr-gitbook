@@ -62486,7 +62486,7 @@
                   "export_incremental",
                   "download"
                 ],
-                "description": "Export kind. `export` produces a fresh archive every run.\n`export_incremental` only includes objects that changed since\nthe last run. `download` is a single-shot package.\n"
+                "description": "Export kind. `export` produces a fresh archive every run.\n`export_incremental` only includes objects that changed since\nthe last run that did not fail (`_last_run_at`), and the\nobjects whose output shows a changed object: an object of a\nreverse field, also a child or descendant of a hierarchical\nobject. An object also counts as changed when one of its\nreverse objects or children was deleted or moved to another\nobject. With `merge_linked_objects` other than `none` and a\n`merge_max_depth` of `1` or more, a run also includes the\nobjects whose output shows a changed linked object: one the\nexport embeds, up to `merge_max_depth` link levels, or one\nit shows by its standard. When the search has the\nobjecttypes of linked objects, a run includes the linked\nobjects of the objects it includes, and with them their\nfiles. `download` is a single-shot package.\nOmitted or `\"\"` is `export`; another value, also in another\ncase, is rejected (`400`).\n"
               },
               "name": {
                 "type": "string",

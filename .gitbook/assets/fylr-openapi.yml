@@ -59174,7 +59174,21 @@ components:
                             description: |
                                 Export kind. `export` produces a fresh archive every run.
                                 `export_incremental` only includes objects that changed since
-                                the last run. `download` is a single-shot package.
+                                the last run that did not fail (`_last_run_at`), and the
+                                objects whose output shows a changed object: an object of a
+                                reverse field, also a child or descendant of a hierarchical
+                                object. An object also counts as changed when one of its
+                                reverse objects or children was deleted or moved to another
+                                object. With `merge_linked_objects` other than `none` and a
+                                `merge_max_depth` of `1` or more, a run also includes the
+                                objects whose output shows a changed linked object: one the
+                                export embeds, up to `merge_max_depth` link levels, or one
+                                it shows by its standard. When the search has the
+                                objecttypes of linked objects, a run includes the linked
+                                objects of the objects it includes, and with them their
+                                files. `download` is a single-shot package.
+                                Omitted or `""` is `export`; another value, also in another
+                                case, is rejected (`400`).
                         name:
                             type: string
                             description: Human-readable name.
