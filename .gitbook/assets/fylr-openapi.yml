@@ -62798,7 +62798,9 @@ components:
                         type: string
                     description: |
                         Restrict suggestions to objects of these objecttypes. Empty /
-                        omitted means no restriction.
+                        omitted means no restriction. The tokens of an objecttype
+                        include the words of the standard of the records it links (see
+                        `tokens` in `SuggestResponse`).
                 pool_ids:
                     type: array
                     items:
@@ -62852,9 +62854,10 @@ components:
                         selecting the suggestion as a search filter over these
                         objecttypes always yields results. Absent /
                         empty returns every match. Pass the objecttypes the caller will
-                        actually filter on click — kept separate from `objecttypes` on
-                        purpose, since `objecttypes` may be widened with the linked
-                        objecttypes so token matches inside linked objects are found.
+                        actually filter on click. Independent of `objecttypes`, which
+                        need not be widened with the linked objecttypes: the tokens of
+                        an objecttype include the words of the standard of the records
+                        it links.
                 analyze_wildcards:
                     type: boolean
                     default: false
@@ -62928,6 +62931,15 @@ components:
                         tokens:
                             type: array
                             nullable: true
+                            description: |
+                                A record also has the words of the standard of the
+                                records it links through a link field of its mask with
+                                fulltext search, and of their parents' standard: the
+                                standard its fulltext holds, also where the user may not
+                                read the linked record. Unless `fields` is set they are
+                                suggested for the record's objecttype; the other words
+                                of a linked record only with its objecttype in
+                                `objecttypes`.
                             items:
                                 type: object
                                 required:

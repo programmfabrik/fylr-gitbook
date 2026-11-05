@@ -27,6 +27,8 @@ The **word search** allows you to search for **exact word matches** across all s
 
 You can select a word directly from the **autocomplete suggestions**, or you can manually enter a word by enclosing it in **single quotes**, for example `'automobile'`. Using single quotes ensures that the term is treated as a whole word rather than part of a longer string.
 
+**From version 6.36.0** a record also has the words of the records it links, as far as its full-text search finds them: the name a linked record is shown with, and the names of the entries above it in a hierarchical list. The word suggestions offer these words for the record, e.g. `mainz` for an object linked to the place Mainz, and picking one finds the records linking it.
+
 #### Exact Search
 
 The **exact search** allows you to find records where a specific field matches **exactly** the search term you enter. This type of search is **case-sensitive** and does not return partial matches or variations (add wildcards to achieve this).

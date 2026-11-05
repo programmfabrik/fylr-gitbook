@@ -65734,7 +65734,7 @@
             "items": {
               "type": "string"
             },
-            "description": "Restrict suggestions to objects of these objecttypes. Empty /\nomitted means no restriction.\n"
+            "description": "Restrict suggestions to objects of these objecttypes. Empty /\nomitted means no restriction. The tokens of an objecttype\ninclude the words of the standard of the records it links (see\n`tokens` in `SuggestResponse`).\n"
           },
           "pool_ids": {
             "type": "array",
@@ -65765,7 +65765,7 @@
             "items": {
               "type": "string"
             },
-            "description": "Opt-in filter for `linked_objects`. When set, a linked-object\nsuggestion is kept only if at least one record of these\nobjecttypes links to it (directly, nested or reverse — the\n`_linked.\u003cot\u003e._id` closure the \"in\" filter queries when a\nsuggestion is clicked) or, for a hierarchical objecttype,\nto a record below it (the \"in\" filter with `include_path`), so\nselecting the suggestion as a search filter over these\nobjecttypes always yields results. Absent /\nempty returns every match. Pass the objecttypes the caller will\nactually filter on click — kept separate from `objecttypes` on\npurpose, since `objecttypes` may be widened with the linked\nobjecttypes so token matches inside linked objects are found.\n"
+            "description": "Opt-in filter for `linked_objects`. When set, a linked-object\nsuggestion is kept only if at least one record of these\nobjecttypes links to it (directly, nested or reverse — the\n`_linked.\u003cot\u003e._id` closure the \"in\" filter queries when a\nsuggestion is clicked) or, for a hierarchical objecttype,\nto a record below it (the \"in\" filter with `include_path`), so\nselecting the suggestion as a search filter over these\nobjecttypes always yields results. Absent /\nempty returns every match. Pass the objecttypes the caller will\nactually filter on click. Independent of `objecttypes`, which\nneed not be widened with the linked objecttypes: the tokens of\nan objecttype include the words of the standard of the records\nit links.\n"
           },
           "analyze_wildcards": {
             "type": "boolean",
@@ -65823,6 +65823,7 @@
               "tokens": {
                 "type": "array",
                 "nullable": true,
+                "description": "A record also has the words of the standard of the\nrecords it links through a link field of its mask with\nfulltext search, and of their parents' standard: the\nstandard its fulltext holds, also where the user may not\nread the linked record. Unless `fields` is set they are\nsuggested for the record's objecttype; the other words\nof a linked record only with its objecttype in\n`objecttypes`.\n",
                 "items": {
                   "type": "object",
                   "required": [
