@@ -561,7 +561,7 @@ fylr:
     logger: ""
     # Where to find the Elastic search index settings. If you provide your own
     # file make sure to base it on the default
-    # resources/index/index_settings.json which is included in the distribution.
+    # resources/indexer/index_settings.json which is included in the distribution.
     settings: ""
     # number of parallel workers to index documents, defaults to 4 (2 with
     # sqlite, unless set), set to 0 to disable
