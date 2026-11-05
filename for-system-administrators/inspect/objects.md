@@ -17,6 +17,12 @@ Enter a record's `_system_object_id` (and optionally its objecttype). The page l
 
 The JSON view (used by monitoring) reports the reindex ids, the current / rendering / object datamodel ids and any warning.
 
+## The IIIF viewer
+
+**From version 6.36.0** the record page lists **/api/objects (IIIF Clover)** under **Resources**. It opens the record's IIIF manifest in the [Clover](https://github.com/samvera-labs/clover-iiif) viewer on an inspect page of its own, in the mask chosen there. **/api/objects (IIIF Mirador)** opens the same manifest on projectmirador.org in a new tab.
+
+The viewer requests the manifest like any IIIF client, as a deep link without the inspect login, so it needs deep link access in the base configuration; the page warns when that is off. The browser loads Clover from cdn.jsdelivr.net: when a firewall or proxy blocks that host, the page says so, and the manifest link on the page opens in any other IIIF viewer.
+
 ## The object list
 
 `/inspect/objects/` lists the objecttypes with their record counts; picking one opens that objecttype's **object list**, a paged table of its records with id, system object id, version, pool and standard info.

@@ -43663,6 +43663,14 @@ paths:
             selector). When a `file/...` selector is present and no `format` is
             given, the raw file bytes are served.
 
+            A video canvas of the `iiif` manifest carries the WebVTT files
+            (`.vtt`) of its file field as `annotations`: one `AnnotationPage` with
+            a `supplementing` annotation per file the requester may show, in field
+            order. Its body is `type: Text`, `format: text/vtt`, the `label`
+            (language `none`) is the name after `--` in `<name>--<track>.vtt`,
+            else the basename, and `language` is that name when it is a language
+            tag (`de`, `deu` → `de`).
+
             For `iiif`, when no `mask/<name>` selector is given and the base
             config `deep_link_access.iiif_mask` names a mask that exists for the
             objecttype, that mask is used instead of the best mask. The

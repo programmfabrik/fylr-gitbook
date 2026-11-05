@@ -124,6 +124,16 @@ The manual route in the [section above](#add-the-subtitle-to-an-existing-video)
 works with any filename; only the automatic on-upload matching depends on the
 `--<label>.vtt` naming.
 
+### Subtitles in IIIF viewers
+
+**From version 6.36.0** the IIIF manifest of the record lists the subtitle
+tracks of its video, so a IIIF viewer such as Clover offers them too, with the
+same track label as the player. A label that is a language code (`de`, `en`,
+`deu`) also tells the viewer the track's language. A IIIF viewer reads the
+manifest through a deep link, so it gets a subtitle only when the deep link
+rights include the original of unknown files (`unknown.original`), the file
+class of a `.vtt`.
+
 ## Feature overview
 
 | Feature | How to use it |
