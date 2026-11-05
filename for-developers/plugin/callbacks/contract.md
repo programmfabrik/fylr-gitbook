@@ -109,7 +109,7 @@ A pre-save callback runs **while the save's write transaction is open**. A call 
 * it cannot see the uncommitted data of the save it is part of, and
 * on a **single-writer backend (SQLite)** it cannot write at all while the save's transaction holds the write lock — such a write fails with `423 DatabaseLockError`.
 
-For this, callbacks that run inside an open save transaction — [db\_pre\_save](db-pre-save.md), [transition\_db\_pre\_save](transition-db-pre-save.md) and the [collection upload](collection-upload.md) `objects` callback — additionally receive `info.api_tx_url`: a base URL whose requests are executed **inside the very transaction the callback runs in**. It is absent for extensions, exports and workflow webhooks. `api_tx_url` is a drop-in for `api_url` — append the same `db/…` paths — but deliberately scoped to the transactional `/db` surface:
+For this, callbacks that run inside an open save transaction — [db\_pre\_save](db-pre-save.md), [transition\_db\_pre\_save](transition-db-pre-save.md) and the [collection upload](collection-upload.md) `objects` callback — additionally receive `info.api_tx_url`: a base URL whose requests are executed **inside the very transaction the callback runs in**. It is absent for exports and workflow webhooks, and for extensions — except, from fylr **6.36.0**, an extension that a `pre_save` [workflow webhook](../../../for-administrators/readme/workflow-webhooks.md#send-authorization-header) with **Send Authorization Header** calls: it runs inside the save's transaction and receives `api_tx_url` like a `db_pre_save` callback. `api_tx_url` is a drop-in for `api_url` — append the same `db/…` paths — but deliberately scoped to the transactional `/db` surface:
 
 | Method & path | Purpose |
 | --- | --- |

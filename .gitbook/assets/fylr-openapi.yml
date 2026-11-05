@@ -59967,6 +59967,13 @@ components:
                                     groups are not checked);
                                     `webhook` -> `{"name":<configured webhook name>,"callback":"pre_save"|"after_commit_async"}`
                                     (callback defaults to `after_commit_async`).
+                                    A `pre_save` webhook with
+                                    `send_authorization_header` whose `url` is an extension of
+                                    an enabled plugin of this instance
+                                    (`/api/v1/plugin/extension/<plugin>/<extension>`, relative
+                                    or under the external URL) runs the extension inside the
+                                    transaction of the save; its `info` has `api_tx_url`, as
+                                    for a `db_pre_save` callback.
                                     Plugin action types carry whatever the plugin declares.
                     description: |
                         Ordered list of actions the transition performs. Each action is

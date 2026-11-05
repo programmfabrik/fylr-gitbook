@@ -30,7 +30,7 @@ The technical name of the webhook. This is the name you select in the workflow *
 
 ### URL
 
-The absolute `http(s)` URL **fylr** posts to. The request is always a `POST` with `Content-Type: application/json`.
+The `http(s)` URL **fylr** posts to. A URL without a host, such as `/api/v1/plugin/extension/<plugin>/<extension>`, is taken relative to the external URL of **fylr**. The request is always a `POST` with `Content-Type: application/json`.
 
 ### HMAC Secret
 
@@ -59,6 +59,8 @@ Request timeout in seconds. `0` (the default) means no explicit timeout. For a `
 ### Send Authorization Header
 
 If enabled, **fylr** adds an `Authorization: Bearer <access token>` HTTP header to the request. Use this when the webhook URL is served by **fylr** itself (or another service that authenticates against **fylr**), so the call is authenticated as the current user.
+
+From version 6.36.0, a `pre_save` webhook with this option whose URL is an [extension](../../for-developers/plugin/extensions.md) of an enabled plugin of the same **fylr** — `/api/v1/plugin/extension/<plugin>/<extension>`, relative or under the external URL — runs that extension **inside the save's transaction**: its `info` carries [`api_tx_url`](../../for-developers/plugin/callbacks/contract.md#writing-inside-the-save-transaction-api_tx_url), so the extension reads and writes inside that transaction, like a `db_pre_save` plugin callback.
 
 ### Include Access Token
 
