@@ -126,7 +126,8 @@ If it does not, look for a [`FILE_PRODUCE_ERROR`](../../for-administrators/event
 
 * **Conversion service moved**: edit the endpoint parameter on the version and save. No plugin change, no restart.
 * **Endpoint per version**: each version carries its own parameters, so two versions of the same class can point at two different services.
-* **Existing assets** are not re-produced by a base config change. Renditions are produced on upload, so changing the config affects new uploads and existing files need an explicit re-produce.
+* **Existing assets** are not re-produced by a base config change by itself. Renditions are produced on upload; from 6.36.0 a save that changes them asks whether to [produce the versions of existing files again](../../for-administrators/readme/file-worker/README.md#producing-the-versions-of-existing-files-again), before that existing files needed an explicit re-produce.
+* **Updating the plugin**: from 6.36.0 a recipe whose command line changes, for a new option or another order of its arguments, does not produce existing versions again. When an update changes what a recipe produces on purpose, raise the recipe's `revision` in its cookbook (unset is `1`). The versions using it are then listed in the file worker under **Renditions of the files** and produced again once an admin answers.
 * **Removing the plugin** while the config still references its recipe stops the version from being produced, dropped on load with a warning. Clean the version out of the base config rather than leaving a dangling reference.
 
 ## Scope, once more
