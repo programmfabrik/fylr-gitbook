@@ -1274,6 +1274,64 @@ fylr:
       # turns supervision off for that exec.
       stallTimeoutSec: 600
 
+      # Confine commands with Landlock, so what a job runs reaches only its
+      # own work dir, the system, its tools and its plugin, not fylr.yml or
+      # other jobs. Cached files are open to the jobs working on them. It needs
+      # Linux 5.13, and works in Docker with the default seccomp profile. HOME
+      # and TMPDIR of a command point into its work dir, which starts empty.
+      # Every key but ifUnavailable can be set for a service too, under
+      # services.<name>.sandbox, and replaces the value here for that service.
+      sandbox:
+        enabled: false
+
+        # A kernel that cannot do what is configured: "fail" refuses to start,
+        # "warn" logs it and runs without.
+        ifUnavailable: fail
+
+        # TCP of the commands (Linux 6.7), a supervisor's port list still
+        # applies on top: "any" leaves it alone, "none" allows none of it,
+        # "ports" allows connectPorts, no command can listen on a port. Hosts
+        # cannot be told apart, and UDP, so DNS, stays open.
+        network: none
+        # What "ports" connects to, it does not start without any: a port or
+        # a range per entry, from 1 to 65535.
+        #
+        #   connectPorts: [443]
+        #   connectPorts: [80, 443, 5432]
+        #   connectPorts:
+        #     - 443
+        #     - 8000-8100
+        #
+        # An overlay adds to the list with connectPorts+: [5432].
+        connectPorts: []
+
+        # Paths on top of what a job gets anyway, for tools, fonts or mounts
+        # elsewhere. Absolute, a file or a dir. A dir covers everything beneath
+        # it, there are no exceptions to it. A path that does not exist is
+        # skipped, and a path in several lists has the rights of all of them.
+        #
+        # allowRead can be read:
+        #
+        #   allowRead:
+        #     - /srv/fonts
+        #     - /mnt/archive/masters
+        #     - /srv/profiles/printer.icc
+        #
+        # allowWrite can be read and written, not executed:
+        #
+        #   allowWrite:
+        #     - /mnt/exports
+        #
+        # allowExec can be read and executed. /usr, /bin, /sbin, /lib and /opt
+        # are open already, and so is the dir of a command's absolute prog:
+        #
+        #   allowExec:
+        #     - /srv/venv
+        #     - /home/fylr/bin
+        allowRead: []
+        allowWrite: []
+        allowExec: []
+
       # The "waitgroups" block and the per-service "waitgroup" keys of
       # versions before 6.35 are reported as deprecated and ignored: the pool
       # above is the one pool, and maxSlots below caps a single service.
@@ -1387,10 +1445,43 @@ fylr:
         ffmpeg:
           maxSlots: 2
           threads: 0
+        # sandbox changes the block above for one service, key by key. A value
+        # replaces the one above, a list is not added to it. An entry here
+        # replaces the shipped service as a whole, so the plugin services have
+        # to repeat their "network: any" when they change something else.
+        #
+        # Plugin jobs tied to the ports they need:
+        #
+        #   exec:
+        #     sandbox:
+        #       network: ports
+        #       connectPorts: [80, 443]
+        #
+        # Paths for one service:
+        #
+        #   python3:
+        #     sandbox:
+        #       network: any
+        #       allowRead:
+        #         - /mnt/archive/masters
+        #       allowWrite:
+        #         - /mnt/exports
+        #
+        # One service out of the sandbox, or with "enabled: false" in the block
+        # above, the only one in it:
+        #
+        #   soffice:
+        #     sandbox:
+        #       enabled: false
+        #
+        #   soffice:
+        #     sandbox:
+        #       enabled: true
+        #
         # every other service: no cap beyond the pool
-        exec: {}
-        node: {}
-        python3: {}
+        exec: { sandbox: { network: any } }
+        node: { sandbox: { network: any } }
+        python3: { sandbox: { network: any } }
         xslt: {}
         convert: {}
         ocr: {}

@@ -190,6 +190,17 @@ fylr:
       drainTimeoutSec: 20
       # a command showing no progress for this long is aborted, 0 = off
       stallTimeoutSec: 600
+      # confine commands with Landlock (Linux), see fylr.example.yml
+      sandbox:
+        enabled: false
+        ifUnavailable: fail
+        # the tools get their files from the execserver and need no TCP, the
+        # plugin services below do
+        network: none
+        connectPorts: []
+        allowRead: []
+        allowWrite: []
+        allowExec: []
 
       # common environment to be used for all program exec
       env:
@@ -249,10 +260,10 @@ fylr:
       # a dedicated execserver limits itself to some services.
       services:
         # this service allows to execute arbitrary binaries
-        exec: {}
+        exec: { sandbox: { network: any } }
         # plugin support
-        node: {}
-        python3: {}
+        node: { sandbox: { network: any } }
+        python3: { sandbox: { network: any } }
         xslt: {}
         # file conversion support, also used by video thumbmnail which
         # is calling "fylr convert" which then calls ffmpeg
