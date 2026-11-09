@@ -24,7 +24,7 @@ The list shows all background tasks with the columns **Task ID**, **Module Name*
 
 For each task, the following actions are available:
 
-<table><thead><tr><th width="234.13671875">ACTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Run Now</strong></td><td>Starts the task immediately, regardless of its schedule.</td></tr><tr><td><strong>Edit Task</strong></td><td>Change title, description, parameters and schedule.</td></tr><tr><td><strong>View Task Log</strong></td><td>Inspect progress, results and error messages.</td></tr><tr><td><strong>Show Affected Records</strong></td><td>Oopen the records the task operates on in the search.</td></tr><tr><td><strong>Delete Task</strong></td><td>Remove the task (the records are not affected).</td></tr></tbody></table>
+<table><thead><tr><th width="234.13671875">ACTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Run Now</strong></td><td>Starts the task immediately, regardless of its schedule.</td></tr><tr><td><strong>Edit Task</strong></td><td>Change title, description, parameters and schedule.</td></tr><tr><td><strong>View Task Log</strong></td><td>Inspect progress, results and error messages.</td></tr><tr><td><strong>Show Affected Records</strong></td><td>Open the records the task operates on in the search. For a task with <strong>Range</strong>, see <a href="background-tasks.md#only-new-and-changed-records">Only New and Changed Records</a>.</td></tr><tr><td><strong>Delete Task</strong></td><td>Remove the task (the records are not affected).</td></tr></tbody></table>
 
 ## Creating a Task
 
@@ -36,11 +36,11 @@ There are three ways to create a background task:
 
 ### **Task Details**
 
-<table><thead><tr><th width="146.125">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Module</strong></td><td>The type of job the task performs (see <a href="background-tasks.md#modules">Modules</a>). The module is chosen at creation and <strong>cannot be changed afterwards</strong>.</td></tr><tr><td><strong>Title</strong></td><td>Nme of the task, shown in the Tasks Manager.Can be edited later.</td></tr></tbody></table>
+<table><thead><tr><th width="146.125">FIELD</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>Module</strong></td><td>The type of job the task performs (see <a href="background-tasks.md#modules">Modules</a>). The module is chosen at creation and <strong>cannot be changed afterwards</strong>.</td></tr><tr><td><strong>Title</strong></td><td>Name of the task, shown in the Tasks Manager. Can be edited later.</td></tr></tbody></table>
 
 ### **Task Parameters**
 
-The available parameters depend on the selected module. Most modules operate on a **Search**, which defines the target records — configured with the same options as the expert search. Enable **Incremental** on the search to run only on records changed since the task's last run — useful for a scheduled task, so it processes new and edited records instead of re-processing everything each time.
+The available parameters depend on the selected module. Most modules operate on a **Search**, which defines the target records — configured with the same options as the expert search. Below the search, the checkbox **Range** (_Only process records created or modified since the last run_) has each run take only what changed since the previous one, see [Only New and Changed Records](background-tasks.md#only-new-and-changed-records).
 
 ### **Scheduling & Notifications**
 
@@ -48,9 +48,25 @@ The available parameters depend on the selected module. Most modules operate on 
 
 <table><thead><tr><th width="228.94140625">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td><strong>None</strong></td><td>The task is saved but does not run by itself — start it with <strong>Run now</strong> when needed.</td></tr><tr><td><strong>Run now</strong></td><td>The task runs once, immediately after saving.</td></tr><tr><td><strong>Schedule a manual time</strong></td><td>The task runs once at the configured <strong>Start At</strong> time (empty = immediately).</td></tr><tr><td><strong>Use scheduler</strong></td><td>The task runs repeatedly according to one or more <strong>Schedules</strong>.</td></tr></tbody></table>
 
-With **Use scheduler**, configure recurring runs in the schedule editor. Presets: **Every minute**, **Every 5 / 10 / 15 / 30 minutes**, **Hourly**, **Daily**, **Weekly** — or build a **Custom Schedule** from **Day of Month**, **Weekday**, **Hour** and **Timezone**. A task can have multiple schedules; the next planned run is shown in the **Next Run At** column.
+With **Use scheduler**, configure recurring runs in the schedule editor. Presets: **Every minute**, **Every 5 / 10 / 15 / 30 minutes**, **Hourly**, **Daily**, **Weekly** — or build a **Custom Schedule** from **Day of Month**, **Weekday**, **Hour** and **Timezone**. **Hourly** runs at the full hour, **Daily** at 01:00 and **Weekly** on Sundays at 01:00, in the schedule's **Timezone** (the browser's, unless changed). A **Custom Schedule** runs at minute 0 of the chosen hours, at 01:00 if no hour is chosen. A task can have multiple schedules; the next planned run is shown in the **Next Run At** column.
 
 **Email**: add one or more users as recipients to send an email notification when the task is finished.
+
+## Only New and Changed Records
+
+From fylr 6.36.0, the task form shows the checkbox **Range** — _Only process records created or modified since the last run_ — below the search of the modules `search`, `delete_objects`, `metadata` and `set_unset_tags`. In the API, it is `"incremental": true` in `task_params.search`, for all four modules from fylr 6.25.0.
+
+With **Range** ticked:
+
+* The first run takes the whole search.
+* Every later run takes only the records of the search that were modified at or after the moment the previous run started. The first line of the task log names that moment, in UTC: `started "metadata", last run at 2026-11-09 01:00:00Z`.
+* A record counts as modified when a new version of it is saved: by a user, an import, a workflow, a plugin or another task. Restoring a record from the trash counts too, moving it to the trash does not. `delete_objects` with **Purge** therefore only purges the records that were modified since the previous run, not all records moved to the trash since then.
+* `metadata` and `set_unset_tags` leave out the records they saved themselves: the next run does not take them again unless something else modifies them. What another task saves counts like any other change, so one task can work on what another one did — see [Chaining Background Tasks](../../help/tutorials/for-administrators/chaining-background-tasks.md).
+* The previous run counts even when it ended with an error, was canceled or ran into its timeout: the next run does not take the records the previous one did not reach. A run that a restart of the fylr server interrupted does not count: the next run takes the whole search.
+* Editing a task keeps its previous run. After the search was changed, the next run takes only the records of the new search that were modified since then.
+* **Show Affected Records** shows the records the last run took, together with those modified since, which the next run will take. Before the first run, it shows the whole search.
+
+To have a task take its whole search once — after changing its search or mapping, or after a failed run — untick **Range**, run the task, and tick **Range** again. The next run then starts from the run without **Range**.
 
 ## Modules
 

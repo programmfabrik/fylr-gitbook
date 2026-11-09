@@ -147,6 +147,7 @@
     * [Setting Up Collection Sharing](help/tutorials/for-administrators/setting-up-collection-sharing.md)
     * [Enabling guest access](help/tutorials/for-administrators/enabling-guest-access.md)
     * [Enabling Two-Factor Authentication](help/tutorials/for-administrators/enabling-two-factor-authentication.md)
+    * [Chaining Background Tasks](help/tutorials/for-administrators/chaining-background-tasks.md)
   * [For System Administrators](help/tutorials/for-system-administrators/README.md)
     * [Regenerating preview images](help/tutorials/for-system-administrators/regenerating-preview-images.md)
     * [Migration with map to local storage](help/tutorials/for-system-administrators/migrate-map-to-local-storage.md)
