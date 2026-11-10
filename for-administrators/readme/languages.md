@@ -49,7 +49,7 @@ Examples:\
 
 Define how different terms are treated as synonyms to improve search results. It supports two types of rules: **equivalent synonyms** (bidirectional) and **explicit mappings** (one-way normalization).
 
-Synonyms apply where text is indexed with the language's analyzer: in multi-language fields, and in the full-text search also in a record's display name (the fields its mask shows as standard), including the display name of linked records. Single-line text, multi-line text and string fields have no language and get no synonyms, neither in the full-text search nor in a search in the field. To use synonyms for such content, make the field multi-language.
+Synonyms apply where text is indexed with the language's analyzer: in multi-language fields, and in the full-text search also in a record's standard info (title, subtitle, …, as set in the mask's Standard column), including the standard info of linked records. Single-line text, multi-line text and string fields have no language and get no synonyms, neither in the full-text search nor in a search in the field. To use synonyms for such content, make the field multi-language.
 
 While equivalent synonyms treat all terms as interchangeable (searching for "notebook" finds "laptop" and the other way around), explicit mappings normalize different terms into one standard term (searching for "notebook" finds "laptop", but "laptop" doesn't find "notebook").
 
@@ -94,6 +94,6 @@ These settings apply to every field without a language: single-line and multi-li
 
 The same folding as **Remove Diacritics** of a data language, for the fields without a language. With it, a search for `Savinon` finds `Saviñon` and `Cadiz` finds `Cádiz`. It is off by default.
 
-For text that is part of a record's display name, the full-text search also matches through the data languages, so there **Remove Diacritics** of a data language already ignores diacritics. For all other text in these fields, in the full-text search and in a search in the field, this switch is needed.
+For text that is part of a record's standard info, the full-text search also matches through the data languages, so there **Remove Diacritics** of a data language already ignores diacritics. For all other text in these fields, in the full-text search and in a search in the field, this switch is needed.
 
 A change applies to existing records only after a full [re-index](../../for-system-administrators/inspect/system.md#re-index).
