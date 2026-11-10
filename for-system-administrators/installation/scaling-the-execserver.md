@@ -39,3 +39,24 @@ No per-pod addressing is needed: no `tokenResponseSendServerIP`, no downward-API
 {% hint style="info" %}
 Rolling restarts are safe: on shutdown an execserver **drains** — it stops accepting new jobs and lets running jobs finish (up to `drainTimeoutSec`, default 20 s). Jobs still running at the deadline are handed back as "stopped, retry later": a file job goes back into the file queue.
 {% endhint %}
+
+## Downloads and exports
+
+Jobs are spread over the execservers one by one, so more execservers help where many jobs run at the same time. That is the case for uploads and imports: every file brings jobs of its own, for its metadata and for each rendition, and fylr hands them to all connected execservers at once.
+
+A download or an export is mostly work of fylr itself:
+
+* A stored file, the original or a rendition that is already produced, is read from the storage location and sent to the client by fylr. No execserver takes part.
+* A ZIP or tar.gz archive is written and compressed by fylr.
+* The data files of an export (CSV, Excel, XML, JSON) are written by fylr.
+
+An execserver runs a job for a download only where the file is changed on its way:
+
+* A [custom version preset](../../for-administrators/readme/file-worker/custom-version-presets.md) or a custom rendition is produced when it is downloaded, one job per file.
+* A [metadata mapping](../../for-administrators/metadata-mapping.md) other than **Unchanged** writes the metadata into each file while it is delivered, or removes it, one job per file.
+* An XSLT applied to an XML export runs as one job per XML file.
+* Files produced by an export plugin, and transports provided by a plugin, run as plugin jobs.
+
+An archive is written one entry after the other, so a single download has one of these jobs running at a time and keeps one execserver busy, whichever offers its slot first. More execservers do not make one archive faster. Several downloads at the same time, or files requested one by one in parallel, are separate jobs and are spread like any other.
+
+These jobs run at the highest priority, ahead of the production of renditions in the background, because a user is waiting for them.
