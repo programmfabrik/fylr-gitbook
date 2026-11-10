@@ -23,6 +23,14 @@ To **create** new pools, click on the **plus** button on the lower **left**. By 
 Please note, that right now it's not possible to change the hierarchical structure of the pools afterwards. In that case, please create a new pool in the desired level, move all records to the new pool and delete the old one.
 {% endhint %}
 
+{% hint style="info" %}
+**Optional short name of the pool**&#x20;
+
+* Has to be unique
+* Can be used for CSV imports or the API and as a deep link: `https://<your-fylr-url>/pool/<short-name>` opens the search filtered to this pool and its subordinate pools (users need to log in if the pool is not visible for anonymous users).&#x20;
+* The pool info in the search then shows this link. For the deep link use only letters without umlauts, digits, `-` and `_`. Spaces, umlauts and dots break it. Upper and lower case must match.
+{% endhint %}
+
 ## Pool Settings
 
 {% hint style="info" %}
