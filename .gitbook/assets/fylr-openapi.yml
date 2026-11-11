@@ -41243,6 +41243,14 @@ paths:
                 publish row in place; a descriptor without `_id` (or with `_id`
                 `0`) inserts a new one. Both kinds may be mixed in one request.
 
+                A record lists its publishings in `_published` and `_published_count`
+                of `GET /db` with `format=long` when its mask has
+                `system_fields.publish.output.mode` `show`. Through such a mask
+                **search** finds the record by them, with the `_published.` fields
+                and `_published_count` of the object search (see `SearchRequest`);
+                the index follows an insert, an update and a delete some seconds
+                after the request.
+
                 Differs from easydb 5: easydb 5 documents this endpoint as
                 insert-only — "Only new publishing can be done using this API.
                 There is no possibility to update an existing objects." (DELETE +
@@ -64232,6 +64240,26 @@ components:
                         | `group.type` | ✓ | ✓ |  | ✓ |
 
                         **acl** searches users and groups together, with the fields of both.
+
+                        For objects, `_published.collector`, `_published.publish_uri` and
+                        `_published.easydb_uri` are the `collector`, `publish_uri` and
+                        `easydb_uri` of the record's publishings (see **publish**),
+                        `_published.timestamp_created` is the time each was created and
+                        `_published_count` their number, `0` for a record without one. A
+                        record is found by any of its publishings, and two elements may be
+                        met by two of them; `sort` on a `_published.` name uses the lowest
+                        value ascending and the highest descending, the records without a
+                        publishing last, and `in` `null` on it finds the records without
+                        a publishing. The three texts are one word each, the whole value:
+                        `text` matches the whole value, ignoring case except for `exact`;
+                        `in` and `range` compare them case-sensitively by character code.
+                        A `term` aggregation takes the texts and `_published_count`. `in`
+                        and `range` on `_published.timestamp_created` take a time, or a
+                        day (`YYYY-MM-DD`), a month (`YYYY-MM`) or a year (`YYYY`) for the
+                        whole day, month or year. The names hold the publishings only
+                        through a mask whose `system_fields.publish.output.mode` is `show`:
+                        through another mask `_published_count` has no value and the record
+                        is searched as one without a publishing.
                     enum:
                         - pool
                         - collection
