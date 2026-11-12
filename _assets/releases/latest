@@ -1,8 +1,8 @@
 fylr-release 1
 tag latest
-version v6.35.3
-serial 20261102122619
+version v6.35.4
+serial 20261112171221
 maintain-required 1
 maintain-current 1
-image docker.fylr.io/fylr/fylr@sha256:8a2a0a153ec9f6e5e037effdeaffcd7b16c00b7a31fa032f6b0a73f0c9839d9c
-image docker.fylr.io/fylr/fylr-server@sha256:cb298ba3dd0e31b2fe6ef6b9511862d541eb88425fb35824b0d1124b45620a8f
+image docker.fylr.io/fylr/fylr@sha256:f2838cd4d7ec6ddd1d4ac7f7b4b5818a9287ad0651f4eaac237e316d2b7f9cf3
+image docker.fylr.io/fylr/fylr-server@sha256:b33a22d9338fa5f3b9cb299f5a2c804f9ec257063e7bebb38ad29642672eca4a
