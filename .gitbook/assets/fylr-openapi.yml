@@ -64533,7 +64533,11 @@ components:
                         type: string
                 in:
                     type: array
-                    description: For `in`, the set of values to match against.
+                    description: |
+                        For `in`, the set of values to match against. `null` matches objects
+                        whose field is empty. A localized field is empty in every language,
+                        or, with the element's own `languages` (also one inherited from a
+                        `complex` or `nested` element), in each of these.
                     items: {}
                 objecttype:
                     type: string
