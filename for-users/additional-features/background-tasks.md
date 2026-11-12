@@ -40,7 +40,7 @@ There are three ways to create a background task:
 
 ### **Task Parameters**
 
-The available parameters depend on the selected module. Most modules operate on a **Search**, which defines the target records — configured with the same options as the expert search. Below the search, the checkbox **Range** (_Only process records created or modified since the last run_) has each run take only what changed since the previous one, see [Only New and Changed Records](background-tasks.md#only-new-and-changed-records).
+The available parameters depend on the selected module. Most modules operate on a **Search**, which defines the target records — configured with the same options as the expert search. Below the search, the checkbox **Range** (_Only process records created or modified since the last run_) has each run take only what changed since the last successful one, see [Only New and Changed Records](background-tasks.md#only-new-and-changed-records).
 
 ### **Scheduling & Notifications**
 
@@ -59,14 +59,14 @@ From fylr 6.36.0, the task form shows the checkbox **Range** — _Only process r
 With **Range** ticked:
 
 * The first run takes the whole search.
-* Every later run takes only the records of the search that were modified at or after the moment the previous run started. The first line of the task log names that moment, in UTC: `started "metadata", last run at 2026-11-09 01:00:00Z`.
+* Every later run takes only the records of the search that were modified since the last successful run, up to its own start. A record that is still being saved, or not yet in the search index, when the run starts is left to the next run. The task log names the time span of the run, in UTC: `incremental: records modified from 2026-11-09T01:00:00Z to before 2026-11-10T01:00:00Z`.
 * A record counts as modified when a new version of it is saved: by a user, an import, a workflow, a plugin or another task. Restoring a record from the trash counts too, moving it to the trash does not. `delete_objects` with **Purge** therefore only purges the records that were modified since the previous run, not all records moved to the trash since then.
 * `metadata` and `set_unset_tags` leave out the records they saved themselves: the next run does not take them again unless something else modifies them. What another task saves counts like any other change, so one task can work on what another one did — see [Chaining Background Tasks](../../help/tutorials/for-administrators/chaining-background-tasks.md).
-* The previous run counts even when it ended with an error, was canceled or ran into its timeout: the next run does not take the records the previous one did not reach. A run that a restart of the fylr server interrupted does not count: the next run takes the whole search.
-* Editing a task keeps its previous run. After the search was changed, the next run takes only the records of the new search that were modified since then.
-* **Show Affected Records** shows the records the last run took, together with those modified since, which the next run will take. Before the first run, it shows the whole search.
+* From fylr 6.36.0, a run that ended with an error, was canceled or ran into its timeout does not count: the next run takes the records of its time span again, together with those modified since. The same holds for a run that a stop of the fylr server interrupted: the task runs again after the restart, or, with several fylr servers, on another one within a minute.
+* Editing a task keeps its last successful run. After the search was changed, the next run takes only the records of the new search that were modified since then.
+* **Show Affected Records** shows the records the last run took, including those `metadata` and `set_unset_tags` saved in it. The records modified since, which the next run will take, are not part of it. Before the first run, it shows the whole search.
 
-To have a task take its whole search once — after changing its search or mapping, or after a failed run — untick **Range**, run the task, and tick **Range** again. The next run then starts from the run without **Range**.
+To have a task take its whole search once — after changing its search or mapping — untick **Range**, run the task, and tick **Range** again. The next run then starts from the run without **Range**.
 
 ## Modules
 
