@@ -1,10 +1,19 @@
 #!/usr/bin/env python3
 
-import sys, os, datetime, json, re, glob, http.client, urllib.parse, tempfile, subprocess
+import sys, os, datetime, json, re, glob, http.client, urllib.parse, tempfile, subprocess, tarfile
 
 # number of most recent releases fetched from github. releases older than that
 # are kept in the index pages as they are, they are never regenerated.
 RELEASES_PER_PAGE = 10
+
+# assets of a release which are no downloads.
+# the complete release notes: github cuts the text of a release at 125000
+# characters, the page of the release takes them from this asset.
+NOTES_ASSET = 'fylr_release-notes.md'
+# the release records: one file per tag with the digests of its docker images,
+# published in _assets/releases/, where the maintain script reads them.
+RECORDS_ASSET = 'fylr_release-records.tar.gz'
+RECORDS_DIR = '_assets/releases'
 
 class Github:
     def __init__(self, token):
@@ -120,6 +129,60 @@ def merge_rel(rels, tup):
             return
     rels.append(tup)
 
+IMAGE_RE = re.compile(r'docker\.fylr\.io/(?P<repo>fylr/[a-z-]+)@(?P<digest>sha256:[0-9a-f]{64})')
+record_warnings = []
+
+def record_serial(text):
+    m = re.search(r'^serial (\d+)$', text, flags = re.M)
+    return int(m.group(1)) if m else 0
+
+def registry_digest(repo, tag):
+    """the digest docker.fylr.io serves a tag as, None if it has no such tag"""
+    con = http.client.HTTPSConnection('docker.fylr.io')
+    con.request('HEAD', '/v2/{}/manifests/{}'.format(repo, tag), headers = {
+        'Accept': ', '.join([
+            'application/vnd.docker.distribution.manifest.v2+json',
+            'application/vnd.oci.image.manifest.v1+json',
+            'application/vnd.docker.distribution.manifest.list.v2+json',
+            'application/vnd.oci.image.index.v1+json' ]) })
+    res = con.getresponse()
+    return res.getheader('Docker-Content-Digest') if res.status == 200 else None
+
+def put_records(tarname):
+    """unpack the release records of a release into _assets/releases/. a
+    record only replaces an older record of its tag: each final release has
+    one for latest, and the releases come newest first."""
+    with tarfile.open(tarname) as tar:
+        for member in tar.getmembers():
+            if not member.isfile():
+                continue
+            tag = os.path.basename(member.name)
+            text = tar.extractfile(member).read().decode('utf-8', 'replace')
+            images = [IMAGE_RE.fullmatch(line[6:]) for line in text.splitlines() if line.startswith('image ')]
+            if not re.fullmatch(r'[A-Za-z0-9._-]+', tag) \
+                    or not text.startswith('fylr-release 1\ntag {}\n'.format(tag)) \
+                    or not images or None in images:
+                raise Exception('not a release record: {}'.format(member.name))
+
+            fn = os.path.join(RECORDS_DIR, tag)
+            if os.path.exists(fn):
+                with open(fn, 'r') as f:
+                    if record_serial(f.read()) >= record_serial(text):
+                        continue
+
+            os.makedirs(RECORDS_DIR, exist_ok = True)
+            with open(fn, 'w') as f:
+                f.write(text)
+            print('* release record {}'.format(fn))
+
+            # the record is what the release pushed. tell when the registry
+            # serves the tag as something else.
+            for image in images:
+                served = registry_digest(image.group('repo'), tag)
+                if served != image.group('digest'):
+                    record_warnings.append('{}:{} is {} in the registry, its release record says {}'.format(
+                        image.group('repo'), tag, served, image.group('digest')))
+
 gh = Github(sys.argv[1])
 rels_per_year = read_existing_rels()
 
@@ -127,8 +190,21 @@ fs = Filestore()
 
 # per-release pages
 for rel in gh.get_releases():
-    if rel.get('prerelease') or rel.get('draft'):
-        print("skip %s: prerelease=%s, draft=%s" % (rel['name'], rel.get('prerelease'), rel.get('draft')))
+    if rel.get('draft'):
+        print("skip %s: draft" % (rel['name']))
+        continue
+
+    special = { asset['name']: asset for asset in rel['assets'] if asset['name'] in (NOTES_ASSET, RECORDS_ASSET) }
+
+    # a pre-release has release records too, but no page
+    if RECORDS_ASSET in special:
+        with tempfile.NamedTemporaryFile() as tmpfile:
+            a_url = special[RECORDS_ASSET]['url']
+            gh.get_file(a_url, tmpfile)
+            put_records(tmpfile.name)
+
+    if rel.get('prerelease'):
+        print("skip %s: prerelease" % (rel['name']))
         continue
 
     print("release %s..." % (rel['name']))
@@ -148,6 +224,8 @@ for rel in gh.get_releases():
     md.add_raw('\nPublished {}\n\n'.format(rel['published_at'].replace('T', ' ')))
 
     for asset in rel["assets"]:
+        if asset['name'] in special:
+            continue
         a_name = tag + "/" + asset['name']
         a_url = asset['url']
         print('* checking file {}'.format(a_url))
@@ -162,7 +240,15 @@ for rel in gh.get_releases():
         md.add_raw('* [{}]({})\n'.format(asset['name'], fs.get_url(a_name)))
     md.add_raw('\n')
 
-    md.add_raw(rel['body'])
+    body = rel['body']
+    if NOTES_ASSET in special:
+        with tempfile.NamedTemporaryFile() as tmpfile:
+            a_url = special[NOTES_ASSET]['url']
+            gh.get_file(a_url, tmpfile)
+            with open(tmpfile.name, 'r', encoding = 'utf-8') as f:
+                body = f.read()
+
+    md.add_raw(body)
     md.write(fn)
 
 # releases summaries, newest year first
@@ -196,3 +282,9 @@ with open('SUMMARY.md', 'r') as f:
 with open('SUMMARY.md', 'w') as f:
     for line in lines:
         f.write(line)
+
+if record_warnings:
+    print('\nWARNING: the registry does not serve what a release record says. Either a newer')
+    print('release is pushed but not published yet, or the tag was changed in the registry:')
+    for warning in record_warnings:
+        print('* ' + warning)

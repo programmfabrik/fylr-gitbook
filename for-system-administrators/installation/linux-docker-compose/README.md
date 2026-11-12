@@ -157,6 +157,20 @@ Log files of the cron job will go to `/var/log/fylr-maintain.log`.
 
 You can change the maintain script's config in `/etc/default/fylr`, using bash syntax.
 
+### How maintain updates fylr
+
+`maintain update` does not pull the fylr image by what its tag points to in the registry. Every tag of fylr from 6.35.3 on, such as `latest`, `v6` or `v6.35.3`, has a release record: a small file that names the digest of each of the tag's images. The release records are published in another place than the images, at [\_assets/releases](https://github.com/programmfabrik/fylr-gitbook/tree/main/_assets/releases). `maintain update` reads the release record of the tag in your `docker-compose.yml`, pulls the image with exactly that digest, which docker checks the download against, and gives it the tag here on the host. Your `docker-compose.yml` stays as it is.
+
+For this, the host must reach `raw.githubusercontent.com`. Behind a proxy, add `export https_proxy=http://proxy.example.com:3128` to `/etc/default/fylr`.
+
+When `maintain` cannot get the release record, the tag has none, or the registry does not have the image the record names, fylr is not updated and keeps running its current version. The error is in the mail of the cron job and in `/var/log/fylr-maintain.log`.
+
+* Use `/srv/fylr/maintain update` or `/srv/fylr/maintain pull` to update, not `docker compose pull`, which pulls by the tag.
+* A tag without release records, such as `main` on a test system or a release before 6.35.3, is pulled by its tag when you name it in `/etc/default/fylr`: `UNVERIFIED_TAGS="main"`.
+* To go back to an older release on purpose: `MAINTAIN_ALLOW_DOWNGRADE=1 /srv/fylr/maintain update`.
+
+The script does not update itself. A release can need a newer `maintain` than the one you have. Then the script stops updating fylr and says in the mail of the cron job, and at every call, that it is deprecated. Download the current script as shown above; your settings in `/etc/default/fylr` stay.
+
 ## Keep log messages
 
 The most important step, to not throw away log messages with each container re-creation, is already done: the above downloaded `docker-compose.yml` uses `logging:` `driver: journald`.

@@ -5,8 +5,11 @@
 # - save consistent copy of sql ("dump")
 # - cleanup superfluous docker files
 # - update fylr and postgres (but no major version jump)
+#
+# The images of fylr are pulled by the digests of their release record, see
+# VERIFIED UPDATES below.
 
-# requires: docker, docker compose plugin
+# requires: docker, docker compose plugin, curl
 
 usage(){
 cat<<EOF
@@ -25,6 +28,12 @@ Maintain fylr installation in $BASEDIR, with docker compose.
 
 /srv/fylr/maintain update        # check for updates, (re)create containers as needed
 /srv/fylr/maintain start         # dito
+
+/srv/fylr/maintain pull          # only pull the container images
+                                 # All of these get the images of fylr by the digests
+                                 # of their release record, see
+                                 # $MAINTAIN_URL
+                                 # Do not use "docker compose pull" instead.
 
 /srv/fylr/maintain stop          # stops fylr via docker compose
                                  # DANGER: stop will be in effect even after reboot.
@@ -51,9 +60,25 @@ DBS="fylr"
 KEEPDBS=7
 # Where to write log messages to while doing update:
 MYLOG=/var/log/fylr-maintain.log
+# Version of this script's update procedure. A release can require a newer one.
+MAINTAIN_VERSION=1
+# Where the current script is:
+MAINTAIN_URL=https://docs.fylr.io/for-system-administrators/installation/linux-docker-compose
+# The release records: one file per tag, with the digests of the tag's images.
+RELEASES_URL=https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/releases
+# Space-separated list of tags of fylr images to pull without a release record,
+# e.g. "main" on a test system:
+UNVERIFIED_TAGS=""
 
 ## read LOCAL CONFIG:
 [ -e /etc/default/fylr ] && . /etc/default/fylr
+
+# The release each fylr image was last updated to, to refuse an older one:
+STATE="$BASEDIR"/.maintain-state
+# The images an update replaced, removed once no container uses them:
+OLD_IMAGES="$BASEDIR"/.maintain-old-images
+# Written when a release requires a newer script, shown on every call:
+DEPRECATED="$BASEDIR"/.maintain-deprecated
 
 log(){
     echo "`date +%Y-%m-%d_%Hh%Mm%Ss` $@" >>"$MYLOG"
@@ -117,6 +142,128 @@ requires(){
 
 requires docker
 
+### VERIFIED UPDATES
+#
+# The images of fylr are not pulled by what their tag points to in the
+# registry. Each tag has a release record, published in another place than the
+# images, that names the digest of each of its images. The image with that
+# digest is pulled, docker checks the download against it, and it gets the tag
+# of the compose file here on the host.
+
+notice(){ # send output to stderr and logfile in one call
+    echo "$@" >&2
+    log "$@"
+}
+
+refuse(){ # say why an image is not updated; the running fylr stays as it is
+    error "$1"
+    [ "$2" ] && notice "$2"
+    notice "fylr was NOT updated and keeps running its current version."
+    rm -f "$RECORD"
+    return 1
+}
+
+record_field(){ # print the value(s) of field $1 of the release record
+    sed -n "s/^$1 //p" "$RECORD"
+}
+
+pull_verified(){ # pull image $1 as the release record of its tag names it
+    local ref="$1" repo="${1%:*}" tag="${1##*:}"
+    local url="$RELEASES_URL/$tag" required current serial last old digest
+    RECORD=""
+    type -a curl &>/dev/null || { refuse "curl is not installed, it gets the release record of $ref"; return 1; }
+    RECORD=$(mktemp) || return 1
+
+    curl -fsS --max-time 60 -o "$RECORD" "$url" 2>>"$MYLOG"
+    case $? in
+    0)  ;;
+    22) # the server answered, but not with the record
+        refuse "there is no release record for the tag '$tag' of $repo ($url)" \
+               "Use a tag that has one, such as latest, or name '$tag' in UNVERIFIED_TAGS in /etc/default/fylr to pull it by its tag, e.g. on a test system."
+        return 1 ;;
+    *)  refuse "cannot get the release record $url, see $MYLOG" \
+               "This host must reach raw.githubusercontent.com; a proxy can be set in /etc/default/fylr (export https_proxy=...)."
+        return 1 ;;
+    esac
+    if [ "$(head -1 "$RECORD")" != "fylr-release 1" ] || [ "$(record_field tag)" != "$tag" ]; then
+        refuse "this script (version $MAINTAIN_VERSION) cannot read the release record $url" \
+               "It is probably too old for current releases. The current script: $MAINTAIN_URL"
+        return 1
+    fi
+
+    required=$(record_field maintain-required)
+    current=$(record_field maintain-current)
+    if [ "${required:-0}" -gt "$MAINTAIN_VERSION" ]; then
+        cat > "$DEPRECATED" <<EOT
+This maintain script (version $MAINTAIN_VERSION) is DEPRECATED and can no longer update fylr:
+fylr $(record_field version) needs version $required of it. Until you replace it, fylr
+gets no updates, security updates included. The current script: $MAINTAIN_URL
+EOT
+        refuse "$(cat "$DEPRECATED")"
+        return 1
+    fi
+    rm -f "$DEPRECATED"
+    [ "${current:-0}" -gt "$MAINTAIN_VERSION" ] \
+        && notice "NOTICE: a newer maintain script (version $current) is available, this is version $MAINTAIN_VERSION: $MAINTAIN_URL"
+
+    serial=$(record_field serial)
+    read -r last old <<<"$(sed -n "s|^$ref ||p" "$STATE" 2>/dev/null)"
+    if [ "${serial:-0}" -lt "${last:-0}" ] && [ -z "$MAINTAIN_ALLOW_DOWNGRADE" ]; then
+        refuse "the release record $url is older than the release installed here" \
+               "To go back to fylr $(record_field version) on purpose: MAINTAIN_ALLOW_DOWNGRADE=1 $0 update"
+        return 1
+    fi
+
+    # only an image of this repository in fylr's registry, by its digest
+    digest=$(record_field image | grep -E "^$repo@sha256:[0-9a-f]{64}$")
+    [ "$digest" ] || { refuse "the release record $url names no image for $repo"; return 1; }
+    if ! { docker pull -q "$digest" &>>"$MYLOG" && docker tag "$digest" "$ref"; }; then
+        refuse "cannot pull $digest, see $MYLOG" \
+               "The registry cannot be reached, or it does not have the image the release record names."
+        return 1
+    fi
+
+    [ "$old" ] && [ "$old" != "$digest" ] && echo "$old" >> "$OLD_IMAGES"
+    { grep -v "^$ref " "$STATE" 2>/dev/null; echo "$ref $serial $digest"; } > "$STATE.new" && mv "$STATE.new" "$STATE"
+    log "verified: $ref is fylr $(record_field version), $digest"
+    rm -f "$RECORD"
+}
+
+pull_images(){ # pull the images of the compose file, or of its services $@
+    local image failed=0
+    for image in $(docker compose config --images "$@" | sort -u); do
+        case "$image" in
+        docker.fylr.io/fylr/fylr|docker.fylr.io/fylr/fylr-server)
+            image="$image:latest" ;;
+        esac
+        case "$image" in
+        *@sha256:*) # pinned in the compose file: docker checks the digest
+            ;;
+        docker.fylr.io/fylr/fylr:*|docker.fylr.io/fylr/fylr-server:*)
+            if [[ " $UNVERIFIED_TAGS " != *" ${image##*:} "* ]]; then
+                pull_verified "$image" || failed=1
+                continue
+            fi
+            log "UNVERIFIED_TAGS: pulling $image without a release record" ;;
+        esac
+        docker pull -q "$image" &>>"$MYLOG" || { error "pull of $image failed, see $MYLOG"; failed=1; }
+    done
+    return $failed
+}
+
+remove_old_images(){ # the fylr images an update replaced, once no container uses them
+    local image keep=""
+    [ -s "$OLD_IMAGES" ] || return 0
+    for image in $(sort -u "$OLD_IMAGES"); do
+        grep -q " $image\$" "$STATE" 2>/dev/null && continue
+        if ! docker rmi "$image" &>>"$MYLOG" && docker image inspect "$image" &>/dev/null; then
+            keep="$keep$image
+"
+        fi
+    done
+    printf '%s' "$keep" > "$OLD_IMAGES"
+}
+
 sql_create_collation_func="
 CREATE OR REPLACE FUNCTION check_db_collation(text) RETURNS text LANGUAGE plpgsql AS \$body\$
 BEGIN
@@ -157,32 +304,48 @@ try_fix_db_collation() {
 
 log "___called with $@"
 
+# A release needed a newer script than this one. The commands that pull say so
+# themselves.
+case "$1" in
+pull|update-fylr|fylr-update|start|update) ;;
+*) [ -e "$DEPRECATED" ] && cat "$DEPRECATED" >&2 ;;
+esac
+
+# "--pull never" below: compose does not pull an image by its tag on its own.
+
 case "$1" in
 pull)
     cd "$BASEDIR"
-    docker compose pull
+    pull_images
+    exit $?
     ;;
 update-fylr|fylr-update)
     cd "$BASEDIR"
-    docker compose pull fylr
-    docker compose up --force-recreate --no-deps -d fylr
+    pull_images fylr
+    failed=$?
+    docker compose up --force-recreate --no-deps -d --pull never fylr || failed=1
+    remove_old_images
+    exit $failed
     ;;
 recreate-fylr|fylr-recreate|fylr-reload|fylr-reload-config|fylr-restart|restart-fylr)
     cd "$BASEDIR"
-    docker compose up --force-recreate --no-deps -d fylr
+    docker compose up --force-recreate --no-deps -d --pull never fylr
     ;;
 witness)
     cd "$BASEDIR"
-    docker compose up --force-recreate --no-deps -d fylr
+    docker compose up --force-recreate --no-deps -d --pull never fylr
     docker compose logs --tail all -f fylr
     ;;
 start|update)
     set -e
     cd "$BASEDIR"
+    failed=0
     log_container_versions "before up"
-    docker compose pull -q          &>>"$MYLOG" || error "pull failed, see $MYLOG"
-    docker compose up -d --no-color &>>"$MYLOG" || error "update failed, see $MYLOG"
+    pull_images                                  || failed=1
+    docker compose up -d --no-color --pull never &>>"$MYLOG" || { error "update failed, see $MYLOG"; failed=1; }
+    remove_old_images
     log_container_versions "after up"
+    exit $failed
     ;;
 stop)
     set -e
