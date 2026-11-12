@@ -15996,13 +15996,17 @@ paths:
             depending on the list of loaded plugins in fylr, the list has a various number
             of items.
 
+            Every row of a `table` is read with `_uuid`, the uuid it was born with,
+            which stays the same as long as the row exists. Other data can name a row
+            by it, as a tag names its color of `appearance.tag_colors` with
+            `custom-<_uuid>`. Send `_uuid` back unchanged, also after moving or
+            removing rows. A row without `_uuid` is new and is born with a new uuid, a
+            second row with the same `_uuid` too. A table sent without any `_uuid`
+            pairs its rows with the stored rows by position, they keep their uuids.
+
             A parameter of type `secret` is never read back in clear. A `POST` that
-            sends an empty string for it keeps the stored value. In a `table` that
-            holds a secret, every row is read with `_row`, its stored index. Send
-            `_row` back unchanged, also after moving or removing rows: an empty secret
-            then keeps the secret of the stored row that `_row` names. A row without
-            `_row` is new and keeps no secret. A table sent without any `_row` pairs
-            its rows with the stored rows by position.
+            sends an empty string for it keeps the stored value, in a `table` the one
+            of the stored row with the same `_uuid`.
         get:
             summary: Get all base configuration
             tags:
