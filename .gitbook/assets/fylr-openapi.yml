@@ -28592,7 +28592,7 @@ paths:
                     type: string
                     format: url
                   description: |
-                    The URL to copy the file from. **fylr** is trying to connect to the URL using a `HEAD` request. If a non `200` response is received from that request, a `GET` request is performed (without reading the body).
+                    The URL to copy the file from. **fylr** is trying to connect to the URL using a `HEAD` request. If a non `200` response is received from that request, or one without a `Content-Length` or with a `Content-Length` of `0`, a `GET` request is performed (without reading the body).
                     If no `filename` is given, the request is used to determine the filename. If a `filename` without an extension is given, the request is used to determine the extension.
                     If a filename in the `Content-Disposition` header is found, **fylr** used that. If not, the last part of the URL is used to derive a filename. If that name has no extension, **fylr** parses the `Content-Type` header to determine a file extension from the provided MIME type. The `Content-Type` header also sets the MIME type of the file in the database.
                     The `Content-Length` header is used to set the filesize of the file. If `leave` is set, the `Content-Length` header with a filesize > 0 is required. If `leave` is not set, the `Content-Length` header can be missing. If it is there, it needs to be > 0 too.
@@ -28743,7 +28743,7 @@ paths:
                                         type: string
                                         format: url
                                         description: |
-                                            The URL to copy the file from. **fylr** is trying to connect to the URL using a `HEAD` request. If a non `200` response is received from that request, a `GET` request is performed (without reading the body).
+                                            The URL to copy the file from. **fylr** is trying to connect to the URL using a `HEAD` request. If a non `200` response is received from that request, or one without a `Content-Length` or with a `Content-Length` of `0`, a `GET` request is performed (without reading the body).
                                             If no `filename` is given, the request is used to determine the filename. If a `filename` without an extension is given, the request is used to determine the extension.
                                             If a filename in the `Content-Disposition` header is found, **fylr** used that. If not, the last part of the URL is used to derive a filename. If that name has no extension, **fylr** parses the `Content-Type` header to determine a file extension from the provided MIME type. The `Content-Type` header also sets the MIME type of the file in the database.
                                             The `Content-Length` header is used to set the filesize of the file. If `leave` is set, the `Content-Length` header with a filesize > 0 is required. If `leave` is not set, the `Content-Length` header can be missing. If it is there, it needs to be > 0 too.
