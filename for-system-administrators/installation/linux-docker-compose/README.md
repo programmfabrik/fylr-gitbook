@@ -100,7 +100,16 @@ Much of the setup is encapsulated in a yaml file for docker compose. Get it like
 curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/docker-compose.yml -o docker-compose.yml
 ```
 
-In `docker-compose.yml`, replace EXAMPLE with some string to make a better password. But this is not as critical to security as "password" sounds, because OpenSearch cannot be reached directly, in this setup. Still, the password has to be good enough for OpenSearch to accept it or else it will not start.\
+In `docker-compose.yml`, replace EXAMPLE with some string to make a better password. But this is not as critical to security as "password" sounds, because OpenSearch cannot be reached directly, in this setup. Still, the password has to be good enough for OpenSearch to accept it or else it will not start.
+
+Get the `maintain` script and let it pull the container images. It pulls the image of fylr by the digest of its release record, see [How maintain updates fylr](#how-maintain-updates-fylr):
+
+```bash
+curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/maintain -o maintain
+chmod a+x maintain
+./maintain pull
+```
+
 Then, use `docker-compose.yml` like this:
 
 ```
@@ -111,7 +120,7 @@ docker compose up -d postgresql opensearch ; docker compose logs -f opensearch
 
 So now postgres and OpenSearch are running.
 
-Download and start fylr:
+Start fylr, with the image `maintain pull` has pulled:
 
 `docker compose up -d fylr; docker compose logs -f fylr`
 
@@ -131,14 +140,7 @@ Default login is `root` with password `admin`. Please replace with a secure pass
 
 ### automate SQL dumps and update installation
 
-To have consistent and complete snapshots of your SQL data, we strongly recommend:
-
-```bash
-curl https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/maintain -o maintain
-chmod a+x maintain
-```
-
-create a cron job like `/etc/cron.d/fylr-sql-backup-and-update`:
+To have consistent and complete snapshots of your SQL data, and to keep fylr up to date, we strongly recommend a cron job with the `maintain` script from above, like `/etc/cron.d/fylr-sql-backup-and-update`:
 
 ```
 #MAILTO=you@example.com
