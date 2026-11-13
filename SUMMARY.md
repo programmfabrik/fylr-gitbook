@@ -174,6 +174,7 @@
   * [Collections (& Presentations)](for-users/quick-access/collections-and-presentations.md)
   * [Saved Searches (& Lists)](for-users/quick-access/saved-searches-and-lists.md)
 * [Lists](for-users/lists.md)
+* [Keyboard Shortcuts](for-users/keyboard-shortcuts.md)
 * [Additional Features](for-users/additional-features/README.md)
   * [Change History](for-users/additional-features/change-history.md)
   * [Custom Renditions & Crop Tool](for-users/additional-features/custom-renditions-and-crop-tool.md)
