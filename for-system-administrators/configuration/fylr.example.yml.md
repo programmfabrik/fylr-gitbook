@@ -697,7 +697,7 @@ fylr:
     # …). Use the blocklist below to keep authenticated callers from
     # using rput as an SSRF primitive.
     rput:
-      # blockedHosts is a list of remote URLs that rput must refuse.
+      # blockedHosts lists the hosts rput must refuse.
       # An entry matches if it is:
       #   - an IPv4 or IPv6 CIDR (e.g. "10.0.0.0/8", "fc00::/7",
       #     "169.254.0.0/16" for link-local, "169.254.169.254/32" for
@@ -723,7 +723,9 @@ fylr:
       # If the URL host is a name, it is resolved and every resolved
       # address is checked against the CIDR entries; the connection is
       # then pinned to that validated IP (Host header and TLS SNI keep
-      # the original hostname). This closes DNS rebinding.
+      # the original hostname). This closes DNS rebinding. A request
+      # which goes through a proxy (HTTPS_PROXY, HTTP_PROXY) is checked
+      # the same way but not pinned: the proxy resolves the name itself.
       #
       # fylr's own internal services are always blocked implicitly: the
       # backend callback base (see execserver.callbackBackendOwnURL),
@@ -733,13 +735,17 @@ fylr:
       # Each is auto-injected as a "host:port" entry so blocking, say,
       # the backend on localhost:8083 does NOT block arbitrary other
       # ports on localhost. A listener bound to a wildcard address
-      # (e.g. ":8083") is blocked on every local interface IP.
+      # (e.g. ":8083") is blocked on every local interface IP. The entry
+      # of a service which is configured by name matches that name; its
+      # IP address is blocked by the ranges below.
       #
       # The compiled-in default (fylr.default.yml) blocks loopback,
       # link-local and private (RFC1918 / ULA) ranges. Override here for
       # your deployment — e.g. drop a private range if rput must reach an
-      # internal mirror. Specify an empty list (`blockedHosts: []`) to
-      # disable all checks (not recommended).
+      # internal mirror. In a config layered over fylr.default.yml,
+      # "blockedHosts+:" adds to the shipped list. With an empty list
+      # (`blockedHosts: []`) only fylr's own internal services stay
+      # blocked (not recommended).
       #
       # To disable rput entirely (refuse every outbound URL — no
       # connection to anywhere), set the list to the two universal CIDRs:
