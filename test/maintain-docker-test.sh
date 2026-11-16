@@ -161,24 +161,31 @@ same  "the container was not recreated" "$(container_of fylr-b)" "$C"
 check "the container still runs" test "$(docker inspect --format '{{.State.Running}}' fylr-b)" = true
 
 section "B8: the record names an image in another registry"
-record latest v6.35.9 310 1 1 "ghcr.io/example/fylr-server@sha256:${NEW##*:}"
+for other in ghcr.io/example/fylr-server docker.fylr.io.example.com/fylr/fylr-server docker-fylr.io/fylr/fylr-server dockerXfylrYio/fylr/fylr-server; do
+    record latest v6.35.9 310 1 1 "$other@sha256:${NEW##*:}"
+    run update
+    same "$other: update fails" "$RC" 1
+    says "$other: it says the record names no image" "names no image for $FS"
+    same "$other: the container was not recreated" "$(container_of fylr-b)" "$C"
+done
+record latest v6.35.9 310 1 1 "$FS@sha256:${NEW##*:}0"
 run update
-same "update fails" "$RC" 1
+same "a digest that is too long: update fails" "$RC" 1
 says "it says the record names no image" "names no image for $FS"
-same "the container was not recreated" "$(container_of fylr-b)" "$C"
 
 section "B9: a release needs a newer script"
-record latest v6.36.0 400 2 2 $NEW
+V=$(sed -n 's/^MAINTAIN_VERSION=//p' "$REPO/_assets/maintain"); N=$((V+1))
+record latest v6.36.0 400 $N $N $NEW
 run update
 same "update fails" "$RC" 1
 says "it says it is deprecated" "is DEPRECATED and can no longer update fylr"
 same "the container was not recreated" "$(container_of fylr-b)" "$C"
 run recreate-fylr
 says "another command says it too" "is DEPRECATED and can no longer update fylr"
-record latest v6.35.3 500 1 2 $NEW
+record latest v6.35.3 500 $V $N $NEW
 run update
 same "with a record it can read, update succeeds" "$RC" 0
-says "it says a newer script exists" "a newer maintain script (version 2) is available"
+says "it says a newer script exists" "a newer maintain script (version $N) is available"
 same "the container runs 6.35.3" "$(image_of fylr-b)" "$(id_of $NEW)"
 run recreate-fylr
 if grep -q DEPRECATED <<<"$OUT"; then no "the deprecation is gone"; else ok "the deprecation is gone"; fi
