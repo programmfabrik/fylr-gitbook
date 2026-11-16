@@ -726,6 +726,8 @@ fylr:
       # the original hostname). This closes DNS rebinding. A request
       # which goes through a proxy (HTTPS_PROXY, HTTP_PROXY) is checked
       # the same way but not pinned: the proxy resolves the name itself.
+      # Such a proxy is for outgoing requests and has to refuse internal
+      # hosts on its own.
       #
       # fylr's own internal services are always blocked implicitly: the
       # backend callback base (see execserver.callbackBackendOwnURL),
