@@ -910,6 +910,11 @@
                             }
                           }
                         },
+                        "custom_data": {
+                          "type": "object",
+                          "additionalProperties": true,
+                          "description": "Free-form values of the permission for the applications using the\nAPI, stored as sent, each application under a key of its own. It\ngrants nothing. The webfrontend keeps a note and a label under\n`webfrontend`: `note` is text, `label` is the `reference` of an\nentry of the base config `tags_labels.acl_labels`. `{}` and `null`\nstore nothing, a response leaves it out then. Keys ending in\n`:eas_file` name no files here. A change of `custom_data` alone does\nnot change what anybody may do, so it starts no re-check of the\npermissions; in the `_acl` of a record it is a change of the record\n(a new version).\n"
+                        },
                         "send_email_notification": {
                           "description": "If set and newly created, this write-only property is used to send an\nemail with sharing information to all users of this ACL item.\n",
                           "type": "object",
@@ -1971,6 +1976,11 @@
                                 }
                               }
                             }
+                          },
+                          "custom_data": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "description": "Free-form values of the permission for the applications using the\nAPI, stored as sent, each application under a key of its own. It\ngrants nothing. The webfrontend keeps a note and a label under\n`webfrontend`: `note` is text, `label` is the `reference` of an\nentry of the base config `tags_labels.acl_labels`. `{}` and `null`\nstore nothing, a response leaves it out then. Keys ending in\n`:eas_file` name no files here. A change of `custom_data` alone does\nnot change what anybody may do, so it starts no re-check of the\npermissions; in the `_acl` of a record it is a change of the record\n(a new version).\n"
                           },
                           "send_email_notification": {
                             "description": "If set and newly created, this write-only property is used to send an\nemail with sharing information to all users of this ACL item.\n",
@@ -3124,6 +3134,11 @@
                             }
                           }
                         },
+                        "custom_data": {
+                          "type": "object",
+                          "additionalProperties": true,
+                          "description": "Free-form values of the permission for the applications using the\nAPI, stored as sent, each application under a key of its own. It\ngrants nothing. The webfrontend keeps a note and a label under\n`webfrontend`: `note` is text, `label` is the `reference` of an\nentry of the base config `tags_labels.acl_labels`. `{}` and `null`\nstore nothing, a response leaves it out then. Keys ending in\n`:eas_file` name no files here. A change of `custom_data` alone does\nnot change what anybody may do, so it starts no re-check of the\npermissions; in the `_acl` of a record it is a change of the record\n(a new version).\n"
+                        },
                         "send_email_notification": {
                           "description": "If set and newly created, this write-only property is used to send an\nemail with sharing information to all users of this ACL item.\n",
                           "type": "object",
@@ -4185,6 +4200,11 @@
                                 }
                               }
                             }
+                          },
+                          "custom_data": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "description": "Free-form values of the permission for the applications using the\nAPI, stored as sent, each application under a key of its own. It\ngrants nothing. The webfrontend keeps a note and a label under\n`webfrontend`: `note` is text, `label` is the `reference` of an\nentry of the base config `tags_labels.acl_labels`. `{}` and `null`\nstore nothing, a response leaves it out then. Keys ending in\n`:eas_file` name no files here. A change of `custom_data` alone does\nnot change what anybody may do, so it starts no re-check of the\npermissions; in the `_acl` of a record it is a change of the record\n(a new version).\n"
                           },
                           "send_email_notification": {
                             "description": "If set and newly created, this write-only property is used to send an\nemail with sharing information to all users of this ACL item.\n",
@@ -5333,6 +5353,11 @@
                                 }
                               }
                             }
+                          },
+                          "custom_data": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "description": "Free-form values of the permission for the applications using the\nAPI, stored as sent, each application under a key of its own. It\ngrants nothing. The webfrontend keeps a note and a label under\n`webfrontend`: `note` is text, `label` is the `reference` of an\nentry of the base config `tags_labels.acl_labels`. `{}` and `null`\nstore nothing, a response leaves it out then. Keys ending in\n`:eas_file` name no files here. A change of `custom_data` alone does\nnot change what anybody may do, so it starts no re-check of the\npermissions; in the `_acl` of a record it is a change of the record\n(a new version).\n"
                           },
                           "send_email_notification": {
                             "description": "If set and newly created, this write-only property is used to send an\nemail with sharing information to all users of this ACL item.\n",
@@ -6485,6 +6510,11 @@
                             }
                           }
                         },
+                        "custom_data": {
+                          "type": "object",
+                          "additionalProperties": true,
+                          "description": "Free-form values of the permission for the applications using the\nAPI, stored as sent, each application under a key of its own. It\ngrants nothing. The webfrontend keeps a note and a label under\n`webfrontend`: `note` is text, `label` is the `reference` of an\nentry of the base config `tags_labels.acl_labels`. `{}` and `null`\nstore nothing, a response leaves it out then. Keys ending in\n`:eas_file` name no files here. A change of `custom_data` alone does\nnot change what anybody may do, so it starts no re-check of the\npermissions; in the `_acl` of a record it is a change of the record\n(a new version).\n"
+                        },
                         "send_email_notification": {
                           "description": "If set and newly created, this write-only property is used to send an\nemail with sharing information to all users of this ACL item.\n",
                           "type": "object",
@@ -7546,6 +7576,11 @@
                                 }
                               }
                             }
+                          },
+                          "custom_data": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "description": "Free-form values of the permission for the applications using the\nAPI, stored as sent, each application under a key of its own. It\ngrants nothing. The webfrontend keeps a note and a label under\n`webfrontend`: `note` is text, `label` is the `reference` of an\nentry of the base config `tags_labels.acl_labels`. `{}` and `null`\nstore nothing, a response leaves it out then. Keys ending in\n`:eas_file` name no files here. A change of `custom_data` alone does\nnot change what anybody may do, so it starts no re-check of the\npermissions; in the `_acl` of a record it is a change of the record\n(a new version).\n"
                           },
                           "send_email_notification": {
                             "description": "If set and newly created, this write-only property is used to send an\nemail with sharing information to all users of this ACL item.\n",
@@ -8813,6 +8848,11 @@
                                 }
                               }
                             },
+                            "custom_data": {
+                              "type": "object",
+                              "additionalProperties": true,
+                              "description": "Free-form values of the permission for the applications using the\nAPI, stored as sent, each application under a key of its own. It\ngrants nothing. The webfrontend keeps a note and a label under\n`webfrontend`: `note` is text, `label` is the `reference` of an\nentry of the base config `tags_labels.acl_labels`. `{}` and `null`\nstore nothing, a response leaves it out then. Keys ending in\n`:eas_file` name no files here. A change of `custom_data` alone does\nnot change what anybody may do, so it starts no re-check of the\npermissions; in the `_acl` of a record it is a change of the record\n(a new version).\n"
+                            },
                             "send_email_notification": {
                               "description": "If set and newly created, this write-only property is used to send an\nemail with sharing information to all users of this ACL item.\n",
                               "type": "object",
@@ -9948,6 +9988,11 @@
                               }
                             }
                           },
+                          "custom_data": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "description": "Free-form values of the permission for the applications using the\nAPI, stored as sent, each application under a key of its own. It\ngrants nothing. The webfrontend keeps a note and a label under\n`webfrontend`: `note` is text, `label` is the `reference` of an\nentry of the base config `tags_labels.acl_labels`. `{}` and `null`\nstore nothing, a response leaves it out then. Keys ending in\n`:eas_file` name no files here. A change of `custom_data` alone does\nnot change what anybody may do, so it starts no re-check of the\npermissions; in the `_acl` of a record it is a change of the record\n(a new version).\n"
+                          },
                           "send_email_notification": {
                             "description": "If set and newly created, this write-only property is used to send an\nemail with sharing information to all users of this ACL item.\n",
                             "type": "object",
@@ -11013,6 +11058,11 @@
                                   }
                                 }
                               }
+                            },
+                            "custom_data": {
+                              "type": "object",
+                              "additionalProperties": true,
+                              "description": "Free-form values of the permission for the applications using the\nAPI, stored as sent, each application under a key of its own. It\ngrants nothing. The webfrontend keeps a note and a label under\n`webfrontend`: `note` is text, `label` is the `reference` of an\nentry of the base config `tags_labels.acl_labels`. `{}` and `null`\nstore nothing, a response leaves it out then. Keys ending in\n`:eas_file` name no files here. A change of `custom_data` alone does\nnot change what anybody may do, so it starts no re-check of the\npermissions; in the `_acl` of a record it is a change of the record\n(a new version).\n"
                             },
                             "send_email_notification": {
                               "description": "If set and newly created, this write-only property is used to send an\nemail with sharing information to all users of this ACL item.\n",
@@ -12181,6 +12231,11 @@
                                   }
                                 }
                               }
+                            },
+                            "custom_data": {
+                              "type": "object",
+                              "additionalProperties": true,
+                              "description": "Free-form values of the permission for the applications using the\nAPI, stored as sent, each application under a key of its own. It\ngrants nothing. The webfrontend keeps a note and a label under\n`webfrontend`: `note` is text, `label` is the `reference` of an\nentry of the base config `tags_labels.acl_labels`. `{}` and `null`\nstore nothing, a response leaves it out then. Keys ending in\n`:eas_file` name no files here. A change of `custom_data` alone does\nnot change what anybody may do, so it starts no re-check of the\npermissions; in the `_acl` of a record it is a change of the record\n(a new version).\n"
                             },
                             "send_email_notification": {
                               "description": "If set and newly created, this write-only property is used to send an\nemail with sharing information to all users of this ACL item.\n",
@@ -13562,7 +13617,7 @@
       }
     },
     "/config": {
-      "description": "Administrators can define base configuration using this API. fylr has a basic\nset of configuration items which are in the core system, such as the name of\nthe instance, administrator's main address, language definitions and so on.\n\nFrontends are required to implement a generic form editor for base\nconfiguration items. The list of items can be retrieved using the\n[config/list](list/) API.\n\nThis list is not stable and can be changed without API change in any new\nversion of fylr. Plugins can extend the list of configuration items. So,\ndepending on the list of loaded plugins in fylr, the list has a various number\nof items.\n\nEvery row of a `table` is read with `_uuid`, the uuid it was born with,\nwhich stays the same as long as the row exists. Other data can name a row\nby it, as a tag names its color of `appearance.tag_colors` with\n`custom-\u003c_uuid\u003e`. Send `_uuid` back unchanged, also after moving or\nremoving rows. A row without `_uuid` is new and is born with a new uuid, a\nsecond row with the same `_uuid` too. A table sent without any `_uuid`\npairs its rows with the stored rows by position, they keep their uuids.\n\nA parameter of type `secret` is never read back in clear. A `POST` that\nsends an empty string for it keeps the stored value, in a `table` the one\nof the stored row with the same `_uuid`.\n",
+      "description": "Administrators can define base configuration using this API. fylr has a basic\nset of configuration items which are in the core system, such as the name of\nthe instance, administrator's main address, language definitions and so on.\n\nFrontends are required to implement a generic form editor for base\nconfiguration items. The list of items can be retrieved using the\n[config/list](list/) API.\n\nThis list is not stable and can be changed without API change in any new\nversion of fylr. Plugins can extend the list of configuration items. So,\ndepending on the list of loaded plugins in fylr, the list has a various number\nof items.\n\nEvery row of a `table` is read with `_uuid`, the uuid it was born with,\nwhich stays the same as long as the row exists. Other data can name a row\nby it, as a tag names its color of `tags_labels.tag_colors` with\n`custom-\u003c_uuid\u003e`. Send `_uuid` back unchanged, also after moving or\nremoving rows. A row without `_uuid` is new and is born with a new uuid, a\nsecond row with the same `_uuid` too. A table sent without any `_uuid`\npairs its rows with the stored rows by position, they keep their uuids.\n\nA parameter of type `secret` is never read back in clear. A `POST` that\nsends an empty string for it keeps the stored value, in a `table` the one\nof the stored row with the same `_uuid`.\n",
       "get": {
         "summary": "Get all base configuration",
         "tags": [
@@ -13653,28 +13708,6 @@
                                     }
                                   },
                                   "type": "object"
-                                },
-                                "tag_colors": {
-                                  "items": {
-                                    "properties": {
-                                      "tag_color": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "type": "object"
-                                  },
-                                  "type": "array"
-                                },
-                                "tag_icons": {
-                                  "items": {
-                                    "properties": {
-                                      "fa-icon": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "type": "object"
-                                  },
-                                  "type": "array"
                                 },
                                 "welcome_splash": {
                                   "enum": [
@@ -17904,6 +17937,76 @@
                               },
                               "type": "object"
                             },
+                            "tags_labels": {
+                              "properties": {
+                                "acl_labels": {
+                                  "items": {
+                                    "properties": {
+                                      "_uuid": {
+                                        "description": "The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.",
+                                        "format": "uuid",
+                                        "type": "string"
+                                      },
+                                      "color": {
+                                        "type": "string"
+                                      },
+                                      "icon": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "properties": {
+                                          "de-DE": {
+                                            "type": "string"
+                                          },
+                                          "en-US": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      "reference": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "tag_colors": {
+                                  "items": {
+                                    "properties": {
+                                      "_uuid": {
+                                        "description": "The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.",
+                                        "format": "uuid",
+                                        "type": "string"
+                                      },
+                                      "tag_color": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "tag_icons": {
+                                  "items": {
+                                    "properties": {
+                                      "_uuid": {
+                                        "description": "The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.",
+                                        "format": "uuid",
+                                        "type": "string"
+                                      },
+                                      "fa-icon": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                }
+                              },
+                              "type": "object"
+                            },
                             "transition_webhook": {
                               "properties": {
                                 "webhooks": {
@@ -18195,28 +18298,6 @@
                                   }
                                 },
                                 "type": "object"
-                              },
-                              "tag_colors": {
-                                "items": {
-                                  "properties": {
-                                    "tag_color": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                },
-                                "type": "array"
-                              },
-                              "tag_icons": {
-                                "items": {
-                                  "properties": {
-                                    "fa-icon": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                },
-                                "type": "array"
                               },
                               "welcome_splash": {
                                 "enum": [
@@ -22446,6 +22527,76 @@
                             },
                             "type": "object"
                           },
+                          "tags_labels": {
+                            "properties": {
+                              "acl_labels": {
+                                "items": {
+                                  "properties": {
+                                    "_uuid": {
+                                      "description": "The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.",
+                                      "format": "uuid",
+                                      "type": "string"
+                                    },
+                                    "color": {
+                                      "type": "string"
+                                    },
+                                    "icon": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "properties": {
+                                        "de-DE": {
+                                          "type": "string"
+                                        },
+                                        "en-US": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "type": "object"
+                                    },
+                                    "reference": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              },
+                              "tag_colors": {
+                                "items": {
+                                  "properties": {
+                                    "_uuid": {
+                                      "description": "The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.",
+                                      "format": "uuid",
+                                      "type": "string"
+                                    },
+                                    "tag_color": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              },
+                              "tag_icons": {
+                                "items": {
+                                  "properties": {
+                                    "_uuid": {
+                                      "description": "The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.",
+                                      "format": "uuid",
+                                      "type": "string"
+                                    },
+                                    "fa-icon": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              }
+                            },
+                            "type": "object"
+                          },
                           "transition_webhook": {
                             "properties": {
                               "webhooks": {
@@ -22661,28 +22812,6 @@
                                     }
                                   },
                                   "type": "object"
-                                },
-                                "tag_colors": {
-                                  "items": {
-                                    "properties": {
-                                      "tag_color": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "type": "object"
-                                  },
-                                  "type": "array"
-                                },
-                                "tag_icons": {
-                                  "items": {
-                                    "properties": {
-                                      "fa-icon": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "type": "object"
-                                  },
-                                  "type": "array"
                                 },
                                 "welcome_splash": {
                                   "enum": [
@@ -26908,6 +27037,76 @@
                                     "reference"
                                   ],
                                   "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "tags_labels": {
+                              "properties": {
+                                "acl_labels": {
+                                  "items": {
+                                    "properties": {
+                                      "_uuid": {
+                                        "description": "The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.",
+                                        "format": "uuid",
+                                        "type": "string"
+                                      },
+                                      "color": {
+                                        "type": "string"
+                                      },
+                                      "icon": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "properties": {
+                                          "de-DE": {
+                                            "type": "string"
+                                          },
+                                          "en-US": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      "reference": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "tag_colors": {
+                                  "items": {
+                                    "properties": {
+                                      "_uuid": {
+                                        "description": "The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.",
+                                        "format": "uuid",
+                                        "type": "string"
+                                      },
+                                      "tag_color": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "tag_icons": {
+                                  "items": {
+                                    "properties": {
+                                      "_uuid": {
+                                        "description": "The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.",
+                                        "format": "uuid",
+                                        "type": "string"
+                                      },
+                                      "fa-icon": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
                                 }
                               },
                               "type": "object"
@@ -65492,6 +65691,11 @@
           },
           "tagfilter": {
             "$ref": "#/components/schemas/TagfilterApi"
+          },
+          "custom_data": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Free-form values of the permission for the applications using the\nAPI, stored as sent, each application under a key of its own. It\ngrants nothing. The webfrontend keeps a note and a label under\n`webfrontend`: `note` is text, `label` is the `reference` of an\nentry of the base config `tags_labels.acl_labels`. `{}` and `null`\nstore nothing, a response leaves it out then. Keys ending in\n`:eas_file` name no files here. A change of `custom_data` alone does\nnot change what anybody may do, so it starts no re-check of the\npermissions.\n"
           },
           "send_email_notification": {
             "type": "object",

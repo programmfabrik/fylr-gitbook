@@ -1196,6 +1196,20 @@ paths:
                                                             List of tag ids. None of the tags must be set to match this condition.
                                                         items:
                                                             type: integer
+                                            custom_data:
+                                                type: object
+                                                additionalProperties: true
+                                                description: |
+                                                    Free-form values of the permission for the applications using the
+                                                    API, stored as sent, each application under a key of its own. It
+                                                    grants nothing. The webfrontend keeps a note and a label under
+                                                    `webfrontend`: `note` is text, `label` is the `reference` of an
+                                                    entry of the base config `tags_labels.acl_labels`. `{}` and `null`
+                                                    store nothing, a response leaves it out then. Keys ending in
+                                                    `:eas_file` name no files here. A change of `custom_data` alone does
+                                                    not change what anybody may do, so it starts no re-check of the
+                                                    permissions; in the `_acl` of a record it is a change of the record
+                                                    (a new version).
                                             send_email_notification:
                                                 description: |
                                                     If set and newly created, this write-only property is used to send an
@@ -2493,6 +2507,20 @@ paths:
                                                                 List of tag ids. None of the tags must be set to match this condition.
                                                             items:
                                                                 type: integer
+                                                custom_data:
+                                                    type: object
+                                                    additionalProperties: true
+                                                    description: |
+                                                        Free-form values of the permission for the applications using the
+                                                        API, stored as sent, each application under a key of its own. It
+                                                        grants nothing. The webfrontend keeps a note and a label under
+                                                        `webfrontend`: `note` is text, `label` is the `reference` of an
+                                                        entry of the base config `tags_labels.acl_labels`. `{}` and `null`
+                                                        store nothing, a response leaves it out then. Keys ending in
+                                                        `:eas_file` name no files here. A change of `custom_data` alone does
+                                                        not change what anybody may do, so it starts no re-check of the
+                                                        permissions; in the `_acl` of a record it is a change of the record
+                                                        (a new version).
                                                 send_email_notification:
                                                     description: |
                                                         If set and newly created, this write-only property is used to send an
@@ -3888,6 +3916,20 @@ paths:
                                                             List of tag ids. None of the tags must be set to match this condition.
                                                         items:
                                                             type: integer
+                                            custom_data:
+                                                type: object
+                                                additionalProperties: true
+                                                description: |
+                                                    Free-form values of the permission for the applications using the
+                                                    API, stored as sent, each application under a key of its own. It
+                                                    grants nothing. The webfrontend keeps a note and a label under
+                                                    `webfrontend`: `note` is text, `label` is the `reference` of an
+                                                    entry of the base config `tags_labels.acl_labels`. `{}` and `null`
+                                                    store nothing, a response leaves it out then. Keys ending in
+                                                    `:eas_file` name no files here. A change of `custom_data` alone does
+                                                    not change what anybody may do, so it starts no re-check of the
+                                                    permissions; in the `_acl` of a record it is a change of the record
+                                                    (a new version).
                                             send_email_notification:
                                                 description: |
                                                     If set and newly created, this write-only property is used to send an
@@ -5185,6 +5227,20 @@ paths:
                                                                 List of tag ids. None of the tags must be set to match this condition.
                                                             items:
                                                                 type: integer
+                                                custom_data:
+                                                    type: object
+                                                    additionalProperties: true
+                                                    description: |
+                                                        Free-form values of the permission for the applications using the
+                                                        API, stored as sent, each application under a key of its own. It
+                                                        grants nothing. The webfrontend keeps a note and a label under
+                                                        `webfrontend`: `note` is text, `label` is the `reference` of an
+                                                        entry of the base config `tags_labels.acl_labels`. `{}` and `null`
+                                                        store nothing, a response leaves it out then. Keys ending in
+                                                        `:eas_file` name no files here. A change of `custom_data` alone does
+                                                        not change what anybody may do, so it starts no re-check of the
+                                                        permissions; in the `_acl` of a record it is a change of the record
+                                                        (a new version).
                                                 send_email_notification:
                                                     description: |
                                                         If set and newly created, this write-only property is used to send an
@@ -6552,6 +6608,20 @@ paths:
                                                                 List of tag ids. None of the tags must be set to match this condition.
                                                             items:
                                                                 type: integer
+                                                custom_data:
+                                                    type: object
+                                                    additionalProperties: true
+                                                    description: |
+                                                        Free-form values of the permission for the applications using the
+                                                        API, stored as sent, each application under a key of its own. It
+                                                        grants nothing. The webfrontend keeps a note and a label under
+                                                        `webfrontend`: `note` is text, `label` is the `reference` of an
+                                                        entry of the base config `tags_labels.acl_labels`. `{}` and `null`
+                                                        store nothing, a response leaves it out then. Keys ending in
+                                                        `:eas_file` name no files here. A change of `custom_data` alone does
+                                                        not change what anybody may do, so it starts no re-check of the
+                                                        permissions; in the `_acl` of a record it is a change of the record
+                                                        (a new version).
                                                 send_email_notification:
                                                     description: |
                                                         If set and newly created, this write-only property is used to send an
@@ -7933,6 +8003,20 @@ paths:
                                                             List of tag ids. None of the tags must be set to match this condition.
                                                         items:
                                                             type: integer
+                                            custom_data:
+                                                type: object
+                                                additionalProperties: true
+                                                description: |
+                                                    Free-form values of the permission for the applications using the
+                                                    API, stored as sent, each application under a key of its own. It
+                                                    grants nothing. The webfrontend keeps a note and a label under
+                                                    `webfrontend`: `note` is text, `label` is the `reference` of an
+                                                    entry of the base config `tags_labels.acl_labels`. `{}` and `null`
+                                                    store nothing, a response leaves it out then. Keys ending in
+                                                    `:eas_file` name no files here. A change of `custom_data` alone does
+                                                    not change what anybody may do, so it starts no re-check of the
+                                                    permissions; in the `_acl` of a record it is a change of the record
+                                                    (a new version).
                                             send_email_notification:
                                                 description: |
                                                     If set and newly created, this write-only property is used to send an
@@ -9230,6 +9314,20 @@ paths:
                                                                 List of tag ids. None of the tags must be set to match this condition.
                                                             items:
                                                                 type: integer
+                                                custom_data:
+                                                    type: object
+                                                    additionalProperties: true
+                                                    description: |
+                                                        Free-form values of the permission for the applications using the
+                                                        API, stored as sent, each application under a key of its own. It
+                                                        grants nothing. The webfrontend keeps a note and a label under
+                                                        `webfrontend`: `note` is text, `label` is the `reference` of an
+                                                        entry of the base config `tags_labels.acl_labels`. `{}` and `null`
+                                                        store nothing, a response leaves it out then. Keys ending in
+                                                        `:eas_file` name no files here. A change of `custom_data` alone does
+                                                        not change what anybody may do, so it starts no re-check of the
+                                                        permissions; in the `_acl` of a record it is a change of the record
+                                                        (a new version).
                                                 send_email_notification:
                                                     description: |
                                                         If set and newly created, this write-only property is used to send an
@@ -10681,6 +10779,20 @@ paths:
                                                                     List of tag ids. None of the tags must be set to match this condition.
                                                                 items:
                                                                     type: integer
+                                                    custom_data:
+                                                        type: object
+                                                        additionalProperties: true
+                                                        description: |
+                                                            Free-form values of the permission for the applications using the
+                                                            API, stored as sent, each application under a key of its own. It
+                                                            grants nothing. The webfrontend keeps a note and a label under
+                                                            `webfrontend`: `note` is text, `label` is the `reference` of an
+                                                            entry of the base config `tags_labels.acl_labels`. `{}` and `null`
+                                                            store nothing, a response leaves it out then. Keys ending in
+                                                            `:eas_file` name no files here. A change of `custom_data` alone does
+                                                            not change what anybody may do, so it starts no re-check of the
+                                                            permissions; in the `_acl` of a record it is a change of the record
+                                                            (a new version).
                                                     send_email_notification:
                                                         description: |
                                                             If set and newly created, this write-only property is used to send an
@@ -12047,6 +12159,20 @@ paths:
                                                                 List of tag ids. None of the tags must be set to match this condition.
                                                             items:
                                                                 type: integer
+                                                custom_data:
+                                                    type: object
+                                                    additionalProperties: true
+                                                    description: |
+                                                        Free-form values of the permission for the applications using the
+                                                        API, stored as sent, each application under a key of its own. It
+                                                        grants nothing. The webfrontend keeps a note and a label under
+                                                        `webfrontend`: `note` is text, `label` is the `reference` of an
+                                                        entry of the base config `tags_labels.acl_labels`. `{}` and `null`
+                                                        store nothing, a response leaves it out then. Keys ending in
+                                                        `:eas_file` name no files here. A change of `custom_data` alone does
+                                                        not change what anybody may do, so it starts no re-check of the
+                                                        permissions; in the `_acl` of a record it is a change of the record
+                                                        (a new version).
                                                 send_email_notification:
                                                     description: |
                                                         If set and newly created, this write-only property is used to send an
@@ -13347,6 +13473,20 @@ paths:
                                                                     List of tag ids. None of the tags must be set to match this condition.
                                                                 items:
                                                                     type: integer
+                                                    custom_data:
+                                                        type: object
+                                                        additionalProperties: true
+                                                        description: |
+                                                            Free-form values of the permission for the applications using the
+                                                            API, stored as sent, each application under a key of its own. It
+                                                            grants nothing. The webfrontend keeps a note and a label under
+                                                            `webfrontend`: `note` is text, `label` is the `reference` of an
+                                                            entry of the base config `tags_labels.acl_labels`. `{}` and `null`
+                                                            store nothing, a response leaves it out then. Keys ending in
+                                                            `:eas_file` name no files here. A change of `custom_data` alone does
+                                                            not change what anybody may do, so it starts no re-check of the
+                                                            permissions; in the `_acl` of a record it is a change of the record
+                                                            (a new version).
                                                     send_email_notification:
                                                         description: |
                                                             If set and newly created, this write-only property is used to send an
@@ -14724,6 +14864,20 @@ paths:
                                                                     List of tag ids. None of the tags must be set to match this condition.
                                                                 items:
                                                                     type: integer
+                                                    custom_data:
+                                                        type: object
+                                                        additionalProperties: true
+                                                        description: |
+                                                            Free-form values of the permission for the applications using the
+                                                            API, stored as sent, each application under a key of its own. It
+                                                            grants nothing. The webfrontend keeps a note and a label under
+                                                            `webfrontend`: `note` is text, `label` is the `reference` of an
+                                                            entry of the base config `tags_labels.acl_labels`. `{}` and `null`
+                                                            store nothing, a response leaves it out then. Keys ending in
+                                                            `:eas_file` name no files here. A change of `custom_data` alone does
+                                                            not change what anybody may do, so it starts no re-check of the
+                                                            permissions; in the `_acl` of a record it is a change of the record
+                                                            (a new version).
                                                     send_email_notification:
                                                         description: |
                                                             If set and newly created, this write-only property is used to send an
@@ -15998,7 +16152,7 @@ paths:
 
             Every row of a `table` is read with `_uuid`, the uuid it was born with,
             which stays the same as long as the row exists. Other data can name a row
-            by it, as a tag names its color of `appearance.tag_colors` with
+            by it, as a tag names its color of `tags_labels.tag_colors` with
             `custom-<_uuid>`. Send `_uuid` back unchanged, also after moving or
             removing rows. A row without `_uuid` is new and is born with a new uuid, a
             second row with the same `_uuid` too. A table sent without any `_uuid`
@@ -16085,20 +16239,6 @@ paths:
                                                                     en-US:
                                                                         type: string
                                                                 type: object
-                                                            tag_colors:
-                                                                items:
-                                                                    properties:
-                                                                        tag_color:
-                                                                            type: string
-                                                                    type: object
-                                                                type: array
-                                                            tag_icons:
-                                                                items:
-                                                                    properties:
-                                                                        fa-icon:
-                                                                            type: string
-                                                                    type: object
-                                                                type: array
                                                             welcome_splash:
                                                                 enum:
                                                                     - custom_logo
@@ -19221,6 +19361,53 @@ paths:
                                                                     - reference
                                                                 type: string
                                                         type: object
+                                                    tags_labels:
+                                                        properties:
+                                                            acl_labels:
+                                                                items:
+                                                                    properties:
+                                                                        _uuid:
+                                                                            description: 'The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.'
+                                                                            format: uuid
+                                                                            type: string
+                                                                        color:
+                                                                            type: string
+                                                                        icon:
+                                                                            type: string
+                                                                        name:
+                                                                            properties:
+                                                                                de-DE:
+                                                                                    type: string
+                                                                                en-US:
+                                                                                    type: string
+                                                                            type: object
+                                                                        reference:
+                                                                            type: string
+                                                                    type: object
+                                                                type: array
+                                                            tag_colors:
+                                                                items:
+                                                                    properties:
+                                                                        _uuid:
+                                                                            description: 'The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.'
+                                                                            format: uuid
+                                                                            type: string
+                                                                        tag_color:
+                                                                            type: string
+                                                                    type: object
+                                                                type: array
+                                                            tag_icons:
+                                                                items:
+                                                                    properties:
+                                                                        _uuid:
+                                                                            description: 'The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.'
+                                                                            format: uuid
+                                                                            type: string
+                                                                        fa-icon:
+                                                                            type: string
+                                                                    type: object
+                                                                type: array
+                                                        type: object
                                                     transition_webhook:
                                                         properties:
                                                             webhooks:
@@ -19446,20 +19633,6 @@ paths:
                                                                 en-US:
                                                                     type: string
                                                             type: object
-                                                        tag_colors:
-                                                            items:
-                                                                properties:
-                                                                    tag_color:
-                                                                        type: string
-                                                                type: object
-                                                            type: array
-                                                        tag_icons:
-                                                            items:
-                                                                properties:
-                                                                    fa-icon:
-                                                                        type: string
-                                                                type: object
-                                                            type: array
                                                         welcome_splash:
                                                             enum:
                                                                 - custom_logo
@@ -22582,6 +22755,53 @@ paths:
                                                                 - reference
                                                             type: string
                                                     type: object
+                                                tags_labels:
+                                                    properties:
+                                                        acl_labels:
+                                                            items:
+                                                                properties:
+                                                                    _uuid:
+                                                                        description: 'The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.'
+                                                                        format: uuid
+                                                                        type: string
+                                                                    color:
+                                                                        type: string
+                                                                    icon:
+                                                                        type: string
+                                                                    name:
+                                                                        properties:
+                                                                            de-DE:
+                                                                                type: string
+                                                                            en-US:
+                                                                                type: string
+                                                                        type: object
+                                                                    reference:
+                                                                        type: string
+                                                                type: object
+                                                            type: array
+                                                        tag_colors:
+                                                            items:
+                                                                properties:
+                                                                    _uuid:
+                                                                        description: 'The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.'
+                                                                        format: uuid
+                                                                        type: string
+                                                                    tag_color:
+                                                                        type: string
+                                                                type: object
+                                                            type: array
+                                                        tag_icons:
+                                                            items:
+                                                                properties:
+                                                                    _uuid:
+                                                                        description: 'The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.'
+                                                                        format: uuid
+                                                                        type: string
+                                                                    fa-icon:
+                                                                        type: string
+                                                                type: object
+                                                            type: array
+                                                    type: object
                                                 transition_webhook:
                                                     properties:
                                                         webhooks:
@@ -22735,20 +22955,6 @@ paths:
                                                                     en-US:
                                                                         type: string
                                                                 type: object
-                                                            tag_colors:
-                                                                items:
-                                                                    properties:
-                                                                        tag_color:
-                                                                            type: string
-                                                                    type: object
-                                                                type: array
-                                                            tag_icons:
-                                                                items:
-                                                                    properties:
-                                                                        fa-icon:
-                                                                            type: string
-                                                                    type: object
-                                                                type: array
                                                             welcome_splash:
                                                                 enum:
                                                                     - custom_logo
@@ -25870,6 +26076,53 @@ paths:
                                                                     - login
                                                                     - reference
                                                                 type: string
+                                                        type: object
+                                                    tags_labels:
+                                                        properties:
+                                                            acl_labels:
+                                                                items:
+                                                                    properties:
+                                                                        _uuid:
+                                                                            description: 'The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.'
+                                                                            format: uuid
+                                                                            type: string
+                                                                        color:
+                                                                            type: string
+                                                                        icon:
+                                                                            type: string
+                                                                        name:
+                                                                            properties:
+                                                                                de-DE:
+                                                                                    type: string
+                                                                                en-US:
+                                                                                    type: string
+                                                                            type: object
+                                                                        reference:
+                                                                            type: string
+                                                                    type: object
+                                                                type: array
+                                                            tag_colors:
+                                                                items:
+                                                                    properties:
+                                                                        _uuid:
+                                                                            description: 'The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.'
+                                                                            format: uuid
+                                                                            type: string
+                                                                        tag_color:
+                                                                            type: string
+                                                                    type: object
+                                                                type: array
+                                                            tag_icons:
+                                                                items:
+                                                                    properties:
+                                                                        _uuid:
+                                                                            description: 'The uuid the row was born with, it stays the same as long as the row exists. Send it back unchanged, also after moving or removing rows: an empty secret then keeps the secret of the stored row it names. Omit it for a new row, which the server gives a new uuid. Rows of a table sent without any _uuid are paired with the stored rows by position and keep their uuids.'
+                                                                            format: uuid
+                                                                            type: string
+                                                                        fa-icon:
+                                                                            type: string
+                                                                    type: object
+                                                                type: array
                                                         type: object
                                                     transition_webhook:
                                                         properties:
@@ -62592,6 +62845,19 @@ components:
                         $ref: '#/components/schemas/RightItemApi'
                 tagfilter:
                     $ref: '#/components/schemas/TagfilterApi'
+                custom_data:
+                    type: object
+                    additionalProperties: true
+                    description: |
+                        Free-form values of the permission for the applications using the
+                        API, stored as sent, each application under a key of its own. It
+                        grants nothing. The webfrontend keeps a note and a label under
+                        `webfrontend`: `note` is text, `label` is the `reference` of an
+                        entry of the base config `tags_labels.acl_labels`. `{}` and `null`
+                        store nothing, a response leaves it out then. Keys ending in
+                        `:eas_file` name no files here. A change of `custom_data` alone does
+                        not change what anybody may do, so it starts no re-check of the
+                        permissions.
                 send_email_notification:
                     type: object
                     description: |

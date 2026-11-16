@@ -9,3 +9,15 @@ Access to content is structured using **pools**, which define the scope of recor
 For editorial processes and collaboration, fylr offers **tags and workflows**, which can influence visibility, permissions, and automated actions such as notifications or exports. **Permission presets** and explicit sharing mechanisms allow access to be granted temporarily or selectively, supporting cross-team and external collaboration scenarios.
 
 Together, these components form a layered permission framework in which **users and groups define roles**, **pools define access scope**, **object types and masks define structure**, and **tags, workflows, and presets refine behavior and exceptions**. The following articles explain each of these elements in detail and how they interact within the overall permission model.
+
+## Labels and Notes
+
+{% hint style="info" %}
+Available from version 6.36.0.
+{% endhint %}
+
+Every entry in the permissions of a pool, group, user, collection, tag, object type or record can carry a **label** and a **note**. A label marks the entries that belong together, a note says what an entry is there for. Neither grants anything.
+
+The filter line above the entries narrows the list by label, by a search text and by a user or group; "+" adds an entry for the selected user or group. The entries are shown in a full or a compact view.
+
+The labels are defined in the base configuration under **General > Tags & Labels > Permission Labels**, each with a name, a color and an icon. Users with the system right for the base configuration can also open the list with **Edit Labels…** in the label select of an entry. A label takes its color and its icon like a tag: one of the built-in ones, or one of the **Custom Icons** and **Custom Colors** of the same block, which serve the tags as well. Up to version 6.35 these two lists were part of **Appearance**; the update moves them.
