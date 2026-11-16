@@ -18,11 +18,16 @@ If you start your hierarchy in fylr.yml with `fylr+:` instead of `fylr:`, then d
 ## Multiple config files can be parsed (use -c ... -c ... -c ...).
 ##   The following rules apply:
 ##   - For maps the whole map is replaced, unless the key which holds the map
-##     ends ins a plus. If it ends in a minus, values are removed from a map.
-##   - For slices the whole slice is replace. If the key ends in a +, values are
+##     ends in a plus. If it ends in a minus, values are removed from a map.
+##   - For slices the whole slice is replaced. If the key ends in a +, values
 ##     are appended, if it ends in a "-" values are removed. If it ends in "<",
 ##     values are prepended.
 ##   - Other values are overwritten
+##   - One file can hold several of these keys for the same map or slice, such
+##     as "paths:" together with "paths+:". They apply in a fixed order,
+##     whatever their order in the file: the key without a suffix first
+##     (replace), then "<" (prepend), then "+" (append or merge), then "-"
+##     (remove).
 ##
 ## To set the externalURL and the sqlite database name in a minimum fylr.yml one could do:
 ##
