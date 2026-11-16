@@ -25,25 +25,6 @@ It contains:
 
 Up to 6.34 the archive also contained an `easydb-plugins` folder. From 6.35 plugins come from the plugin manager.
 
-## Updating from 6.34 to 6.35
-
-No new third-party tool and no newer version of the tools on this page is required: an installation set up with them for 6.34 keeps them. These steps are needed:
-
-1. **Replace `fylr.exe` and take over the corrections of the new `fylr.yml`** into yours:
-   * `db+:` instead of `db:` — a bare `db:` drops the connection pool defaults,
-   * delete a `services:` line under `execserver+:` that has nothing below it — it replaces the shipped service list with an empty one, so the execserver converts nothing and runs no plugin,
-   * `update_policy` instead of `update` in the per-plugin entries under `plugin.defaults`; `plugin.default`, the setting for all new plugins, already uses `update_policy`,
-   * no `plugin.paths` entries for `easydb-plugins` and no `server-pdf` entry under `plugin.urls`.
-
-   Then run `.\fylr.exe config check fylr.yml`: it reports the `update` key as unknown and former execserver settings such as `waitgroups` as deprecated, and warns about a bare `db:` and an empty `services:`.
-2. **Delete the `easydb-plugins` folder.** The upgrade converts the enabled plugins to their marketplace releases and downloads them, so fylr needs outbound HTTPS to `github.com`, `*.githubusercontent.com` and `programmfabrik.github.io`; without it, install them as ZIP, see [Disk to URL plugin migration](../../plugins/disk-to-url-migration.md). The PDF Server (`server-pdf`) is switched off where PDF Creator is enabled, and PDF Creator renders with the Chrome named in `SERVER_PDF_CHROME`, see [chrome](windows.md#chrome).
-3. **Ghostscript must be found as `gs`.** fylr renders EPS, AI and PS with Ghostscript itself: keep the `gs.exe` copy or name `gswin64c.exe` in `fylr.yml`, see [Ghostscript](windows.md#ghostscript). Inkscape stays, for SVG and WMF.
-4. **Check that mutool has ICC color management**, see [mupdf tools](windows.md#mupdf-tools). Updating MuPDF to 1.28.0, the version in the Docker image, is recommended: mutool reads every uploaded PDF, and the newer release contains security fixes.
-5. **Writing HEIC** (since 6.34.2) needs the x265 encoder in the libheif that ImageMagick embeds, see [ImageMagick](windows.md#magick.exe-imagemagick).
-6. **Saxon runs with `saxon.xml`.** Save the file next to the Saxon jar and add its `-config:` argument to the `saxon` command, see [Saxon](windows.md#saxon).
-
-The same changes for Linux and macOS: [Updating a self-installation to 6.35](README.md#updating-a-self-installation-to-6.35).
-
 ## Windows path length
 
 The shorter the path of your fylr installation directory, the less likely your installation will fail processing files due to exceeding the [length limit](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry). So prefer `C:\fylr` over `C:\user\jane doe\Desktop\software-project\fylr-v6.17.0\unpacked`. fylr newer than v6.3.1 will try to use only short internal file names, but every little bit helps. Same for Libre Office installation (more about that below).
@@ -521,3 +502,22 @@ After testing, you may want to switch to
 ```
 fylr.exe server -c fylr.yml --service install
 ```
+
+## Updating from 6.34 to 6.35
+
+No new third-party tool and no newer version of the tools on this page is required: an installation set up with them for 6.34 keeps them. These steps are needed:
+
+1. **Replace `fylr.exe` and take over the corrections of the new `fylr.yml`** into yours:
+   * `db+:` instead of `db:` — a bare `db:` drops the connection pool defaults,
+   * delete a `services:` line under `execserver+:` that has nothing below it — it replaces the shipped service list with an empty one, so the execserver converts nothing and runs no plugin,
+   * `update_policy` instead of `update` in the per-plugin entries under `plugin.defaults`; `plugin.default`, the setting for all new plugins, already uses `update_policy`,
+   * no `plugin.paths` entries for `easydb-plugins` and no `server-pdf` entry under `plugin.urls`.
+
+   Then run `.\fylr.exe config check fylr.yml`: it reports the `update` key as unknown and former execserver settings such as `waitgroups` as deprecated, and warns about a bare `db:` and an empty `services:`.
+2. **Delete the `easydb-plugins` folder.** The upgrade converts the enabled plugins to their marketplace releases and downloads them, so fylr needs outbound HTTPS to `github.com`, `*.githubusercontent.com` and `programmfabrik.github.io`; without it, install them as ZIP, see [Disk to URL plugin migration](../../plugins/disk-to-url-migration.md). The PDF Server (`server-pdf`) is switched off where PDF Creator is enabled, and PDF Creator renders with the Chrome named in `SERVER_PDF_CHROME`, see [chrome](windows.md#chrome).
+3. **Ghostscript must be found as `gs`.** fylr renders EPS, AI and PS with Ghostscript itself: keep the `gs.exe` copy or name `gswin64c.exe` in `fylr.yml`, see [Ghostscript](windows.md#ghostscript). Inkscape stays, for SVG and WMF.
+4. **Check that mutool has ICC color management**, see [mupdf tools](windows.md#mupdf-tools). Updating MuPDF to 1.28.0, the version in the Docker image, is recommended: mutool reads every uploaded PDF, and the newer release contains security fixes.
+5. **Writing HEIC** (since 6.34.2) needs the x265 encoder in the libheif that ImageMagick embeds, see [ImageMagick](windows.md#magick.exe-imagemagick).
+6. **Saxon runs with `saxon.xml`.** Save the file next to the Saxon jar and add its `-config:` argument to the `saxon` command, see [Saxon](windows.md#saxon).
+
+The same changes for Linux and macOS: [Updating a self-installation to 6.35](README.md#updating-a-self-installation-to-6.35).
