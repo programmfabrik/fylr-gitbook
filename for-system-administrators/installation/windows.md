@@ -178,10 +178,10 @@ If you want to go back to a fresh state between two test runs:
 
 ```
 C:\fylr\utils> .\magick.exe -list format | findstr /i heic
-     HEIC  HEIC      rw+   High Efficiency Image Format (1.22.2)
+     HEIC  r--   High Efficiency Image Format (1.23.0)
 ```
 
-* **Writing** HEIC (a custom rendition, crop-tool file variant or produce request with `format=heic`, available since fylr 6.34.2) additionally needs a libheif with an HEVC encoder (x265). The official fylr docker image ships the `libheif-plugin-x265` package. fylr writes HEIC with [libvips](windows.md#libvips) first; a libvips without an HEVC encoder answers `heifsave: Unsupported compression`, and fylr then writes with magick. So on Windows the libheif embedded in the ImageMagick build must be able to encode HEVC. The mode column of the HEIC line above tells: `rw+` writes HEIC, `r--` only reads it.
+* **Writing** HEIC (a custom rendition, crop-tool file variant or produce request with `format=heic`, available since fylr 6.34.2) additionally needs a libheif with an HEVC encoder (x265). The official fylr docker image ships the `libheif-plugin-x265` package. The ImageMagick and libvips builds for Windows have no HEVC encoder: their libheif decodes HEIC, but encodes only AV1 (AVIF). The mode column of the HEIC line above tells: `rw+` writes HEIC, `r--` only reads it. fylr writes HEIC with [libvips](windows.md#libvips) first, which answers `heifsave: Unsupported compression`, and then with magick, which answers ``no encode delegate for this image format `HEIC'``. So fylr on Windows reads HEIC but does not write it.
 
 Hint from the [download page](https://imagemagick.org/script/download.php#windows):
 
@@ -517,7 +517,7 @@ No new third-party tool and no newer version of the tools on this page is requir
 2. **Delete the `easydb-plugins` folder.** The upgrade converts the enabled plugins to their marketplace releases and downloads them, so fylr needs outbound HTTPS to `github.com`, `*.githubusercontent.com` and `programmfabrik.github.io`; without it, install them as ZIP, see [Disk to URL plugin migration](../../plugins/disk-to-url-migration.md). The PDF Server (`server-pdf`) is switched off where PDF Creator is enabled, and PDF Creator renders with the Chrome named in `SERVER_PDF_CHROME`, see [chrome](windows.md#chrome).
 3. **Ghostscript must be found as `gs`.** fylr renders EPS, AI and PS with Ghostscript itself: keep the `gs.exe` copy or name `gswin64c.exe` in `fylr.yml`, see [Ghostscript](windows.md#ghostscript). Inkscape stays, for SVG and WMF.
 4. **Check that mutool has ICC color management**, see [mupdf tools](windows.md#mupdf-tools). Updating MuPDF to 1.28.0, the version in the Docker image, is recommended: mutool reads every uploaded PDF, and the newer release contains security fixes.
-5. **Writing HEIC** (since 6.34.2) needs the x265 encoder in the libheif that ImageMagick embeds, see [ImageMagick](windows.md#magick.exe-imagemagick).
+5. **HEIC is read, not written.** Writing HEIC (since 6.34.2) needs an HEVC encoder, which the ImageMagick and libvips builds for Windows do not have, see [ImageMagick](windows.md#magick.exe-imagemagick).
 6. **Saxon runs with `saxon.xml`.** Save the file next to the Saxon jar and add its `-config:` argument to the `saxon` command, see [Saxon](windows.md#saxon).
 
 The same changes for Linux and macOS: [Updating a self-installation to 6.35](README.md#updating-a-self-installation-to-6.35).
