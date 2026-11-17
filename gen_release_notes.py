@@ -129,16 +129,17 @@ def merge_rel(rels, tup):
             return
     rels.append(tup)
 
-# the checksums of the downloads: the release has them above its notes, the
-# page at its end, as a section of its own.
-CHECKSUMS_RE = re.compile(r'^### (Downloads \(SHA-256\)\n\n```\n.*?\n```\n)\n*', flags = re.M | re.S)
+# the docker images and the checksums of the downloads: the release has them
+# above its notes, the page at its end, as sections of their own.
+DIGESTS_RE = re.compile(r'\A(?:### (?:Docker images|Downloads \(SHA-256\))\n\n```\n.*?\n```\n+)+', flags = re.S)
 
-def checksums_last(body):
+def digests_last(body):
     body = body.replace('\r\n', '\n')
-    m = CHECKSUMS_RE.search(body)
+    m = DIGESTS_RE.match(body)
     if m is None:
         return body
-    return (body[:m.start()] + body[m.end():]).rstrip('\n') + '\n\n## ' + m.group(1)
+    digests = re.sub('^### ', '## ', m.group(0), flags = re.M)
+    return body[m.end():].rstrip('\n') + '\n\n' + digests.rstrip('\n') + '\n'
 
 IMAGE_RE = re.compile(r'docker\.fylr\.io/(?P<repo>fylr/[a-z-]+)@(?P<digest>sha256:[0-9a-f]{64})')
 record_warnings = []
@@ -272,7 +273,7 @@ for rel in gh.get_releases():
             with open(tmpfile.name, 'r', encoding = 'utf-8') as f:
                 body = f.read()
 
-    md.add_raw(checksums_last(body))
+    md.add_raw(digests_last(body))
     md.write(fn)
 
 # releases summaries, newest year first
