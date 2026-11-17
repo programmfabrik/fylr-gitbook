@@ -44091,8 +44091,9 @@ paths:
                         missing (`code: ResourceNotFound`).
     /tags:
         description: |
-            Manages the complete set of tag groups and tags. `GET` returns every
-            taggroup and its tags and requires only an authenticated user; `POST`
+            Manages the complete set of tag groups and tags. `GET` returns the tag
+            groups and the tags the user sees and requires only an authenticated
+            user; `POST`
             replaces the entire set from the request body, deleting any group or tag
             absent from it, writes the `taggroup` and `tag` tables directly in the
             request transaction (effective immediately, no working copy or commit
@@ -44233,7 +44234,19 @@ paths:
             tags:
                 - tags
             description: |
-                This endpoint returns all available taggroups and tags.
+                Returns the tag groups and the tags the user sees. Requires an
+                authenticated user, no system right; also served in read-only mode.
+                A tag is seen by the users its `_acl` grants `tag_view`; root and
+                users with `system.tagmanager` see every tag. A tag group with tags
+                of which the user sees none is left out. The tags carry their `_acl`
+                only for a caller with `system.tagmanager` or `system.root`; for any
+                other user `_acl` is left out.
+
+                A tag hidden from a user is to them as if it did not exist,
+                everywhere: in records, search and facets, pools, object types,
+                `db_info` and the upload settings of collections. Sending it is
+                answered like a tag that does not exist (`TagNotFound`,
+                `LookupNotFound` for a reference), and a save keeps it.
             responses:
                 "200":
                     description: Success

@@ -46009,7 +46009,7 @@
       }
     },
     "/tags": {
-      "description": "Manages the complete set of tag groups and tags. `GET` returns every\ntaggroup and its tags and requires only an authenticated user; `POST`\nreplaces the entire set from the request body, deleting any group or tag\nabsent from it, writes the `taggroup` and `tag` tables directly in the\nrequest transaction (effective immediately, no working copy or commit\nstep), and requires the `system.tagmanager` system right.\n",
+      "description": "Manages the complete set of tag groups and tags. `GET` returns the tag\ngroups and the tags the user sees and requires only an authenticated\nuser; `POST`\nreplaces the entire set from the request body, deleting any group or tag\nabsent from it, writes the `taggroup` and `tag` tables directly in the\nrequest transaction (effective immediately, no working copy or commit\nstep), and requires the `system.tagmanager` system right.\n",
       "post": {
         "summary": "Create, update or delete taggroups and tags",
         "description": "Replaces the **entire** set of tag groups and tags. The request body is\nthe complete desired list: groups and tags present are created or\nupdated; any group or tag currently in the database but **absent** from\nthe request is deleted. The change is written directly to the `taggroup`\nand `tag` tables in the request transaction and is effective immediately;\nthere is no working copy and no separate commit step. Deletions of\nstill-referenced tags either return a `202` (auto-removable contexts,\nconfirm with `delete_policy=remove_tags`) or a `400 TagsInUse` (must be\nresolved manually first). Changing a tag's `_acl` re-validates affected\ncollection objects; if that re-validation exceeds the time limit a `202`\nis returned offering to run it in the background (confirm with\n`background_invalid_acl=true`). Requires the `system.tagmanager` system\nright. Rejected with `400 ReadOnlyMode` while the server is in read-only\nmode.\n\nDiffers from easydb 5: deleting a still-referenced tag is confirmed with\n`delete_policy=remove_tags` (auto-removable contexts) or rejected with\n`400 TagsInUse` (manual-resolution contexts), and the collection-ACL\nre-validation is confirmed with `background_invalid_acl`. easydb 5\ndocuments neither a `delete_policy` nor a `TagsInUse` error; its only\ndocumented confirmation parameter for this save is\n`collection_rights_policy`.\n",
@@ -46131,7 +46131,7 @@
         "tags": [
           "tags"
         ],
-        "description": "This endpoint returns all available taggroups and tags.\n",
+        "description": "Returns the tag groups and the tags the user sees. Requires an\nauthenticated user, no system right; also served in read-only mode.\nA tag is seen by the users its `_acl` grants `tag_view`; root and\nusers with `system.tagmanager` see every tag. A tag group with tags\nof which the user sees none is left out. The tags carry their `_acl`\nonly for a caller with `system.tagmanager` or `system.root`; for any\nother user `_acl` is left out.\n\nA tag hidden from a user is to them as if it did not exist,\neverywhere: in records, search and facets, pools, object types,\n`db_info` and the upload settings of collections. Sending it is\nanswered like a tag that does not exist (`TagNotFound`,\n`LookupNotFound` for a reference), and a save keeps it.\n",
         "responses": {
           "200": {
             "description": "Success",
