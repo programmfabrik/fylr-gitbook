@@ -59749,7 +59749,7 @@
         "properties": {
           "code": {
             "type": "string",
-            "description": "Stable, machine-readable error code:\n\n  * `TagNotEnabled` — one of the `tag_ids` exists but is not enabled for\n    the requested objecttype/pool combination. `parameters.tagid`\n    carries the offending id. This enum is not exhaustive. Not every 400\n    carries one of the codes above: input-validation failures such as an\n    unknown `pool_id`, an objecttype that has no pool or no tags, or a\n    `db_info/update` call missing `objecttype`/`object_ids`, are\n    returned as generic 400 messages without a stable `code`. Other 400\n    codes from the server pipeline (request parsing, `ReadOnlyMode`, …)\n    may also surface here. Always tolerate codes outside this enum.\n",
+            "description": "Stable, machine-readable error code:\n\n  * `TagNotEnabled` — one of the `tag_ids` exists but is not enabled for\n    the requested objecttype/pool combination. `parameters.tagid`\n    carries the offending id, `parameters.tag` the name of the tag in\n    the user's frontend language (its id if it has no name) and\n    `parameters.pool` the name of the requested pool in that language\n    (`\"\"` for an object type without pool).\n    This enum is not exhaustive. Not every 400\n    carries one of the codes above: input-validation failures such as an\n    unknown `pool_id`, an objecttype that has no pool or no tags, or a\n    `db_info/update` call missing `objecttype`/`object_ids`, are\n    returned as generic 400 messages without a stable `code`. Other 400\n    codes from the server pipeline (request parsing, `ReadOnlyMode`, …)\n    may also surface here. Always tolerate codes outside this enum.\n",
             "enum": [
               "TagNotEnabled"
             ]
@@ -59768,7 +59768,7 @@
           "parameters": {
             "type": "object",
             "additionalProperties": true,
-            "description": "Machine-readable details: `tagid`.\n"
+            "description": "Machine-readable details: `tagid`, `tag`, `pool`.\n"
           },
           "realm": {
             "type": "string",
