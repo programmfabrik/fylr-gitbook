@@ -208,6 +208,7 @@
       * [Files](for-administrators/tools/csv-importer/examples/files.md)
   * [JSON Importer](for-administrators/tools/json-importer/README.md)
     * [Step-by-Step Tutorial](for-administrators/tools/json-importer/examples/README.md)
+      * [Sample Datamodel](for-administrators/tools/json-importer/examples/datamodel.md)
       * [Write Import Manifest](for-administrators/tools/json-importer/examples/import-manifest.md)
       * [Create Basetype Payloads](for-administrators/tools/json-importer/examples/payloads-for-basetypes.md)
       * [Create Object Payloads](for-administrators/tools/json-importer/examples/payloads-for-user-objects.md)
