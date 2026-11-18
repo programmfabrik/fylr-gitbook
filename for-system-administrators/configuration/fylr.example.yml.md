@@ -696,6 +696,11 @@ fylr:
     # fylr backend listener, Kubernetes metadata/API, internal services,
     # …). Use the blocklist below to keep authenticated callers from
     # using rput as an SSRF primitive.
+    #
+    # The list also applies to a file a recipe reads from an url which
+    # fylr did not make itself, such as an url given as a recipe
+    # parameter. The execserver fetches that file: an execserver which
+    # runs as its own process takes the list from its own configuration.
     rput:
       # blockedHosts lists the hosts rput must refuse.
       # An entry matches if it is:

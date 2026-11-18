@@ -25,25 +25,6 @@ It contains:
 
 Up to 6.34 the archive also contained an `easydb-plugins` folder. From 6.35 plugins come from the plugin manager.
 
-## Updating from 6.34 to 6.35
-
-No new third-party tool and no newer version of the tools on this page is required: an installation set up with them for 6.34 keeps them. These steps are needed:
-
-1. **Replace `fylr.exe` and take over the corrections of the new `fylr.yml`** into yours:
-   * `db+:` instead of `db:` — a bare `db:` drops the connection pool defaults,
-   * delete a `services:` line under `execserver+:` that has nothing below it — it replaces the shipped service list with an empty one, so the execserver converts nothing and runs no plugin,
-   * `update_policy` instead of `update` in the per-plugin entries under `plugin.defaults`; `plugin.default`, the setting for all new plugins, already uses `update_policy`,
-   * no `plugin.paths` entries for `easydb-plugins` and no `server-pdf` entry under `plugin.urls`.
-
-   Then run `.\fylr.exe config check fylr.yml`: it reports the `update` key as unknown and former execserver settings such as `waitgroups` as deprecated, and warns about a bare `db:` and an empty `services:`.
-2. **Delete the `easydb-plugins` folder.** The upgrade converts the enabled plugins to their marketplace releases and downloads them, so fylr needs outbound HTTPS to `github.com`, `*.githubusercontent.com` and `programmfabrik.github.io`; without it, install them as ZIP, see [Disk to URL plugin migration](../../plugins/disk-to-url-migration.md). The PDF Server (`server-pdf`) is switched off where PDF Creator is enabled, and PDF Creator renders with the Chrome named in `SERVER_PDF_CHROME`, see [chrome](windows.md#chrome).
-3. **Ghostscript must be found as `gs`.** fylr renders EPS, AI and PS with Ghostscript itself: keep the `gs.exe` copy or name `gswin64c.exe` in `fylr.yml`, see [Ghostscript](windows.md#ghostscript). Inkscape stays, for SVG and WMF.
-4. **Check that mutool has ICC color management**, see [mupdf tools](windows.md#mupdf-tools). Updating MuPDF to 1.28.0, the version in the Docker image, is recommended: mutool reads every uploaded PDF, and the newer release contains security fixes.
-5. **Writing HEIC** (since 6.34.2) needs the x265 encoder in the libheif that ImageMagick embeds, see [ImageMagick](windows.md#magick.exe-imagemagick).
-6. **Saxon runs with `saxon.xml`.** Save the file next to the Saxon jar and add its `-config:` argument to the `saxon` command, see [Saxon](windows.md#saxon).
-
-The same changes for Linux and macOS: [Updating a self-installation to 6.35](README.md#updating-a-self-installation-to-6.35).
-
 ## Windows path length
 
 The shorter the path of your fylr installation directory, the less likely your installation will fail processing files due to exceeding the [length limit](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry). So prefer `C:\fylr` over `C:\user\jane doe\Desktop\software-project\fylr-v6.17.0\unpacked`. fylr newer than v6.3.1 will try to use only short internal file names, but every little bit helps. Same for Libre Office installation (more about that below).
@@ -183,7 +164,7 @@ If you want to go back to a fresh state between two test runs:
 
 * Download the newest release zip (tested with `Release-26.02.0-0.zip`) from [https://github.com/oschwartz10612/poppler-windows](https://github.com/oschwartz10612/poppler-windows/releases) (_not_ xpdf-tools from https://www.xpdfreader.com).
 * fylr only uses `pdfinfo.exe` from poppler: PDF text extraction is done by tika, PDF page rendering by mupdf's mutool (both below).
-* Unpack the release and configure the path to `pdfinfo.exe` in `fylr.yml`, or add the containing directory to the PATH.
+* Unpack the release into `C:\fylr\utils`. It unpacks to the folder `poppler-26.02.0`, with `pdfinfo.exe` in `poppler-26.02.0\Library\bin`. Configure that path in `fylr.yml`, or add the directory to the PATH.
 
 ### magick.exe (ImageMagick)
 
@@ -197,10 +178,10 @@ If you want to go back to a fresh state between two test runs:
 
 ```
 C:\fylr\utils> .\magick.exe -list format | findstr /i heic
-     HEIC  HEIC      rw+   High Efficiency Image Format (1.22.2)
+     HEIC  r--   High Efficiency Image Format (1.23.0)
 ```
 
-* **Writing** HEIC (a custom rendition, crop-tool file variant or produce request with `format=heic`, available since fylr 6.34.2) additionally needs a libheif with an HEVC encoder (x265). The official fylr docker image ships the `libheif-plugin-x265` package. On Windows the embedded libheif of the ImageMagick build must be able to encode HEVC: if reading HEIC works but producing a HEIC fails, the embedded libheif lacks the encoder.
+* **Writing** HEIC (a custom rendition, crop-tool file variant or produce request with `format=heic`, available since fylr 6.34.2) additionally needs a libheif with an HEVC encoder (x265). The official fylr docker image ships the `libheif-plugin-x265` package. The ImageMagick and libvips builds for Windows have no HEVC encoder: their libheif decodes HEIC, but encodes only AV1 (AVIF). The mode column of the HEIC line above tells: `rw+` writes HEIC, `r--` only reads it. fylr writes HEIC with [libvips](windows.md#libvips) first, which answers `heifsave: Unsupported compression`, and then with magick, which answers ``no encode delegate for this image format `HEIC'``. So fylr on Windows reads HEIC but does not write it.
 
 Hint from the [download page](https://imagemagick.org/script/download.php#windows):
 
@@ -226,7 +207,15 @@ Download the current LTS version (tested with `node-v24.18.0-win-x64.7z`) from [
 
 ### Python
 
-Download the "Windows embeddable package (64-bit)" from [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/) (explained [here](https://docs.python.org/3/using/windows.html#windows-embeddable)) and unpack the whole package as the folder "python3" inside `C:\fylr\utils`.
+Install Python 3 with the "Windows installer (64-bit)" from [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/), for all users, here to `C:\Program Files\Python313` (tested with Python 3.13). The embeddable package has no pip, and plugins written in Python need the packages the fylr docker image ships. Install them with pip:
+
+```
+PS C:\> & "C:\Program Files\Python313\python.exe" -m pip install requests requests-oauthlib numpy cssselect tinycss2 python-pptx opencv-python-headless
+```
+
+Without `requests`, a plugin callback fails with `ModuleNotFoundError: No module named 'requests'`. OpenCV is only used by the example plugin. pip has no OpenCV for Windows on ARM; the x64 Python installs it there, and Windows runs it emulated.
+
+Configure `python.exe` in `fylr.yml`, here `C:\Program Files\Python313\python.exe`: Windows names it `python.exe`, not `python3`, and a declared command whose program is not found keeps fylr from starting.
 
 ### Java
 
@@ -236,13 +225,13 @@ To extract information from assets, fylr needs a "java" command. Install Java an
 
 This replaces _xsltproc_ since fylr v6.19.
 
-Download **SaxonJ-HE 12.5** from [https://www.saxonica.com/download/java.xml](https://www.saxonica.com/download/java.xml) and unpack it, here to `C:\fylr\utils\saxon\saxon-he-12.5.jar`. From fylr 6.35.0, Saxon runs with the configuration file `saxon.xml`: save it with the content shown in [XSLT with Saxon](README.md#xslt-with-saxon), here as `C:\fylr\utils\saxon\saxon.xml`. Configure both in `fylr.yml`:
+Download **SaxonJ-HE 12.5** (`SaxonHE12-5J.zip`) from [https://www.saxonica.com/download/java.xml](https://www.saxonica.com/download/java.xml) and unpack the whole zip, here to `C:\fylr\utils\saxon`, so that `saxon-he-12.5.jar` has the `lib` folder next to it: without the xmlresolver jars in there, Saxon fails with `NoClassDefFoundError: org/xmlresolver/Resolver`. The single jar from Maven Central lacks them as well. From fylr 6.35.0, Saxon runs with the configuration file `saxon.xml`: save it with the content shown in [XSLT with Saxon](README.md#xslt-with-saxon), here as `C:\fylr\utils\saxon\saxon.xml`. Configure both in `fylr.yml`:
 
 ```
 fylr+:
   services+:
     execserver+:
-      commands:
+      commands+:
         saxon:
           prog: java
           args:
@@ -267,13 +256,13 @@ Mode                 LastWriteTime         Length Name
 -a----    Mi, 12.03.2025     13:58          93696 gswin64c.exe
 ```
 
-Instead of the copy, the program can be named in `fylr.yml`:
+Instead of the copy, the program can be named in `fylr.yml`. Mind the `+` of `commands+`: without it, the list replaces all the other commands:
 
 ```
 fylr+:
   services+:
     execserver+:
-      commands:
+      commands+:
         gs:
           prog: "C:\\Program Files\\gs\\gs10.05.0\\bin\\gswin64c.exe"
 ```
@@ -290,7 +279,7 @@ Install LibreOffice ([https://de.libreoffice.org/donate/dl/win-x86\_64/24.8.4/de
 fylr+:
   services+:
     execserver+:
-      commands:
+      commands+:
         soffice:
           prog: "C:\\Program Files\\LibreOffice\\program\\soffice.exe"
 ```
@@ -323,7 +312,7 @@ Download the newest tika-app jar file (tested with `tika-app-3.3.1.jar`) from [h
 fylr+:
   services+:
     execserver+:
-      commands:
+      commands+:
         tika:
           prog: java
           args:
@@ -343,7 +332,7 @@ From [https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannh
 fylr+:
   services+:
     execserver+:
-      commands:
+      commands+:
         tesseract:
           prog: "C:\\fylr\\utils\\tesseract\\tesseract.exe"
 ```
@@ -356,7 +345,7 @@ Download the Windows build (tested with `mupdf-1.25.2-windows.zip`) from [https:
 fylr+:
   services+:
     execserver+:
-      commands:
+      commands+:
         mutool:
           prog: "C:\\fylr\\utils\\mupdf\\mutool.exe"
 ```
@@ -369,11 +358,11 @@ C:\fylr\utils\mupdf> .\mutool.exe draw -o check.png any.pdf
 
 ### dot
 
-from [https://www.graphviz.org/download/](https://www.graphviz.org/download/)
+Install Graphviz with its installer from [https://www.graphviz.org/download/](https://www.graphviz.org/download/). It installs to `C:\Program Files\Graphviz`, with `dot.exe` in its `bin` folder.
 
 ### calibre
 
-from [https://calibre-ebook.com/download\_windows](https://calibre-ebook.com/download_windows)
+Install calibre (64 bit) with its installer from [https://calibre-ebook.com/download\_windows](https://calibre-ebook.com/download_windows). It installs to `C:\Program Files\Calibre2`, with `ebook-meta.exe` and `ebook-convert.exe`.
 
 ### libvips
 
@@ -381,29 +370,39 @@ Optional but recommended. fylr requires libvips 8.16 or newer.
 
 On [https://www.libvips.org](https://www.libvips.org/), follow `Download` and `Windows binaries` and download the newest `vips-dev-x64-all-`X.Y.Z`.zip` (tested with [vips-dev-x64-all-8.18.3.zip](https://github.com/libvips/build-win64-mxe/releases/download/v8.18.3/vips-dev-x64-all-8.18.3.zip)). Use the `all` variant — it includes the loaders (e.g. HEIF) that fylr benefits from.
 
-Unpack it, here to `C:\fylr\utils\vips-dev-8.18`, and configure it in `fylr.yml`:
+Unpack it, here to `C:\fylr\utils\vips-dev-8.18`, and configure it in `fylr.yml`, with `vipsheader.exe` from the same folder: watermarks read image sizes with it, and without it they fail with ``Prog "vipsheader" not found``:
 
 ```
 fylr+:
   services+:
     execserver+:
-      commands:
+      commands+:
         vips:
           prog: "C:\\fylr\\utils\\vips-dev-8.18\\bin\\vips.exe"
+        vipsheader:
+          prog: "C:\\fylr\\utils\\vips-dev-8.18\\bin\\vipsheader.exe"
 ```
+
+### rclone
+
+**Optional**. Needed only for the FTP, SFTP and WebDAV export transports of the **FTP Export Transport Plugin** (`easydb-export-transport-ftp-plugin`). The plugin runs `rclone` by name, so fylr has to find it in the `%PATH%`; it cannot be configured in `fylr.yml`.
+
+Download the Windows build (tested with v1.75.0, the version of the fylr docker image: `rclone-v1.75.0-windows-amd64.zip`) from [https://rclone.org/downloads/](https://rclone.org/downloads/), put `rclone.exe` into `C:\fylr\utils\rclone` and add that folder to the system `%PATH%`, as shown for [Inkscape](windows.md#inkscape).
 
 ### chrome
 
 **Optional**. Needed only to render PDFs — the **PDF Creator** plugin (`pdf-creator`), installed from the plugin manager. The Linux distribution brings its own Chromium; under Windows you supply the browser.
 
-* Install the browser **Chrome**
-* configure the location of chrome in `fylr.yml`:
+* Install the browser **Chrome**, or use **Microsoft Edge**, which comes with Windows: it renders the PDFs as well.
+* configure the location of the browser in `fylr.yml`:
 
 ```
 fylr+:
   env:
     SERVER_PDF_CHROME: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
 ```
+
+For Edge, the location is `C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe`.
 
 {% hint style="info" %}
 Up to fylr 6.34 the Windows `fylr.yml` installed the **PDF Server** (`server-pdf`) for this, and it did the rendering. PDF Creator renders the PDF itself from version 1.1.0, so 6.35 no longer installs `server-pdf` — and switches it off where both are enabled, because the two declare the same custom events. See [PDF Creator and the PDF Server](../../plugins/disk-to-url-migration.md#pdf-creator-and-the-pdf-server).
@@ -448,6 +447,9 @@ fylr+:
           prog: "C:\\fylr\\utils\\magick.exe"
         vips:
           prog: "C:\\fylr\\utils\\vips-dev-8.18\\bin\\vips.exe"
+        # watermarks
+        vipsheader:
+          prog: "C:\\fylr\\utils\\vips-dev-8.18\\bin\\vipsheader.exe"
         exiftool:
           prog: "C:\\fylr\\utils\\exiftool.exe"
         ffmpeg:
@@ -457,11 +459,11 @@ fylr+:
         node:
           prog: "C:\\fylr\\utils\\node.exe"
         python3:
-          #prog: "C:\\fylr\\utils\\python3\\python.exe"
-          # is searched in PATH variable:
-          prog: "python.exe"
+          prog: "C:\\Program Files\\Python313\\python.exe"
         pdfinfo:
-          prog: "C:\\fylr\\utils\\poppler-pdf\\Library\\bin\\pdfinfo.exe"
+          prog: "C:\\fylr\\utils\\poppler-26.02.0\\Library\\bin\\pdfinfo.exe"
+        gs:
+          prog: "C:\\Program Files\\gs\\gs10.05.0\\bin\\gswin64c.exe"
         java:
           prog: java.exe
         inkscape:
@@ -473,7 +475,7 @@ fylr+:
             - "C:\\fylr\\utils\\saxon\\saxon-he-12.5.jar"
             - "-config:C:\\fylr\\utils\\saxon\\saxon.xml"
         dot:
-          prog: "C:\\fylr\\utils\\Graphviz\\bin\\dot.exe"
+          prog: "C:\\Program Files\\Graphviz\\bin\\dot.exe"
         tika:
           prog: java
           args:
@@ -484,9 +486,9 @@ fylr+:
         mutool:
           prog: "C:\\fylr\\utils\\mupdf\\mutool.exe"
         ebook-meta:
-          prog: "C:\\fylr\\utils\\Calibre2\\ebook-meta.exe"
+          prog: "C:\\Program Files\\Calibre2\\ebook-meta.exe"
         ebook-convert:
-          prog: "C:\\fylr\\utils\\Calibre2\\ebook-convert.exe"
+          prog: "C:\\Program Files\\Calibre2\\ebook-convert.exe"
 ```
 
 Check that each indentation level is **two** spaces. (No tab characters, just space characters).
@@ -500,3 +502,22 @@ After testing, you may want to switch to
 ```
 fylr.exe server -c fylr.yml --service install
 ```
+
+## Updating from 6.34 to 6.35
+
+No new third-party tool and no newer version of the tools on this page is required: an installation set up with them for 6.34 keeps them. These steps are needed:
+
+1. **Replace `fylr.exe` and take over the corrections of the new `fylr.yml`** into yours:
+   * `db+:` instead of `db:` — a bare `db:` drops the connection pool defaults,
+   * delete a `services:` line under `execserver+:` that has nothing below it — it replaces the shipped service list with an empty one, so the execserver converts nothing and runs no plugin,
+   * `update_policy` instead of `update` in the per-plugin entries under `plugin.defaults`; `plugin.default`, the setting for all new plugins, already uses `update_policy`,
+   * no `plugin.paths` entries for `easydb-plugins` and no `server-pdf` entry under `plugin.urls`.
+
+   Then run `.\fylr.exe config check fylr.yml`: it reports the `update` key as unknown and former execserver settings such as `waitgroups` as deprecated, and warns about a bare `db:` and an empty `services:`.
+2. **Delete the `easydb-plugins` folder.** The upgrade converts the enabled plugins to their marketplace releases and downloads them, so fylr needs outbound HTTPS to `github.com`, `*.githubusercontent.com` and `programmfabrik.github.io`; without it, install them as ZIP, see [Disk to URL plugin migration](../../plugins/disk-to-url-migration.md). The PDF Server (`server-pdf`) is switched off where PDF Creator is enabled, and PDF Creator renders with the Chrome named in `SERVER_PDF_CHROME`, see [chrome](windows.md#chrome).
+3. **Ghostscript must be found as `gs`.** fylr renders EPS, AI and PS with Ghostscript itself: keep the `gs.exe` copy or name `gswin64c.exe` in `fylr.yml`, see [Ghostscript](windows.md#ghostscript). Inkscape stays, for SVG and WMF.
+4. **Check that mutool has ICC color management**, see [mupdf tools](windows.md#mupdf-tools). Updating MuPDF to 1.28.0, the version in the Docker image, is recommended: mutool reads every uploaded PDF, and the newer release contains security fixes.
+5. **HEIC is read, not written.** Writing HEIC (since 6.34.2) needs an HEVC encoder, which the ImageMagick and libvips builds for Windows do not have, see [ImageMagick](windows.md#magick.exe-imagemagick).
+6. **Saxon runs with `saxon.xml`.** Save the file next to the Saxon jar and add its `-config:` argument to the `saxon` command, see [Saxon](windows.md#saxon).
+
+The same changes for Linux and macOS: [Updating a self-installation to 6.35](README.md#updating-a-self-installation-to-6.35).

@@ -1,0 +1,29 @@
+name: maintain on docker
+
+# Runs test/maintain-docker-test.sh on a host with docker and the compose
+# plugin: the maintain script and the release records of docker compose
+# installations. On main when one of them changes, and on request.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - _assets/maintain
+      - _assets/releases/**
+      - _assets/docker-compose.yml
+      - _assets/fylr.yml
+      - test/maintain-docker-test.sh
+      - .github/workflows/maintain-test.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: maintain with docker compose
+        run: sudo bash test/maintain-docker-test.sh

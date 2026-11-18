@@ -129,12 +129,29 @@ def merge_rel(rels, tup):
             return
     rels.append(tup)
 
+# the docker images and the checksums of the downloads: the release has them
+# above its notes, the page at its end, as sections of their own.
+DIGESTS_RE = re.compile(r'\A(?:### (?:Docker images|Downloads \(SHA-256\))\n\n```\n.*?\n```\n+)+', flags = re.S)
+
+def digests_last(body):
+    body = body.replace('\r\n', '\n')
+    m = DIGESTS_RE.match(body)
+    if m is None:
+        return body
+    digests = re.sub('^### ', '## ', m.group(0), flags = re.M)
+    return body[m.end():].rstrip('\n') + '\n\n' + digests.rstrip('\n') + '\n'
+
 IMAGE_RE = re.compile(r'docker\.fylr\.io/(?P<repo>fylr/[a-z-]+)@(?P<digest>sha256:[0-9a-f]{64})')
 record_warnings = []
+record_errors = []
 
 def record_serial(text):
     m = re.search(r'^serial (\d+)$', text, flags = re.M)
     return int(m.group(1)) if m else 0
+
+def record_version(text):
+    m = re.search(r'^version (\S+)$', text, flags = re.M)
+    return m.group(1) if m else ''
 
 def registry_digest(repo, tag):
     """the digest docker.fylr.io serves a tag as, None if it has no such tag"""
@@ -170,18 +187,26 @@ def put_records(tarname):
                     if record_serial(f.read()) >= record_serial(text):
                         continue
 
+            # the record is what the release pushed. tell when the registry
+            # serves the tag as something else. the tag of the version itself
+            # is pushed once: served as another image, its record is not taken.
+            differs = []
+            moved = False
+            for image in images:
+                served = registry_digest(image.group('repo'), tag)
+                if served != image.group('digest'):
+                    differs.append('{}:{} is {} in the registry, its release record says {}'.format(
+                        image.group('repo'), tag, served, image.group('digest')))
+                    moved = moved or (served is not None and tag == record_version(text))
+            if moved:
+                record_errors.extend(differs)
+                continue
+            record_warnings.extend(differs)
+
             os.makedirs(RECORDS_DIR, exist_ok = True)
             with open(fn, 'w') as f:
                 f.write(text)
             print('* release record {}'.format(fn))
-
-            # the record is what the release pushed. tell when the registry
-            # serves the tag as something else.
-            for image in images:
-                served = registry_digest(image.group('repo'), tag)
-                if served != image.group('digest'):
-                    record_warnings.append('{}:{} is {} in the registry, its release record says {}'.format(
-                        image.group('repo'), tag, served, image.group('digest')))
 
 gh = Github(sys.argv[1])
 rels_per_year = read_existing_rels()
@@ -248,7 +273,7 @@ for rel in gh.get_releases():
             with open(tmpfile.name, 'r', encoding = 'utf-8') as f:
                 body = f.read()
 
-    md.add_raw(body)
+    md.add_raw(digests_last(body))
     md.write(fn)
 
 # releases summaries, newest year first
@@ -288,3 +313,10 @@ if record_warnings:
     print('release is pushed but not published yet, or the tag was changed in the registry:')
     for warning in record_warnings:
         print('* ' + warning)
+
+if record_errors:
+    print('\nERROR: the registry serves the tag of a version as another image than its release')
+    print('pushed. Such a tag is pushed once. These release records were NOT taken:')
+    for error in record_errors:
+        print('* ' + error)
+    sys.exit(1)

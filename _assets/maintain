@@ -61,7 +61,7 @@ KEEPDBS=7
 # Where to write log messages to while doing update:
 MYLOG=/var/log/fylr-maintain.log
 # Version of this script's update procedure. A release can require a newer one.
-MAINTAIN_VERSION=1
+MAINTAIN_VERSION=2
 # Where the current script is:
 MAINTAIN_URL=https://docs.fylr.io/for-system-administrators/installation/linux-docker-compose
 # The release records: one file per tag, with the digests of the tag's images.
@@ -169,7 +169,7 @@ record_field(){ # print the value(s) of field $1 of the release record
 
 pull_verified(){ # pull image $1 as the release record of its tag names it
     local ref="$1" repo="${1%:*}" tag="${1##*:}"
-    local url="$RELEASES_URL/$tag" required current serial last old digest
+    local url="$RELEASES_URL/$tag" required current serial last old digest image hex
     RECORD=""
     type -a curl &>/dev/null || { refuse "curl is not installed, it gets the release record of $ref"; return 1; }
     RECORD=$(mktemp) || return 1
@@ -215,7 +215,14 @@ EOT
     fi
 
     # only an image of this repository in fylr's registry, by its digest
-    digest=$(record_field image | grep -E "^$repo@sha256:[0-9a-f]{64}$")
+    digest=""
+    while read -r image; do
+        hex=${image#"$repo@sha256:"}
+        if [ "$hex" != "$image" ] && [[ "$hex" =~ ^[0-9a-f]{64}$ ]]; then
+            digest=$image
+            break
+        fi
+    done < <(record_field image)
     [ "$digest" ] || { refuse "the release record $url names no image for $repo"; return 1; }
     if ! { docker pull -q "$digest" &>>"$MYLOG" && docker tag "$digest" "$ref"; }; then
         refuse "cannot pull $digest, see $MYLOG" \

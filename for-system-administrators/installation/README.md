@@ -116,7 +116,7 @@ This is for fylr run from the downloadable archives or [built from source](from-
     ```
 
     Previews produced before keep their colors until the files are produced again.
-* **Writing HEIC** (6.34.2) needs libheif with its x265 encoder: the `libheif-plugin-x265` package on Debian and Ubuntu; Homebrew's `libheif` includes it; for Windows see [ImageMagick](windows.md#magick.exe-imagemagick).
+* **Writing HEIC** (6.34.2) needs libheif with its x265 encoder: the `libheif-plugin-x265` package on Debian and Ubuntu; Homebrew's `libheif` includes it. The ImageMagick and libvips builds for Windows have no HEVC encoder, so fylr on Windows does not write HEIC, see [ImageMagick](windows.md#magick.exe-imagemagick).
 
 ### XSLT with Saxon
 
