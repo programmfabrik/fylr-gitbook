@@ -45602,7 +45602,7 @@
             }
           },
           "500": {
-            "description": "Internal failure while building the response, returned as an\nOAI-PMH XML document with `\u003cerror code=\"internalServerError\"\u003e`.\n",
+            "description": "Internal failure while building the response, returned as an\nOAI-PMH XML document with `\u003cerror code=\"internalServerError\"\u003e`,\ne.g. an `xslt-…` format whose XSLT output (or `xpath_query`)\ngives another number of nodes than there are records. The\nmessage is `Internal Server Error`, the failure is in the server\nlog.\n",
             "content": {
               "text/xml": {
                 "schema": {

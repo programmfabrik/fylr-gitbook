@@ -43522,7 +43522,11 @@ paths:
                 "500":
                     description: |
                         Internal failure while building the response, returned as an
-                        OAI-PMH XML document with `<error code="internalServerError">`.
+                        OAI-PMH XML document with `<error code="internalServerError">`,
+                        e.g. an `xslt-…` format whose XSLT output (or `xpath_query`)
+                        gives another number of nodes than there are records. The
+                        message is `Internal Server Error`, the failure is in the server
+                        log.
                     content:
                         text/xml:
                             schema:
