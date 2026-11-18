@@ -12,9 +12,8 @@ Compiled from fylr **v6.36.0**, the newest release. Each release replaces these 
 
 fylr is built from third-party software: libraries compiled into the fylr binary and into the web frontend, and programs a fylr installation runs.
 
-* [Legal notices](legal-notices.md): the license of fylr and the license text of every library, as fylr shows them under *About*. A release ships them as `LEGAL.md`, next to `LICENSE`.
-* [Libraries](libraries.md): the libraries and their licenses at a glance.
-* [Programs](programs.md): the programs fylr runs, what for, and their licenses.
+* [Legal notices](legal-notices.md): the license of fylr, and the license texts and copyright notices of the third-party software it contains, as fylr shows them under *About*. A release ships them as `LEGAL.md`, next to `LICENSE`.
+* [Programs](programs.md): the open source programs fylr runs, and what for.
 
 ## SBOM
 

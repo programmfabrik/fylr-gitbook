@@ -117,7 +117,6 @@
 * [License](license-management.md)
   * [Third-party software](third-party-software/README.md)
     * [Legal notices](third-party-software/legal-notices.md)
-    * [Libraries](third-party-software/libraries.md)
     * [Programs](third-party-software/programs.md)
 * [Plugins](plugins/README.md)
   * [Plugin Overview](plugins/overview.md)

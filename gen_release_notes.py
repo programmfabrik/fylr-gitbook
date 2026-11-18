@@ -209,28 +209,25 @@ def put_records(tarname):
             print('* release record {}'.format(fn))
 
 # the third-party software of the newest release which carries it (6.36 and
-# later): its LEGAL.md and its lists of the libraries and of the programs become
-# the pages of third-party-software/, whose first page links the SBOMs of that
-# release. an asset of a release is named fylr_<tag>_<suffix>.
+# later): its LEGAL.md and its page on the programs fylr runs become the pages
+# of third-party-software/, whose first page links the SBOMs of that release.
+# an asset of a release is named fylr_<tag>_<suffix>.
 THIRD_PARTY_DIR = 'third-party-software'
 THIRD_PARTY_PAGES = [
     # suffix of the asset, page, title in the table of contents, the title
     # the page gets above the text (None: the text has its own), description
     ('LEGAL.md', 'legal-notices.md', 'Legal notices', 'Legal notices',
-        'The license of fylr and the license texts of the third-party software it ships, as fylr shows them under About.'),
-    ('libraries.md', 'libraries.md', 'Libraries', None,
-        'The third-party components fylr is built from, with the license each one is distributed under.'),
+        'The license of fylr and the license texts of the third-party software it contains, as fylr shows them under About.'),
     ('programs.md', 'programs.md', 'Programs', None,
-        'The external programs a fylr installation runs, what each one is used for, and the license it is distributed under.'),
+        'The open source programs fylr runs, and what it uses each of them for.'),
 ]
 THIRD_PARTY_SBOMS = [
     ('sbom_image.cdx.json', 'the container image: fylr, the programs it runs and the packages of its operating system'),
     ('sbom_binary.cdx.json', 'the downloads: what the fylr binary links, and the web frontend inside it'),
 ]
 THIRD_PARTY_LINKS = {
-    'LEGAL.md': 'the license of fylr and the license text of every library, as fylr shows them under *About*. A release ships them as `LEGAL.md`, next to `LICENSE`.',
-    'libraries.md': 'the libraries and their licenses at a glance.',
-    'programs.md': 'the programs fylr runs, what for, and their licenses.',
+    'LEGAL.md': 'the license of fylr, and the license texts and copyright notices of the third-party software it contains, as fylr shows them under *About*. A release ships them as `LEGAL.md`, next to `LICENSE`.',
+    'programs.md': 'the open source programs fylr runs, and what for.',
 }
 
 def third_party_assets(rel):
