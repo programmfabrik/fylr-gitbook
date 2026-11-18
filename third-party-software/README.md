@@ -6,9 +6,13 @@ description: >-
 
 # Third-party software
 
-fylr is built from third-party software: libraries compiled into the fylr binary and into the web frontend, and programs a fylr installation runs. These pages describe **v6.36.0**, the newest release.
+{% hint style="info" %}
+Compiled from fylr **v6.36.0**, the newest release. Each release replaces these pages with its own.
+{% endhint %}
 
-* [License terms](license-terms.md): the license of fylr and the license text of every library, as fylr shows them under *About*. A release ships them as `LEGAL.md`, next to `LICENSE`.
+fylr is built from third-party software: libraries compiled into the fylr binary and into the web frontend, and programs a fylr installation runs.
+
+* [Legal notices](legal-notices.md): the license of fylr and the license text of every library, as fylr shows them under *About*. A release ships them as `LEGAL.md`, next to `LICENSE`.
 * [Libraries](libraries.md): the libraries and their licenses at a glance.
 * [Programs](programs.md): the programs fylr runs, what for, and their licenses.
 

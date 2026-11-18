@@ -6,6 +6,10 @@ description: >-
 
 # Programs fylr runs
 
+{% hint style="info" %}
+Compiled from fylr **v6.36.0**, the newest release. Each release replaces these pages with its own.
+{% endhint %}
+
 Every executable and service the fylr server needs to do its job — conversion,
 extraction, indexing, storage — with the license each one carries into the
 container image.

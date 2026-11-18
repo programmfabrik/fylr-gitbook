@@ -6,6 +6,10 @@ description: >-
 
 # Libraries fylr links
 
+{% hint style="info" %}
+Compiled from fylr **v6.36.0**, the newest release. Each release replaces these pages with its own.
+{% endhint %}
+
 The third-party components compiled into the fylr binary, the JavaScript the
 web frontend ships, and the license each one is distributed under. The programs
 a fylr installation *runs* are a separate question and have a list of their
