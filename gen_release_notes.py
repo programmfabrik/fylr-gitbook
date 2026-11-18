@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, os, datetime, json, re, glob, http.client, urllib.parse, tempfile, subprocess, tarfile
+import sys, os, datetime, json, re, glob, http.client, urllib.parse, tempfile, subprocess, tarfile, textwrap
 
 # number of most recent releases fetched from github. releases older than that
 # are kept in the index pages as they are, they are never regenerated.
@@ -208,10 +208,102 @@ def put_records(tarname):
                 f.write(text)
             print('* release record {}'.format(fn))
 
+# the third-party software of the newest release which carries it (6.36 and
+# later): its LEGAL.md and its lists of the libraries and of the programs become
+# the pages of third-party-software/, whose first page links the SBOMs of that
+# release. an asset of a release is named fylr_<tag>_<suffix>.
+THIRD_PARTY_DIR = 'third-party-software'
+THIRD_PARTY_PAGES = [
+    # suffix of the asset, page, title in the table of contents, the title
+    # the page gets above the text (None: the text has its own), description
+    ('LEGAL.md', 'license-terms.md', 'License terms', 'License terms',
+        'The license of fylr and the license texts of the third-party software it ships, as fylr shows them under About.'),
+    ('libraries.md', 'libraries.md', 'Libraries', None,
+        'The third-party components fylr is built from, with the license each one is distributed under.'),
+    ('programs.md', 'programs.md', 'Programs', None,
+        'The external programs a fylr installation runs, what each one is used for, and the license it is distributed under.'),
+]
+THIRD_PARTY_SBOMS = [
+    ('sbom_image.cdx.json', 'the container image: fylr, the programs it runs and the packages of its operating system'),
+    ('sbom_binary.cdx.json', 'the downloads: what the fylr binary links, and the web frontend inside it'),
+]
+THIRD_PARTY_LINKS = {
+    'LEGAL.md': 'the license of fylr and the license text of every library, as fylr shows them under *About*. A release ships them as `LEGAL.md`, next to `LICENSE`.',
+    'libraries.md': 'the libraries and their licenses at a glance.',
+    'programs.md': 'the programs fylr runs, what for, and their licenses.',
+}
+
+def third_party_assets(rel):
+    """the assets of a release by their suffix, when it has the third-party
+    pages: a release without LEGAL.md has none."""
+    prefix = 'fylr_{}_'.format(rel['tag_name'])
+    found = { asset['name'][len(prefix):]: asset for asset in rel['assets'] if asset['name'].startswith(prefix) }
+    return found if 'LEGAL.md' in found else {}
+
+def version_key(tag):
+    return tuple(int(n) for n in re.findall(r'\d+', tag.split('-')[0]))
+
+FENCE_RE = re.compile(r'^ {0,3}(`{3,}|~{3,})')
+
+def demote(text):
+    """every heading one level down, for a text below the title of a page. a
+    heading underlined with = becomes one with ##. code blocks stay as they
+    are: a license text in one keeps its lines."""
+    out = []
+    fence = None
+    for line in text.split('\n'):
+        m = FENCE_RE.match(line)
+        if fence is not None:
+            closing = line.strip()
+            if closing and set(closing) == {fence[0]} and len(closing) >= len(fence):
+                fence = None
+        elif m:
+            fence = m.group(1)
+        elif re.fullmatch(r'=+\s*', line) and out and out[-1].strip() and not out[-1].startswith('#'):
+            out[-1] = '## ' + out[-1].strip()
+            continue
+        elif re.match(r'#{1,5} ', line):
+            line = '#' + line
+        out.append(line)
+    return '\n'.join(out)
+
+def front_matter(description):
+    return '---\ndescription: >-\n{}\n---\n\n'.format('\n'.join('  ' + l for l in textwrap.wrap(description, 76)))
+
+def put_third_party(tag, texts, downloads):
+    """write the pages of the third-party software of a release. texts are the
+    page assets by their suffix, downloads the (name, url, what) of its SBOMs."""
+    os.makedirs(THIRD_PARTY_DIR, exist_ok = True)
+    md = front_matter('What fylr is made of: the third-party software it ships, the license of each, and the SBOMs of a release.')
+    md += '# Third-party software\n\n'
+    md += 'fylr is built from third-party software: libraries compiled into the fylr binary and into the web frontend, and programs a fylr installation runs. These pages describe **{}**, the newest release.\n\n'.format(tag)
+    for suffix, page, toc, title, description in THIRD_PARTY_PAGES:
+        if suffix not in texts:
+            continue
+        text = texts[suffix].replace('\r\n', '\n').strip('\n') + '\n'
+        if title is not None:
+            text = '# {}\n\n{}'.format(title, demote(text))
+        with open(os.path.join(THIRD_PARTY_DIR, page), 'w') as f:
+            f.write(front_matter(description) + text)
+        print('* third-party page {}/{}'.format(THIRD_PARTY_DIR, page))
+        md += '* [{}]({}): {}\n'.format(toc, page, THIRD_PARTY_LINKS[suffix])
+    if downloads:
+        md += '\n## SBOM\n\n'
+        md += 'A release lists what it is made of as a Software Bill of Materials, in CycloneDX 1.6 (JSON). The ones of {}:\n\n'.format(tag)
+        for name, url, what in downloads:
+            md += '* [{}]({}): {}.\n'.format(name, url, what)
+        md += '\nThe page of every release under [Releases](../releases/README.md) links its own.\n'
+    with open(os.path.join(THIRD_PARTY_DIR, 'README.md'), 'w') as f:
+        f.write(md)
+    print('* third-party page {}/README.md'.format(THIRD_PARTY_DIR))
+
 gh = Github(sys.argv[1])
 rels_per_year = read_existing_rels()
 
 fs = Filestore()
+
+# the newest release with the third-party pages: (tag, assets)
+third_party = None
 
 # per-release pages
 for rel in gh.get_releases():
@@ -237,6 +329,10 @@ for rel in gh.get_releases():
     name = rel['name'].strip()
     tag = rel['tag_name']
     year = datetime.datetime.fromisoformat(rel['published_at'][:10]).year
+
+    assets = third_party_assets(rel)
+    if assets and (third_party is None or version_key(tag) > version_key(third_party[0])):
+        third_party = (tag, assets)
 
     if year not in rels_per_year:
         rels_per_year[year] = []
@@ -275,6 +371,21 @@ for rel in gh.get_releases():
 
     md.add_raw(digests_last(body))
     md.write(fn)
+
+# the pages of the third-party software. the loop above has put the SBOMs into
+# the filestore, like every download.
+if third_party is not None:
+    tag, assets = third_party
+    texts = {}
+    for suffix, page, toc, title, description in THIRD_PARTY_PAGES:
+        if suffix in assets:
+            with tempfile.NamedTemporaryFile() as tmpfile:
+                gh.get_file(assets[suffix]['url'], tmpfile)
+                with open(tmpfile.name, 'r', encoding = 'utf-8') as f:
+                    texts[suffix] = f.read()
+    downloads = [ (assets[suffix]['name'], fs.get_url(tag + '/' + assets[suffix]['name']), what)
+        for suffix, what in THIRD_PARTY_SBOMS if suffix in assets ]
+    put_third_party(tag, texts, downloads)
 
 # releases summaries, newest year first
 years = sorted(rels_per_year.keys(), reverse = True)
