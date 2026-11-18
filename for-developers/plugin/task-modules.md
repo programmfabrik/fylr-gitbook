@@ -57,7 +57,7 @@ task_modules:
 | `kind` | `search` or `custom`, see below. |
 | `displayname`, `description` | Per language. Shown in the task manager. |
 | `params` | The parameters of a task, in the format of [base config parameters](manifest/base-config.md). `mandatory: true` refuses a task without a value. |
-| `exec` | Runs the task, see [the exec map](manifest.md#the-exec-map). |
+| `exec` | Runs the task, see [the exec map](manifest/#the-exec-map). |
 | `check` | Optional. Checks the parameters when a task is saved. |
 | `debug` | `true` marks a module for development and testing. |
 
