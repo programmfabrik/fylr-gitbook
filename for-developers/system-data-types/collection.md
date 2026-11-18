@@ -33,6 +33,7 @@ The mutable collection data sits under the `collection` key; counts, ACL, tree i
 | `_path` | `array<object>` (read-only) | Minimal records of the parent collections, for building the tree. |
 | `_has_children` | `bool` (read-only) | Has sub-collections (independent of the caller's permissions). |
 | `_has_remote_objects` | `bool` (read-only) | Contains at least one record of another instance, added by a connector. |
+| `_has_upload` | `bool` (read-only) | The upload settings name a file field, set on this collection or inherited from a parent (from 6.36.0). |
 | `_acl` | `array` (read-only unless sharing) | ACL grants on this collection. |
 | `_private_acl` | `bool` | Private ACL — ignore the parent's ACL except a `sticky` grant. |
 | `_has_acl` | `bool` (read-only) | Has an active ACL (including an inherited one). |
@@ -58,6 +59,8 @@ From fylr 6.35.0, a search of `type: collection` finds the collections that cont
   ]
 }
 ```
+
+From fylr 6.36.0, a search of `type: collection` finds the collections an upload creates records in: `in` on `_has_upload` with `true`. The field is `true` when `_create_object_compiled` names an `eas_field`, set on the collection itself or inherited from a parent. Incomplete settings count too, such as settings whose pool was deleted: an upload into such a collection answers `400 CollectionUploadNotConfigured`.
 
 See [Collections and publishing](../concepts/collections-and-publishing.md) for the concept.
 

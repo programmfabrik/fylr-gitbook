@@ -47,24 +47,32 @@ Work is a row in the `file_queue` table. From 6.35.0 one **file dispatcher** per
 
 * the base admission is this server's share of the connected execservers' slots plus its CPU count;
 * above that it adapts to what the execservers absorb: every execserver reports the slots that idled through its last second, and the dispatcher raises the admission by that count while the queue is deep and none of its jobs waits for a slot, lowers it by the jobs that queue at the execservers — so an item that spends most of its life fetching, writing and indexing does not leave the execservers idle;
+* from 6.36.0 the database pool has a say too: anything that queued for a connection, or more connections in use than half of `fylr.db.maxOpenConns`, lowers the admission, below the base if it has to, and a raise stays within what is left of that half, so a resync of all originals leaves the pool to the requests;
+* from 6.36.0 a service capped by `maxSlots` holds at most twice this server's share of its slots plus two items in flight: the rest stays in the queue, and the claim takes the items behind them instead of filling the admission with jobs that cannot start;
 * `fylr.execserver.maxInFlight` caps it, 0 (the default) meaning automatic: four times the base, at least 32, at most twice `fylr.db.maxOpenConns`;
-* a few slots are reserved for high-priority items, so interactive work (an upload someone is watching) is never stuck behind a big background reprocessing run.
+* a few slots are reserved for items that rank above normal, so interactive work (an upload someone is watching) is never stuck behind a big background reprocessing run.
+
+From 6.36.0 the items that need no execserver — `sync`, `sync_check`, `produce_versions` and the transfers `copy_move`, `copy_move_produce`, `map_to_local_storage` and `checksum` — run in a **local lane** of their own, and the admission holds only the rest. The lane has twice the CPU count of workers, at most a quarter of `fylr.db.maxOpenConns` and at least two (3 on sqlite). A quarter of them, at least one, is kept for items above normal, and transfers take at most half, since each holds its worker for a whole file. While more than half of the pool is in use or anything queued for a connection, the lane takes one normal item at a time, and the kept workers stay open because an upload waits for its sync. So a resync of all originals leaves the requests about as fast as without it, and takes somewhat longer for it. A `fylr.execserver.maxInFlight` caps the items of both together.
 
 The dispatcher claims once a second and the moment an item finishes, per claim roughly:
 
 ```sql
 SELECT … FROM file_queue
 WHERE status = 'new' AND start_after < now()
-  -- for the reserved slots additionally: AND priority % 2 != 0
+  -- for the reserved slots additionally: AND priority > 0
+  -- from 6.36.0, for the services at their cap: AND service NOT IN (…)
+  -- from 6.36.0, the local lane: AND action IN (…), the admission: AND action NOT IN (…)
 ORDER BY priority DESC, id ASC
 LIMIT <free admission> FOR UPDATE SKIP LOCKED;
 ```
 
-`FOR UPDATE SKIP LOCKED` (PostgreSQL) lets several fylr servers pull from the same queue without stepping on each other. **High-priority jobs have an odd priority**, which is exactly what the reserved slots filter on. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant. `/inspect/system/queues` shows the admission and its parts.
+`FOR UPDATE SKIP LOCKED` (PostgreSQL) lets several fylr servers pull from the same queue without stepping on each other. The reserved slots take what ranks above `normal`, whatever the band's "high" variant says: a resync queues at `background` high and leaves them free. The priority bands are `background` (−2), `normal` (0), `interactive` (2) and `synchronous` (4); each has a `+1` "high" variant, used for the first steps of a file and its standard versions. `/inspect/system/queues` shows the admission and its parts, the items in flight of each service capped by `maxSlots`, and the busy workers of the local lane.
+
+From 6.36.0 `/metrics` says where an item's time goes. `fylr_server_file_item_seconds` on fylr, per action and phase: `prep` up to the first job, `wait` for a slot, `job` in the slot, `rest` for writing the result and for all of an item without a job. `fylr_execserver_job_phase_seconds` on the execserver, per service and phase: `file_in`, `command` and `file_out`.
 
 The item's goroutine loads the full `File` (parent, children, metadata, source) and runs the job's **action**. On success the queue row is deleted. A _requeueable_ failure puts the row back into the queue a minute later, as often as it takes: no execserver slot within `fylr.execserver.connectTimeoutSec`, no execserver reachable at all, an execserver that stopped the job while shutting down — so a large batch of videos is worked through however long it waits for the slots. A remote source (`/eas/rput`) that answers 429, 502, 503 or 504 is asked again after its `Retry-After` (at most ten minutes, otherwise a minute) and given up on an hour after the job was queued. An item interrupted by the fylr server's own shutdown goes back into the queue at once. The items of a fylr server that was killed go back within a minute, once the others see it gone; each claimed row names the backend that holds it. A hard failure sets the file to `error` and re-indexes the objects that carry it.
 
-The actions are `metadata`, `produce`, `sync`, `sync_check`, `copy_move`, `copy_move_produce`, `produce_versions` and `checksum`. They are documented from the execserver's side in [Exec server → File Queue](execserver.md#file-queue).
+The actions are `metadata`, `produce`, `sync`, `sync_check`, `copy_move`, `copy_move_produce`, `map_to_local_storage`, `produce_versions` and `checksum`. They are documented from the execserver's side in [Exec server → File Queue](execserver.md#file-queue).
 
 ## 3. The state machine
 
@@ -125,7 +133,7 @@ The produce configuration is validated when it is compiled, but leniently at sta
 
 The parent/child model is on the `File` row (`id_parent`, `id_source`, `is_original`, `version_name`, `version_autogenerated`, `produce_hash`). The [File versions](fileversions/) page has the full matrix; in short:
 
-* **Auto-generated versions** are created by the _sync_ action from the produce configuration. Each carries a `produce_hash` (version name + the exec's hash). That hash makes syncing **idempotent**: a child that already matches is not re-produced, and a child whose hash is no longer wanted is deleted. From 6.35.1 the exec is hashed with its files by id or path, not by their URLs, so a new callback host or a freshly signed URL does not produce a version again. Versions can chain — a watermarked preview is produced from the plain preview, not from the original.
+* **Auto-generated versions** are created by the _sync_ action from the produce configuration. Each carries a `produce_hash` (version name + the exec's hash). That hash makes syncing **idempotent**: a child that already matches is not re-produced, and a child whose hash is no longer wanted is deleted. From 6.35.1 the exec is hashed with its files by id or path, not by their URLs, so a new callback host or a freshly signed URL does not produce a version again. From 6.35.2 a child whose hash changed only because its recipe builds another command line, as after an update of fylr, is kept when it was produced from the same source with the same recipe, params, source version and custom metadata; it takes the new hash. A child with a watermark, a caption or a color profile uploaded to the base config is still produced again, its stored config does not say what it was produced with. From 6.36.0 the `produce_hash` is a key of what decides the version: version name, recipe name and the recipe's `revision`, the id and content hash of the source, the values of the placeholders the recipe's exec reads, and custom metadata if there is any; a literal of the command line does not count. A child with an older hash takes the key at its first sync without being produced, if its stored config gives the same key from the same source, also with a watermark or a caption; one with a color profile uploaded to the base config is produced again. A child whose key moved is produced again into its own row (`replacing`): it keeps its id, status and file until the job succeeded, and a failed job leaves it `done` with its file and the message. While a change of the produce configuration is put off with **Not now**, the sync keeps a child whose key only that change moved. Versions can chain — a watermarked preview is produced from the plain preview, not from the original.
 * **Manual versions** are uploaded with a `version_name` onto an original (not allowed while that original auto-produces versions).
 * A **modified original** (`/eas/produce`) is a _new original_ (`is_original = true`) derived from another, carrying the rotate/crop/format options — from 6.35.0 also the trim/mute/scale/color options of a video parent — a "produced original".
 

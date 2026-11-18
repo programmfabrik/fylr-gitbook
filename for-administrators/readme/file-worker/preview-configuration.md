@@ -72,7 +72,7 @@ Internal name of the version.
 
 Recipes define the options available for generating the preview versions. Each file class brings their own recipes.
 
-<table><thead><tr><th width="241">RECIPE</th><th width="559">DESCRIPTION</th></tr></thead><tbody><tr><td><strong>preview</strong> (audioconverter)</td><td>Creates preview images from audio files.</td></tr><tr><td><strong>convert</strong> (audioconverter)</td><td>Converts audio files into a browser-playable audio format. From version 6.35.0 the target format and bitrate are selectable, and embedded cover art is carried over into <code>m4a</code> and <code>mp3</code> outputs.</td></tr><tr><td><strong>vectortosvg</strong> (imageconverter)</td><td>Converts vector files to SVG files.</td></tr><tr><td><strong>browserthumbs</strong> (imageconverter)</td><td>Converts image files.</td></tr><tr><td><strong>preview_pool_watermark</strong> (imageconverter)</td><td>Creates preview images with watermarks.</td></tr><tr><td><strong>browserthumbs</strong> (officeconverter)</td><td>Creates preview images for InDesign (indd) files from their embedded previews.</td></tr><tr><td><strong>font</strong> (officeconverter)</td><td>Creates preview images for font files.</td></tr><tr><td><strong>pdf</strong> (officeconverter)</td><td>Creates a pdf file from a document.</td></tr><tr><td><strong>preview</strong> (officeconverter)</td><td>Creates preview images from office documents (spreadsheets, presentations, text documents).</td></tr><tr><td><strong>pdfpages</strong> (pdfconverter)</td><td>Creates preview images for all pages in a pdf file.</td></tr><tr><td><strong>resize</strong> (videoconverter)</td><td>Converts video files.</td></tr><tr><td><strong>thumbnail</strong> (videoconverter)</td><td>Creates preview images from videos.</td></tr></tbody></table>
+<table><thead><tr><th width="241">RECIPE</th><th width="559">DESCRIPTION</th></tr></thead><tbody><tr><td><strong>preview</strong> (audioconverter)</td><td>Creates preview images from audio files.</td></tr><tr><td><strong>convert</strong> (audioconverter)</td><td>Converts audio files into a browser-playable audio format. From version 6.35.0 the target format and bitrate are selectable, and embedded cover art is carried over into <code>m4a</code> and <code>mp3</code> outputs.</td></tr><tr><td><strong>vectortosvg</strong> (imageconverter)</td><td>Converts vector files to SVG files.</td></tr><tr><td><strong>browserthumbs</strong> (imageconverter)</td><td>Converts image files.</td></tr><tr><td><strong>preview_pool_watermark</strong> (imageconverter)</td><td>Creates preview images with watermarks.</td></tr><tr><td><strong>zoom</strong> (imageconverter)</td><td>From version 6.36.0: creates a zoom version, a TIFF in tiles with reduced copies that the zoomer and IIIF viewers cut their tiles from directly. See <a href="#zoom-versions">Zoom versions</a> below.</td></tr><tr><td><strong>zoom_pool_watermark</strong> (imageconverter)</td><td>From version 6.36.0: the same with the watermark of the record's pool.</td></tr><tr><td><strong>browserthumbs</strong> (officeconverter)</td><td>Creates preview images for InDesign (indd) files from their embedded previews.</td></tr><tr><td><strong>font</strong> (officeconverter)</td><td>Creates preview images for font files.</td></tr><tr><td><strong>pdf</strong> (officeconverter)</td><td>Creates a pdf file from a document.</td></tr><tr><td><strong>preview</strong> (officeconverter)</td><td>Creates preview images from office documents (spreadsheets, presentations, text documents).</td></tr><tr><td><strong>pdfpages</strong> (pdfconverter)</td><td>Creates preview images for all pages in a pdf file.</td></tr><tr><td><strong>resize</strong> (videoconverter)</td><td>Converts video files.</td></tr><tr><td><strong>thumbnail</strong> (videoconverter)</td><td>Creates preview images from videos.</td></tr></tbody></table>
 
 ### Extensions
 
@@ -82,7 +82,7 @@ Each recipe brings its own extension options. Enable all extensions you want the
 
 Each recipe brings its own recipe options.
 
-<table><thead><tr><th width="150">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>format</td><td>Output format of the version — for example <code>jpg</code> or <code>png</code> for images. For audio conversion (from version 6.35.0): <code>m4a</code> (AAC in an MP4 container, the default), <code>mp3</code>, or <code>aac</code> (a raw ADTS stream, which cannot carry cover art).</td></tr><tr><td>bitrate</td><td>For audio conversion (from version 6.35.0): the audio bitrate in kbit/s (128–320). Leave empty to use the encoder's default.</td></tr><tr><td>size</td><td>Target size in pixels, interpreted according to <code>resize_mode</code>. <code>0</code> keeps the original size (the image is only re-encoded).</td></tr><tr><td>size_minimum</td><td>Only generate this version if the source is at least this many pixels. This prevents upscaling and lets the larger versions (huge, full, zoom) be skipped for smaller originals.</td></tr><tr><td>resize_mode</td><td><ul><li><strong>max:</strong> Maximum length allowed for either the width or the height. The image is resized so its longest side equals size.</li><li><strong>min:</strong> Minimum length required for either the width or the height. The image is resized so its shortest side equals size.</li><li><strong>width:</strong> Sets the exact width of the image. The height is automatically adjusted to preserve the aspect ratio.</li><li><strong>height:</strong> Sets the exact height of the image. The width is automatically adjusted to preserve the aspect ratio.</li></ul></td></tr><tr><td>jpegquality</td><td>JPEG quality from 1 to 100. The default versions use 80.</td></tr><tr><td>strip</td><td>Remove embedded metadata (EXIF, color profile, …) from the generated image.</td></tr><tr><td>clip</td><td>Remove the background outside the clipping path of the original (TIFF, JPEG and PSD can carry one). A PNG or WebP version keeps it transparent, a JPG version is filled with the <code>background</code> color, white by default. From version 6.35.0. See <a href="#clipping-paths">Clipping paths</a> below.</td></tr><tr><td>background</td><td>Fill a transparent background with <code>white</code> or <code>black</code>. Empty keeps it transparent, except in a JPG version: JPG cannot be transparent and is filled with white (from version 6.35.0).</td></tr><tr><td>height / height_minimum</td><td>For video: the target height in pixels (for example 360, 720, 1080). <code>height_minimum</code> skips the version for smaller source videos.</td></tr><tr><td>font_text</td><td>From version 6.35.0, on the recipes a <code>ps</code> file goes through (browserthumbs, vectortosvg, postscripttopdf): the sample text of the specimen drawn when the file is a PostScript Type 1 font program. The same lines as the <code>text</code> of the font recipe by default; no effect on any other file.</td></tr></tbody></table>
+<table><thead><tr><th width="150">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>format</td><td>Output format of the version — for example <code>jpg</code> or <code>png</code> for images. For audio conversion (from version 6.35.0): <code>m4a</code> (AAC in an MP4 container, the default), <code>mp3</code>, or <code>aac</code> (a raw ADTS stream, which cannot carry cover art).</td></tr><tr><td>bitrate</td><td>For audio conversion (from version 6.35.0): the audio bitrate in kbit/s (128–320). Leave empty to use the encoder's default.</td></tr><tr><td>size</td><td>Target size in pixels, interpreted according to <code>resize_mode</code>. <code>0</code> keeps the original size (the image is only re-encoded).</td></tr><tr><td>size_minimum</td><td>Only generate this version if the source is at least this many pixels. This prevents upscaling and lets the larger versions (huge, full, zoom) be skipped for smaller originals.</td></tr><tr><td>resize_mode</td><td><ul><li><strong>max:</strong> Maximum length allowed for either the width or the height. The image is resized so its longest side equals size.</li><li><strong>min:</strong> Minimum length required for either the width or the height. The image is resized so its shortest side equals size.</li><li><strong>width:</strong> Sets the exact width of the image. The height is automatically adjusted to preserve the aspect ratio.</li><li><strong>height:</strong> Sets the exact height of the image. The width is automatically adjusted to preserve the aspect ratio.</li></ul></td></tr><tr><td>quality</td><td>JPEG and WebP quality from 1 to 100; no effect on PNG. The default versions use 80. Up to version 6.35 the option was called <code>jpegquality</code> and applied to JPG versions only; the update to 6.36.0 renames it in the stored configuration.</td></tr><tr><td>strip</td><td>Remove embedded metadata (EXIF, XMP, IPTC, …) from the generated image. A color profile chosen for the version stays in the file, in a PNG version from version 6.36.0.</td></tr><tr><td>clip</td><td>Remove the background outside the clipping path of the original (TIFF, JPEG and PSD can carry one). A PNG or WebP version keeps it transparent, a JPG version is filled with the <code>background</code> color, white by default. From version 6.35.0. See <a href="#clipping-paths">Clipping paths</a> below.</td></tr><tr><td>background</td><td>Fill a transparent background with <code>white</code> or <code>black</code>. Empty keeps it transparent, except in a JPG version: JPG cannot be transparent and is filled with white (from version 6.35.0).</td></tr><tr><td>raw_source</td><td>From version 6.36.0, for camera raw files only: what the version is made from. <code>auto</code> (default): the smallest embedded preview that is big enough for the version, otherwise the developed raw data. <code>preview</code>: the embedded preview, also when it is smaller than the version. <code>preview_or_skip</code>: the embedded preview; a version it is too small for (by <code>size_minimum</code>) is not produced. <code>raw</code>: always the developed raw data. A file without an embedded preview is always developed. See <a href="#camera-raw-files">Camera raw files</a> below.</td></tr><tr><td>raw_colors</td><td>From version 6.36.0, for camera raw files only: how the raw data is developed. <code>preview</code> (default): with the tones and colors of the embedded preview, for a file without one with the camera's white balance. <code>camera</code>: with the white balance the camera recorded. <code>auto</code>: with an automatic white balance.</td></tr><tr><td>height / height_minimum</td><td>For video: the target height in pixels (for example 360, 720, 1080). <code>height_minimum</code> skips the version for smaller source videos.</td></tr><tr><td>font_text</td><td>From version 6.35.0, on the recipes a <code>ps</code> file goes through (browserthumbs, vectortosvg, postscripttopdf): the sample text of the specimen drawn when the file is a PostScript Type 1 font program. The same lines as the <code>text</code> of the font recipe by default; no effect on any other file.</td></tr></tbody></table>
 
 ### Clipping paths
 
@@ -110,6 +110,78 @@ The name of the clipping path is reported in the technical metadata as
 Files already in an instance keep the clipping they were produced with. They
 pick up a change here when their metadata is read again — for example by
 [regenerating their preview images](../../../help/tutorials/for-system-administrators/regenerating-preview-images.md).
+{% endhint %}
+
+### Camera raw files
+
+A camera raw file (`arw`, `cr2`, `cr3`, `crw`, `dng`, `nef`, `raf`, `rw2`)
+usually carries previews the camera rendered: a full size JPEG, a smaller one,
+a thumbnail. From version 6.36.0 each version is made from the smallest preview
+that is big enough for it. A version no preview is big enough for, and every
+version of a file without a preview (the DNG of many phones), is developed from
+the raw data, by default with the tones and colors of the embedded preview, so
+that the large versions look like the small ones. Up to version 6.35 a file
+without a preview produced no versions, and the large versions of a file with a
+small preview stayed at the size of the preview.
+
+The options `raw_source` and `raw_colors` of the `browserthumbs` recipe change
+this per version, see [Recipe Configuration](#recipe-configuration). With
+`raw_source` set to `preview_or_skip`, the version is made from a preview only,
+and `size_minimum` is measured on the largest preview instead of the file: a
+version the preview is too small for is not produced.
+
+A preview of a picture shot in Adobe RGB is converted from Adobe RGB. A heavily
+compressed preview (JPEG quality below 70) of a picture taken at ISO 800 or
+below serves no version close to its own size; that version is developed.
+
+The technical metadata lists the previews of a raw file as `embedded_previews`
+and the ISO speed of a picture as `iso`.
+
+{% hint style="info" %}
+Raw files already in an instance keep their versions until these are produced
+again, for example with `produce versions` when
+[regenerating their preview images](../../../help/tutorials/for-system-administrators/regenerating-preview-images.md).
+A version with `preview_or_skip` needs their metadata read again first
+(`resync with metadata`).
+{% endhint %}
+
+### Zoom versions
+
+The zoomer of the web frontend and IIIF viewers show an image in tiles. From
+version 6.36.0 every tile is cut from a TIFF stored in tiles with reduced
+copies of the picture, so a tile of the whole picture is read from a small copy
+and a detail from the full size, each as fast as the other. A version that is
+such a TIFF is cut directly; the technical metadata marks it as `zoomable`. Any
+other version is first copied into one in the cache of the execserver, which the
+first tile waits for: about a second for a photo, 20 seconds and more for a
+picture of a gigapixel. Later tiles come from the copy. Up to version 6.35 the
+copy was a BMP, and a version of more than 32000 pixels on a side could not be
+zoomed.
+
+The recipe `zoom` produces such a TIFF as a version: tiles of 512 pixels, WebP
+compressed (deflate where the server's libtiff has no WebP), transparency kept.
+Its options are `size` (`0` keeps the size of the original), `size_minimum`,
+`quality` (of the WebP tiles, 85 by default) and `clip`. The recipe
+`zoom_pool_watermark` puts the watermark of the record's pool on it, like
+`preview_pool_watermark` does for a preview.
+
+The default `zoom` version uses the recipe for images from 10000 pixels, also
+when the original is zoomable itself, as a user may be allowed to see the zoom
+version but not the original. Up to version 6.35 it was a PNG of at most 32000
+pixels. The zoomer of the web frontend starts on a zoomable version; an
+alt-click on its start button lists every version it can zoom and marks those
+whose first tile waits for a copy.
+
+A version has a `zoom_url` and an `iiif_url` when it is a `png`, `jpg`, `jp2`,
+`webp`, `tif` or `tiff` and the user may show it. The right `asset_download`
+alone is no longer enough.
+
+{% hint style="info" %}
+Files already in an instance keep their PNG zoom version, which zooms through a
+copy. An instance on the default configuration offers the changed `zoom`
+version for
+[producing again](README.md#producing-the-versions-of-existing-files-again)
+after the update.
 {% endhint %}
 
 ### Version Settings

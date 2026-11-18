@@ -62,6 +62,7 @@ Every parameter has a `type`. These keys apply to all types:
 | `default`                 | The value while none is saved, in the type's value format. Defaults inside a `form` apply once the form holds a value.                                   |
 | `placeholder`             | `true` shows the loca key `….placeholder` in the empty field. With a `default`, the default is shown instead.                                            |
 | `show_script`             | A JavaScript expression; the editor hides the parameter while it is false. `config` holds the plugin's current values as `config.<section>.<parameter>`. |
+| `enable_script`           | From fylr **6.36.0**: a JavaScript expression with the same `config` as `show_script`; the editor shows the parameter but disables it while it is false. Its value stays saved. A parameter that `readonly` has locked stays locked. |
 | `plugin_type`             | A special editor for the parameter — see [Editors](base-config.md#editors).                                                                              |
 | `readonly`                | `true` for a `text`: the editor no longer lets the field change once a value is saved.                                                                   |
 | `unauthenticated_visible` | `false` hides the parameter from sessions without a user, in a section with `unauthenticated_visible: true`.                                             |
@@ -150,7 +151,7 @@ A parameter of type `secret` holds a password or key:
 
 * `GET /api/v1/config` shows it masked: `*****` when it is stored encrypted (with `fylr.encryptionKey` set), `***` when stored plain, an empty string when there is none.
 * Posting an empty string keeps the stored value, posting `-` deletes it, and any other value replaces it. A posted section that leaves out the secret deletes it, like any parameter it leaves out.
-* **From version 6.35.1**, every row of a `table` with a `secret` field carries `_row`, the position the row is stored at, in `GET /api/v1/config` and in a plugin program's `%info.json%`. Post the rows back with their `_row`, also after moving or removing rows: an empty secret then keeps the secret of the row that `_row` names. A row without `_row` is new and keeps no secret. A table posted without any `_row` pairs its rows with the stored rows by position, as before 6.35.1.
+* **From version 6.36.0**, every row of a `table` carries `_uuid`, which the row gets when it is first saved and keeps as long as it exists, in `GET /api/v1/config` and in a plugin program's `%info.json%`. Post the rows back with their `_uuid`, also after moving or removing rows: an empty secret then keeps the secret of the stored row with the same `_uuid`. A row without `_uuid` is new and keeps no secret. A table posted without any `_uuid` pairs its rows with the stored rows by position. In 6.35.1 and the later 6.35 versions, the rows of a table with a `secret` field carry `_row` instead, the position the row is stored at, which works the same way.
 * A plugin program receives the secret decrypted.
 * A collection upload callback receives `collection_config` with secrets masked, so a collection upload's `config` cannot pass a secret to its program.
 * `fylr restore` leaves secrets out; they are entered again after a restore.

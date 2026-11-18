@@ -26,6 +26,10 @@ Manage user accounts. The required rights differ per operation: listing and read
 
 From **6.35.0** a user's `_groups` (in `GET /user/{id}` and after a `POST /user`) and the session's `groups` include the memberships that follow from the user's type — *all users*, *local users*, *LDAP users* and the like — marked `_automatic_auth` with the type `implicit`, so they stay distinguishable from a membership an administrator assigned and from one a group rule confers (`system`). Nothing is stored behind these entries; backups and the search index are unchanged, and a restore drops them again.
 
+#### No access token
+
+From **6.36.0** the session has no `access_token`. Up to 6.35 it repeated the token the request carried; a client knows its token from the [OAuth2](../oauth2.md) grant that issued it. An instance that connects to fylr 6.36 or later with the connector plugin needs fylr 6.35 or later.
+
 {% openapi src="../../../.gitbook/assets/fylr-openapi.yml" path="/user/session" method="get" %}
 [fylr-openapi.yml](../../../.gitbook/assets/fylr-openapi.yml)
 {% endopenapi %}

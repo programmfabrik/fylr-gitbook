@@ -45,6 +45,7 @@ A grant carries:
 - **A time window** (optional) — the grant applies only between two times; outside the window it is inactive but not deleted.
 - **An active flag** — suspends or resumes the grant without deleting it, preserving its settings.
 - **A sticky flag** — a sticky grant survives private permissions further down the inheritance: a sub-pool, a sub-collection or a subordinate record that ignores the grants of its parents still gets the sticky ones.
+- **Custom data** (optional, from version 6.36.0) — free-form values of the applications using the API, each application under a key of its own. The web frontend keeps the label and the note of a grant there. It confers nothing.
 
 ## Pool grants and record grants
 
@@ -80,6 +81,7 @@ Plugins extend the catalogue. A plugin can register its own rights, after which 
 - The two hierarchy rights are `hierarchy_link` and `hierarchy_unlink` in the `object` context of the rights catalogue. A save that lacks one is refused with `403` `ObjectInsufficientRights`; its `right` names the missing right and `systemobjectid` the parent. A record's `_generated_rights` carry both rights when the session user holds them, and always where they are not checked.
 - The rights catalogue is served by the [`/right` endpoint](../api/endpoints/api-right.md); right presets live under `/right/{context}/presets`.
 - A tag filter is an object with `all`, `any` and `not` arrays of tag IDs (see [Tags and transitions](tags-and-transitions.md)).
+- From version 6.36.0 a grant takes `custom_data`, an object that is stored and returned as sent, with one key per application. The web frontend keeps `note` and `label` under `webfrontend`; `label` is the `reference` of an entry of `tags_labels.acl_labels` in the [base config](../api/endpoints/config/README.md). A change of `custom_data` alone starts no re-check of the permissions; in the `_acl` of a record it is a change of the record and makes a new version.
 
 ## See also
 

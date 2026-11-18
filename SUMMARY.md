@@ -3,6 +3,7 @@
 * [Welcome](README.md)
 * [Releases](releases/README.md)
   * [2026](releases/2026.md)
+    * [Release v6.36.0 (unreleased)](releases/2026/v6.36.0.md)
     * [Release v6.35.5 (2026-11-17)](releases/2026/v6.35.5.md)
     * [Release v6.35.4 (2026-11-12)](releases/2026/v6.35.4.md)
     * [Release v6.35.3 (2026-11-02)](releases/2026/v6.35.3.md)
@@ -148,6 +149,7 @@
     * [Setting Up Collection Sharing](help/tutorials/for-administrators/setting-up-collection-sharing.md)
     * [Enabling guest access](help/tutorials/for-administrators/enabling-guest-access.md)
     * [Enabling Two-Factor Authentication](help/tutorials/for-administrators/enabling-two-factor-authentication.md)
+    * [Chaining Background Tasks](help/tutorials/for-administrators/chaining-background-tasks.md)
   * [For System Administrators](help/tutorials/for-system-administrators/README.md)
     * [Regenerating preview images](help/tutorials/for-system-administrators/regenerating-preview-images.md)
     * [Migration with map to local storage](help/tutorials/for-system-administrators/migrate-map-to-local-storage.md)
@@ -301,6 +303,7 @@
   * [Purge objects](for-system-administrators/symptom-and-solution/purge-objects.md)
   * [No location configured](for-system-administrators/symptom-and-solution/no-location-configured.md)
 * [PostgreSQL versions](for-system-administrators/postgresql-versions.md)
+* [Security Bulletin](for-system-administrators/security-bulletin.md)
 
 ## Tutorials
 
@@ -356,6 +359,7 @@
       * [/download](for-developers/api/endpoints/eas/download.md)
       * [/iiif](for-developers/api/endpoints/eas/iiif.md)
       * [/produce](for-developers/api/endpoints/eas/produce.md)
+      * [/resync](for-developers/api/endpoints/eas/resync.md)
       * [/put](for-developers/api/endpoints/eas/put.md)
       * [/rput](for-developers/api/endpoints/eas/rput.md)
       * [/rput/bulk](for-developers/api/endpoints/eas/rput-bulk.md)
@@ -439,6 +443,7 @@
     * [Collection upload](for-developers/plugin/callbacks/collection-upload.md)
     * [export](for-developers/plugin/callbacks/export.md)
     * [export\_transport](for-developers/plugin/callbacks/export-transport.md)
+  * [Task modules](for-developers/plugin/task-modules.md)
   * [File Version Produce Plugin](for-developers/plugin/setup-produce-plugin.md)
   * [Collection Share Link Plugin](for-developers/plugin/collection-share-link-plugin.md)
   * [Plugin Conventions and Standards](for-developers/plugin/conventions.md)

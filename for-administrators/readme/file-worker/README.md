@@ -59,6 +59,21 @@ The file worker keeps three kinds of data, each in its own [storage location](lo
 
 Versions are generated **when a file is uploaded**. Changing the version configuration therefore only affects files uploaded afterwards — existing files keep their current versions until you re-generate them with a resync. See [Regenerating preview images](../../../help/tutorials/for-system-administrators/regenerating-preview-images.md), and [Changing the preview format](../../../help/tutorials/for-system-administrators/regenerating-preview-images.md#changing-the-preview-format) for the special case of switching a version's file format.
 
+### Producing the versions of existing files again
+
+From version 6.36.0, saving a version configuration under which the versions of existing files would come out different asks whether to produce them again. The dialog **Produce renditions again** lists each version that changes, with the number of files it goes over and the current size of their versions, and offers:
+
+* **Produce now, in the background** — the files are queued behind the uploads, and only the versions that change are produced again. A version removed from the configuration, or no longer configured for the extension of a file, is deleted from those files. This also starts what an earlier **Produce tonight** left waiting.
+* **Produce tonight** — the same, starting at 22:00 in your time zone.
+* **Not now** — the configuration is saved, the existing versions stay as they are, also when their records are saved. New files get their versions from the new configuration.
+* **Estimate first** — a few files are produced as a trial (up to 30 seconds), then the dialog asks again with the expected size and a rough duration.
+
+A change of a version's display name, group, *standard*, rights management or watermark setting, or of a timeout, asks nothing, because the versions come out the same.
+
+While a version of a file is produced again, the file keeps its current version: downloads and the file lists serve it until the new one is done. If producing fails, the version keeps its file and shows the error. The version keeps its file id, its URL changes with the new file.
+
+The block **Renditions of the files** at the top of the file worker lists the versions that differ from the configuration and the number of files, for example after **Not now**, and **Produce renditions again…** asks the same question later. After an update that changes the default configuration, an instance that uses the default lists the changed versions there, and so does every instance after an update that changes what a recipe produces; nothing is produced until you answer. A new command line of a recipe alone, as updates of fylr and of plugins bring, is no change. Scripts use [`/eas/resync`](../../../for-developers/api/endpoints/eas/resync.md).
+
 ## In this section
 
 * **[Preview Configuration](preview-configuration.md)** — which versions are generated for each file class, and the recipes and options behind them.

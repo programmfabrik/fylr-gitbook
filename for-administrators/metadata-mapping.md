@@ -26,6 +26,17 @@ Each rule targets a metadata tag. Standard XMP, IPTC and EXIF tags can be picked
 
 Only XMP is extensible — custom EXIF or IPTC tags cannot be created. Custom tags typed starting with a lower-case letter are matched case-insensitively on import, so a round-trip mapping reads back what it wrote (ExifTool stores every tag with its first letter capitalized).
 
+### Digital Source Type
+
+The tag `XMP-iptcExt:DigitalSourceType` says how a file was made, for example that an image was created or edited with generative AI. From fylr **6.36.0**, the profiles **EXPORT (replace)**, **EXPORT (merge)** and **IMPORT** offer it as **Digital Source Type** in the **Rights** tab, under **Origin**. In earlier versions, add the tag as a custom field of the mapping: click **+** below the mapping and pick the tag.
+
+The fylr field has to hold the full term of the [IPTC vocabulary](https://cv.iptc.org/newscodes/digitalsourcetype/), for example:
+
+| Term                                                                                  | Meaning                     |
+| ------------------------------------------------------------------------------------- | --------------------------- |
+| `http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia`              | Created using Generative AI |
+| `http://cv.iptc.org/newscodes/digitalsourcetype/compositeWithTrainedAlgorithmicMedia` | Edited using Generative AI  |
+
 ## Value shape — the _Typ_ selector
 
 A tag can hold a single value, a list of values, or values localized per language. The mapping editor's **Typ** selector picks how a field's value is written:

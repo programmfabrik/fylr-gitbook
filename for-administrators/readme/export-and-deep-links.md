@@ -8,7 +8,7 @@ description: >-
 
 ## Use system object ID (instead of UUID)
 
-If enabled the URL of the detail view uses the system object ID instead of the UUID.
+If enabled the URL of the detail view uses the system object ID instead of the UUID. From fylr 6.36.0, the links of [workflow emails](../permissions/tags-and-workflows.md#action) to the detail view follow it too.
 
 ## Deep Link Settings
 
@@ -61,7 +61,15 @@ From fylr 6.35.0, label and value may contain [placeholders](#iiif-placeholders)
 
 ### IIIF RIGHTS (URL)
 
-From fylr 6.35.0. The URL of a license or rights statement, for example `https://creativecommons.org/licenses/by/4.0/` or `http://rightsstatements.org/vocab/InC/1.0/`. It becomes the manifest's [`rights`](https://iiif.io/api/presentation/3.0/#rights) property. The Presentation API allows only a URI there, so a value that does not start with `http://` or `https://` once its placeholders are replaced is left out. The value may contain [placeholders](#iiif-placeholders); a localized field resolves in the first database language.
+From fylr 6.35.0. The URL of a license or rights statement, for example `https://creativecommons.org/licenses/by/4.0/` or `http://rightsstatements.org/vocab/InC/1.0/`. It becomes the manifest's [`rights`](https://iiif.io/api/presentation/3.0/#rights) property. The value may contain [placeholders](#iiif-placeholders); a localized field resolves in the first database language.
+
+The Presentation API allows only a URI there. From fylr 6.36.0, the value has to result in exactly one `http` or `https` URL once its placeholders are replaced:
+
+* The base configuration marks a value that can never do so, such as text next to the URL, and refuses to save it. A value stored earlier stays until it is changed.
+* A record for which the value results in anything else shows `http://invalid/?error=rights+is+not+a+single+url&value=<value>` as the rights of its manifest, with the value it got. The standard of a weblink is its link text when one is entered, so use `%foto.rights_link.url%` for its URL.
+* Text for the viewer, such as the name of the license, belongs in the [required statement](#iiif-required-statement).
+
+Up to fylr 6.35, a value that does not start with `http://` or `https://` is left out.
 
 ### IIIF MASK
 
@@ -76,6 +84,8 @@ From fylr 6.35.0, the required statement and the rights may contain placeholders
 * When the record's own fields leave the required statement or the rights empty and every canvas resolves it to the same value, the manifest takes that value. A canvas carries its own required statement or rights only where it differs from the manifest's.
 * A placeholder resolves only for fields the manifest's mask shows; for an embedded object type that is the mask set for the embedding field.
 * A placeholder that does not resolve is removed. Each language of the required statement is filled with the values of that database language.
+* From fylr 6.36.0, a value in which no placeholder resolves counts as empty, also when it has text between its placeholders, such as `%foto.rights%, %foto.license._standard%`: the manifest then takes the value its canvases share instead of showing only `,`, and a rights URL around an empty placeholder is left out.
+* From fylr 6.36.0, a field of a custom data type offers its standard as `%<object type>.<field>._standard%` and each sub field its plugin maps as `%<object type>.<field>.<sub field>%`. For a weblink, `%foto.rights_link.url%` is its URL, also when a link text is entered (the link text becomes the weblink's standard). A localized standard or sub field resolves in each language of the required statement; `%foto.rights_link._standard.de-DE%` names one language. The field alone, `%foto.rights_link%`, names no value.
 
 ## XSL Transformations
 
