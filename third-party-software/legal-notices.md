@@ -1,7 +1,7 @@
 ---
 description: >-
   The license of fylr and the license texts of the third-party software it
-  ships, as fylr shows them under About.
+  contains, as fylr shows them under About.
 ---
 
 # Legal notices
@@ -33,335 +33,73 @@ Contact: support@programmfabrik.de
 
 ## Third-party software
 
-fylr incorporates the third-party open source components listed below. Each of
-them is licensed by its copyright holders under the terms reproduced in full
-further down, which apply to that component alone.
+fylr contains third-party open source software. Its license texts follow, each
+once, below the components it applies to and their copyright notices.
 
-The external programs a fylr installation runs (ImageMagick, ffmpeg,
-LibreOffice and others) are not part of fylr and not listed here. Each is
-distributed under its own terms, which travel with it: in the container image,
-in `/usr/share/doc/<package>/copyright`.
+The programs of the fylr container image carry their own license texts, in
+`/usr/share/doc/<package>/copyright`.
 
-Each license text is printed once, below the components it applies to and
-their copyright notices.
+### Apache-2.0
 
-231 components, 13 distinct license texts.
-
-### Components of the server
-
-| Component                                                                    | Version                               | License                    |
-| ---------------------------------------------------------------------------- | ------------------------------------- | -------------------------- |
-| Go standard library                                                          |                                       | BSD-3-Clause               |
-| cloud.google.com/go/auth                                                     | v0.19.0                               | Apache-2.0                 |
-| cloud.google.com/go/auth/oauth2adapt                                         | v0.2.8                                | Apache-2.0                 |
-| cloud.google.com/go/compute/metadata                                         | v0.9.0                                | Apache-2.0                 |
-| dario.cat/mergo                                                              | v1.0.2                                | BSD-3-Clause               |
-| github.com/AfterShip/email-verifier                                          | v1.4.1                                | MIT                        |
-| github.com/Azure/azure-sdk-for-go/sdk/azcore                                 | v1.22.0                               | MIT                        |
-| github.com/Azure/azure-sdk-for-go/sdk/azidentity                             | v1.13.1                               | MIT                        |
-| github.com/Azure/azure-sdk-for-go/sdk/internal                               | v1.12.0                               | MIT                        |
-| github.com/Azure/azure-sdk-for-go/sdk/storage/azblob                         | v1.8.0                                | MIT                        |
-| github.com/Azure/go-ntlmssp                                                  | v0.1.1                                | MIT                        |
-| github.com/AzureAD/microsoft-authentication-library-for-go/apps              | v1.7.2                                | MIT                        |
-| github.com/Masterminds/goutils                                               | v1.1.1                                | Apache-2.0                 |
-| github.com/Masterminds/semver/v3                                             | v3.5.0                                | MIT                        |
-| github.com/Masterminds/sprig/v3                                              | v3.3.0                                | MIT                        |
-| github.com/PuerkitoBio/goquery                                               | v1.13.0                               | BSD-3-Clause               |
-| github.com/alecthomas/kong                                                   | v1.16.1                               | MIT                        |
-| github.com/andybalholm/cascadia                                              | v1.3.4                                | BSD-2-Clause               |
-| github.com/antchfx/xmlquery                                                  | v1.5.1                                | MIT                        |
-| github.com/antchfx/xpath                                                     | v1.3.6                                | MIT                        |
-| github.com/aws/aws-sdk-go-v2                                                 | v1.45.1                               | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream                        | v1.7.20                               | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/config                                          | v1.33.1                               | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/credentials                                     | v1.20.1                               | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/feature/ec2/imds                                | v1.19.1                               | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/feature/s3/transfermanager                      | v0.2.3                                | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/internal/configsources                          | v1.5.1                                | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/internal/endpoints/v2                           | v2.8.1                                | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/internal/sync/singleflight                      | v1.45.1                               | BSD-3-Clause               |
-| github.com/aws/aws-sdk-go-v2/internal/v4a                                    | v1.5.1                                | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding                | v1.13.19                              | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/service/internal/checksum                       | v1.11.1                               | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/service/internal/presigned-url                  | v1.14.1                               | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/service/internal/s3shared                       | v1.20.1                               | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/service/s3                                      | v1.109.1                              | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/service/signin                                  | v1.7.1                                | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/service/sso                                     | v1.35.1                               | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/service/ssooidc                                 | v1.40.1                               | Apache-2.0                 |
-| github.com/aws/aws-sdk-go-v2/service/sts                                     | v1.47.1                               | Apache-2.0                 |
-| github.com/aws/smithy-go                                                     | v1.28.1                               | Apache-2.0                 |
-| github.com/aws/smithy-go/internal/sync/singleflight                          | v1.28.1                               | BSD-3-Clause               |
-| github.com/bahlo/generic-list-go                                             | v0.2.0                                | BSD-3-Clause               |
-| github.com/bbrks/go-blurhash                                                 | v1.2.0                                | MIT                        |
-| github.com/beevik/etree                                                      | v1.7.1                                | BSD-2-Clause               |
-| github.com/beorn7/perks/quantile                                             | v1.0.1                                | MIT                        |
-| github.com/blevesearch/segment                                               | v0.9.1                                | Apache-2.0                 |
-| github.com/boombuler/barcode                                                 | v1.0.1-0.20190219062509-6c824513bacc  | MIT                        |
-| github.com/buger/jsonparser                                                  | v1.1.2                                | MIT                        |
-| github.com/caddyserver/certmagic                                             | v0.25.4                               | Apache-2.0                 |
-| github.com/caddyserver/zerossl                                               | v0.1.5                                | MIT                        |
-| github.com/cespare/xxhash/v2                                                 | v2.3.0                                | MIT                        |
-| github.com/clipperhouse/displaywidth                                         | v0.11.0                               | MIT                        |
-| github.com/clipperhouse/uax29/v2/graphemes                                   | v2.7.0                                | MIT                        |
-| github.com/crewjam/httperr                                                   | v0.2.0                                | BSD-2-Clause               |
-| github.com/crewjam/saml                                                      | v0.5.1                                | BSD-2-Clause               |
-| github.com/davecgh/go-spew/spew                                              | v1.1.2-0.20180830191138-d8f796af33cc  | ISC                        |
-| github.com/dlclark/regexp2                                                   | v1.12.0                               | MIT                        |
-| github.com/dlclark/regexp2/v2                                                | v2.5.2                                | MIT                        |
-| github.com/dop251/goja                                                       | v0.0.0-20260826204918-8f1c0696a37b    | MIT                        |
-| github.com/dop251/goja/ftoa                                                  | v0.0.0-20260826204918-8f1c0696a37b    | LicenseRef-MIT-Lucent      |
-| github.com/dop251/goja/ftoa/internal/fast                                    | v0.0.0-20260826204918-8f1c0696a37b    | BSD-3-Clause               |
-| github.com/dustin/go-humanize                                                | v1.0.1                                | MIT                        |
-| github.com/ebitengine/purego                                                 | v0.10.2                               | Apache-2.0                 |
-| github.com/elastic/go-elasticsearch/v7                                       | v7.17.10                              | Apache-2.0                 |
-| github.com/fatih/color                                                       | v1.19.0                               | MIT                        |
-| github.com/felixge/httpsnoop                                                 | v1.1.0                                | MIT                        |
-| github.com/fxamacker/cbor/v2                                                 | v2.9.3                                | MIT                        |
-| github.com/gabriel-vasile/mimetype                                           | v1.4.15                               | MIT                        |
-| github.com/go-asn1-ber/asn1-ber                                              | v1.5.8                                | MIT                        |
-| github.com/go-ldap/ldap/v3                                                   | v3.4.14                               | MIT                        |
-| github.com/go-logr/logr                                                      | v1.4.3                                | Apache-2.0                 |
-| github.com/go-logr/stdr                                                      | v1.2.2                                | Apache-2.0                 |
-| github.com/go-ole/go-ole                                                     | v1.3.0                                | MIT                        |
-| github.com/go-sourcemap/sourcemap                                            | v2.1.4                                | BSD-2-Clause               |
-| github.com/go-viper/mapstructure/v2                                          | v2.5.0                                | MIT                        |
-| github.com/go-webauthn/webauthn                                              | v0.18.0                               | BSD-3-Clause               |
-| github.com/go-webauthn/x/crypto/secp256k1                                    | v0.3.0                                | ISC                        |
-| github.com/go-webauthn/x/encoding/asn1                                       | v0.3.0                                | BSD-3-Clause               |
-| github.com/go-webauthn/x/revoke                                              | v0.3.0                                | BSD-2-Clause               |
-| github.com/go-xmlfmt/xmlfmt                                                  | v1.1.3                                | MIT                        |
-| github.com/goccy/go-json                                                     | v0.10.6                               | MIT                        |
-| github.com/gofrs/uuid                                                        | v4.4.0                                | MIT                        |
-| github.com/golang-jwt/jwt/v4                                                 | v4.5.2                                | MIT                        |
-| github.com/golang-jwt/jwt/v5                                                 | v5.3.1                                | MIT                        |
-| github.com/golang/groupcache/lru                                             | v0.0.0-20241129210726-2c02b8208cf8    | Apache-2.0                 |
-| github.com/google/go-tpm                                                     | v0.9.8                                | Apache-2.0                 |
-| github.com/google/pprof/profile                                              | v0.0.0-20260802141513-ef3492d7dac3    | Apache-2.0                 |
-| github.com/google/s2a-go                                                     | v0.1.9                                | Apache-2.0                 |
-| github.com/google/uuid                                                       | v1.6.0                                | BSD-3-Clause               |
-| github.com/google/wire                                                       | v0.7.0                                | Apache-2.0                 |
-| github.com/googleapis/enterprise-certificate-proxy/client                    | v0.3.14                               | Apache-2.0                 |
-| github.com/googleapis/gax-go/v2                                              | v2.19.0                               | BSD-3-Clause               |
-| github.com/gorilla/css/scanner                                               | v1.0.1                                | BSD-3-Clause               |
-| github.com/gorilla/mux                                                       | v1.8.1                                | BSD-3-Clause               |
-| github.com/gorilla/websocket                                                 | v1.5.3                                | BSD-2-Clause               |
-| github.com/gosimple/slug                                                     | v1.15.0                               | MPL-2.0                    |
-| github.com/gosimple/unidecode                                                | v1.0.1                                | Apache-2.0                 |
-| github.com/grantae/certinfo                                                  | v0.0.0-20170412194111-59d56a35515b    | MIT                        |
-| github.com/hbollon/go-edlib                                                  | v1.7.0                                | MIT                        |
-| github.com/huandu/xstrings                                                   | v1.5.0                                | MIT                        |
-| github.com/inbucket/html2text                                                | v1.0.0                                | MIT                        |
-| github.com/jackc/pgpassfile                                                  | v1.0.0                                | MIT                        |
-| github.com/jackc/pgservicefile                                               | v0.0.0-20240606120523-5a60cdf6a761    | MIT                        |
-| github.com/jackc/pgx/v5                                                      | v5.11.0                               | MIT                        |
-| github.com/jackc/puddle/v2                                                   | v2.2.2                                | MIT                        |
-| github.com/jbenet/go-context/io                                              | v0.0.0-20150711004518-d14ea06fba99    | MIT                        |
-| github.com/jonboulle/clockwork                                               | v0.5.0                                | Apache-2.0                 |
-| github.com/josharian/intern                                                  | v1.0.0                                | MIT                        |
-| github.com/kardianos/service                                                 | v1.3.0                                | Zlib                       |
-| github.com/kataras/tablewriter                                               | v0.0.0-20180708051242-e063d29b7c23    | MIT                        |
-| github.com/klauspost/cpuid/v2                                                | v2.3.0                                | MIT                        |
-| github.com/kylelemons/godebug                                                | v1.1.0                                | Apache-2.0                 |
-| github.com/landoop/tableprinter                                              | v0.0.0-20201125135848-89e81fc956e7    | Apache-2.0                 |
-| github.com/libdns/libdns                                                     | v1.1.1                                | MIT                        |
-| github.com/logrusorgru/aurora                                                | v2.0.3                                | Unlicense                  |
-| github.com/lucasb-eyer/go-colorful                                           | v1.4.1                                | MIT                        |
-| github.com/mailru/easyjson                                                   | v0.9.2                                | MIT                        |
-| github.com/mattermost/xml-roundtrip-validator                                | v0.1.0                                | Apache-2.0                 |
-| github.com/mattn/go-colorable                                                | v0.1.14                               | MIT                        |
-| github.com/mattn/go-isatty                                                   | v0.0.24                               | MIT                        |
-| github.com/mattn/go-runewidth                                                | v0.0.23                               | MIT                        |
-| github.com/mattn/go-shellwords                                               | v1.0.14                               | MIT                        |
-| github.com/mattn/go-sqlite3                                                  | v1.14.50                              | MIT                        |
-| github.com/mholt/acmez/v3                                                    | v3.1.6                                | Apache-2.0                 |
-| github.com/miekg/dns                                                         | v1.1.72                               | BSD-3-Clause               |
-| github.com/mitchellh/copystructure                                           | v1.2.0                                | MIT                        |
-| github.com/mitchellh/reflectwalk                                             | v1.0.2                                | MIT                        |
-| github.com/mmcloughlin/geohash                                               | v0.10.0                               | MIT                        |
-| github.com/munnerz/goautoneg                                                 | v0.0.0-20191010083416-a7dc8b61c822    | BSD-3-Clause               |
-| github.com/ncruces/go-strftime                                               | v1.0.0                                | MIT                        |
-| github.com/nfnt/resize                                                       | v0.0.0-20180221191011-83c6a9932646    | ISC                        |
-| github.com/olekukonko/cat                                                    | v0.0.0-20250911104152-50322a0618f6    | MIT                        |
-| github.com/olekukonko/errors                                                 | v1.3.0                                | MIT                        |
-| github.com/olekukonko/ll                                                     | v0.1.8                                | MIT                        |
-| github.com/olekukonko/tablewriter                                            | v1.1.4                                | MIT                        |
-| github.com/olivere/elastic/v7/config                                         | v7.0.32                               | MIT                        |
-| github.com/olivere/elastic/v7/uritemplates                                   | v7.0.32                               | MIT                        |
-| github.com/pb33f/jsonpath/pkg/jsonpath                                       | v0.8.2                                | Apache-2.0                 |
-| github.com/pb33f/libopenapi                                                  | v0.38.7                               | MIT                        |
-| github.com/pb33f/ordered-map/v2                                              | v2.3.1                                | Apache-2.0                 |
-| github.com/philhofer/fwd                                                     | v1.2.0                                | MIT                        |
-| github.com/pkg/browser                                                       | v0.0.0-20240102092130-5ac0b6a4141c    | BSD-2-Clause               |
-| github.com/pkg/errors                                                        | v0.9.1                                | BSD-2-Clause               |
-| github.com/pquerna/otp                                                       | v1.5.0                                | Apache-2.0                 |
-| github.com/programmfabrik/elastic/v7                                         | v7.0.31-0.20220107153946-70fc46807afe | MIT                        |
-| github.com/programmfabrik/fylr-build-plugin/pluginseal                       | v1.9.0                                | Unlicense                  |
-| github.com/programmfabrik/go-datasize                                        | v0.0.0-20230103131654-7145e216c8b9    | MIT                        |
-| github.com/programmfabrik/go-email                                           | v0.0.0-20230712170028-d40481e23141    | MIT                        |
-| github.com/programmfabrik/go-iso8601                                         | v0.0.0-20260908085253-529901e90db0    | MIT                        |
-| github.com/programmfabrik/sqlpro                                             | v0.0.0-20261021190854-5b171ee6da1b    | MIT                        |
-| github.com/prometheus/client_golang/internal/github.com/golang/gddo/httputil | v1.24.1                               | BSD-3-Clause               |
-| github.com/prometheus/client_golang/prometheus                               | v1.24.1                               | Apache-2.0                 |
-| github.com/prometheus/client_model/go                                        | v0.6.2                                | Apache-2.0                 |
-| github.com/prometheus/common                                                 | v0.70.1                               | Apache-2.0                 |
-| github.com/prometheus/procfs                                                 | v0.21.1                               | Apache-2.0                 |
-| github.com/remyoudompheng/bigfft                                             | v0.0.0-20230129092748-24d4a6f8daec    | BSD-3-Clause               |
-| github.com/richardlehane/mscfb                                               | v1.0.7                                | Apache-2.0                 |
-| github.com/richardlehane/msoleps/types                                       | v1.0.6                                | Apache-2.0                 |
-| github.com/robert-nix/ansihtml                                               | v1.0.1                                | MIT                        |
-| github.com/rs/zerolog                                                        | v1.35.1                               | MIT                        |
-| github.com/russellhaering/goxmldsig                                          | v1.6.1                                | Apache-2.0                 |
-| github.com/saintfish/chardet                                                 | v0.0.0-20230101081208-5e3ef4b5456d    | MIT                        |
-| github.com/shirou/gopsutil/v4                                                | v4.26.7                               | BSD-3-Clause               |
-| github.com/shopspring/decimal                                                | v1.4.0                                | MIT                        |
-| github.com/skip2/go-qrcode                                                   | v0.0.0-20200617195104-da1b6568686e    | MIT                        |
-| github.com/spf13/cast                                                        | v1.10.0                               | MIT                        |
-| github.com/ssor/bom                                                          | v0.0.0-20170718123548-6386211fdfcf    | MIT                        |
-| github.com/theplant/cldr                                                     | v0.0.0-20190423050709-9f76f7ce4ee8    | MIT                        |
-| github.com/tidwall/gjson                                                     | v1.19.0                               | MIT                        |
-| github.com/tidwall/match                                                     | v1.2.0                                | MIT                        |
-| github.com/tidwall/pretty                                                    | v1.2.1                                | MIT                        |
-| github.com/tidwall/sjson                                                     | v1.2.5                                | MIT                        |
-| github.com/tiendc/go-deepcopy                                                | v1.7.2                                | MIT                        |
-| github.com/tinylib/msgp/msgp                                                 | v1.6.4                                | MIT                        |
-| github.com/tredoe/osutil/user/crypt                                          | v1.5.0                                | BSD-2-Clause               |
-| github.com/twpayne/go-geom                                                   | v1.6.1                                | BSD-2-Clause               |
-| github.com/vanng822/css                                                      | v1.0.1                                | MIT                        |
-| github.com/vanng822/go-premailer/premailer                                   | v1.35.0                               | MIT                        |
-| github.com/x448/float16                                                      | v0.8.4                                | MIT                        |
-| github.com/xuri/efp                                                          | v0.0.1                                | BSD-3-Clause               |
-| github.com/xuri/excelize/v2                                                  | v2.11.0                               | BSD-3-Clause               |
-| github.com/xuri/nfp                                                          | v0.0.2-0.20250530014748-2ddeb826f9a9  | BSD-3-Clause               |
-| github.com/yudai/pp                                                          | v2.0.1                                | Unknown                    |
-| github.com/yuin/goldmark                                                     | v1.8.5                                | MIT                        |
-| github.com/yusufpapurcu/wmi                                                  | v1.2.4                                | MIT                        |
-| github.com/zeebo/blake3                                                      | v0.2.4                                | CC0-1.0                    |
-| go.opentelemetry.io/auto/sdk                                                 | v1.2.1                                | Apache-2.0                 |
-| go.opentelemetry.io/otel                                                     | v1.44.0                               | Apache-2.0 OR BSD-3-Clause |
-| go.opentelemetry.io/otel/metric                                              | v1.44.0                               | Apache-2.0 OR BSD-3-Clause |
-| go.opentelemetry.io/otel/sdk                                                 | v1.44.0                               | Apache-2.0 OR BSD-3-Clause |
-| go.opentelemetry.io/otel/sdk/metric                                          | v1.44.0                               | Apache-2.0 OR BSD-3-Clause |
-| go.opentelemetry.io/otel/trace                                               | v1.44.0                               | Apache-2.0 OR BSD-3-Clause |
-| go.uber.org/multierr                                                         | v1.11.0                               | MIT                        |
-| go.uber.org/zap                                                              | v1.28.0                               | MIT                        |
-| go.uber.org/zap/exp/zapslog                                                  | v0.3.0                                | MIT                        |
-| go.yaml.in/yaml/v4                                                           | v4.0.0-rc.6                           | Apache-2.0                 |
-| gocloud.dev                                                                  | v0.46.0                               | Apache-2.0                 |
-| golang.org/x/crypto                                                          | v0.55.0                               | BSD-3-Clause               |
-| golang.org/x/image                                                           | v0.45.0                               | BSD-3-Clause               |
-| golang.org/x/mod                                                             | v0.40.0                               | BSD-3-Clause               |
-| golang.org/x/net                                                             | v0.58.0                               | BSD-3-Clause               |
-| golang.org/x/oauth2                                                          | v0.36.0                               | BSD-3-Clause               |
-| golang.org/x/sync                                                            | v0.22.0                               | BSD-3-Clause               |
-| golang.org/x/sys                                                             | v0.47.0                               | BSD-3-Clause               |
-| golang.org/x/text                                                            | v0.41.0                               | BSD-3-Clause               |
-| golang.org/x/tools/godoc/vfs                                                 | v0.1.0-deprecated                     | BSD-3-Clause               |
-| golang.org/x/xerrors                                                         | v0.0.0-20240903120638-7835f813f4da    | BSD-3-Clause               |
-| google.golang.org/api                                                        | v0.272.0                              | BSD-3-Clause               |
-| google.golang.org/api/internal/third_party/uritemplates                      | v0.272.0                              | BSD-3-Clause               |
-| google.golang.org/genproto/googleapis/rpc                                    | v0.0.0-20260526163538-3dc84a4a5aaa    | Apache-2.0                 |
-| google.golang.org/grpc                                                       | v1.83.1                               | Apache-2.0                 |
-| google.golang.org/protobuf                                                   | v1.36.11                              | BSD-3-Clause               |
-| modernc.org/libc                                                             | v1.74.4                               | BSD-3-Clause               |
-| modernc.org/mathutil                                                         | v1.7.1                                | BSD-3-Clause               |
-| modernc.org/memory                                                           | v1.11.0                               | BSD-3-Clause               |
-| modernc.org/sqlite                                                           | v1.57.0                               | BSD-3-Clause               |
-
-### Components of the web frontend
-
-| Component                         | Version | License               |
-| --------------------------------- | ------- | --------------------- |
-| ace-builds                        | 1.44.0  | BSD-3-Clause          |
-| blurhash-js                       |         | MIT                   |
-| bowser                            |         | MIT                   |
-| chroma.js                         | 2.4.2   | BSD-3-Clause          |
-| coordinate-parser                 | 1.0.7   | Apache-2.0            |
-| dompurify                         | 3.4.15  | MPL-2.0 OR Apache-2.0 |
-| email-addresses                   | 5.0.0   | MIT                   |
-| font-awesome                      | 4.7.0   | OFL-1.1 AND MIT       |
-| formatcoords                      | 1.1.3   | ISC                   |
-| leaflet                           | 1.9.4   | BSD-2-Clause          |
-| leaflet-defaulticon-compatibility | 0.1.2   | BSD-2-Clause          |
-| load-google-maps-api              | 1.3.3   | MIT                   |
-| marked                            | 18.0.5  | MIT                   |
-| moment                            | 2.30.1  | MIT                   |
-| moment-timezone                   | 0.6.2   | MIT                   |
-
-### Components without a license file
-
-No license file could be located for the following components. They are listed
-here for completeness, with the license they declare where they declare one;
-their terms have to be established from their respective upstream sources.
-
-| Component           | Version | License |
-| ------------------- | ------- | ------- |
-| github.com/yudai/pp | v2.0.1  | Unknown |
-| formatcoords        | 1.1.3   | ISC     |
-
-### License texts
-
-#### Apache-2.0
-
-| Component                                                          | Version                            | Copyright notice                                       |
-| ------------------------------------------------------------------ | ---------------------------------- | ------------------------------------------------------ |
-| cloud.google.com/go/auth                                           | v0.19.0                            |                                                        |
-| cloud.google.com/go/auth/oauth2adapt                               | v0.2.8                             |                                                        |
-| cloud.google.com/go/compute/metadata                               | v0.9.0                             |                                                        |
-| [coordinate-parser](https://github.com/otto-dev/coordinate-parser) | 1.0.7                              | Copyright 2016 Weprog GmbH.                            |
-| github.com/Masterminds/goutils                                     | v1.1.1                             |                                                        |
-| github.com/aws/aws-sdk-go-v2                                       | v1.45.1                            |                                                        |
-| github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream              | v1.7.20                            |                                                        |
-| github.com/aws/aws-sdk-go-v2/config                                | v1.33.1                            |                                                        |
-| github.com/aws/aws-sdk-go-v2/credentials                           | v1.20.1                            |                                                        |
-| github.com/aws/aws-sdk-go-v2/feature/ec2/imds                      | v1.19.1                            |                                                        |
-| github.com/aws/aws-sdk-go-v2/feature/s3/transfermanager            | v0.2.3                             |                                                        |
-| github.com/aws/aws-sdk-go-v2/internal/configsources                | v1.5.1                             |                                                        |
-| github.com/aws/aws-sdk-go-v2/internal/endpoints/v2                 | v2.8.1                             |                                                        |
-| github.com/aws/aws-sdk-go-v2/internal/v4a                          | v1.5.1                             |                                                        |
-| github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding      | v1.13.19                           |                                                        |
-| github.com/aws/aws-sdk-go-v2/service/internal/checksum             | v1.11.1                            |                                                        |
-| github.com/aws/aws-sdk-go-v2/service/internal/presigned-url        | v1.14.1                            |                                                        |
-| github.com/aws/aws-sdk-go-v2/service/internal/s3shared             | v1.20.1                            |                                                        |
-| github.com/aws/aws-sdk-go-v2/service/s3                            | v1.109.1                           |                                                        |
-| github.com/aws/aws-sdk-go-v2/service/signin                        | v1.7.1                             |                                                        |
-| github.com/aws/aws-sdk-go-v2/service/sso                           | v1.35.1                            |                                                        |
-| github.com/aws/aws-sdk-go-v2/service/ssooidc                       | v1.40.1                            |                                                        |
-| github.com/aws/aws-sdk-go-v2/service/sts                           | v1.47.1                            |                                                        |
-| github.com/aws/smithy-go                                           | v1.28.1                            |                                                        |
-| github.com/blevesearch/segment                                     | v0.9.1                             |                                                        |
-| github.com/caddyserver/certmagic                                   | v0.25.4                            |                                                        |
-| github.com/ebitengine/purego                                       | v0.10.2                            |                                                        |
-| github.com/elastic/go-elasticsearch/v7                             | v7.17.10                           | Copyright 2018 Elasticsearch BV                        |
-| github.com/go-logr/logr                                            | v1.4.3                             |                                                        |
-| github.com/go-logr/stdr                                            | v1.2.2                             |                                                        |
-| github.com/golang/groupcache/lru                                   | v0.0.0-20241129210726-2c02b8208cf8 |                                                        |
-| github.com/google/go-tpm                                           | v0.9.8                             |                                                        |
-| github.com/google/pprof/profile                                    | v0.0.0-20260802141513-ef3492d7dac3 |                                                        |
-| github.com/google/s2a-go                                           | v0.1.9                             |                                                        |
-| github.com/google/wire                                             | v0.7.0                             |                                                        |
-| github.com/googleapis/enterprise-certificate-proxy/client          | v0.3.14                            |                                                        |
-| github.com/gosimple/unidecode                                      | v1.0.1                             | Copyright 2014 Rainy Cape S.L. \<hello@rainycape.com\> |
-| github.com/jonboulle/clockwork                                     | v0.5.0                             |                                                        |
-| github.com/kylelemons/godebug                                      | v1.1.0                             |                                                        |
-| github.com/landoop/tableprinter                                    | v0.0.0-20201125135848-89e81fc956e7 | Copyright 2018 lensesio                                |
-| github.com/mattermost/xml-roundtrip-validator                      | v0.1.0                             |                                                        |
-| github.com/mholt/acmez/v3                                          | v3.1.6                             |                                                        |
-| github.com/pb33f/jsonpath/pkg/jsonpath                             | v0.8.2                             |                                                        |
-| github.com/pb33f/ordered-map/v2                                    | v2.3.1                             |                                                        |
-| github.com/pquerna/otp                                             | v1.5.0                             |                                                        |
-| github.com/prometheus/client_golang/prometheus                     | v1.24.1                            |                                                        |
-| github.com/prometheus/client_model/go                              | v0.6.2                             |                                                        |
-| github.com/prometheus/common                                       | v0.70.1                            |                                                        |
-| github.com/prometheus/procfs                                       | v0.21.1                            |                                                        |
-| github.com/richardlehane/mscfb                                     | v1.0.7                             |                                                        |
-| github.com/richardlehane/msoleps/types                             | v1.0.6                             |                                                        |
-| github.com/russellhaering/goxmldsig                                | v1.6.1                             |                                                        |
-| go.opentelemetry.io/auto/sdk                                       | v1.2.1                             |                                                        |
-| go.yaml.in/yaml/v4                                                 | v4.0.0-rc.6                        | Copyright 2025 - The go-yaml Project Contributors      |
-| gocloud.dev                                                        | v0.46.0                            |                                                        |
-| google.golang.org/genproto/googleapis/rpc                          | v0.0.0-20260526163538-3dc84a4a5aaa |                                                        |
-| google.golang.org/grpc                                             | v1.83.1                            |                                                        |
+| Component                                                          | Copyright notice                                       |
+| ------------------------------------------------------------------ | ------------------------------------------------------ |
+| cloud.google.com/go/auth                                           |                                                        |
+| cloud.google.com/go/auth/oauth2adapt                               |                                                        |
+| cloud.google.com/go/compute/metadata                               |                                                        |
+| [coordinate-parser](https://github.com/otto-dev/coordinate-parser) | Copyright 2016 Weprog GmbH.                            |
+| github.com/Masterminds/goutils                                     |                                                        |
+| github.com/aws/aws-sdk-go-v2                                       |                                                        |
+| github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream              |                                                        |
+| github.com/aws/aws-sdk-go-v2/config                                |                                                        |
+| github.com/aws/aws-sdk-go-v2/credentials                           |                                                        |
+| github.com/aws/aws-sdk-go-v2/feature/ec2/imds                      |                                                        |
+| github.com/aws/aws-sdk-go-v2/feature/s3/transfermanager            |                                                        |
+| github.com/aws/aws-sdk-go-v2/internal/configsources                |                                                        |
+| github.com/aws/aws-sdk-go-v2/internal/endpoints/v2                 |                                                        |
+| github.com/aws/aws-sdk-go-v2/internal/v4a                          |                                                        |
+| github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding      |                                                        |
+| github.com/aws/aws-sdk-go-v2/service/internal/checksum             |                                                        |
+| github.com/aws/aws-sdk-go-v2/service/internal/presigned-url        |                                                        |
+| github.com/aws/aws-sdk-go-v2/service/internal/s3shared             |                                                        |
+| github.com/aws/aws-sdk-go-v2/service/s3                            |                                                        |
+| github.com/aws/aws-sdk-go-v2/service/signin                        |                                                        |
+| github.com/aws/aws-sdk-go-v2/service/sso                           |                                                        |
+| github.com/aws/aws-sdk-go-v2/service/ssooidc                       |                                                        |
+| github.com/aws/aws-sdk-go-v2/service/sts                           |                                                        |
+| github.com/aws/smithy-go                                           |                                                        |
+| github.com/blevesearch/segment                                     |                                                        |
+| github.com/caddyserver/certmagic                                   |                                                        |
+| github.com/ebitengine/purego                                       |                                                        |
+| github.com/elastic/go-elasticsearch/v7                             | Copyright 2018 Elasticsearch BV                        |
+| github.com/go-logr/logr                                            |                                                        |
+| github.com/go-logr/stdr                                            |                                                        |
+| github.com/golang/groupcache/lru                                   |                                                        |
+| github.com/google/go-tpm                                           |                                                        |
+| github.com/google/pprof/profile                                    |                                                        |
+| github.com/google/s2a-go                                           |                                                        |
+| github.com/google/wire                                             |                                                        |
+| github.com/googleapis/enterprise-certificate-proxy/client          |                                                        |
+| github.com/gosimple/unidecode                                      | Copyright 2014 Rainy Cape S.L. \<hello@rainycape.com\> |
+| github.com/jonboulle/clockwork                                     |                                                        |
+| github.com/kylelemons/godebug                                      |                                                        |
+| github.com/landoop/tableprinter                                    | Copyright 2018 lensesio                                |
+| github.com/mattermost/xml-roundtrip-validator                      |                                                        |
+| github.com/mholt/acmez/v3                                          |                                                        |
+| github.com/pb33f/jsonpath/pkg/jsonpath                             |                                                        |
+| github.com/pb33f/ordered-map/v2                                    |                                                        |
+| github.com/pquerna/otp                                             |                                                        |
+| github.com/prometheus/client_golang/prometheus                     |                                                        |
+| github.com/prometheus/client_model/go                              |                                                        |
+| github.com/prometheus/common                                       |                                                        |
+| github.com/prometheus/procfs                                       |                                                        |
+| github.com/richardlehane/mscfb                                     |                                                        |
+| github.com/richardlehane/msoleps/types                             |                                                        |
+| github.com/russellhaering/goxmldsig                                |                                                        |
+| go.opentelemetry.io/auto/sdk                                       |                                                        |
+| go.yaml.in/yaml/v4                                                 | Copyright 2025 - The go-yaml Project Contributors      |
+| gocloud.dev                                                        |                                                        |
+| google.golang.org/genproto/googleapis/rpc                          |                                                        |
+| google.golang.org/grpc                                             |                                                        |
 
 ```
                               Apache License
@@ -567,18 +305,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-#### Apache-2.0 OR BSD-3-Clause
+### Apache-2.0 OR BSD-3-Clause
 
-| Component                           | Version |
-| ----------------------------------- | ------- |
-| go.opentelemetry.io/otel            | v1.44.0 |
-| go.opentelemetry.io/otel/metric     | v1.44.0 |
-| go.opentelemetry.io/otel/sdk        | v1.44.0 |
-| go.opentelemetry.io/otel/sdk/metric | v1.44.0 |
-| go.opentelemetry.io/otel/trace      | v1.44.0 |
+| Component                           |
+| ----------------------------------- |
+| go.opentelemetry.io/otel            |
+| go.opentelemetry.io/otel/metric     |
+| go.opentelemetry.io/otel/sdk        |
+| go.opentelemetry.io/otel/sdk/metric |
+| go.opentelemetry.io/otel/trace      |
 
 *The text of the Apache-2.0 license is printed under the heading Apache-2.0,
-for cloud.google.com/go/auth v0.19.0 and others, and is not repeated here.*
+for cloud.google.com/go/auth and others, and is not repeated here.*
 
 ```
 --------------------------------------------------------------------------------
@@ -612,23 +350,23 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
 
-#### BSD-2-Clause
+### BSD-2-Clause
 
-| Component                           | Version                            | Copyright notice                                                            |
-| ----------------------------------- | ---------------------------------- | --------------------------------------------------------------------------- |
-| github.com/andybalholm/cascadia     | v1.3.4                             | Copyright (c) 2011 Andy Balholm. All rights reserved.                       |
-| github.com/beevik/etree             | v1.7.1                             | Copyright 2015-2024 Brett Vickers. All rights reserved.                     |
-| github.com/crewjam/httperr          | v0.2.0                             | Copyright (c) 2016, Ross Kinder<br>All rights reserved.                     |
-| github.com/crewjam/saml             | v0.5.1                             | Copyright (c) 2015, Ross Kinder<br>All rights reserved.                     |
-| github.com/go-sourcemap/sourcemap   | v2.1.4                             | Copyright (c) 2016 The github.com/go-sourcemap/sourcemap Contributors.<br>All rights reserved. |
-| github.com/go-webauthn/x/revoke     | v0.3.0                             | Copyright (c) 2014 CloudFlare Inc.                                          |
-| github.com/gorilla/websocket        | v1.5.3                             | Copyright (c) 2013 The Gorilla WebSocket Authors. All rights reserved.      |
-| github.com/pkg/browser              | v0.0.0-20240102092130-5ac0b6a4141c | Copyright (c) 2014, Dave Cheney \<dave@cheney.net\><br>All rights reserved. |
-| github.com/pkg/errors               | v0.9.1                             | Copyright (c) 2015, Dave Cheney \<dave@cheney.net\><br>All rights reserved. |
-| github.com/tredoe/osutil/user/crypt | v1.5.0                             | Copyright (c) 2012, Jeramey Crawford \<jeramey@antihe.ro\><br>Copyright (c) 2013, Jonas mg<br>All rights reserved. |
-| github.com/twpayne/go-geom          | v1.6.1                             | Copyright (c) 2013, Tom Payne<br>All rights reserved.                       |
-| [leaflet](https://leafletjs.com/)   | 1.9.4                              | Copyright (c) 2010-2023, Volodymyr Agafonkin<br>Copyright (c) 2010-2011, CloudMade<br>All rights reserved. |
-| [leaflet-defaulticon-compatibility](https://github.com/ghybs/leaflet-defaulticon-compatibility#readme) | 0.1.2                              | Copyright (c) 2018, ghybs<br>All rights reserved.                           |
+| Component                           | Copyright notice                                                            |
+| ----------------------------------- | --------------------------------------------------------------------------- |
+| github.com/andybalholm/cascadia     | Copyright (c) 2011 Andy Balholm. All rights reserved.                       |
+| github.com/beevik/etree             | Copyright 2015-2024 Brett Vickers. All rights reserved.                     |
+| github.com/crewjam/httperr          | Copyright (c) 2016, Ross Kinder<br>All rights reserved.                     |
+| github.com/crewjam/saml             | Copyright (c) 2015, Ross Kinder<br>All rights reserved.                     |
+| github.com/go-sourcemap/sourcemap   | Copyright (c) 2016 The github.com/go-sourcemap/sourcemap Contributors.<br>All rights reserved. |
+| github.com/go-webauthn/x/revoke     | Copyright (c) 2014 CloudFlare Inc.                                          |
+| github.com/gorilla/websocket        | Copyright (c) 2013 The Gorilla WebSocket Authors. All rights reserved.      |
+| github.com/pkg/browser              | Copyright (c) 2014, Dave Cheney \<dave@cheney.net\><br>All rights reserved. |
+| github.com/pkg/errors               | Copyright (c) 2015, Dave Cheney \<dave@cheney.net\><br>All rights reserved. |
+| github.com/tredoe/osutil/user/crypt | Copyright (c) 2012, Jeramey Crawford \<jeramey@antihe.ro\><br>Copyright (c) 2013, Jonas mg<br>All rights reserved. |
+| github.com/twpayne/go-geom          | Copyright (c) 2013, Tom Payne<br>All rights reserved.                       |
+| [leaflet](https://leafletjs.com/)   | Copyright (c) 2010-2023, Volodymyr Agafonkin<br>Copyright (c) 2010-2011, CloudMade<br>All rights reserved. |
+| [leaflet-defaulticon-compatibility](https://github.com/ghybs/leaflet-defaulticon-compatibility#readme) | Copyright (c) 2018, ghybs<br>All rights reserved.                           |
 
 ```
 Redistribution and use in source and binary forms, with or without
@@ -653,50 +391,50 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
 
-#### BSD-3-Clause
+### BSD-3-Clause
 
-| Component                                                                    | Version                              | Copyright notice                                                                 |
-| ---------------------------------------------------------------------------- | ------------------------------------ | -------------------------------------------------------------------------------- |
-| [Go standard library](https://go.dev/)                                       |                                      | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| [ace-builds](https://github.com/ajaxorg/ace-builds)                          | 1.44.0                               | Copyright (c) 2010, Ajax.org B.V.<br>All rights reserved.<br>`<name>`: Ajax.org B.V. |
-| [chroma.js](https://gka.github.io/chroma.js/)                                | 2.4.2                                | chroma.js - JavaScript library for color conversions<br>Copyright (c) 2011-2019, Gregor Aisch<br>All rights reserved.<br>`<name>`: Gregor Aisch<br>chroma.js includes colors from colorbrewer2.org, which are released under<br>the following license:<br>Copyright (c) 2002 Cynthia Brewer, Mark Harrower,<br>and The Pennsylvania State University.<br>Licensed under the Apache License, Version 2.0 (the "License");<br>you may not use this file except in compliance with the License.<br>You may obtain a copy of the License at<br>http://www.apache.org/licenses/LICENSE-2.0<br>Unless required by applicable law or agreed to in writing,<br>software distributed under the License is distributed on an<br>"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,<br>either express or implied. See the License for the specific<br>language governing permissions and limitations under the License.<br>Named colors are taken from X11 Color Names.<br>http://www.w3.org/TR/css3-color/#svg-color |
-| dario.cat/mergo                                                              | v1.0.2                               | Copyright (c) 2013 Dario Castañé. All rights reserved.<br>Copyright (c) 2012 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/PuerkitoBio/goquery                                               | v1.13.0                              | Copyright (c) 2012-2021, Martin Angers & Contributors<br>All rights reserved.<br>`<name>`: the author |
-| github.com/aws/aws-sdk-go-v2/internal/sync/singleflight                      | v1.45.1                              | Copyright (c) 2009 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/aws/smithy-go/internal/sync/singleflight                          | v1.28.1                              | Copyright (c) 2009 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/bahlo/generic-list-go                                             | v0.2.0                               | Copyright (c) 2009 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/dop251/goja/ftoa/internal/fast                                    | v0.0.0-20260826204918-8f1c0696a37b   | Copyright 2014, the V8 project authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/go-webauthn/webauthn                                              | v0.18.0                              | Copyright (c) 2025 github.com/go-webauthn/webauthn authors.<br>`<name>`: the copyright holder |
-| github.com/go-webauthn/x/encoding/asn1                                       | v0.3.0                               | Copyright (c) 2021-2023 github.com/go-webauthn authors.<br>`<name>`: the copyright holder |
-| github.com/google/uuid                                                       | v1.6.0                               | Copyright (c) 2009,2014 Google Inc. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/googleapis/gax-go/v2                                              | v2.19.0                              | Copyright 2016, Google Inc.<br>All rights reserved.<br>`<name>`: Google Inc.     |
-| github.com/gorilla/css/scanner                                               | v1.0.1                               | Copyright (c) 2023 The Gorilla Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/gorilla/mux                                                       | v1.8.1                               | Copyright (c) 2023 The Gorilla Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/miekg/dns                                                         | v1.1.72                              | Copyright (c) 2009, The Go Authors. Extensions copyright (c) 2011, Miek Gieben.<br>All rights reserved.<br>`<name>`: the copyright holder |
-| github.com/munnerz/goautoneg                                                 | v0.0.0-20191010083416-a7dc8b61c822   | Copyright (c) 2011, Open Knowledge Foundation Ltd.<br>All rights reserved.<br>`<name>`: the Open Knowledge Foundation Ltd. |
-| github.com/prometheus/client_golang/internal/github.com/golang/gddo/httputil | v1.24.1                              | Copyright (c) 2013 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/remyoudompheng/bigfft                                             | v0.0.0-20230129092748-24d4a6f8daec   | Copyright (c) 2012 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/shirou/gopsutil/v4                                                | v4.26.7                              | gopsutil is distributed under BSD license reproduced below.<br>Copyright (c) 2014, WAKAYAMA Shirou<br>All rights reserved.<br>`<name>`: the gopsutil authors<br>internal/common/binary.go in the gopsutil is copied and modified from golang/encoding/binary.go.<br>Copyright (c) 2009 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/xuri/efp                                                          | v0.0.1                               | Copyright (c) 2017 - 2025 Ri Xu All rights reserved.<br>`<name>`: efp            |
-| github.com/xuri/excelize/v2                                                  | v2.11.0                              | Copyright (c) 2016-2026 The excelize Authors.<br>Copyright (c) 2011-2017 Geoffrey J. Teale<br>All rights reserved.<br>`<name>`: the copyright holder |
-| github.com/xuri/nfp                                                          | v0.0.2-0.20250530014748-2ddeb826f9a9 | Copyright (c) 2022-2025 Ri Xu All rights reserved.<br>`<name>`: nfp              |
-| golang.org/x/crypto                                                          | v0.55.0                              | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/image                                                           | v0.45.0                              | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/mod                                                             | v0.40.0                              | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/net                                                             | v0.58.0                              | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/oauth2                                                          | v0.36.0                              | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/sync                                                            | v0.22.0                              | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/sys                                                             | v0.47.0                              | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/text                                                            | v0.41.0                              | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/tools/godoc/vfs                                                 | v0.1.0-deprecated                    | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/xerrors                                                         | v0.0.0-20240903120638-7835f813f4da   | Copyright 2019 The Go Authors.<br>`<name>`: Google LLC                           |
-| google.golang.org/api                                                        | v0.272.0                             | Copyright (c) 2011 Google Inc. All rights reserved.<br>`<name>`: Google Inc.     |
-| google.golang.org/api/internal/third_party/uritemplates                      | v0.272.0                             | Copyright (c) 2013 Joshua Tacoma. All rights reserved.<br>`<name>`: Google Inc.  |
-| google.golang.org/protobuf                                                   | v1.36.11                             | Copyright (c) 2018 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| modernc.org/libc                                                             | v1.74.4                              | Copyright (c) 2017 The Libc Authors. All rights reserved.<br>`<name>`: the authors |
-| modernc.org/mathutil                                                         | v1.7.1                               | Copyright (c) 2014 The mathutil Authors. All rights reserved.<br>`<name>`: the authors |
-| modernc.org/memory                                                           | v1.11.0                              | Copyright (c) 2017 The Memory Authors. All rights reserved.<br>`<name>`: the authors |
-| modernc.org/sqlite                                                           | v1.57.0                              | Copyright (c) 2017 The Sqlite Authors. All rights reserved.<br>`<name>`: the copyright holder |
+| Component                                                                    | Copyright notice                                                                 |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| [Go standard library](https://go.dev/)                                       | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
+| [ace-builds](https://github.com/ajaxorg/ace-builds)                          | Copyright (c) 2010, Ajax.org B.V.<br>All rights reserved.<br>`<name>`: Ajax.org B.V. |
+| [chroma.js](https://gka.github.io/chroma.js/)                                | chroma.js - JavaScript library for color conversions<br>Copyright (c) 2011-2019, Gregor Aisch<br>All rights reserved.<br>`<name>`: Gregor Aisch<br>chroma.js includes colors from colorbrewer2.org, which are released under<br>the following license:<br>Copyright (c) 2002 Cynthia Brewer, Mark Harrower,<br>and The Pennsylvania State University.<br>Licensed under the Apache License, Version 2.0 (the "License");<br>you may not use this file except in compliance with the License.<br>You may obtain a copy of the License at<br>http://www.apache.org/licenses/LICENSE-2.0<br>Unless required by applicable law or agreed to in writing,<br>software distributed under the License is distributed on an<br>"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,<br>either express or implied. See the License for the specific<br>language governing permissions and limitations under the License.<br>Named colors are taken from X11 Color Names.<br>http://www.w3.org/TR/css3-color/#svg-color |
+| dario.cat/mergo                                                              | Copyright (c) 2013 Dario Castañé. All rights reserved.<br>Copyright (c) 2012 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
+| github.com/PuerkitoBio/goquery                                               | Copyright (c) 2012-2021, Martin Angers & Contributors<br>All rights reserved.<br>`<name>`: the author |
+| github.com/aws/aws-sdk-go-v2/internal/sync/singleflight                      | Copyright (c) 2009 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
+| github.com/aws/smithy-go/internal/sync/singleflight                          | Copyright (c) 2009 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
+| github.com/bahlo/generic-list-go                                             | Copyright (c) 2009 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
+| github.com/dop251/goja/ftoa/internal/fast                                    | Copyright 2014, the V8 project authors. All rights reserved.<br>`<name>`: Google Inc. |
+| github.com/go-webauthn/webauthn                                              | Copyright (c) 2025 github.com/go-webauthn/webauthn authors.<br>`<name>`: the copyright holder |
+| github.com/go-webauthn/x/encoding/asn1                                       | Copyright (c) 2021-2023 github.com/go-webauthn authors.<br>`<name>`: the copyright holder |
+| github.com/google/uuid                                                       | Copyright (c) 2009,2014 Google Inc. All rights reserved.<br>`<name>`: Google Inc. |
+| github.com/googleapis/gax-go/v2                                              | Copyright 2016, Google Inc.<br>All rights reserved.<br>`<name>`: Google Inc.     |
+| github.com/gorilla/css/scanner                                               | Copyright (c) 2023 The Gorilla Authors. All rights reserved.<br>`<name>`: Google Inc. |
+| github.com/gorilla/mux                                                       | Copyright (c) 2023 The Gorilla Authors. All rights reserved.<br>`<name>`: Google Inc. |
+| github.com/miekg/dns                                                         | Copyright (c) 2009, The Go Authors. Extensions copyright (c) 2011, Miek Gieben.<br>All rights reserved.<br>`<name>`: the copyright holder |
+| github.com/munnerz/goautoneg                                                 | Copyright (c) 2011, Open Knowledge Foundation Ltd.<br>All rights reserved.<br>`<name>`: the Open Knowledge Foundation Ltd. |
+| github.com/prometheus/client_golang/internal/github.com/golang/gddo/httputil | Copyright (c) 2013 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
+| github.com/remyoudompheng/bigfft                                             | Copyright (c) 2012 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
+| github.com/shirou/gopsutil/v4                                                | gopsutil is distributed under BSD license reproduced below.<br>Copyright (c) 2014, WAKAYAMA Shirou<br>All rights reserved.<br>`<name>`: the gopsutil authors<br>internal/common/binary.go in the gopsutil is copied and modified from golang/encoding/binary.go.<br>Copyright (c) 2009 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
+| github.com/xuri/efp                                                          | Copyright (c) 2017 - 2025 Ri Xu All rights reserved.<br>`<name>`: efp            |
+| github.com/xuri/excelize/v2                                                  | Copyright (c) 2016-2026 The excelize Authors.<br>Copyright (c) 2011-2017 Geoffrey J. Teale<br>All rights reserved.<br>`<name>`: the copyright holder |
+| github.com/xuri/nfp                                                          | Copyright (c) 2022-2025 Ri Xu All rights reserved.<br>`<name>`: nfp              |
+| golang.org/x/crypto                                                          | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
+| golang.org/x/image                                                           | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
+| golang.org/x/mod                                                             | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
+| golang.org/x/net                                                             | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
+| golang.org/x/oauth2                                                          | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
+| golang.org/x/sync                                                            | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
+| golang.org/x/sys                                                             | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
+| golang.org/x/text                                                            | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
+| golang.org/x/tools/godoc/vfs                                                 | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
+| golang.org/x/xerrors                                                         | Copyright 2019 The Go Authors.<br>`<name>`: Google LLC                           |
+| google.golang.org/api                                                        | Copyright (c) 2011 Google Inc. All rights reserved.<br>`<name>`: Google Inc.     |
+| google.golang.org/api/internal/third_party/uritemplates                      | Copyright (c) 2013 Joshua Tacoma. All rights reserved.<br>`<name>`: Google Inc.  |
+| google.golang.org/protobuf                                                   | Copyright (c) 2018 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
+| modernc.org/libc                                                             | Copyright (c) 2017 The Libc Authors. All rights reserved.<br>`<name>`: the authors |
+| modernc.org/mathutil                                                         | Copyright (c) 2014 The mathutil Authors. All rights reserved.<br>`<name>`: the authors |
+| modernc.org/memory                                                           | Copyright (c) 2017 The Memory Authors. All rights reserved.<br>`<name>`: the authors |
+| modernc.org/sqlite                                                           | Copyright (c) 2017 The Sqlite Authors. All rights reserved.<br>`<name>`: the copyright holder |
 
 *The license files of the components differ in the name which the terms give
 where `<name>` stands below. The name is printed with each component above.*
@@ -729,11 +467,11 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
 
-#### CC0-1.0
+### CC0-1.0
 
-| Component               | Version |
-| ----------------------- | ------- |
-| github.com/zeebo/blake3 | v0.2.4  |
+| Component               |
+| ----------------------- |
+| github.com/zeebo/blake3 |
 
 ```
 This work is released into the public domain with CC0 1.0.
@@ -863,13 +601,13 @@ express Statement of Purpose.
     this CC0 or use of the Work.
 ```
 
-#### ISC
+### ISC
 
-| Component                                 | Version                              | Copyright notice                                            |
-| ----------------------------------------- | ------------------------------------ | ----------------------------------------------------------- |
-| github.com/davecgh/go-spew/spew           | v1.1.2-0.20180830191138-d8f796af33cc | Copyright (c) 2012-2016 Dave Collins \<dave@davec.name\>    |
-| github.com/go-webauthn/x/crypto/secp256k1 | v0.3.0                               | Copyright (c) 2013-2017 The btcsuite developers<br>Copyright (c) 2015-2024 The Decred developers<br>Copyright (c) 2017 The Lightning Network Developers |
-| github.com/nfnt/resize                    | v0.0.0-20180221191011-83c6a9932646   | Copyright (c) 2012, Jan Schlicht \<jan.schlicht@gmail.com\> |
+| Component                                 | Copyright notice                                            |
+| ----------------------------------------- | ----------------------------------------------------------- |
+| github.com/davecgh/go-spew/spew           | Copyright (c) 2012-2016 Dave Collins \<dave@davec.name\>    |
+| github.com/go-webauthn/x/crypto/secp256k1 | Copyright (c) 2013-2017 The btcsuite developers<br>Copyright (c) 2015-2024 The Decred developers<br>Copyright (c) 2017 The Lightning Network Developers |
+| github.com/nfnt/resize                    | Copyright (c) 2012, Jan Schlicht \<jan.schlicht@gmail.com\> |
 
 ```
 Permission to use, copy, modify, and/or distribute this software for any purpose
@@ -885,11 +623,11 @@ TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
 THIS SOFTWARE.
 ```
 
-#### LicenseRef-MIT-Lucent
+### LicenseRef-MIT-Lucent
 
-| Component                   | Version                            |
-| --------------------------- | ---------------------------------- |
-| github.com/dop251/goja/ftoa | v0.0.0-20260826204918-8f1c0696a37b |
+| Component                   |
+| --------------------------- |
+| github.com/dop251/goja/ftoa |
 
 ```
 Copyright (C) 1998, 1999 by Lucent Technologies
@@ -915,113 +653,113 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
 THIS SOFTWARE.
 ```
 
-#### MIT
+### MIT
 
-| Component                                                                | Version                               | Copyright notice                                                              |
-| ------------------------------------------------------------------------ | ------------------------------------- | ----------------------------------------------------------------------------- |
-| [blurhash-js](https://blurha.sh/)                                        |                                       | Copyright (c) 2020 Dennis Bystrow                                             |
-| [bowser](https://github.com/ded/bowser)                                  |                                       | Bowser - a browser detector<br>https://github.com/ded/bowser<br>MIT License \| (c) Dustin Diaz 2015 |
-| [email-addresses](https://github.com/jackbearheart/email-addresses)      | 5.0.0                                 | Copyright (c) 2013 Fog Creek Software                                         |
-| github.com/AfterShip/email-verifier                                      | v1.4.1                                | Copyright (c) 2020 AfterShip                                                  |
-| github.com/Azure/azure-sdk-for-go/sdk/azcore                             | v1.22.0                               | Copyright (c) Microsoft Corporation.                                          |
-| github.com/Azure/azure-sdk-for-go/sdk/azidentity                         | v1.13.1                               | Copyright (c) Microsoft Corporation.                                          |
-| github.com/Azure/azure-sdk-for-go/sdk/internal                           | v1.12.0                               | Copyright (c) Microsoft Corporation.                                          |
-| github.com/Azure/azure-sdk-for-go/sdk/storage/azblob                     | v1.8.0                                | Copyright (c) Microsoft Corporation. All rights reserved.                     |
-| github.com/Azure/go-ntlmssp                                              | v0.1.1                                | Copyright (c) 2016 Microsoft                                                  |
-| github.com/AzureAD/microsoft-authentication-library-for-go/apps          | v1.7.2                                | Copyright (c) Microsoft Corporation.                                          |
-| github.com/Masterminds/semver/v3                                         | v3.5.0                                | Copyright (C) 2014-2019, Matt Butcher and Matt Farina                         |
-| github.com/Masterminds/sprig/v3                                          | v3.3.0                                | Copyright (C) 2013-2020 Masterminds                                           |
-| github.com/alecthomas/kong                                               | v1.16.1                               | Copyright (C) 2018 Alec Thomas                                                |
-| github.com/antchfx/xmlquery                                              | v1.5.1                                |                                                                               |
-| github.com/antchfx/xpath                                                 | v1.3.6                                |                                                                               |
-| github.com/bbrks/go-blurhash                                             | v1.2.0                                | Copyright (c) 2019 Ben Brooks                                                 |
-| github.com/beorn7/perks/quantile                                         | v1.0.1                                | Copyright (C) 2013 Blake Mizerany                                             |
-| github.com/boombuler/barcode                                             | v1.0.1-0.20190219062509-6c824513bacc  | Copyright (c) 2014 Florian Sundermann                                         |
-| github.com/buger/jsonparser                                              | v1.1.2                                | Copyright (c) 2016 Leonid Bugaev                                              |
-| github.com/caddyserver/zerossl                                           | v0.1.5                                | Copyright (c) 2024 Matthew Holt                                               |
-| github.com/cespare/xxhash/v2                                             | v2.3.0                                | Copyright (c) 2016 Caleb Spare                                                |
-| github.com/clipperhouse/displaywidth                                     | v0.11.0                               | Copyright (c) 2025 Matt Sherman                                               |
-| github.com/clipperhouse/uax29/v2/graphemes                               | v2.7.0                                | Copyright (c) 2020 Matt Sherman                                               |
-| github.com/dlclark/regexp2                                               | v1.12.0                               | Copyright (c) Doug Clark                                                      |
-| github.com/dlclark/regexp2/v2                                            | v2.5.2                                | Copyright (c) Doug Clark                                                      |
-| github.com/dop251/goja                                                   | v0.0.0-20260826204918-8f1c0696a37b    | Copyright (c) 2016 Dmitry Panov<br>Copyright (c) 2012 Robert Krimen           |
-| github.com/dustin/go-humanize                                            | v1.0.1                                | Copyright (c) 2005-2008  Dustin Sallings \<dustin@spy.net\><br>\<http://www.opensource.org/licenses/mit-license.php\> |
-| github.com/fatih/color                                                   | v1.19.0                               | Copyright (c) 2013 Fatih Arslan                                               |
-| github.com/felixge/httpsnoop                                             | v1.1.0                                | Copyright (c) 2016 Felix Geisendörfer (felix@debuggable.com)                  |
-| github.com/fxamacker/cbor/v2                                             | v2.9.3                                | Copyright (c) 2019-present Faye Amacker                                       |
-| github.com/gabriel-vasile/mimetype                                       | v1.4.15                               | Copyright (c) 2018 Gabriel Vasile                                             |
-| github.com/go-asn1-ber/asn1-ber                                          | v1.5.8                                | Copyright (c) 2011-2015 Michael Mitton (mmitton@gmail.com)<br>Portions copyright (c) 2015-2016 go-asn1-ber Authors |
-| github.com/go-ldap/ldap/v3                                               | v3.4.14                               | Copyright (c) 2011-2015 Michael Mitton (mmitton@gmail.com)<br>Portions copyright (c) 2015-2024 go-ldap Authors |
-| github.com/go-ole/go-ole                                                 | v1.3.0                                | Copyright © 2013-2017 Yasuhiro Matsumoto, \<mattn.jp@gmail.com\>              |
-| github.com/go-viper/mapstructure/v2                                      | v2.5.0                                | Copyright (c) 2013 Mitchell Hashimoto                                         |
-| github.com/go-xmlfmt/xmlfmt                                              | v1.1.3                                | Copyright (c) 2016 go-xmlfmt                                                  |
-| github.com/goccy/go-json                                                 | v0.10.6                               | Copyright (c) 2020 Masaaki Goshima                                            |
-| github.com/gofrs/uuid                                                    | v4.4.0                                | Copyright (C) 2013-2018 by Maxim Bublis \<b@codemonkey.ru\>                   |
-| github.com/golang-jwt/jwt/v4                                             | v4.5.2                                | Copyright (c) 2012 Dave Grijalva<br>Copyright (c) 2021 golang-jwt maintainers |
-| github.com/golang-jwt/jwt/v5                                             | v5.3.1                                | Copyright (c) 2012 Dave Grijalva<br>Copyright (c) 2021 golang-jwt maintainers |
-| github.com/grantae/certinfo                                              | v0.0.0-20170412194111-59d56a35515b    | Copyright (c) 2016 Grant Ayers                                                |
-| github.com/hbollon/go-edlib                                              | v1.7.0                                | Copyright (c) 2020 Hugo Bollon                                                |
-| github.com/huandu/xstrings                                               | v1.5.0                                | Copyright (c) 2015 Huan Du                                                    |
-| github.com/inbucket/html2text                                            | v1.0.0                                | Copyright (c) 2015 Jay Taylor                                                 |
-| github.com/jackc/pgpassfile                                              | v1.0.0                                | Copyright (c) 2019 Jack Christensen                                           |
-| github.com/jackc/pgservicefile                                           | v0.0.0-20240606120523-5a60cdf6a761    | Copyright (c) 2020 Jack Christensen                                           |
-| github.com/jackc/pgx/v5                                                  | v5.11.0                               | Copyright (c) 2013-2021 Jack Christensen                                      |
-| github.com/jackc/puddle/v2                                               | v2.2.2                                | Copyright (c) 2018 Jack Christensen                                           |
-| github.com/jbenet/go-context/io                                          | v0.0.0-20150711004518-d14ea06fba99    | Copyright (c) 2014 Juan Batiz-Benet                                           |
-| github.com/josharian/intern                                              | v1.0.0                                | Copyright (c) 2019 Josh Bleecher Snyder                                       |
-| github.com/kataras/tablewriter                                           | v0.0.0-20180708051242-e063d29b7c23    | Copyright (C) 2014 by Oleku Konko                                             |
-| github.com/klauspost/cpuid/v2                                            | v2.3.0                                | Copyright (c) 2015 Klaus Post                                                 |
-| github.com/libdns/libdns                                                 | v1.1.1                                | Copyright (c) 2020 Matthew Holt                                               |
-| github.com/lucasb-eyer/go-colorful                                       | v1.4.1                                | Copyright (c) 2013 Lucas Beyer                                                |
-| github.com/mailru/easyjson                                               | v0.9.2                                | Copyright (c) 2016 Mail.Ru Group                                              |
-| github.com/mattn/go-colorable                                            | v0.1.14                               | Copyright (c) 2016 Yasuhiro Matsumoto                                         |
-| github.com/mattn/go-isatty                                               | v0.0.24                               | Copyright (c) Yasuhiro MATSUMOTO \<mattn.jp@gmail.com\>                       |
-| github.com/mattn/go-runewidth                                            | v0.0.23                               | Copyright (c) 2016 Yasuhiro Matsumoto                                         |
-| github.com/mattn/go-shellwords                                           | v1.0.14                               | Copyright (c) 2017 Yasuhiro Matsumoto                                         |
-| github.com/mattn/go-sqlite3                                              | v1.14.50                              | Copyright (c) 2014 Yasuhiro Matsumoto                                         |
-| github.com/mitchellh/copystructure                                       | v1.2.0                                | Copyright (c) 2014 Mitchell Hashimoto                                         |
-| github.com/mitchellh/reflectwalk                                         | v1.0.2                                | Copyright (c) 2013 Mitchell Hashimoto                                         |
-| github.com/mmcloughlin/geohash                                           | v0.10.0                               | Copyright (c) 2015 Michael McLoughlin                                         |
-| github.com/ncruces/go-strftime                                           | v1.0.0                                | Copyright (c) 2022 Nuno Cruces                                                |
-| github.com/olekukonko/cat                                                | v0.0.0-20250911104152-50322a0618f6    | Copyright (c) 2025 Oleku Konko                                                |
-| github.com/olekukonko/errors                                             | v1.3.0                                | Copyright (c) 2025 Oleku Konko                                                |
-| github.com/olekukonko/ll                                                 | v0.1.8                                | Copyright (c) 2025 Oleku Konko                                                |
-| github.com/olekukonko/tablewriter                                        | v1.1.4                                | Copyright (C) 2014 by Oleku Konko                                             |
-| github.com/olivere/elastic/v7/config                                     | v7.0.32                               | Copyright © 2012-2015 Oliver Eilhard                                          |
-| github.com/olivere/elastic/v7/uritemplates                               | v7.0.32                               | Copyright (c) 2013 Joshua Tacoma                                              |
-| github.com/pb33f/libopenapi                                              | v0.38.7                               | Copyright (c) 2022-2025 Princess Beef Heavy Industries, LLC / Dave Shanley    |
-| github.com/philhofer/fwd                                                 | v1.2.0                                | Copyright (c) 2014-2015, Philip Hofer                                         |
-| github.com/programmfabrik/elastic/v7                                     | v7.0.31-0.20220107153946-70fc46807afe | Copyright © 2012-2015 Oliver Eilhard                                          |
-| github.com/programmfabrik/go-datasize                                    | v0.0.0-20230103131654-7145e216c8b9    | Copyright (c) 2016 Maciej Lisiewski                                           |
-| github.com/programmfabrik/go-email                                       | v0.0.0-20230712170028-d40481e23141    | Copyright (c) 2013 Jordan Wright                                              |
-| github.com/programmfabrik/go-iso8601                                     | v0.0.0-20260908085253-529901e90db0    | Copyright (c) 2026 Programmfabrik GmbH                                        |
-| github.com/programmfabrik/sqlpro                                         | v0.0.0-20261021190854-5b171ee6da1b    | Copyright (c) 2019 Programmfabrik GmbH                                        |
-| github.com/robert-nix/ansihtml                                           | v1.0.1                                | Copyright (c) 2020 Robert Nix                                                 |
-| github.com/rs/zerolog                                                    | v1.35.1                               | Copyright (c) 2017 Olivier Poitrey                                            |
-| github.com/saintfish/chardet                                             | v0.0.0-20230101081208-5e3ef4b5456d    | Copyright (c) 2012 chardet Authors<br>Partial of the Software is derived from ICU project. See icu-license.html for<br>license of the derivative portions. |
-| github.com/shopspring/decimal                                            | v1.4.0                                | Copyright (c) 2015 Spring, Inc.<br>- Based on https://github.com/oguzbilgic/fpd, which has the following license:<br>Copyright (c) 2013 Oguz Bilgic |
-| github.com/skip2/go-qrcode                                               | v0.0.0-20200617195104-da1b6568686e    | Copyright (c) 2014 Tom Harwood                                                |
-| github.com/spf13/cast                                                    | v1.10.0                               | Copyright (c) 2014 Steve Francia                                              |
-| github.com/ssor/bom                                                      | v0.0.0-20170718123548-6386211fdfcf    | Copyright (c) 2017 Asher                                                      |
-| github.com/theplant/cldr                                                 | v0.0.0-20190423050709-9f76f7ce4ee8    | Copyright (c) 2019 The Plant Co., Ltd.                                        |
-| github.com/tidwall/gjson                                                 | v1.19.0                               | Copyright (c) 2016 Josh Baker                                                 |
-| github.com/tidwall/match                                                 | v1.2.0                                | Copyright (c) 2016 Josh Baker                                                 |
-| github.com/tidwall/pretty                                                | v1.2.1                                | Copyright (c) 2017 Josh Baker                                                 |
-| github.com/tidwall/sjson                                                 | v1.2.5                                | Copyright (c) 2016 Josh Baker                                                 |
-| github.com/tiendc/go-deepcopy                                            | v1.7.2                                | Copyright (c) 2023 tiendc                                                     |
-| github.com/tinylib/msgp/msgp                                             | v1.6.4                                | Copyright (c) 2014 Philip Hofer<br>Portions Copyright (c) 2009 The Go Authors (license at http://golang.org) where indicated |
-| github.com/vanng822/css                                                  | v1.0.1                                | Copyright (c) 2015 Nguyen Van Nhu                                             |
-| github.com/vanng822/go-premailer/premailer                               | v1.35.0                               | Copyright (c) 2015 Nguyen Van Nhu                                             |
-| github.com/x448/float16                                                  | v0.8.4                                | Copyright (c) 2019 Montgomery Edwards⁴⁴⁸ and Faye Amacker                     |
-| github.com/yuin/goldmark                                                 | v1.8.5                                | Copyright (c) 2019 Yusuke Inuzuka                                             |
-| github.com/yusufpapurcu/wmi                                              | v1.2.4                                | Copyright (c) 2013 Stack Exchange                                             |
-| go.uber.org/multierr                                                     | v1.11.0                               | Copyright (c) 2017-2021 Uber Technologies, Inc.                               |
-| go.uber.org/zap                                                          | v1.28.0                               | Copyright (c) 2016-2024 Uber Technologies, Inc.                               |
-| go.uber.org/zap/exp/zapslog                                              | v0.3.0                                | Copyright (c) 2016-2024 Uber Technologies, Inc.                               |
-| [load-google-maps-api](https://github.com/yuanqing/load-google-maps-api) | 1.3.3                                 | Copyright (c) 2018 Lim Yuan Qing                                              |
-| [marked](https://marked.js.org)                                          | 18.0.5                                | # License information<br>## Contribution License Agreement<br>If you contribute code to this project, you are implicitly allowing your code<br>to be distributed under the MIT license. You are also implicitly verifying that<br>all code is your original work. \`\</legalese\>\`<br>## Marked<br>Copyright (c) 2018+, MarkedJS (https://github.com/markedjs/)<br>Copyright (c) 2011-2018, Christopher Jeffrey (https://github.com/chjj/)<br>## Markdown<br>Copyright © 2004, John Gruber<br>http://daringfireball.net/<br>All rights reserved.<br>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:<br>\* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.<br>\* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.<br>\* Neither the name “Markdown” nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.<br>This software is provided by the copyright holders and contributors “as is” and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the copyright owner or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage. |
-| [moment](https://momentjs.com)                                           | 2.30.1                                | Copyright (c) JS Foundation and other contributors                            |
-| [moment-timezone](http://momentjs.com/timezone/)                         | 0.6.2                                 | Copyright (c) JS Foundation and other contributors                            |
+| Component                                                                | Copyright notice                                                              |
+| ------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| [blurhash-js](https://blurha.sh/)                                        | Copyright (c) 2020 Dennis Bystrow                                             |
+| [bowser](https://github.com/ded/bowser)                                  | Bowser - a browser detector<br>https://github.com/ded/bowser<br>MIT License \| (c) Dustin Diaz 2015 |
+| [email-addresses](https://github.com/jackbearheart/email-addresses)      | Copyright (c) 2013 Fog Creek Software                                         |
+| github.com/AfterShip/email-verifier                                      | Copyright (c) 2020 AfterShip                                                  |
+| github.com/Azure/azure-sdk-for-go/sdk/azcore                             | Copyright (c) Microsoft Corporation.                                          |
+| github.com/Azure/azure-sdk-for-go/sdk/azidentity                         | Copyright (c) Microsoft Corporation.                                          |
+| github.com/Azure/azure-sdk-for-go/sdk/internal                           | Copyright (c) Microsoft Corporation.                                          |
+| github.com/Azure/azure-sdk-for-go/sdk/storage/azblob                     | Copyright (c) Microsoft Corporation. All rights reserved.                     |
+| github.com/Azure/go-ntlmssp                                              | Copyright (c) 2016 Microsoft                                                  |
+| github.com/AzureAD/microsoft-authentication-library-for-go/apps          | Copyright (c) Microsoft Corporation.                                          |
+| github.com/Masterminds/semver/v3                                         | Copyright (C) 2014-2019, Matt Butcher and Matt Farina                         |
+| github.com/Masterminds/sprig/v3                                          | Copyright (C) 2013-2020 Masterminds                                           |
+| github.com/alecthomas/kong                                               | Copyright (C) 2018 Alec Thomas                                                |
+| github.com/antchfx/xmlquery                                              |                                                                               |
+| github.com/antchfx/xpath                                                 |                                                                               |
+| github.com/bbrks/go-blurhash                                             | Copyright (c) 2019 Ben Brooks                                                 |
+| github.com/beorn7/perks/quantile                                         | Copyright (C) 2013 Blake Mizerany                                             |
+| github.com/boombuler/barcode                                             | Copyright (c) 2014 Florian Sundermann                                         |
+| github.com/buger/jsonparser                                              | Copyright (c) 2016 Leonid Bugaev                                              |
+| github.com/caddyserver/zerossl                                           | Copyright (c) 2024 Matthew Holt                                               |
+| github.com/cespare/xxhash/v2                                             | Copyright (c) 2016 Caleb Spare                                                |
+| github.com/clipperhouse/displaywidth                                     | Copyright (c) 2025 Matt Sherman                                               |
+| github.com/clipperhouse/uax29/v2/graphemes                               | Copyright (c) 2020 Matt Sherman                                               |
+| github.com/dlclark/regexp2                                               | Copyright (c) Doug Clark                                                      |
+| github.com/dlclark/regexp2/v2                                            | Copyright (c) Doug Clark                                                      |
+| github.com/dop251/goja                                                   | Copyright (c) 2016 Dmitry Panov<br>Copyright (c) 2012 Robert Krimen           |
+| github.com/dustin/go-humanize                                            | Copyright (c) 2005-2008  Dustin Sallings \<dustin@spy.net\><br>\<http://www.opensource.org/licenses/mit-license.php\> |
+| github.com/fatih/color                                                   | Copyright (c) 2013 Fatih Arslan                                               |
+| github.com/felixge/httpsnoop                                             | Copyright (c) 2016 Felix Geisendörfer (felix@debuggable.com)                  |
+| github.com/fxamacker/cbor/v2                                             | Copyright (c) 2019-present Faye Amacker                                       |
+| github.com/gabriel-vasile/mimetype                                       | Copyright (c) 2018 Gabriel Vasile                                             |
+| github.com/go-asn1-ber/asn1-ber                                          | Copyright (c) 2011-2015 Michael Mitton (mmitton@gmail.com)<br>Portions copyright (c) 2015-2016 go-asn1-ber Authors |
+| github.com/go-ldap/ldap/v3                                               | Copyright (c) 2011-2015 Michael Mitton (mmitton@gmail.com)<br>Portions copyright (c) 2015-2024 go-ldap Authors |
+| github.com/go-ole/go-ole                                                 | Copyright © 2013-2017 Yasuhiro Matsumoto, \<mattn.jp@gmail.com\>              |
+| github.com/go-viper/mapstructure/v2                                      | Copyright (c) 2013 Mitchell Hashimoto                                         |
+| github.com/go-xmlfmt/xmlfmt                                              | Copyright (c) 2016 go-xmlfmt                                                  |
+| github.com/goccy/go-json                                                 | Copyright (c) 2020 Masaaki Goshima                                            |
+| github.com/gofrs/uuid                                                    | Copyright (C) 2013-2018 by Maxim Bublis \<b@codemonkey.ru\>                   |
+| github.com/golang-jwt/jwt/v4                                             | Copyright (c) 2012 Dave Grijalva<br>Copyright (c) 2021 golang-jwt maintainers |
+| github.com/golang-jwt/jwt/v5                                             | Copyright (c) 2012 Dave Grijalva<br>Copyright (c) 2021 golang-jwt maintainers |
+| github.com/grantae/certinfo                                              | Copyright (c) 2016 Grant Ayers                                                |
+| github.com/hbollon/go-edlib                                              | Copyright (c) 2020 Hugo Bollon                                                |
+| github.com/huandu/xstrings                                               | Copyright (c) 2015 Huan Du                                                    |
+| github.com/inbucket/html2text                                            | Copyright (c) 2015 Jay Taylor                                                 |
+| github.com/jackc/pgpassfile                                              | Copyright (c) 2019 Jack Christensen                                           |
+| github.com/jackc/pgservicefile                                           | Copyright (c) 2020 Jack Christensen                                           |
+| github.com/jackc/pgx/v5                                                  | Copyright (c) 2013-2021 Jack Christensen                                      |
+| github.com/jackc/puddle/v2                                               | Copyright (c) 2018 Jack Christensen                                           |
+| github.com/jbenet/go-context/io                                          | Copyright (c) 2014 Juan Batiz-Benet                                           |
+| github.com/josharian/intern                                              | Copyright (c) 2019 Josh Bleecher Snyder                                       |
+| github.com/kataras/tablewriter                                           | Copyright (C) 2014 by Oleku Konko                                             |
+| github.com/klauspost/cpuid/v2                                            | Copyright (c) 2015 Klaus Post                                                 |
+| github.com/libdns/libdns                                                 | Copyright (c) 2020 Matthew Holt                                               |
+| github.com/lucasb-eyer/go-colorful                                       | Copyright (c) 2013 Lucas Beyer                                                |
+| github.com/mailru/easyjson                                               | Copyright (c) 2016 Mail.Ru Group                                              |
+| github.com/mattn/go-colorable                                            | Copyright (c) 2016 Yasuhiro Matsumoto                                         |
+| github.com/mattn/go-isatty                                               | Copyright (c) Yasuhiro MATSUMOTO \<mattn.jp@gmail.com\>                       |
+| github.com/mattn/go-runewidth                                            | Copyright (c) 2016 Yasuhiro Matsumoto                                         |
+| github.com/mattn/go-shellwords                                           | Copyright (c) 2017 Yasuhiro Matsumoto                                         |
+| github.com/mattn/go-sqlite3                                              | Copyright (c) 2014 Yasuhiro Matsumoto                                         |
+| github.com/mitchellh/copystructure                                       | Copyright (c) 2014 Mitchell Hashimoto                                         |
+| github.com/mitchellh/reflectwalk                                         | Copyright (c) 2013 Mitchell Hashimoto                                         |
+| github.com/mmcloughlin/geohash                                           | Copyright (c) 2015 Michael McLoughlin                                         |
+| github.com/ncruces/go-strftime                                           | Copyright (c) 2022 Nuno Cruces                                                |
+| github.com/olekukonko/cat                                                | Copyright (c) 2025 Oleku Konko                                                |
+| github.com/olekukonko/errors                                             | Copyright (c) 2025 Oleku Konko                                                |
+| github.com/olekukonko/ll                                                 | Copyright (c) 2025 Oleku Konko                                                |
+| github.com/olekukonko/tablewriter                                        | Copyright (C) 2014 by Oleku Konko                                             |
+| github.com/olivere/elastic/v7/config                                     | Copyright © 2012-2015 Oliver Eilhard                                          |
+| github.com/olivere/elastic/v7/uritemplates                               | Copyright (c) 2013 Joshua Tacoma                                              |
+| github.com/pb33f/libopenapi                                              | Copyright (c) 2022-2025 Princess Beef Heavy Industries, LLC / Dave Shanley    |
+| github.com/philhofer/fwd                                                 | Copyright (c) 2014-2015, Philip Hofer                                         |
+| github.com/programmfabrik/elastic/v7                                     | Copyright © 2012-2015 Oliver Eilhard                                          |
+| github.com/programmfabrik/go-datasize                                    | Copyright (c) 2016 Maciej Lisiewski                                           |
+| github.com/programmfabrik/go-email                                       | Copyright (c) 2013 Jordan Wright                                              |
+| github.com/programmfabrik/go-iso8601                                     | Copyright (c) 2026 Programmfabrik GmbH                                        |
+| github.com/programmfabrik/sqlpro                                         | Copyright (c) 2019 Programmfabrik GmbH                                        |
+| github.com/robert-nix/ansihtml                                           | Copyright (c) 2020 Robert Nix                                                 |
+| github.com/rs/zerolog                                                    | Copyright (c) 2017 Olivier Poitrey                                            |
+| github.com/saintfish/chardet                                             | Copyright (c) 2012 chardet Authors<br>Partial of the Software is derived from ICU project. See icu-license.html for<br>license of the derivative portions. |
+| github.com/shopspring/decimal                                            | Copyright (c) 2015 Spring, Inc.<br>- Based on https://github.com/oguzbilgic/fpd, which has the following license:<br>Copyright (c) 2013 Oguz Bilgic |
+| github.com/skip2/go-qrcode                                               | Copyright (c) 2014 Tom Harwood                                                |
+| github.com/spf13/cast                                                    | Copyright (c) 2014 Steve Francia                                              |
+| github.com/ssor/bom                                                      | Copyright (c) 2017 Asher                                                      |
+| github.com/theplant/cldr                                                 | Copyright (c) 2019 The Plant Co., Ltd.                                        |
+| github.com/tidwall/gjson                                                 | Copyright (c) 2016 Josh Baker                                                 |
+| github.com/tidwall/match                                                 | Copyright (c) 2016 Josh Baker                                                 |
+| github.com/tidwall/pretty                                                | Copyright (c) 2017 Josh Baker                                                 |
+| github.com/tidwall/sjson                                                 | Copyright (c) 2016 Josh Baker                                                 |
+| github.com/tiendc/go-deepcopy                                            | Copyright (c) 2023 tiendc                                                     |
+| github.com/tinylib/msgp/msgp                                             | Copyright (c) 2014 Philip Hofer<br>Portions Copyright (c) 2009 The Go Authors (license at http://golang.org) where indicated |
+| github.com/vanng822/css                                                  | Copyright (c) 2015 Nguyen Van Nhu                                             |
+| github.com/vanng822/go-premailer/premailer                               | Copyright (c) 2015 Nguyen Van Nhu                                             |
+| github.com/x448/float16                                                  | Copyright (c) 2019 Montgomery Edwards⁴⁴⁸ and Faye Amacker                     |
+| github.com/yuin/goldmark                                                 | Copyright (c) 2019 Yusuke Inuzuka                                             |
+| github.com/yusufpapurcu/wmi                                              | Copyright (c) 2013 Stack Exchange                                             |
+| go.uber.org/multierr                                                     | Copyright (c) 2017-2021 Uber Technologies, Inc.                               |
+| go.uber.org/zap                                                          | Copyright (c) 2016-2024 Uber Technologies, Inc.                               |
+| go.uber.org/zap/exp/zapslog                                              | Copyright (c) 2016-2024 Uber Technologies, Inc.                               |
+| [load-google-maps-api](https://github.com/yuanqing/load-google-maps-api) | Copyright (c) 2018 Lim Yuan Qing                                              |
+| [marked](https://marked.js.org)                                          | # License information<br>## Contribution License Agreement<br>If you contribute code to this project, you are implicitly allowing your code<br>to be distributed under the MIT license. You are also implicitly verifying that<br>all code is your original work. \`\</legalese\>\`<br>## Marked<br>Copyright (c) 2018+, MarkedJS (https://github.com/markedjs/)<br>Copyright (c) 2011-2018, Christopher Jeffrey (https://github.com/chjj/)<br>## Markdown<br>Copyright © 2004, John Gruber<br>http://daringfireball.net/<br>All rights reserved.<br>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:<br>\* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.<br>\* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.<br>\* Neither the name “Markdown” nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.<br>This software is provided by the copyright holders and contributors “as is” and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the copyright owner or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage. |
+| [moment](https://momentjs.com)                                           | Copyright (c) JS Foundation and other contributors                            |
+| [moment-timezone](http://momentjs.com/timezone/)                         | Copyright (c) JS Foundation and other contributors                            |
 
 ```
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1043,11 +781,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-#### MPL-2.0
+### MPL-2.0
 
-| Component                | Version |
-| ------------------------ | ------- |
-| github.com/gosimple/slug | v1.15.0 |
+| Component                |
+| ------------------------ |
+| github.com/gosimple/slug |
 
 ```
 Mozilla Public License Version 2.0
@@ -1425,20 +1163,20 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
   defined by the Mozilla Public License, v. 2.0.
 ```
 
-#### MPL-2.0 OR Apache-2.0
+### MPL-2.0 OR Apache-2.0
 
-| Component                                        | Version |
-| ------------------------------------------------ | ------- |
-| [dompurify](https://github.com/cure53/DOMPurify) | 3.4.15  |
+| Component                                        |
+| ------------------------------------------------ |
+| [dompurify](https://github.com/cure53/DOMPurify) |
 
 *The text of the Apache-2.0 license is printed under the heading Apache-2.0,
-for cloud.google.com/go/auth v0.19.0 and others, and is not repeated here.*
+for cloud.google.com/go/auth and others, and is not repeated here.*
 
-#### OFL-1.1 AND MIT
+### OFL-1.1 AND MIT
 
-| Component                                   | Version |
-| ------------------------------------------- | ------- |
-| [font-awesome](https://fontawesome.com/v4/) | 4.7.0   |
+| Component                                   |
+| ------------------------------------------- |
+| [font-awesome](https://fontawesome.com/v4/) |
 
 ```
 Font Awesome 4.7.0 by Dave Gandy - http://fontawesome.io
@@ -1457,12 +1195,12 @@ in its README:
 - Full details: http://fontawesome.io/license/
 ```
 
-#### Unlicense
+### Unlicense
 
-| Component                                              | Version |
-| ------------------------------------------------------ | ------- |
-| github.com/logrusorgru/aurora                          | v2.0.3  |
-| github.com/programmfabrik/fylr-build-plugin/pluginseal | v1.9.0  |
+| Component                                              |
+| ------------------------------------------------------ |
+| github.com/logrusorgru/aurora                          |
+| github.com/programmfabrik/fylr-build-plugin/pluginseal |
 
 ```
 This is free and unencumbered software released into the public domain.
@@ -1491,11 +1229,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <http://unlicense.org/>
 ```
 
-#### Zlib
+### Zlib
 
-| Component                    | Version |
-| ---------------------------- | ------- |
-| github.com/kardianos/service | v1.3.0  |
+| Component                    |
+| ---------------------------- |
+| github.com/kardianos/service |
 
 ```
 Copyright (c) 2015 Daniel Theophanes
@@ -1519,3 +1257,14 @@ freely, subject to the following restrictions:
    3. This notice may not be removed or altered from any source
    distribution.
 ```
+
+### Components without a license file
+
+No license file could be located for the following components. They are listed
+with the license they declare where they declare one; their terms have to be
+established from their upstream sources.
+
+| Component           | License |
+| ------------------- | ------- |
+| github.com/yudai/pp | Unknown |
+| formatcoords        | ISC     |
