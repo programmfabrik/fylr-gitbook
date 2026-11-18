@@ -207,7 +207,6 @@ custom_events:
 | [`custom_types`](#custom_types) | Custom data types — see [Custom Data](../customdata.md). |
 | [`system_rights`](#system_rights) | System rights the plugin adds. |
 | [`custom_events`](#custom_events) | Event types the plugin registers. |
-| `task_modules` | Background tasks of the task manager — see [Task modules](task-modules.md). |
 
 A plugin has no `version` key: its version is the tag of its release, delivered as `build_info.release` by `GET /api/v1/plugin`. A `version` left in an older manifest is ignored.
 
@@ -222,7 +221,6 @@ fylr builds the plugin's URLs and identifiers from `plugin.name`:
 | `<plugin>:<name>` | transition actions, exports, export transports and collections that select a [callback](#callbacks) or a [collection upload](#collection_upload) |
 | `<plugin>:<cookbook>:<recipe>` | [recipes](#fas_config) |
 | `custom:base.<plugin>.<type>` | [custom data types](#custom_types) |
-| `<plugin>.<name>` | [task modules](task-modules.md) in the task manager |
 | `plugin.<plugin>.<right>` | [system rights](#system_rights) |
 | `plugin.<plugin>.config.<section>.<parameter>` | [base config](#base_config) values |
 
@@ -345,7 +343,7 @@ callbacks:
 | `db_pre_save.steps` | The steps run on every save, in order — see [db\_pre\_save](callbacks/db-pre-save.md). |
 | `db_pre_save.steps[].name` | A label for the step, used in the server's debug log. |
 | `db_pre_save.steps[].callback` | The key of the callback in `db_pre_save.callbacks`. |
-| `db_pre_save.steps[].filter` | Restricts the step to objects of the objecttypes in `objecttypes`; `objecttype` is the only `type`, any other makes the plugin invalid. Without a filter the step runs for every save. |
+| `db_pre_save.steps[].filter` | Restricts the step to objects of the objecttypes in `objecttypes`; `objecttype` is the only `type`. Without a filter the step runs for every save. |
 | `db_pre_save.callbacks.<name>` | A callback a step names. |
 | `transition_db_pre_save.<name>` | Runs as a workflow transition action of type `<plugin>:<name>` — see [transition\_db\_pre\_save](callbacks/transition-db-pre-save.md). |
 | `export.<name>` | Runs for an export whose `produce_options.plugin` is `<plugin>:<name>` — see [export](callbacks/export.md). |
@@ -400,7 +398,7 @@ fas_config:
 
 | Key | Type | Meaning |
 | --- | --- | --- |
-| `produce_config` | string | One produce config file, relative to `manifest.yml`. While the plugin is enabled, fylr merges it into the instance's produce config: the versions and upload extensions of its classes are added to those of the instance, and so is its custom metadata. The upload size limits and `uploadallowunknown` stay with the instance. A missing file makes the plugin invalid. |
+| `produce_config` | string | One produce config file, relative to `manifest.yml`. While the plugin is enabled, fylr merges it into the instance's produce config: the versions and upload extensions of its classes are added to those of the instance, and so is its custom metadata. The upload size limits and `uploadallowunknown` stay with the instance. |
 | `cookbooks` | list of strings | Cookbook files, relative to `manifest.yml`. A cookbook is named `<plugin>:<cookbook>` and its recipes `<plugin>:<cookbook>:<recipe>`; every recipe needs a `class`. A cookbook file that is missing, or two cookbooks with the same `name`, make the plugin invalid. |
 
 A cookbook file has the keys `name`, `description`, `homepage` and `recipes`, a map from recipe name to recipe. The cookbooks are active while the plugin is enabled. [File Version Produce Plugin](setup-produce-plugin.md) walks through a plugin that adds a recipe and the version using it.
@@ -420,8 +418,8 @@ custom_types:
     update:                        # optional
       plugin_user:
         reference: <user reference>
-      batch_size: <1–1000>         # optional
-      expires_days: <days>         # optional
+      batch_size: <1–1000>
+      expires_days: <days>
       exec: { … }
 ```
 
@@ -435,7 +433,7 @@ A custom data type is named `custom:base.<plugin>.<type>` in the datamodel. See 
 | `config.mask` | Options of the type in the mask editor, in the same format. |
 | `update.exec` | The updater program — see [Updates](../customdata.md#updates). Without `exec.service` the type has no updater. |
 | `update.plugin_user.reference` | The `reference` of a user the updater runs as, such as `system:root`; easydb and system users only. The program receives `plugin_user` and `plugin_user_access_token`. |
-| `update.batch_size` | How many records fylr hands the program per call, 1 to 1000. Default `100`, which fylr also uses for a value outside that range. |
+| `update.batch_size` | **Required with an updater.** How many records fylr hands the program per call, 1 to 1000; a larger or negative value becomes 100. |
 | `update.expires_days` | How many days an updated value stays valid before it is updated again. Default `30`. The program can set `_expires_at` per record instead. |
 
 The updater only runs when the base config setting `custom_data_type_updater.active` is on, and only for enabled plugins.
@@ -462,8 +460,8 @@ While the plugin is enabled, each entry is a system right named `plugin.<plugin>
 | `comment` | A description. The rights editor does not show it. |
 | `parameters` | A list of settings granted with the right. |
 | `parameters[].name` | **Required.** The setting's name. |
-| `parameters[].type` | **Required.** One of the types below. fylr ignores a parameter of any other type, such as `mask-select`, and logs a warning; the right keeps its other parameters. |
-| `parameters[].choices` | The values for `string-list`, `string-list-one` and `string-list-one-or-zero`, from the lowest to the highest. `preview-versions` and `eas-class-list` get theirs from the instance's file configuration. |
+| `parameters[].type` | **Required.** One of the types below. |
+| `parameters[].choices` | The values for `string-list`, `string-list-one` and `string-list-one-or-zero`, from the lowest to the highest. |
 | `parameters[].merge_policy` | `less` for a `bool`: the user has the setting only if all of their grants have it. |
 
 When a user holds the right more than once — directly and through groups — fylr merges the settings:
@@ -480,7 +478,6 @@ When a user holds the right more than once — directly and through groups — f
 | `pool-select` | pool IDs; none means all pools | the union; a grant without pools means all |
 | `eas-column-select` | file field IDs; none means all | the union; a grant without fields means all |
 | `preview-versions` | `<class>.<version>` names | the union |
-| `eas-class-list` | file class names, such as `image` | the union |
 
 A plugin program checks the right through `GET /api/v1/user/session`: `system_rights` holds `plugin.<plugin>.<name>` with its merged settings. For a root user, `system_rights` holds only `system.root`, which stands for every right.
 
@@ -580,7 +577,6 @@ One command per `exec` delivers the result, either through `stdout: { type: body
 | --- | --- |
 | `value` | `value` as one argument. |
 | `param` | `key` and `value` as two arguments, such as `--mode fast`. |
-| `int` | The number `int` as one argument, such as `{ type: int, int: 90 }`. |
 | `file_in` | `key`, if set, and the path of a file downloaded from `file.url` into the working directory as `file.name`; `file.suffix` is appended to the path, such as `[0]` for ImageMagick. |
 | `file_out` | The path of the file `file.name` in the working directory. After the command, the file is uploaded to `file.url`. |
 | `file_out_stream` | The path of the file `file.name` in the working directory. After the command, the file is the result of the call; it has no `file.url`. |
