@@ -6,7 +6,7 @@
 
 This is an overview over the datamodel that is used as a basis for the tutorial on the JSON Importer.
 
-Download the datamodel as a [JSON file](datamodel.json)
+Download the datamodel as a [JSON file](https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/for-administrators/tools/json-importer/examples/datamodel.json)
 
 ## Tables
 
