@@ -7,7 +7,7 @@ description: >-
 # Third-party software
 
 {% hint style="info" %}
-Compiled from fylr **v6.36.0**, the newest release. Each release replaces these pages with its own.
+Compiled from fylr **[v6.36.0](../releases/2026/v6.36.0.md)**, the newest release. Each release replaces these pages with its own.
 {% endhint %}
 
 fylr is built from third-party software: libraries compiled into the fylr binary and into the web frontend, and programs a fylr installation runs.
@@ -22,4 +22,4 @@ A release lists what it is made of as a Software Bill of Materials, in CycloneDX
 * [fylr_v6.36.0_sbom_image.cdx.json](https://s3.eu-central-1.wasabisys.com/fylr-releases/v6.36.0/fylr_v6.36.0_sbom_image.cdx.json): the container image: fylr, the programs it runs and the packages of its operating system.
 * [fylr_v6.36.0_sbom_binary.cdx.json](https://s3.eu-central-1.wasabisys.com/fylr-releases/v6.36.0/fylr_v6.36.0_sbom_binary.cdx.json): the downloads: what the fylr binary links, and the web frontend inside it.
 
-The page of every release under [Releases](../releases/README.md) links its own.
+Every release has its SBOMs among the downloads on its page under [Releases](../releases/README.md), these on the page of [v6.36.0](../releases/2026/v6.36.0.md).

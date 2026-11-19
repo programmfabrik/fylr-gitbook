@@ -6,7 +6,7 @@ description: >-
 # Programs fylr uses
 
 {% hint style="info" %}
-Compiled from fylr **v6.36.0**, the newest release. Each release replaces these pages with its own.
+Compiled from fylr **[v6.36.0](../releases/2026/v6.36.0.md)**, the newest release. Each release replaces these pages with its own.
 {% endhint %}
 
 fylr hands much of the work on files to established open source programs: they create the previews and renditions, convert documents, read and write metadata and recognize text. fylr runs each of them as a separate program; none of them is part of the fylr binary. The fylr container image contains all of them.

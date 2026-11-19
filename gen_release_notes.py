@@ -267,13 +267,18 @@ def demote(text):
 def front_matter(description):
     return '---\ndescription: >-\n{}\n---\n\n'.format('\n'.join('  ' + l for l in textwrap.wrap(description, 76)))
 
-def compiled_for(tag, published):
+def release_link(tag, page):
+    """the tag as a link to the page of its release, from a page of
+    third-party-software/. page is the path of that page, releases/YYYY/<tag>.md."""
+    return '[{}](../{})'.format(tag, page)
+
+def compiled_for(tag, published, page):
     """the note at the head of a page of the third-party software: the release
-    it is compiled from. published is the day of the release, YYYY-MM-DD, or
-    empty for a build which is not published."""
+    it is compiled from, a link to its page. published is the day of the
+    release, YYYY-MM-DD, or empty for a build which is not published."""
     day = ', published {}'.format(published) if published else ''
     return ('{{% hint style="info" %}}\nCompiled from fylr **{}**{}, the newest release. '
-        'Each release replaces these pages with its own.\n{{% endhint %}}\n\n').format(tag, day)
+        'Each release replaces these pages with its own.\n{{% endhint %}}\n\n').format(release_link(tag, page), day)
 
 def below_title(text, note):
     """the note below the title of a page, the first heading # of its text."""
@@ -283,12 +288,12 @@ def below_title(text, note):
             return '\n'.join(lines[:i + 1]) + '\n\n' + note + '\n'.join(lines[i + 1:]).lstrip('\n')
     return note + text
 
-def put_third_party(tag, published, texts, downloads):
+def put_third_party(tag, published, release_page, texts, downloads):
     """write the pages of the third-party software of a release, published on
-    the day YYYY-MM-DD. texts are the page assets by their suffix, downloads
-    the (name, url, what) of its SBOMs."""
+    the day YYYY-MM-DD, whose page is release_page. texts are the page assets
+    by their suffix, downloads the (name, url, what) of its SBOMs."""
     os.makedirs(THIRD_PARTY_DIR, exist_ok = True)
-    note = compiled_for(tag, published)
+    note = compiled_for(tag, published, release_page)
     md = front_matter('What fylr is made of: the third-party software it ships, the license of each, and the SBOMs of a release.')
     md += '# Third-party software\n\n' + note
     md += 'fylr is built from third-party software: libraries compiled into the fylr binary and into the web frontend, and programs a fylr installation runs.\n\n'
@@ -307,7 +312,8 @@ def put_third_party(tag, published, texts, downloads):
         md += 'A release lists what it is made of as a Software Bill of Materials, in CycloneDX 1.6 (JSON). The ones of {}:\n\n'.format(tag)
         for name, url, what in downloads:
             md += '* [{}]({}): {}.\n'.format(name, url, what)
-        md += '\nThe page of every release under [Releases](../releases/README.md) links its own.\n'
+        md += ('\nEvery release has its SBOMs among the downloads on its page under [Releases](../releases/README.md), '
+            'these on the page of {}.\n').format(release_link(tag, release_page))
     with open(os.path.join(THIRD_PARTY_DIR, 'README.md'), 'w') as f:
         f.write(md)
     print('* third-party page {}/README.md'.format(THIRD_PARTY_DIR))
@@ -317,7 +323,8 @@ rels_per_year = read_existing_rels()
 
 fs = Filestore()
 
-# the newest release with the third-party pages: (tag, day published, assets)
+# the newest release with the third-party pages: (tag, day published, its page,
+# assets)
 third_party = None
 
 # per-release pages
@@ -344,16 +351,15 @@ for rel in gh.get_releases():
     name = rel['name'].strip()
     tag = rel['tag_name']
     year = datetime.datetime.fromisoformat(rel['published_at'][:10]).year
+    fn = 'releases/{}/{}.md'.format(year, tag)
 
     assets = third_party_assets(rel)
     if assets and (third_party is None or version_key(tag) > version_key(third_party[0])):
-        third_party = (tag, rel['published_at'][:10], assets)
+        third_party = (tag, rel['published_at'][:10], fn, assets)
 
     if year not in rels_per_year:
         rels_per_year[year] = []
     merge_rel(rels_per_year[year], (tag, name, rel['published_at'][:10]))
-
-    fn = 'releases/{}/{}.md'.format(year, tag)
 
     md = MDPage()
     md.add_header(name)
@@ -390,7 +396,7 @@ for rel in gh.get_releases():
 # the pages of the third-party software. the loop above has put the SBOMs into
 # the filestore, like every download.
 if third_party is not None:
-    tag, published, assets = third_party
+    tag, published, release_page, assets = third_party
     texts = {}
     for suffix, page, toc, title, description in THIRD_PARTY_PAGES:
         if suffix in assets:
@@ -400,7 +406,7 @@ if third_party is not None:
                     texts[suffix] = f.read()
     downloads = [ (assets[suffix]['name'], fs.get_url(tag + '/' + assets[suffix]['name']), what)
         for suffix, what in THIRD_PARTY_SBOMS if suffix in assets ]
-    put_third_party(tag, published, texts, downloads)
+    put_third_party(tag, published, release_page, texts, downloads)
 
 # releases summaries, newest year first
 years = sorted(rels_per_year.keys(), reverse = True)
