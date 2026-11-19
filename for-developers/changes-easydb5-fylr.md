@@ -347,7 +347,7 @@ This endpoint was **removed** — the easydb 5 login flow (`GET /session` + `POS
 
 New endpoint offering:
 
-* `POST /purgeall`: purge all data and start over; `set_password` sets the root password of the wiped instance. Requires `allowpurge` in both `fylr.yml` and the base config, and the actual root user.
+* `POST /purgeall`: purge all data and start over; afterwards `root` has the password `admin` (up to fylr 6.35, `set_password` set another one). Requires `allowpurge` in both `fylr.yml` and the base config, and the actual root user.
 * `POST /reindex`: initiate a reindex; `blockFrontend=1` blocks the frontend while it runs. Like easydb 5's `settings/reindex` it requires `system.root`, but no enable flag.
 * `POST /sendmail` and `/sendmail/test`.
 * `PUT /backup/new`, `GET|DELETE /backup/<id>`, `GET /backup/<id>/download`, `GET /backup/list`: backups, performed in the background (require the `system.backup` right).

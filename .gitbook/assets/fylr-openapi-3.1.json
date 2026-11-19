@@ -37327,7 +37327,7 @@
       "description": "Wipes the entire instance: drops the search index, optionally purges\nfile storage, and resets the database to an empty state, then\nre-initializes a fresh instance. This is a full factory reset, not a\ncleanup of soft-deleted records. Restricted to the `system:root`\nuser and cannot be undone. Purging must additionally be enabled in\nthe configuration (yml `fylr.allowpurge` and base config\n`system.purge.allow_purge`), otherwise the call is rejected with\n`code: PurgeNotAllowed`.\n\nDiffers from easydb 5: holding the `system.root` right is not enough —\nthe caller must be the actual `system:root` user, otherwise the call\nreturns `code: PurgeSystemRootOnly`. In easydb 5 the equivalent\n`POST /api/v1/settings/purgeall` required only \"an authenticated session\nwith the `system.root` privilege\".\n",
       "post": {
         "summary": "Wipe and re-initialize the entire instance (factory reset).",
-        "description": "Drops the search index, optionally purges file storage (base config\n`system.purge.purge_storage`), resets the database to an empty\nstate and re-initializes a fresh instance. This destroys all\ndata — it is not a cleanup of soft-deleted records. Restricted to\nthe `system:root` user and cannot be undone.\n\nPurging must be enabled in the configuration: both the yml\n`fylr.allowpurge` and the base config `system.purge.allow_purge`\nmust be set, otherwise the call returns `code: PurgeNotAllowed`.\n",
+        "description": "Drops the search index, optionally purges file storage (base config\n`system.purge.purge_storage`), resets the database to an empty\nstate and re-initializes a fresh instance. This destroys all\ndata — it is not a cleanup of soft-deleted records. Restricted to\nthe `system:root` user and cannot be undone.\n\nPurging must be enabled in the configuration: both the yml\n`fylr.allowpurge` and the base config `system.purge.allow_purge`\nmust be set, otherwise the call returns `code: PurgeNotAllowed`.\n\nAfterwards log in again as `root` with the password `admin`: the\nold tokens are invalid (`401` `InvalidToken`).\n",
         "parameters": [
           {
             "name": "redirect",
@@ -37337,15 +37337,6 @@
               "type": "string"
             },
             "description": "Optional URL. If set, the server starts the purge in the\nbackground and immediately responds with a `302` redirect to\nthis URL instead of waiting for the purge to finish.\n"
-          },
-          {
-            "name": "set_password",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Optional new password for the `system:root` user, applied\nafter the instance has been re-initialized.\n"
           }
         ],
         "responses": {

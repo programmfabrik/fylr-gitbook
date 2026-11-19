@@ -35589,6 +35589,9 @@ paths:
                 Purging must be enabled in the configuration: both the yml
                 `fylr.allowpurge` and the base config `system.purge.allow_purge`
                 must be set, otherwise the call returns `code: PurgeNotAllowed`.
+
+                Afterwards log in again as `root` with the password `admin`: the
+                old tokens are invalid (`401` `InvalidToken`).
             parameters:
                 - name: redirect
                   in: query
@@ -35599,14 +35602,6 @@ paths:
                     Optional URL. If set, the server starts the purge in the
                     background and immediately responds with a `302` redirect to
                     this URL instead of waiting for the purge to finish.
-                - name: set_password
-                  in: query
-                  required: false
-                  schema:
-                    type: string
-                  description: |
-                    Optional new password for the `system:root` user, applied
-                    after the instance has been re-initialized.
             responses:
                 "200":
                     description: The purge completed.
