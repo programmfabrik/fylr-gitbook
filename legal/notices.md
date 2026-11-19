@@ -7,7 +7,7 @@ description: >-
 # Legal notices
 
 {% hint style="info" %}
-Compiled from fylr **[v6.36.0](../releases/2026/v6.36.0.md)**, the newest release. Each release replaces this page with its own.
+Compiled from fylr **[v6.36.0-test.3](../releases/2026/v6.36.0-test.3.md)**, published 2026-11-19, the newest release. Each release replaces this page with its own.
 {% endhint %}
 
 ## fylr
