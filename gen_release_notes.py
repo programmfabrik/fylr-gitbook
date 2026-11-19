@@ -208,30 +208,28 @@ def put_records(tarname):
                 f.write(text)
             print('* release record {}'.format(fn))
 
-# the third-party software of the newest release which carries it (6.36 and
-# later): its LEGAL.md and its page on the programs fylr runs become the pages
-# of third-party-software/, whose first page links the SBOMs of that release.
-# an asset of a release is named fylr_<tag>_<suffix>.
-THIRD_PARTY_DIR = 'third-party-software'
-THIRD_PARTY_PAGES = [
-    # suffix of the asset, page, title in the table of contents, the title
-    # the page gets above the text (None: the text has its own), description
-    ('LEGAL.md', 'legal-notices.md', 'Legal notices', 'Legal notices',
+# the legal pages of the newest release which carries them (6.36 and later):
+# its LEGAL.md, its SBOMs and its page on the programs fylr runs become the
+# pages of legal/, below License & Legal (license-management.md, written by
+# hand), which links them. an asset of a release is named
+# fylr_<tag>_<suffix>.
+LEGAL_DIR = 'legal'
+LEGAL_PAGES = [
+    # suffix of the asset, page, the title the page gets above the text
+    # (None: the text has its own), description
+    ('LEGAL.md', 'notices.md', 'Legal notices',
         'The license of fylr and the license texts of the third-party software it contains, as fylr shows them under About.'),
-    ('programs.md', 'programs.md', 'Programs', None,
+    ('programs.md', 'programs.md', None,
         'The open source programs fylr runs, and what it uses each of them for.'),
 ]
-THIRD_PARTY_SBOMS = [
+LEGAL_SBOM_PAGE = 'sbom.md'
+LEGAL_SBOMS = [
     ('sbom_image.cdx.json', 'the container image: fylr, the programs it runs and the packages of its operating system'),
-    ('sbom_binary.cdx.json', 'the downloads: what the fylr binary links, and the web frontend inside it'),
+    ('sbom_binary.cdx.json', 'the downloads: the fylr binary with what it links, and the web frontend inside it'),
 ]
-THIRD_PARTY_LINKS = {
-    'LEGAL.md': 'the license of fylr, and the license texts and copyright notices of the third-party software it contains, as fylr shows them under *About*. A release ships them as `LEGAL.md`, next to `LICENSE`.',
-    'programs.md': 'the open source programs fylr runs, and what for.',
-}
 
-def third_party_assets(rel):
-    """the assets of a release by their suffix, when it has the third-party
+def legal_assets(rel):
+    """the assets of a release by their suffix, when it has the legal
     pages: a release without LEGAL.md has none."""
     prefix = 'fylr_{}_'.format(rel['tag_name'])
     found = { asset['name'][len(prefix):]: asset for asset in rel['assets'] if asset['name'].startswith(prefix) }
@@ -268,17 +266,17 @@ def front_matter(description):
     return '---\ndescription: >-\n{}\n---\n\n'.format('\n'.join('  ' + l for l in textwrap.wrap(description, 76)))
 
 def release_link(tag, page):
-    """the tag as a link to the page of its release, from a page of
-    third-party-software/. page is the path of that page, releases/YYYY/<tag>.md."""
+    """the tag as a link to the page of its release, from a page of legal/.
+    page is the path of that page, releases/YYYY/<tag>.md."""
     return '[{}](../{})'.format(tag, page)
 
 def compiled_for(tag, published, page):
-    """the note at the head of a page of the third-party software: the release
-    it is compiled from, a link to its page. published is the day of the
-    release, YYYY-MM-DD, or empty for a build which is not published."""
+    """the note at the head of a legal page: the release it is compiled from,
+    a link to its page. published is the day of the release, YYYY-MM-DD, or
+    empty for a build which is not published."""
     day = ', published {}'.format(published) if published else ''
     return ('{{% hint style="info" %}}\nCompiled from fylr **{}**{}, the newest release. '
-        'Each release replaces these pages with its own.\n{{% endhint %}}\n\n').format(release_link(tag, page), day)
+        'Each release replaces this page with its own.\n{{% endhint %}}\n\n').format(release_link(tag, page), day)
 
 def below_title(text, note):
     """the note below the title of a page, the first heading # of its text."""
@@ -288,44 +286,42 @@ def below_title(text, note):
             return '\n'.join(lines[:i + 1]) + '\n\n' + note + '\n'.join(lines[i + 1:]).lstrip('\n')
     return note + text
 
-def put_third_party(tag, published, release_page, texts, downloads):
-    """write the pages of the third-party software of a release, published on
-    the day YYYY-MM-DD, whose page is release_page. texts are the page assets
-    by their suffix, downloads the (name, url, what) of its SBOMs."""
-    os.makedirs(THIRD_PARTY_DIR, exist_ok = True)
+def put_legal(tag, published, release_page, texts, downloads):
+    """write the legal pages of a release, published on the day YYYY-MM-DD,
+    whose page is release_page. texts are the page assets by their suffix,
+    downloads the (name, url, what) of its SBOMs."""
+    os.makedirs(LEGAL_DIR, exist_ok = True)
     note = compiled_for(tag, published, release_page)
-    md = front_matter('What fylr is made of: the third-party software it ships, the license of each, and the SBOMs of a release.')
-    md += '# Third-party software\n\n' + note
-    md += 'fylr is built from third-party software: libraries compiled into the fylr binary and into the web frontend, and programs a fylr installation runs.\n\n'
-    for suffix, page, toc, title, description in THIRD_PARTY_PAGES:
+    pages = []
+    for suffix, page, title, description in LEGAL_PAGES:
         if suffix not in texts:
             continue
         text = texts[suffix].replace('\r\n', '\n').strip('\n') + '\n'
         if title is not None:
             text = '# {}\n\n{}'.format(title, demote(text))
-        with open(os.path.join(THIRD_PARTY_DIR, page), 'w') as f:
-            f.write(front_matter(description) + below_title(text, note))
-        print('* third-party page {}/{}'.format(THIRD_PARTY_DIR, page))
-        md += '* [{}]({}): {}\n'.format(toc, page, THIRD_PARTY_LINKS[suffix])
+        pages.append((page, front_matter(description) + below_title(text, note)))
     if downloads:
-        md += '\n## SBOM\n\n'
-        md += 'A release lists what it is made of as a Software Bill of Materials, in CycloneDX 1.6 (JSON). The ones of {}:\n\n'.format(tag)
+        md = front_matter('The SBOMs of fylr: what a release is made of, fylr and the third-party software in it, for security scans.')
+        md += '# SBOM\n\n' + note
+        md += ('A release lists what it is made of, fylr and the third-party software in it, as a Software Bill of Materials (SBOM) '
+            'in CycloneDX 1.6 (JSON), which security scanners such as Trivy or Grype read. The ones of {}:\n\n').format(tag)
         for name, url, what in downloads:
             md += '* [{}]({}): {}.\n'.format(name, url, what)
-        md += ('\nEvery release has its SBOMs among the downloads on its page under [Releases](../releases/README.md), '
-            'these on the page of {}.\n').format(release_link(tag, release_page))
-    with open(os.path.join(THIRD_PARTY_DIR, 'README.md'), 'w') as f:
-        f.write(md)
-    print('* third-party page {}/README.md'.format(THIRD_PARTY_DIR))
+        md += '\nThe SBOMs of the other releases are among the downloads on their pages under [Releases](../releases/README.md).\n'
+        pages.append((LEGAL_SBOM_PAGE, md))
+    for page, md in pages:
+        with open(os.path.join(LEGAL_DIR, page), 'w') as f:
+            f.write(md)
+        print('* legal page {}/{}'.format(LEGAL_DIR, page))
 
 gh = Github(sys.argv[1])
 rels_per_year = read_existing_rels()
 
 fs = Filestore()
 
-# the newest release with the third-party pages: (tag, day published, its page,
+# the newest release with the legal pages: (tag, day published, its page,
 # assets)
-third_party = None
+legal = None
 
 # per-release pages
 for rel in gh.get_releases():
@@ -353,9 +349,9 @@ for rel in gh.get_releases():
     year = datetime.datetime.fromisoformat(rel['published_at'][:10]).year
     fn = 'releases/{}/{}.md'.format(year, tag)
 
-    assets = third_party_assets(rel)
-    if assets and (third_party is None or version_key(tag) > version_key(third_party[0])):
-        third_party = (tag, rel['published_at'][:10], fn, assets)
+    assets = legal_assets(rel)
+    if assets and (legal is None or version_key(tag) > version_key(legal[0])):
+        legal = (tag, rel['published_at'][:10], fn, assets)
 
     if year not in rels_per_year:
         rels_per_year[year] = []
@@ -393,20 +389,20 @@ for rel in gh.get_releases():
     md.add_raw(digests_last(body))
     md.write(fn)
 
-# the pages of the third-party software. the loop above has put the SBOMs into
-# the filestore, like every download.
-if third_party is not None:
-    tag, published, release_page, assets = third_party
+# the legal pages. the loop above has put the SBOMs into the filestore, like
+# every download.
+if legal is not None:
+    tag, published, release_page, assets = legal
     texts = {}
-    for suffix, page, toc, title, description in THIRD_PARTY_PAGES:
+    for suffix, page, title, description in LEGAL_PAGES:
         if suffix in assets:
             with tempfile.NamedTemporaryFile() as tmpfile:
                 gh.get_file(assets[suffix]['url'], tmpfile)
                 with open(tmpfile.name, 'r', encoding = 'utf-8') as f:
                     texts[suffix] = f.read()
     downloads = [ (assets[suffix]['name'], fs.get_url(tag + '/' + assets[suffix]['name']), what)
-        for suffix, what in THIRD_PARTY_SBOMS if suffix in assets ]
-    put_third_party(tag, published, release_page, texts, downloads)
+        for suffix, what in LEGAL_SBOMS if suffix in assets ]
+    put_legal(tag, published, release_page, texts, downloads)
 
 # releases summaries, newest year first
 years = sorted(rels_per_year.keys(), reverse = True)

@@ -1,10 +1,10 @@
 ---
 description: >-
   Overview of fylr licenses and how they define the capabilities of a fylr
-  installation.
+  installation, and the legal notices, SBOMs and programs of fylr.
 ---
 
-# License
+# License & Legal
 
 For all installations a fylr license is required, except for [cases explained below](license-management.md#fylr-with-an-invalid-or-no-license).
 
@@ -124,6 +124,14 @@ In case of an expired license, no data ist lost.
 If you cancel the subscription contract, you will not be able to use fylr from the cancellation/end date.
 
 If you cancel a contract, which grants you the right to get fylr updates, which is linked to a license purchase (buy), you will not be able to use further updates. However, you are allowed to continue using all fylr versions, which were released before the cancelation / end date, since the license was bought.
+
+## Legal notices, SBOM and programs
+
+The newest release writes these pages, and each release replaces them with its own:
+
+* [Legal notices](legal/notices.md): the license of fylr, and the license texts and copyright notices of the third-party software it contains, as fylr shows them under *About*. A release ships them as `LEGAL.md`, next to `LICENSE`.
+* [SBOM](legal/sbom.md): what a release is made of, fylr and the third-party software in it, as Software Bills of Materials for security scans.
+* [Programs fylr uses](legal/programs.md): the open source programs fylr runs, and what for.
 
 ## Next step: Download, install and test
 
