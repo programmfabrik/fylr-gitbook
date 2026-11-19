@@ -35949,6 +35949,52 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/SystemRightRequiredError'
+    /system/legal:
+        x-path: /system/legal
+        description: |
+            The legal texts of this **fylr**: the license fylr itself is given under
+            and the attribution of the third-party software it ships. Together they
+            are the file `LEGAL.md` of a release archive and of the container image;
+            this endpoint serves them so an application can show them in-product.
+            Both are Markdown.
+        get:
+            summary: Get the license and the third-party attribution
+            description: |
+                Returns the license of fylr and the attribution of the third-party
+                components this server ships: the ones linked into the server, and the
+                ones which the web frontend it delivers lists (`web/thirdparty.json`
+                of the frontend build). A license several components share is printed
+                once.
+
+                The response is the same for every caller. It changes with the build,
+                and with the web frontend the server is configured to deliver.
+
+                An authenticated user is required: attribution is owed to the
+                recipients of the software.
+            responses:
+                "200":
+                    description: |
+                        The legal texts of this server.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    license:
+                                        type: string
+                                        description: |
+                                            Markdown: the terms fylr itself is given under.
+                                    notice:
+                                        type: string
+                                        description: |
+                                            Markdown: every third-party component fylr ships — the
+                                            Go modules of the server and the third-party code inside
+                                            the web frontend — with a table of the components and the
+                                            text of every license. A server whose web frontend carries
+                                            no list has the components of the server alone.
+                "401":
+                    description: |
+                        No authenticated user (`UserRequired`).
     /system/location/new:
         x-path: /system
         description: |

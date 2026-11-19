@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, os, datetime, json, re, glob, http.client, urllib.parse, tempfile, subprocess, tarfile
+import sys, os, datetime, json, re, glob, http.client, urllib.parse, tempfile, subprocess, tarfile, textwrap
 
 # number of most recent releases fetched from github. releases older than that
 # are kept in the index pages as they are, they are never regenerated.
@@ -208,10 +208,120 @@ def put_records(tarname):
                 f.write(text)
             print('* release record {}'.format(fn))
 
+# the legal pages of the newest release which carries them (6.36 and later):
+# its LEGAL.md, its SBOMs and its page on the programs fylr runs become the
+# pages of legal/, below License & Legal (license-management.md, written by
+# hand), which links them. an asset of a release is named
+# fylr_<tag>_<suffix>.
+LEGAL_DIR = 'legal'
+LEGAL_PAGES = [
+    # suffix of the asset, page, the title the page gets above the text
+    # (None: the text has its own), description
+    ('LEGAL.md', 'notices.md', 'Legal notices',
+        'The license of fylr and the license texts of the third-party software it contains, as fylr shows them under About.'),
+    ('programs.md', 'programs.md', None,
+        'The open source programs fylr runs, and what it uses each of them for.'),
+]
+LEGAL_SBOM_PAGE = 'sbom.md'
+LEGAL_SBOMS = [
+    ('sbom_image.cdx.json', 'the container image: fylr, the programs it runs and the packages of its operating system'),
+    ('sbom_binary.cdx.json', 'the downloads: the fylr binary with what it links, and the web frontend inside it'),
+]
+
+def legal_assets(rel):
+    """the assets of a release by their suffix, when it has the legal
+    pages: a release without LEGAL.md has none."""
+    prefix = 'fylr_{}_'.format(rel['tag_name'])
+    found = { asset['name'][len(prefix):]: asset for asset in rel['assets'] if asset['name'].startswith(prefix) }
+    return found if 'LEGAL.md' in found else {}
+
+def version_key(tag):
+    return tuple(int(n) for n in re.findall(r'\d+', tag.split('-')[0]))
+
+FENCE_RE = re.compile(r'^ {0,3}(`{3,}|~{3,})')
+
+def demote(text):
+    """every heading one level down, for a text below the title of a page. a
+    heading underlined with = becomes one with ##. a code block stays as it
+    is."""
+    out = []
+    fence = None
+    for line in text.split('\n'):
+        m = FENCE_RE.match(line)
+        if fence is not None:
+            closing = line.strip()
+            if closing and set(closing) == {fence[0]} and len(closing) >= len(fence):
+                fence = None
+        elif m:
+            fence = m.group(1)
+        elif re.fullmatch(r'=+\s*', line) and out and out[-1].strip() and not out[-1].startswith('#'):
+            out[-1] = '## ' + out[-1].strip()
+            continue
+        elif re.match(r'#{1,5} ', line):
+            line = '#' + line
+        out.append(line)
+    return '\n'.join(out)
+
+def front_matter(description):
+    return '---\ndescription: >-\n{}\n---\n\n'.format('\n'.join('  ' + l for l in textwrap.wrap(description, 76)))
+
+def release_link(tag, page):
+    """the tag as a link to the page of its release, from a page of legal/.
+    page is the path of that page, releases/YYYY/<tag>.md."""
+    return '[{}](../{})'.format(tag, page)
+
+def compiled_for(tag, published, page):
+    """the note at the head of a legal page: the release it is compiled from,
+    a link to its page. published is the day of the release, YYYY-MM-DD, or
+    empty for a build which is not published."""
+    day = ', published {}'.format(published) if published else ''
+    return ('{{% hint style="info" %}}\nCompiled from fylr **{}**{}, the newest release. '
+        'Each release replaces this page with its own.\n{{% endhint %}}\n\n').format(release_link(tag, page), day)
+
+def below_title(text, note):
+    """the note below the title of a page, the first heading # of its text."""
+    lines = text.split('\n')
+    for i, line in enumerate(lines):
+        if line.startswith('# '):
+            return '\n'.join(lines[:i + 1]) + '\n\n' + note + '\n'.join(lines[i + 1:]).lstrip('\n')
+    return note + text
+
+def put_legal(tag, published, release_page, texts, downloads):
+    """write the legal pages of a release, published on the day YYYY-MM-DD,
+    whose page is release_page. texts are the page assets by their suffix,
+    downloads the (name, url, what) of its SBOMs."""
+    os.makedirs(LEGAL_DIR, exist_ok = True)
+    note = compiled_for(tag, published, release_page)
+    pages = []
+    for suffix, page, title, description in LEGAL_PAGES:
+        if suffix not in texts:
+            continue
+        text = texts[suffix].replace('\r\n', '\n').strip('\n') + '\n'
+        if title is not None:
+            text = '# {}\n\n{}'.format(title, demote(text))
+        pages.append((page, front_matter(description) + below_title(text, note)))
+    if downloads:
+        md = front_matter('The SBOMs of fylr: what a release is made of, fylr and the third-party software in it, for security scans.')
+        md += '# SBOM\n\n' + note
+        md += ('A release lists what it is made of, fylr and the third-party software in it, as a Software Bill of Materials (SBOM) '
+            'in CycloneDX 1.6 (JSON), which security scanners such as Trivy or Grype read. The ones of {}:\n\n').format(tag)
+        for name, url, what in downloads:
+            md += '* [{}]({}): {}.\n'.format(name, url, what)
+        md += '\nReleases before fylr 6.36 have no SBOM. From 6.36 on, the page of each release under [Releases](../releases/README.md) lists its two SBOMs among its downloads.\n'
+        pages.append((LEGAL_SBOM_PAGE, md))
+    for page, md in pages:
+        with open(os.path.join(LEGAL_DIR, page), 'w') as f:
+            f.write(md)
+        print('* legal page {}/{}'.format(LEGAL_DIR, page))
+
 gh = Github(sys.argv[1])
 rels_per_year = read_existing_rels()
 
 fs = Filestore()
+
+# the newest release with the legal pages: (tag, day published, its page,
+# assets)
+legal = None
 
 # per-release pages
 for rel in gh.get_releases():
@@ -237,12 +347,15 @@ for rel in gh.get_releases():
     name = rel['name'].strip()
     tag = rel['tag_name']
     year = datetime.datetime.fromisoformat(rel['published_at'][:10]).year
+    fn = 'releases/{}/{}.md'.format(year, tag)
+
+    assets = legal_assets(rel)
+    if assets and (legal is None or version_key(tag) > version_key(legal[0])):
+        legal = (tag, rel['published_at'][:10], fn, assets)
 
     if year not in rels_per_year:
         rels_per_year[year] = []
     merge_rel(rels_per_year[year], (tag, name, rel['published_at'][:10]))
-
-    fn = 'releases/{}/{}.md'.format(year, tag)
 
     md = MDPage()
     md.add_header(name)
@@ -275,6 +388,21 @@ for rel in gh.get_releases():
 
     md.add_raw(digests_last(body))
     md.write(fn)
+
+# the legal pages. the loop above has put the SBOMs into the filestore, like
+# every download.
+if legal is not None:
+    tag, published, release_page, assets = legal
+    texts = {}
+    for suffix, page, title, description in LEGAL_PAGES:
+        if suffix in assets:
+            with tempfile.NamedTemporaryFile() as tmpfile:
+                gh.get_file(assets[suffix]['url'], tmpfile)
+                with open(tmpfile.name, 'r', encoding = 'utf-8') as f:
+                    texts[suffix] = f.read()
+    downloads = [ (assets[suffix]['name'], fs.get_url(tag + '/' + assets[suffix]['name']), what)
+        for suffix, what in LEGAL_SBOMS if suffix in assets ]
+    put_legal(tag, published, release_page, texts, downloads)
 
 # releases summaries, newest year first
 years = sorted(rels_per_year.keys(), reverse = True)

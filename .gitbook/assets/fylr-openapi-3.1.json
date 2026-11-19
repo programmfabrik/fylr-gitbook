@@ -37763,6 +37763,39 @@
         }
       }
     },
+    "/system/legal": {
+      "x-path": "/system/legal",
+      "description": "The legal texts of this **fylr**: the license fylr itself is given under\nand the attribution of the third-party software it ships. Together they\nare the file `LEGAL.md` of a release archive and of the container image;\nthis endpoint serves them so an application can show them in-product.\nBoth are Markdown.\n",
+      "get": {
+        "summary": "Get the license and the third-party attribution",
+        "description": "Returns the license of fylr and the attribution of the third-party\ncomponents this server ships: the ones linked into the server, and the\nones which the web frontend it delivers lists (`web/thirdparty.json`\nof the frontend build). A license several components share is printed\nonce.\n\nThe response is the same for every caller. It changes with the build,\nand with the web frontend the server is configured to deliver.\n\nAn authenticated user is required: attribution is owed to the\nrecipients of the software.\n",
+        "responses": {
+          "200": {
+            "description": "The legal texts of this server.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "license": {
+                      "type": "string",
+                      "description": "Markdown: the terms fylr itself is given under.\n"
+                    },
+                    "notice": {
+                      "type": "string",
+                      "description": "Markdown: every third-party component fylr ships — the\nGo modules of the server and the third-party code inside\nthe web frontend — with a table of the components and the\ntext of every license. A server whose web frontend carries\nno list has the components of the server alone.\n"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No authenticated user (`UserRequired`).\n"
+          }
+        }
+      }
+    },
     "/system/location/new": {
       "x-path": "/system",
       "description": "Creates a new storage location; the body `id` must be `0`. A driver\nconnection problem does not block the save — the location is stored\nwith a non-`connected` `status`. Requires `system.location` (or\n`system.root`).\n",
