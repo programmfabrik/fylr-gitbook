@@ -393,51 +393,52 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ### BSD-3-Clause
 
-| Component                                                                    | Copyright notice                                                                 |
-| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| [Go standard library](https://go.dev/)                                       | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| [ace-builds](https://github.com/ajaxorg/ace-builds)                          | Copyright (c) 2010, Ajax.org B.V.<br>All rights reserved.<br>`<name>`: Ajax.org B.V. |
-| [chroma.js](https://gka.github.io/chroma.js/)                                | chroma.js - JavaScript library for color conversions<br>Copyright (c) 2011-2019, Gregor Aisch<br>All rights reserved.<br>`<name>`: Gregor Aisch<br>chroma.js includes colors from colorbrewer2.org, which are released under<br>the following license:<br>Copyright (c) 2002 Cynthia Brewer, Mark Harrower,<br>and The Pennsylvania State University.<br>Licensed under the Apache License, Version 2.0 (the "License");<br>you may not use this file except in compliance with the License.<br>You may obtain a copy of the License at<br>http://www.apache.org/licenses/LICENSE-2.0<br>Unless required by applicable law or agreed to in writing,<br>software distributed under the License is distributed on an<br>"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,<br>either express or implied. See the License for the specific<br>language governing permissions and limitations under the License.<br>Named colors are taken from X11 Color Names.<br>http://www.w3.org/TR/css3-color/#svg-color |
-| dario.cat/mergo                                                              | Copyright (c) 2013 Dario Castañé. All rights reserved.<br>Copyright (c) 2012 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/PuerkitoBio/goquery                                               | Copyright (c) 2012-2021, Martin Angers & Contributors<br>All rights reserved.<br>`<name>`: the author |
-| github.com/aws/aws-sdk-go-v2/internal/sync/singleflight                      | Copyright (c) 2009 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/aws/smithy-go/internal/sync/singleflight                          | Copyright (c) 2009 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/bahlo/generic-list-go                                             | Copyright (c) 2009 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/dop251/goja/ftoa/internal/fast                                    | Copyright 2014, the V8 project authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/go-webauthn/webauthn                                              | Copyright (c) 2025 github.com/go-webauthn/webauthn authors.<br>`<name>`: the copyright holder |
-| github.com/go-webauthn/x/encoding/asn1                                       | Copyright (c) 2021-2023 github.com/go-webauthn authors.<br>`<name>`: the copyright holder |
-| github.com/google/uuid                                                       | Copyright (c) 2009,2014 Google Inc. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/googleapis/gax-go/v2                                              | Copyright 2016, Google Inc.<br>All rights reserved.<br>`<name>`: Google Inc.     |
-| github.com/gorilla/css/scanner                                               | Copyright (c) 2023 The Gorilla Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/gorilla/mux                                                       | Copyright (c) 2023 The Gorilla Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/miekg/dns                                                         | Copyright (c) 2009, The Go Authors. Extensions copyright (c) 2011, Miek Gieben.<br>All rights reserved.<br>`<name>`: the copyright holder |
-| github.com/munnerz/goautoneg                                                 | Copyright (c) 2011, Open Knowledge Foundation Ltd.<br>All rights reserved.<br>`<name>`: the Open Knowledge Foundation Ltd. |
-| github.com/prometheus/client_golang/internal/github.com/golang/gddo/httputil | Copyright (c) 2013 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/remyoudompheng/bigfft                                             | Copyright (c) 2012 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/shirou/gopsutil/v4                                                | gopsutil is distributed under BSD license reproduced below.<br>Copyright (c) 2014, WAKAYAMA Shirou<br>All rights reserved.<br>`<name>`: the gopsutil authors<br>internal/common/binary.go in the gopsutil is copied and modified from golang/encoding/binary.go.<br>Copyright (c) 2009 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| github.com/xuri/efp                                                          | Copyright (c) 2017 - 2025 Ri Xu All rights reserved.<br>`<name>`: efp            |
-| github.com/xuri/excelize/v2                                                  | Copyright (c) 2016-2026 The excelize Authors.<br>Copyright (c) 2011-2017 Geoffrey J. Teale<br>All rights reserved.<br>`<name>`: the copyright holder |
-| github.com/xuri/nfp                                                          | Copyright (c) 2022-2025 Ri Xu All rights reserved.<br>`<name>`: nfp              |
-| golang.org/x/crypto                                                          | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/image                                                           | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/mod                                                             | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/net                                                             | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/oauth2                                                          | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/sync                                                            | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/sys                                                             | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/text                                                            | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/tools/godoc/vfs                                                 | Copyright 2009 The Go Authors.<br>`<name>`: Google LLC                           |
-| golang.org/x/xerrors                                                         | Copyright 2019 The Go Authors.<br>`<name>`: Google LLC                           |
-| google.golang.org/api                                                        | Copyright (c) 2011 Google Inc. All rights reserved.<br>`<name>`: Google Inc.     |
-| google.golang.org/api/internal/third_party/uritemplates                      | Copyright (c) 2013 Joshua Tacoma. All rights reserved.<br>`<name>`: Google Inc.  |
-| google.golang.org/protobuf                                                   | Copyright (c) 2018 The Go Authors. All rights reserved.<br>`<name>`: Google Inc. |
-| modernc.org/libc                                                             | Copyright (c) 2017 The Libc Authors. All rights reserved.<br>`<name>`: the authors |
-| modernc.org/mathutil                                                         | Copyright (c) 2014 The mathutil Authors. All rights reserved.<br>`<name>`: the authors |
-| modernc.org/memory                                                           | Copyright (c) 2017 The Memory Authors. All rights reserved.<br>`<name>`: the authors |
-| modernc.org/sqlite                                                           | Copyright (c) 2017 The Sqlite Authors. All rights reserved.<br>`<name>`: the copyright holder |
+| Component                                                                    | Name in the license                 | Copyright notice                                                              |
+| ---------------------------------------------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------- |
+| [Go standard library](https://go.dev/)                                       | Google LLC                          | Copyright 2009 The Go Authors.                                                |
+| [ace-builds](https://github.com/ajaxorg/ace-builds)                          | Ajax.org B.V.                       | Copyright (c) 2010, Ajax.org B.V.<br>All rights reserved.                     |
+| [chroma.js](https://gka.github.io/chroma.js/)                                | Gregor Aisch                        | chroma.js - JavaScript library for color conversions<br>Copyright (c) 2011-2019, Gregor Aisch<br>All rights reserved.<br>chroma.js includes colors from colorbrewer2.org, which are released under<br>the following license:<br>Copyright (c) 2002 Cynthia Brewer, Mark Harrower,<br>and The Pennsylvania State University.<br>Licensed under the Apache License, Version 2.0 (the "License");<br>you may not use this file except in compliance with the License.<br>You may obtain a copy of the License at<br>http://www.apache.org/licenses/LICENSE-2.0<br>Unless required by applicable law or agreed to in writing,<br>software distributed under the License is distributed on an<br>"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,<br>either express or implied. See the License for the specific<br>language governing permissions and limitations under the License.<br>Named colors are taken from X11 Color Names.<br>http://www.w3.org/TR/css3-color/#svg-color |
+| dario.cat/mergo                                                              | Google Inc.                         | Copyright (c) 2013 Dario Castañé. All rights reserved.<br>Copyright (c) 2012 The Go Authors. All rights reserved. |
+| github.com/PuerkitoBio/goquery                                               | the author                          | Copyright (c) 2012-2021, Martin Angers & Contributors<br>All rights reserved. |
+| github.com/aws/aws-sdk-go-v2/internal/sync/singleflight                      | Google Inc.                         | Copyright (c) 2009 The Go Authors. All rights reserved.                       |
+| github.com/aws/smithy-go/internal/sync/singleflight                          | Google Inc.                         | Copyright (c) 2009 The Go Authors. All rights reserved.                       |
+| github.com/bahlo/generic-list-go                                             | Google Inc.                         | Copyright (c) 2009 The Go Authors. All rights reserved.                       |
+| github.com/dop251/goja/ftoa/internal/fast                                    | Google Inc.                         | Copyright 2014, the V8 project authors. All rights reserved.                  |
+| github.com/go-webauthn/webauthn                                              | the copyright holder                | Copyright (c) 2025 github.com/go-webauthn/webauthn authors.                   |
+| github.com/go-webauthn/x/encoding/asn1                                       | the copyright holder                | Copyright (c) 2021-2023 github.com/go-webauthn authors.                       |
+| github.com/google/uuid                                                       | Google Inc.                         | Copyright (c) 2009,2014 Google Inc. All rights reserved.                      |
+| github.com/googleapis/gax-go/v2                                              | Google Inc.                         | Copyright 2016, Google Inc.<br>All rights reserved.                           |
+| github.com/gorilla/css/scanner                                               | Google Inc.                         | Copyright (c) 2023 The Gorilla Authors. All rights reserved.                  |
+| github.com/gorilla/mux                                                       | Google Inc.                         | Copyright (c) 2023 The Gorilla Authors. All rights reserved.                  |
+| github.com/miekg/dns                                                         | the copyright holder                | Copyright (c) 2009, The Go Authors. Extensions copyright (c) 2011, Miek Gieben.<br>All rights reserved. |
+| github.com/munnerz/goautoneg                                                 | the Open Knowledge Foundation Ltd.  | Copyright (c) 2011, Open Knowledge Foundation Ltd.<br>All rights reserved.    |
+| github.com/prometheus/client_golang/internal/github.com/golang/gddo/httputil | Google Inc.                         | Copyright (c) 2013 The Go Authors. All rights reserved.                       |
+| github.com/remyoudompheng/bigfft                                             | Google Inc.                         | Copyright (c) 2012 The Go Authors. All rights reserved.                       |
+| github.com/shirou/gopsutil/v4                                                | the gopsutil authors<br>Google Inc. | gopsutil is distributed under BSD license reproduced below.<br>Copyright (c) 2014, WAKAYAMA Shirou<br>All rights reserved.<br>internal/common/binary.go in the gopsutil is copied and modified from golang/encoding/binary.go.<br>Copyright (c) 2009 The Go Authors. All rights reserved. |
+| github.com/xuri/efp                                                          | efp                                 | Copyright (c) 2017 - 2025 Ri Xu All rights reserved.                          |
+| github.com/xuri/excelize/v2                                                  | the copyright holder                | Copyright (c) 2016-2026 The excelize Authors.<br>Copyright (c) 2011-2017 Geoffrey J. Teale<br>All rights reserved. |
+| github.com/xuri/nfp                                                          | nfp                                 | Copyright (c) 2022-2025 Ri Xu All rights reserved.                            |
+| golang.org/x/crypto                                                          | Google LLC                          | Copyright 2009 The Go Authors.                                                |
+| golang.org/x/image                                                           | Google LLC                          | Copyright 2009 The Go Authors.                                                |
+| golang.org/x/mod                                                             | Google LLC                          | Copyright 2009 The Go Authors.                                                |
+| golang.org/x/net                                                             | Google LLC                          | Copyright 2009 The Go Authors.                                                |
+| golang.org/x/oauth2                                                          | Google LLC                          | Copyright 2009 The Go Authors.                                                |
+| golang.org/x/sync                                                            | Google LLC                          | Copyright 2009 The Go Authors.                                                |
+| golang.org/x/sys                                                             | Google LLC                          | Copyright 2009 The Go Authors.                                                |
+| golang.org/x/text                                                            | Google LLC                          | Copyright 2009 The Go Authors.                                                |
+| golang.org/x/tools/godoc/vfs                                                 | Google LLC                          | Copyright 2009 The Go Authors.                                                |
+| golang.org/x/xerrors                                                         | Google LLC                          | Copyright 2019 The Go Authors.                                                |
+| google.golang.org/api                                                        | Google Inc.                         | Copyright (c) 2011 Google Inc. All rights reserved.                           |
+| google.golang.org/api/internal/third_party/uritemplates                      | Google Inc.                         | Copyright (c) 2013 Joshua Tacoma. All rights reserved.                        |
+| google.golang.org/protobuf                                                   | Google Inc.                         | Copyright (c) 2018 The Go Authors. All rights reserved.                       |
+| modernc.org/libc                                                             | the authors                         | Copyright (c) 2017 The Libc Authors. All rights reserved.                     |
+| modernc.org/mathutil                                                         | the authors                         | Copyright (c) 2014 The mathutil Authors. All rights reserved.                 |
+| modernc.org/memory                                                           | the authors                         | Copyright (c) 2017 The Memory Authors. All rights reserved.                   |
+| modernc.org/sqlite                                                           | the copyright holder                | Copyright (c) 2017 The Sqlite Authors. All rights reserved.                   |
 
 *The license files of the components differ in the name which the terms give
-where `<name>` stands below. The name is printed with each component above.*
+where `<name>` stands below. The column "Name in the license" above gives it
+for each component.*
 
 ```
 Redistribution and use in source and binary forms, with or without
