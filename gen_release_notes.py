@@ -307,7 +307,7 @@ def put_legal(tag, published, release_page, texts, downloads):
             'in CycloneDX 1.6 (JSON), which security scanners such as Trivy or Grype read. The ones of {}:\n\n').format(tag)
         for name, url, what in downloads:
             md += '* [{}]({}): {}.\n'.format(name, url, what)
-        md += '\nThe SBOMs of the other releases are among the downloads on their pages under [Releases](../releases/README.md).\n'
+        md += '\nReleases before fylr 6.36 have no SBOM. From 6.36 on, the page of each release under [Releases](../releases/README.md) lists its two SBOMs among its downloads.\n'
         pages.append((LEGAL_SBOM_PAGE, md))
     for page, md in pages:
         with open(os.path.join(LEGAL_DIR, page), 'w') as f:

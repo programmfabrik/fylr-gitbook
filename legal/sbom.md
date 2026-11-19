@@ -15,4 +15,4 @@ A release lists what it is made of, fylr and the third-party software in it, as 
 * [fylr_v6.36.0-test.3_sbom_image.cdx.json](https://s3.eu-central-1.wasabisys.com/fylr-releases/v6.36.0-test.3/fylr_v6.36.0-test.3_sbom_image.cdx.json): the container image: fylr, the programs it runs and the packages of its operating system.
 * [fylr_v6.36.0-test.3_sbom_binary.cdx.json](https://s3.eu-central-1.wasabisys.com/fylr-releases/v6.36.0-test.3/fylr_v6.36.0-test.3_sbom_binary.cdx.json): the downloads: the fylr binary with what it links, and the web frontend inside it.
 
-The SBOMs of the other releases are among the downloads on their pages under [Releases](../releases/README.md).
+Releases before fylr 6.36 have no SBOM. From 6.36 on, the page of each release under [Releases](../releases/README.md) lists its two SBOMs among its downloads.
