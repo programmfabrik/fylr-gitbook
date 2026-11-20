@@ -56,6 +56,12 @@ fylr+:
 We did not test this exact example, please use it as a starting point.
 {% endhint %}
 
+### Where the certificate is kept
+
+fylr keeps the certificate, its private key and the Let's Encrypt account key in its database, in the table `certmagic_data`. From version 6.36.0 they are stored encrypted when `fylr.encryptionKey` is set in `fylr.yml`; the update to 6.36.0 encrypts the ones stored before. Without an encryption key they are stored unencrypted. A key set later encrypts the certificate and its private key at the next renewal, the account key stays unencrypted.
+
+Every fylr that uses the database needs the same `encryptionKey`: a fylr that cannot decrypt the stored certificate does not start. To start over, for a lost or new key, delete the rows of `certmagic_data` and restart fylr: it registers a new account at Let's Encrypt and gets a new certificate.
+
 ## You provide the HTTPS certificate
 
 1. Put your certificate and private key in the same directory as `fylr.yml`, in this example the file names are `crt.pem` and `key.pem`.
