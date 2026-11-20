@@ -23,6 +23,8 @@ The JSON view (used by monitoring) reports the reindex ids, the current / render
 
 The viewer requests the manifest like any IIIF client, as a deep link without the inspect login, so it needs deep link access in the base configuration; the page warns when that is off. The browser loads Clover from cdn.jsdelivr.net: when a firewall or proxy blocks that host, the page says so, and the manifest link on the page opens in any other IIIF viewer.
 
+Clover runs in a sandboxed frame of the page, which has no access to the inspect login or the page around it, and in which no script of the record's content runs: Clover shows the text of a subtitle as HTML, and a `.vtt` file uploaded by an editor must not act with the session of the system administrator who opens the viewer.
+
 ## The object list
 
 `/inspect/objects/` lists the objecttypes with their record counts; picking one opens that objecttype's **object list**, a paged table of its records with id, system object id, version, pool and standard info.
