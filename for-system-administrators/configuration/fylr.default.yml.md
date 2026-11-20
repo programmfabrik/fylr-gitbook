@@ -103,6 +103,11 @@ fylr:
     # precision. See fylr.example.yml. 0 disables simplification.
     standardMaxVertices: 100
 
+  twoFactor:
+    # See fylr.example.yml. 0 = no limit per user.
+    maxWrongCodesPerUser: 10
+    wrongCodesMinutes: 60
+
   services:
     api:
       addr: :8080

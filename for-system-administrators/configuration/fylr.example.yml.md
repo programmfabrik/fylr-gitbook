@@ -807,7 +807,7 @@ fylr:
   # twoFactor configures two-factor authentication. Whether 2FA is demanded at
   # all, and which methods are offered, belongs to the base config and is set
   # per instance through the API / frontend — only the timing of the emailed
-  # one-time code is fixed here, in fylr.yml.
+  # one-time code and the limits on wrong codes are fixed here, in fylr.yml.
   twoFactor:
     # otpLifetimeSec is how long an emailed one-time code stays valid.
     # Defaults to 3600 (one hour), deliberately generous: mail relays can
@@ -820,6 +820,20 @@ fylr:
     # its lifetime, so raise it only together with a shorter otpLifetimeSec.
     # Defaults to 3.
     maxVerifyAttempts: 3
+    # maxWrongCodesPerUser is how many wrong two-factor codes a user may enter
+    # within wrongCodesMinutes, counted over all client addresses together.
+    # Once it is reached, the password login of the user is refused as locked
+    # until the oldest of these codes is older than wrongCodesMinutes, and a
+    # pending challenge takes no further code. Only someone who knows the
+    # password gets to enter a code, so nobody can lock a user out with this
+    # limit by knowing the login name alone. Apart from this limit, every wrong
+    # code counts as a failed login for the lock-out per user and client
+    # address of the base config (password, block client). 0 = no limit per
+    # user. Defaults to 10.
+    maxWrongCodesPerUser: 10
+    # wrongCodesMinutes is the window of maxWrongCodesPerUser, in minutes.
+    # Defaults to 60.
+    wrongCodesMinutes: 60
 
 
   # services which will be started. It is possible to configure a standalone
