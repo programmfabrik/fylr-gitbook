@@ -48963,6 +48963,11 @@ components:
                         are deliberately coarse — what they separate is ordinary artwork from
                         flattener output, and that difference is two orders of magnitude.
                         Available from version 6.35.0.
+
+                        From version 6.36.0 an SVG file is counted too, with `too_costly` as the
+                        verdict: the default image recipes produce no version of an SVG that
+                        costs more to draw than fylr renders, and its original is offered for
+                        download only (`_show_allowed` is `false`).
                     properties:
                         images:
                             type: number
@@ -48975,6 +48980,32 @@ components:
                             description: |
                                 Gradient and mesh constructs, which a renderer expands into many
                                 discrete bands.
+                        elements:
+                            type: number
+                            format: int
+                            description: |
+                                For an SVG: the elements of its markup. Available from version
+                                6.36.0.
+                        references:
+                            type: number
+                            format: int
+                            description: |
+                                For an SVG: the references to other elements that drawing it
+                                resolves.
+                                Available from version 6.36.0.
+                        image_megapixels:
+                            type: number
+                            format: int
+                            description: |
+                                For an SVG: the megapixels of its embedded images, rounded up.
+                                Available from version 6.36.0.
+                        too_costly:
+                            type: boolean
+                            description: |
+                                For an SVG: present, and `true`, when drawing it costs more than
+                                fylr renders. A recipe reads it as
+                                `%_source.technical_metadata.vector.too_costly%`. Available from
+                                version 6.36.0.
                 tiff:
                   type: object
                   description: |

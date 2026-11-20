@@ -51496,7 +51496,7 @@
           },
           "vector": {
             "type": "object",
-            "description": "How much drawing a page description carries, counted for EPS, AI and\nPS files. A produce config gates the SVG version on it: artwork that\nIllustrator's transparency flattener has shattered into hundreds of\nembedded images converts to a faithful vector rendition that no browser\ncan open, so for such a file the version is never scheduled. The counts\nare deliberately coarse — what they separate is ordinary artwork from\nflattener output, and that difference is two orders of magnitude.\nAvailable from version 6.35.0.\n",
+            "description": "How much drawing a page description carries, counted for EPS, AI and\nPS files. A produce config gates the SVG version on it: artwork that\nIllustrator's transparency flattener has shattered into hundreds of\nembedded images converts to a faithful vector rendition that no browser\ncan open, so for such a file the version is never scheduled. The counts\nare deliberately coarse — what they separate is ordinary artwork from\nflattener output, and that difference is two orders of magnitude.\nAvailable from version 6.35.0.\n\nFrom version 6.36.0 an SVG file is counted too, with `too_costly` as the\nverdict: the default image recipes produce no version of an SVG that\ncosts more to draw than fylr renders, and its original is offered for\ndownload only (`_show_allowed` is `false`).\n",
             "properties": {
               "images": {
                 "type": "number",
@@ -51507,6 +51507,25 @@
                 "type": "number",
                 "format": "int",
                 "description": "Gradient and mesh constructs, which a renderer expands into many\ndiscrete bands.\n"
+              },
+              "elements": {
+                "type": "number",
+                "format": "int",
+                "description": "For an SVG: the elements of its markup. Available from version\n6.36.0.\n"
+              },
+              "references": {
+                "type": "number",
+                "format": "int",
+                "description": "For an SVG: the references to other elements that drawing it\nresolves.\nAvailable from version 6.36.0.\n"
+              },
+              "image_megapixels": {
+                "type": "number",
+                "format": "int",
+                "description": "For an SVG: the megapixels of its embedded images, rounded up.\nAvailable from version 6.36.0.\n"
+              },
+              "too_costly": {
+                "type": "boolean",
+                "description": "For an SVG: present, and `true`, when drawing it costs more than\nfylr renders. A recipe reads it as\n`%_source.technical_metadata.vector.too_costly%`. Available from\nversion 6.36.0.\n"
               }
             }
           },

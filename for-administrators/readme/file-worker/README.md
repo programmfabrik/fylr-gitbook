@@ -33,6 +33,8 @@ A **version** is one rendition of an original — for example a 250 px thumbnail
 
 Some versions are **derived from another version** instead of from the original: the watermarked preview is built from the `preview` version, and previews of wmf files are built from a generated `svg`. This *source version* chaining means that re-generating a source version also re-generates everything built on top of it.
 
+From version 6.36.0, when a recipe decides against a file, its version is skipped without an error, and so is every version built from it. An SVG that costs more to draw than fylr renders gets no image versions this way. Its original stays available for download but is not shown in the browser. SVG files uploaded before 6.36.0 are checked once their metadata is read again, with `resync with metadata` in `/inspect/files`.
+
 Up to version 6.34 the previews of ai and eps files were built from that `svg` as well. From version 6.35.0 they are rendered from the original instead, and the `svg` version is only produced for a drawing simple enough to make a usable one. A file handling configuration saved before 6.35.0 still carries the old wiring; the update rewrites it, and the configuration then shows ai and eps sourced from the original.
 
 PostScript files (ps) are accepted from version 6.35.0. Their previews are rendered like eps, from the first page, and as a document they also get a `pdf` version of every page and the `pages` version for the paged viewer, like a PDF upload. A file handling configuration saved before that does not list the extension: enable ps in the image class and add it to the ai/eps versions, or reset the class to the default.
