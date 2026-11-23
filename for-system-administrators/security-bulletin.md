@@ -153,6 +153,7 @@ A bug in fylr's own code is published with the release that fixes it, without de
 | Release | Change |
 | --- | --- |
 | 6.36.0 (unreleased) | With `fylr.services.execserver.sandbox.enabled: true` on Linux, the execserver confines every command it runs with Landlock: a command writes only in its own job directory and cannot read `fylr.yml` or the files of other jobs. The sandbox is off by default, see `sandbox` in [fylr.example.yml](configuration/fylr.example.yml.md). |
+| 6.36.0 (unreleased) | The update gives every installation a new random secret for the signatures of file, export and backup download URLs; URLs signed before the update stop working. To replace the secret again, for example after a copy of the database has left your control, delete the row `HMAC_SECRET` from the table `systemconfig` and restart one fylr: it writes a new secret, and the other fylr processes of the database switch to it with their next request. |
 | 6.35.1 (2026-10-27) | fylr runs with an OpenSearch user whose rights cover only the instance's own indices, so several instances can share one OpenSearch without reaching each other's indices. |
 | 6.35.0 (2026-10-13) | Every response carries security policy headers, `X-Frame-Options: SAMEORIGIN` by default, and tells browsers not to guess its content type. Credentialed CORS answers only configured origins. See [Security headers and CORS](configuration/http-and-https.md#security-headers-and-cors). |
 | 6.34.0 (2026-07-15) | An access or refresh token issued to the web app is tied to the browser it was issued in. |
