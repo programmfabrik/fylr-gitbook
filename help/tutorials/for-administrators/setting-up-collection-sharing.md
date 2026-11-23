@@ -33,6 +33,10 @@ To allow a user to select other users or groups when sharing collections:
 If **User A** should be able to share collections with **User B**, you must edit **User B** (or the group they belong to) and add **User A** (or the group User A belongs to) in the permissions tab. This ensures that User A can find and share collections with User B.
 {% endhint %}
 
+{% hint style="info" %}
+A **user invited by email** is found by the user who invited it, by root, and by the users and groups with "Read" on the system group "Users Invited by Email". That permission shows them every invited address. From fylr 6.36.0, a user who creates an address that another user has already invited shares with that existing email user; before, the save failed with a duplicate key error.
+{% endhint %}
+
 ### **3. Allow Granting Access**
 
 To share records with other users, the sharing user must be authorized to **grant permissions**. This requires the **Granable** permission for all access rights the user intends to assign to others for the records in the collection:
