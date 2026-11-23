@@ -928,12 +928,16 @@ fylr:
         #       - "offline"
         #     # public, set to true if this client is publicly known
         #     public: false
+        #     # refuse an authorization code issued without a PKCE
+        #     # code_challenge (RFC 7636), turn on once the client sends one
+        #     requirePKCE: true
         #
         # In a config layered over fylr.default.yml, "clients+:" keeps the
         # default clients and "clients:" replaces them.
         clients:
           fylr-web-frontend:
             public: true
+            requirePKCE: true
             redirectURIs: []
             scopes:
               - "read"
@@ -941,6 +945,7 @@ fylr:
               - "offline"
           fylr-mobile-app:
             public: true
+            requirePKCE: false
             redirectURIs:
               - "fylr.app.scheme:///"
             scopes:
@@ -949,6 +954,7 @@ fylr:
               - "offline"
           ci-hub:
             public: true
+            requirePKCE: false
             redirectURIs:
               - "https://live.ci-hub.com/api/v1/auth/login/fylr"
               - "https://dev.ci-hub.com/api/v1/auth/login/fylr"
@@ -966,6 +972,7 @@ fylr:
               - "offline"
           linkrui:
             public: true
+            requirePKCE: false
             redirectURIs:
               - "https://fylr.linkrui.com/oauth"
               - "https://stage-fylr.linkrui.com/oauth"

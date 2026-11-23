@@ -122,12 +122,14 @@ fylr:
         clients:
           fylr-web-frontend:
             public: true
+            requirePKCE: true
             scopes:
               - "read"
               - "write"
               - "offline"
           fylr-mobile-app:
             public: true
+            requirePKCE: false
             redirectURIs:
               - "fylr.app.scheme:///"
             scopes:
@@ -136,6 +138,7 @@ fylr:
               - "offline"
           ci-hub:
             public: true
+            requirePKCE: false
             redirectURIs:
               - "https://live.ci-hub.com/api/v1/auth/login/fylr"
               - "https://dev.ci-hub.com/api/v1/auth/login/fylr"
@@ -153,6 +156,7 @@ fylr:
               - "offline"
           linkrui:
             public: true
+            requirePKCE: false
             redirectURIs:
               - "https://fylr.linkrui.com/oauth"
               - "https://stage-fylr.linkrui.com/oauth"
