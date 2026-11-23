@@ -1341,22 +1341,34 @@ fylr:
       # Confine commands with Landlock, so what a job runs reaches only its
       # own work dir, the system, its tools and its plugin, not fylr.yml or
       # other jobs. Cached files are open to the jobs working on them. It needs
-      # Linux 5.13, and works in Docker with the default seccomp profile. HOME
-      # and TMPDIR of a command point into its work dir, which starts empty.
-      # Every key but ifUnavailable can be set for a service too, under
+      # Linux 5.19, and works in Docker with the default seccomp profile. HOME
+      # and TMPDIR of a command point into its work dir, which starts empty;
+      # Python packages installed for the user of the execserver (pip
+      # --user, ~/.local) stay importable. Java gets the temp dir through
+      # JAVA_TOOL_OPTIONS, which every JVM reports on stderr. ImageMagick
+      # follows TMPDIR unless its policy.xml sets temporary-path: the
+      # execserver warns about that at its start. Every key but ifUnavailable
+      # and networkNone can be set for a service too, under
       # services.<name>.sandbox, and replaces the value here for that service.
       sandbox:
-        enabled: false
+        enabled: true
 
-        # A kernel that cannot do what is configured: "fail" refuses to start,
-        # "warn" logs it and runs without.
-        ifUnavailable: fail
+        # A kernel that cannot do what is configured: "warn" logs it and runs
+        # without what it lacks, "fail" refuses to start. Windows and macOS
+        # have no Landlock: there the sandbox is always off.
+        ifUnavailable: warn
 
         # TCP of the commands (Linux 6.7), a supervisor's port list still
         # applies on top: "any" leaves it alone, "none" allows none of it,
         # "ports" allows connectPorts, no command can listen on a port. Hosts
-        # cannot be told apart, and UDP, so DNS, stays open.
-        network: none
+        # cannot be told apart, and UDP, so DNS, stays open. A job that is
+        # handed a signed url of the fylr backend, where fylr convert reports
+        # progress, may connect to the port of that backend under any setting.
+        network: any
+        # The services that get "none" in place of the network above, unless
+        # they set a network of their own: the converters as shipped, which
+        # get their files from the execserver.
+        networkNone: [xslt, convert, ocr, ffmpeg, inkscape, soffice, pdf2pages, iiif, dot, metadata]
         # What "ports" connects to, it does not start without any: a port or
         # a range per entry, from 1 to 65535.
         #
@@ -1511,8 +1523,8 @@ fylr:
           threads: 0
         # sandbox changes the block above for one service, key by key. A value
         # replaces the one above, a list is not added to it. An entry here
-        # replaces the shipped service as a whole, so the plugin services have
-        # to repeat their "network: any" when they change something else.
+        # replaces the shipped service as a whole; networkNone above goes by
+        # the name of the service and still applies.
         #
         # Plugin jobs tied to the ports they need:
         #

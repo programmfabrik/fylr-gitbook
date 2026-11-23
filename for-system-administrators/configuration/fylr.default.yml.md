@@ -202,13 +202,15 @@ fylr:
       drainTimeoutSec: 20
       # a command showing no progress for this long is aborted, 0 = off
       stallTimeoutSec: 600
-      # confine commands with Landlock (Linux), see fylr.example.yml
+      # confine commands with Landlock (Linux 5.19), see fylr.example.yml
       sandbox:
-        enabled: false
-        ifUnavailable: fail
-        # the tools get their files from the execserver and need no TCP, the
-        # plugin services below do
-        network: none
+        enabled: true
+        ifUnavailable: warn
+        # TCP stays open for a service that does not say otherwise, the
+        # plugin services need it
+        network: any
+        # these get "none": the tools get their files from the execserver
+        networkNone: [xslt, convert, ocr, ffmpeg, inkscape, soffice, pdf2pages, iiif, dot, metadata]
         connectPorts: []
         allowRead: []
         allowWrite: []
