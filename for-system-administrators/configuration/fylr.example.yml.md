@@ -835,6 +835,38 @@ fylr:
     # Defaults to 60.
     wrongCodesMinutes: 60
 
+  # Limits on failed password logins, on top of the lock-out per user and
+  # client address of the base config (password, block client). A failed login
+  # is a wrong password, an unknown login name or a wrong two-factor code.
+  loginLimits:
+    # maxFailedPerAddress is how many failed logins one client address may
+    # cause within failedPerAddressMinutes, over all login names together.
+    # Once it is reached, every password login from the address is refused
+    # until the oldest of these failures is older than failedPerAddressMinutes;
+    # the token endpoint answers 429 with Retry-After. IPv6 addresses are
+    # counted per /64. All clients behind one proxy or NAT share the limit,
+    # so set it well above the failed logins they cause together. 0 = no
+    # limit. Defaults to 50.
+    maxFailedPerAddress: 50
+    # failedPerAddressMinutes is the window of maxFailedPerAddress, in
+    # minutes. Defaults to 10.
+    failedPerAddressMinutes: 10
+    # maxFailedPerUser is how many wrong passwords of one user may come from
+    # all client addresses together within failedPerUserMinutes. Once it is
+    # reached, the user's logins are refused as locked from every address the
+    # user has not logged in from before (as long as the events keep the
+    # address, see the base config janitor), until the oldest of these wrong
+    # passwords is older than failedPerUserMinutes. The user gets a mail when
+    # the limit is reached. A new password, set by the user or an
+    # administrator, ends the lock: wrong passwords before it no longer count,
+    # for this limit, the lock-out per client address and twoFactor
+    # maxWrongCodesPerUser. 0 = no limit.
+    # Defaults to 20.
+    maxFailedPerUser: 20
+    # failedPerUserMinutes is the window of maxFailedPerUser, in minutes.
+    # Defaults to 60.
+    failedPerUserMinutes: 60
+
 
   # services which will be started. It is possible to configure a standalone
   # execserver or webapp. backend & server can only be configured together.

@@ -108,6 +108,13 @@ fylr:
     maxWrongCodesPerUser: 10
     wrongCodesMinutes: 60
 
+  loginLimits:
+    # See fylr.example.yml. 0 = no limit.
+    maxFailedPerAddress: 50
+    failedPerAddressMinutes: 10
+    maxFailedPerUser: 20
+    failedPerUserMinutes: 60
+
   services:
     api:
       addr: :8080

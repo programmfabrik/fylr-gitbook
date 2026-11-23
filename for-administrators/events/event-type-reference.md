@@ -853,7 +853,7 @@ Created after every successful login, with any method (password, email, LDAP, SA
 
 ### USER_LOGIN_FAILED
 
-Created when a login fails because of wrong credentials or, from fylr 6.36.0, a wrong two-factor code, or when an account is temporarily locked after too many failed attempts. Other failure reasons (unknown user, disabled account, license problems) do not create this event. The acting user is always stored (when known).
+Created when a login fails because of wrong credentials or, from fylr 6.36.0, a wrong two-factor code or a login name fylr does not know; that event has no user and only `error` in `info`. A login refused because the account or the IP address is blocked after too many failed attempts creates none, and neither do other failure reasons (disabled account, license problems). The acting user is stored when known.
 
 `info`:
 

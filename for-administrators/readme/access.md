@@ -50,6 +50,13 @@ If a user tries to login too many times with a wrong password, further login att
 * **Number of attempts with wrong password:** how many attempts does a user get before their login is blocked? Use the value `0` to disable the automatic blocking.
 * **How long to block the login in minutes:** how long to block the users login after the previously set threshold is reached?
 
+From fylr 6.36.0 two more limits apply, over all IP addresses, set in `fylr.yml` under `fylr.loginLimits` (see [fylr.example.yml.md](../../for-system-administrators/configuration/fylr.example.yml.md "mention")):
+
+* **Wrong passwords of one user:** after `maxFailedPerUser` wrong passwords (default 20 within `failedPerUserMinutes`, 60) the user can log in only from IP addresses they logged in from before, and gets an email about it.
+* **Failed logins from one IP address:** after `maxFailedPerAddress` failed logins (default 50 within `failedPerAddressMinutes`, 10), for any login names, every login with a password from that address is refused. An IPv6 address counts with its /64 network. All users behind one proxy share the limit.
+
+A new password, set by the user or an administrator, ends the blocks of a user: wrong passwords from before it no longer count.
+
 ## Two-Factor Authentication
 
 Require a second factor at login for local accounts (user types _easydb_ and _self-registered_). Available from fylr **6.34.0**; requires a license that includes the two-factor capability.
