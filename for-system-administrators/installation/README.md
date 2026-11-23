@@ -211,6 +211,23 @@ fylr+:
 
 On Windows, `-cp` takes the place of `-jar` and the class path separator is `;`: `"-cp", "C:\\fylr\\utils\\saxon\\saxon-he-12.5.jar;C:\\fylr\\utils\\xslt", "net.sf.saxon.Transform"`.
 
+### ImageMagick policy
+
+From fylr 6.36.0, `fylr convert`, `fylr metadata` and `fylr iiif` run ImageMagick under a policy that is built into fylr. It holds for `magick` and for `vips` where it reads a file through ImageMagick, it is the same on every installation, and the `policy.xml` of the system does not change it:
+
+* ImageMagick starts no other program and loads no filter modules.
+* It opens no URL, and reads no script and no text file as an image. File names that begin with `@` or `|` are refused.
+* PostScript, PDF and XPS are written but not read: fylr reads them with Ghostscript and MuPDF itself.
+* An image is at most 1,000,000 pixels wide and high. What does not fit into the memory of the conversion, see [Execution limits](../../for-developers/execserver.md#execution-limits), is kept in files on disk, up to 32 GiB, in ImageMagick's temporary path.
+
+A recipe of your own that calls `magick` directly goes by the policy ImageMagick finds itself, the one `magick -list policy` shows. In the Docker image that is `/etc/ImageMagick-7/policy.xml`, which holds the first three rules as well. Where such a recipe needs more, mount a `policy.xml` of your own over it, in the `volumes` of the fylr container:
+
+```yaml
+- "/srv/fylr/config/fylr/imagemagick-policy.xml:/etc/ImageMagick-7/policy.xml:ro"
+```
+
+A self-installation has the policy of its ImageMagick package.
+
 ### Troubleshooting
 
 [fylr log messages that can be ignored](../symptom-and-solution/log-messages-that-can-be-ignored.md)
