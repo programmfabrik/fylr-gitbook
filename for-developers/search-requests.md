@@ -90,6 +90,8 @@ The word-based kinds ignore case. `match` and `match_phrase` take no wildcards, 
 
 `type: "match"` ignores `query` and derives it: `mode` `fulltext` (the default) is `match`, `wildcard` is `text`, `token` is `token`, and `phrase: true` is `intervals_ordered`. For `text`, `mode` and `phrase` are ignored, except that `mode: "wildcard"` with `query` `match` or `match_phrase` is rejected.
 
+From fylr 6.36.0, the word-based kinds leave out words that are not indexed, like `->` or `/`, and a `string` of only such words finds nothing. The `comment` of a `changelog_range` element is matched with its `query`, `text` by default; before 6.36.0 the default was `intervals`.
+
 ### Empty fields: `null`
 
 `in: [null]` matches the records whose field has no value, and with `bool: "must_not"` the records that have one. A multilingual field is empty when it has no value in any language. From fylr 6.36.0, an element with its own `languages`, or inside a `complex` or `nested` element with `languages`, looks only at these: the field is empty when none of them has a value, so this finds the records without a German title:
