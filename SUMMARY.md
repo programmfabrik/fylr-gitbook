@@ -260,6 +260,7 @@
   * [Windows](for-system-administrators/installation/windows.md)
   * [From Source (bare metal)](for-system-administrators/installation/from-source.md)
   * [Kubernetes](for-system-administrators/installation/helm.md)
+  * [Search without OpenSearch](for-system-administrators/installation/native-search.md)
   * [Scaling the execserver](for-system-administrators/installation/scaling-the-execserver.md)
   * [Updating the execserver to 6.35](for-system-administrators/installation/updating-the-execserver-to-6.35.md)
 * [Configuration](for-system-administrators/configuration/README.md)

@@ -43,6 +43,7 @@ Please note: We do all of our automated and manual software testing based on Lin
 ### Software Versions
 
 * We are regularly testing fylr with **Opensearch 3** and **PostgreSQL 18** and recommend them with fylr. Customers with problems and earlier versions may be asked to upgrade first.
+* From 6.36 a fylr with a single server can do without OpenSearch and keep its search index itself, see [Search without OpenSearch](native-search.md).
 
 ### OpenSearch user per instance
 

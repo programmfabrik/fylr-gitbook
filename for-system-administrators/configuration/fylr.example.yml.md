@@ -587,6 +587,15 @@ fylr:
     # of analyzer settings.
     fielddata: false
     # addresses of the elastic servers, see https://godoc.org/github.com/elastic/go-elasticsearch#Config for details.
+    # "native:<directory>" keeps the search index in fylr itself, in that
+    # directory, without OpenSearch. It is the only address then, and the
+    # fylr the only backend of its database; username, password and
+    # startupConnectTimeSec do not apply. A fylr that changes between
+    # OpenSearch and native finds nothing until a re-index
+    # (POST /api/v1/system/reindex) has filled the new index.
+    #
+    #   addresses:
+    #     - "native:/fylr/files/search"
     addresses:
       - "http://localhost:9200"
     # username

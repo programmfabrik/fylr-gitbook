@@ -31,7 +31,7 @@ The shorter the path of your fylr installation directory, the less likely your i
 
 ## Get the dependencies
 
-Bare bone minimum: Elasticsearch or OpenSearch
+Bare bone minimum: Elasticsearch or OpenSearch. From 6.36 not even that: fylr can keep its search index itself, see [Search without OpenSearch](native-search.md).
 
 The versions named below are the ones tested. Other versions should also be fine, unless a section names a minimum.
 
