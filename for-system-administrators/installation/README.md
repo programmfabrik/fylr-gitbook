@@ -75,7 +75,7 @@ From fylr **6.34.0**, the downloadable macOS, Windows and Linux binaries are com
 
 This is for fylr run from the downloadable archives or [built from source](from-source.md), with the third-party tools installed by you. The Docker image and the Helm chart bring this change with them.
 
-**rsvg-convert renders SVG.** From 6.36 fylr renders the versions of SVG files with `rsvg-convert`, in a fraction of the memory Inkscape needed; Inkscape is left with WMF and with the SVGs `rsvg-convert` cannot read. `rsvg-convert` is one of the execserver's `commands` in `fylr.default.yml`, so the execserver checks for it at startup and does not start without it. On Linux install the `librsvg2-bin` package, on macOS `brew install librsvg`. A `fylr.yml` that lists the `commands` itself, without `+`, as the [Windows](windows.md) one does, replaces the defaults: there fylr keeps rendering SVGs with Inkscape until `rsvg-convert` is added.
+**rsvg-convert renders SVG.** From 6.36 fylr renders the versions of SVG files with `rsvg-convert`, in a fraction of the memory Inkscape needed; Inkscape is left with WMF and with SVG output. An SVG that `rsvg-convert` cannot read gets failed versions, Inkscape does not take over. `rsvg-convert` is one of the execserver's `commands` in `fylr.default.yml`, so the execserver checks for it at startup and does not start without it. On Linux install the `librsvg2-bin` package, on macOS `brew install librsvg`. A `fylr.yml` that lists the `commands` itself, without `+`, as the [Windows](windows.md) one does, replaces the defaults: there `rsvg-convert` must be added, or every version of an SVG fails, see [rsvg-convert](windows.md#rsvg-convert) for Windows.
 
 ### Updating a self-installation to 6.35
 

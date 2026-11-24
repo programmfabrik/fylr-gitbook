@@ -290,7 +290,7 @@ Fair warning: If you make your installation path too long, LibreOffice will not 
 
 ### Inkscape
 
-Install Inkscape 1.4 with its default installer. From 6.35 fylr uses it for SVG and WMF, and [Ghostscript](windows.md#ghostscript) for the PostScript family; up to 6.34, version 1.4 was needed for `.eps` previews via `ps2pdf` and Inkscape.
+Install Inkscape 1.4 with its default installer. From 6.36 fylr uses it for WMF and for SVG output, [rsvg-convert](windows.md#rsvg-convert) for the previews of SVG files and [Ghostscript](windows.md#ghostscript) for the PostScript family; 6.35 used it for SVG previews too, and up to 6.34 version 1.4 was needed for `.eps` previews via `ps2pdf` and Inkscape.
 
 Add Inkscape's `bin` directory to the Windows system `%PATH%`:
 
@@ -301,6 +301,27 @@ Add Inkscape's `bin` directory to the Windows system `%PATH%`:
 5. In the new window, click `New` and paste `C:\Program Files\Inkscape\bin`.
 6. Click `OK`.
 7. Close and open a new window for `fylr.exe`, so that the window, and with it fylr, knows the new `%PATH%`.
+
+To test the integration, upload a WMF file into fylr and check that a preview is generated.
+
+### rsvg-convert
+
+From 6.36 fylr draws the previews of SVG files with `rsvg-convert` (librsvg); without it, every version of an SVG fails, and fylr does not fall back to Inkscape. librsvg has no Windows installer of its own; MSYS2 builds it (tested with librsvg 2.63.4). Install MSYS2 from [https://www.msys2.org/](https://www.msys2.org/) into its default folder `C:\msys64`, open the `MSYS2 UCRT64` shell from the Start Menu and run:
+
+```
+pacman -S mingw-w64-ucrt-x86_64-librsvg
+```
+
+`rsvg-convert.exe` is then in `C:\msys64\ucrt64\bin`, next to the DLLs it loads, so run it from there rather than copying the `.exe` alone. Configure it in `fylr.yml`:
+
+```
+fylr+:
+  services+:
+    execserver+:
+      commands+:
+        rsvg-convert:
+          prog: "C:\\msys64\\ucrt64\\bin\\rsvg-convert.exe"
+```
 
 To test the integration, upload an SVG file into fylr and check that a preview is generated.
 
@@ -468,6 +489,8 @@ fylr+:
           prog: java.exe
         inkscape:
           prog: inkscape.exe
+        rsvg-convert:
+          prog: "C:\\msys64\\ucrt64\\bin\\rsvg-convert.exe"
         saxon:
           prog: java
           args:
@@ -502,6 +525,12 @@ After testing, you may want to switch to
 ```
 fylr.exe server -c fylr.yml --service install
 ```
+
+## Updating from 6.35 to 6.36
+
+**SVG previews need rsvg-convert.** Install it and add it to the `commands` in `fylr.yml`, see [rsvg-convert](windows.md#rsvg-convert): fylr 6.36 draws SVG files with it instead of Inkscape, and without it every version of an SVG fails. Inkscape stays, for WMF and SVG output.
+
+The same change for Linux and macOS: [Updating a self-installation to 6.36](README.md#updating-a-self-installation-to-6.36).
 
 ## Updating from 6.34 to 6.35
 
