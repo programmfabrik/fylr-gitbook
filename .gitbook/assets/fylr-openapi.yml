@@ -60377,7 +60377,7 @@ components:
                                     (a recipient sent without `_id` as
                                     `{"_basetype":"user","user":{"login":<address>,"type":"email"}}`
                                     is the stored, not archived e-mail user of that address (in any case),
-                                    else it is created as one when the set is saved; a user
+                                    else it is created as one, owned by root, when the set is saved; a user
                                     recipient needs an e-mail address, `EmailRecipientNoAddress`,
                                     unless the saved transition with the same `_id` already has it;
                                     groups are not checked);

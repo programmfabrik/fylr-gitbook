@@ -34,7 +34,7 @@ If **User A** should be able to share collections with **User B**, you must edit
 {% endhint %}
 
 {% hint style="info" %}
-A **user invited by email** is found by the user who invited it, by root, and by the users and groups with "Read" on the system group "Users Invited by Email". That permission shows them every invited address. From fylr 6.36.0, a user who creates an address that another user has already invited shares with that existing email user; before, the save failed with a duplicate key error.
+A **user invited by email** is found by root, by the owner of every collection shared with it, as long as the share exists, and by the users and groups with "Read" on the system group "Users Invited by Email". That permission shows them every invited address. From fylr 6.36.0, an email user belongs to root: a user who creates an address that another user has already invited shares with that existing email user, and the user who invited it can no longer change or delete it. Before, it belonged to the user who invited it, and the share of another user with the same address failed with a duplicate key error.
 {% endhint %}
 
 ### **3. Allow Granting Access**
