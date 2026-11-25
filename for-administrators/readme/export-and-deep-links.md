@@ -103,11 +103,13 @@ From version 6.35.0, the stylesheet works on the exported XML alone: it loads no
 
 ### Name
 
-Technical name.
+Technical name. Use letters, digits, `-` and `_`.
 
 In the Deep-Link interface, this XSLT can be applied by using `format/xslt/<xslt-name>`.
 
-In the OAI/PMH interface, this is used as a metadata format (`metadataPrefix=xslt-<name>`).
+In the OAI/PMH interface, this is used as a metadata format (`metadataPrefix=xslt-<name>`). A row without a name is offered as just `xslt-`.
+
+From fylr 6.36.0, the field is shown when deep links or OAI/PMH are switched on. Up to fylr 6.35, it is shown only when OAI/PMH is switched on.
 
 ### Display Name
 
@@ -292,7 +294,7 @@ However:
 
 The Open Archives Initiative Protocol for Metadata Harvesting (OAI-PMH) is a protocol developed for harvesting metadata descriptions of records in an archive so that services can be built using metadata from many archives. An implementation of OAI-PMH must support representing metadata in Dublin Core, but may also support additional representations.
 
-Enable OAI/PMH to let others harvest your data that's stored in FYLR.
+Enable OAI/PMH to let others harvest your data that's stored in FYLR. Harvesters get the records the system user `oai_pmh` may see, see [Rights Management](../oai.md#rights-management). The tutorial [Setting up OAI/PMH](../../help/tutorials/for-administrators/setting-up-oai-pmh.md) goes through the whole setup.
 
 More information about the standard can be found here: [http://www.openarchives.org/](http://www.openarchives.org/).
 
@@ -328,7 +330,7 @@ When linked records are loaded and merged, this depth defines how many levels of
 
 Tag filters can be used to specify more sets for OAI/PMH. Each tag filter specifies a set. If a tag filter set is requested, all records are returned where the tag filter matches.
 
-Tag filter sets have the prefix `tagfilter:`, for example `<setSpec>tagfilter:sample_tagfilter</setSpec>` for all records that match the tag filter `sample_tagfilter`.
+Tag filter sets have the prefix `tagset:`, for example `<setSpec>tagset:sample_tagfilter</setSpec>` for all records that match the tag filter `sample_tagfilter`. Harvesters request the set with the prefix, `set=tagset:sample_tagfilter`.
 
 To get a list of all available sets, use the verb `listSets` (see [http://www.openarchives.org/OAI/openarchivesprotocol.html#ListSets](http://www.openarchives.org/OAI/openarchivesprotocol.html#ListSets)).
 
