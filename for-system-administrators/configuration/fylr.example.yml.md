@@ -155,10 +155,11 @@ fylr:
       # source (TEST-ONLY; the url is never dialed): simulate "timeout"
       # hangs until the fetch budget expires like a black-holed connection,
       # "refused" fails immediately, "status" answers with the given HTTP
-      # status and the headers of "headers" — or it fine-tunes the client
-      # for the matched urls with the same knobs as above (dialTimeoutSec,
-      # tlsHandshakeTimeoutSec, responseHeaderTimeoutSec, disableHttp2;
-      # 0/unset = inherit).
+      # status and the headers of "headers", "redirect" answers 302 to the
+      # url the request's own query parameter "to" names — or it fine-tunes
+      # the client for the matched urls with the same knobs as above
+      # (dialTimeoutSec, tlsHandshakeTimeoutSec, responseHeaderTimeoutSec,
+      # disableHttp2; 0/unset = inherit).
       #
       # Three optional fields narrow a rule. "methods" limits it to the
       # listed HTTP methods (upper case; empty = any). "times" makes it stop
