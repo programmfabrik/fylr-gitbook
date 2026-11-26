@@ -129,9 +129,9 @@ If you cancel a contract, which grants you the right to get fylr updates, which 
 
 The newest release writes these pages, and each release replaces them with its own:
 
-* [Legal notices](legal/notices.md): the license of fylr, and the license texts and copyright notices of the third-party software it contains, as fylr shows them under *About*. A release ships them as `LEGAL.md`, next to `LICENSE`.
+* [Legal notices](legal/notices.md): the license of fylr, and the third-party software it contains with its versions, license texts and copyright notices, as fylr shows them under *About*. A release ships them as `LEGAL.md`, next to `LICENSE`, and `GET /api/v1/system/legal` answers them without a login.
 * [SBOM](legal/sbom.md): what a release is made of, fylr and the third-party software in it, as Software Bills of Materials for security scans.
-* [Programs fylr uses](legal/programs.md): the open source programs fylr runs, and what for.
+* [Programs fylr uses](legal/programs.md): the open source programs fylr runs, and what for. The container image has their license texts below `/usr/share/doc`.
 
 ## Next step: Download, install and test
 

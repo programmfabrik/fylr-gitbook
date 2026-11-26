@@ -37768,7 +37768,7 @@
       "description": "The legal texts of this **fylr**: the license fylr itself is given under\nand the attribution of the third-party software it ships. Together they\nare the file `LEGAL.md` of a release archive and of the container image;\nthis endpoint serves them so an application can show them in-product.\nBoth are Markdown.\n",
       "get": {
         "summary": "Get the license and the third-party attribution",
-        "description": "Returns the license of fylr and the attribution of the third-party\ncomponents this server ships: the ones linked into the server, and the\nones which the web frontend it delivers lists (`web/thirdparty.json`\nof the frontend build). A license several components share is printed\nonce.\n\nThe response is the same for every caller. It changes with the build,\nand with the web frontend the server is configured to deliver.\n\nAn authenticated user is required: attribution is owed to the\nrecipients of the software.\n",
+        "description": "Returns the license of fylr and the attribution of the third-party\ncomponents this server ships: the ones linked into the server, and the\nones which the web frontend it delivers lists (`web/thirdparty.json`\nof the frontend build).\n\nThe response is the same for every caller. It changes with the build,\nand with the web frontend the server is configured to deliver.\n\nNo authentication is required.\n",
         "responses": {
           "200": {
             "description": "The legal texts of this server.\n",
@@ -37783,15 +37783,12 @@
                     },
                     "notice": {
                       "type": "string",
-                      "description": "Markdown: every third-party component fylr ships — the\nGo modules of the server and the third-party code inside\nthe web frontend — with a table of the components and the\ntext of every license. A server whose web frontend carries\nno list has the components of the server alone.\n"
+                      "description": "Markdown: every third-party component fylr ships — the\nGo modules of the server and the third-party code inside\nthe web frontend — as one table sorted by name, with the\nversion, the license and the copyright notice of each.\nBelow it the `NOTICE` files components come with and the\ntext of every license, each once. A license with more\nthan one text has them numbered, and the table names the\none of a component. A server whose web frontend carries\nno list has the components of the server alone.\n"
                     }
                   }
                 }
               }
             }
-          },
-          "401": {
-            "description": "No authenticated user (`UserRequired`).\n"
           }
         }
       }

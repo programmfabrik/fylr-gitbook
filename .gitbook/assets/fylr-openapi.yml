@@ -35963,14 +35963,12 @@ paths:
                 Returns the license of fylr and the attribution of the third-party
                 components this server ships: the ones linked into the server, and the
                 ones which the web frontend it delivers lists (`web/thirdparty.json`
-                of the frontend build). A license several components share is printed
-                once.
+                of the frontend build).
 
                 The response is the same for every caller. It changes with the build,
                 and with the web frontend the server is configured to deliver.
 
-                An authenticated user is required: attribution is owed to the
-                recipients of the software.
+                No authentication is required.
             responses:
                 "200":
                     description: |
@@ -35989,12 +35987,13 @@ paths:
                                         description: |
                                             Markdown: every third-party component fylr ships — the
                                             Go modules of the server and the third-party code inside
-                                            the web frontend — with a table of the components and the
-                                            text of every license. A server whose web frontend carries
+                                            the web frontend — as one table sorted by name, with the
+                                            version, the license and the copyright notice of each.
+                                            Below it the `NOTICE` files components come with and the
+                                            text of every license, each once. A license with more
+                                            than one text has them numbered, and the table names the
+                                            one of a component. A server whose web frontend carries
                                             no list has the components of the server alone.
-                "401":
-                    description: |
-                        No authenticated user (`UserRequired`).
     /system/location/new:
         x-path: /system
         description: |
