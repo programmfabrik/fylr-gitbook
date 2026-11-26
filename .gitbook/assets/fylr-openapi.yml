@@ -38726,11 +38726,11 @@ paths:
                 "423":
                     description: |
                         The write could not acquire a database lock because a
-                        concurrent write is touching the same rows (PostgreSQL
-                        `55P03`). The transaction is rolled back and the error is
-                        surfaced as `code: DatabaseLockError`, `package: ferrors`,
-                        `statuscode: 423`. Retry the identical request once the
-                        conflicting write has finished.
+                        concurrent write is touching the same rows (`55P03` on
+                        PostgreSQL and CockroachDB). The transaction is rolled back
+                        and the error is surfaced as `code: DatabaseLockError`,
+                        `package: ferrors`, `statuscode: 423`. Retry the identical
+                        request once the conflicting write has finished.
                     content:
                         application/json:
                             schema:

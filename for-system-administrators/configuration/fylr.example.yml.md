@@ -320,16 +320,25 @@ fylr:
     # wrong password log level, set the level for wrong password output
     wrongPasswordLevel: debug
 
-  # data is stored in a database, FYLR supports sqlite & postgres
+  # data is stored in a database, FYLR supports sqlite, postgres & CockroachDB
   db:
-    # driver is "sqlite3" or "postgres"
+    # driver is "sqlite3", "postgres" or "cockroach". fylr does not start on
+    # a server of the other kind than the driver names, and on postgres or
+    # CockroachDB only when the database runs fylr's transactions at READ
+    # COMMITTED: on postgres default_transaction_isolation must be 'read
+    # committed', its default, on CockroachDB the cluster setting
+    # sql.txn.read_committed_isolation.enabled must be on, the default of
+    # CockroachDB 26.3.
     driver: sqlite3
 
-    # dsn is the sqlite file, or the connection string of a PostgreSQL user
-    # owning the given db (with LOGIN and INHERIT, which are defaults for
-    # CREATE USER anyway), e.g.
+    # dsn is the sqlite file, or the connection string of a PostgreSQL or
+    # CockroachDB user owning the given db (with LOGIN and INHERIT, which are
+    # defaults for CREATE USER anyway), e.g.
     #   driver: postgres
     #   dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
+    # or
+    #   driver: cockroach
+    #   dsn: "host=localhost port=26257 user=fylr password=fylr dbname=fylr sslmode=verify-full sslrootcert=certs/ca.crt"
     dsn: "fylr.db"
 
     # https://golang.org/pkg/database/sql/#DB.SetMaxOpenConns default: 90, below
@@ -338,10 +347,11 @@ fylr:
     # connections will be dedicated to a separate connection pool managing
     # the sequences. One more connection, not counted here, holds fylr's
     # server-wide locks while one is held or awaited (config saves, indexing,
-    # WebDAV locks). It is not recommended to set it to 0 (unlimited), as this can
+    # WebDAV locks), on CockroachDB it only takes, renews and releases them.
+    # It is not recommended to set it to 0 (unlimited), as this can
     # possibly open too many connections for the OS to handle. Also, since each
     # request to the API will query the database at least once, this setting
-    # doubles as a rate throttler. (Postgres only)
+    # doubles as a rate throttler. (Postgres and CockroachDB only)
     maxOpenConns: 90
 
     # https://golang.org/pkg/database/sql/#DB.SetMaxIdleConns, default: 10

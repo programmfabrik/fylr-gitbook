@@ -307,6 +307,7 @@
   * [Purge objects](for-system-administrators/symptom-and-solution/purge-objects.md)
   * [No location configured](for-system-administrators/symptom-and-solution/no-location-configured.md)
 * [PostgreSQL versions](for-system-administrators/postgresql-versions.md)
+* [CockroachDB](for-system-administrators/cockroachdb.md)
 * [Security Bulletin](for-system-administrators/security-bulletin.md)
 
 ## Tutorials

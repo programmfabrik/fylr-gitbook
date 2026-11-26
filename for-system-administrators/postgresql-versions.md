@@ -10,6 +10,16 @@ fylr is tested with PostgreSQL 15, 16 and 17.
 
 The newest recommended version is part of our [installation documentation](installation/linux-docker-compose/), in [docker-compose.yml](https://raw.githubusercontent.com/programmfabrik/fylr-gitbook/main/_assets/docker-compose.yml)
 
+From version 6.36.0 fylr also runs on [CockroachDB](cockroachdb.md).
+
+## Isolation level
+
+fylr runs its transactions at READ COMMITTED, the default of PostgreSQL. From version 6.36.0 fylr does not start when the database runs them at another level, which `default_transaction_isolation` sets in `postgresql.conf`, with `ALTER DATABASE` or `ALTER ROLE ... SET`, or in the connection string:
+
+```
+postgres runs fylr's transactions at serializable, fylr needs read committed: set default_transaction_isolation to 'read committed' (postgresql.conf, ALTER DATABASE or ROLE ... SET, the DSN)
+```
+
 ## Upgrade between major versions
 
 1. Make sure you have enough storage for the old postgres data directory and a copy for the new postgres version, e.g. compare\

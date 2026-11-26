@@ -40603,7 +40603,7 @@
             }
           },
           "423": {
-            "description": "The write could not acquire a database lock because a\nconcurrent write is touching the same rows (PostgreSQL\n`55P03`). The transaction is rolled back and the error is\nsurfaced as `code: DatabaseLockError`, `package: ferrors`,\n`statuscode: 423`. Retry the identical request once the\nconflicting write has finished.\n",
+            "description": "The write could not acquire a database lock because a\nconcurrent write is touching the same rows (`55P03` on\nPostgreSQL and CockroachDB). The transaction is rolled back\nand the error is surfaced as `code: DatabaseLockError`,\n`package: ferrors`, `statuscode: 423`. Retry the identical\nrequest once the conflicting write has finished.\n",
             "content": {
               "application/json": {
                 "schema": {
