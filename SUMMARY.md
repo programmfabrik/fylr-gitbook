@@ -151,6 +151,7 @@
     * [How to Set Default Metadata Mappings](help/tutorials/for-administrators/default-export-metadata-mappings.md)
     * [Setting Up Collection Sharing](help/tutorials/for-administrators/setting-up-collection-sharing.md)
     * [Enabling guest access](help/tutorials/for-administrators/enabling-guest-access.md)
+    * [Setting up OAI/PMH](help/tutorials/for-administrators/setting-up-oai-pmh.md)
     * [Enabling Two-Factor Authentication](help/tutorials/for-administrators/enabling-two-factor-authentication.md)
     * [Chaining Background Tasks](help/tutorials/for-administrators/chaining-background-tasks.md)
   * [For System Administrators](help/tutorials/for-system-administrators/README.md)

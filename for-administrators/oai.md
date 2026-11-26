@@ -12,7 +12,7 @@ More information about the standard can be found here: [http://www.openarchives.
 
 ## Configuration
 
-OAI/PMH is configured in the base configuration tab ["Export and OAI/PMH"](readme/export-and-deep-links.md#oai-pmh). In order to use it, first enable it using the checkbox and then fill in the necessary fields.
+OAI/PMH is configured in the base configuration tab ["Export and OAI/PMH"](readme/export-and-deep-links.md#oai-pmh). In order to use it, first enable it using the checkbox and then fill in the necessary fields. The tutorial [Setting up OAI/PMH](../help/tutorials/for-administrators/setting-up-oai-pmh.md) goes through the whole setup, rights included.
 
 ## Rights Management
 
