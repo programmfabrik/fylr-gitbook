@@ -35,10 +35,10 @@ It answers with the repository name. As long as the interface is off, every requ
 
 Harvesters do not log in. fylr answers them as the system user `oai_pmh`, so they get the records this user may see, and nothing else. Without rights, every harvest comes back empty.
 
-In **Rights Management**, open the pool that holds the records, or the object type for object types without pools, and go to the tab **Permissions**. Add the user `oai_pmh` and grant:
+In **Rights Management**, open the pool that holds the records, or the objecttype for objecttypes without pools, and go to the tab **Permissions**. Add the user `oai_pmh` and grant:
 
-* **View Records**, with the object types you want to publish.
-* **Allowed Masks**: for each of these object types, the masks whose fields harvesters may get. Without an allowed mask, `oai_pmh` sees no record of that object type.
+* **View Records**, with the objecttypes you want to publish.
+* **Allowed Masks**: for each of these objecttypes, the masks whose fields harvesters may get. Without an allowed mask, `oai_pmh` sees no record of that objecttype.
 * **View Pool**, if harvesters should be able to harvest the pool as a set.
 
 Save, then open
@@ -59,7 +59,7 @@ Each request names exactly one format with the argument `metadataPrefix`. fylr o
 
 | `metadataPrefix` | Content |
 | ---------------- | ------- |
-| `oai_dc` | Dublin Core, always offered. It is filled by the [Dublin Core profile](../../../for-administrators/oai.md#dublin-core) of the object type. Without a profile, each record only carries its UUID and the title "NO OAI-DC PROFILE CONFIGURED". |
+| `oai_dc` | Dublin Core, always offered. It is filled by the [Dublin Core profile](../../../for-administrators/oai.md#dublin-core) of the objecttype. Without a profile, each record only carries its UUID and the title "NO OAI-DC PROFILE CONFIGURED". |
 | `easydb` | The record as fylr XML. From fylr 6.35.0 it can be switched off with **Offer metadataPrefix "easydb"**. |
 | `xslt-<Name>` | A format of your own, made by an XSLT, for example LIDO. |
 
@@ -89,9 +89,9 @@ A harvester can limit a harvest to a set with the argument `set`. fylr offers th
 
 | Set | `setSpec` |
 | --- | --------- |
-| An object type | `objecttype:<object type>` |
+| An objecttype | `objecttype:<objecttype>` |
 | A pool, with all its subpools | `pool:<id>:<id>:…`, the ids of the whole path from the root pool |
-| An object type in a pool | `objecttype:<object type>:pool:<id>:<id>:…` |
+| An objecttype in a pool | `objecttype:<objecttype>:pool:<id>:<id>:…` |
 | A collection | `collection:<id>` |
 
 Sets of your own are made with tags. In **OAI/PMH**, under **Tag-Sets**, add a row with a **Set Name**, for example `published`, and a **Tag Filter**. The set holds the records that match the tag filter and that `oai_pmh` may see. Harvesters request it as `set=tagset:published`.
