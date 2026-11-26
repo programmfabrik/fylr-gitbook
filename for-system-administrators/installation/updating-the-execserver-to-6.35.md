@@ -131,10 +131,22 @@ fylr+:
 ```
 
 An execserver that should run only some services lists exactly those: the
-shipped `services` block is complete, `services+:` adjusts it, and a service
-name with nothing behind it removes that service. Which execserver runs a
-service is what it announces when it connects, so the `/job/<service>` path
-filter on an address is not needed and is refused at startup.
+shipped `services` block is complete, `services+:` adjusts it, `services:`
+replaces it, and `services-:` removes the services named under it. An
+execserver that runs everything but video encodes:
+
+```yaml
+fylr+:
+  services+:
+    execserver+:
+      services-:
+        ffmpeg:
+```
+
+A name with nothing behind it under `services+:` removes nothing: the service
+stays, without its shipped settings. Which execserver runs a service is what
+it announces when it connects, so the `/job/<service>` path filter on an
+address is not needed and is refused at startup.
 
 The `waitgroups` block and the per-service `waitgroup:` keys are reported by
 `fylr config check` as deprecated and are ignored — there is no manual mode
