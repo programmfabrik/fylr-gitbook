@@ -27253,7 +27253,7 @@
             }
           },
           "400": {
-            "description": "The config payload could not be processed. A malformed, empty or\n(for `DELETE`) non-empty request body, or a body whose top-level\nvalues are not maps, is rejected as `code` `ServerGeneric`. A payload\nthat parses but fails base-config validation carries a `BaseConfig*`\n`code`: a parse failure is `BaseConfigParse`; a value that does not\nmatch the expected type, or a rejection from a base-config consumer\n(license, LDAP, mail address, ...), raises its own code\n(`BaseConfigInvalidLicense`, `BaseConfigLDAPDial`,\n`BaseConfigInvalidMailAddress`, ...). The `error` field carries the\nhuman-readable message; branch on `code`.\n",
+            "description": "The config payload could not be processed. A malformed, empty or\n(for `DELETE`) non-empty request body, or a body whose top-level\nvalues are not maps, is rejected as `code` `ServerGeneric`. A payload\nthat parses but fails base-config validation carries a `BaseConfig*`\n`code`: a parse failure is `BaseConfigParse`; a value that does not\nmatch the expected type, or a rejection from a base-config consumer\n(license, LDAP, mail address, ...), raises its own code\n(`BaseConfigInvalidLicense`, `BaseConfigLDAPDial`,\n`BaseConfigInvalidMailAddress`, ...). The `error` field carries the\nhuman-readable message; branch on `code`.\nA section of the request without a value for a parameter its definition\nmarks `mandatory`, or a `table` row without a mandatory column, is\n`BaseConfigMandatory`: `config` names the section, `param` the first such\nparameter, inside a `form` or a `table` row by its path (`rows[1].name`);\nsections not in the request are not checked. A dynamic recipe of a plugin\nwith a section in the request that would declare a parameter without a\nname is `DynamicRecipeParamNameEmpty`.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -67674,6 +67674,10 @@
           "name": {
             "type": "string",
             "description": "name of the parameter as used in the API"
+          },
+          "mandatory": {
+            "type": "boolean",
+            "description": "A save of the section without a value here is refused with\n`BaseConfigMandatory`; a default counts as a value, a text of\nblanks does not. On a column of a `table` the value is required\nin every row. Omitted when false.\n"
           }
         }
       },

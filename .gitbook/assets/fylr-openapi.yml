@@ -26241,6 +26241,13 @@ paths:
                         (`BaseConfigInvalidLicense`, `BaseConfigLDAPDial`,
                         `BaseConfigInvalidMailAddress`, ...). The `error` field carries the
                         human-readable message; branch on `code`.
+                        A section of the request without a value for a parameter its definition
+                        marks `mandatory`, or a `table` row without a mandatory column, is
+                        `BaseConfigMandatory`: `config` names the section, `param` the first such
+                        parameter, inside a `form` or a `table` row by its path (`rows[1].name`);
+                        sections not in the request are not checked. A dynamic recipe of a plugin
+                        with a section in the request that would declare a parameter without a
+                        name is `DynamicRecipeParamNameEmpty`.
                     content:
                         application/json:
                             schema:
@@ -65112,6 +65119,13 @@ components:
                 name:
                     type: string
                     description: name of the parameter as used in the API
+                mandatory:
+                    type: boolean
+                    description: |
+                        A save of the section without a value here is refused with
+                        `BaseConfigMandatory`; a default counts as a value, a text of
+                        blanks does not. On a column of a `table` the value is required
+                        in every row. Omitted when false.
         ConfigParam:
             x-recursion: true
             discriminator:
