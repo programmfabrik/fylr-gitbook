@@ -107,10 +107,11 @@ fylr+:
   services+:
 [...]
     execserver+: # what the execserver at main.example.com does ("server" part)
-      services+: # the + tells fylr to use defaults unless explicitly overwritten
+      services-: # the - removes the services named below from the shipped list
         ffmpeg:
-          # overwritten with empty = should not consider ffmpeg as a local service
 ```
+
+`services-:` removes the services named under it. An `ffmpeg:` with nothing behind it under `services+:` does not: the empty entry is merged into the shipped one, and the execserver keeps offering ffmpeg, without the shipped `maxSlots` cap.
 
 Each execserver announces the services it offers when it connects, and fylr routes ffmpeg jobs to the only one that has it — _ff_.example.com, which offers nothing else. Only the ffmpeg _service_ is removed on the main fylr, the `ffmpeg` _command_ stays: video thumbnails are made by the main fylr's own `convert` service, and `fylr convert` calls ffmpeg for a frame picked by time (`video-thumb-select`) or when ffmpegthumbnailer is not installed. The address needs no `/job/ffmpeg` path (from 6.35 such a path is refused at startup), and there is no worker count to configure on the main fylr: one file dispatcher sizes itself from the slots of the connected execservers (see [Scaling the execserver](../scaling-the-execserver.md)).
 

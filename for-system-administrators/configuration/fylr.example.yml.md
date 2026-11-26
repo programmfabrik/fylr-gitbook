@@ -1513,12 +1513,15 @@ fylr:
 
       # What this execserver offers: the services jobs are addressed to.
       # fylr.default.yml ships the complete list; "services+:" adjusts it,
-      # "services:" replaces it, and a "services:" line with nothing below it
-      # leaves the execserver without any service, which fylr warns about.
+      # "services-:" removes the services named below it, "services:"
+      # replaces it, and a "services:" line with nothing below it leaves the
+      # execserver without any service, which fylr warns about. A name with
+      # nothing behind it under "services+:" removes nothing: the service
+      # stays, without its shipped settings.
       # fylr sends a job only to execservers that announce its service, so
       # this block is also how work is routed: an execserver meant for video
       # alone lists nothing but ffmpeg, and the execserver next to fylr
-      # removes ffmpeg ("ffmpeg:" with nothing behind it).
+      # removes ffmpeg ("services-:" with "ffmpeg:" below it).
       services:
         # maxSlots caps how many jobs of a service run at once, 0 is no cap
         # beyond the pool.

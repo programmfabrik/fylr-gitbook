@@ -274,8 +274,9 @@ fylr:
       # What this execserver offers. A service may carry "maxSlots: N", the
       # most jobs it runs at once, and "threads:", the thread count of its
       # MP4 encodes, which other programs ignore: 0 = every CPU, N, -N =
-      # every CPU but N, N% = that share of them. "name:" with nothing behind it removes a service, which is how
-      # a dedicated execserver limits itself to some services.
+      # every CPU but N, N% = that share of them. "services-:" removes the
+      # services named below it, which is how a dedicated execserver limits
+      # itself to some services.
       services:
         # this service allows to execute arbitrary binaries
         exec: { sandbox: { network: any } }
