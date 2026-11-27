@@ -13,7 +13,7 @@ The quick access is available for every user with the system right "**Access to 
 
 ## Structure
 
-The quick access is divided into "[**Collections**](collections-and-presentations.md)" (which includes "**My Collections**" and "**Shared Collections**") and "[**Searches**](saved-searches-and-lists.md)" (which includes "**Saved Searches**" and **lists** that were enabled for the quick access).
+The quick access is divided into "[**Collections**](collections-and-presentations.md)" (which includes the "[**Quick Collection**](collections-and-presentations.md#quick-collection)", "**My Collections**" and "**Shared Collections**") and "[**Searches**](saved-searches-and-lists.md)" (which includes "**Saved Searches**" and **lists** that were enabled for the quick access).
 
 ## Filter
 

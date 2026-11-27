@@ -19,6 +19,29 @@ To view the content of a **collection** side by side with the **search result**,
 
 
 
+## Quick Collection
+
+{% hint style="info" %}
+Available from fylr **6.36.0**. Users need the system right "**Manage own collections**".
+{% endhint %}
+
+The **Quick Collection** is a temporary collection to **gather records** while you go through a search result, without creating or choosing a collection first. Every user has their own. It is shown in the quick access below the heading "**Collections**" as soon as it holds a record, and it keeps its records until you remove them. It holds up to **1.000 records**, a message tells you when it is full.
+
+To **add** records to the Quick Collection or **remove** them from it:
+
+* Press **B** in the results of the main search or of an open collection, in the detail or in the fullscreen. It works on the selected records or on the shown one. If all of them are in the Quick Collection already, they are removed.
+* Press **Shift + B** to add the record and go straight to the next one. This only adds, it never removes.
+* Click the **round button** on a record. In the search result it appears when you move the mouse over the record, and it stays visible for the records that are in the Quick Collection.
+* **Right click** on one or more records and choose "**Add to Quick Collection**" or "**Remove from Quick Collection**".
+
+After each change a short **message** appears at the top of the window. Its **Show** link opens the Quick Collection, and opens the quick access first if it is closed. The link is not offered in the fullscreen.
+
+**Click** on the Quick Collection in the quick access to view its content, like with any other collection. In addition you have the following **options**:
+
+<table><thead><tr><th width="236.21052631578948">OPTION</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Move all to collection</td><td>Choose a collection, the records are added to it and removed from the Quick Collection.</td></tr><tr><td>Clear Quick Collection</td><td>Removes all records from the Quick Collection, after a confirmation. The records themselves are not deleted. The shortcut is <strong>Ctrl + Alt + B</strong>, on macOS <strong>Control + Option + B</strong>.</td></tr></tbody></table>
+
+See [Keyboard Shortcuts](../keyboard-shortcuts.md) for all shortcuts.
+
 ## Collection Detail
 
 **Click** on a collection or presentation to open the collection and **view it's content**.
