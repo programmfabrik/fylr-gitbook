@@ -57,8 +57,8 @@ Use the following **options** to set up tags and tag groups:
 | Enabled | Only enabled tags can be used. Disable a tag to hide it from the tag selection. This setting can be overwritten by individual tags for pools or object types. |
 | Default | Activate if the tag should be set automatically when creating new records. |
 | Persistent | Activate if the tag (settings) should not be overwritten by individual tags for pools or object types. |
-| Icon | Choose an icon from the list (the list can be extended in the [base configuration](../readme/general.md#font-awesome-icons)). The icon will be shown together with the name of the tag in the editor and detail. In the standard search result only the icon will be shown. If no icon is set, the first letter of the tags name will be used. |
-| Color | Choose a color from the list. The tag and the tag icon will be shown in this color. |
+| Icon | Choose an icon from the list (the list can be extended in the [base configuration](../readme/general.md#custom-icons)). The icon will be shown together with the name of the tag in the editor and detail. In the standard search result only the icon will be shown. If no icon is set, the first letter of the tags name will be used. |
+| Color | Choose a color from the list (the list can be extended in the [base configuration](../readme/general.md#custom-colors)). The tag and the tag icon will be shown in this color. |
 | Permissions | Add permissions to a tag. Those permissions apply to all records where this tag is set. For example, if you assign read access to a group here, these users will be able to see all records with this tag, no matter in which pool the records are. "View Tag" lets users see the tag itself. |
 
 
