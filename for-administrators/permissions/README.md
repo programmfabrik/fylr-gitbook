@@ -16,8 +16,4 @@ Together, these components form a layered permission framework in which **users 
 Available from version 6.36.0.
 {% endhint %}
 
-Every entry in the permissions of a pool, group, user, collection, tag, object type or record can carry a **label** and a **note**. A label marks the entries that belong together, a note says what an entry is there for. Neither grants anything.
-
-The filter line above the entries narrows the list by label, by a search text and by a user or group; "+" adds an entry for the selected user or group. The entries are shown in a full or a compact view.
-
-The labels are defined in the base configuration under **General > Tags & Labels > Permission Labels**, each with a name, a color and an icon. Users with the system right for the base configuration can also open the list with **Edit Labels…** in the label select of an entry. A label takes its color and its icon like a tag: one of the built-in ones, or one of the **Custom Icons** and **Custom Colors** of the same block, which serve the tags as well. Up to version 6.35 these two lists were part of **Appearance**; the update moves them.
+Every entry in the permissions of a pool, group, user, object type, tag or record can have a **label** and a **note**, which say what the entry is for and grant nothing. A filter line narrows the entries down by user or group and by a search text, and a compact view hides the permissions of each entry. See [Labels and Notes](labels-and-notes.md).

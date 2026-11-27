@@ -200,6 +200,7 @@
   * [Record Permissions](for-administrators/permissions/record-permissions.md)
   * [Tags & Workflows](for-administrators/permissions/tags-and-workflows.md)
   * [Presets](for-administrators/permissions/presets.md)
+  * [Labels and Notes](for-administrators/permissions/labels-and-notes.md)
 * [Tools](for-administrators/tools/README.md)
   * [CSV Importer](for-administrators/tools/csv-importer/README.md)
     * [General Information](for-administrators/tools/csv-importer/general-information.md)
