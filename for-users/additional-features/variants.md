@@ -131,8 +131,9 @@ tracks of its video, so a IIIF viewer such as Clover offers them too, with the
 same track label as the player. A label that is a language code (`de`, `en`,
 `deu`) also tells the viewer the track's language. A IIIF viewer reads the
 manifest through a deep link, so it gets a subtitle only when the deep link
-rights include the original of unknown files (`unknown.original`), the file
-class of a `.vtt`.
+rights include the original of sidecar files (*View Versions* → *Sidecar* →
+*Original*, `sidecar.original`), the file class of a `.vtt`. This right opens
+the subtitles and no other files.
 
 ## Feature overview
 
