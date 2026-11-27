@@ -324,6 +324,7 @@ Exports are generated on the fly (see [Export](changes-easydb5-fylr.md#export) a
 * `search.highlight` was removed.
 * The `match` search type was renamed to `text`; `match` is kept as a compatibility alias.
 * New subsearch feature for type `in`: use `field` for the field to fetch and `subsearch` for a subsearch that fills the `in` parameter.
+* From fylr 6.36.0 the search has the `_published.` fields and `_published_count` of easydb 5. A text search on `_published.collector`, `_published.publish_uri` and `_published.easydb_uri` matches the whole value (easydb 5: the start of it); the mode `wildcard` matches a part. The fields hold the publishings only through a mask that shows them (easydb 5: through every mask).
 * Type `range` has new options `from_equals` and `to_equals` (both default to `true`, i.e. inclusive bounds).
 * New output formats: `standard_extended`, `long_inheritance`, `full_inheritance`.
 * New `point_in_time` and `search_after` features for stable pagination.
@@ -346,7 +347,7 @@ This endpoint was **removed** — the easydb 5 login flow (`GET /session` + `POS
 
 New endpoint offering:
 
-* `POST /purgeall`: purge all data and start over; `set_password` sets the root password of the wiped instance. Requires `allowpurge` in both `fylr.yml` and the base config, and the actual root user.
+* `POST /purgeall`: purge all data and start over; afterwards `root` has the password `admin` (up to fylr 6.35, `set_password` set another one). Requires `allowpurge` in both `fylr.yml` and the base config, and the actual root user.
 * `POST /reindex`: initiate a reindex; `blockFrontend=1` blocks the frontend while it runs. Like easydb 5's `settings/reindex` it requires `system.root`, but no enable flag.
 * `POST /sendmail` and `/sendmail/test`.
 * `PUT /backup/new`, `GET|DELETE /backup/<id>`, `GET /backup/<id>/download`, `GET /backup/list`: backups, performed in the background (require the `system.backup` right).

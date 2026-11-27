@@ -4,7 +4,7 @@ This endpoint is used to produce a new version of the file. It allows to crop an
 
 The file is produced asynchronously: the response returns the new file in `pending` state, poll its status until it reaches `done` (or `failed`). Values the request accepts but the conversion cannot apply — a video rotation that is not a multiple of 90 degrees, a color value outside its range — fail there, not on the request.
 
-Differs from easydb 5: easydb 5 accepts a `description` field (optional l10n) in the produce body; **fylr** ignores it — the request only reads `eas_parent_id`, `format`, `transform`, `trim`, `mute`, `color` and `height`.
+Differs from easydb 5: easydb 5 accepts a `description` field (optional l10n) in the produce body; **fylr** ignores it — the request only reads `eas_parent_id`, `format`, `transform`, `trim`, `mute`, `color`, `height`, `colorspace`, `colorprofile`, `background`, `custom` and `custom_version_preset`.
 
 ### Image and video parents
 
@@ -18,6 +18,12 @@ From version 6.35.0 the parent file may be a video; before that, only images wer
 Producing from a video needs a license with the **video editor** capability. Without it a video parent is refused with `LicenseNoVideoEditor`, and `GET /api/v1/settings` reports `capabilities.video_editor: false`, so the web frontend does not offer the video editor. An instance on localhost always has the capability.
 
 Which extensions can be produced at all is decided by the produce recipes of the file worker, one per class; from version 6.35.0 that recipe's extension list is the only gate, which also makes `webp` sources producible.
+
+### Custom versions
+
+From version 6.36.0 the request takes a custom version: `custom` with the options of an [export custom version](../../../../for-administrators/readme/file-worker/custom-version-presets.md#options), or `custom_version_preset` with the name of a preset. The new file is the image a download of that custom version gets from the parent, with its crop and rotation, format, size, quality, DPI, color space and profile and background. Only `eas_parent_id` goes with them, any other property is `400` `RequestParseError`; a custom version needs an image parent.
+
+A custom version with `watermark` needs `obj_uuid`, a record that holds the parent: the new file gets the watermark and caption of that record. The file keeps its options, a resync that produces it anew makes the same image, with the watermark and caption the record has then.
 
 ### `POST /eas/produce`
 

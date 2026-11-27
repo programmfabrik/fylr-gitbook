@@ -38,7 +38,9 @@ Additionally to user defined tags, fylr uses 4 **system tags** that cannot be mo
 Please note, that tags / tag groups can only be deleted when they're not used in any records or permissions.
 {% endhint %}
 
-By **default**, the tags that are defined here, will be **available** for **all object types** with enabled tag management and for **all users** in **all pools**. For object types and pools you can use the option "**Use individual tags**" to only use some of the tags.
+By **default**, the tags that are defined here, will be **available** for **all object types** with enabled tag management and in **all pools**. For object types and pools you can use the option "**Use individual tags**" to only use some of the tags.
+
+A tag is **seen** only by the users its **permissions** grant "**View Tag**", for example the system group "All users". Root and users with the system right to manage tags see every tag. For all other users a tag they do not see does not exist: it is not shown in the editor, detail, search, filters, pools, object types or upload settings, searching for it finds nothing, setting it fails like setting a tag that does not exist, and saving a record, pool, object type or collection keeps it. With the update to fylr 6.36 every existing tag got "View Tag" for "All users", so did the tags restored from a backup of an older fylr; a new tag needs it.
 
 If you want to **hide** all tags from specific **users**, you can define a **mask** and set the tags to "**Hide**". In case you only want to **prevent** specific **users** to **set/unset** a tag, please define a **workflow** (see below).
 
@@ -57,7 +59,7 @@ Use the following **options** to set up tags and tag groups:
 | Persistent | Activate if the tag (settings) should not be overwritten by individual tags for pools or object types. |
 | Icon | Choose an icon from the list (the list can be extended in the [base configuration](../readme/general.md#font-awesome-icons)). The icon will be shown together with the name of the tag in the editor and detail. In the standard search result only the icon will be shown. If no icon is set, the first letter of the tags name will be used. |
 | Color | Choose a color from the list. The tag and the tag icon will be shown in this color. |
-| Permissions | Add permissions to a tag. Those permissions apply to all records where this tag is set. For example, if you assign read access to a group here, these users will be able to see all records with this tag, no matter in which pool the records are. |
+| Permissions | Add permissions to a tag. Those permissions apply to all records where this tag is set. For example, if you assign read access to a group here, these users will be able to see all records with this tag, no matter in which pool the records are. "View Tag" lets users see the tag itself. |
 
 
 
@@ -115,7 +117,7 @@ Choose between the following **actions**:
 
 | ACTION | DESCRIPTION |
 | --- | --- |
-| Email | An email will be send when the workflow is triggered. Choose one or more recipients and add a subject and a message. Enable "Support Batched Mailing" to send workflow emails according to the users email schedule. If no schedule is set for the user, the email notifications will be send directly. Please note, if records are edited with the batch editor, only one mail with all records will be send. From fylr 6.35.1, an email address that is not a user yet can be added as a recipient: type it, click **Create "&lt;address&gt;"** and pick the recipient's language; saving the workflow creates an email user for it. A recipient row left empty is reported with the number of the workflow and of the row. |
+| Email | An email will be send when the workflow is triggered. Choose one or more recipients and add a subject and a message. Enable "Support Batched Mailing" to send workflow emails according to the users email schedule. If no schedule is set for the user, the email notifications will be send directly. Please note, if records are edited with the batch editor, only one mail with all records will be send. From fylr 6.35.1, an email address that is not a user yet can be added as a recipient: type it, click **Create "&lt;address&gt;"** and pick the recipient's language; saving the workflow creates an email user for it. A recipient row left empty is reported with the number of the workflow and of the row. From fylr 6.36.0, a user recipient needs an email address: saving a workflow with a user without one is refused, naming the workflow, the row and the user. A user the workflow already has stays a recipient when it loses its address later. Groups are not checked. Also from 6.36.0, the email links every record it lists to its detail view and, for more than one record, a search with all of them. It lists at most 100 records and gives the number of the others, which the search link includes. The detail links follow [Use system object ID (instead of UUID)](../readme/export-and-deep-links.md#use-system-object-id-instead-of-uuid). |
 | Tags | Set or unset tags when the workflow is triggered. One click adds the tag (plus icon), second click removes the tag (minus icon) and third click doesn't change the tag. |
 | Change Owner | Choose a new owner which should be set for the affected records. |
 | Webhook | Select one of the configured webhooks to be called by the workflow. The webhooks must be configured in the [base configuration](../readme/workflow-webhooks.md), and then can be selected by name. |

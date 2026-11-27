@@ -9,7 +9,7 @@ description: >-
 The **System** page (`/inspect/system/`) is the maintenance dashboard for a running instance. It surfaces the runtime state and hosts the two most consequential actions — **re-index** and **purge**.
 
 {% hint style="danger" %}
-Re-index and purge are **instance-wide** and, on the backend port, **unauthenticated**. Keep the backend port on a private network. In the browser (webapp port) they require `system.root`.
+Re-index and purge are **instance-wide**. In the browser (webapp port) they require `system.root`; on the backend port they need the instance's backend secret from fylr 6.36.0, and nothing before, so keep that port on a private network.
 {% endhint %}
 
 ## Actions
@@ -29,7 +29,7 @@ The dashboard also links the read-only runtime views:
 | Subpage | Shows |
 | --- | --- |
 | `system/janitor/` | the clean-up janitor's state — file deletion, trash draining, idle-user archiving, and from 6.35 the next batch of orphaned terms and custom data, each runnable by hand (optionally with a `run_time` that the run treats as "now"); every section folds under its *Next batch* heading |
-| `system/queues/` | the file and index job queues |
+| `system/queues/` | the file and index job queues; from 6.36.0 the index queue counts its jobs by action as well as by type and status, lists the jobs of one action and says how many saves wait for an index worker to queue the records that show them (the `pre_index` actions, explained on the page) |
 | `system/execserver/` | the execserver running inside this process, if it runs one ("This execserver"): its pool of slots with the fast reserve and the memory budget, each service with its `maxSlots`, learned class, mean runtime and memory, and the connected fylr servers with their callback URL check, parked wants and running jobs. Below that, this fylr's connections to the execservers in `fylr.execserver.addresses` — connected or not, host, slots, parked wants and jobs awaiting their receipt. The same as JSON: `system/execserver/broker/` and `system/execbroker/` |
 | `system/topology/` | from 6.35: the whole installation on one live page — see [Fleet topology](#fleet-topology) below |
 | `system/locations/` | the storage locations and their status |

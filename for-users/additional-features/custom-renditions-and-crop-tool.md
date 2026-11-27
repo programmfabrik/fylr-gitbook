@@ -3,14 +3,14 @@
 Custom renditions let you create additional versions of images with your own settings. You can control the output size, file format, and other export options. When using **Resize/Crop**, you can also define a crop individually for each image before downloading.
 
 {% hint style="info" %}
-Please note, that the custom renditions and crop tool are currently only available to users that have the permission to download the original file.
+Please note, that the custom renditions and crop tool are currently only available to users that have the permission to download the original file. From fylr **6.36.0** a user who may download a pre-defined custom rendition but not the original can crop that rendition or make it smaller, but not larger than the preset makes it, and not in another format.
 {% endhint %}
 
 ## Using Custom Renditions
 
 The [Download Manager](../download-and-export/downloading.md) lists all available standard renditions (pre-calculated) and pre-defined custom renditions (calculated on demand).
 
-Pre-defined custom renditions [are created by your administrator](../../for-administrators/readme/file-worker/custom-version-presets.md) and are available to all users. To include a pre-defined custom rendition in the download, select its checkbox.
+Pre-defined custom renditions [are created by your administrator](../../for-administrators/readme/file-worker/custom-version-presets.md) and are available to all users. From fylr **6.36.0** each one has its own download right, so you see the ones your permissions grant; with the permission to download the original you see all of them. To include a pre-defined custom rendition in the download, select its checkbox.
 
 If the preset supports cropping, a **Crop** button becomes available after the rendition is selected. Clicking it opens the Crop Editor, where you can adjust the crop for each image. If you use a crop-enabled rendition without adjusting it, the image is cropped automatically using a centered crop.
 
@@ -102,6 +102,15 @@ The Crop Tool supports:
 * Automatic straightening by drawing a reference line along an edge or horizon.
 
 These adjustments are applied to the exported image before it is cropped.
+
+### Saving a rendition as a file variant
+
+From fylr **6.36.0** the rendition editor can save a rendition as a file variant of its record instead of only downloading it. The **⋮** menu next to **Apply** offers:
+
+* **Selected image**: *Save as variant* and *Save as preferred variant* save the selected image. The editor stays open, so you can crop and save one image after the other.
+* **All images**: *Apply and save as variants* and *Apply and save as preferred variants* apply the rendition and save every image of it.
+
+The variant is the file the download gets, with the size, format, quality and watermark of the rendition. It is named after the rendition and added next to the existing variants, in the file field or the row of the nested table holding the file; a file of a linked record goes into its own record. Only the *preferred* options change the preferred file. Images excluded from the rendition, and images the rendition would not change, are not saved.
 
 ## Video Editor
 

@@ -56,3 +56,7 @@ OCR image-to-text will run when indexing a file. Consult [regenerating-preview-i
 {% hint style="info" %}
 From fylr **6.35.0** OCR reads **every page of a multi-page TIFF**; before, only the first page was read whenever the scan was larger than the recipe's `ocr` size (2000 by default), which a 300 dpi A4 page always is. Files scanned before the update keep the text they have — re-run the OCR recipe on them to pick up the remaining pages.
 {% endhint %}
+
+{% hint style="info" %}
+From fylr **6.36.0** OCR of a **very large image** needs a few hundred MB of memory, also for a JPEG of 34,000 × 45,000 pixels. Before, such a file could take more than 10 GB, and its OCR failed with `out of memory`, which also left the file without versions. Produce such files again after the update.
+{% endhint %}

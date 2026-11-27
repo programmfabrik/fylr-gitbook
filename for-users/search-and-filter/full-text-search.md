@@ -6,6 +6,8 @@ When typing a word into the search field, you get suggestions where you can pick
 
 <table><thead><tr><th width="218.359375">OPTION</th><th>EXPLANATION</th></tr></thead><tbody><tr><td>Fulltext</td><td>Automatically adds wildcards left and right. Example: <code>*turm*</code></td></tr><tr><td>Exact Match</td><td>A case-sensitive search that only finds records where the whole value of a field match. Example: <code>`Fernsehturm`</code></td></tr><tr><td>Word Suggestions</td><td>Shows words from the index and searches without wildcards. Example: <code>'Berlin'</code></td></tr><tr><td>Lists</td><td>Shows entries from lists, vocabularies and thesauri.</td></tr></tbody></table>
 
+**From version 6.36.0** the lists share the places for their entries: a list with many matching entries no longer fills them all, and the places one list cannot fill go to the others. Entries which contain the typed text as a whole word come first, e.g. `Halle (Saale)` before `Hallesche Straße` when typing `halle`. An entry of a hierarchical list is also offered when records are linked only to entries below it; picking it finds those records.
+
 ### Searching for a Specific Word
 
 #### Case Sensitivity
@@ -24,6 +26,8 @@ A case-sensitive search is only possible with the exact search (see below).
 The **word search** allows you to search for **exact word matches** across all searchable fields. The search is **not case-sensitive** and finds records where the specified word appears **anywhere within a text**, as long as it matches the complete word.
 
 You can select a word directly from the **autocomplete suggestions**, or you can manually enter a word by enclosing it in **single quotes**, for example `'automobile'`. Using single quotes ensures that the term is treated as a whole word rather than part of a longer string.
+
+**From version 6.36.0** a record also has the words of the records it links, as far as its full-text search finds them: the name a linked record is shown with, and the names of the entries above it in a hierarchical list. The word suggestions offer these words for the record, e.g. `mainz` for an object linked to the place Mainz, and picking one finds the records linking it.
 
 #### Exact Search
 

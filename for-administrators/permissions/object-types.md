@@ -21,6 +21,8 @@ Example to create the file name "PF - 3 - Title - original.jpg":
 PF - %_system_object_id% - %objects.title% - %_asset.version%.%_asset.extension%
 ```
 
+From fylr 6.36.0, a field of a custom data type is available with its standard, `%objects.link._standard%`, and with each sub field its plugin maps, e.g. `%objects.link.url%` for the URL of a weblink. The same replacements work in captions and in the IIIF [required statement and rights](../readme/export-and-deep-links.md#iiif-placeholders).
+
 ## Tags
 
 Only **available** for object types with **enabled** **tag** **management**. By **default**, **all** [globally defined **tags**](tags-and-workflows.md) are **available** c. If you want to **disable** certain tags for specific object types, you have to enable "**Use Individual Tags**" in the lower right. You then see all the tags above and can disable individual tags or make them a default. For more details, please refer to ["Tags & Workflows"](tags-and-workflows.md).

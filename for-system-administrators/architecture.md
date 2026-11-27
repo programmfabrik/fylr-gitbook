@@ -28,7 +28,7 @@ flowchart TD
 
 **Datastores:**
 
-* **PostgreSQL** — the system of record for every object, the datamodel, users, rights and configuration.
+* **PostgreSQL** — the system of record for every object, the datamodel, users, rights and configuration. From version 6.36.0 it can be [CockroachDB](cockroachdb.md) instead.
 * **OpenSearch** (or Elasticsearch) — the search and aggregation index, kept in sync from PostgreSQL.
 * **Storage** — original files and their produced renditions, in a local `file` directory, S3 or Azure.
 

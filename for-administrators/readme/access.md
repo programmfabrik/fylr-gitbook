@@ -45,10 +45,17 @@ Use regular expressions to define requirements for passwords. To only allow pass
 
 ### Blocking the login after too many failed attempts
 
-If a user tries to login too many times with a wrong password, further login attempts can be temporarily blocked. Attempts from the same IP address will be blocked. Attempts from other IP addresses for the same user account will not be blocked.
+If a user tries to login too many times with a wrong password, further login attempts can be temporarily blocked. Attempts from the same IP address will be blocked. Attempts from other IP addresses for the same user account will not be blocked. From fylr 6.36.0 a successful login from another IP address does not lift the block, and while a `system.root` user is blocked, the login as another user with its password (`<login>/<password>`) is refused as well. From fylr 6.36.0 a wrong code of the two-factor challenge counts as a failed attempt as well.
 
 * **Number of attempts with wrong password:** how many attempts does a user get before their login is blocked? Use the value `0` to disable the automatic blocking.
 * **How long to block the login in minutes:** how long to block the users login after the previously set threshold is reached?
+
+From fylr 6.36.0 two more limits apply, over all IP addresses, set in `fylr.yml` under `fylr.loginLimits` (see [fylr.example.yml.md](../../for-system-administrators/configuration/fylr.example.yml.md "mention")):
+
+* **Wrong passwords of one user:** after `maxFailedPerUser` wrong passwords (default 20 within `failedPerUserMinutes`, 60) the user can log in only from IP addresses they logged in from before, and gets an email about it.
+* **Failed logins from one IP address:** after `maxFailedPerAddress` failed logins (default 50 within `failedPerAddressMinutes`, 10), for any login names, every login with a password from that address is refused. An IPv6 address counts with its /64 network. All users behind one proxy share the limit.
+
+A new password, set by the user or an administrator, ends the blocks of a user: wrong passwords from before it no longer count.
 
 ## Two-Factor Authentication
 

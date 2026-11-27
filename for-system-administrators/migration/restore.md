@@ -37,6 +37,12 @@ From fylr **6.35.0**, the migration tool `fylr restore` needs data extracted wit
 
 This is about migrating between instances. For safety backups of an instance, see [Backups & Restore](../backup.md).
 
+{% hint style="info" %}
+From fylr **6.36.0**, every flag can also be set as the environment variable `FYLR_CLI_<FLAG>`: the flag name in upper case, with `_` for `-`. `--password` is `FYLR_CLI_PASSWORD`, `--client-secret` is `FYLR_CLI_CLIENT_SECRET`, `--server` is `FYLR_CLI_SERVER`; `fylr restore -h` names the variable of every flag. A flag on the command line takes precedence over its variable, and a variable set to an empty value counts as set.
+
+The command line is visible to every user of the host in the process list (`ps`): set the password, the client secret and a `--server` URL with HTTP Basic Auth credentials in the environment instead.
+{% endhint %}
+
 ## Parameters
 
 This is a complete overview of the command line parameters (run `fylr restore -h`):
@@ -76,7 +82,7 @@ Flags:
     --file-api=""               API used to upload files. Leave empty to not upload files. "put": restore tool uploads files synchronous. "rput": target server loads files from remote URLs. "rput_leave": target server stores remote URLs, no data is copied to storage. "rput" and "rput_leave" are faster, "put" might take long.
     --file-version=""           Set to version to use for upload. "original" might take long for "put". Use "preview" for test runs.
     --upload-versions           Set to true, to upload the preview versions (renditions) instead of regenerating them on the target, so it keeps byte-identical renditions. For an --include-files=with-versions backup the renditions are uploaded from the backup; otherwise they are fetched from the source, which must stay reachable during the restore. Cannot be combined with an --include-files=original backup (its renditions are not packed).
-    --include-deleted-linked    By default, linked fields whose target carries _latest_version_deleted_at are dropped during restore — the target won't be re-imported, so the link would become a deferred 'Purged / Deferred object'. Set this to keep them, e.g. for a partial restore where the deleted targets are imported in a separate run.
+    --include-deleted-linked    By default, links whose target will not be present after the restore are dropped, since they would otherwise show as '(Purged / Deferred object)'. This covers links to soft-deleted objects, and links to objects purged from all but a historic version. Set this to keep such links. For soft-deleted targets this only helps when the backup was taken with --include-deleted, so the targets are present to resolve against. Purged targets are gone, so their links are kept as deferred ghosts.
     --skip-reindex              If set, skip reindex at the end of the restore.
     --rename-versions=,...      Rename versions before uploading. This affects uploaded rights as well as file versions. The versions need to be given in the notation "<cls>.<version>:<new version>", e.g. "image.preview:640px" would replace the "preview" version of image to "640px". If the "<new version>" is omitted, the version is removed.
 ```
@@ -106,6 +112,7 @@ API Url of the target instance. The Url must include the API base endpoint, for 
 
 * this parameter is **mandatory**!
 * type: `string`
+* environment variable: `FYLR_CLI_SERVER`, from fylr **6.36.0**
 
 
 ### `--login`
@@ -122,6 +129,7 @@ Password of the user in the target instance.
 
 * this parameter is **mandatory**!
 * type: `string`
+* environment variable: `FYLR_CLI_PASSWORD`, from fylr **6.36.0**
 
 
 ### `--purge`
@@ -181,6 +189,8 @@ This parameter is not allowed in combination with `--continue`.
 
 Trying to upload a datamodel without `--purge` will not work, if there is already a datamodel on the target instance!
 
+From version **6.36.0**, the restore checks this before the upload and stops with `Target already has a datamodel (version N)`.
+
 Only use `--datamodel=-` if the target instance already has a matching datamodel!
 {% endhint %}
 
@@ -191,6 +201,10 @@ Only use `--datamodel=-` if the target instance already has a matching datamodel
 ### `--skip-constraints`
 
 Skip constraints during restore.
+
+{% hint style="info" %}
+Objects that are soft-deleted in the backup are restored as soft-deleted with or without this flag. Before fylr **6.36.0**, they were only kept soft-deleted with `--skip-constraints`, and came back as live objects without it.
+{% endhint %}
 
 * type: `bool`
 * default: `false`
@@ -215,6 +229,8 @@ This parameter is available in fylr from version **6.33.0**.
 {% endhint %}
 
 By default the restore ignores linked objects whose target was soft-deleted in the source. The restored object then simply has no value for that field, so the frontend does not render a "(Purged / Deferred object)" placeholder.
+
+If that link is a required field, the restore stops with a `NotNullViolation`, in a nested row as well as at the top level of an object. With `--all-versions` this also happens when only an older version holds the link. Set this flag, or `--skip-constraints`, to get past it.
 
 Set to `true` to keep those wrappers. Two cases to be aware of:
 
@@ -424,6 +440,7 @@ If the target instance uses OAuth2 for user authentication, this is the configur
 If the target instance uses OAuth2 for user authentication, this is the configured Client Secret. Can be kept empty if the instance is public.
 
 * type: `string`
+* environment variable: `FYLR_CLI_CLIENT_SECRET`, from fylr **6.36.0**
 
 
 ### `--client-token-url`

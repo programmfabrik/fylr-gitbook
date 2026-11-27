@@ -43,6 +43,7 @@ Please note: We do all of our automated and manual software testing based on Lin
 ### Software Versions
 
 * We are regularly testing fylr with **Opensearch 3** and **PostgreSQL 18** and recommend them with fylr. Customers with problems and earlier versions may be asked to upgrade first.
+* From 6.36 a fylr with a single server can do without OpenSearch and keep its search index itself, see [Search without OpenSearch](native-search.md).
 
 ### OpenSearch user per instance
 
@@ -70,6 +71,12 @@ fylr logs in with `fylr.elastic.username` and `fylr.elastic.password` of its `fy
 ### Download binaries
 
 From fylr **6.34.0**, the downloadable macOS, Windows and Linux binaries are compiled without cgo: they are **statically linked** and use the pure-Go SQLite driver, so they run on any host of their platform without a C toolchain or extra system libraries. The official **Docker image is unchanged** — it keeps cgo and the C-based SQLite driver — and PostgreSQL deployments are unaffected either way.
+
+### Updating a self-installation to 6.36
+
+This is for fylr run from the downloadable archives or [built from source](from-source.md), with the third-party tools installed by you. The Docker image and the Helm chart bring this change with them.
+
+**rsvg-convert renders SVG.** From 6.36 fylr renders the versions of SVG files with `rsvg-convert`, in a fraction of the memory Inkscape needed; Inkscape is left with WMF and with SVG output. An SVG that `rsvg-convert` cannot read gets failed versions, Inkscape does not take over. `rsvg-convert` is one of the execserver's `commands` in `fylr.default.yml`, so the execserver checks for it at startup and does not start without it. On Linux install the `librsvg2-bin` package, on macOS `brew install librsvg`. A `fylr.yml` that lists the `commands` itself, without `+`, as the [Windows](windows.md) one does, replaces the defaults: there `rsvg-convert` must be added, or every version of an SVG fails, see [rsvg-convert](windows.md#rsvg-convert) for Windows.
 
 ### Updating a self-installation to 6.35
 
@@ -204,6 +211,23 @@ fylr+:
 ```
 
 On Windows, `-cp` takes the place of `-jar` and the class path separator is `;`: `"-cp", "C:\\fylr\\utils\\saxon\\saxon-he-12.5.jar;C:\\fylr\\utils\\xslt", "net.sf.saxon.Transform"`.
+
+### ImageMagick policy
+
+From fylr 6.36.0, `fylr convert`, `fylr metadata` and `fylr iiif` run ImageMagick under a policy that is built into fylr. It holds for `magick` and for `vips` where it reads a file through ImageMagick, it is the same on every installation, and the `policy.xml` of the system does not change it:
+
+* ImageMagick starts no other program and loads no filter modules.
+* It opens no URL, and reads no script and no text file as an image. File names that begin with `@` or `|` are refused.
+* PostScript, PDF and XPS are written but not read: fylr reads them with Ghostscript and MuPDF itself.
+* An image is at most 1,000,000 pixels wide and high. What does not fit into the memory of the conversion, see [Execution limits](../../for-developers/execserver.md#execution-limits), is kept in files on disk, up to 32 GiB, in ImageMagick's temporary path.
+
+A recipe of your own that calls `magick` directly goes by the policy ImageMagick finds itself, the one `magick -list policy` shows. In the Docker image that is `/etc/ImageMagick-7/policy.xml`, which holds the first three rules as well. Where such a recipe needs more, mount a `policy.xml` of your own over it, in the `volumes` of the fylr container:
+
+```yaml
+- "/srv/fylr/config/fylr/imagemagick-policy.xml:/etc/ImageMagick-7/policy.xml:ro"
+```
+
+A self-installation has the policy of its ImageMagick package.
 
 ### Troubleshooting
 

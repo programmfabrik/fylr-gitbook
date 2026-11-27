@@ -11,7 +11,7 @@ description: >-
 Custom version presets are available from fylr **6.34.0**.
 {% endhint %}
 
-A **custom version preset** is a named set of on-demand rendition options for image files — for example "Web large (2000px JPEG)" or a square thumbnail with a watermark. Unlike preview [versions](preview-configuration.md), presets are **not produced on upload**: the rendition is created the moment a user selects the preset in the download dialog, and the downloaded file is named after the preset. Presets are shared by all users; there is no per-group filtering.
+A **custom version preset** is a named set of on-demand rendition options for image files — for example "Web large (2000px JPEG)" or a square thumbnail with a watermark. Unlike preview [versions](preview-configuration.md), presets are **not produced on upload**: the rendition is created the moment a user selects the preset in the download dialog, and the downloaded file is named after the preset. From fylr **6.36.0** every preset is also a version of each image with a download right of its own, see [Permissions](#permissions).
 
 ## Configuration
 
@@ -19,7 +19,7 @@ Presets are configured in the base config on the **File Worker** tab, in the **C
 
 Each preset has the following settings:
 
-<table><thead><tr><th width="206.66015625">SETTING</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Name</td><td>Internal name of the preset, used in the API. Must be unique within the configuration.</td></tr><tr><td>Display Name</td><td>Localizable name shown to users in the download dialog. Required.</td></tr><tr><td>Options</td><td>The rendition options (see below). At least one option must have an effect, otherwise the preset is rejected on save.</td></tr></tbody></table>
+<table><thead><tr><th width="206.66015625">SETTING</th><th>DESCRIPTION</th></tr></thead><tbody><tr><td>Name</td><td>Internal name of the preset, used in the API. Must be unique within the configuration. From fylr <strong>6.36.0</strong> it is also the name of the preset's version and of its right (<code>image.&#x3C;name></code>), and exports reference the preset by it: it cannot be changed once the preset is saved, and it cannot be <code>original</code>, start with <code>_</code> or be the name of a version the produce configuration makes for images.</td></tr><tr><td>Display Name</td><td>Localizable name shown to users in the download dialog. Required.</td></tr><tr><td>Options</td><td>The rendition options (see below). At least one option must have an effect, otherwise the preset is rejected on save.</td></tr></tbody></table>
 
 ### Options
 
@@ -43,6 +43,33 @@ Set together, **Color Space** and **Color Profile** have to agree: a `cmyk` colo
 
 A version written as **BMP** is a 24 bpp TrueColor file with a classic `BITMAPINFOHEADER` and no embedded color profile, so every BMP reader, macOS included, opens it; its pixels are still converted through the chosen color profile.
 
+### Background
+
+From fylr **6.36.0** a custom version fills a transparent background with its `background`: `white`, `black` or a color `#rrggbb` (or `#rgb`). Empty, the default, keeps the background transparent where the format can be; a JPG or BMP is filled with white, as they cannot be transparent. The corners of a rotation are filled the same way.
+
+The color is an sRGB color, as a color picker gives it, and it is converted into the color space of the file, so it looks the same in an sRGB JPG, a file with another color profile and a CMYK file. A CMYK file without a color profile takes it through `ISOcoated_v2_eci`.
+
+The preset editor does not show the option; it is set through the API, as `background` in the options of a preset (`custom_version_presets` of `POST /api/v1/config`) or of a custom version of an export. A download can override it with the URL parameter `background` (`background=%23996633`), and the crop tool (`POST /api/v1/eas/produce`) takes it as well.
+
+## Permissions
+
+{% hint style="info" %}
+Available from fylr **6.36.0**.
+{% endhint %}
+
+Every preset is a version of each image, produced on demand. The permissions of pools, object types, records and collections list the presets next to the image versions in the **Download Versions** right, as `image.<name>`, and each preset is granted by itself, like every other version. This is also how users of a collection shared by link get a preset.
+
+* A preset is **downloaded only**. The **View Versions** right does not offer it, and a pool or collection that grants a preset there is refused on save.
+* The download right on the original does not grant a preset as a version. Users who may download the original still get every preset, made from the original, when they have the **Custom Renditions** choice of the **Download Options** system right (see [Downloading](../../../for-users/download-and-export/downloading.md#custom-versions)).
+* Users who have a preset but not the original download that preset in the download dialog, through a share link and in an export. They can crop it or make it smaller, but not larger than the preset makes it, and not in another format.
+* The watermark of a preset with **Watermark** is the one of the pool that grants the preset.
+
+### Exports
+
+An export references a preset by its name, as it references a version. The rendition is made with the options the preset has in the base configuration when the export runs, so a changed preset changes the files of the next run. Once a preset is deleted, a run leaves it out, as a version the file does not have. A file for which the user of the export may download neither the preset nor the original is left out, and the export ends with warnings.
+
 ## Using a preset
 
 When a preset applies to a file, it appears in the **Renditions** list of the download options alongside the standard renditions. See [Downloading](../../../for-users/download-and-export/downloading.md#custom-versions) for the user's perspective.
+
+From fylr **6.36.0** users can also save a preset's rendition as a file variant of the record, from the [rendition editor](../../../for-users/additional-features/custom-renditions-and-crop-tool.md#saving-a-rendition-as-a-file-variant). The variant is the file the download gets, a preset with a watermark included, which then is part of the saved file.

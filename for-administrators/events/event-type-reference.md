@@ -255,6 +255,16 @@ Created when a reminder email is sent because the installed fylr binary is newer
 * `valid_to` — the license's valid-to date (if present)
 * `external_url` — URL of the instance
 
+### LICENSE_AUTO_UPDATE
+
+Created from fylr **6.36.0** when fylr installs a newer version of its license from the license server ([automatic license updates](../../license-management.md#automatic-license-updates)). With several fylr backends, only the one that installs the license creates the event.
+
+`info`:
+
+* `Key` — the license key
+* `CreatedAt`, `ValidTo` — creation date and end date of the installed license
+* `PreviousCreatedAt`, `PreviousValidTo` — the same for the license it replaced
+
 ### OBJECT_INSERT / OBJECT_UPDATE / OBJECT_DELETE
 
 _"Record Created" / "Record Updated" / "Record Deleted"_
@@ -843,13 +853,14 @@ Created after every successful login, with any method (password, email, LDAP, SA
 
 ### USER_LOGIN_FAILED
 
-Created when a login fails because of wrong credentials, or when an account is temporarily locked after too many failed attempts. Other failure reasons (unknown user, disabled account, license problems) do not create this event. The acting user is always stored (when known).
+Created when a login fails because of wrong credentials or, from fylr 6.36.0, a wrong two-factor code or a login name fylr does not know; that event has no user and only `error` in `info`. A login refused because the account or the IP address is blocked after too many failed attempts creates none, and neither do other failure reasons (disabled account, license problems). The acting user is stored when known.
 
 `info`:
 
 * `method` — the authentication method attempted
 * `error` — why the login failed
-* `attempt` — the failed-attempt count within the current blocking window (when the user is known)
+* `attempt` — the failed-attempt count within the current blocking window (when the user is known); for a wrong two-factor code, the number of codes entered in this challenge
+* `two_factor` — for a wrong two-factor code: the second factor, `email` or `totp`
 * `groups` — the user's groups (empty if the user is unknown)
 
 ### USER_LOGOUT

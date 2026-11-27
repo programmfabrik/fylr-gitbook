@@ -33,6 +33,8 @@ A **version** is one rendition of an original — for example a 250 px thumbnail
 
 Some versions are **derived from another version** instead of from the original: the watermarked preview is built from the `preview` version, and previews of wmf files are built from a generated `svg`. This *source version* chaining means that re-generating a source version also re-generates everything built on top of it.
 
+From version 6.36.0, when a recipe decides against a file, its version is skipped without an error, and so is every version built from it. An SVG that costs more to draw than fylr renders gets no image versions this way. Its original stays available for download but is not shown in the browser. SVG files uploaded before 6.36.0 are checked once their metadata is read again, with `resync with metadata` in `/inspect/files`.
+
 Up to version 6.34 the previews of ai and eps files were built from that `svg` as well. From version 6.35.0 they are rendered from the original instead, and the `svg` version is only produced for a drawing simple enough to make a usable one. A file handling configuration saved before 6.35.0 still carries the old wiring; the update rewrites it, and the configuration then shows ai and eps sourced from the original.
 
 PostScript files (ps) are accepted from version 6.35.0. Their previews are rendered like eps, from the first page, and as a document they also get a `pdf` version of every page and the `pages` version for the paged viewer, like a PDF upload. A file handling configuration saved before that does not list the extension: enable ps in the image class and add it to the ai/eps versions, or reset the class to the default.
@@ -58,6 +60,21 @@ The file worker keeps three kinds of data, each in its own [storage location](lo
 ## When versions are generated
 
 Versions are generated **when a file is uploaded**. Changing the version configuration therefore only affects files uploaded afterwards — existing files keep their current versions until you re-generate them with a resync. See [Regenerating preview images](../../../help/tutorials/for-system-administrators/regenerating-preview-images.md), and [Changing the preview format](../../../help/tutorials/for-system-administrators/regenerating-preview-images.md#changing-the-preview-format) for the special case of switching a version's file format.
+
+### Producing the versions of existing files again
+
+From version 6.36.0, saving a version configuration under which the versions of existing files would come out different asks whether to produce them again. The dialog **Produce renditions again** lists each version that changes, with the number of files it goes over and the current size of their versions, and offers:
+
+* **Produce now, in the background** — the files are queued behind the uploads, and only the versions that change are produced again. A version removed from the configuration, or no longer configured for the extension of a file, is deleted from those files. This also starts what an earlier **Produce tonight** left waiting.
+* **Produce tonight** — the same, starting at 22:00 in your time zone.
+* **Not now** — the configuration is saved, the existing versions stay as they are, also when their records are saved. New files get their versions from the new configuration.
+* **Estimate first** — a few files are produced as a trial (up to 30 seconds), then the dialog asks again with the expected size and a rough duration.
+
+A change of a version's display name, group, *standard*, rights management or watermark setting, or of a timeout, asks nothing, because the versions come out the same.
+
+While a version of a file is produced again, the file keeps its current version: downloads and the file lists serve it until the new one is done. If producing fails, the version keeps its file and shows the error. The version keeps its file id, its URL changes with the new file.
+
+The block **Renditions of the files** at the top of the file worker lists the versions that differ from the configuration and the number of files, for example after **Not now**, and **Produce renditions again…** asks the same question later. After an update that changes the default configuration, an instance that uses the default lists the changed versions there, and so does every instance after an update that changes what a recipe produces; nothing is produced until you answer. A new command line of a recipe alone, as updates of fylr and of plugins bring, is no change. Scripts use [`/eas/resync`](../../../for-developers/api/endpoints/eas/resync.md).
 
 ## In this section
 

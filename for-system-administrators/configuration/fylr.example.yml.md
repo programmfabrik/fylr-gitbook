@@ -18,11 +18,16 @@ If you start your hierarchy in fylr.yml with `fylr+:` instead of `fylr:`, then d
 ## Multiple config files can be parsed (use -c ... -c ... -c ...).
 ##   The following rules apply:
 ##   - For maps the whole map is replaced, unless the key which holds the map
-##     ends ins a plus. If it ends in a minus, values are removed from a map.
-##   - For slices the whole slice is replace. If the key ends in a +, values are
+##     ends in a plus. If it ends in a minus, values are removed from a map.
+##   - For slices the whole slice is replaced. If the key ends in a +, values
 ##     are appended, if it ends in a "-" values are removed. If it ends in "<",
 ##     values are prepended.
 ##   - Other values are overwritten
+##   - One file can hold several of these keys for the same map or slice, such
+##     as "paths:" together with "paths+:". They apply in a fixed order,
+##     whatever their order in the file: the key without a suffix first
+##     (replace), then "<" (prepend), then "+" (append or merge), then "-"
+##     (remove).
 ##
 ## To set the externalURL and the sqlite database name in a minimum fylr.yml one could do:
 ##
@@ -103,6 +108,13 @@ fylr:
   # above, so only one of the two can be set at a time.
   license: ""
 
+  # licenseServer (default: "https://pfcrm.programmfabrik.de/pfcrm/license").
+  # fylr posts its license to this URL every 6 hours and installs the newer
+  # version the server answers with, if there is one. The update can be turned
+  # off in the base config (license management), e.g. for an instance without
+  # outgoing internet access. An empty value turns it off for this fylr.yml.
+  licenseServer: "https://pfcrm.programmfabrik.de/pfcrm/license"
+
   # encryptionKey is used to AES-encrypt sensitive information before writing it
   # to the database. It must be 32 bytes long. The encryptionKey must be
   # provided to decrypt encrypted data from the database. With no encryption
@@ -143,10 +155,11 @@ fylr:
       # source (TEST-ONLY; the url is never dialed): simulate "timeout"
       # hangs until the fetch budget expires like a black-holed connection,
       # "refused" fails immediately, "status" answers with the given HTTP
-      # status and the headers of "headers" — or it fine-tunes the client
-      # for the matched urls with the same knobs as above (dialTimeoutSec,
-      # tlsHandshakeTimeoutSec, responseHeaderTimeoutSec, disableHttp2;
-      # 0/unset = inherit).
+      # status and the headers of "headers", "redirect" answers 302 to the
+      # url the request's own query parameter "to" names — or it fine-tunes
+      # the client for the matched urls with the same knobs as above
+      # (dialTimeoutSec, tlsHandshakeTimeoutSec, responseHeaderTimeoutSec,
+      # disableHttp2; 0/unset = inherit).
       #
       # Three optional fields narrow a rule. "methods" limits it to the
       # listed HTTP methods (upper case; empty = any). "times" makes it stop
@@ -307,26 +320,38 @@ fylr:
     # wrong password log level, set the level for wrong password output
     wrongPasswordLevel: debug
 
-  # data is stored in a database, FYLR supports sqlite & postgres
+  # data is stored in a database, FYLR supports sqlite, postgres & CockroachDB
   db:
-    # driver is "sqlite3" or "postgres"
+    # driver is "sqlite3", "postgres" or "cockroach". fylr does not start on
+    # a server of the other kind than the driver names, and on postgres or
+    # CockroachDB only when the database runs fylr's transactions at READ
+    # COMMITTED: on postgres default_transaction_isolation must be 'read
+    # committed', its default, on CockroachDB the cluster setting
+    # sql.txn.read_committed_isolation.enabled must be on, the default of
+    # CockroachDB 26.3.
     driver: sqlite3
 
-    # dsn is the sqlite file, or the connection string of a PostgreSQL user
-    # owning the given db (with LOGIN and INHERIT, which are defaults for
-    # CREATE USER anyway), e.g.
+    # dsn is the sqlite file, or the connection string of a PostgreSQL or
+    # CockroachDB user owning the given db (with LOGIN and INHERIT, which are
+    # defaults for CREATE USER anyway), e.g.
     #   driver: postgres
     #   dsn: "host=localhost port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
+    # or
+    #   driver: cockroach
+    #   dsn: "host=localhost port=26257 user=fylr password=fylr dbname=fylr sslmode=verify-full sslrootcert=certs/ca.crt"
     dsn: "fylr.db"
 
     # https://golang.org/pkg/database/sql/#DB.SetMaxOpenConns default: 90, below
     # PostgreSQL's default max_connections of 100. At least: 4 +
     # elastic.parallel (the file dispatcher sizes itself). Two of these
     # connections will be dedicated to a separate connection pool managing
-    # the sequences. It is not recommended to set it to 0 (unlimited), as this can
+    # the sequences. One more connection, not counted here, holds fylr's
+    # server-wide locks while one is held or awaited (config saves, indexing,
+    # WebDAV locks), on CockroachDB it only takes, renews and releases them.
+    # It is not recommended to set it to 0 (unlimited), as this can
     # possibly open too many connections for the OS to handle. Also, since each
     # request to the API will query the database at least once, this setting
-    # doubles as a rate throttler. (Postgres only)
+    # doubles as a rate throttler. (Postgres and CockroachDB only)
     maxOpenConns: 90
 
     # https://golang.org/pkg/database/sql/#DB.SetMaxIdleConns, default: 10
@@ -451,10 +476,29 @@ fylr:
         #         # optional endpoint suffix (default to core.windows.net)
         #         endpoint_suffix: "core.windows.net"
 
+  locations:
+    # allowedDirs lists the directories in which a storage location of kind
+    # "file" may keep its files when it is created through the API
+    # (/api/v1/system/location) or its dir is changed there. Its dir must be
+    # one of these directories or lie below one; symlinks are resolved
+    # before the comparison. A relative entry resolves against the directory
+    # of the config file it is written in, like the other paths here, but a
+    # relative location dir resolves beside the fylr executable: where the
+    # two directories differ, write absolute paths. Default empty: no file
+    # location can be created through the API.
+    #
+    # Not checked: the locations under db.init.locations above, and a saved
+    # location whose dir stays what it is.
+    allowedDirs: []
+    # allowedDirs:
+    #   - "/srv/fylr/files"
+
   plugin:
     # load plugins at startup. the loader crawls the given directories
     # and loads given files for plugin config files, ending in ".yml".
-    # Missing paths are logged as warnings and skipped. e.g.
+    # Missing paths are logged as warnings and skipped. A disk plugin
+    # registered through PUT /api/v1/plugin/manage must lie inside one of
+    # these directories. e.g.
     #   paths:
     #     - ../../../fylr-plugins/fylr_example
     paths: []
@@ -498,6 +542,18 @@ fylr:
     #       # update_policy: automatic, always, never, defaults to automatic
     #       update_policy: "never"
     defaults: {}
+    # sources limits where installed plugins may come from:
+    #   any:         zip uploads, disk paths and any url (the default)
+    #   marketplace: only plugins of the marketplace catalog. The plugin
+    #                manager installs no zip, disk path or other url, and
+    #                installed plugins that were not checked against the
+    #                catalog stay disabled until they are (state
+    #                "not_marketplace"). The plugins of paths and urls above
+    #                are always accepted.
+    # In both modes a plugin installed from a catalog url whose entry names
+    # a sha256 is installed and updated only when the zip matches it; the
+    # catalog, not the url's checksum, then decides when it updates.
+    sources: any
 
   # Set to true to allow /api/settings/purge. dont use on production systems!
   allowpurge: false
@@ -521,7 +577,7 @@ fylr:
     logger: ""
     # Where to find the Elastic search index settings. If you provide your own
     # file make sure to base it on the default
-    # resources/index/index_settings.json which is included in the distribution.
+    # resources/indexer/index_settings.json which is included in the distribution.
     settings: ""
     # number of parallel workers to index documents, defaults to 4 (2 with
     # sqlite, unless set), set to 0 to disable
@@ -542,6 +598,15 @@ fylr:
     # of analyzer settings.
     fielddata: false
     # addresses of the elastic servers, see https://godoc.org/github.com/elastic/go-elasticsearch#Config for details.
+    # "native:<directory>" keeps the search index in fylr itself, in that
+    # directory, without OpenSearch. It is the only address then, and the
+    # fylr the only backend of its database; username, password and
+    # startupConnectTimeSec do not apply. A fylr that changes between
+    # OpenSearch and native finds nothing until a re-index
+    # (POST /api/v1/system/reindex) has filled the new index.
+    #
+    #   addresses:
+    #     - "native:/fylr/files/search"
     addresses:
       - "http://localhost:9200"
     # username
@@ -590,18 +655,21 @@ fylr:
     # serves without execservers and connects them as they come up.
     connectTimeoutSec: 120
     # the most file-queue items this fylr holds claimed at once. The file
-    # dispatcher starts from its share of the connected execservers' slots plus
-    # the CPU count and raises that by feedback while the queue is deep, the
-    # execservers run jobs of this fylr and have room, and fewer than half of
-    # the database connections are in use — an item that spends most of its
-    # life fetching its original, writing versions and indexing would otherwise
-    # leave the execservers idle. More than half of the connections in use, or
-    # anything waiting for one, lowers it again, below the start if it has to.
-    # 0 is automatic: four times that start, at least 32, at most twice
+    # dispatcher starts from its share of the connected execservers' slots
+    # plus the CPU count and raises that by feedback while the queue is deep,
+    # the execservers have room and fewer than half of the database
+    # connections are in use — an item that spends most of its life fetching
+    # its original, writing versions and indexing would otherwise leave the
+    # execservers idle. More than half of the connections in use, or anything
+    # waiting for one, lowers it again, below the start if it has to. 0 is
+    # automatic: four times that start, at least 32, at most twice
     # fylr.db.maxOpenConns when that is set (every item in flight may hold a
     # database connection for a moment), and never below the start itself. A
-    # value is a hard cap; one below the slots reserved for high-priority items
-    # is raised to leave one normal slot.
+    # value is a hard cap on all claimed items; one below the slots reserved for
+    # high-priority items is raised to leave one normal slot. Items that need no
+    # execserver, such as the sync of a resync, run in a fixed number of workers
+    # of their own instead: twice the CPU count, at most a quarter of
+    # fylr.db.maxOpenConns.
     maxInFlight: 0
     # WHERE AN EXECSERVER REACHES THIS FYLR
     #
@@ -654,7 +722,7 @@ fylr:
     # parameter. The execserver fetches that file: an execserver which
     # runs as its own process takes the list from its own configuration.
     rput:
-      # blockedHosts is a list of remote URLs that rput must refuse.
+      # blockedHosts lists the hosts rput must refuse.
       # An entry matches if it is:
       #   - an IPv4 or IPv6 CIDR (e.g. "10.0.0.0/8", "fc00::/7",
       #     "169.254.0.0/16" for link-local, "169.254.169.254/32" for
@@ -680,7 +748,11 @@ fylr:
       # If the URL host is a name, it is resolved and every resolved
       # address is checked against the CIDR entries; the connection is
       # then pinned to that validated IP (Host header and TLS SNI keep
-      # the original hostname). This closes DNS rebinding.
+      # the original hostname). This closes DNS rebinding. A request
+      # which goes through a proxy (HTTPS_PROXY, HTTP_PROXY) is checked
+      # the same way but not pinned: the proxy resolves the name itself.
+      # Such a proxy is for outgoing requests and has to refuse internal
+      # hosts on its own.
       #
       # fylr's own internal services are always blocked implicitly: the
       # backend callback base (see execserver.callbackBackendOwnURL),
@@ -690,13 +762,17 @@ fylr:
       # Each is auto-injected as a "host:port" entry so blocking, say,
       # the backend on localhost:8083 does NOT block arbitrary other
       # ports on localhost. A listener bound to a wildcard address
-      # (e.g. ":8083") is blocked on every local interface IP.
+      # (e.g. ":8083") is blocked on every local interface IP. The entry
+      # of a service which is configured by name matches that name; its
+      # IP address is blocked by the ranges below.
       #
       # The compiled-in default (fylr.default.yml) blocks loopback,
       # link-local and private (RFC1918 / ULA) ranges. Override here for
       # your deployment — e.g. drop a private range if rput must reach an
-      # internal mirror. Specify an empty list (`blockedHosts: []`) to
-      # disable all checks (not recommended).
+      # internal mirror. In a config layered over fylr.default.yml,
+      # "blockedHosts+:" adds to the shipped list. With an empty list
+      # (`blockedHosts: []`) only fylr's own internal services stay
+      # blocked (not recommended).
       #
       # To disable rput entirely (refuse every outbound URL — no
       # connection to anywhere), set the list to the two universal CIDRs:
@@ -751,7 +827,7 @@ fylr:
   # twoFactor configures two-factor authentication. Whether 2FA is demanded at
   # all, and which methods are offered, belongs to the base config and is set
   # per instance through the API / frontend — only the timing of the emailed
-  # one-time code is fixed here, in fylr.yml.
+  # one-time code and the limits on wrong codes are fixed here, in fylr.yml.
   twoFactor:
     # otpLifetimeSec is how long an emailed one-time code stays valid.
     # Defaults to 3600 (one hour), deliberately generous: mail relays can
@@ -764,6 +840,52 @@ fylr:
     # its lifetime, so raise it only together with a shorter otpLifetimeSec.
     # Defaults to 3.
     maxVerifyAttempts: 3
+    # maxWrongCodesPerUser is how many wrong two-factor codes a user may enter
+    # within wrongCodesMinutes, counted over all client addresses together.
+    # Once it is reached, the password login of the user is refused as locked
+    # until the oldest of these codes is older than wrongCodesMinutes, and a
+    # pending challenge takes no further code. Only someone who knows the
+    # password gets to enter a code, so nobody can lock a user out with this
+    # limit by knowing the login name alone. Apart from this limit, every wrong
+    # code counts as a failed login for the lock-out per user and client
+    # address of the base config (password, block client). 0 = no limit per
+    # user. Defaults to 10.
+    maxWrongCodesPerUser: 10
+    # wrongCodesMinutes is the window of maxWrongCodesPerUser, in minutes.
+    # Defaults to 60.
+    wrongCodesMinutes: 60
+
+  # Limits on failed password logins, on top of the lock-out per user and
+  # client address of the base config (password, block client). A failed login
+  # is a wrong password, an unknown login name or a wrong two-factor code.
+  loginLimits:
+    # maxFailedPerAddress is how many failed logins one client address may
+    # cause within failedPerAddressMinutes, over all login names together.
+    # Once it is reached, every password login from the address is refused
+    # until the oldest of these failures is older than failedPerAddressMinutes;
+    # the token endpoint answers 429 with Retry-After. IPv6 addresses are
+    # counted per /64. All clients behind one proxy or NAT share the limit,
+    # so set it well above the failed logins they cause together. 0 = no
+    # limit. Defaults to 50.
+    maxFailedPerAddress: 50
+    # failedPerAddressMinutes is the window of maxFailedPerAddress, in
+    # minutes. Defaults to 10.
+    failedPerAddressMinutes: 10
+    # maxFailedPerUser is how many wrong passwords of one user may come from
+    # all client addresses together within failedPerUserMinutes. Once it is
+    # reached, the user's logins are refused as locked from every address the
+    # user has not logged in from before (as long as the events keep the
+    # address, see the base config janitor), until the oldest of these wrong
+    # passwords is older than failedPerUserMinutes. The user gets a mail when
+    # the limit is reached. A new password, set by the user or an
+    # administrator, ends the lock: wrong passwords before it no longer count,
+    # for this limit, the lock-out per client address and twoFactor
+    # maxWrongCodesPerUser. 0 = no limit.
+    # Defaults to 20.
+    maxFailedPerUser: 20
+    # failedPerUserMinutes is the window of maxFailedPerUser, in minutes.
+    # Defaults to 60.
+    failedPerUserMinutes: 60
 
 
   # services which will be started. It is possible to configure a standalone
@@ -826,12 +948,16 @@ fylr:
         #       - "offline"
         #     # public, set to true if this client is publicly known
         #     public: false
+        #     # refuse an authorization code issued without a PKCE
+        #     # code_challenge (RFC 7636), turn on once the client sends one
+        #     requirePKCE: true
         #
         # In a config layered over fylr.default.yml, "clients+:" keeps the
         # default clients and "clients:" replaces them.
         clients:
           fylr-web-frontend:
             public: true
+            requirePKCE: true
             redirectURIs: []
             scopes:
               - "read"
@@ -839,6 +965,7 @@ fylr:
               - "offline"
           fylr-mobile-app:
             public: true
+            requirePKCE: false
             redirectURIs:
               - "fylr.app.scheme:///"
             scopes:
@@ -847,6 +974,7 @@ fylr:
               - "offline"
           ci-hub:
             public: true
+            requirePKCE: false
             redirectURIs:
               - "https://live.ci-hub.com/api/v1/auth/login/fylr"
               - "https://dev.ci-hub.com/api/v1/auth/login/fylr"
@@ -864,6 +992,7 @@ fylr:
               - "offline"
           linkrui:
             public: true
+            requirePKCE: false
             redirectURIs:
               - "https://fylr.linkrui.com/oauth"
               - "https://stage-fylr.linkrui.com/oauth"
@@ -873,7 +1002,11 @@ fylr:
               - "offline"
 
     # service backend is used for /inspect and by the execserver as callback
-    # to get installed plugins and to update progress during execution
+    # to get installed plugins and to update progress during execution.
+    # Every request needs the instance's BACKEND_SECRET (system config, created
+    # at setup) in the X-Fylr-Backend-Secret header or a url fylr signed with
+    # it; /, /healthz and /metrics are open. The webapp's /inspect proxy sends
+    # the secret for root sessions.
     backend:
       # address of the server listener
       # if omitted, this server is not started
@@ -1156,14 +1289,19 @@ fylr:
       janitorFileAge: "24h"
 
       # From 6.35.0, memory supervision derives a shared job budget from 60%
-      # of host RAM, or the lower Linux container limit. A single job may use
-      # half that budget, with a minimum ceiling of 512 MiB. The watchdog
-      # samples process-group resident memory every second and aborts jobs
-      # over their ceiling or to bring the pool back within its budget.
-      # Auto-balancing also admits jobs by their learned memory footprint.
-      # These limits are automatic; there are no memory configuration keys.
-      # Sampling cannot prevent allocations between checks; use container
-      # limits when an operating-system-enforced memory bound is needed.
+      # of host RAM, or of the memory limit of the execserver's cgroup when
+      # that is lower (Linux only). Up to 6.35 only a container's limit
+      # counted. From 6.36.0 it is the lowest limit from the execserver's own
+      # cgroup up to the root, so a systemd unit's MemoryMax counts as well,
+      # and so does the execserver cgroup of the fylr supervisor
+      # (execserver_memory_max). A single job may use half that budget, with
+      # a minimum ceiling of 512 MiB. The watchdog samples process-group
+      # resident memory every second and aborts jobs over their ceiling or to
+      # bring the pool back within its budget. Auto-balancing also admits jobs
+      # by their learned memory footprint. These limits are automatic; there
+      # are no memory configuration keys. Sampling cannot prevent allocations
+      # between checks; use a cgroup limit (a container's, a systemd unit's
+      # MemoryMax) when an operating-system-enforced memory bound is needed.
 
       # One pool of slots for every service. A job holds one slot while it
       # runs, however many threads its command uses: the MP4 encode of a
@@ -1226,6 +1364,76 @@ fylr:
       # "stallTimeout" duration string: ""/unset keeps this default, "0"
       # turns supervision off for that exec.
       stallTimeoutSec: 600
+
+      # Confine commands with Landlock, so what a job runs reaches only its
+      # own work dir, the system, its tools and its plugin, not fylr.yml or
+      # other jobs. Cached files are open to the jobs working on them. It needs
+      # Linux 5.19, and works in Docker with the default seccomp profile. HOME
+      # and TMPDIR of a command point into its work dir, which starts empty;
+      # Python packages installed for the user of the execserver (pip
+      # --user, ~/.local) stay importable. Java gets the temp dir through
+      # JAVA_TOOL_OPTIONS, which every JVM reports on stderr. ImageMagick
+      # follows TMPDIR unless its policy.xml sets temporary-path: the
+      # execserver warns about that at its start. Every key but ifUnavailable
+      # and networkNone can be set for a service too, under
+      # services.<name>.sandbox, and replaces the value here for that service.
+      sandbox:
+        enabled: true
+
+        # A kernel that cannot do what is configured: "warn" logs it and runs
+        # without what it lacks, "fail" refuses to start. Windows and macOS
+        # have no Landlock: there the sandbox is always off.
+        ifUnavailable: warn
+
+        # TCP of the commands (Linux 6.7), a supervisor's port list still
+        # applies on top: "any" leaves it alone, "none" allows none of it,
+        # "ports" allows connectPorts, no command can listen on a port. Hosts
+        # cannot be told apart, and UDP, so DNS, stays open. A job that is
+        # handed a signed url of the fylr backend, where fylr convert reports
+        # progress, may connect to the port of that backend under any setting.
+        network: any
+        # The services that get "none" in place of the network above, unless
+        # they set a network of their own: the converters as shipped, which
+        # get their files from the execserver.
+        networkNone: [xslt, convert, ocr, ffmpeg, inkscape, soffice, pdf2pages, iiif, dot, metadata]
+        # What "ports" connects to, it does not start without any: a port or
+        # a range per entry, from 1 to 65535.
+        #
+        #   connectPorts: [443]
+        #   connectPorts: [80, 443, 5432]
+        #   connectPorts:
+        #     - 443
+        #     - 8000-8100
+        #
+        # An overlay adds to the list with connectPorts+: [5432].
+        connectPorts: []
+
+        # Paths on top of what a job gets anyway, for tools, fonts or mounts
+        # elsewhere. Absolute, a file or a dir. A dir covers everything beneath
+        # it, there are no exceptions to it. A path that does not exist is
+        # skipped, and a path in several lists has the rights of all of them.
+        #
+        # allowRead can be read:
+        #
+        #   allowRead:
+        #     - /srv/fonts
+        #     - /mnt/archive/masters
+        #     - /srv/profiles/printer.icc
+        #
+        # allowWrite can be read and written, not executed:
+        #
+        #   allowWrite:
+        #     - /mnt/exports
+        #
+        # allowExec can be read and executed. /usr, /bin, /sbin, /lib and /opt
+        # are open already, and so is the dir of a command's absolute prog:
+        #
+        #   allowExec:
+        #     - /srv/venv
+        #     - /home/fylr/bin
+        allowRead: []
+        allowWrite: []
+        allowExec: []
 
       # The "waitgroups" block and the per-service "waitgroup" keys of
       # versions before 6.35 are reported as deprecated and ignored: the pool
@@ -1296,6 +1504,9 @@ fylr:
           prog: magick
         vips:
           prog: vips
+        # renders SVG versions
+        rsvg-convert:
+          prog: rsvg-convert
         ffprobe:
           prog: ffprobe
         ffmpegthumbnailer:
@@ -1340,10 +1551,43 @@ fylr:
         ffmpeg:
           maxSlots: 2
           threads: 0
+        # sandbox changes the block above for one service, key by key. A value
+        # replaces the one above, a list is not added to it. An entry here
+        # replaces the shipped service as a whole; networkNone above goes by
+        # the name of the service and still applies.
+        #
+        # Plugin jobs tied to the ports they need:
+        #
+        #   exec:
+        #     sandbox:
+        #       network: ports
+        #       connectPorts: [80, 443]
+        #
+        # Paths for one service:
+        #
+        #   python3:
+        #     sandbox:
+        #       network: any
+        #       allowRead:
+        #         - /mnt/archive/masters
+        #       allowWrite:
+        #         - /mnt/exports
+        #
+        # One service out of the sandbox, or with "enabled: false" in the block
+        # above, the only one in it:
+        #
+        #   soffice:
+        #     sandbox:
+        #       enabled: false
+        #
+        #   soffice:
+        #     sandbox:
+        #       enabled: true
+        #
         # every other service: no cap beyond the pool
-        exec: {}
-        node: {}
-        python3: {}
+        exec: { sandbox: { network: any } }
+        node: { sandbox: { network: any } }
+        python3: { sandbox: { network: any } }
         xslt: {}
         convert: {}
         ocr: {}

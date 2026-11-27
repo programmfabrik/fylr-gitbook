@@ -18,6 +18,10 @@ fylr:
   # is always trusted. See fylr.example.yml.
   trustedProxies: []
 
+  # the license auto-update asks here for the current version of the
+  # instance's license, see fylr.example.yml
+  licenseServer: "https://pfcrm.programmfabrik.de/pfcrm/license"
+
   logger:
     format: "console"
     level: "info"
@@ -51,6 +55,11 @@ fylr:
             file:
               dir: "files"
 
+  locations:
+    # directories a file location saved through the API may use, see
+    # fylr.example.yml
+    allowedDirs: []
+
   elastic:
     parallel: 4
     objectsPerJob: 100
@@ -58,6 +67,11 @@ fylr:
     maxMem: 25mb
     addresses:
       - "http://localhost:9200"
+
+  plugin:
+    # where installed plugins may come from: "any" (zip upload, disk path,
+    # any url) or "marketplace" (catalog plugins only, see fylr.example.yml)
+    sources: any
 
   execserver:
     addresses:
@@ -89,6 +103,18 @@ fylr:
     # precision. See fylr.example.yml. 0 disables simplification.
     standardMaxVertices: 100
 
+  twoFactor:
+    # See fylr.example.yml. 0 = no limit per user.
+    maxWrongCodesPerUser: 10
+    wrongCodesMinutes: 60
+
+  loginLimits:
+    # See fylr.example.yml. 0 = no limit.
+    maxFailedPerAddress: 50
+    failedPerAddressMinutes: 10
+    maxFailedPerUser: 20
+    failedPerUserMinutes: 60
+
   services:
     api:
       addr: :8080
@@ -96,12 +122,14 @@ fylr:
         clients:
           fylr-web-frontend:
             public: true
+            requirePKCE: true
             scopes:
               - "read"
               - "write"
               - "offline"
           fylr-mobile-app:
             public: true
+            requirePKCE: false
             redirectURIs:
               - "fylr.app.scheme:///"
             scopes:
@@ -110,6 +138,7 @@ fylr:
               - "offline"
           ci-hub:
             public: true
+            requirePKCE: false
             redirectURIs:
               - "https://live.ci-hub.com/api/v1/auth/login/fylr"
               - "https://dev.ci-hub.com/api/v1/auth/login/fylr"
@@ -127,6 +156,7 @@ fylr:
               - "offline"
           linkrui:
             public: true
+            requirePKCE: false
             redirectURIs:
               - "https://fylr.linkrui.com/oauth"
               - "https://stage-fylr.linkrui.com/oauth"
@@ -176,6 +206,19 @@ fylr:
       drainTimeoutSec: 20
       # a command showing no progress for this long is aborted, 0 = off
       stallTimeoutSec: 600
+      # confine commands with Landlock (Linux 5.19), see fylr.example.yml
+      sandbox:
+        enabled: true
+        ifUnavailable: warn
+        # TCP stays open for a service that does not say otherwise, the
+        # plugin services need it
+        network: any
+        # these get "none": the tools get their files from the execserver
+        networkNone: [xslt, convert, ocr, ffmpeg, inkscape, soffice, pdf2pages, iiif, dot, metadata]
+        connectPorts: []
+        allowRead: []
+        allowWrite: []
+        allowExec: []
 
       # common environment to be used for all program exec
       env:
@@ -210,6 +253,9 @@ fylr:
           prog: magick
         vips:
           prog: vips
+        # renders SVG versions
+        rsvg-convert:
+          prog: rsvg-convert
         ffprobe:
           prog: ffprobe
         ffmpegthumbnailer:
@@ -233,10 +279,10 @@ fylr:
       # itself to some services.
       services:
         # this service allows to execute arbitrary binaries
-        exec: {}
+        exec: { sandbox: { network: any } }
         # plugin support
-        node: {}
-        python3: {}
+        node: { sandbox: { network: any } }
+        python3: { sandbox: { network: any } }
         xslt: {}
         # file conversion support, also used by video thumbmnail which
         # is calling "fylr convert" which then calls ffmpeg

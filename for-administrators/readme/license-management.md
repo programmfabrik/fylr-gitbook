@@ -16,6 +16,12 @@ For more information on licenses, please refer to [fylr Licenses](../../license-
 
 <figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Where to find license management</p></figcaption></figure>
 
+### Automatic Updates
+
+From fylr **6.36.0**, the **License Management** section has the option **Update the license automatically**. It is switched on by default and shown once a license with a license key is installed. Every 6 hours fylr asks the programmfabrik license server for a newer version of the installed license and installs it, so a renewed license reaches the instance without an upload. Switching the option on checks right away.
+
+Switch the option off if your fylr has no outgoing internet access. Every installed update is listed as `LICENSE_AUTO_UPDATE` in the [Events](../events.md) manager. For details see [Automatic license updates](../../license-management.md#automatic-license-updates).
+
 ### Expiration Warnings & Notifications
 
 The licensing system includes an automated warning service to prevent disruption to your fylr instance.
